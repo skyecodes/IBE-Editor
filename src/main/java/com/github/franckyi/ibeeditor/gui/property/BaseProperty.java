@@ -2,8 +2,9 @@ package com.github.franckyi.ibeeditor.gui.property;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiListExtended;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraftforge.fml.client.GuiScrollingList;
+
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 public abstract class BaseProperty<V> implements GuiListExtended.IGuiListEntry {
 
@@ -11,15 +12,16 @@ public abstract class BaseProperty<V> implements GuiListExtended.IGuiListEntry {
 
     private String name;
     private V value;
+    private final Supplier<V> defaultValue;
+    private final Consumer<V> apply;
+
     protected int slotTop, slotBottom, slotLeft, slotRight;
 
-    public BaseProperty(String name, V value) {
-        this.name = name;
-        this.value = value;
-    }
-
-    public BaseProperty(String name) {
-        this.name = name;
+    public BaseProperty(String name, Supplier<V> value, Consumer<V> apply) {
+        setName(name);
+        this.defaultValue = value;
+        this.apply = apply;
+        reset();
     }
 
     public String getName() {
@@ -38,19 +40,29 @@ public abstract class BaseProperty<V> implements GuiListExtended.IGuiListEntry {
         this.value = value;
     }
 
-    public void init0(int slotTop, int slotBottom, int slotLeft, int slotRight) {
+    public void place0(int slotTop, int slotBottom, int slotLeft, int slotRight) {
         this.slotTop = slotTop + 5;
         this.slotBottom = slotBottom;
         this.slotLeft = slotLeft;
         this.slotRight = slotRight;
-        init();
+        place();
     }
+
+    public void apply() {
+        apply.accept(value);
+    }
+
+    public void reset() {
+        setValue(defaultValue.get());
+    }
+
+    protected abstract void place();
 
     public abstract void keyTyped(char typedChar, int keyCode);
 
     public abstract void mouseClicked(int mouseX, int mouseY, int mouseButton);
 
-    protected abstract void init();
+    public abstract void updateScreen();
 
     @Override
     public void setSelected(int p_178011_1_, int p_178011_2_, int p_178011_3_) {
@@ -58,7 +70,6 @@ public abstract class BaseProperty<V> implements GuiListExtended.IGuiListEntry {
 
     @Override
     public boolean mousePressed(int slotIndex, int mouseX, int mouseY, int mouseEvent, int relativeX, int relativeY) {
-        mouseClicked(mouseX, mouseY, mouseEvent);
         return true;
     }
 

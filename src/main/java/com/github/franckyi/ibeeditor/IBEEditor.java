@@ -1,7 +1,9 @@
 package com.github.franckyi.ibeeditor;
 
 import com.github.franckyi.ibeeditor.gui.IBEGuiHandler;
+import com.github.franckyi.ibeeditor.util.EnchantmentsUtil;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import org.apache.logging.log4j.Logger;
 
@@ -27,6 +29,11 @@ public class IBEEditor {
         LOGGER = event.getModLog();
         IBEKeyBindings.register();
         IBEGuiHandler.register();
+    }
+
+    @Mod.EventHandler
+    public void postInit(FMLPostInitializationEvent event) {
+        EnchantmentsUtil.init();
     }
 
 }

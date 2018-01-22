@@ -17,8 +17,8 @@ public class GuiDoubleTextField extends GuiTextField {
                 && super.textboxKeyTyped(typedChar, keyCode);
     }
 
-	public double getDouble() {
-		return Double.parseDouble(getText());
+	public double getValue() {
+		return getText().isEmpty() ? 0 : Double.parseDouble(getText());
 	}
 
 }

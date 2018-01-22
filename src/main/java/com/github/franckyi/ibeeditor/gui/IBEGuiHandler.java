@@ -1,5 +1,6 @@
 package com.github.franckyi.ibeeditor.gui;
 
+import com.github.franckyi.ibeeditor.IBEConfiguration;
 import com.github.franckyi.ibeeditor.IBEEditor;
 import com.github.franckyi.ibeeditor.util.EnumEditorType;
 import net.minecraft.entity.player.EntityPlayer;
@@ -20,13 +21,14 @@ public class IBEGuiHandler implements IGuiHandler {
     @Nullable
     @Override
     public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
+        if(IBEConfiguration.test) return new GuiTestEditor();
         switch (ID) {
             case 1:
                 return new GuiItemEditor();
             case 2:
-                return null;
+                return new GuiBlockEditor();
             case 3:
-                return null;
+                return new GuiEntityEditor();
             default:
                 return null;
         }

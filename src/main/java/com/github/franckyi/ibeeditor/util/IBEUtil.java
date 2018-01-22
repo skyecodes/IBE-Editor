@@ -6,6 +6,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class IBEUtil {
@@ -41,4 +42,13 @@ public class IBEUtil {
     public static void setEntitySupplier(Supplier<Entity> entitySupplier) {
         IBEUtil.entitySupplier = entitySupplier;
     }
+
+    public static Supplier<String> formattedStringSupplier(Supplier<String> supplier) {
+        return supplier.get().startsWith("§r") ? () -> supplier.get().substring(2) : supplier;
+    }
+
+    public static Consumer<String> formattedStringConsumer(Consumer<String> consumer) {
+        return (s) -> consumer.accept(s.startsWith("§r") ? s : String.format("§r%s", s));
+    }
+
 }

@@ -14,37 +14,52 @@ import java.util.stream.Collectors;
 
 public abstract class GuiEditor extends GuiScreen {
 
-    private Map<String, List<BaseProperty<?>>> propertiesMap;
+    protected Map<String, List<BaseProperty<?>>> propertiesMap;
 
-    protected GuiScreen parentScreen;
+    private GuiScreen parentScreen;
 
-    protected GuiCategoryList categories;
-    protected GuiPropertyList properties;
+    private GuiCategoryList categories;
+    private GuiPropertyList properties;
 
-    protected GuiButton cancel, apply, done;
+    private GuiButton cancel, apply, done;
 
-    protected GuiEditor(Map<String, List<BaseProperty<?>>> propertiesMap, GuiScreen parentScreen) {
-        this.propertiesMap = propertiesMap;
+    protected GuiEditor(GuiScreen parentScreen) {
         this.parentScreen = parentScreen;
     }
 
-    protected GuiEditor(Map<String, List<BaseProperty<?>>> categories) {
-        this(categories, null);
+    protected GuiEditor() {
+        this(null);
     }
 
-    protected abstract void apply(Set<BaseProperty<?>> properties);
+    protected void setPropertiesMap(Map<String,List<BaseProperty<?>>> propertiesMap) {
+        this.propertiesMap = propertiesMap;
+    }
 
     @Override
     protected void actionPerformed(GuiButton button) throws IOException {
+        if(button == cancel) {
+            mc.displayGuiScreen(parentScreen);
+        } else {
+            apply();
 
+            if(button == done) {
+                mc.displayGuiScreen(parentScreen);
+            }
+        }
+    }
+
+    protected void apply() {
+        propertiesMap.values().stream()
+                .flatMap(Collection::stream)
+                .forEach(BaseProperty::apply);
     }
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         drawBackground(0);
+        properties.drawScreen(mouseX, mouseY, partialTicks);
         super.drawScreen(mouseX, mouseY, partialTicks);
         categories.drawScreen(mouseX, mouseY, partialTicks);
-        properties.drawScreen(mouseX, mouseY, partialTicks);
     }
 
     public void handleMouseInput() throws IOException {
@@ -60,8 +75,10 @@ public abstract class GuiEditor extends GuiScreen {
         buttonList.add(done = new GuiButton(2, width / 2 + 35, height - 30, 50, 20, "§2Done"));
         categories = new GuiCategoryList(this, mc, width / 3 - 20, height - 60, 20, height - 40, propertiesMap);
         categories.setSlotXBoundsFromLeft(10);
+        categories.registerScrollButtons(7, 8);
         properties = new GuiPropertyList(mc, 2 * width / 3 - 20, height - 60, 20, height - 40);
         properties.setSlotXBoundsFromLeft(width / 3 + 10);
+        properties.registerScrollButtons(7, 8);
     }
 
     @Override
@@ -75,6 +92,11 @@ public abstract class GuiEditor extends GuiScreen {
         super.mouseClicked(mouseX, mouseY, mouseButton);
         categories.mouseClicked(mouseX, mouseY, mouseButton);
         properties.mouseClicked(mouseX, mouseY, mouseButton);
+    }
+
+    @Override
+    public void updateScreen() {
+        properties.updateScreen();
     }
 
     public void selectCategory(String categoryName) {

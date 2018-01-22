@@ -14,8 +14,8 @@ public class GuiIntTextField extends GuiTextField {
         return (Character.isDigit(typedChar) || keyCode == 14 || keyCode == 203 || keyCode == 205 || keyCode == 211) && super.textboxKeyTyped(typedChar, keyCode);
     }
 
-	public int getInt() {
-		return Integer.parseInt(getText());
+	public int getValue() {
+		return getText().isEmpty() ? 0 : Integer.parseInt(getText());
 	}
 
 }
