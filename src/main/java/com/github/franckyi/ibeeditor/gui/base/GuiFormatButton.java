@@ -3,7 +3,6 @@ package com.github.franckyi.ibeeditor.gui.base;
 import com.github.franckyi.ibeeditor.IBEConfiguration;
 import com.github.franckyi.ibeeditor.IBEEditor;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.renderer.GlStateManager;
@@ -16,7 +15,7 @@ import javax.annotation.Nonnull;
 
 public class GuiFormatButton extends GuiButton {
 
-	private GuiTextField textField;
+	private final GuiTextField textField;
 
 	public GuiFormatButton(int buttonId, int x, int y, GuiTextField textField) {
 		super(buttonId, x, y, 20, 20, "");

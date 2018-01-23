@@ -4,6 +4,7 @@ import com.github.franckyi.ibeeditor.gui.property.BaseProperty;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiListExtended;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -22,7 +23,7 @@ public class GuiCategoryList extends GuiListExtended {
     }
 
     @Override
-    public IGuiListEntry getListEntry(int index) {
+    public @Nonnull IGuiListEntry getListEntry(int index) {
         return categories.get(index);
     }
 
@@ -38,7 +39,7 @@ public class GuiCategoryList extends GuiListExtended {
 
     private class Entry implements IGuiListEntry {
 
-        private String categoryName;
+        private final String categoryName;
 
         public Entry(String categoryName) {
             this.categoryName = categoryName;

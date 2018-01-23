@@ -1,7 +1,9 @@
 package com.github.franckyi.ibeeditor.gui.property;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiListExtended;
+import net.minecraftforge.fml.client.config.GuiUtils;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -14,6 +16,8 @@ public abstract class BaseProperty<V> implements GuiListExtended.IGuiListEntry {
     private V value;
     private final Supplier<V> defaultValue;
     private final Consumer<V> apply;
+
+    private final GuiButton undo = new GuiButton(0, 0, 0, 20, 20, GuiUtils.UNDO_CHAR);
 
     protected int slotTop, slotBottom, slotLeft, slotRight;
 
@@ -52,17 +56,35 @@ public abstract class BaseProperty<V> implements GuiListExtended.IGuiListEntry {
         apply.accept(value);
     }
 
+    protected void init() {
+    }
+
     public void reset() {
         setValue(defaultValue.get());
     }
 
-    protected abstract void place();
+    protected void place() {
+        undo.x = slotRight - 30;
+        undo.y = slotTop;
+    }
 
-    public abstract void keyTyped(char typedChar, int keyCode);
+    public void keyTyped(char typedChar, int keyCode) {
+    }
 
-    public abstract void mouseClicked(int mouseX, int mouseY, int mouseButton);
+    public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
+        if(undo.mousePressed(mc, mouseX, mouseY)) {
+            reset();
+            init();
+        }
+    }
 
-    public abstract void updateScreen();
+    public void updateScreen() {
+    }
+
+    @Override
+    public void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected) {
+        undo.drawButton(mc, mouseX, mouseY);
+    }
 
     @Override
     public void setSelected(int p_178011_1_, int p_178011_2_, int p_178011_3_) {

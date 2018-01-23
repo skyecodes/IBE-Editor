@@ -6,7 +6,7 @@ import java.util.function.Supplier;
 
 public class PropertyFactory {
 
-    private Map<String, List<BaseProperty<?>>> map = new LinkedHashMap<>();
+    private final Map<String, List<BaseProperty<?>>> map = new LinkedHashMap<>();
 
     public Category newCategory(String name) {
         Category category = new Category();
@@ -20,7 +20,7 @@ public class PropertyFactory {
 
     public class Category {
 
-        private List<BaseProperty<?>> properties = new ArrayList<>();
+        private final List<BaseProperty<?>> properties = new ArrayList<>();
 
         public Category addAll(BaseProperty<?>... properties) {
             addAll(Arrays.asList(properties));

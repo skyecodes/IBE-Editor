@@ -4,6 +4,7 @@ import com.github.franckyi.ibeeditor.gui.property.BaseProperty;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiListExtended;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +13,7 @@ public class GuiPropertyList extends GuiListExtended {
     protected final Minecraft mc;
     private List<BaseProperty<?>> properties = new ArrayList<>();
 
-    public GuiPropertyList(Minecraft mcIn, int widthIn, int heightIn, int topIn, int bottomIn) {
+    public GuiPropertyList(GuiEditor parent, Minecraft mcIn, int widthIn, int heightIn, int topIn, int bottomIn) {
         super(mcIn, widthIn, heightIn, topIn, bottomIn, 25);
         this.mc = mcIn;
     }
@@ -29,7 +30,7 @@ public class GuiPropertyList extends GuiListExtended {
     }
 
     @Override
-    public IGuiListEntry getListEntry(int index) {
+    public @Nonnull IGuiListEntry getListEntry(int index) {
         return properties.get(index);
     }
 

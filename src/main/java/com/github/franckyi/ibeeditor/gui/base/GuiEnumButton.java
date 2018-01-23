@@ -7,7 +7,7 @@ import java.util.List;
 
 public class GuiEnumButton<V> extends GuiButton {
 
-	private List<V> values;
+	private final List<V> values;
 	private int index = 0;
 
 	public GuiEnumButton(int buttonId, int x, int y, int widthIn, int heightIn, String buttonText,
