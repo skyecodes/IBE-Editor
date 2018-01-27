@@ -5,9 +5,9 @@ import com.github.franckyi.ibeeditor.IBEEditor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 
@@ -36,8 +36,8 @@ public class GuiFormatButton extends GuiButton {
 		return super.mousePressed(mc, mouseX, mouseY);
 	}
 
-	@Override
-	public void drawButton(@Nonnull Minecraft mc, int mouseX, int mouseY) {
+    @Override
+	public void drawButton(@Nonnull Minecraft mc, int mouseX, int mouseY, float partialTicks) {
         if (this.visible) {
             mc.getTextureManager().bindTexture(BUTTON_TEXTURES);
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
@@ -58,7 +58,7 @@ public class GuiFormatButton extends GuiButton {
 		float f = 1.0F / textureWidth;
 		float f1 = 1.0F / textureHeight;
 		Tessellator tessellator = Tessellator.getInstance();
-		VertexBuffer vertexbuffer = tessellator.getBuffer();
+		BufferBuilder vertexbuffer = tessellator.getBuffer();
 		vertexbuffer.begin(7, DefaultVertexFormats.POSITION_TEX);
 		vertexbuffer.pos((double) x, (double) (y + height), zLevel)
 				.tex((double) (u * f), (double) ((v + (float) height) * f1)).endVertex();

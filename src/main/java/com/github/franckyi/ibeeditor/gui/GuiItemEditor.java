@@ -51,7 +51,7 @@ public class GuiItemEditor extends GuiEditor {
         loresList = displayTag.getTagList("Lore", Constants.NBT.TAG_STRING);
         enchantmentsList = itemStack.getEnchantmentTagList();
         // Init data
-        enchantmentsMap = EnchantmentsUtil.readNBT(enchantmentsList != null ? enchantmentsList : new NBTTagList());
+        enchantmentsMap = EnchantmentsUtil.readNBT(enchantmentsList);
         hideFlags = tagCompound != null ? tagCompound.getInteger("HideFlags") : 0;
         // General
         IntegerProperty damage = new IntegerProperty("Damage", this.itemStack::getItemDamage, this.itemStack::setItemDamage);

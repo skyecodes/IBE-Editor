@@ -42,17 +42,16 @@ public class GuiCategoryList extends GuiListExtended {
 
         private final String categoryName;
 
-        public Entry(PropertyCategory category) {
+        private Entry(PropertyCategory category) {
             this.categoryName = category.getCategoryName();
         }
 
         @Override
-        public void setSelected(int p_178011_1_, int p_178011_2_, int p_178011_3_) {
-
+        public void updatePosition(int slotIndex, int x, int y, float partialTicks) {
         }
 
         @Override
-        public void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected) {
+        public void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks) {
             mc.fontRenderer.drawString(categoryName + (selectedElement == slotIndex ? " >" : ""), x + 5, y + 2, 0xffffff);
         }
 

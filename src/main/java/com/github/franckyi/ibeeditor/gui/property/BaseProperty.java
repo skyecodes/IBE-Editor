@@ -86,12 +86,12 @@ public abstract class BaseProperty<V> implements GuiListExtended.IGuiListEntry {
     }
 
     @Override
-    public void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected) {
-        undo.drawButton(mc, mouseX, mouseY);
+    public void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks) {
+        undo.drawButton(mc, mouseX, mouseY, partialTicks);
     }
 
     @Override
-    public void setSelected(int p_178011_1_, int p_178011_2_, int p_178011_3_) {
+    public void updatePosition(int slotIndex, int x, int y, float partialTicks) {
     }
 
     @Override

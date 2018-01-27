@@ -46,11 +46,11 @@ public class StringProperty extends BaseProperty<String> {
     }
 
     @Override
-    public void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected) {
-        super.drawEntry(slotIndex, x, y, listWidth, slotHeight, mouseX, mouseY, isSelected);
+    public void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks) {
+        super.drawEntry(slotIndex, x, y, listWidth, slotHeight, mouseX, mouseY, isSelected, partialTicks);
         mc.fontRenderer.drawString(getName(), x + 5, slotTop + 6, 0xffffff);
         textField.drawTextBox();
-        formatButton.drawButton(mc, mouseX, mouseY);
+        formatButton.drawButton(mc, mouseX, mouseY, partialTicks);
     }
 
     @Override
