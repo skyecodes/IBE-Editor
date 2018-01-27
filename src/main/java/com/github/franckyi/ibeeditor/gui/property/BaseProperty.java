@@ -28,6 +28,10 @@ public abstract class BaseProperty<V> implements GuiListExtended.IGuiListEntry {
         reset();
     }
 
+    public BaseProperty(String name, Supplier<V> value) {
+        this(name, value, (v) -> {});
+    }
+
     public String getName() {
         return name;
     }

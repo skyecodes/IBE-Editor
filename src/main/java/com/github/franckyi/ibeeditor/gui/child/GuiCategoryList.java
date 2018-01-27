@@ -1,12 +1,12 @@
-package com.github.franckyi.ibeeditor.gui;
+package com.github.franckyi.ibeeditor.gui.child;
 
-import com.github.franckyi.ibeeditor.gui.property.BaseProperty;
+import com.github.franckyi.ibeeditor.gui.GuiEditor;
+import com.github.franckyi.ibeeditor.gui.property.PropertyCategory;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiListExtended;
 
 import javax.annotation.Nonnull;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 public class GuiCategoryList extends GuiListExtended {
@@ -15,11 +15,12 @@ public class GuiCategoryList extends GuiListExtended {
     protected final Minecraft mc;
     protected final List<Entry> categories;
 
-    public GuiCategoryList(GuiEditor parent, Minecraft mcIn, int widthIn, int heightIn, int topIn, int bottomIn, Map<String, List<BaseProperty<?>>> propertiesMap) {
+    public GuiCategoryList(GuiEditor parent, Minecraft mcIn, int widthIn, int heightIn, int topIn, int bottomIn, List<PropertyCategory> categoryList, int currentCategory) {
         super(mcIn, widthIn, heightIn, topIn, bottomIn, 20);
         this.parent = parent;
         this.mc = mcIn;
-        this.categories = propertiesMap.keySet().stream().map(Entry::new).collect(Collectors.toList());
+        this.categories = categoryList.stream().map(Entry::new).collect(Collectors.toList());
+        this.selectedElement = currentCategory;
     }
 
     @Override
@@ -41,8 +42,8 @@ public class GuiCategoryList extends GuiListExtended {
 
         private final String categoryName;
 
-        public Entry(String categoryName) {
-            this.categoryName = categoryName;
+        public Entry(PropertyCategory category) {
+            this.categoryName = category.getCategoryName();
         }
 
         @Override
@@ -57,7 +58,7 @@ public class GuiCategoryList extends GuiListExtended {
 
         @Override
         public boolean mousePressed(int slotIndex, int mouseX, int mouseY, int mouseEvent, int relativeX, int relativeY) {
-            parent.selectCategory(categoryName);
+            parent.selectCategory(slotIndex);
             return true;
         }
 

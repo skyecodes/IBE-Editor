@@ -13,10 +13,6 @@ public class EnchantmentsUtil {
 
     private static final List<Enchantment> enchantments = new ArrayList<>();
 
-    public static void init() {
-        Enchantment.REGISTRY.forEach(enchantments::add);
-    }
-
     public static List<Enchantment> getEnchantments() {
         return enchantments;
     }

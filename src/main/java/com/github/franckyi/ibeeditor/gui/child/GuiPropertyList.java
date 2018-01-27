@@ -1,24 +1,23 @@
-package com.github.franckyi.ibeeditor.gui;
+package com.github.franckyi.ibeeditor.gui.child;
 
+import com.github.franckyi.ibeeditor.gui.GuiEditor;
 import com.github.franckyi.ibeeditor.gui.property.BaseProperty;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiListExtended;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayList;
 import java.util.List;
 
 public class GuiPropertyList extends GuiListExtended {
 
+    protected final GuiEditor parent;
     protected final Minecraft mc;
-    private List<BaseProperty<?>> properties = new ArrayList<>();
+    protected List<BaseProperty<?>> properties;
 
-    public GuiPropertyList(GuiEditor parent, Minecraft mcIn, int widthIn, int heightIn, int topIn, int bottomIn) {
+    public GuiPropertyList(GuiEditor parent, Minecraft mcIn, int widthIn, int heightIn, int topIn, int bottomIn, List<BaseProperty<?>> properties) {
         super(mcIn, widthIn, heightIn, topIn, bottomIn, 25);
+        this.parent = parent;
         this.mc = mcIn;
-    }
-
-    public void setProperties(List<BaseProperty<?>> properties) {
         this.properties = properties;
     }
 
@@ -48,7 +47,7 @@ public class GuiPropertyList extends GuiListExtended {
     public int getSlotIndexFromScreenCoords(int posX, int posY) {
         if(posX >= left && posX <= right && posY >= top && posY <= bottom) {
             int slot = (posY - top) / slotHeight;
-            if(slot < properties.size()) {
+            if(slot >= 0 && slot < properties.size()) {
                 return slot;
             }
         }
