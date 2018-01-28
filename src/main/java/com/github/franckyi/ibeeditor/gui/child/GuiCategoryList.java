@@ -24,7 +24,8 @@ public class GuiCategoryList extends GuiListExtended {
     }
 
     @Override
-    public @Nonnull IGuiListEntry getListEntry(int index) {
+    public @Nonnull
+    IGuiListEntry getListEntry(int index) {
         return categories.get(index);
     }
 

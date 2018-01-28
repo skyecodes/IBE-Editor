@@ -12,6 +12,7 @@ public class DoubleProperty extends BaseProperty<Double> {
     public DoubleProperty(String name, Supplier<Double> value, Consumer<Double> apply) {
         super(name, value, apply);
         textField = new GuiDoubleTextField(0, mc.fontRenderer, 0, 0, 100, 14);
+        getTextfieldList().add(textField);
         init();
     }
 

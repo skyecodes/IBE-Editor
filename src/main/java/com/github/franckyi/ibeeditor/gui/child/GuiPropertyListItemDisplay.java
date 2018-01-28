@@ -21,13 +21,14 @@ public class GuiPropertyListItemDisplay extends GuiPropertyListEditable {
 
     @Override
     protected void listUpdated() {
-        for(int i = 1; i < properties.size(); ++i) {
+        for (int i = 1; i < properties.size(); ++i) {
             properties.get(i).setName(String.format("Lore %d", i));
         }
     }
 
     @Override
     protected BaseProperty<?> newProperty(int index) {
-        return new StringProperty(String.format("Lore %d", index + 1), () -> "", s -> {});
+        return new StringProperty(String.format("Lore %d", index + 1), () -> "", s -> {
+        });
     }
 }

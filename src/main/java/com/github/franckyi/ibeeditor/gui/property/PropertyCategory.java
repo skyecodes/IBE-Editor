@@ -54,7 +54,8 @@ public class PropertyCategory {
     }
 
     public <E> PropertyCategory addEnum(String name, Collection<E> values, Supplier<E> value) {
-        return this.addEnum(name, values, value, v -> {});
+        return this.addEnum(name, values, value, v -> {
+        });
     }
 
     public PropertyCategory addString(String name, Supplier<String> value, Consumer<String> apply) {
@@ -63,7 +64,8 @@ public class PropertyCategory {
     }
 
     public PropertyCategory addString(String name, Supplier<String> value) {
-        return this.addString(name, value, s -> {});
+        return this.addString(name, value, s -> {
+        });
     }
 
     public PropertyCategory addInteger(String name, Supplier<Integer> value, Consumer<Integer> apply) {
@@ -72,7 +74,8 @@ public class PropertyCategory {
     }
 
     public PropertyCategory addInteger(String name, Supplier<Integer> value) {
-        return this.addInteger(name, value, i -> {});
+        return this.addInteger(name, value, i -> {
+        });
     }
 
     public PropertyCategory addDouble(String name, Supplier<Double> value, Consumer<Double> apply) {
@@ -81,7 +84,8 @@ public class PropertyCategory {
     }
 
     public PropertyCategory addDouble(String name, Supplier<Double> value) {
-        return this.addDouble(name, value, d -> {});
+        return this.addDouble(name, value, d -> {
+        });
     }
 
     public PropertyCategory addBoolean(String name, Supplier<Boolean> value, Consumer<Boolean> apply) {
@@ -90,7 +94,8 @@ public class PropertyCategory {
     }
 
     public PropertyCategory addBoolean(String name, Supplier<Boolean> value) {
-        return this.addBoolean(name, value, b -> {});
+        return this.addBoolean(name, value, b -> {
+        });
     }
 
     public String getCategoryName() {

@@ -24,6 +24,7 @@ public class IBEEventHandler {
 
     /**
      * Update config
+     *
      * @param event event
      */
     @SubscribeEvent
@@ -35,21 +36,23 @@ public class IBEEventHandler {
 
     /**
      * In game
+     *
      * @param event event
      */
     @SubscribeEvent
     public static void onClientTick(final TickEvent.ClientTickEvent event) {
-        if(event.phase.equals(TickEvent.Phase.START) && Keyboard.isKeyDown(ClientProxy.openGui.getKeyCode()) && Minecraft.getMinecraft().currentScreen == null) {
+        if (event.phase.equals(TickEvent.Phase.START) && Keyboard.isKeyDown(ClientProxy.openGui.getKeyCode()) && Minecraft.getMinecraft().currentScreen == null) {
             EntityPlayerSP player = Minecraft.getMinecraft().player;
             PlayerControllerMP controller = Minecraft.getMinecraft().playerController;
             WorldClient world = Minecraft.getMinecraft().world;
-            if(player != null && controller != null && world != null) {
+            if (player != null && controller != null && world != null) {
                 if (controller.isInCreativeMode()) {
                     /*if (Minecraft.getMinecraft().pointedEntity != null) {
                         player.openGui(IBEEditor.instance, IBEGuiHandler.ENTITY_EDITOR, world, 0, 0, 0);
                     } else if (Minecraft.getMinecraft().objectMouseOver != null && Minecraft.getMinecraft().objectMouseOver.typeOfHit == RayTraceResult.Type.BLOCK) {
                         player.openGui(IBEEditor.instance, IBEGuiHandler.BLOCK_EDITOR, world, 0, 0, 0);
-                    } else */if (!player.getHeldItemMainhand().isEmpty()) {
+                    } else */
+                    if (!player.getHeldItemMainhand().isEmpty()) {
                         //player.openGui(IBEEditor.instance, IBEGuiHandler.ITEM_EDITOR, world, 0, 0, 0);
                         Minecraft.getMinecraft().displayGuiScreen(new GuiItemEditor(player.getHeldItemMainhand()));
                     }
@@ -62,14 +65,15 @@ public class IBEEventHandler {
 
     /**
      * In GUI
-      * @param event event
+     *
+     * @param event event
      */
     @SubscribeEvent
     public static void onKeyPressed(GuiScreenEvent.KeyboardInputEvent.Post event) {
-        if(event.getGui() instanceof GuiContainer && Keyboard.isKeyDown(ClientProxy.openGui.getKeyCode())) {
+        if (event.getGui() instanceof GuiContainer && Keyboard.isKeyDown(ClientProxy.openGui.getKeyCode())) {
             GuiContainer gui = ((GuiContainer) event.getGui());
-            if(gui.getSlotUnderMouse() != null && gui.getSlotUnderMouse().getHasStack()) {
-                if(gui instanceof GuiInventory || gui instanceof GuiContainerCreative) {
+            if (gui.getSlotUnderMouse() != null && gui.getSlotUnderMouse().getHasStack()) {
+                if (gui instanceof GuiInventory || gui instanceof GuiContainerCreative) {
                     Minecraft.getMinecraft().displayGuiScreen(new GuiItemEditor(gui.getSlotUnderMouse().getStack()));
                 } else {
                     Minecraft.getMinecraft().displayGuiScreen(new GuiItemEditor(gui.getSlotUnderMouse().getStack(),

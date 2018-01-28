@@ -46,7 +46,8 @@ public class GuiItemEditor extends GuiEditor {
         this.slotId = slotId;
         this.blockPos = blockPos;
         // Init NBT
-        tagCompound = itemStack.getTagCompound() == null ? new NBTTagCompound() : itemStack.getTagCompound();
+        if (itemStack.getTagCompound() == null) itemStack.setTagCompound(new NBTTagCompound());
+        tagCompound = itemStack.getTagCompound();
         displayTag = itemStack.getOrCreateSubCompound("display");
         loresList = displayTag.getTagList("Lore", Constants.NBT.TAG_STRING);
         enchantmentsList = itemStack.getEnchantmentTagList();
@@ -58,9 +59,11 @@ public class GuiItemEditor extends GuiEditor {
         IntegerProperty count = new IntegerProperty("Count", this.itemStack::getCount, this.itemStack::setCount);
         BooleanProperty unbreakable = new BooleanProperty("Unbreakable", () -> tagCompound.getByte("Unbreakable") == 1, (b) -> tagCompound.setByte("Unbreakable", (byte) (b ? 1 : 0)));
         // Display
-        StringProperty name = new StringProperty("Name", () -> IBEUtil.unformatString(this.itemStack.getDisplayName()), s -> {});
+        StringProperty name = new StringProperty("Name", () -> IBEUtil.unformatString(this.itemStack.getDisplayName()), s -> {
+        });
         List<StringProperty> lores = new ArrayList<>(loresList.tagCount());
-        loresList.forEach(nbtBase -> lores.add(new StringProperty("", () -> IBEUtil.unformatString(((NBTTagString)nbtBase).getString()), s -> {})));
+        loresList.forEach(nbtBase -> lores.add(new StringProperty("", () -> IBEUtil.unformatString(((NBTTagString) nbtBase).getString()), s -> {
+        })));
         // Hide Flags
         BooleanProperty hideEnchantments = new BooleanProperty("Hide Enchantments", () -> hasHideFlags(5), (b) -> addHideFlags(b ? 1 : 0));
         BooleanProperty hideAttributeModifiers = new BooleanProperty("Hide Attribute Modifiers", () -> hasHideFlags(4), (b) -> addHideFlags(b ? 2 : 0));
@@ -75,14 +78,14 @@ public class GuiItemEditor extends GuiEditor {
             if (i > 0) enchantmentsList.appendTag(EnchantmentsUtil.writeNBT(enchantment, i));
         })));
         setCategories(Arrays.asList(new PropertyCategory("General")
-                    .addAll(damage, count, unbreakable),
+                        .addAll(damage, count, unbreakable),
                 new PropertyCategory("Display", GuiPropertyListItemDisplay::new, this::applyDisplay)
-                    .addAll(name)
-                    .addAll(lores),
+                        .addAll(name)
+                        .addAll(lores),
                 new PropertyCategory("Hide Flags")
-                    .addAll(hideEnchantments, hideAttributeModifiers, hideUnbreakable, hideCanDestroy, hideCanPlaceOn, hideMisc),
+                        .addAll(hideEnchantments, hideAttributeModifiers, hideUnbreakable, hideCanDestroy, hideCanPlaceOn, hideMisc),
                 new PropertyCategory("Enchantments")
-                    .addAll(enchantments)
+                        .addAll(enchantments)
         ));
     }
 
@@ -109,9 +112,14 @@ public class GuiItemEditor extends GuiEditor {
     }
 
     private void applyDisplay(List<BaseProperty<?>> properties) {
-        itemStack.setStackDisplayName(IBEUtil.formatString(((StringProperty)properties.get(0)).getValue()));
-        properties.remove(0);
-        properties.forEach(property -> loresList.appendTag(new NBTTagString(IBEUtil.formatString(((StringProperty)property).getValue()))));
+        for (int i = 0; i < properties.size(); ++i) {
+            StringProperty property = (StringProperty) properties.get(i);
+            if (i == 0) {
+                itemStack.setStackDisplayName(IBEUtil.formatString(property.getValue()));
+            } else {
+                loresList.appendTag(new NBTTagString(IBEUtil.formatString(property.getValue())));
+            }
+        }
     }
 
     public GuiItemEditor(ItemStack itemStack, int slotId, BlockPos blockPos) {

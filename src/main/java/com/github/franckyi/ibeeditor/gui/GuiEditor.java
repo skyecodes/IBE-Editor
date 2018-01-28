@@ -38,11 +38,11 @@ public abstract class GuiEditor extends GuiScreen {
 
     @Override
     protected void actionPerformed(GuiButton button) {
-        if(button == cancel) {
+        if (button == cancel) {
             mc.displayGuiScreen(parentScreen);
         } else {
             apply();
-            if(button == done) {
+            if (button == done) {
                 mc.displayGuiScreen(parentScreen);
             }
         }
@@ -109,7 +109,7 @@ public abstract class GuiEditor extends GuiScreen {
 
     public void selectCategory(int index) {
         currentCategory = index;
-        if(index >= 0 && index < categories.size()) {
+        if (index >= 0 && index < categories.size()) {
             guiProperties = categories.get(index).getGuiFactory().create(this, mc, 2 * width / 3 - 20,
                     height - 60, 20, height - 40, categories.get(index).getProperties());
             guiProperties.setSlotXBoundsFromLeft(width / 3 + 10);
