@@ -93,6 +93,7 @@ public class GuiItemEditor extends GuiEditor {
                 new PropertyCategory("Enchantments")
                         .addAll(enchantments),
                 new PropertyCategory("Attribute Modifiers", GuiPropertyListAttributeModifier::new, this::applyAttributeModifiers)
+                        .addAll(attributeModifiers)
         ));
     }
 
@@ -110,6 +111,7 @@ public class GuiItemEditor extends GuiEditor {
         loresList = new NBTTagList();
         hideFlags = 0;
         enchantmentsList = new NBTTagList();
+        tagCompound.removeTag("AttributeModifiers");
         super.apply();
         displayTag.setTag("Lore", loresList);
         tagCompound.setInteger("HideFlags", hideFlags);
