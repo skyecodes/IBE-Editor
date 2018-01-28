@@ -2,11 +2,15 @@ package com.github.franckyi.ibeeditor.gui.child;
 
 import com.github.franckyi.ibeeditor.gui.GuiEditor;
 import com.github.franckyi.ibeeditor.gui.property.BaseProperty;
+import com.github.franckyi.ibeeditor.proxy.ClientProxy;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiListExtended;
+import net.minecraft.client.settings.KeyBinding;
 
 import javax.annotation.Nonnull;
 import java.util.List;
+import java.util.function.IntPredicate;
+import java.util.function.Predicate;
 
 public class GuiPropertyList extends GuiListExtended {
 

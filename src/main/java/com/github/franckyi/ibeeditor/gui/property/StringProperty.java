@@ -15,6 +15,8 @@ public class StringProperty extends BaseProperty<String> {
         super(name, value, apply);
         textField = new GuiTextField(0, mc.fontRenderer, 0, 0, 100, 14);
         formatButton = new GuiFormatButton(0, 0, 0, textField);
+        getButtonList().add(formatButton);
+        getTextfieldList().add(textField);
         init();
     }
 

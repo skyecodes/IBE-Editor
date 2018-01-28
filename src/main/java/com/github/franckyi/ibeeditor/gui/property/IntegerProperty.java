@@ -12,6 +12,7 @@ public class IntegerProperty extends BaseProperty<Integer> {
     public IntegerProperty(String name, Supplier<Integer> value, Consumer<Integer> apply) {
         super(name, value, apply);
         textField = new GuiIntTextField(0, mc.fontRenderer, 0, 0, 100, 14);
+        getTextfieldList().add(textField);
         init();
     }
 

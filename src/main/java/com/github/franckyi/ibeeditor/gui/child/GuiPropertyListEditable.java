@@ -2,7 +2,10 @@ package com.github.franckyi.ibeeditor.gui.child;
 
 import com.github.franckyi.ibeeditor.gui.GuiEditor;
 import com.github.franckyi.ibeeditor.gui.property.BaseProperty;
+import com.github.franckyi.ibeeditor.proxy.ClientProxy;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.client.settings.KeyBinding;
 
 import javax.annotation.Nullable;
 import java.util.Collections;
@@ -30,28 +33,28 @@ public abstract class GuiPropertyListEditable extends GuiPropertyList {
     }
 
     private boolean canAddAfter(int index) {
-        return index <= getListEnd() && index >= getListStart();
+        return index <= getListEnd() && index >= getListStart() - 1;
     }
 
     private boolean canRemove(int index) {
         return index <= getListEnd() && index >= getListStart();
     }
 
-    protected void up(int index) {
+    private void up(int index) {
         if(canUp(index)) {
             Collections.swap(properties, index, index - 1);
             listUpdated();
         }
     }
 
-    protected void down(int index) {
+    private void down(int index) {
         if(canDown(index)) {
             Collections.swap(properties, index, index + 1);
             listUpdated();
         }
     }
 
-    protected void addBefore(int index, BaseProperty<?> property) {
+    private void addBefore(int index, BaseProperty<?> property) {
         if(canAddBefore(index)) {
             properties.add(index, property);
             listUpdated();
@@ -65,7 +68,7 @@ public abstract class GuiPropertyListEditable extends GuiPropertyList {
         }
     }
 
-    protected void remove(int index) {
+    private void remove(int index) {
         if(canRemove(index)) {
             properties.remove(index);
             listUpdated();
@@ -75,13 +78,27 @@ public abstract class GuiPropertyListEditable extends GuiPropertyList {
     @Override
     public boolean mouseClicked(int mouseX, int mouseY, int mouseEvent) {
         int slot = getSlotIndexFromScreenCoords(mouseX, mouseY);
-        if(mouseEvent == 1) {
+        if (mouseEvent == 1) {
             clickedX = mouseX;
             clickedY = mouseY;
             startSlot = slot;
             isClicking = true;
         }
         return super.mouseClicked(mouseX, mouseY, mouseEvent);
+    }
+
+    @Override
+    public void keyTyped(char typedChar, int keyCode) {
+        if(properties.stream().flatMap(property -> property.getTextfieldList().stream()).map(GuiTextField::isFocused).distinct().count() == 2) {
+            super.keyTyped(typedChar, keyCode);
+        } else {
+            int slot = getSlotIndexFromScreenCoords(mouseX, mouseY);
+            if(keyCode == ClientProxy.guiListUp.getKeyCode()) up(slot);
+            if(keyCode == ClientProxy.guiListDown.getKeyCode()) down(slot);
+            if(keyCode == ClientProxy.guiListRemove.getKeyCode()) remove(slot);
+            if(keyCode == ClientProxy.guiListAddBefore.getKeyCode()) addBefore(slot, newProperty(slot));
+            if(keyCode == ClientProxy.guiListAddAfter.getKeyCode()) addAfter(slot, newProperty(slot));
+        }
     }
 
     @Override
@@ -141,7 +158,7 @@ public abstract class GuiPropertyListEditable extends GuiPropertyList {
         return properties.size() - 1;
     }
 
-    protected EnumSelectionType processSelection(int releasedX, int releasedY) {
+    private EnumSelectionType processSelection(int releasedX, int releasedY) {
         boolean left = clickedX - releasedX > 10;
         boolean right = releasedX - clickedX > 10;
         boolean top = clickedY - releasedY > 10;

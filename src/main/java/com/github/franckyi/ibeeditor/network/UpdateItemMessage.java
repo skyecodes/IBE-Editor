@@ -59,7 +59,9 @@ public class UpdateItemMessage implements IMessage {
                 TileEntity te = ctx.getServerHandler().player.world.getTileEntity(message.blockPos);
                 if(te != null && te.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null)
                         && te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null) != null) {
+                    te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null).extractItem(message.slotId, Integer.MAX_VALUE, false);
                     te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null).insertItem(message.slotId, message.itemStack, false);
+                    te.markDirty();
                 } else {
                     logger.warn("Couldn't insert the item in the TileEntity at pos [x={};y={};z={}]. Injecting in player's inventory instead.",
                             message.blockPos.getX(), message.blockPos.getY(), message.blockPos.getZ());

@@ -46,7 +46,8 @@ public class GuiItemEditor extends GuiEditor {
         this.slotId = slotId;
         this.blockPos = blockPos;
         // Init NBT
-        tagCompound = itemStack.getTagCompound() == null ? new NBTTagCompound() : itemStack.getTagCompound();
+        if(itemStack.getTagCompound() == null) itemStack.setTagCompound(new NBTTagCompound());
+        tagCompound = itemStack.getTagCompound();
         displayTag = itemStack.getOrCreateSubCompound("display");
         loresList = displayTag.getTagList("Lore", Constants.NBT.TAG_STRING);
         enchantmentsList = itemStack.getEnchantmentTagList();
@@ -109,9 +110,14 @@ public class GuiItemEditor extends GuiEditor {
     }
 
     private void applyDisplay(List<BaseProperty<?>> properties) {
-        itemStack.setStackDisplayName(IBEUtil.formatString(((StringProperty)properties.get(0)).getValue()));
-        properties.remove(0);
-        properties.forEach(property -> loresList.appendTag(new NBTTagString(IBEUtil.formatString(((StringProperty)property).getValue()))));
+        for(int i = 0; i < properties.size(); ++i) {
+            StringProperty property = (StringProperty) properties.get(i);
+            if(i == 0) {
+                itemStack.setStackDisplayName(IBEUtil.formatString(property.getValue()));
+            } else {
+                loresList.appendTag(new NBTTagString(IBEUtil.formatString(property.getValue())));
+            }
+        }
     }
 
     public GuiItemEditor(ItemStack itemStack, int slotId, BlockPos blockPos) {

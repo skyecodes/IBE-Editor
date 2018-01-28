@@ -12,6 +12,7 @@ public class BooleanProperty extends BaseProperty<Boolean> {
     public BooleanProperty(String name, Supplier<Boolean> value, Consumer<Boolean> apply) {
         super(name, value, apply);
         checkBox = new GuiCheckBox(0, 0, 0, name, getValue());
+        getButtonList().add(checkBox);
         init();
     }
 

@@ -3,14 +3,19 @@ package com.github.franckyi.ibeeditor.gui.property;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiListExtended;
+import net.minecraft.client.gui.GuiTextField;
 import net.minecraftforge.fml.client.config.GuiUtils;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public abstract class BaseProperty<V> implements GuiListExtended.IGuiListEntry {
 
     protected static final Minecraft mc = Minecraft.getMinecraft();
+    private final List<GuiButton> buttonList = new ArrayList<>();
+    private final List<GuiTextField> textfieldList = new ArrayList<>();
 
     private String name;
     private V value;
@@ -22,9 +27,10 @@ public abstract class BaseProperty<V> implements GuiListExtended.IGuiListEntry {
     protected int slotTop, slotBottom, slotLeft, slotRight;
 
     public BaseProperty(String name, Supplier<V> value, Consumer<V> apply) {
-        setName(name);
+        this.name = name;
         this.defaultValue = value;
         this.apply = apply;
+        this.buttonList.add(undo);
         reset();
     }
 
@@ -46,6 +52,14 @@ public abstract class BaseProperty<V> implements GuiListExtended.IGuiListEntry {
 
     public void setValue(V value) {
         this.value = value;
+    }
+
+    public List<GuiButton> getButtonList() {
+        return buttonList;
+    }
+
+    public List<GuiTextField> getTextfieldList() {
+        return textfieldList;
     }
 
     public void place0(int slotTop, int slotBottom, int slotLeft, int slotRight) {

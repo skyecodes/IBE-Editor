@@ -14,6 +14,7 @@ public class EnumProperty<E> extends BaseProperty<E> {
     public EnumProperty(String name, Collection<E> values, Supplier<E> value, Consumer<E> apply) {
         super(name, value, apply);
         this.button = new GuiEnumButton<>(0, 0, 0, 100, 20, "", new ArrayList<>(values));
+        getButtonList().add(button);
         init();
     }
 
