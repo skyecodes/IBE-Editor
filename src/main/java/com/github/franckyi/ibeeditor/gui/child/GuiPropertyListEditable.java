@@ -88,7 +88,7 @@ public abstract class GuiPropertyListEditable extends GuiPropertyList {
 
     @Override
     public void keyTyped(char typedChar, int keyCode) {
-        if (properties.stream().flatMap(property -> property.getTextfieldList().stream()).map(GuiTextField::isFocused).distinct().count() == 2) {
+        if (properties.stream().flatMap(property -> property.getTextfieldList().stream()).anyMatch(GuiTextField::isFocused)) {
             super.keyTyped(typedChar, keyCode);
         } else {
             int slot = getSlotIndexFromScreenCoords(mouseX, mouseY);
@@ -169,7 +169,8 @@ public abstract class GuiPropertyListEditable extends GuiPropertyList {
         return EnumSelectionType.of(left ? 0 : (right ? 2 : 1), top ? 0 : (bottom ? 2 : 1));
     }
 
-    protected abstract void listUpdated();
+    protected void listUpdated() {
+    }
 
     protected abstract BaseProperty<?> newProperty(int index);
 

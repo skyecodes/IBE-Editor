@@ -1,15 +1,18 @@
 package com.github.franckyi.ibeeditor.gui;
 
 import com.github.franckyi.ibeeditor.IBEEditor;
+import com.github.franckyi.ibeeditor.gui.child.GuiPropertyListAttributeModifier;
 import com.github.franckyi.ibeeditor.gui.child.GuiPropertyListItemDisplay;
 import com.github.franckyi.ibeeditor.gui.property.*;
 import com.github.franckyi.ibeeditor.network.UpdateItemMessage;
+import com.github.franckyi.ibeeditor.util.AttributeModifierModel;
 import com.github.franckyi.ibeeditor.util.EnchantmentsUtil;
 import com.github.franckyi.ibeeditor.util.IBEUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.enchantment.Enchantment;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -21,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 import static com.github.franckyi.ibeeditor.IBEEditor.logger;
 
@@ -77,6 +81,11 @@ public class GuiItemEditor extends GuiEditor {
                 () -> enchantmentsMap.getOrDefault(enchantment, 0), (i) -> {
             if (i > 0) enchantmentsList.appendTag(EnchantmentsUtil.writeNBT(enchantment, i));
         })));
+        // Attribute modifiers
+        List<AttributeModifierProperty> attributeModifiers = new ArrayList<>();
+        for (EntityEquipmentSlot slot : EntityEquipmentSlot.values()) {
+            itemStack.getAttributeModifiers(slot).values().forEach(attributeModifier -> attributeModifiers.add(new AttributeModifierProperty(() -> new AttributeModifierModel(attributeModifier, slot))));
+        }
         setCategories(Arrays.asList(new PropertyCategory("General")
                         .addAll(damage, count, unbreakable),
                 new PropertyCategory("Display", GuiPropertyListItemDisplay::new, this::applyDisplay)
@@ -85,7 +94,8 @@ public class GuiItemEditor extends GuiEditor {
                 new PropertyCategory("Hide Flags")
                         .addAll(hideEnchantments, hideAttributeModifiers, hideUnbreakable, hideCanDestroy, hideCanPlaceOn, hideMisc),
                 new PropertyCategory("Enchantments")
-                        .addAll(enchantments)
+                        .addAll(enchantments),
+                new PropertyCategory("Attribute Modifiers", GuiPropertyListAttributeModifier::new, this::applyAttributeModifiers)
         ));
     }
 
@@ -101,8 +111,9 @@ public class GuiItemEditor extends GuiEditor {
     protected void apply() {
         logger.info("Preparing to apply...");
         loresList = new NBTTagList();
-        enchantmentsList = new NBTTagList();
         hideFlags = 0;
+        enchantmentsList = new NBTTagList();
+        Stream.of(EntityEquipmentSlot.values()).forEach(slot -> itemStack.getAttributeModifiers(slot).clear());
         super.apply();
         displayTag.setTag("Lore", loresList);
         tagCompound.setInteger("HideFlags", hideFlags);
@@ -120,6 +131,17 @@ public class GuiItemEditor extends GuiEditor {
                 loresList.appendTag(new NBTTagString(IBEUtil.formatString(property.getValue())));
             }
         }
+    }
+
+    private void applyAttributeModifiers(List<BaseProperty<?>> properties) {
+        properties.forEach(property -> {
+            AttributeModifierModel model = ((AttributeModifierProperty) property).getValue();
+            if (model.toAttributeModifier() == null || model.getName().isEmpty()) {
+                logger.warn("Unable to create attribute modifier for attribute {} {} {} {}", model.getName(), model.getAmount(), model.getOperation(), model.getSlot());
+            } else {
+                itemStack.addAttributeModifier(model.getName(), model.toAttributeModifier(), model.getSlot());
+            }
+        });
     }
 
     public GuiItemEditor(ItemStack itemStack, int slotId, BlockPos blockPos) {
