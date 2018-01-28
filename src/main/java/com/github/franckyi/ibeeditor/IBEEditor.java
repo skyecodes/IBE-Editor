@@ -21,7 +21,7 @@ public class IBEEditor {
 
     public static final String MODID = "ibeeditor";
     public static final String NAME = "IBE Editor";
-    public static final String VERSION = "1.0.0-alpha2";
+    public static final String VERSION = "1.0.0-alpha3";
 
     public static final String CLIENTPROXY = "com.github.franckyi.ibeeditor.proxy.ClientProxy";
     public static final String SERVERPROXY = "com.github.franckyi.ibeeditor.proxy.ServerProxy";
