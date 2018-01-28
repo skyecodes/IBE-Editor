@@ -5,7 +5,6 @@ import com.github.franckyi.ibeeditor.gui.property.BaseProperty;
 import com.github.franckyi.ibeeditor.proxy.ClientProxy;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiTextField;
-import net.minecraft.client.settings.KeyBinding;
 
 import javax.annotation.Nullable;
 import java.util.Collections;
@@ -40,35 +39,35 @@ public abstract class GuiPropertyListEditable extends GuiPropertyList {
         return index <= getListEnd() && index >= getListStart();
     }
 
-    private void up(int index) {
+    protected void up(int index) {
         if(canUp(index)) {
             Collections.swap(properties, index, index - 1);
             listUpdated();
         }
     }
 
-    private void down(int index) {
+    protected void down(int index) {
         if(canDown(index)) {
             Collections.swap(properties, index, index + 1);
             listUpdated();
         }
     }
 
-    private void addBefore(int index, BaseProperty<?> property) {
+    protected void addBefore(int index, BaseProperty<?> property) {
         if(canAddBefore(index)) {
             properties.add(index, property);
             listUpdated();
         }
     }
 
-    private void addAfter(int index, BaseProperty<?> property) {
+    protected void addAfter(int index, BaseProperty<?> property) {
         if(canAddAfter(index)) {
             properties.add(index + 1, property);
             listUpdated();
         }
     }
 
-    private void remove(int index) {
+    protected void remove(int index) {
         if(canRemove(index)) {
             properties.remove(index);
             listUpdated();
@@ -89,7 +88,7 @@ public abstract class GuiPropertyListEditable extends GuiPropertyList {
 
     @Override
     public void keyTyped(char typedChar, int keyCode) {
-        if(properties.stream().flatMap(property -> property.getTextfieldList().stream()).map(GuiTextField::isFocused).distinct().count() == 2) {
+        if (properties.stream().flatMap(property -> property.getTextfieldList().stream()).anyMatch(GuiTextField::isFocused)) {
             super.keyTyped(typedChar, keyCode);
         } else {
             int slot = getSlotIndexFromScreenCoords(mouseX, mouseY);
@@ -166,7 +165,8 @@ public abstract class GuiPropertyListEditable extends GuiPropertyList {
         return EnumSelectionType.of(left ? 0 : (right ? 2 : 1), top ? 0 : (bottom ? 2 : 1));
     }
 
-    protected abstract void listUpdated();
+    protected void listUpdated() {
+    }
 
     protected abstract BaseProperty<?> newProperty(int index);
 
