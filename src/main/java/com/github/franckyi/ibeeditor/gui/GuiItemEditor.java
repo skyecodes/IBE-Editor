@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Stream;
 
 import static com.github.franckyi.ibeeditor.IBEEditor.logger;
 
@@ -96,6 +95,7 @@ public class GuiItemEditor extends GuiEditor {
                 new PropertyCategory("Enchantments")
                         .addAll(enchantments),
                 new PropertyCategory("Attribute Modifiers", GuiPropertyListAttributeModifier::new, this::applyAttributeModifiers)
+                        .addAll(attributeModifiers)
         ));
     }
 
@@ -113,7 +113,7 @@ public class GuiItemEditor extends GuiEditor {
         loresList = new NBTTagList();
         hideFlags = 0;
         enchantmentsList = new NBTTagList();
-        Stream.of(EntityEquipmentSlot.values()).forEach(slot -> itemStack.getAttributeModifiers(slot).clear());
+        tagCompound.removeTag("AttributeModifiers");
         super.apply();
         displayTag.setTag("Lore", loresList);
         tagCompound.setInteger("HideFlags", hideFlags);
