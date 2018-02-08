@@ -1,5 +1,6 @@
 package com.github.franckyi.ibeeditor;
 
+import com.github.franckyi.ibeeditor.gui.GuiBlockEditor;
 import com.github.franckyi.ibeeditor.gui.GuiItemEditor;
 import com.github.franckyi.ibeeditor.proxy.ClientProxy;
 import com.github.franckyi.ibeeditor.util.ChatUtil;
@@ -10,6 +11,7 @@ import net.minecraft.client.gui.inventory.GuiContainerCreative;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.client.multiplayer.PlayerControllerMP;
 import net.minecraft.client.multiplayer.WorldClient;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.ConfigManager;
@@ -48,12 +50,12 @@ public class IBEEventHandler {
             if (player != null && controller != null && world != null) {
                 if (controller.isInCreativeMode()) {
                     /*if (Minecraft.getMinecraft().pointedEntity != null) {
-                        player.openGui(IBEEditor.instance, IBEGuiHandler.ENTITY_EDITOR, world, 0, 0, 0);
-                    } else if (Minecraft.getMinecraft().objectMouseOver != null && Minecraft.getMinecraft().objectMouseOver.typeOfHit == RayTraceResult.Type.BLOCK) {
-                        player.openGui(IBEEditor.instance, IBEGuiHandler.BLOCK_EDITOR, world, 0, 0, 0);
+
                     } else */
+                    if (Minecraft.getMinecraft().objectMouseOver != null && Minecraft.getMinecraft().objectMouseOver.typeOfHit == RayTraceResult.Type.BLOCK) {
+                        Minecraft.getMinecraft().displayGuiScreen(new GuiBlockEditor(Minecraft.getMinecraft().objectMouseOver.getBlockPos()));
+                    } else
                     if (!player.getHeldItemMainhand().isEmpty()) {
-                        //player.openGui(IBEEditor.instance, IBEGuiHandler.ITEM_EDITOR, world, 0, 0, 0);
                         Minecraft.getMinecraft().displayGuiScreen(new GuiItemEditor(player.getHeldItemMainhand()));
                     }
                 } else {

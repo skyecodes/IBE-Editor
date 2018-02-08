@@ -1,5 +1,6 @@
 package com.github.franckyi.ibeeditor;
 
+import com.github.franckyi.ibeeditor.network.UpdateBlockMessage;
 import com.github.franckyi.ibeeditor.network.UpdateItemMessage;
 import com.github.franckyi.ibeeditor.proxy.IProxy;
 import net.minecraftforge.fml.common.Mod;
@@ -40,6 +41,7 @@ public class IBEEditor {
         logger = event.getModLog();
         proxy.preInit(event);
         netwrapper.registerMessage(UpdateItemMessage.UpdateItemMessageHandler.class, UpdateItemMessage.class, 0, Side.SERVER);
+        netwrapper.registerMessage(UpdateBlockMessage.UpdateBlockMessageHandler.class, UpdateBlockMessage.class, 1, Side.SERVER);
     }
 
     @Mod.EventHandler
