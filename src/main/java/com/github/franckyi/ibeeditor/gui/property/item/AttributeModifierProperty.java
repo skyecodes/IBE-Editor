@@ -1,9 +1,10 @@
-package com.github.franckyi.ibeeditor.gui.property;
+package com.github.franckyi.ibeeditor.gui.property.item;
 
-import com.github.franckyi.ibeeditor.gui.base.GuiDoubleTextField;
+import com.github.franckyi.ibeeditor.gui.base.GuiDoubleValueField;
 import com.github.franckyi.ibeeditor.gui.base.GuiEnumButton;
-import com.github.franckyi.ibeeditor.gui.base.GuiIntTextField;
-import com.github.franckyi.ibeeditor.util.AttributeModifierModel;
+import com.github.franckyi.ibeeditor.gui.base.GuiIntValueField;
+import com.github.franckyi.ibeeditor.gui.property.BaseProperty;
+import com.github.franckyi.ibeeditor.models.AttributeModifierModel;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.inventory.EntityEquipmentSlot;
 
@@ -12,17 +13,17 @@ import java.util.function.Supplier;
 
 public class AttributeModifierProperty extends BaseProperty<AttributeModifierModel> {
 
-    private GuiEnumButton<EntityEquipmentSlot> slotButton;
     private GuiTextField nameTextField;
-    private GuiDoubleTextField amountTextField;
-    private GuiIntTextField operationTextField;
+    private GuiDoubleValueField amountTextField;
+    private GuiIntValueField operationTextField;
+    private GuiEnumButton<EntityEquipmentSlot> slotButton;
 
     public AttributeModifierProperty(Supplier<AttributeModifierModel> value) {
         super("", value);
-        slotButton = new GuiEnumButton<>(0, 0, 0, 60, 20, "", Arrays.asList(EntityEquipmentSlot.values()));
         nameTextField = new GuiTextField(0, mc.fontRenderer, 0, 0, 100, 14);
-        amountTextField = new GuiDoubleTextField(0, mc.fontRenderer, 0, 0, 40, 14);
-        operationTextField = new GuiIntTextField(0, mc.fontRenderer, 0, 0, 20, 14);
+        amountTextField = new GuiDoubleValueField(0, mc.fontRenderer, 0, 0, 40, 14);
+        operationTextField = new GuiIntValueField(0, mc.fontRenderer, 0, 0, 20, 14, 0, 2);
+        slotButton = new GuiEnumButton<>(0, 0, 0, 60, 20, "", Arrays.asList(EntityEquipmentSlot.values()));
         getButtonList().add(slotButton);
         getTextfieldList().addAll(Arrays.asList(nameTextField, amountTextField, operationTextField));
         init();
@@ -33,6 +34,7 @@ public class AttributeModifierProperty extends BaseProperty<AttributeModifierMod
         nameTextField.setText(getValue().getName());
         amountTextField.setText(String.valueOf(getValue().getAmount()));
         operationTextField.setText(String.valueOf(getValue().getOperation()));
+        slotButton.setValue(getValue().getSlot());
     }
 
     @Override
@@ -51,10 +53,10 @@ public class AttributeModifierProperty extends BaseProperty<AttributeModifierMod
     @Override
     public void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected) {
         super.drawEntry(slotIndex, x, y, listWidth, slotHeight, mouseX, mouseY, isSelected);
-        slotButton.drawButton(mc, mouseX, mouseY);
         nameTextField.drawTextBox();
         amountTextField.drawTextBox();
         operationTextField.drawTextBox();
+        slotButton.drawButton(mc, mouseX, mouseY);
     }
 
     @Override
@@ -70,10 +72,10 @@ public class AttributeModifierProperty extends BaseProperty<AttributeModifierMod
     @Override
     public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
         super.mouseClicked(mouseX, mouseY, mouseButton);
-        slotButton.mousePressed(mc, mouseX, mouseY);
         nameTextField.mouseClicked(mouseX, mouseY, mouseButton);
         amountTextField.mouseClicked(mouseX, mouseY, mouseButton);
         operationTextField.mouseClicked(mouseX, mouseY, mouseButton);
+        slotButton.mousePressed(mc, mouseX, mouseY);
         getValue().setSlot(slotButton.getValue());
     }
 

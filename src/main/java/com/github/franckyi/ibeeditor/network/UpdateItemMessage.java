@@ -33,7 +33,7 @@ public class UpdateItemMessage implements IMessage {
         itemStack = ByteBufUtils.readItemStack(buf);
         slotId = buf.readInt();
         flag = buf.readBoolean();
-        if(flag) blockPos = BlockPos.fromLong(buf.readLong());
+        if (flag) blockPos = BlockPos.fromLong(buf.readLong());
     }
 
     @Override
@@ -42,14 +42,14 @@ public class UpdateItemMessage implements IMessage {
         ByteBufUtils.writeItemStack(buf, itemStack);
         buf.writeInt(slotId);
         buf.writeBoolean(flag);
-        if(flag) buf.writeLong(blockPos.toLong());
+        if (flag) buf.writeLong(blockPos.toLong());
     }
 
     public static class UpdateItemMessageHandler implements ICustomMessageHandler<UpdateItemMessage> {
 
         @Override
         public void accept(UpdateItemMessage message, MessageContext ctx) {
-            if(message.blockPos == null) {
+            if (message.blockPos == null) {
                 if (message.slotId < 0) {
                     ctx.getServerHandler().player.inventory.addItemStackToInventory(message.itemStack);
                 } else {
@@ -57,7 +57,7 @@ public class UpdateItemMessage implements IMessage {
                 }
             } else {
                 TileEntity te = ctx.getServerHandler().player.world.getTileEntity(message.blockPos);
-                if(te != null && te.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null)
+                if (te != null && te.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null)
                         && te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null) != null) {
                     te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null).extractItem(message.slotId, Integer.MAX_VALUE, false);
                     te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null).insertItem(message.slotId, message.itemStack, false);

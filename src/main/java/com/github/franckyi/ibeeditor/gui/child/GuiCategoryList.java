@@ -42,7 +42,7 @@ public class GuiCategoryList extends GuiListExtended {
 
         private final String categoryName;
 
-        public Entry(PropertyCategory category) {
+        private Entry(PropertyCategory category) {
             this.categoryName = category.getCategoryName();
         }
 
@@ -58,7 +58,7 @@ public class GuiCategoryList extends GuiListExtended {
 
         @Override
         public boolean mousePressed(int slotIndex, int mouseX, int mouseY, int mouseEvent, int relativeX, int relativeY) {
-            parent.selectCategory(slotIndex);
+            if (mouseEvent == 0) parent.selectCategory(slotIndex);
             return true;
         }
 

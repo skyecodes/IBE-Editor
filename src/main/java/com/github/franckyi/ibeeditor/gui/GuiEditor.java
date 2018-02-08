@@ -8,19 +8,19 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.github.franckyi.ibeeditor.IBEEditor.logger;
 
 public abstract class GuiEditor extends GuiScreen {
 
-    protected List<PropertyCategory> categories;
-    private int currentCategory;
-
     private final GuiScreen parentScreen;
-
+    protected List<PropertyCategory> categories = new ArrayList<>();
     private GuiCategoryList guiCategories;
     private GuiPropertyList guiProperties;
+
+    private int currentCategory;
 
     private GuiButton cancel, apply, done;
 
@@ -38,11 +38,11 @@ public abstract class GuiEditor extends GuiScreen {
 
     @Override
     protected void actionPerformed(GuiButton button) {
-        if(button == cancel) {
+        if (button == cancel) {
             mc.displayGuiScreen(parentScreen);
-        } else {
+        } else if (button == apply || button == done) {
             apply();
-            if(button == done) {
+            if (button == done) {
                 mc.displayGuiScreen(parentScreen);
             }
         }
@@ -109,9 +109,8 @@ public abstract class GuiEditor extends GuiScreen {
 
     public void selectCategory(int index) {
         currentCategory = index;
-        if(index >= 0 && index < categories.size()) {
-            guiProperties = categories.get(index).getGuiFactory().create(this, mc, 2 * width / 3 - 20,
-                    height - 60, 20, height - 40, categories.get(index).getProperties());
+        if (index >= 0 && index < categories.size()) {
+            guiProperties = categories.get(index).getGuiFactory().create(this, mc, categories.get(index).getProperties());
             guiProperties.setSlotXBoundsFromLeft(width / 3 + 10);
             guiProperties.registerScrollButtons(7, 8);
         }

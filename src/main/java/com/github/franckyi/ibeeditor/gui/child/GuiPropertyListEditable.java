@@ -4,19 +4,21 @@ import com.github.franckyi.ibeeditor.gui.GuiEditor;
 import com.github.franckyi.ibeeditor.gui.property.BaseProperty;
 import com.github.franckyi.ibeeditor.proxy.ClientProxy;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 
 import javax.annotation.Nullable;
 import java.util.Collections;
 import java.util.List;
 
-public abstract class GuiPropertyListEditable extends GuiPropertyList {
+public abstract class GuiPropertyListEditable<T extends BaseProperty<?>> extends GuiPropertyList<T> {
 
     protected int clickedX, clickedY, startSlot;
     protected boolean isClicking;
+    protected GuiButton add;
 
-    public GuiPropertyListEditable(GuiEditor parent, Minecraft mcIn, int widthIn, int heightIn, int topIn, int bottomIn, List<BaseProperty<?>> properties) {
-        super(parent, mcIn, widthIn, heightIn, topIn, bottomIn, properties);
+    public GuiPropertyListEditable(GuiEditor parent, Minecraft mcIn, int slotHeight, List<T> properties) {
+        super(parent, mcIn, slotHeight, properties);
     }
 
     private boolean canUp(int index) {
@@ -32,43 +34,43 @@ public abstract class GuiPropertyListEditable extends GuiPropertyList {
     }
 
     private boolean canAddAfter(int index) {
-        return index <= getListEnd() && index >= getListStart() - 1;
+        return index <= getListEnd() && index >= getListStart();
     }
 
     private boolean canRemove(int index) {
         return index <= getListEnd() && index >= getListStart();
     }
 
-    protected void up(int index) {
-        if(canUp(index)) {
+    private void up(int index) {
+        if (canUp(index)) {
             Collections.swap(properties, index, index - 1);
             listUpdated();
         }
     }
 
-    protected void down(int index) {
-        if(canDown(index)) {
+    private void down(int index) {
+        if (canDown(index)) {
             Collections.swap(properties, index, index + 1);
             listUpdated();
         }
     }
 
-    protected void addBefore(int index, BaseProperty<?> property) {
-        if(canAddBefore(index)) {
+    private void addBefore(int index, T property) {
+        if (canAddBefore(index)) {
             properties.add(index, property);
             listUpdated();
         }
     }
 
-    protected void addAfter(int index, BaseProperty<?> property) {
-        if(canAddAfter(index)) {
+    private void addAfter(int index, T property) {
+        if (canAddAfter(index)) {
             properties.add(index + 1, property);
             listUpdated();
         }
     }
 
-    protected void remove(int index) {
-        if(canRemove(index)) {
+    private void remove(int index) {
+        if (canRemove(index)) {
             properties.remove(index);
             listUpdated();
         }
@@ -76,11 +78,14 @@ public abstract class GuiPropertyListEditable extends GuiPropertyList {
 
     @Override
     public boolean mouseClicked(int mouseX, int mouseY, int mouseEvent) {
-        int slot = getSlotIndexFromScreenCoords(mouseX, mouseY);
+        if (add.mousePressed(mc, mouseX, mouseY)) {
+            properties.add(getListStart(), newProperty(getListStart()));
+            listUpdated();
+        }
         if (mouseEvent == 1) {
             clickedX = mouseX;
             clickedY = mouseY;
-            startSlot = slot;
+            startSlot = getSlotIndexFromScreenCoords(mouseX, mouseY);
             isClicking = true;
         }
         return super.mouseClicked(mouseX, mouseY, mouseEvent);
@@ -92,20 +97,20 @@ public abstract class GuiPropertyListEditable extends GuiPropertyList {
             super.keyTyped(typedChar, keyCode);
         } else {
             int slot = getSlotIndexFromScreenCoords(mouseX, mouseY);
-            if(keyCode == ClientProxy.guiListUp.getKeyCode()) up(slot);
-            if(keyCode == ClientProxy.guiListDown.getKeyCode()) down(slot);
-            if(keyCode == ClientProxy.guiListRemove.getKeyCode()) remove(slot);
-            if(keyCode == ClientProxy.guiListAddBefore.getKeyCode()) addBefore(slot, newProperty(slot));
-            if(keyCode == ClientProxy.guiListAddAfter.getKeyCode()) addAfter(slot, newProperty(slot));
+            if (keyCode == ClientProxy.guiListUp.getKeyCode()) up(slot);
+            if (keyCode == ClientProxy.guiListDown.getKeyCode()) down(slot);
+            if (keyCode == ClientProxy.guiListRemove.getKeyCode()) remove(slot);
+            if (keyCode == ClientProxy.guiListAddBefore.getKeyCode()) addBefore(slot, newProperty(slot));
+            if (keyCode == ClientProxy.guiListAddAfter.getKeyCode()) addAfter(slot, newProperty(slot));
         }
     }
 
     @Override
     public boolean mouseReleased(int releasedX, int releasedY, int mouseEvent) {
-        if(mouseEvent == 1 && isClicking) {
+        if (mouseEvent == 1 && isClicking) {
             isClicking = false;
             EnumSelectionType sel = processSelection(releasedX, releasedY);
-            if(sel != null) {
+            if (sel != null) {
                 switch (sel) {
                     case TOP_LEFT:
                     case TOP_CENTER:
@@ -135,17 +140,22 @@ public abstract class GuiPropertyListEditable extends GuiPropertyList {
     @Override
     public void drawScreen(int mouseXIn, int mouseYIn, float partialTicks) {
         super.drawScreen(mouseXIn, mouseYIn, partialTicks);
+        add.drawButton(mc, mouseXIn, mouseYIn);
         mc.fontRenderer.drawString("Right-click on a slot and release the mouse on the action you want to perform!", 5, 5, 0xffffff);
         drawMenu();
     }
 
     protected void drawMenu() {
-        if(isClicking) {
-            if(canUp(startSlot)) mc.fontRenderer.drawStringWithShadow("Up", clickedX - 4, clickedY - 20, 0xffffff);
-            if(canDown(startSlot)) mc.fontRenderer.drawStringWithShadow("Down", clickedX - 10, clickedY + 12, 0xffffff);
-            if(canAddBefore(startSlot) && startSlot >= 0) mc.fontRenderer.drawStringWithShadow("Add before", clickedX + 20, clickedY - 20, 0x80ff80);
-            if(canAddAfter(startSlot) && startSlot >= 0) mc.fontRenderer.drawStringWithShadow("Add after", clickedX + 20, clickedY + 12, 0x00ff00);
-            if(canRemove(startSlot)) mc.fontRenderer.drawStringWithShadow("Remove", clickedX - 50, clickedY - 4, 0xff0000);
+        if (isClicking) {
+            if (canUp(startSlot)) mc.fontRenderer.drawStringWithShadow("Up", clickedX - 4, clickedY - 20, 0xffffff);
+            if (canDown(startSlot))
+                mc.fontRenderer.drawStringWithShadow("Down", clickedX - 10, clickedY + 12, 0xffffff);
+            if (canAddBefore(startSlot) && startSlot >= 0)
+                mc.fontRenderer.drawStringWithShadow("Add before", clickedX + 20, clickedY - 20, 0x80ff80);
+            if (canAddAfter(startSlot) && startSlot >= 0)
+                mc.fontRenderer.drawStringWithShadow("Add after", clickedX + 20, clickedY + 12, 0x00ff00);
+            if (canRemove(startSlot))
+                mc.fontRenderer.drawStringWithShadow("Remove", clickedX - 50, clickedY - 4, 0xff0000);
         }
     }
 
@@ -165,10 +175,16 @@ public abstract class GuiPropertyListEditable extends GuiPropertyList {
         return EnumSelectionType.of(left ? 0 : (right ? 2 : 1), top ? 0 : (bottom ? 2 : 1));
     }
 
-    protected void listUpdated() {
+    protected void init() {
+        add = new GuiButton(0, left + width / 4, top + headerPadding + getListStart() * slotHeight + 3, width / 2, 20, "Add new");
+        listUpdated();
     }
 
-    protected abstract BaseProperty<?> newProperty(int index);
+    protected void listUpdated() {
+        add.visible = properties.size() == getListStart();
+    }
+
+    protected abstract T newProperty(int index);
 
     protected enum EnumSelectionType {
         TOP_LEFT(0, 0), TOP_CENTER(1, 0), TOP_RIGHT(2, 0), CENTER_LEFT(0, 1), CENTER_RIGHT(2, 1), BOTTOM_LEFT(0, 2), BOTTOM_CENTER(1, 2), BOTTOM_RIGHT(2, 2);
@@ -179,6 +195,14 @@ public abstract class GuiPropertyListEditable extends GuiPropertyList {
         EnumSelectionType(int relativeX, int relativeY) {
             this.relativeX = relativeX;
             this.relativeY = relativeY;
+        }
+
+        @Nullable
+        public static EnumSelectionType of(int relativeX, int relativeY) {
+            for (EnumSelectionType type : values()) {
+                if (type.relativeX == relativeX && type.relativeY == relativeY) return type;
+            }
+            return null;
         }
 
         public boolean isLeft() {
@@ -203,14 +227,6 @@ public abstract class GuiPropertyListEditable extends GuiPropertyList {
 
         public boolean isBottom() {
             return relativeY == 2;
-        }
-
-        @Nullable
-        public static EnumSelectionType of(int relativeX, int relativeY) {
-            for(EnumSelectionType type : values()) {
-                if (type.relativeX == relativeX && type.relativeY == relativeY) return type;
-            }
-            return null;
         }
     }
 }

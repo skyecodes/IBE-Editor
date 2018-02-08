@@ -7,8 +7,8 @@ import net.minecraft.client.Minecraft;
 import java.util.List;
 
 @FunctionalInterface
-public interface IGuiPropertyListFactory {
+public interface IGuiPropertyListFactory<T extends BaseProperty<?>> {
 
-    GuiPropertyList create(GuiEditor parent, Minecraft mcIn, int widthIn, int heightIn, int topIn, int bottomIn, List<BaseProperty<?>> properties);
+    GuiPropertyList<T> create(GuiEditor parent, Minecraft mc, List<T> properties);
 
 }

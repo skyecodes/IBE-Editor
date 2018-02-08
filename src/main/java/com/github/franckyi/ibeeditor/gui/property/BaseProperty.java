@@ -16,15 +16,12 @@ public abstract class BaseProperty<V> implements GuiListExtended.IGuiListEntry {
     protected static final Minecraft mc = Minecraft.getMinecraft();
     private final List<GuiButton> buttonList = new ArrayList<>();
     private final List<GuiTextField> textfieldList = new ArrayList<>();
-
-    private String name;
-    private V value;
     private final Supplier<V> defaultValue;
     private final Consumer<V> apply;
-
     private final GuiButton undo = new GuiButton(0, 0, 0, 20, 20, GuiUtils.UNDO_CHAR);
-
     protected int slotTop, slotBottom, slotLeft, slotRight;
+    private String name;
+    private V value;
 
     public BaseProperty(String name, Supplier<V> value, Consumer<V> apply) {
         this.name = name;
@@ -35,7 +32,8 @@ public abstract class BaseProperty<V> implements GuiListExtended.IGuiListEntry {
     }
 
     public BaseProperty(String name, Supplier<V> value) {
-        this(name, value, (v) -> {});
+        this(name, value, (v) -> {
+        });
     }
 
     public String getName() {
@@ -90,7 +88,7 @@ public abstract class BaseProperty<V> implements GuiListExtended.IGuiListEntry {
     }
 
     public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
-        if(undo.mousePressed(mc, mouseX, mouseY)) {
+        if (undo.mousePressed(mc, mouseX, mouseY)) {
             reset();
             init();
         }

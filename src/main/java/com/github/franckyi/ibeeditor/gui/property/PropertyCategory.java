@@ -8,100 +8,52 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Consumer;
-import java.util.function.Supplier;
 
-public class PropertyCategory {
-
-    private static final IGuiPropertyListFactory DEFAULT_GUI_FACTORY = GuiPropertyList::new;
-    private static final Consumer<List<BaseProperty<?>>> DEFAULT_ACTION = properties -> properties.forEach(BaseProperty::apply);
+public class PropertyCategory<T extends BaseProperty<?>> {
 
     private String categoryName;
-    private List<BaseProperty<?>> properties = new ArrayList<>();
-    private IGuiPropertyListFactory guiFactory;
-    private Consumer<List<BaseProperty<?>>> action;
+    private List<T> properties = new ArrayList<>();
+    private IGuiPropertyListFactory<T> guiFactory;
+    private Consumer<List<T>> action;
 
     public PropertyCategory(String categoryName) {
-        this(categoryName, DEFAULT_GUI_FACTORY, DEFAULT_ACTION);
+        this(categoryName, (parent, mc, properties1) -> new GuiPropertyList<>(parent, mc, 25, properties1), properties -> properties.forEach(BaseProperty::apply));
     }
 
-    public PropertyCategory(String categoryName, IGuiPropertyListFactory guiFactory) {
-        this(categoryName, guiFactory, DEFAULT_ACTION);
+    public PropertyCategory(String categoryName, IGuiPropertyListFactory<T> guiFactory) {
+        this(categoryName, guiFactory, properties -> properties.forEach(BaseProperty::apply));
     }
 
-    public PropertyCategory(String categoryName, Consumer<List<BaseProperty<?>>> action) {
-        this(categoryName, DEFAULT_GUI_FACTORY, action);
+    public PropertyCategory(String categoryName, Consumer<List<T>> action) {
+        this(categoryName, (parent, mc, properties1) -> new GuiPropertyList<>(parent, mc, 25, properties1), action);
     }
 
-    public PropertyCategory(String categoryName, IGuiPropertyListFactory guiFactory, Consumer<List<BaseProperty<?>>> action) {
+    public PropertyCategory(String categoryName, IGuiPropertyListFactory<T> guiFactory, Consumer<List<T>> action) {
         this.categoryName = categoryName;
         this.guiFactory = guiFactory;
         this.action = action;
     }
 
-    public PropertyCategory addAll(BaseProperty<?>... properties) {
+    @SafeVarargs
+    public final PropertyCategory<T> addAll(T... properties) {
         addAll(Arrays.asList(properties));
         return this;
     }
 
-    public PropertyCategory addAll(Collection<? extends BaseProperty<?>> properties) {
+    public PropertyCategory<T> addAll(Collection<T> properties) {
         this.properties.addAll(properties);
         return this;
-    }
-
-    public <E> PropertyCategory addEnum(String name, Collection<E> values, Supplier<E> value, Consumer<E> apply) {
-        properties.add(new EnumProperty<>(name, values, value, apply));
-        return this;
-    }
-
-    public <E> PropertyCategory addEnum(String name, Collection<E> values, Supplier<E> value) {
-        return this.addEnum(name, values, value, v -> {});
-    }
-
-    public PropertyCategory addString(String name, Supplier<String> value, Consumer<String> apply) {
-        properties.add(new StringProperty(name, value, apply));
-        return this;
-    }
-
-    public PropertyCategory addString(String name, Supplier<String> value) {
-        return this.addString(name, value, s -> {});
-    }
-
-    public PropertyCategory addInteger(String name, Supplier<Integer> value, Consumer<Integer> apply) {
-        properties.add(new IntegerProperty(name, value, apply));
-        return this;
-    }
-
-    public PropertyCategory addInteger(String name, Supplier<Integer> value) {
-        return this.addInteger(name, value, i -> {});
-    }
-
-    public PropertyCategory addDouble(String name, Supplier<Double> value, Consumer<Double> apply) {
-        properties.add(new DoubleProperty(name, value, apply));
-        return this;
-    }
-
-    public PropertyCategory addDouble(String name, Supplier<Double> value) {
-        return this.addDouble(name, value, d -> {});
-    }
-
-    public PropertyCategory addBoolean(String name, Supplier<Boolean> value, Consumer<Boolean> apply) {
-        properties.add(new BooleanProperty(name, value, apply));
-        return this;
-    }
-
-    public PropertyCategory addBoolean(String name, Supplier<Boolean> value) {
-        return this.addBoolean(name, value, b -> {});
     }
 
     public String getCategoryName() {
         return categoryName;
     }
 
-    public List<BaseProperty<?>> getProperties() {
+    public List<T> getProperties() {
         return properties;
     }
 
-    public IGuiPropertyListFactory getGuiFactory() {
+    public IGuiPropertyListFactory<T> getGuiFactory() {
         return guiFactory;
     }
 

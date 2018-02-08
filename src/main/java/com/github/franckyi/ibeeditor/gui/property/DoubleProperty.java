@@ -1,23 +1,31 @@
 package com.github.franckyi.ibeeditor.gui.property;
 
-import com.github.franckyi.ibeeditor.gui.base.GuiDoubleTextField;
+import com.github.franckyi.ibeeditor.gui.base.GuiDoubleValueField;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class DoubleProperty extends BaseProperty<Double> {
 
-    private final GuiDoubleTextField textField;
+    private final GuiDoubleValueField textField;
 
     public DoubleProperty(String name, Supplier<Double> value, Consumer<Double> apply) {
         super(name, value, apply);
-        textField = new GuiDoubleTextField(0, mc.fontRenderer, 0, 0, 100, 14);
+        textField = new GuiDoubleValueField(0, mc.fontRenderer, 0, 0, 100, 14);
+        getTextfieldList().add(textField);
+        init();
+    }
+
+    public DoubleProperty(String name, Supplier<Double> value, Consumer<Double> apply, double minVal, double maxVal) {
+        super(name, value, apply);
+        textField = new GuiDoubleValueField(0, mc.fontRenderer, 0, 0, 100, 14, minVal, maxVal);
         getTextfieldList().add(textField);
         init();
     }
 
     @Override
     protected void init() {
+        super.init();
         textField.setText(getValue().toString());
     }
 

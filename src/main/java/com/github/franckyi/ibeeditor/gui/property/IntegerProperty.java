@@ -1,17 +1,24 @@
 package com.github.franckyi.ibeeditor.gui.property;
 
-import com.github.franckyi.ibeeditor.gui.base.GuiIntTextField;
+import com.github.franckyi.ibeeditor.gui.base.GuiIntValueField;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class IntegerProperty extends BaseProperty<Integer> {
 
-    private final GuiIntTextField textField;
+    private final GuiIntValueField textField;
 
     public IntegerProperty(String name, Supplier<Integer> value, Consumer<Integer> apply) {
         super(name, value, apply);
-        textField = new GuiIntTextField(0, mc.fontRenderer, 0, 0, 100, 14);
+        textField = new GuiIntValueField(0, mc.fontRenderer, 0, 0, 100, 14);
+        getTextfieldList().add(textField);
+        init();
+    }
+
+    public IntegerProperty(String name, Supplier<Integer> value, Consumer<Integer> apply, int minVal, int maxVal) {
+        super(name, value, apply);
+        textField = new GuiIntValueField(0, mc.fontRenderer, 0, 0, 100, 14, minVal, maxVal);
         getTextfieldList().add(textField);
         init();
     }

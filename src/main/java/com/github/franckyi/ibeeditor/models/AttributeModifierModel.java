@@ -1,4 +1,4 @@
-package com.github.franckyi.ibeeditor.util;
+package com.github.franckyi.ibeeditor.models;
 
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.inventory.EntityEquipmentSlot;

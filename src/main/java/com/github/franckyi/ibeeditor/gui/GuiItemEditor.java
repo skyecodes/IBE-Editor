@@ -1,11 +1,16 @@
 package com.github.franckyi.ibeeditor.gui;
 
 import com.github.franckyi.ibeeditor.IBEEditor;
-import com.github.franckyi.ibeeditor.gui.child.GuiPropertyListAttributeModifier;
-import com.github.franckyi.ibeeditor.gui.child.GuiPropertyListItemDisplay;
+import com.github.franckyi.ibeeditor.gui.child.item.GuiPropertyListAttributeModifier;
+import com.github.franckyi.ibeeditor.gui.child.item.GuiPropertyListBlock;
+import com.github.franckyi.ibeeditor.gui.child.item.GuiPropertyListDisplay;
+import com.github.franckyi.ibeeditor.gui.child.item.GuiPropertyListPotionEffects;
 import com.github.franckyi.ibeeditor.gui.property.*;
+import com.github.franckyi.ibeeditor.gui.property.item.AttributeModifierProperty;
+import com.github.franckyi.ibeeditor.gui.property.item.PotionEffectProperty;
+import com.github.franckyi.ibeeditor.models.AttributeModifierModel;
+import com.github.franckyi.ibeeditor.models.PotionEffectModel;
 import com.github.franckyi.ibeeditor.network.UpdateItemMessage;
-import com.github.franckyi.ibeeditor.util.AttributeModifierModel;
 import com.github.franckyi.ibeeditor.util.EnchantmentsUtil;
 import com.github.franckyi.ibeeditor.util.IBEUtil;
 import net.minecraft.client.Minecraft;
@@ -13,7 +18,7 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.item.ItemStack;
+import net.minecraft.item.*;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
@@ -21,7 +26,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.util.Constants;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -30,17 +34,28 @@ import static com.github.franckyi.ibeeditor.IBEEditor.logger;
 public class GuiItemEditor extends GuiEditor {
 
     // Item
-    private ItemStack itemStack;
-    private int slotId;
-    private BlockPos blockPos;
+    private final ItemStack itemStack;
+    private final int slotId;
+    private final BlockPos blockPos;
     // NBT
-    private NBTTagCompound tagCompound;
-    private NBTTagCompound displayTag;
+    private final NBTTagCompound tagCompound;
+    private final NBTTagCompound displayTag;
     private NBTTagList loresList;
     private NBTTagList enchantmentsList;
+    private NBTTagList canDestroy;
+    private NBTTagList canPlaceOn;
+    private NBTTagList potionEffects;
     // Data
-    private final Map<Enchantment, Integer> enchantmentsMap;
+    private Map<Enchantment, Integer> enchantmentsMap;
     private int hideFlags;
+
+    public GuiItemEditor(ItemStack itemStack, int slotId, BlockPos blockPos) {
+        this(null, itemStack, slotId, blockPos);
+    }
+
+    public GuiItemEditor(ItemStack itemStack) {
+        this(null, itemStack, Minecraft.getMinecraft().player.inventory.getSlotFor(itemStack), null);
+    }
 
     public GuiItemEditor(GuiScreen parentScreen, ItemStack itemStack, int slotId, BlockPos blockPos) {
         // Init item
@@ -49,22 +64,30 @@ public class GuiItemEditor extends GuiEditor {
         this.slotId = slotId;
         this.blockPos = blockPos;
         // Init NBT
-        if(itemStack.getTagCompound() == null) itemStack.setTagCompound(new NBTTagCompound());
+        if (itemStack.getTagCompound() == null) itemStack.setTagCompound(new NBTTagCompound());
         tagCompound = itemStack.getTagCompound();
         displayTag = itemStack.getOrCreateSubCompound("display");
         loresList = displayTag.getTagList("Lore", Constants.NBT.TAG_STRING);
         enchantmentsList = itemStack.getEnchantmentTagList();
+        canDestroy = tagCompound.getTagList("CanDestroy", Constants.NBT.TAG_STRING);
         // Init data
-        enchantmentsMap = EnchantmentsUtil.readNBT(enchantmentsList != null ? enchantmentsList : new NBTTagList());
-        hideFlags = tagCompound != null ? tagCompound.getInteger("HideFlags") : 0;
+        enchantmentsMap = EnchantmentsUtil.readNBT(enchantmentsList);
+        hideFlags = tagCompound.getInteger("HideFlags");
+        boolean isBlock = itemStack.getItem() instanceof ItemBlock;
+        boolean isPotion = itemStack.getItem() instanceof ItemPotion || itemStack.getItem() instanceof ItemSplashPotion ||
+                itemStack.getItem() instanceof ItemLingeringPotion || itemStack.getItem() instanceof ItemTippedArrow;
         // General
         IntegerProperty damage = new IntegerProperty("Damage", this.itemStack::getItemDamage, this.itemStack::setItemDamage);
         IntegerProperty count = new IntegerProperty("Count", this.itemStack::getCount, this.itemStack::setCount);
         BooleanProperty unbreakable = new BooleanProperty("Unbreakable", () -> tagCompound.getByte("Unbreakable") == 1, (b) -> tagCompound.setByte("Unbreakable", (byte) (b ? 1 : 0)));
+        categories.add(new PropertyCategory<>("General").addAll(damage, count, unbreakable));
         // Display
-        StringProperty name = new StringProperty("Name", () -> IBEUtil.unformatString(this.itemStack.getDisplayName()), s -> {});
-        List<StringProperty> lores = new ArrayList<>(loresList.tagCount());
-        loresList.forEach(nbtBase -> lores.add(new StringProperty("", () -> IBEUtil.unformatString(((NBTTagString)nbtBase).getString()), s -> {})));
+        FormattedStringProperty name = new FormattedStringProperty("Name", () -> IBEUtil.unformatString(this.itemStack.getDisplayName()), s -> {
+        });
+        List<FormattedStringProperty> lores = new ArrayList<>(loresList.tagCount());
+        loresList.forEach(nbtBase -> lores.add(new FormattedStringProperty("", () -> IBEUtil.unformatString(((NBTTagString) nbtBase).getString()), s -> {
+        })));
+        categories.add(new PropertyCategory<>("Display", GuiPropertyListDisplay::new, this::applyDisplay).addAll(name).addAll(lores));
         // Hide Flags
         BooleanProperty hideEnchantments = new BooleanProperty("Hide Enchantments", () -> hasHideFlags(5), (b) -> addHideFlags(b ? 1 : 0));
         BooleanProperty hideAttributeModifiers = new BooleanProperty("Hide Attribute Modifiers", () -> hasHideFlags(4), (b) -> addHideFlags(b ? 2 : 0));
@@ -72,29 +95,41 @@ public class GuiItemEditor extends GuiEditor {
         BooleanProperty hideCanDestroy = new BooleanProperty("Hide 'Can destroy'", () -> hasHideFlags(2), (b) -> addHideFlags(b ? 8 : 0));
         BooleanProperty hideCanPlaceOn = new BooleanProperty("Hide 'Can place on'", () -> hasHideFlags(1), (b) -> addHideFlags(b ? 16 : 0));
         BooleanProperty hideMisc = new BooleanProperty("Hide Miscellaneous", () -> hasHideFlags(0), (b) -> addHideFlags(b ? 32 : 0));
+        categories.add(new PropertyCategory<BooleanProperty>("Hide Flags").addAll(hideEnchantments, hideAttributeModifiers, hideUnbreakable, hideCanDestroy, hideCanPlaceOn, hideMisc));
         // Enchantments
         List<IntegerProperty> enchantments = new ArrayList<>(EnchantmentsUtil.getEnchantments().size());
         EnchantmentsUtil.getEnchantments().forEach(enchantment -> enchantments.add(new IntegerProperty(I18n.format(enchantment.getName()),
                 () -> enchantmentsMap.getOrDefault(enchantment, 0), (i) -> {
             if (i > 0) enchantmentsList.appendTag(EnchantmentsUtil.writeNBT(enchantment, i));
         })));
+        categories.add(new PropertyCategory<IntegerProperty>("Enchantments").addAll(enchantments));
         // Attribute modifiers
         List<AttributeModifierProperty> attributeModifiers = new ArrayList<>();
         for (EntityEquipmentSlot slot : EntityEquipmentSlot.values()) {
-            itemStack.getAttributeModifiers(slot).values().forEach(attributeModifier -> attributeModifiers.add(new AttributeModifierProperty(() -> new AttributeModifierModel(attributeModifier, slot))));
+            itemStack.getAttributeModifiers(slot).entries().forEach(entry -> attributeModifiers.add(new AttributeModifierProperty(() ->
+                    new AttributeModifierModel(entry.getKey(), entry.getValue().getAmount(), entry.getValue().getOperation(), slot))));
         }
-        setCategories(Arrays.asList(new PropertyCategory("General")
-                    .addAll(damage, count, unbreakable),
-                new PropertyCategory("Display", GuiPropertyListItemDisplay::new, this::applyDisplay)
-                    .addAll(name)
-                    .addAll(lores),
-                new PropertyCategory("Hide Flags")
-                    .addAll(hideEnchantments, hideAttributeModifiers, hideUnbreakable, hideCanDestroy, hideCanPlaceOn, hideMisc),
-                new PropertyCategory("Enchantments")
-                        .addAll(enchantments),
-                new PropertyCategory("Attribute Modifiers", GuiPropertyListAttributeModifier::new, this::applyAttributeModifiers)
-                        .addAll(attributeModifiers)
-        ));
+        categories.add(new PropertyCategory<>("Attribute Modifiers", GuiPropertyListAttributeModifier::new, this::applyAttributeModifiers).addAll(attributeModifiers));
+        // Can Destroy
+        List<StringProperty> canDestroyList = new ArrayList<>(canDestroy.tagCount());
+        canDestroy.forEach(nbtBase -> canDestroyList.add(new StringProperty("", ((NBTTagString) nbtBase)::getString, s -> {
+        })));
+        categories.add(new PropertyCategory<>("Can Destroy", GuiPropertyListBlock::new, this::applyCanDestroy).addAll(canDestroyList));
+        if (isBlock) {
+            // Can Place On
+            canPlaceOn = tagCompound.getTagList("CanPlaceOn", Constants.NBT.TAG_STRING);
+            List<StringProperty> canPlaceOnList = new ArrayList<>(canDestroy.tagCount());
+            canPlaceOn.forEach(nbtBase -> canPlaceOnList.add(new StringProperty("", ((NBTTagString) nbtBase)::getString, s -> {
+            })));
+            categories.add(new PropertyCategory<>("Can Place On", GuiPropertyListBlock::new, this::applyCanPlaceOn).addAll(canPlaceOnList));
+        }
+        if (isPotion) {
+            // Potion Effects
+            potionEffects = tagCompound.getTagList("CustomPotionEffects", Constants.NBT.TAG_COMPOUND);
+            List<PotionEffectProperty> potionEffectList = new ArrayList<>(potionEffects.tagCount());
+            potionEffects.forEach(nbtBase -> potionEffectList.add(new PotionEffectProperty(() -> PotionEffectModel.fromNBT(((NBTTagCompound) nbtBase)))));
+            categories.add(new PropertyCategory<>("Potion Effects", GuiPropertyListPotionEffects::new, this::applyPotionEffects).addAll(potionEffectList));
+        }
     }
 
     private void addHideFlags(int i) {
@@ -108,32 +143,32 @@ public class GuiItemEditor extends GuiEditor {
     @Override
     protected void apply() {
         logger.info("Preparing to apply...");
-        loresList = new NBTTagList();
         hideFlags = 0;
         enchantmentsList = new NBTTagList();
-        tagCompound.removeTag("AttributeModifiers");
         super.apply();
-        displayTag.setTag("Lore", loresList);
         tagCompound.setInteger("HideFlags", hideFlags);
         tagCompound.setTag("ench", enchantmentsList);
         IBEEditor.netwrapper.sendToServer(new UpdateItemMessage(itemStack, slotId, blockPos));
         logger.info("Done !");
     }
 
-    private void applyDisplay(List<BaseProperty<?>> properties) {
-        for(int i = 0; i < properties.size(); ++i) {
-            StringProperty property = (StringProperty) properties.get(i);
-            if(i == 0) {
+    private void applyDisplay(List<FormattedStringProperty> properties) {
+        loresList = new NBTTagList();
+        for (int i = 0; i < properties.size(); ++i) {
+            StringProperty property = properties.get(i);
+            if (i == 0) {
                 itemStack.setStackDisplayName(IBEUtil.formatString(property.getValue()));
             } else {
                 loresList.appendTag(new NBTTagString(IBEUtil.formatString(property.getValue())));
             }
         }
+        displayTag.setTag("Lore", loresList);
     }
 
-    private void applyAttributeModifiers(List<BaseProperty<?>> properties) {
+    private void applyAttributeModifiers(List<AttributeModifierProperty> properties) {
+        tagCompound.removeTag("AttributeModifiers");
         properties.forEach(property -> {
-            AttributeModifierModel model = ((AttributeModifierProperty) property).getValue();
+            AttributeModifierModel model = property.getValue();
             if (model.toAttributeModifier() == null || model.getName().isEmpty()) {
                 logger.warn("Unable to create attribute modifier for attribute {} {} {} {}", model.getName(), model.getAmount(), model.getOperation(), model.getSlot());
             } else {
@@ -142,12 +177,22 @@ public class GuiItemEditor extends GuiEditor {
         });
     }
 
-    public GuiItemEditor(ItemStack itemStack, int slotId, BlockPos blockPos) {
-        this(null, itemStack, slotId, blockPos);
+    private void applyCanDestroy(List<StringProperty> properties) {
+        canDestroy = new NBTTagList();
+        properties.forEach(property -> canDestroy.appendTag(new NBTTagString(property.getValue())));
+        tagCompound.setTag("CanDestroy", canDestroy);
     }
 
-    public GuiItemEditor(ItemStack itemStack) {
-        this(null, itemStack, Minecraft.getMinecraft().player.inventory.getSlotFor(itemStack), null);
+    private void applyCanPlaceOn(List<StringProperty> properties) {
+        canPlaceOn = new NBTTagList();
+        properties.forEach(property -> canPlaceOn.appendTag(new NBTTagString(property.getValue())));
+        tagCompound.setTag("CanPlaceOn", canPlaceOn);
+    }
+
+    private void applyPotionEffects(List<PotionEffectProperty> properties) {
+        potionEffects = new NBTTagList();
+        properties.forEach(property -> potionEffects.appendTag(property.getValue().toNBT()));
+        tagCompound.setTag("CustomPotionEffects", potionEffects);
     }
 
 }

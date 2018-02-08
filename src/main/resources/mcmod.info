@@ -3,8 +3,8 @@
     "modid": "ibeeditor",
     "name": "IBE Editor",
     "description": "Edit item's enchants, display name/lore and more !",
-    "version": "{$version}",
-    "mcversion": "{$mcversion}",
+    "version": "${version}",
+    "mcversion": "${mcversion}",
     "url": "",
     "updateUrl": "",
     "authorList": [
