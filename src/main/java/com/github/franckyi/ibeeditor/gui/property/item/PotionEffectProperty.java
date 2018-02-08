@@ -3,9 +3,11 @@ package com.github.franckyi.ibeeditor.gui.property.item;
 import com.github.franckyi.ibeeditor.gui.base.GuiIntValueField;
 import com.github.franckyi.ibeeditor.gui.property.BaseProperty;
 import com.github.franckyi.ibeeditor.models.PotionEffectModel;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.potion.Potion;
 import net.minecraftforge.fml.client.config.GuiCheckBox;
 
+import java.util.Arrays;
 import java.util.function.Supplier;
 
 public class PotionEffectProperty extends BaseProperty<PotionEffectModel> {
@@ -23,6 +25,8 @@ public class PotionEffectProperty extends BaseProperty<PotionEffectModel> {
         durationTextField = new GuiIntValueField(0, mc.fontRenderer, 0, 0, 60, 14);
         ambientCheckbox = new GuiCheckBox(0, 0, 0, "Ambient", false);
         showParticlesCheckbox = new GuiCheckBox(0, 0, 0, "Show Particles", false);
+        getButtonList().addAll(Arrays.asList(ambientCheckbox, showParticlesCheckbox));
+        getTextfieldList().addAll(Arrays.asList(idTextField, amplifierTextField, durationTextField));
         init();
     }
 
@@ -33,6 +37,8 @@ public class PotionEffectProperty extends BaseProperty<PotionEffectModel> {
         durationTextField.setText(String.valueOf(getValue().getDuration()));
         ambientCheckbox.setIsChecked(getValue().isAmbient());
         showParticlesCheckbox.setIsChecked(getValue().isShowParticles());
+        Potion potion = Potion.getPotionById(getValue().getId());
+        setName(potion == null ? "Unknown Potion" : I18n.format(potion.getName()));
     }
 
     @Override
@@ -59,7 +65,7 @@ public class PotionEffectProperty extends BaseProperty<PotionEffectModel> {
         getValue().setAmplifier(amplifierTextField.getValue());
         getValue().setDuration(durationTextField.getValue());
         Potion potion = Potion.getPotionById(getValue().getId());
-        setName(potion == null ? "Unknown Potion" : potion.getName());
+        setName(potion == null ? "Unknown Potion" : I18n.format(potion.getName()));
     }
 
     @Override
