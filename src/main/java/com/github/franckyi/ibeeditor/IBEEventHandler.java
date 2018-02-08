@@ -41,7 +41,7 @@ public class IBEEventHandler {
      */
     @SubscribeEvent
     public static void onClientTick(final TickEvent.ClientTickEvent event) {
-        if (event.phase.equals(TickEvent.Phase.START) && Keyboard.isKeyDown(ClientProxy.openGui.getKeyCode()) && Minecraft.getMinecraft().currentScreen == null) {
+        if (event.phase.equals(TickEvent.Phase.START) && ClientProxy.openGui.isKeyDown() && Minecraft.getMinecraft().currentScreen == null) {
             EntityPlayerSP player = Minecraft.getMinecraft().player;
             PlayerControllerMP controller = Minecraft.getMinecraft().playerController;
             WorldClient world = Minecraft.getMinecraft().world;
