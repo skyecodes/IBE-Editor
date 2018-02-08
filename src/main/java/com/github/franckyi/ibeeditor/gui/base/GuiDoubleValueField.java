@@ -14,7 +14,7 @@ public class GuiDoubleValueField extends GuiValueField<Double> {
     }
 
     public GuiDoubleValueField(int componentId, FontRenderer fontrendererObj, int x, int y, int par5Width, int par6Height, double value) {
-        this(componentId, fontrendererObj, x, y, par5Width, par6Height, value, Double.MIN_VALUE, Double.MAX_VALUE);
+        this(componentId, fontrendererObj, x, y, par5Width, par6Height, value, -Double.MAX_VALUE, Double.MAX_VALUE);
     }
 
     public GuiDoubleValueField(int componentId, FontRenderer fontrendererObj, int x, int y, int par5Width, int par6Height, double minVal, double maxVal) {
