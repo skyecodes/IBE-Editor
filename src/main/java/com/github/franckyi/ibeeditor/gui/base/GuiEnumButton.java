@@ -1,11 +1,11 @@
 package com.github.franckyi.ibeeditor.gui.base;
 
 import net.minecraft.client.Minecraft;
-import net.minecraftforge.fml.client.config.GuiButtonExt;
+import net.minecraft.client.gui.GuiButton;
 
 import java.util.List;
 
-public class GuiEnumButton<V> extends GuiButtonExt {
+public class GuiEnumButton<V> extends GuiButton {
 
     private final List<V> values;
     private int index = 0;

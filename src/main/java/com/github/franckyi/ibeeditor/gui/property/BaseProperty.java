@@ -17,15 +17,12 @@ public abstract class BaseProperty<V> implements GuiListExtended.IGuiListEntry {
 
     private final List<GuiButton> buttonList = new ArrayList<>();
     private final List<GuiTextField> textfieldList = new ArrayList<>();
-
-    private String name;
-    private V value;
     private final Supplier<V> defaultValue;
     private final Consumer<V> apply;
-
     private final GuiButton undo = new GuiButton(0, 0, 0, 20, 20, GuiUtils.UNDO_CHAR);
-
     protected int slotTop, slotBottom, slotLeft, slotRight;
+    private String name;
+    private V value;
 
     public BaseProperty(String name, Supplier<V> value, Consumer<V> apply) {
         this.name = name;

@@ -58,7 +58,7 @@ public class GuiCategoryList extends GuiListExtended {
 
         @Override
         public boolean mousePressed(int slotIndex, int mouseX, int mouseY, int mouseEvent, int relativeX, int relativeY) {
-            parent.selectCategory(slotIndex);
+            if (mouseEvent == 0) parent.selectCategory(slotIndex);
             return true;
         }
 

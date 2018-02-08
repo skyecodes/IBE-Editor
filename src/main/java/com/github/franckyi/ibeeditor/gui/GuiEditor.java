@@ -8,13 +8,14 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.github.franckyi.ibeeditor.IBEEditor.logger;
 
 public abstract class GuiEditor extends GuiScreen {
 
-    protected List<PropertyCategory> categories;
+    protected List<PropertyCategory> categories = new ArrayList<>();
     private int currentCategory;
 
     private final GuiScreen parentScreen;
@@ -110,8 +111,7 @@ public abstract class GuiEditor extends GuiScreen {
     public void selectCategory(int index) {
         currentCategory = index;
         if (index >= 0 && index < categories.size()) {
-            guiProperties = categories.get(index).getGuiFactory().create(this, mc, 2 * width / 3 - 20,
-                    height - 60, 20, height - 40, categories.get(index).getProperties());
+            guiProperties = categories.get(index).getGuiFactory().create(this, mc, categories.get(index).getProperties());
             guiProperties.setSlotXBoundsFromLeft(width / 3 + 10);
             guiProperties.registerScrollButtons(7, 8);
         }

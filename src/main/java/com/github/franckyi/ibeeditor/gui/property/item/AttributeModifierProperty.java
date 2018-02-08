@@ -1,9 +1,10 @@
-package com.github.franckyi.ibeeditor.gui.property;
+package com.github.franckyi.ibeeditor.gui.property.item;
 
-import com.github.franckyi.ibeeditor.gui.base.GuiDoubleTextField;
+import com.github.franckyi.ibeeditor.gui.base.GuiDoubleValueField;
 import com.github.franckyi.ibeeditor.gui.base.GuiEnumButton;
-import com.github.franckyi.ibeeditor.gui.base.GuiIntTextField;
-import com.github.franckyi.ibeeditor.util.AttributeModifierModel;
+import com.github.franckyi.ibeeditor.gui.base.GuiIntValueField;
+import com.github.franckyi.ibeeditor.gui.property.BaseProperty;
+import com.github.franckyi.ibeeditor.models.AttributeModifierModel;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.inventory.EntityEquipmentSlot;
 
@@ -14,15 +15,15 @@ public class AttributeModifierProperty extends BaseProperty<AttributeModifierMod
 
     private GuiEnumButton<EntityEquipmentSlot> slotButton;
     private GuiTextField nameTextField;
-    private GuiDoubleTextField amountTextField;
-    private GuiIntTextField operationTextField;
+    private GuiDoubleValueField amountTextField;
+    private GuiIntValueField operationTextField;
 
     public AttributeModifierProperty(Supplier<AttributeModifierModel> value) {
         super("", value);
         slotButton = new GuiEnumButton<>(0, 0, 0, 60, 20, "", Arrays.asList(EntityEquipmentSlot.values()));
         nameTextField = new GuiTextField(0, mc.fontRenderer, 0, 0, 100, 14);
-        amountTextField = new GuiDoubleTextField(0, mc.fontRenderer, 0, 0, 40, 14);
-        operationTextField = new GuiIntTextField(0, mc.fontRenderer, 0, 0, 20, 14);
+        amountTextField = new GuiDoubleValueField(0, mc.fontRenderer, 0, 0, 40, 14);
+        operationTextField = new GuiIntValueField(0, mc.fontRenderer, 0, 0, 20, 14);
         getButtonList().add(slotButton);
         getTextfieldList().addAll(Arrays.asList(nameTextField, amountTextField, operationTextField));
         init();

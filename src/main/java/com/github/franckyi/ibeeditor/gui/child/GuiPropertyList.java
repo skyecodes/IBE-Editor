@@ -8,17 +8,19 @@ import net.minecraft.client.gui.GuiListExtended;
 import javax.annotation.Nonnull;
 import java.util.List;
 
-public class GuiPropertyList extends GuiListExtended {
+public class GuiPropertyList<T extends BaseProperty<?>> extends GuiListExtended {
 
     protected final GuiEditor parent;
     protected final Minecraft mc;
-    protected List<BaseProperty<?>> properties;
+    protected List<T> properties;
 
-    public GuiPropertyList(GuiEditor parent, Minecraft mcIn, int widthIn, int heightIn, int topIn, int bottomIn, List<BaseProperty<?>> properties) {
-        super(mcIn, widthIn, heightIn, topIn, bottomIn, 25);
+    public GuiPropertyList(GuiEditor parent, Minecraft mc, int slotHeight, List<T> properties) {
+        super(mc, 2 * parent.width / 3 - 20, parent.height - 60, 20, parent.height - 40, slotHeight);
         this.parent = parent;
-        this.mc = mcIn;
+        this.mc = mc;
         this.properties = properties;
+        this.left = parent.width / 3 + 10;
+        this.right = left + parent.width;
     }
 
     protected void place() {
