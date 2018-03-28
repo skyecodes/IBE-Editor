@@ -62,14 +62,14 @@ public abstract class GuiEditor extends GuiScreen {
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         drawBackground(0);
         guiCategories.drawScreen(mouseX, mouseY, partialTicks);
-        guiProperties.drawScreen(mouseX, mouseY, partialTicks);
+        if(guiProperties != null) guiProperties.drawScreen(mouseX, mouseY, partialTicks);
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
 
     public void handleMouseInput() throws IOException {
         super.handleMouseInput();
         guiCategories.handleMouseInput();
-        guiProperties.handleMouseInput();
+        if(guiProperties != null) guiProperties.handleMouseInput();
     }
 
     @Override
@@ -86,25 +86,25 @@ public abstract class GuiEditor extends GuiScreen {
     @Override
     protected void keyTyped(char typedChar, int keyCode) throws IOException {
         super.keyTyped(typedChar, keyCode);
-        guiProperties.keyTyped(typedChar, keyCode);
+        if(guiProperties != null) guiProperties.keyTyped(typedChar, keyCode);
     }
 
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
         super.mouseClicked(mouseX, mouseY, mouseButton);
         guiCategories.mouseClicked(mouseX, mouseY, mouseButton);
-        guiProperties.mouseClicked(mouseX, mouseY, mouseButton);
+        if(guiProperties != null) guiProperties.mouseClicked(mouseX, mouseY, mouseButton);
     }
 
     @Override
     protected void mouseReleased(int mouseX, int mouseY, int state) {
         super.mouseReleased(mouseX, mouseY, state);
-        guiProperties.mouseReleased(mouseX, mouseY, state);
+        if(guiProperties != null) guiProperties.mouseReleased(mouseX, mouseY, state);
     }
 
     @Override
     public void updateScreen() {
-        guiProperties.updateScreen();
+        if(guiProperties != null) guiProperties.updateScreen();
     }
 
     public void selectCategory(int index) {
