@@ -5,11 +5,15 @@ import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.IStringSerializable;
 
-import java.util.function.Consumer;
-
 public class BlockStateProperty<E extends Enum<E> & IStringSerializable> extends EnumProperty<E> {
 
-    public BlockStateProperty(PropertyEnum<E> property, IBlockState blockState, E comparable, Consumer<E> apply) {
-        super(property.getName(), property.getAllowedValues(), () -> comparable, apply);
+    public BlockStateProperty(PropertyEnum<E> property, IBlockState blockState, E comparable, IBlockStatePropertyEnumConverter<E> converter) {
+        super(property.getName(), property.getAllowedValues(), () -> comparable, e -> converter.with(blockState, property, e));
     }
+
+    @FunctionalInterface
+    public interface IBlockStatePropertyEnumConverter<E extends Enum<E> & IStringSerializable> {
+        void with(IBlockState blockState, PropertyEnum<E> property, E e);
+    }
+
 }

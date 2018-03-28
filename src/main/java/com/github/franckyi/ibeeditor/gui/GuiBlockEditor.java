@@ -5,7 +5,9 @@ import com.github.franckyi.ibeeditor.gui.property.BaseProperty;
 import com.github.franckyi.ibeeditor.gui.property.BooleanProperty;
 import com.github.franckyi.ibeeditor.gui.property.IntegerProperty;
 import com.github.franckyi.ibeeditor.gui.property.PropertyCategory;
+import com.github.franckyi.ibeeditor.gui.property.block.BlockStateProperty;
 import com.github.franckyi.ibeeditor.network.UpdateBlockMessage;
+import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.properties.PropertyInteger;
@@ -38,12 +40,13 @@ public class GuiBlockEditor extends GuiEditor {
             blockState.getProperties().forEach((property, comparable) -> {
                 if (property instanceof PropertyBool) {
                     PropertyBool bProperty = (PropertyBool) property;
-                    blockStates.add(new BooleanProperty(bProperty.getName(), () -> (Boolean) comparable, b -> blockState = blockState.withProperty(bProperty, b)));
+                    blockStates.add(new BooleanProperty(bProperty.getName(), () -> (Boolean) comparable, b -> with(blockState, bProperty, b)));
                 } else if (property instanceof PropertyInteger) {
                     PropertyInteger iProperty = (PropertyInteger) property;
-                    blockStates.add(new IntegerProperty(iProperty.getName(), () -> (Integer) comparable, i -> blockState = blockState.withProperty(iProperty, i)));
+                    blockStates.add(new IntegerProperty(iProperty.getName(), () -> (Integer) comparable, i -> with(blockState, iProperty, i)));
                 } else if (property instanceof PropertyEnum) {
-
+                    PropertyEnum eProperty = (PropertyEnum) property;
+                    blockStates.add(new BlockStateProperty(eProperty, blockState, (Enum) comparable, this::with));
                 }
             });
             categories.add(new PropertyCategory<>("Block States").addAll(blockStates));
@@ -57,4 +60,11 @@ public class GuiBlockEditor extends GuiEditor {
         IBEEditor.netwrapper.sendToServer(new UpdateBlockMessage(blockState, blockPos));
         logger.info("Done !");
     }
+
+    public <T extends Comparable<T>> void with(IBlockState blockState, IProperty<T> property, T t) {
+        if (property.getAllowedValues().contains(t)) {
+            this.blockState = blockState.withProperty(property, t);
+        }
+    }
+
 }
