@@ -14,6 +14,7 @@ import java.util.function.Supplier;
 public abstract class BaseProperty<V> implements GuiListExtended.IGuiListEntry {
 
     protected static final Minecraft mc = Minecraft.getMinecraft();
+
     private final List<GuiButton> buttonList = new ArrayList<>();
     private final List<GuiTextField> textfieldList = new ArrayList<>();
     private final Supplier<V> defaultValue;
@@ -85,9 +86,12 @@ public abstract class BaseProperty<V> implements GuiListExtended.IGuiListEntry {
     }
 
     public void keyTyped(char typedChar, int keyCode) {
+        getTextfieldList().forEach(guiTextField -> guiTextField.textboxKeyTyped(typedChar, keyCode));
     }
 
     public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
+        getButtonList().forEach(guiButton -> guiButton.mousePressed(mc, mouseX, mouseY));
+        getTextfieldList().forEach(guiTextField -> guiTextField.mouseClicked(mouseX, mouseY, mouseButton));
         if (undo.mousePressed(mc, mouseX, mouseY)) {
             reset();
             init();
@@ -95,15 +99,17 @@ public abstract class BaseProperty<V> implements GuiListExtended.IGuiListEntry {
     }
 
     public void updateScreen() {
+        getTextfieldList().forEach(GuiTextField::updateCursorCounter);
     }
 
     @Override
-    public void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected) {
-        undo.drawButton(mc, mouseX, mouseY);
+    public void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks) {
+        getButtonList().forEach(guiButton -> guiButton.drawButton(mc, mouseX, mouseY, partialTicks));
+        getTextfieldList().forEach(GuiTextField::drawTextBox);
     }
 
     @Override
-    public void setSelected(int p_178011_1_, int p_178011_2_, int p_178011_3_) {
+    public void updatePosition(int slotIndex, int x, int y, float partialTicks) {
     }
 
     @Override

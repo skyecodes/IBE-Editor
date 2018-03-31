@@ -31,14 +31,7 @@ public class BooleanProperty extends BaseProperty<Boolean> {
     @Override
     public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
         super.mouseClicked(mouseX, mouseY, mouseButton);
-        checkBox.mousePressed(mc, mouseX, mouseY);
         setValue(checkBox.isChecked());
-    }
-
-    @Override
-    public void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected) {
-        super.drawEntry(slotIndex, x, y, listWidth, slotHeight, mouseX, mouseY, isSelected);
-        checkBox.drawButton(mc, mouseX, mouseY);
     }
 
 }
