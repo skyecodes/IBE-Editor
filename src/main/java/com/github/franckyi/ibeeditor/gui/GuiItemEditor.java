@@ -13,7 +13,7 @@ import com.github.franckyi.ibeeditor.models.PotionEffectModel;
 import com.github.franckyi.ibeeditor.network.UpdateItemMessage;
 import com.github.franckyi.ibeeditor.util.EnchantmentsUtil;
 import com.github.franckyi.ibeeditor.util.IBEUtil;
-import net.minecraft.client.Minecraft;
+import com.github.franckyi.ibeeditor.util.item.BaseItemHandler;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.enchantment.Enchantment;
@@ -22,7 +22,6 @@ import net.minecraft.item.*;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
-import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.util.Constants;
 
 import java.util.ArrayList;
@@ -33,10 +32,10 @@ import static com.github.franckyi.ibeeditor.IBEEditor.logger;
 
 public class GuiItemEditor extends GuiEditor {
 
+    private final BaseItemHandler itemHandler;
+
     // Item
     private final ItemStack itemStack;
-    private final int slotId;
-    private final BlockPos blockPos;
     // NBT
     private final NBTTagCompound tagCompound;
     private final NBTTagCompound displayTag;
@@ -49,20 +48,15 @@ public class GuiItemEditor extends GuiEditor {
     private Map<Enchantment, Integer> enchantmentsMap;
     private int hideFlags;
 
-    public GuiItemEditor(ItemStack itemStack, int slotId, BlockPos blockPos) {
-        this(null, itemStack, slotId, blockPos);
+    public GuiItemEditor(BaseItemHandler itemHandler) {
+        this(null, itemHandler);
     }
 
-    public GuiItemEditor(ItemStack itemStack) {
-        this(null, itemStack, Minecraft.getMinecraft().player.inventory.getSlotFor(itemStack), null);
-    }
-
-    public GuiItemEditor(GuiScreen parentScreen, ItemStack itemStack, int slotId, BlockPos blockPos) {
+    public GuiItemEditor(GuiScreen parentScreen, BaseItemHandler itemHandler) {
         // Init item
         super(parentScreen);
-        this.itemStack = itemStack;
-        this.slotId = slotId;
-        this.blockPos = blockPos;
+        this.itemHandler = itemHandler;
+        this.itemStack = itemHandler.getItemStack();
         // Init NBT
         if (itemStack.getTagCompound() == null) itemStack.setTagCompound(new NBTTagCompound());
         tagCompound = itemStack.getTagCompound();
@@ -148,7 +142,8 @@ public class GuiItemEditor extends GuiEditor {
         super.apply();
         tagCompound.setInteger("HideFlags", hideFlags);
         tagCompound.setTag("ench", enchantmentsList);
-        IBEEditor.netwrapper.sendToServer(new UpdateItemMessage(itemStack, slotId, blockPos));
+        itemHandler.setItemStack(itemStack);
+        IBEEditor.netwrapper.sendToServer(new UpdateItemMessage(itemHandler));
         logger.info("Done !");
     }
 

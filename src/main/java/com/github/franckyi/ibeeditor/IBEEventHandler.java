@@ -4,6 +4,10 @@ import com.github.franckyi.ibeeditor.gui.GuiBlockEditor;
 import com.github.franckyi.ibeeditor.gui.GuiItemEditor;
 import com.github.franckyi.ibeeditor.proxy.ClientProxy;
 import com.github.franckyi.ibeeditor.util.ChatUtil;
+import com.github.franckyi.ibeeditor.util.item.EntityInventoryItemHandler;
+import com.github.franckyi.ibeeditor.util.item.HeldItemHandler;
+import com.github.franckyi.ibeeditor.util.item.PlayerInventoryItemHandler;
+import com.github.franckyi.ibeeditor.util.item.TileEntityInventoryItemHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -54,9 +58,8 @@ public class IBEEventHandler {
                     } else */
                     if (Minecraft.getMinecraft().objectMouseOver != null && Minecraft.getMinecraft().objectMouseOver.typeOfHit == RayTraceResult.Type.BLOCK) {
                         Minecraft.getMinecraft().displayGuiScreen(new GuiBlockEditor(Minecraft.getMinecraft().objectMouseOver.getBlockPos()));
-                    } else
-                    if (!player.getHeldItemMainhand().isEmpty()) {
-                        Minecraft.getMinecraft().displayGuiScreen(new GuiItemEditor(player.getHeldItemMainhand()));
+                    } else if (!player.getHeldItemMainhand().isEmpty()) {
+                        Minecraft.getMinecraft().displayGuiScreen(new GuiItemEditor(new HeldItemHandler(0)));
                     }
                 } else {
                     ChatUtil.sendError(player, "You must be in Creative mode.");
@@ -76,10 +79,15 @@ public class IBEEventHandler {
             GuiContainer gui = ((GuiContainer) event.getGui());
             if (gui.getSlotUnderMouse() != null && gui.getSlotUnderMouse().getHasStack()) {
                 if (gui instanceof GuiInventory || gui instanceof GuiContainerCreative) {
-                    Minecraft.getMinecraft().displayGuiScreen(new GuiItemEditor(gui.getSlotUnderMouse().getStack()));
+                    Minecraft.getMinecraft().displayGuiScreen(new GuiItemEditor(gui, new PlayerInventoryItemHandler(gui.getSlotUnderMouse().getSlotIndex())));
                 } else {
-                    Minecraft.getMinecraft().displayGuiScreen(new GuiItemEditor(gui.getSlotUnderMouse().getStack(),
-                            gui.getSlotUnderMouse().getSlotIndex(), Minecraft.getMinecraft().objectMouseOver.getBlockPos()));
+                    if (Minecraft.getMinecraft().objectMouseOver.entityHit != null) {
+                        Minecraft.getMinecraft().displayGuiScreen(new GuiItemEditor(gui, new EntityInventoryItemHandler(gui.getSlotUnderMouse().getStack(),
+                                gui.getSlotUnderMouse().getSlotIndex(), Minecraft.getMinecraft().objectMouseOver.entityHit.getEntityId())));
+                    } else {
+                        Minecraft.getMinecraft().displayGuiScreen(new GuiItemEditor(gui, new TileEntityInventoryItemHandler(gui.getSlotUnderMouse().getStack(),
+                                gui.getSlotUnderMouse().getSlotIndex(), Minecraft.getMinecraft().objectMouseOver.getBlockPos())));
+                    }
                 }
             }
         }

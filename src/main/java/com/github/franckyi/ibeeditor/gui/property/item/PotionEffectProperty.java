@@ -58,9 +58,7 @@ public class PotionEffectProperty extends BaseProperty<PotionEffectModel> {
 
     @Override
     public void keyTyped(char typedChar, int keyCode) {
-        idTextField.textboxKeyTyped(typedChar, keyCode);
-        amplifierTextField.textboxKeyTyped(typedChar, keyCode);
-        durationTextField.textboxKeyTyped(typedChar, keyCode);
+        super.keyTyped(typedChar, keyCode);
         getValue().setId(idTextField.getValue());
         getValue().setAmplifier(amplifierTextField.getValue());
         getValue().setDuration(durationTextField.getValue());
@@ -71,11 +69,6 @@ public class PotionEffectProperty extends BaseProperty<PotionEffectModel> {
     @Override
     public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
         super.mouseClicked(mouseX, mouseY, mouseButton);
-        idTextField.mouseClicked(mouseX, mouseY, mouseButton);
-        amplifierTextField.mouseClicked(mouseX, mouseY, mouseButton);
-        durationTextField.mouseClicked(mouseX, mouseY, mouseButton);
-        ambientCheckbox.mousePressed(mc, mouseX, mouseY);
-        showParticlesCheckbox.mousePressed(mc, mouseX, mouseY);
         getValue().setAmbient(ambientCheckbox.isChecked());
         getValue().setShowParticles(showParticlesCheckbox.isChecked());
     }
@@ -84,10 +77,5 @@ public class PotionEffectProperty extends BaseProperty<PotionEffectModel> {
     public void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks) {
         super.drawEntry(slotIndex, x, y, listWidth, slotHeight, mouseX, mouseY, isSelected, partialTicks);
         mc.fontRenderer.drawString(getName(), x + 5, slotTop + 6, 0xffffff);
-        idTextField.drawTextBox();
-        amplifierTextField.drawTextBox();
-        durationTextField.drawTextBox();
-        ambientCheckbox.drawButton(mc, mouseX, mouseY, partialTicks);
-        showParticlesCheckbox.drawButton(mc, mouseX, mouseY, partialTicks);
     }
 }

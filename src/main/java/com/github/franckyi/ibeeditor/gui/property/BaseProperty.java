@@ -86,9 +86,12 @@ public abstract class BaseProperty<V> implements GuiListExtended.IGuiListEntry {
     }
 
     public void keyTyped(char typedChar, int keyCode) {
+        getTextfieldList().forEach(guiTextField -> guiTextField.textboxKeyTyped(typedChar, keyCode));
     }
 
     public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
+        getButtonList().forEach(guiButton -> guiButton.mousePressed(mc, mouseX, mouseY));
+        getTextfieldList().forEach(guiTextField -> guiTextField.mouseClicked(mouseX, mouseY, mouseButton));
         if (undo.mousePressed(mc, mouseX, mouseY)) {
             reset();
             init();
@@ -96,11 +99,13 @@ public abstract class BaseProperty<V> implements GuiListExtended.IGuiListEntry {
     }
 
     public void updateScreen() {
+        getTextfieldList().forEach(GuiTextField::updateCursorCounter);
     }
 
     @Override
     public void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks) {
-        undo.drawButton(mc, mouseX, mouseY, partialTicks);
+        getButtonList().forEach(guiButton -> guiButton.drawButton(mc, mouseX, mouseY, partialTicks));
+        getTextfieldList().forEach(GuiTextField::drawTextBox);
     }
 
     @Override

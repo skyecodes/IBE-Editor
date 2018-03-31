@@ -33,7 +33,6 @@ public class EnumProperty<E> extends BaseProperty<E> {
     @Override
     public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
         super.mouseClicked(mouseX, mouseY, mouseButton);
-        button.mousePressed(mc, mouseX, mouseY);
         setValue(button.getValue());
     }
 
@@ -41,7 +40,6 @@ public class EnumProperty<E> extends BaseProperty<E> {
     public void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks) {
         super.drawEntry(slotIndex, x, y, listWidth, slotHeight, mouseX, mouseY, isSelected, partialTicks);
         mc.fontRenderer.drawString(getName(), x + 5, slotTop + 6, 0xffffff);
-        button.drawButton(mc, mouseX, mouseY, partialTicks);
     }
 
 }

@@ -50,19 +50,8 @@ public class AttributeModifierProperty extends BaseProperty<AttributeModifierMod
     }
 
     @Override
-    public void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks) {
-        super.drawEntry(slotIndex, x, y, listWidth, slotHeight, mouseX, mouseY, isSelected, partialTicks);
-        slotButton.drawButton(mc, mouseX, mouseY, partialTicks);
-        nameTextField.drawTextBox();
-        amountTextField.drawTextBox();
-        operationTextField.drawTextBox();
-    }
-
-    @Override
     public void keyTyped(char typedChar, int keyCode) {
-        nameTextField.textboxKeyTyped(typedChar, keyCode);
-        amountTextField.textboxKeyTyped(typedChar, keyCode);
-        operationTextField.textboxKeyTyped(typedChar, keyCode);
+        super.keyTyped(typedChar, keyCode);
         getValue().setName(nameTextField.getText());
         getValue().setAmount(amountTextField.getValue());
         getValue().setOperation(operationTextField.getValue());
@@ -71,17 +60,7 @@ public class AttributeModifierProperty extends BaseProperty<AttributeModifierMod
     @Override
     public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
         super.mouseClicked(mouseX, mouseY, mouseButton);
-        slotButton.mousePressed(mc, mouseX, mouseY);
-        nameTextField.mouseClicked(mouseX, mouseY, mouseButton);
-        amountTextField.mouseClicked(mouseX, mouseY, mouseButton);
-        operationTextField.mouseClicked(mouseX, mouseY, mouseButton);
         getValue().setSlot(slotButton.getValue());
     }
 
-    @Override
-    public void updateScreen() {
-        nameTextField.updateCursorCounter();
-        amountTextField.updateCursorCounter();
-        operationTextField.updateCursorCounter();
-    }
 }
