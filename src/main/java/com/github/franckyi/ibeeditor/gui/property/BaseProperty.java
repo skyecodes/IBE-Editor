@@ -103,13 +103,13 @@ public abstract class BaseProperty<V> implements GuiListExtended.IGuiListEntry {
     }
 
     @Override
-    public void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks) {
-        getButtonList().forEach(guiButton -> guiButton.drawButton(mc, mouseX, mouseY, partialTicks));
+    public void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected) {
+        getButtonList().forEach(guiButton -> guiButton.drawButton(mc, mouseX, mouseY));
         getTextfieldList().forEach(GuiTextField::drawTextBox);
     }
 
     @Override
-    public void updatePosition(int slotIndex, int x, int y, float partialTicks) {
+    public void setSelected(int p_178011_1_, int p_178011_2_, int p_178011_3_) {
     }
 
     @Override

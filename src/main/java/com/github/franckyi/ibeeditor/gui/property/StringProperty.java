@@ -35,8 +35,8 @@ public class StringProperty extends BaseProperty<String> {
     }
 
     @Override
-    public void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks) {
-        super.drawEntry(slotIndex, x, y, listWidth, slotHeight, mouseX, mouseY, isSelected, partialTicks);
+    public void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected) {
+        super.drawEntry(slotIndex, x, y, listWidth, slotHeight, mouseX, mouseY, isSelected);
         mc.fontRenderer.drawString(getName(), x + 5, slotTop + 6, 0xffffff);
     }
 
