@@ -9,7 +9,7 @@ public class IBEConfiguration {
             "else, it's added after the cursor position, but it can cause some display problems if there's text after the cursor position.")
     public static boolean formatCharacterAtTheEnd = true;
 
-    @Config.Comment("If true, will pause the game in Singleplayer while you're in the editor.")
+    @Config.Comment("If true, it will pause the game in Singleplayer while you're in the editor.")
     public static boolean pauseGame = true;
 
 }

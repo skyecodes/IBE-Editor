@@ -2,7 +2,7 @@ package com.github.franckyi.ibeeditor.gui.child.item;
 
 import com.github.franckyi.ibeeditor.gui.GuiEditor;
 import com.github.franckyi.ibeeditor.gui.child.GuiPropertyListEditable;
-import com.github.franckyi.ibeeditor.gui.property.StringProperty;
+import com.github.franckyi.ibeeditor.gui.property.base.StringProperty;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;

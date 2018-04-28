@@ -5,7 +5,7 @@ import com.github.franckyi.ibeeditor.gui.child.item.GuiPropertyListAttributeModi
 import com.github.franckyi.ibeeditor.gui.child.item.GuiPropertyListBlock;
 import com.github.franckyi.ibeeditor.gui.child.item.GuiPropertyListDisplay;
 import com.github.franckyi.ibeeditor.gui.child.item.GuiPropertyListPotionEffects;
-import com.github.franckyi.ibeeditor.gui.property.*;
+import com.github.franckyi.ibeeditor.gui.property.base.*;
 import com.github.franckyi.ibeeditor.gui.property.item.AttributeModifierProperty;
 import com.github.franckyi.ibeeditor.gui.property.item.PotionEffectProperty;
 import com.github.franckyi.ibeeditor.models.AttributeModifierModel;
@@ -92,10 +92,24 @@ public class GuiItemEditor extends GuiEditor {
         categories.add(new PropertyCategory<BooleanProperty>("Hide Flags").addAll(hideEnchantments, hideAttributeModifiers, hideUnbreakable, hideCanDestroy, hideCanPlaceOn, hideMisc));
         // Enchantments
         List<IntegerProperty> enchantments = new ArrayList<>(EnchantmentsUtil.getEnchantments().size());
-        EnchantmentsUtil.getEnchantments().forEach(enchantment -> enchantments.add(new IntegerProperty(I18n.format(enchantment.getName()),
-                () -> enchantmentsMap.getOrDefault(enchantment, 0), (i) -> {
-            if (i > 0) enchantmentsList.appendTag(EnchantmentsUtil.writeNBT(enchantment, i));
-        })));
+        EnchantmentsUtil.getEnchantments().sort((ench, ench1) -> {
+            Item item = itemStack.getItem();
+            if (ench.type == null || ench1.type == null) return 0;
+            if (ench.type.canEnchantItem(item)
+                    && !ench1.type.canEnchantItem(item))
+                return -1;
+            if (!ench.type.canEnchantItem(item)
+                    && ench1.type.canEnchantItem(item))
+                return 1;
+            return 0;
+        });
+        EnchantmentsUtil.getEnchantments().forEach(enchantment -> {
+            String color = (enchantment.type != null && enchantment.type.canEnchantItem(itemStack.getItem())) ? "§2" : "";
+            enchantments.add(new IntegerProperty(color + I18n.format(enchantment.getName()),
+                    () -> enchantmentsMap.getOrDefault(enchantment, 0), (i) -> {
+                if (i > 0) enchantmentsList.appendTag(EnchantmentsUtil.writeNBT(enchantment, i));
+            }, 0, Short.MAX_VALUE));
+        });
         categories.add(new PropertyCategory<IntegerProperty>("Enchantments").addAll(enchantments));
         // Attribute modifiers
         List<AttributeModifierProperty> attributeModifiers = new ArrayList<>();

@@ -3,7 +3,7 @@ package com.github.franckyi.ibeeditor.gui.property.item;
 import com.github.franckyi.ibeeditor.gui.base.GuiDoubleValueField;
 import com.github.franckyi.ibeeditor.gui.base.GuiEnumButton;
 import com.github.franckyi.ibeeditor.gui.base.GuiIntValueField;
-import com.github.franckyi.ibeeditor.gui.property.BaseProperty;
+import com.github.franckyi.ibeeditor.gui.property.base.BaseProperty;
 import com.github.franckyi.ibeeditor.models.AttributeModifierModel;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.inventory.EntityEquipmentSlot;

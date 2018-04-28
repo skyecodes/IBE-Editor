@@ -3,7 +3,7 @@ package com.github.franckyi.ibeeditor.gui;
 import com.github.franckyi.ibeeditor.IBEConfiguration;
 import com.github.franckyi.ibeeditor.gui.child.GuiCategoryList;
 import com.github.franckyi.ibeeditor.gui.child.GuiPropertyList;
-import com.github.franckyi.ibeeditor.gui.property.PropertyCategory;
+import com.github.franckyi.ibeeditor.gui.property.base.PropertyCategory;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 
@@ -78,10 +78,7 @@ public abstract class GuiEditor extends GuiScreen {
         buttonList.add(cancel = new GuiButton(0, width / 2 - 85, height - 30, 50, 20, "§4Cancel"));
         buttonList.add(apply = new GuiButton(1, width / 2 - 25, height - 30, 50, 20, "§2Apply"));
         buttonList.add(done = new GuiButton(2, width / 2 + 35, height - 30, 50, 20, "§2Done"));
-        guiCategories = new GuiCategoryList(this, mc, width / 3 - 20, height - 60, 20, height - 40, categories, currentCategory);
-        guiCategories.setSlotXBoundsFromLeft(10);
-        guiCategories.registerScrollButtons(7, 8);
-        selectCategory(currentCategory);
+        refreshCategories();
     }
 
     @Override
@@ -106,6 +103,13 @@ public abstract class GuiEditor extends GuiScreen {
     @Override
     public void updateScreen() {
         if(guiProperties != null) guiProperties.updateScreen();
+    }
+
+    public void refreshCategories() {
+        guiCategories = new GuiCategoryList(this, mc, width / 3 - 20, height - 60, 20, height - 40, categories, currentCategory);
+        guiCategories.setSlotXBoundsFromLeft(10);
+        guiCategories.registerScrollButtons(7, 8);
+        selectCategory(currentCategory);
     }
 
     public void selectCategory(int index) {

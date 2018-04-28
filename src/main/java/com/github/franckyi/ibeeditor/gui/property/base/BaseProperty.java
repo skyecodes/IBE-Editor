@@ -1,4 +1,4 @@
-package com.github.franckyi.ibeeditor.gui.property;
+package com.github.franckyi.ibeeditor.gui.property.base;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -19,7 +19,7 @@ public abstract class BaseProperty<V> implements GuiListExtended.IGuiListEntry {
     private final List<GuiTextField> textfieldList = new ArrayList<>();
     private final Supplier<V> defaultValue;
     private final Consumer<V> apply;
-    private final GuiButton undo = new GuiButton(0, 0, 0, 20, 20, GuiUtils.UNDO_CHAR);
+    protected final GuiButton undo = new GuiButton(0, 0, 0, 20, 20, GuiUtils.UNDO_CHAR);
     protected int slotTop, slotBottom, slotLeft, slotRight;
     private String name;
     private V value;

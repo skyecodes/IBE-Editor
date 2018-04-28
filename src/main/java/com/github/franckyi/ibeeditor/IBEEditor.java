@@ -2,6 +2,9 @@ package com.github.franckyi.ibeeditor;
 
 import com.github.franckyi.ibeeditor.network.UpdateBlockMessage;
 import com.github.franckyi.ibeeditor.network.UpdateItemMessage;
+import com.github.franckyi.ibeeditor.network.block.TileEntityUpdateReplyMessage;
+import com.github.franckyi.ibeeditor.network.block.TileEntityUpdateRequestMessage;
+import com.github.franckyi.ibeeditor.network.block.UpdateTileEntityMessage;
 import com.github.franckyi.ibeeditor.proxy.IProxy;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -40,8 +43,13 @@ public class IBEEditor {
     public void preInit(FMLPreInitializationEvent event) {
         logger = event.getModLog();
         proxy.preInit(event);
-        netwrapper.registerMessage(UpdateItemMessage.UpdateItemMessageHandler.class, UpdateItemMessage.class, 0, Side.SERVER);
-        netwrapper.registerMessage(UpdateBlockMessage.UpdateBlockMessageHandler.class, UpdateBlockMessage.class, 1, Side.SERVER);
+
+        netwrapper.registerMessage(UpdateItemMessage.UpdateItemMessageHandler.class, UpdateItemMessage.class, 10, Side.SERVER);
+        netwrapper.registerMessage(UpdateBlockMessage.UpdateBlockMessageHandler.class, UpdateBlockMessage.class, 20, Side.SERVER);
+        netwrapper.registerMessage(UpdateTileEntityMessage.UpdateTileEntityMessageHandler.class, UpdateTileEntityMessage.class, 21, Side.SERVER);
+
+        netwrapper.registerMessage(TileEntityUpdateRequestMessage.TileEntityUpdateRequestMessageHandler.class, TileEntityUpdateRequestMessage.class, 100, Side.SERVER);
+        netwrapper.registerMessage(TileEntityUpdateReplyMessage.TileEntityUpdateReplyMessageHandler.class, TileEntityUpdateReplyMessage.class, 101, Side.CLIENT);
     }
 
     @Mod.EventHandler

@@ -1,6 +1,6 @@
 package com.github.franckyi.ibeeditor.gui.property.block;
 
-import com.github.franckyi.ibeeditor.gui.property.EnumProperty;
+import com.github.franckyi.ibeeditor.gui.property.base.EnumProperty;
 import net.minecraft.block.properties.IProperty;
 
 public class BlockStateProperty<E extends Comparable<E>> extends EnumProperty<E> {

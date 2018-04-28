@@ -1,7 +1,7 @@
 package com.github.franckyi.ibeeditor.gui.property.item;
 
 import com.github.franckyi.ibeeditor.gui.base.GuiIntValueField;
-import com.github.franckyi.ibeeditor.gui.property.BaseProperty;
+import com.github.franckyi.ibeeditor.gui.property.base.BaseProperty;
 import com.github.franckyi.ibeeditor.models.PotionEffectModel;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.potion.Potion;

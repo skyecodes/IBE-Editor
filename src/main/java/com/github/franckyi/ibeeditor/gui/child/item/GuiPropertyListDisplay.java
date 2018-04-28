@@ -2,7 +2,7 @@ package com.github.franckyi.ibeeditor.gui.child.item;
 
 import com.github.franckyi.ibeeditor.gui.GuiEditor;
 import com.github.franckyi.ibeeditor.gui.child.GuiPropertyListEditable;
-import com.github.franckyi.ibeeditor.gui.property.FormattedStringProperty;
+import com.github.franckyi.ibeeditor.gui.property.base.FormattedStringProperty;
 import net.minecraft.client.Minecraft;
 
 import java.util.List;
