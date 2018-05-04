@@ -1,9 +1,9 @@
 package com.github.franckyi.ibeeditor.gui;
 
 import com.github.franckyi.ibeeditor.IBEEditor;
+import com.github.franckyi.ibeeditor.gui.property.PropertyCategory;
 import com.github.franckyi.ibeeditor.gui.property.base.BaseProperty;
 import com.github.franckyi.ibeeditor.gui.property.base.IntegerProperty;
-import com.github.franckyi.ibeeditor.gui.property.base.PropertyCategory;
 import com.github.franckyi.ibeeditor.gui.property.block.BlockStateProperty;
 import com.github.franckyi.ibeeditor.gui.property.common.EditItemProperty;
 import com.github.franckyi.ibeeditor.network.UpdateBlockMessage;

@@ -3,7 +3,7 @@ package com.github.franckyi.ibeeditor.gui;
 import com.github.franckyi.ibeeditor.IBEConfiguration;
 import com.github.franckyi.ibeeditor.gui.child.GuiCategoryList;
 import com.github.franckyi.ibeeditor.gui.child.GuiPropertyList;
-import com.github.franckyi.ibeeditor.gui.property.base.PropertyCategory;
+import com.github.franckyi.ibeeditor.gui.property.PropertyCategory;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 

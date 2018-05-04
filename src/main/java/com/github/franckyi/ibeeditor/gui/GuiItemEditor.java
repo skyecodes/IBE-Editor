@@ -5,7 +5,11 @@ import com.github.franckyi.ibeeditor.gui.child.item.GuiPropertyListAttributeModi
 import com.github.franckyi.ibeeditor.gui.child.item.GuiPropertyListBlock;
 import com.github.franckyi.ibeeditor.gui.child.item.GuiPropertyListDisplay;
 import com.github.franckyi.ibeeditor.gui.child.item.GuiPropertyListPotionEffects;
-import com.github.franckyi.ibeeditor.gui.property.base.*;
+import com.github.franckyi.ibeeditor.gui.property.PropertyCategory;
+import com.github.franckyi.ibeeditor.gui.property.base.BooleanProperty;
+import com.github.franckyi.ibeeditor.gui.property.base.FormattedStringProperty;
+import com.github.franckyi.ibeeditor.gui.property.base.IntegerProperty;
+import com.github.franckyi.ibeeditor.gui.property.base.StringProperty;
 import com.github.franckyi.ibeeditor.gui.property.item.AttributeModifierProperty;
 import com.github.franckyi.ibeeditor.gui.property.item.PotionEffectProperty;
 import com.github.franckyi.ibeeditor.models.AttributeModifierModel;

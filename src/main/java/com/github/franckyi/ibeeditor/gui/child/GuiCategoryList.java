@@ -1,7 +1,7 @@
 package com.github.franckyi.ibeeditor.gui.child;
 
 import com.github.franckyi.ibeeditor.gui.GuiEditor;
-import com.github.franckyi.ibeeditor.gui.property.base.PropertyCategory;
+import com.github.franckyi.ibeeditor.gui.property.PropertyCategory;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiListExtended;
 
