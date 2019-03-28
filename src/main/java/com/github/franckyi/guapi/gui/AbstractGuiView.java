@@ -1,8 +1,9 @@
 package com.github.franckyi.guapi.gui;
 
+import com.github.franckyi.guapi.Node;
 import net.minecraft.client.gui.Gui;
 
-public abstract class AbstractGuiView extends Gui implements GuiView {
+public abstract class AbstractGuiView extends Gui implements Node.GuiView {
 
     private int x, y, width, height;
     private boolean visible;

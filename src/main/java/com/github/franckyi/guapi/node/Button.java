@@ -1,10 +1,10 @@
 package com.github.franckyi.guapi.node;
 
 import com.github.franckyi.guapi.Node;
-import com.github.franckyi.guapi.gui.GuiButtonView;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiButton;
 
-public class Button extends Node {
+public class Button extends Node<Button.GuiButtonView> {
 
     public Button(String text) {
         super(new GuiButtonView());
@@ -36,11 +36,6 @@ public class Button extends Node {
     }
 
     @Override
-    public GuiButtonView getView() {
-        return (GuiButtonView) super.getView();
-    }
-
-    @Override
     protected void computeWidth() {
         this.setComputedWidth(Minecraft.getInstance().fontRenderer.getStringWidth(this.getText()) + this.getPadding().getVertical() + 10);
     }
@@ -50,4 +45,50 @@ public class Button extends Node {
         this.setComputedHeight(20 + this.getPadding().getHorizontal());
     }
 
+    static class GuiButtonView extends GuiButton implements Node.GuiView {
+
+        public GuiButtonView() {
+            super(0, 0, 0, "");
+        }
+
+        @Override
+        public int getX() {
+            return this.x;
+        }
+
+        @Override
+        public void setX(int x) {
+            this.x = x;
+        }
+
+        @Override
+        public int getY() {
+            return this.y;
+        }
+
+        @Override
+        public void setY(int y) {
+            this.y = y;
+        }
+
+        @Override
+        public int getHeight() {
+            return this.height;
+        }
+
+        @Override
+        public void setHeight(int height) {
+            this.height = height;
+        }
+
+        @Override
+        public boolean isVisible() {
+            return visible;
+        }
+
+        @Override
+        public void setVisible(boolean visible) {
+            this.visible = visible;
+        }
+    }
 }

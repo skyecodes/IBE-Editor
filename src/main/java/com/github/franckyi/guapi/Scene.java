@@ -236,7 +236,7 @@ public class Scene implements ScreenEventListener, Parent {
     private void tick(Parent parent) {
         for (ScreenEventListener e : parent.getChildren()) {
             if (e instanceof TextField) {
-                ((TextField) e).getView().tick();
+                ((TextField) e).tick();
             } else if (e instanceof Parent) {
                 tick((Parent) e);
             }

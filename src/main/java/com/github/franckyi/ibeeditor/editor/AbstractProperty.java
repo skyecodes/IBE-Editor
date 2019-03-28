@@ -2,10 +2,10 @@ package com.github.franckyi.ibeeditor.editor;
 
 import com.github.franckyi.guapi.Node;
 import com.github.franckyi.guapi.group.HBox;
+import com.github.franckyi.guapi.math.Insets;
 import com.github.franckyi.guapi.math.Pos;
 import com.github.franckyi.guapi.node.Label;
 import com.github.franckyi.guapi.node.ListExtended;
-import net.minecraftforge.client.event.GuiScreenEvent;
 
 import java.util.function.Consumer;
 
@@ -18,8 +18,10 @@ public abstract class AbstractProperty<T> extends ListExtended.NodeEntry<Node> {
     public AbstractProperty(String name, T initialValue, Consumer<T> action) {
         this(name, initialValue, action, new HBox(20));
         HBox node = (HBox) this.getNode();
+        Label label = new Label(name);
+        node.getChildren().add(label);
+        node.setPadding(Insets.left(20));
         node.setAlignment(Pos.LEFT);
-        node.getChildren().add(new Label(name));
     }
 
     public AbstractProperty(String name, T initialValue, Consumer<T> action, Node node) {
@@ -43,8 +45,4 @@ public abstract class AbstractProperty<T> extends ListExtended.NodeEntry<Node> {
         action.accept(this.getValue());
     }
 
-    @Override
-    public boolean onMouseClicked(GuiScreenEvent.MouseClickedEvent event) {
-        return super.onMouseClicked(event);
-    }
 }

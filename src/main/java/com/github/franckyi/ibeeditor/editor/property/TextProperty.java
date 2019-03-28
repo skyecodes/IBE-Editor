@@ -25,4 +25,6 @@ public class TextProperty extends AbstractProperty<String> {
     public String getValue() {
         return textField.getText();
     }
+
+
 }

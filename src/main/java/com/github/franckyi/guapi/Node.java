@@ -1,10 +1,10 @@
 package com.github.franckyi.guapi;
 
 import com.github.franckyi.guapi.event.EventHandler;
-import com.github.franckyi.guapi.gui.GuiView;
 import com.github.franckyi.guapi.math.Insets;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.IGuiEventListener;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiConsumer;
 
-public abstract class Node implements ScreenEventListener {
+public abstract class Node<V extends Node.GuiView> implements ScreenEventListener {
 
     public static final int COMPUTED_SIZE = -1;
 
@@ -25,7 +25,7 @@ public abstract class Node implements ScreenEventListener {
     private final List<EventHandler<GuiScreenEvent.KeyboardKeyReleasedEvent>> onKeyReleasedListeners;
     private final List<EventHandler<GuiScreenEvent.KeyboardCharTypedEvent>> onCharTypedListeners;
 
-    private final GuiView view;
+    private final V view;
     private Parent parent;
     private int computedWidth;
     private int computedHeight;
@@ -34,7 +34,7 @@ public abstract class Node implements ScreenEventListener {
     private Insets padding;
     private Insets margin;
 
-    public Node(GuiView view) {
+    public Node(V view) {
         this.view = view;
         parent = null;
         computedWidth = 0;
@@ -56,7 +56,7 @@ public abstract class Node implements ScreenEventListener {
         return parent;
     }
 
-    protected void setParent(Parent parent) {
+    public void setParent(Parent parent) {
         this.parent = parent;
         if (parent != null) {
             parent.updateChildrenPos();
@@ -233,7 +233,7 @@ public abstract class Node implements ScreenEventListener {
         this.getView().setVisible(visible);
     }
 
-    public GuiView getView() {
+    public V getView() {
         return view;
     }
 
@@ -328,7 +328,7 @@ public abstract class Node implements ScreenEventListener {
         return false;
     }
 
-    protected void updateSize() {
+    public void updateSize() {
         this.setSize(this.getPrefWidth() == COMPUTED_SIZE ? this.getComputedWidth() : this.getPrefWidth(),
                 this.getPrefHeight() == COMPUTED_SIZE ? this.getComputedHeight() : this.getPrefHeight());
     }
@@ -345,7 +345,7 @@ public abstract class Node implements ScreenEventListener {
         this.getView().render(mouseX, mouseY, partialTicks);
     }
 
-    protected void computeSize() {
+    public void computeSize() {
         this.computeWidth();
         this.computeHeight();
     }
@@ -411,5 +411,81 @@ public abstract class Node implements ScreenEventListener {
                 }
             }
         }
+    }
+
+    public interface GuiView extends IGuiEventListener {
+
+        int getX();
+
+        void setX(int x);
+
+        int getY();
+
+        void setY(int y);
+
+        int getWidth();
+
+        void setWidth(int width);
+
+        int getHeight();
+
+        void setHeight(int height);
+
+        boolean isVisible();
+
+        void setVisible(boolean visible);
+
+        void render(int mouseX, int mouseY, float partialTicks);
+
+        @Override
+        default boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
+            return this.inBounds(mouseX, mouseY);
+        }
+
+        @Override
+        default boolean mouseReleased(double mouseX, double mouseY, int mouseButton) {
+            return this.inBounds(mouseX, mouseY);
+        }
+
+        @Override
+        default boolean mouseDragged(double mouseX, double mouseY, int mouseButton, double deltaX, double deltaY) {
+            return this.inBounds(mouseX, mouseY);
+        }
+
+        @Override
+        default boolean mouseScrolled(double amount) {
+            return false;
+        }
+
+        @Override
+        default boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+            return false;
+        }
+
+        @Override
+        default boolean keyReleased(int keyCode, int scanCode, int modifiers) {
+            return false;
+        }
+
+        @Override
+        default boolean charTyped(char charTyped, int modifiers) {
+            return false;
+        }
+
+        @Override
+        default void focusChanged(boolean focused) {
+
+        }
+
+        @Override
+        default boolean canFocus() {
+            return false;
+        }
+
+        default boolean inBounds(double x, double y) {
+            return x >= this.getX() && x <= this.getX() + this.getWidth() &&
+                    y >= this.getY() && y <= this.getY() + this.getHeight();
+        }
+
     }
 }

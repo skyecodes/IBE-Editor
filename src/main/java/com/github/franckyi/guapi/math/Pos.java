@@ -1,9 +1,5 @@
 package com.github.franckyi.guapi.math;
 
-import com.github.franckyi.guapi.Node;
-
-import java.util.function.Function;
-
 public enum Pos {
 
     TOP_LEFT(Horizontal.LEFT, Vertical.TOP),
@@ -32,40 +28,12 @@ public enum Pos {
         return verticalPos;
     }
 
-    public int getStartX(Node node) {
-        return horizontalPos.startX.apply(node);
-    }
-
-    public int getStartY(Node node) {
-        return verticalPos.startY.apply(node);
-    }
-
     public enum Horizontal {
-
-        LEFT(Node::getX),
-        CENTER(node -> node.getX() + (node.getWidth() - node.getComputedWidth()) / 2),
-        RIGHT(node -> node.getX() + node.getWidth() - node.getComputedWidth());
-
-        private final Function<Node, Integer> startX;
-
-        Horizontal(Function<Node, Integer> startX) {
-            this.startX = startX;
-        }
-
+        LEFT, CENTER, RIGHT
     }
 
     public enum Vertical {
-
-        TOP(Node::getY),
-        CENTER(node -> node.getY() + (node.getHeight() - node.getComputedHeight()) / 2),
-        BOTTOM(node -> node.getY() + node.getHeight() - node.getComputedHeight());
-
-        private final Function<Node, Integer> startY;
-
-        Vertical(Function<Node, Integer> startY) {
-            this.startY = startY;
-        }
-
+        TOP, CENTER, BOTTOM
     }
 
 }

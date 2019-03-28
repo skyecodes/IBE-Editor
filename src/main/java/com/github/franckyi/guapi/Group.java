@@ -1,7 +1,6 @@
 package com.github.franckyi.guapi;
 
-import com.github.franckyi.guapi.gui.GuiGroupView;
-import com.github.franckyi.guapi.gui.GuiView;
+import com.github.franckyi.guapi.gui.AbstractGuiView;
 import com.github.franckyi.guapi.math.Pos;
 import com.github.franckyi.ibeeditor.IBEEditorMod;
 
@@ -13,12 +12,12 @@ import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
 
-public abstract class Group extends Node implements Parent {
+public abstract class Group extends Node<Group.GuiGroupView> implements Parent {
 
     private final List<Node> children;
     private Pos alignment;
 
-    public Group(GuiView view) {
+    public Group(GuiGroupView view) {
         super(view);
         children = new GroupChildren();
         alignment = Pos.TOP_LEFT;
@@ -61,11 +60,6 @@ public abstract class Group extends Node implements Parent {
         super.setX(x);
         super.setY(y);
         this.updateChildrenPos();
-    }
-
-    @Override
-    public GuiGroupView getView() {
-        return (GuiGroupView) super.getView();
     }
 
     @Override
@@ -217,6 +211,15 @@ public abstract class Group extends Node implements Parent {
                         .forEach(node -> node.setParent(null));
             }
             return res;
+        }
+    }
+
+    static class GuiGroupView extends AbstractGuiView {
+
+        @Override
+        public void render(int mouseX, int mouseY, float partialTicks) {
+            /*drawRect(this.getX() - 1, this.getY() - 1, this.getX() + this.getWidth() + 1, this.getY() + this.getHeight() + 1, 0xffa0a0a0);
+            drawRect(this.getX(), this.getY(), this.getX() + this.getWidth(), this.getY() + this.getHeight(), 0xff000000);*/
         }
     }
 }

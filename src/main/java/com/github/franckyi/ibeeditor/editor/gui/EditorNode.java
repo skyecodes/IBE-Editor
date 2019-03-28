@@ -44,7 +44,7 @@ public class EditorNode extends VBox {
             ListExtended.NodeEntry<Label> categoryEntry = new ListExtended.NodeEntry<>(label);
             categories.getChildren().add(categoryEntry);
             categoryEntry.getOnMouseClickedListeners().add(e -> this.onCategoryClicked(categories.getChildren().indexOf(categoryEntry)));
-            ListExtended<ListExtended.NodeEntry<Node>> properties = new ListExtended<>(20);
+            ListExtended<ListExtended.NodeEntry<Node>> properties = new ListExtended<>(25);
             properties.setOffset(new Insets(10));
             category.getProperties().forEach(properties.getChildren()::add);
             propertiesList.add(properties);

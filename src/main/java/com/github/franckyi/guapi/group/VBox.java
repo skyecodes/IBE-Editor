@@ -25,10 +25,9 @@ public class VBox extends SpacedGroup {
     public void updateChildrenPos() {
         this.computeSize();
         this.updateSize();
-        int x = this.getAlignment().getStartX(this);
-        int y = this.getAlignment().getStartY(this);
+        int y = this.getStartY();
         for (Node node : this.getChildren()) {
-            node.setPosition(x + node.getMargin().getLeft(), y + node.getMargin().getTop());
+            node.setPosition(this.getChildX(node), y + node.getMargin().getTop());
             y += node.getHeight() + node.getMargin().getVertical() + this.getSpacing();
         }
     }

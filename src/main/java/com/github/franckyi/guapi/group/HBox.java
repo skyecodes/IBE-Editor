@@ -25,10 +25,9 @@ public class HBox extends SpacedGroup {
     public void updateChildrenPos() {
         this.computeSize();
         this.updateSize();
-        int x = this.getAlignment().getStartX(this);
-        int y = this.getAlignment().getStartY(this);
+        int x = this.getStartX();
         for (Node node : this.getChildren()) {
-            node.setPosition(x + node.getMargin().getLeft(), y + node.getMargin().getTop());
+            node.setPosition(x + node.getMargin().getLeft(), this.getChildY(node));
             x += node.getWidth() + node.getMargin().getHorizontal() + this.getSpacing();
         }
     }
