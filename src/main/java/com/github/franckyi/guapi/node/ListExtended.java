@@ -229,7 +229,7 @@ public class ListExtended<E extends GuiListExtended.IGuiListEntry<E> & ScreenEve
         }
     }
 
-    static class GuiListExtendedView<E extends GuiListExtended.IGuiListEntry<E>> extends GuiListExtended<E> implements Node.GuiView {
+    public static class GuiListExtendedView<E extends GuiListExtended.IGuiListEntry<E>> extends GuiListExtended<E> implements Node.GuiView {
 
         private Insets offset;
 

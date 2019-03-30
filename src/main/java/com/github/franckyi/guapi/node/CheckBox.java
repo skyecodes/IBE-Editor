@@ -56,7 +56,7 @@ public class CheckBox extends Node<CheckBox.GuiCheckBoxView> {
         this.setComputedHeight(11);
     }
 
-    static class GuiCheckBoxView extends GuiCheckBox implements Node.GuiView {
+    public static class GuiCheckBoxView extends GuiCheckBox implements Node.GuiView {
 
         public GuiCheckBoxView(String displayString, boolean isChecked) {
             super(0, 0, 0, displayString, isChecked);

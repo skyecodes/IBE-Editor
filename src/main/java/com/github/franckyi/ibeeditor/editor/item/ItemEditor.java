@@ -1,15 +1,15 @@
 package com.github.franckyi.ibeeditor.editor.item;
 
+import com.github.franckyi.ibeeditor.IBEEditorMod;
 import com.github.franckyi.ibeeditor.editor.AbstractEditor;
-import com.github.franckyi.ibeeditor.editor.EditorCategory;
 import com.github.franckyi.ibeeditor.editor.property.TextProperty;
+import com.github.franckyi.ibeeditor.network.ItemEditorMessage;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextComponentString;
 
 public class ItemEditor extends AbstractEditor {
 
     private ItemStack itemStack;
-    private EditorCategory display;
 
     public ItemEditor(ItemStack itemStack) {
         this.itemStack = itemStack;
@@ -21,4 +21,9 @@ public class ItemEditor extends AbstractEditor {
         );
     }
 
+    @Override
+    public void apply() {
+        super.apply();
+        IBEEditorMod.CHANNEL.sendToServer(new ItemEditorMessage(itemStack));
+    }
 }

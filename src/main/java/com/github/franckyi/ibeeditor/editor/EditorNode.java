@@ -1,4 +1,4 @@
-package com.github.franckyi.ibeeditor.editor.gui;
+package com.github.franckyi.ibeeditor.editor;
 
 import com.github.franckyi.guapi.Node;
 import com.github.franckyi.guapi.group.HBox;
@@ -8,7 +8,6 @@ import com.github.franckyi.guapi.math.Pos;
 import com.github.franckyi.guapi.node.Button;
 import com.github.franckyi.guapi.node.Label;
 import com.github.franckyi.guapi.node.ListExtended;
-import com.github.franckyi.ibeeditor.editor.AbstractEditor;
 import com.mojang.realmsclient.gui.ChatFormatting;
 
 import java.util.ArrayList;

@@ -12,9 +12,9 @@ public class TextField extends Node<TextField.GuiTextFieldView> {
 
     public TextField(String text) {
         super(new GuiTextFieldView());
-        this.setText(text);
         this.computeSize();
         this.updateSize();
+        this.setText(text);
     }
 
     public String getText() {
@@ -39,7 +39,7 @@ public class TextField extends Node<TextField.GuiTextFieldView> {
         this.getView().tick();
     }
 
-    static class GuiTextFieldView extends GuiTextField implements Node.GuiView {
+    public static class GuiTextFieldView extends GuiTextField implements Node.GuiView {
 
         public GuiTextFieldView() {
             super(0, Minecraft.getInstance().fontRenderer, 0, 0, 0, 0);

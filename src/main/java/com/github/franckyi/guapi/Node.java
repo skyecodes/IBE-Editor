@@ -7,7 +7,6 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.IGuiEventListener;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -354,7 +353,6 @@ public abstract class Node<V extends Node.GuiView> implements ScreenEventListene
 
     protected abstract void computeHeight();
 
-    @Mod.EventBusSubscriber
     public static class NodeEventHandler {
 
         @SubscribeEvent

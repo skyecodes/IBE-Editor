@@ -93,7 +93,7 @@ public class Label extends Node<Label.GuiLabelView> {
         this.setComputedHeight(fontRenderer.FONT_HEIGHT + this.getPadding().getHorizontal());
     }
 
-    static class GuiLabelView extends GuiLabel implements Node.GuiView {
+    public static class GuiLabelView extends GuiLabel implements Node.GuiView {
 
         public GuiLabelView(String text, int color) {
             super(new ArrayList<>(Collections.singletonList(text)), color, Minecraft.getInstance().fontRenderer);

@@ -8,7 +8,6 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -268,8 +267,8 @@ public class Scene implements ScreenEventListener, Parent {
         return Collections.singletonList(content);
     }
 
-    @Mod.EventBusSubscriber
     public static class ScreenEventHandler {
+
         @SubscribeEvent
         public static void onInitGui(GuiScreenEvent.InitGuiEvent.Post event) {
             handle(event, Scene::onInitGui);

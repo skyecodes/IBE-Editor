@@ -45,7 +45,7 @@ public class Button extends Node<Button.GuiButtonView> {
         this.setComputedHeight(20 + this.getPadding().getHorizontal());
     }
 
-    static class GuiButtonView extends GuiButton implements Node.GuiView {
+    public static class GuiButtonView extends GuiButton implements Node.GuiView {
 
         public GuiButtonView() {
             super(0, 0, 0, "");

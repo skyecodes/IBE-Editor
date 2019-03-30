@@ -2,7 +2,6 @@ package com.github.franckyi.ibeeditor.editor;
 
 import com.github.franckyi.guapi.Scene;
 import com.github.franckyi.guapi.scene.Background;
-import com.github.franckyi.ibeeditor.editor.gui.EditorNode;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
