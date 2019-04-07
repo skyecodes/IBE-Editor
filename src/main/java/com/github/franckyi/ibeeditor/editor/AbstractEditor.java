@@ -21,6 +21,7 @@ public abstract class AbstractEditor extends Scene {
     protected final ListExtended<CategoryEntry> categories;
     protected final List<PropertyList> propertiesList;
     protected final HBox buttonBox;
+    protected final Button doneButton;
     protected final Button applyButton;
     protected final Button cancelButton;
     protected int currentIndex;
@@ -33,13 +34,20 @@ public abstract class AbstractEditor extends Scene {
         categories.setOffset(new Insets(10));
         propertiesList = new ArrayList<>();
         buttonBox = new HBox(20);
+        doneButton = new Button(ChatFormatting.GREEN + "Done");
+        doneButton.setPrefWidth(80);
+        doneButton.getOnMouseClickedListeners().add(event -> {
+            this.apply();
+            this.close();
+        });
         applyButton = new Button(ChatFormatting.GREEN + "Apply");
-        applyButton.setPrefWidth(100);
+        applyButton.setPrefWidth(80);
         applyButton.getOnMouseClickedListeners().add(event -> this.apply());
-        cancelButton = new Button(ChatFormatting.RED + "Cancel");
-        cancelButton.setPrefWidth(100);
+        cancelButton = new Button(ChatFormatting.RED + "Close");
+        cancelButton.setPrefWidth(80);
         cancelButton.getOnMouseClickedListeners().add(event -> this.close());
         editorBox.getChildren().add(categories);
+        buttonBox.getChildren().add(doneButton);
         buttonBox.getChildren().add(applyButton);
         buttonBox.getChildren().add(cancelButton);
         buttonBox.setAlignment(Pos.TOP);
@@ -55,17 +63,18 @@ public abstract class AbstractEditor extends Scene {
 
     protected void apply() {
         this.propertiesList.forEach(PropertyList::apply);
-        this.close();
     }
 
     protected void scaleChildrenSize() {
         buttonBox.setPrefWidth(this.getContent().getWidth());
         categories.setPrefSize(this.getContent().getWidth() / 3, this.getContent().getHeight() - 30);
+        categories.getView().height = this.getContent().getHeight();
         this.scalePropertiesSize(propertiesList.get(currentIndex));
     }
 
-    protected void scalePropertiesSize(ListExtended properties) {
-        properties.setPrefSize(2 * this.getContent().getWidth() / 3, this.getContent().getHeight() - 30);
+    protected void scalePropertiesSize(PropertyList propertyList) {
+        propertyList.setPrefSize(2 * this.getContent().getWidth() / 3, this.getContent().getHeight() - 30);
+        propertyList.getView().height = this.getContent().getHeight();
     }
 
     protected ListExtended<AbstractProperty> addCategory(String name) {
@@ -85,9 +94,9 @@ public abstract class AbstractEditor extends Scene {
             Label oldCategoryLabel = categories.getChildren().get(currentIndex).getNode();
             oldCategoryLabel.setText(oldCategoryLabel.getText().substring(2, oldCategoryLabel.getText().length() - 2));
             currentIndex = categoryIndex;
-            ListExtended<AbstractProperty> properties = propertiesList.get(categoryIndex);
-            editorBox.getChildren().set(1, properties);
-            this.scalePropertiesSize(properties);
+            PropertyList propertyList = propertiesList.get(categoryIndex);
+            editorBox.getChildren().set(1, propertyList);
+            this.scalePropertiesSize(propertyList);
             Label newCategoryLabel = categories.getChildren().get(currentIndex).getNode();
             newCategoryLabel.setText("> " + newCategoryLabel.getText() + " <");
         }

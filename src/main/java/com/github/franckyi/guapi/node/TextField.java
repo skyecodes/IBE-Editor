@@ -11,7 +11,11 @@ public class TextField extends Node<TextField.GuiTextFieldView> {
     }
 
     public TextField(String text) {
-        super(new GuiTextFieldView());
+        this(new GuiTextFieldView(), text);
+    }
+
+    protected TextField(GuiTextFieldView view, String text) {
+        super(view);
         this.computeSize();
         this.updateSize();
         this.setText(text);

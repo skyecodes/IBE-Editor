@@ -1,15 +1,17 @@
 package com.github.franckyi.ibeeditor.editor.item.category;
 
+import com.github.franckyi.ibeeditor.editor.PropertyList;
 import com.github.franckyi.ibeeditor.editor.property.BooleanProperty;
 import net.minecraft.item.ItemStack;
 
-public class HideFlagsPropertyList extends ItemEditorPropertyList {
+public class HideFlagsPropertyList extends PropertyList {
 
+    private ItemStack itemStack;
     private int hideFlags;
 
     public HideFlagsPropertyList(ItemStack itemStack) {
-        super(itemStack);
-        hideFlags = itemStack.getOrCreateTag().getInt("HideFlags");
+        this.itemStack = itemStack;
+        this.hideFlags = itemStack.getOrCreateTag().getInt("HideFlags");
         this.addAll(
                 new BooleanProperty("Hide Enchantments",
                         this.hasHideFlag(5), b -> this.addHideFlags(b ? 1 : 0)),

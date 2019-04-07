@@ -75,6 +75,7 @@ public class ListExtended<E extends GuiListExtended.IGuiListEntry & ScreenEventL
     public static class GuiListExtendedView<E extends GuiListExtended.IGuiListEntry<E>> extends GuiListExtended<E> implements Node.GuiView {
 
         private Insets offset;
+        private int realHeight;
 
         public GuiListExtendedView(int slotHeight) {
             super(Minecraft.getInstance(), 0, 0, 0, 0, slotHeight);
@@ -96,7 +97,7 @@ public class ListExtended<E extends GuiListExtended.IGuiListEntry & ScreenEventL
             left = x + offset.getLeft();
             right = x + width - offset.getRight();
             top = y + offset.getTop();
-            bottom = y + height - offset.getBottom();
+            bottom = y + realHeight - offset.getBottom();
         }
 
         @Override
@@ -118,7 +119,7 @@ public class ListExtended<E extends GuiListExtended.IGuiListEntry & ScreenEventL
         @Override
         public void setY(int y) {
             top = y + offset.getTop();
-            bottom = y + height - offset.getBottom();
+            bottom = y + realHeight - offset.getBottom();
         }
 
         @Override
@@ -134,12 +135,12 @@ public class ListExtended<E extends GuiListExtended.IGuiListEntry & ScreenEventL
 
         @Override
         public int getHeight() {
-            return height;
+            return realHeight;
         }
 
         @Override
         public void setHeight(int height) {
-            this.height = height;
+            this.realHeight = height;
             bottom = top + height;
         }
 

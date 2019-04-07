@@ -2,23 +2,26 @@ package com.github.franckyi.ibeeditor.editor.item.property;
 
 import com.github.franckyi.guapi.Node;
 import com.github.franckyi.guapi.math.Pos;
-import com.github.franckyi.guapi.node.TextField;
+import com.github.franckyi.guapi.node.IntField;
 import com.github.franckyi.ibeeditor.editor.property.EmptyProperty;
 import net.minecraft.enchantment.Enchantment;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.text.TextFormatting;
 
 import java.util.function.Consumer;
 
 public class EnchantmentProperty extends EmptyProperty<Integer> {
 
     private final Enchantment enchantment;
-    private final TextField textField;
+    private final IntField intField;
 
-    public EnchantmentProperty(Enchantment enchantment, Integer initialValue, Consumer<Integer> action) {
+    public EnchantmentProperty(ItemStack itemStack, Enchantment enchantment, Integer initialValue, Consumer<Integer> action) {
         super(enchantment.getDisplayName(0).getUnformattedComponentText(), initialValue, action);
         this.enchantment = enchantment;
         this.getNode().setAlignment(Pos.RIGHT);
         this.getNameLabel().setPrefWidth(Node.COMPUTED_SIZE);
-        this.getNode().getChildren().add(textField = new TextField(initialValue.toString()));
+        this.getNameLabel().setColor(enchantment.isCurse() ? TextFormatting.RED.getColor() : (enchantment.canApply(itemStack) ? TextFormatting.GREEN.getColor() : 0xffffff));
+        this.getNode().getChildren().add(intField = new IntField(initialValue));
     }
 
     public Enchantment getEnchantment() {
@@ -27,10 +30,6 @@ public class EnchantmentProperty extends EmptyProperty<Integer> {
 
     @Override
     public Integer getValue() {
-        try {
-            return Integer.valueOf(textField.getText());
-        } catch (NumberFormatException e) {
-            return 0;
-        }
+        return intField.getValue();
     }
 }

@@ -403,12 +403,9 @@ public abstract class Node<V extends Node.GuiView> implements ScreenEventListene
         private static <T extends GuiScreenEvent> void propagate(ScreenEventListener node, T event, BiConsumer<ScreenEventListener, T> eh) {
             eh.accept(node, event);
             if (node instanceof Parent) {
-                List<? extends ScreenEventListener> list = ((Parent) node).getChildren();
-                int curListSize = list.size();
-                for (int i = 0; i < curListSize; i++) {
-                    if (i < list.size()) {
-                        propagate(list.get(i), event, eh);
-                    }
+                List<? extends ScreenEventListener> list = new ArrayList<ScreenEventListener>(((Parent) node).getChildren());
+                for (ScreenEventListener node0 : list) {
+                    propagate(node0, event, eh);
                 }
             }
         }
