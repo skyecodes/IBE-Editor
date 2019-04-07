@@ -32,7 +32,7 @@ public class TextField extends Node<TextField.GuiTextFieldView> {
 
     @Override
     protected void computeHeight() {
-        this.setComputedHeight(20 + this.getPadding().getVertical());
+        this.setComputedHeight(16 + this.getPadding().getVertical());
     }
 
     public void tick() {

@@ -50,8 +50,7 @@ public class ClientProxy implements IProxy {
     }
 
     private static void openItemEditor(ItemStack itemStack) {
-        ItemEditor editor = new ItemEditor(itemStack);
-        editor.open();
+        new ItemEditor(itemStack);
     }
 
     @Override

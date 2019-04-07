@@ -9,7 +9,7 @@ public abstract class AbstractProperty<T, V extends Node> extends ListExtended.N
 
     private final String name;
     private final T initialValue;
-    private final Consumer<T> action;
+    protected final Consumer<T> action;
 
     public AbstractProperty(String name, T initialValue, Consumer<T> action, V node) {
         super(node);

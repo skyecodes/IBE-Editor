@@ -404,8 +404,11 @@ public abstract class Node<V extends Node.GuiView> implements ScreenEventListene
             eh.accept(node, event);
             if (node instanceof Parent) {
                 List<? extends ScreenEventListener> list = ((Parent) node).getChildren();
-                for (int i = 0; i < list.size(); i++) {
-                    propagate(list.get(i), event, eh);
+                int curListSize = list.size();
+                for (int i = 0; i < curListSize; i++) {
+                    if (i < list.size()) {
+                        propagate(list.get(i), event, eh);
+                    }
                 }
             }
         }

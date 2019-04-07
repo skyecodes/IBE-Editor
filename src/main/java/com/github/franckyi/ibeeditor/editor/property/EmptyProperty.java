@@ -10,11 +10,19 @@ import java.util.function.Consumer;
 
 public abstract class EmptyProperty<T> extends AbstractProperty<T, HBox> {
 
+    private final Label nameLabel;
+
     public EmptyProperty(String name, T initialValue, Consumer<T> action) {
-        super(name, initialValue, action, new HBox(10));
+        super(name, initialValue, action, new HBox());
         this.getNode().setAlignment(Pos.LEFT);
-        this.getNode().setPadding(Insets.left(5));
-        this.getNode().getChildren().add(new Label(name + " :"));
+        this.getNode().setPadding(new Insets(0, 15, 0, 5));
+        nameLabel = new Label(name + " :");
+        nameLabel.setPrefWidth(50);
+        nameLabel.setMargin(Insets.right(5));
+        this.getNode().getChildren().add(nameLabel);
     }
 
+    public Label getNameLabel() {
+        return nameLabel;
+    }
 }
