@@ -1,6 +1,5 @@
 package com.github.franckyi.guapi.node;
 
-import net.minecraft.client.Minecraft;
 import net.minecraftforge.client.event.GuiScreenEvent;
 
 import java.util.ArrayList;
@@ -91,7 +90,7 @@ public class EnumButton<T> extends Button {
 
     @Override
     protected void computeWidth() {
-        this.setComputedWidth(this.getValues() != null ? this.getValues().stream().map(this.getRenderer()).mapToInt(Minecraft.getInstance().fontRenderer::getStringWidth).max().orElse(0) + 10 : 0);
+        this.setComputedWidth(this.getValues() != null ? this.getValues().stream().map(this.getRenderer()).mapToInt(mc.fontRenderer::getStringWidth).max().orElse(0) + 10 : 0);
     }
 
 }

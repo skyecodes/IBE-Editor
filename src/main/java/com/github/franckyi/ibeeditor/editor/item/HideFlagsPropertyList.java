@@ -1,4 +1,4 @@
-package com.github.franckyi.ibeeditor.editor.item.category;
+package com.github.franckyi.ibeeditor.editor.item;
 
 import com.github.franckyi.ibeeditor.editor.PropertyList;
 import com.github.franckyi.ibeeditor.editor.property.BooleanProperty;

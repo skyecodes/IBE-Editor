@@ -42,6 +42,14 @@ public final class Insets {
         return new Insets(0, 0, 0, left);
     }
 
+    public static Insets vertial(int vertical) {
+        return new Insets(vertical, 0);
+    }
+
+    public static Insets horizontal(int horizontal) {
+        return new Insets(0, horizontal);
+    }
+
     public Insets add(int top, int right, int bottom, int left) {
         return new Insets(this.top + top, this.right + right, this.bottom + bottom, this.left + left);
     }

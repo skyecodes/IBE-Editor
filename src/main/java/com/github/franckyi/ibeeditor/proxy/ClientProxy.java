@@ -2,16 +2,20 @@ package com.github.franckyi.ibeeditor.proxy;
 
 import com.github.franckyi.guapi.Node;
 import com.github.franckyi.guapi.Scene;
-import com.github.franckyi.guapi.group.HBox;
-import com.github.franckyi.guapi.group.VBox;
-import com.github.franckyi.guapi.math.Pos;
-import com.github.franckyi.guapi.node.Button;
-import com.github.franckyi.ibeeditor.IBEEditorMod;
 import com.github.franckyi.ibeeditor.editor.item.ItemEditor;
+import com.github.franckyi.ibeeditor.network.item.BlockInventoryItemEditorMessage;
+import com.github.franckyi.ibeeditor.network.item.MainHandItemEditorMessage;
+import com.github.franckyi.ibeeditor.network.item.PlayerInventoryItemEditorMessage;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.gui.inventory.GuiContainerCreative;
+import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.client.util.InputMappings;
+import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.settings.KeyConflictContext;
 import net.minecraftforge.client.settings.KeyModifier;
 import net.minecraftforge.common.MinecraftForge;
@@ -25,32 +29,16 @@ public class ClientProxy implements IProxy {
     private static final String KEYBINDING_CATEGORY = "IBE Editor";
     public static final KeyBinding KEY_OPEN_GUI = new KeyBinding("Open GUI", KeyConflictContext.UNIVERSAL, KeyModifier.NONE, InputMappings.Type.KEYSYM, GLFW.GLFW_KEY_I, KEYBINDING_CATEGORY);
 
-    private static Pos cycleAlign(Pos alignment) {
-        switch (alignment) {
-            case TOP_LEFT:
-                return Pos.TOP;
-            case TOP:
-                return Pos.TOP_RIGHT;
-            case TOP_RIGHT:
-                return Pos.LEFT;
-            case LEFT:
-                return Pos.CENTER;
-            case CENTER:
-                return Pos.RIGHT;
-            case RIGHT:
-                return Pos.BOTTOM_LEFT;
-            case BOTTOM_LEFT:
-                return Pos.BOTTOM;
-            case BOTTOM:
-                return Pos.BOTTOM_RIGHT;
-            case BOTTOM_RIGHT:
-            default:
-                return Pos.TOP_LEFT;
-        }
+    private static void openItemEditor(ItemStack itemStack) {
+        new ItemEditor(itemStack, MainHandItemEditorMessage::new);
     }
 
-    private static void openItemEditor(ItemStack itemStack) {
-        new ItemEditor(itemStack);
+    private void openItemEditor(Slot slot) {
+        new ItemEditor(slot.getStack(), itemStack -> new PlayerInventoryItemEditorMessage(itemStack, slot.getSlotIndex()));
+    }
+
+    private void openItemEditor(Slot slot, BlockPos blockPos) {
+        new ItemEditor(slot.getStack(), itemStack -> new BlockInventoryItemEditorMessage(itemStack, blockPos, slot.getSlotIndex()));
     }
 
     @Override
@@ -63,29 +51,25 @@ public class ClientProxy implements IProxy {
 
     @SubscribeEvent
     public void onClientTick(TickEvent.ClientTickEvent e) {
-        IBEEditorMod.testing = false;
         if (e.phase == TickEvent.Phase.END) {
             if (KEY_OPEN_GUI.isPressed()) {
-                if (IBEEditorMod.testing) {
-                    Scene scene = new Scene();
-                    HBox vBox = new HBox();
-                    VBox hBox = new VBox();
-                    VBox hBox2 = new VBox();
-                    Button button = new Button("Cycle align");
-                    button.getOnMouseClickedListeners().add(event -> vBox.setAlignment(cycleAlign(vBox.getAlignment())));
-                    hBox.getChildren().add(button);
-                    hBox.setPrefSize(100, 100);
-                    hBox2.setPrefSize(50, 50);
-                    vBox.getChildren().add(hBox2);
-                    vBox.getChildren().add(hBox);
-                    vBox.setPrefSize(200, 200);
-                    scene.setContent(vBox);
-                    scene.show();
+                ItemStack heldItem = Minecraft.getInstance().player.getHeldItemMainhand();
+                if (!heldItem.isEmpty()) {
+                    openItemEditor(heldItem);
+                }
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public void onKeyPressed(GuiScreenEvent.KeyboardKeyPressedEvent.Pre e) {
+        if (e.getGui() instanceof GuiContainer && e.getKeyCode() == KEY_OPEN_GUI.getKey().getKeyCode()) {
+            GuiContainer gui = (GuiContainer) e.getGui();
+            if (gui.getSlotUnderMouse() != null && gui.getSlotUnderMouse().getHasStack()) {
+                if (gui instanceof GuiInventory || gui instanceof GuiContainerCreative) {
+                    openItemEditor(gui.getSlotUnderMouse());
                 } else {
-                    ItemStack heldItem = Minecraft.getInstance().player.getHeldItemMainhand();
-                    if (!heldItem.isEmpty()) {
-                        openItemEditor(heldItem);
-                    }
+                    openItemEditor(gui.getSlotUnderMouse(), Minecraft.getInstance().objectMouseOver.getBlockPos());
                 }
             }
         }

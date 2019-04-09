@@ -2,7 +2,6 @@ package com.github.franckyi.guapi.node;
 
 import com.github.franckyi.guapi.Node;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiLabel;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 
@@ -13,7 +12,6 @@ import java.util.List;
 
 public class Label extends Node<Label.GuiLabelView> {
 
-    protected static final FontRenderer fontRenderer = Minecraft.getInstance().fontRenderer;
     private String lazyText;
     private int lazyColor;
     private boolean lazyCentered;
@@ -85,12 +83,12 @@ public class Label extends Node<Label.GuiLabelView> {
 
     @Override
     protected void computeWidth() {
-        this.setComputedWidth(fontRenderer.getStringWidth(this.lazyText) + this.getPadding().getVertical());
+        this.setComputedWidth(mc.fontRenderer.getStringWidth(this.lazyText) + this.getPadding().getVertical());
     }
 
     @Override
     protected void computeHeight() {
-        this.setComputedHeight(fontRenderer.FONT_HEIGHT + this.getPadding().getHorizontal());
+        this.setComputedHeight(mc.fontRenderer.FONT_HEIGHT + this.getPadding().getHorizontal());
     }
 
     public static class GuiLabelView extends GuiLabel implements Node.GuiView {

@@ -6,16 +6,10 @@ import java.util.function.Consumer;
 
 public class StringProperty extends EmptyProperty<String> {
 
-    protected final TextField textField;
+    protected TextField textField;
 
     public StringProperty(String name, String value, Consumer<String> action) {
         super(name, value, action);
-        textField = new TextField(value);
-        this.getNode().getChildren().add(textField);
-    }
-
-    public TextField getTextField() {
-        return textField;
     }
 
     @Override
@@ -24,14 +18,18 @@ public class StringProperty extends EmptyProperty<String> {
     }
 
     @Override
-    public void updateChildrenPos() {
-        super.updateChildrenPos();
-        if (textField != null && this.getList() != null) {
-            this.updateTextFieldSize();
-        }
+    protected void setValue(String value) {
+        textField.setText(value);
     }
 
-    protected void updateTextFieldSize() {
-        textField.setPrefWidth(this.getList().getWidth() - 60);
+    @Override
+    protected void build() {
+        super.build();
+        this.getNode().getChildren().add(textField = new TextField());
+    }
+
+    @Override
+    protected void updateSize(int listWidth) {
+        textField.setPrefWidth(listWidth - 85);
     }
 }

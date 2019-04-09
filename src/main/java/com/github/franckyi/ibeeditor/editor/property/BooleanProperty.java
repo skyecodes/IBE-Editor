@@ -1,28 +1,40 @@
 package com.github.franckyi.ibeeditor.editor.property;
 
-import com.github.franckyi.guapi.group.HBox;
+import com.github.franckyi.guapi.math.Insets;
 import com.github.franckyi.guapi.math.Pos;
 import com.github.franckyi.guapi.node.CheckBox;
 import com.github.franckyi.ibeeditor.editor.AbstractProperty;
 
 import java.util.function.Consumer;
 
-public class BooleanProperty extends AbstractProperty<Boolean, HBox> {
+public class BooleanProperty extends AbstractProperty<Boolean> {
 
-    private final CheckBox checkBox;
+    protected CheckBox checkBox;
 
     public BooleanProperty(String name, Boolean initialValue, Consumer<Boolean> action) {
-        super(name, initialValue, action, new HBox());
-        this.getNode().setAlignment(Pos.LEFT);
-        this.getNode().getChildren().add(checkBox = new CheckBox(name, initialValue));
-    }
-
-    public CheckBox getCheckBox() {
-        return checkBox;
+        super(initialValue, action);
+        checkBox.setText(name);
     }
 
     @Override
     public Boolean getValue() {
         return checkBox.isChecked();
+    }
+
+    @Override
+    protected void setValue(Boolean value) {
+        checkBox.setChecked(value);
+    }
+
+    @Override
+    protected void build() {
+        this.getNode().setAlignment(Pos.LEFT);
+        this.getNode().getChildren().add(checkBox = new CheckBox());
+        this.getNode().setPadding(Insets.left(5));
+    }
+
+    @Override
+    protected void updateSize(int listWidth) {
+        checkBox.setPrefWidth(listWidth - 59);
     }
 }

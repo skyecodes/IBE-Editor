@@ -3,6 +3,7 @@ package com.github.franckyi.guapi.node;
 import com.github.franckyi.guapi.Node;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiTextField;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 
 public class TextField extends Node<TextField.GuiTextFieldView> {
 
@@ -27,6 +28,11 @@ public class TextField extends Node<TextField.GuiTextFieldView> {
 
     public void setText(String text) {
         this.getView().setText(text);
+    }
+
+    @Override
+    public int getWidth() {
+        return super.getWidth() + 10;
     }
 
     @Override
@@ -72,6 +78,7 @@ public class TextField extends Node<TextField.GuiTextFieldView> {
         @Override
         public void setWidth(int width) {
             this.width = width;
+            ObfuscationReflectionHelper.setPrivateValue(GuiTextField.class, this, 0, "field_146225_q");
         }
 
         @Override

@@ -15,7 +15,7 @@ import java.util.function.BiConsumer;
 public abstract class Node<V extends Node.GuiView> implements ScreenEventListener {
 
     public static final int COMPUTED_SIZE = -1;
-
+    protected final Minecraft mc;
     private final List<EventHandler<GuiScreenEvent.MouseClickedEvent>> onMouseClickedListeners;
     private final List<EventHandler<GuiScreenEvent.MouseReleasedEvent>> onMouseReleasedListeners;
     private final List<EventHandler<GuiScreenEvent.MouseDragEvent>> onMouseDraggedListeners;
@@ -23,7 +23,6 @@ public abstract class Node<V extends Node.GuiView> implements ScreenEventListene
     private final List<EventHandler<GuiScreenEvent.KeyboardKeyPressedEvent>> onKeyPressedListeners;
     private final List<EventHandler<GuiScreenEvent.KeyboardKeyReleasedEvent>> onKeyReleasedListeners;
     private final List<EventHandler<GuiScreenEvent.KeyboardCharTypedEvent>> onCharTypedListeners;
-
     private final V view;
     private Parent parent;
     private int computedWidth;
@@ -35,6 +34,7 @@ public abstract class Node<V extends Node.GuiView> implements ScreenEventListene
 
     public Node(V view) {
         this.view = view;
+        mc = Minecraft.getInstance();
         parent = null;
         computedWidth = 0;
         computedHeight = 0;
@@ -63,7 +63,7 @@ public abstract class Node<V extends Node.GuiView> implements ScreenEventListene
     }
 
     public Scene getScene() {
-        GuiScreen screen = Minecraft.getInstance().currentScreen;
+        GuiScreen screen = mc.currentScreen;
         if (screen instanceof Scene.Screen) {
             return ((Scene.Screen) screen).getScene();
         }
@@ -353,64 +353,6 @@ public abstract class Node<V extends Node.GuiView> implements ScreenEventListene
 
     protected abstract void computeHeight();
 
-    public static class NodeEventHandler {
-
-        @SubscribeEvent
-        public static void onMouseClicked(GuiScreenEvent.MouseClickedEvent.Pre event) {
-            handle(event, ScreenEventListener::onMouseClicked);
-        }
-
-        @SubscribeEvent
-        public static void onMouseReleased(GuiScreenEvent.MouseReleasedEvent.Pre event) {
-            handle(event, ScreenEventListener::onMouseReleased);
-        }
-
-        @SubscribeEvent
-        public static void onMouseDragged(GuiScreenEvent.MouseDragEvent.Pre event) {
-            handle(event, ScreenEventListener::onMouseDragged);
-        }
-
-        @SubscribeEvent
-        public static void onMouseScrolled(GuiScreenEvent.MouseScrollEvent.Pre event) {
-            handle(event, ScreenEventListener::onMouseScrolled);
-        }
-
-        @SubscribeEvent
-        public static void onKeyboardKeyPressed(GuiScreenEvent.KeyboardKeyPressedEvent.Pre event) {
-            handle(event, ScreenEventListener::onKeyPressed);
-        }
-
-        @SubscribeEvent
-        public static void onKeyboardKeyReleased(GuiScreenEvent.KeyboardKeyReleasedEvent.Pre event) {
-            handle(event, ScreenEventListener::onKeyReleased);
-        }
-
-        @SubscribeEvent
-        public static void onKeyboardCharTyped(GuiScreenEvent.KeyboardCharTypedEvent.Pre event) {
-            handle(event, ScreenEventListener::onCharTyped);
-        }
-
-        private static <T extends GuiScreenEvent> void handle(T event, BiConsumer<ScreenEventListener, T> eh) {
-            if (event != null && event.getGui() instanceof Scene.Screen) {
-                Scene scene = ((Scene.Screen) event.getGui()).getScene();
-                if (scene != null && scene.getContent() != null) {
-                    propagate(scene.getContent(), event, eh);
-                    event.setCanceled(true);
-                }
-            }
-        }
-
-        private static <T extends GuiScreenEvent> void propagate(ScreenEventListener node, T event, BiConsumer<ScreenEventListener, T> eh) {
-            eh.accept(node, event);
-            if (node instanceof Parent) {
-                List<? extends ScreenEventListener> list = new ArrayList<ScreenEventListener>(((Parent) node).getChildren());
-                for (ScreenEventListener node0 : list) {
-                    propagate(node0, event, eh);
-                }
-            }
-        }
-    }
-
     public interface GuiView extends IGuiEventListener {
 
         int getX();
@@ -485,5 +427,63 @@ public abstract class Node<V extends Node.GuiView> implements ScreenEventListene
                     y >= this.getY() && y <= this.getY() + this.getHeight();
         }
 
+    }
+
+    public static class NodeEventHandler {
+
+        @SubscribeEvent
+        public static void onMouseClicked(GuiScreenEvent.MouseClickedEvent.Pre event) {
+            handle(event, ScreenEventListener::onMouseClicked);
+        }
+
+        @SubscribeEvent
+        public static void onMouseReleased(GuiScreenEvent.MouseReleasedEvent.Pre event) {
+            handle(event, ScreenEventListener::onMouseReleased);
+        }
+
+        @SubscribeEvent
+        public static void onMouseDragged(GuiScreenEvent.MouseDragEvent.Pre event) {
+            handle(event, ScreenEventListener::onMouseDragged);
+        }
+
+        @SubscribeEvent
+        public static void onMouseScrolled(GuiScreenEvent.MouseScrollEvent.Pre event) {
+            handle(event, ScreenEventListener::onMouseScrolled);
+        }
+
+        @SubscribeEvent
+        public static void onKeyboardKeyPressed(GuiScreenEvent.KeyboardKeyPressedEvent.Pre event) {
+            handle(event, ScreenEventListener::onKeyPressed);
+        }
+
+        @SubscribeEvent
+        public static void onKeyboardKeyReleased(GuiScreenEvent.KeyboardKeyReleasedEvent.Pre event) {
+            handle(event, ScreenEventListener::onKeyReleased);
+        }
+
+        @SubscribeEvent
+        public static void onKeyboardCharTyped(GuiScreenEvent.KeyboardCharTypedEvent.Pre event) {
+            handle(event, ScreenEventListener::onCharTyped);
+        }
+
+        private static <T extends GuiScreenEvent> void handle(T event, BiConsumer<ScreenEventListener, T> eh) {
+            if (event != null && event.getGui() instanceof Scene.Screen) {
+                Scene scene = ((Scene.Screen) event.getGui()).getScene();
+                if (scene != null && scene.getContent() != null) {
+                    propagate(scene.getContent(), event, eh);
+                    event.setCanceled(true);
+                }
+            }
+        }
+
+        private static <T extends GuiScreenEvent> void propagate(ScreenEventListener node, T event, BiConsumer<ScreenEventListener, T> eh) {
+            eh.accept(node, event);
+            if (node instanceof Parent) {
+                List<? extends ScreenEventListener> list = new ArrayList<ScreenEventListener>(((Parent) node).getChildren());
+                for (ScreenEventListener node0 : list) {
+                    propagate(node0, event, eh);
+                }
+            }
+        }
     }
 }

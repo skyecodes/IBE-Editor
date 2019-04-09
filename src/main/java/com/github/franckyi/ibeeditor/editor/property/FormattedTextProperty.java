@@ -1,27 +1,26 @@
 package com.github.franckyi.ibeeditor.editor.property;
 
-import com.github.franckyi.guapi.math.Insets;
 import com.github.franckyi.ibeeditor.node.TexturedButton;
+import net.minecraft.util.text.TextFormatting;
 
 import java.util.function.Consumer;
 
 public class FormattedTextProperty extends StringProperty {
 
-    private final TexturedButton formatButton;
+    protected TexturedButton formatButton;
 
     public FormattedTextProperty(String name, String value, Consumer<String> action) {
         super(name, value.startsWith("§r") ? value.substring(2) : value, action);
-        formatButton = new TexturedButton("format.png");
-        formatButton.setMargin(Insets.left(10));
+    }
+
+    @Override
+    protected void build() {
+        super.build();
+        this.getNode().getChildren().add(formatButton = new TexturedButton("format.png", TextFormatting.AQUA + "Format"));
         formatButton.getOnMouseClickedListeners().add(e -> {
             textField.setText(textField.getText() + "§");
             textField.getView().setFocused(true);
         });
-        this.getNode().getChildren().add(formatButton);
-    }
-
-    public TexturedButton getFormatButton() {
-        return formatButton;
     }
 
     @Override
@@ -30,7 +29,8 @@ public class FormattedTextProperty extends StringProperty {
     }
 
     @Override
-    protected void updateTextFieldSize() {
-        textField.setPrefWidth(this.getList().getWidth() - 110);
+    protected void updateSize(int listWidth) {
+        textField.setPrefWidth(listWidth - 136);
     }
+
 }

@@ -1,23 +1,27 @@
 package com.github.franckyi.guapi.node;
 
-public class IntField extends TextField {
+public class IntegerField extends TextField {
 
     private int min;
     private int max;
 
-    public IntField() {
+    public IntegerField() {
         this(0);
     }
 
-    public IntField(int initialValue) {
-        super(new GuiTextFieldView(), Integer.toString(initialValue));
-        this.min = Integer.MIN_VALUE;
-        this.max = Integer.MAX_VALUE;
+    public IntegerField(int value) {
+        this(value, Integer.MIN_VALUE, Integer.MAX_VALUE);
+    }
+
+    public IntegerField(int value, int min, int max) {
+        super(new GuiTextFieldView(), Integer.toString(value));
+        this.min = min;
+        this.max = max;
         this.getView().setValidator(s -> {
-            if (s.isEmpty()) return true;
+            if (s.isEmpty() || s.equals("-")) return true;
             try {
                 int i = Integer.parseInt(s);
-                return i >= min && i < max;
+                return i >= this.min && i < this.max;
             } catch (NumberFormatException e) {
                 return false;
             }
@@ -41,7 +45,12 @@ public class IntField extends TextField {
     }
 
     public int getValue() {
-        return this.getText().isEmpty() ? 0 : Integer.parseInt(this.getText());
+        if (this.getText().isEmpty() || this.getText().equals("-")) return min;
+        try {
+            return Integer.parseInt(this.getText());
+        } catch (NumberFormatException e) {
+            return 0;
+        }
     }
 
     public void setValue(int value) {

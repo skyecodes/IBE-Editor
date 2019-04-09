@@ -1,6 +1,5 @@
 package com.github.franckyi.ibeeditor.editor.property;
 
-import com.github.franckyi.guapi.group.HBox;
 import com.github.franckyi.guapi.math.Insets;
 import com.github.franckyi.guapi.math.Pos;
 import com.github.franckyi.guapi.node.Label;
@@ -8,21 +7,23 @@ import com.github.franckyi.ibeeditor.editor.AbstractProperty;
 
 import java.util.function.Consumer;
 
-public abstract class EmptyProperty<T> extends AbstractProperty<T, HBox> {
+public abstract class EmptyProperty<T> extends AbstractProperty<T> {
 
-    private final Label nameLabel;
+    protected Label nameLabel;
 
     public EmptyProperty(String name, T initialValue, Consumer<T> action) {
-        super(name, initialValue, action, new HBox());
+        super(initialValue, action);
+        nameLabel.setText(name + " :");
+    }
+
+    @Override
+    protected void build() {
         this.getNode().setAlignment(Pos.LEFT);
-        this.getNode().setPadding(new Insets(0, 15, 0, 5));
-        nameLabel = new Label(name + " :");
+        this.getNode().setPadding(new Insets(0, 5));
+        nameLabel = new Label("");
         nameLabel.setPrefWidth(50);
         nameLabel.setMargin(Insets.right(5));
         this.getNode().getChildren().add(nameLabel);
     }
 
-    public Label getNameLabel() {
-        return nameLabel;
-    }
 }

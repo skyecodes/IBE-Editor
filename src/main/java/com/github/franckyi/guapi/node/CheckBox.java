@@ -1,7 +1,6 @@
 package com.github.franckyi.guapi.node;
 
 import com.github.franckyi.guapi.Node;
-import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.client.config.GuiCheckBox;
 
 public class CheckBox extends Node<CheckBox.GuiCheckBoxView> {
@@ -48,7 +47,7 @@ public class CheckBox extends Node<CheckBox.GuiCheckBoxView> {
 
     @Override
     protected void computeWidth() {
-        this.setComputedWidth(11 + 2 + Minecraft.getInstance().fontRenderer.getStringWidth(this.getText()));
+        this.setComputedWidth(11 + 2 + mc.fontRenderer.getStringWidth(this.getText()));
     }
 
     @Override

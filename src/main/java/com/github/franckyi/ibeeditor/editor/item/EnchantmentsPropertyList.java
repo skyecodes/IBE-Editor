@@ -1,15 +1,18 @@
-package com.github.franckyi.ibeeditor.editor.item.category;
+package com.github.franckyi.ibeeditor.editor.item;
 
+import com.github.franckyi.guapi.math.Pos;
 import com.github.franckyi.ibeeditor.editor.PropertyList;
-import com.github.franckyi.ibeeditor.editor.item.property.EnchantmentProperty;
+import com.github.franckyi.ibeeditor.editor.property.IntegerProperty;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.*;
+import java.util.function.Consumer;
 
 public class EnchantmentsPropertyList extends PropertyList {
 
@@ -74,6 +77,30 @@ public class EnchantmentsPropertyList extends PropertyList {
                     }
                 }
             }
+        }
+    }
+
+    public class EnchantmentProperty extends IntegerProperty {
+
+        protected Enchantment enchantment;
+
+        public EnchantmentProperty(ItemStack itemStack, Enchantment enchantment, Integer initialValue, Consumer<Integer> action) {
+            super(enchantment.getDisplayName(0).getUnformattedComponentText(), initialValue, action);
+            this.enchantment = enchantment;
+            nameLabel.setPrefWidth(COMPUTED_SIZE);
+            nameLabel.setColor(enchantment.isCurse() ? TextFormatting.RED.getColor() : (enchantment.canApply(itemStack) ? TextFormatting.GREEN.getColor() : 0xffffff));
+        }
+
+        @Override
+        protected void build() {
+            super.build();
+            this.getNode().setAlignment(Pos.RIGHT);
+            this.getNode().setSpacing(5);
+        }
+
+        @Override
+        protected void updateSize(int listWidth) {
+            integerField.setPrefWidth(listWidth - 220);
         }
     }
 }

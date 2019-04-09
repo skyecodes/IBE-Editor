@@ -22,15 +22,15 @@ public abstract class AbstractEditor extends Scene {
     protected final List<PropertyList> propertiesList;
     protected final HBox buttonBox;
     protected final Button doneButton;
-    protected final Button applyButton;
     protected final Button cancelButton;
+    protected final Button applyButton;
     protected int currentIndex;
 
     public AbstractEditor() {
         super(new VBox());
         content = (VBox) this.getContent();
         editorBox = new HBox();
-        categories = new ListExtended<>(15);
+        categories = new ListExtended<>(20);
         categories.setOffset(new Insets(10));
         propertiesList = new ArrayList<>();
         buttonBox = new HBox(20);
@@ -40,16 +40,16 @@ public abstract class AbstractEditor extends Scene {
             this.apply();
             this.close();
         });
-        applyButton = new Button(ChatFormatting.GREEN + "Apply");
-        applyButton.setPrefWidth(80);
-        applyButton.getOnMouseClickedListeners().add(event -> this.apply());
         cancelButton = new Button(ChatFormatting.RED + "Close");
         cancelButton.setPrefWidth(80);
         cancelButton.getOnMouseClickedListeners().add(event -> this.close());
+        applyButton = new Button(ChatFormatting.GREEN + "Apply");
+        applyButton.setPrefWidth(80);
+        applyButton.getOnMouseClickedListeners().add(event -> this.apply());
         editorBox.getChildren().add(categories);
         buttonBox.getChildren().add(doneButton);
-        buttonBox.getChildren().add(applyButton);
         buttonBox.getChildren().add(cancelButton);
+        buttonBox.getChildren().add(applyButton);
         buttonBox.setAlignment(Pos.TOP);
         content.getChildren().add(editorBox);
         content.getChildren().add(buttonBox);
@@ -77,11 +77,11 @@ public abstract class AbstractEditor extends Scene {
         propertyList.getView().height = this.getContent().getHeight();
     }
 
-    protected ListExtended<AbstractProperty> addCategory(String name) {
+    protected PropertyList addCategory(String name) {
         return this.addCategory(name, new PropertyList());
     }
 
-    protected ListExtended<AbstractProperty> addCategory(String name, PropertyList propertyList) {
+    protected PropertyList addCategory(String name, PropertyList propertyList) {
         this.categories.getChildren().add(new CategoryEntry(this, name));
         propertyList.setOffset(new Insets(10));
         this.propertiesList.add(propertyList);

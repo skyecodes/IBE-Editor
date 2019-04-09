@@ -1,16 +1,18 @@
 package com.github.franckyi.guapi.node;
 
 import com.github.franckyi.guapi.Node;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 
 public class Button extends Node<Button.GuiButtonView> {
 
-    public Button(String text) {
-        super(new GuiButtonView());
-        this.getView().displayString = text;
+    protected Button(GuiButtonView view) {
+        super(view);
         this.computeSize();
         this.updateSize();
+    }
+
+    public Button(String text) {
+        this(new GuiButtonView(text));
     }
 
     public Button() {
@@ -37,7 +39,7 @@ public class Button extends Node<Button.GuiButtonView> {
 
     @Override
     protected void computeWidth() {
-        this.setComputedWidth(Minecraft.getInstance().fontRenderer.getStringWidth(this.getText()) + this.getPadding().getVertical() + 10);
+        this.setComputedWidth(mc.fontRenderer.getStringWidth(this.getText()) + this.getPadding().getVertical() + 10);
     }
 
     @Override
@@ -47,8 +49,8 @@ public class Button extends Node<Button.GuiButtonView> {
 
     public static class GuiButtonView extends GuiButton implements Node.GuiView {
 
-        public GuiButtonView() {
-            super(0, 0, 0, "");
+        public GuiButtonView(String text) {
+            super(0, 0, 0, text);
         }
 
         @Override

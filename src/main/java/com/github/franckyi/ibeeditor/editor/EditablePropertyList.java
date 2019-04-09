@@ -1,8 +1,8 @@
 package com.github.franckyi.ibeeditor.editor;
 
-import com.github.franckyi.guapi.group.VBox;
 import com.github.franckyi.guapi.math.Pos;
 import com.github.franckyi.ibeeditor.node.TexturedButton;
+import net.minecraft.util.text.TextFormatting;
 
 import java.util.Collections;
 import java.util.List;
@@ -20,11 +20,12 @@ public abstract class EditablePropertyList<T> extends PropertyList {
     }
 
     protected void addProperty(T initialValue) {
+        mc.mouseHelper.ungrabMouse();
         int index = this.getPropertyCount();
         this.getChildren().add(index + editableStart, createNewProperty(initialValue, index));
     }
 
-    protected abstract AbstractProperty<T, ?> createNewProperty(T initialValue, int index);
+    protected abstract AbstractProperty<T> createNewProperty(T initialValue, int index);
 
     protected abstract T getDefaultPropertyValue();
 
@@ -52,12 +53,25 @@ public abstract class EditablePropertyList<T> extends PropertyList {
         return this.getChildren().size() - (1 + editableStart);
     }
 
-    protected class AddButton extends AbstractProperty<Void, VBox> {
+    protected class AddButton extends AbstractProperty<Void> {
+
+        private TexturedButton button;
+
         public AddButton() {
-            super("", null, aVoid -> {
-            }, new VBox());
-            TexturedButton b = new TexturedButton("add.png");
-            b.getOnMouseClickedListeners().add(event -> {
+            this("");
+        }
+
+        public AddButton(String text) {
+            super(null, aVoid -> {
+            });
+            this.getNode().getChildren().remove(1);
+            button.setText(TextFormatting.GREEN + text);
+        }
+
+        @Override
+        protected void build() {
+            this.getNode().getChildren().add(button = new TexturedButton("add.png"));
+            button.getOnMouseClickedListeners().add(event -> {
                 addProperty(getDefaultPropertyValue());
                 int count = getPropertyCount();
                 getProperty(--count).update(count--);
@@ -65,13 +79,16 @@ public abstract class EditablePropertyList<T> extends PropertyList {
                     getProperty(count).update(count);
                 }
             });
-            this.getNode().getChildren().add(b);
             this.getNode().setAlignment(Pos.CENTER);
         }
 
         @Override
-        public Void getValue() {
+        protected Void getValue() {
             return null;
+        }
+
+        @Override
+        protected void setValue(Void value) {
         }
     }
 }
