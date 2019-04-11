@@ -1,7 +1,6 @@
 package com.github.franckyi.guapi.node;
 
 import com.github.franckyi.guapi.Node;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 
@@ -52,7 +51,7 @@ public class TextField extends Node<TextField.GuiTextFieldView> {
     public static class GuiTextFieldView extends GuiTextField implements Node.GuiView {
 
         public GuiTextFieldView() {
-            super(0, Minecraft.getInstance().fontRenderer, 0, 0, 0, 0);
+            super(0, mc.fontRenderer, 0, 0, 0, 0);
         }
 
         @Override

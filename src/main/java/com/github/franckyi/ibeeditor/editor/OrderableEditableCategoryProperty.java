@@ -3,10 +3,10 @@ package com.github.franckyi.ibeeditor.editor;
 import com.github.franckyi.guapi.Group;
 import com.github.franckyi.ibeeditor.node.TexturedButton;
 
-public interface OrderableEditablePropertyListChild extends EditablePropertyListChild {
+public interface OrderableEditableCategoryProperty extends EditableCategoryProperty {
 
     @Override
-    OrderableListControls getControls();
+    OrderablePropertyControls getControls();
 
     @Override
     default void build() {
@@ -18,22 +18,22 @@ public interface OrderableEditablePropertyListChild extends EditablePropertyList
         getControls().getDown().getOnMouseClickedListeners().add(event -> getControls().getCategory().swapProperties(getControls().getIndex(), getControls().getIndex() + 1));
         root.getChildren().add(i++, getControls().getUp());
         root.getChildren().add(i, getControls().getDown());
-        EditablePropertyListChild.super.build();
+        EditableCategoryProperty.super.build();
     }
 
     @Override
     default void update(int newIndex) {
-        EditablePropertyListChild.super.update(newIndex);
+        EditableCategoryProperty.super.update(newIndex);
         getControls().getUp().setVisible(getControls().getIndex() != 0);
         getControls().getDown().setVisible(getControls().getCategory().getPropertyCount() != getControls().getIndex() + 1);
     }
 
-    class OrderableListControls extends ListControls {
+    class OrderablePropertyControls extends PropertyControls {
 
         private final TexturedButton up;
         private final TexturedButton down;
 
-        public OrderableListControls(EditablePropertyList category, int index) {
+        public OrderablePropertyControls(EditableCategory category, int index) {
             super(category, index);
             this.up = new TexturedButton("arrow_up.png", "Move up");
             this.down = new TexturedButton("arrow_down.png", "Move down");

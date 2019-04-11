@@ -10,6 +10,8 @@ import com.github.franckyi.guapi.node.Label;
 import com.github.franckyi.guapi.node.ListExtended;
 import com.github.franckyi.guapi.scene.Background;
 import com.mojang.realmsclient.gui.ChatFormatting;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraftforge.client.event.GuiScreenEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +21,7 @@ public abstract class AbstractEditor extends Scene {
     protected final VBox content;
     protected final HBox editorBox;
     protected final ListExtended<CategoryEntry> categories;
-    protected final List<PropertyList> propertiesList;
+    protected final List<Category> propertiesList;
     protected final HBox buttonBox;
     protected final Button doneButton;
     protected final Button cancelButton;
@@ -62,30 +64,35 @@ public abstract class AbstractEditor extends Scene {
     }
 
     protected void apply() {
-        this.propertiesList.forEach(PropertyList::apply);
+        this.propertiesList.forEach(Category::apply);
     }
 
     protected void scaleChildrenSize() {
         buttonBox.setPrefWidth(this.getContent().getWidth());
         categories.setPrefSize(this.getContent().getWidth() / 3, this.getContent().getHeight() - 30);
         categories.getView().height = this.getContent().getHeight();
-        this.scalePropertiesSize(propertiesList.get(currentIndex));
+        if (propertiesList.isEmpty()) {
+            categories.setVisible(false);
+        } else {
+            this.scalePropertiesSize(propertiesList.get(currentIndex));
+        }
     }
 
-    protected void scalePropertiesSize(PropertyList propertyList) {
-        propertyList.setPrefSize(2 * this.getContent().getWidth() / 3, this.getContent().getHeight() - 30);
-        propertyList.getView().height = this.getContent().getHeight();
+    protected void scalePropertiesSize(Category category) {
+        category.setPrefSize(2 * this.getContent().getWidth() / 3, this.getContent().getHeight() - 30);
+        category.getView().height = this.getContent().getHeight();
+        category.getChildren().forEach(p -> p.updateSize(propertiesList.get(currentIndex).getWidth()));
     }
 
-    protected PropertyList addCategory(String name) {
-        return this.addCategory(name, new PropertyList());
+    protected Category addCategory(String name) {
+        return this.addCategory(name, new Category());
     }
 
-    protected PropertyList addCategory(String name, PropertyList propertyList) {
-        this.categories.getChildren().add(new CategoryEntry(this, name));
-        propertyList.setOffset(new Insets(10));
-        this.propertiesList.add(propertyList);
-        return propertyList;
+    protected Category addCategory(String name, Category category) {
+        this.categories.getChildren().add(new CategoryEntry(name));
+        category.setOffset(new Insets(10));
+        this.propertiesList.add(category);
+        return category;
     }
 
     public void onCategoryClicked(CategoryEntry category) {
@@ -94,7 +101,7 @@ public abstract class AbstractEditor extends Scene {
             Label oldCategoryLabel = categories.getChildren().get(currentIndex).getNode();
             oldCategoryLabel.setText(oldCategoryLabel.getText().substring(2, oldCategoryLabel.getText().length() - 2));
             currentIndex = categoryIndex;
-            PropertyList propertyList = propertiesList.get(categoryIndex);
+            Category propertyList = propertiesList.get(categoryIndex);
             editorBox.getChildren().set(1, propertyList);
             this.scalePropertiesSize(propertyList);
             Label newCategoryLabel = categories.getChildren().get(currentIndex).getNode();
@@ -113,4 +120,20 @@ public abstract class AbstractEditor extends Scene {
         super.show();
     }
 
+    @Override
+    protected void onDrawScreen(GuiScreenEvent.DrawScreenEvent event) {
+        super.onDrawScreen(event);
+        if (propertiesList.isEmpty()) {
+            this.getScreen().drawCenteredString(mc.fontRenderer, "No parameters available !", this.getScreen().width / 2, editorBox.getY() + editorBox.getHeight() / 2 - 4, TextFormatting.DARK_RED.getColor());
+        }
+    }
+
+    public class CategoryEntry extends ListExtended.NodeEntry<Label> {
+
+        public CategoryEntry(String name) {
+            super(new Label(name));
+            this.getNode().setCentered(true);
+            this.getOnMouseClickedListeners().add(e -> AbstractEditor.this.onCategoryClicked(this));
+        }
+    }
 }

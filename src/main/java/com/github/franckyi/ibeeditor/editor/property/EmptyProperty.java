@@ -20,10 +20,9 @@ public abstract class EmptyProperty<T> extends AbstractProperty<T> {
     protected void build() {
         this.getNode().setAlignment(Pos.LEFT);
         this.getNode().setPadding(new Insets(0, 5));
-        nameLabel = new Label("");
+        this.addAll(nameLabel = new Label(""));
         nameLabel.setPrefWidth(50);
         nameLabel.setMargin(Insets.right(5));
-        this.getNode().getChildren().add(nameLabel);
     }
 
 }

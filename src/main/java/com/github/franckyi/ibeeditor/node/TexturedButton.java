@@ -1,7 +1,6 @@
 package com.github.franckyi.ibeeditor.node;
 
 import com.github.franckyi.guapi.node.Button;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -65,7 +64,6 @@ public class TexturedButton extends Button {
         public void render(int mouseX, int mouseY, float partialTicks) {
             super.render(mouseX, mouseY, partialTicks);
             if (this.visible) {
-                Minecraft mc = Minecraft.getInstance();
                 mc.getTextureManager().bindTexture(texture);
                 this.drawModalRectWithCustomSizedTexture(this.x + 2, this.y + 2, 0, 0, 16, 16, 16, 16, 2);
                 if (this.hovered && !tooltipText.isEmpty()) {

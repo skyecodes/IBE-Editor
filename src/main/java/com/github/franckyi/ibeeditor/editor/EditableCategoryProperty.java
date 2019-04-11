@@ -4,11 +4,11 @@ import com.github.franckyi.guapi.Group;
 import com.github.franckyi.ibeeditor.node.TexturedButton;
 import net.minecraft.util.text.TextFormatting;
 
-public interface EditablePropertyListChild {
+public interface EditableCategoryProperty {
 
     Group getNode();
 
-    ListControls getControls();
+    PropertyControls getControls();
 
     default void build() {
         Group root = this.getNode();
@@ -21,19 +21,19 @@ public interface EditablePropertyListChild {
         getControls().setIndex(newIndex);
     }
 
-    class ListControls {
+    class PropertyControls {
 
-        private final EditablePropertyList category;
+        private final EditableCategory category;
         private final TexturedButton remove;
         private int index;
 
-        public ListControls(EditablePropertyList category, int index) {
+        public PropertyControls(EditableCategory category, int index) {
             this.category = category;
             this.index = index;
             this.remove = new TexturedButton("delete.png", TextFormatting.RED + "Remove");
         }
 
-        public EditablePropertyList getCategory() {
+        public EditableCategory getCategory() {
             return category;
         }
 

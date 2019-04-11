@@ -5,16 +5,11 @@ import com.github.franckyi.guapi.node.TextField;
 import com.github.franckyi.guapi.scene.Background;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.util.Tuple;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
-import javax.vecmath.Point2i;
-import javax.vecmath.Tuple2i;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.function.BiConsumer;
 
 public class Scene implements ScreenEventListener, Parent {
@@ -247,12 +242,12 @@ public class Scene implements ScreenEventListener, Parent {
     }
 
     public void show() {
-        oldScreen = Minecraft.getInstance().currentScreen;
-        Minecraft.getInstance().displayGuiScreen(screen);
+        oldScreen = mc.currentScreen;
+        mc.displayGuiScreen(screen);
     }
 
     public void close() {
-        Minecraft.getInstance().displayGuiScreen(oldScreen);
+        mc.displayGuiScreen(oldScreen);
     }
 
     public void render(int mouseX, int mouseY, float partialTicks) {
@@ -349,11 +344,11 @@ public class Scene implements ScreenEventListener, Parent {
     public class Screen extends GuiScreen {
 
         private final Scene scene;
-        private final List<Tuple<String, Tuple2i>> tooltips;
+        private final Set<Runnable> postRender;
 
         public Screen(Scene scene) {
             this.scene = scene;
-            this.tooltips = new ArrayList<>();
+            this.postRender = new HashSet<>();
         }
 
         public Scene getScene() {
@@ -375,8 +370,8 @@ public class Scene implements ScreenEventListener, Parent {
         public void render(int mouseX, int mouseY, float partialTicks) {
             this.getScene().getBackground().draw(this);
             this.getScene().render(mouseX, mouseY, partialTicks);
-            tooltips.forEach(tooltip -> super.drawHoveringText(tooltip.getA(), tooltip.getB().x, tooltip.getB().y));
-            tooltips.clear();
+            postRender.forEach(Runnable::run);
+            postRender.clear();
         }
 
         @Override
@@ -416,7 +411,7 @@ public class Scene implements ScreenEventListener, Parent {
 
         @Override
         public void drawHoveringText(String text, int x, int y) {
-            tooltips.add(new Tuple<>(text, new Point2i(x, y)));
+            postRender.add(() -> super.drawHoveringText(text, x, y));
         }
     }
 

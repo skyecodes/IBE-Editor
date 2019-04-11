@@ -36,6 +36,9 @@ public class EnumButton<T> extends Button {
 
     public void setValues(List<T> values) {
         this.values = values;
+        if (values.contains(value)) {
+            this.index = this.getValues().indexOf(value);
+        }
     }
 
     public T getValue() {
@@ -90,7 +93,13 @@ public class EnumButton<T> extends Button {
 
     @Override
     protected void computeWidth() {
-        this.setComputedWidth(this.getValues() != null ? this.getValues().stream().map(this.getRenderer()).mapToInt(mc.fontRenderer::getStringWidth).max().orElse(0) + 10 : 0);
+        if (this.getValues() != null && !this.getValues().isEmpty()) {
+            this.setComputedWidth(this.getValues().stream().map(this.getRenderer()).mapToInt(mc.fontRenderer::getStringWidth).max().orElse(0) + 10);
+        } else if (value != null) {
+            this.setComputedWidth(mc.fontRenderer.getStringWidth(renderer.apply(value)) + 10);
+        } else {
+            this.setComputedWidth(0);
+        }
     }
 
 }

@@ -7,20 +7,19 @@ import net.minecraft.util.text.TextFormatting;
 import java.util.Collections;
 import java.util.List;
 
-public abstract class EditablePropertyList<T> extends PropertyList {
+public abstract class EditableCategory<T> extends Category {
 
     private int editableStart;
 
-    public EditablePropertyList() {
+    public EditableCategory() {
         this(0);
     }
 
-    public EditablePropertyList(int editableStart) {
+    public EditableCategory(int editableStart) {
         this.editableStart = editableStart;
     }
 
     protected void addProperty(T initialValue) {
-        mc.mouseHelper.ungrabMouse();
         int index = this.getPropertyCount();
         this.getChildren().add(index + editableStart, createNewProperty(initialValue, index));
     }
@@ -29,8 +28,8 @@ public abstract class EditablePropertyList<T> extends PropertyList {
 
     protected abstract T getDefaultPropertyValue();
 
-    protected EditablePropertyListChild getProperty(int index) {
-        return (EditablePropertyListChild) this.getChildren().get(index + editableStart);
+    protected EditableCategoryProperty getProperty(int index) {
+        return (EditableCategoryProperty) this.getChildren().get(index + editableStart);
     }
 
     public void swapProperties(int i1, int i2) {
@@ -70,7 +69,7 @@ public abstract class EditablePropertyList<T> extends PropertyList {
 
         @Override
         protected void build() {
-            this.getNode().getChildren().add(button = new TexturedButton("add.png"));
+            this.addAll(button = new TexturedButton("add.png"));
             button.getOnMouseClickedListeners().add(event -> {
                 addProperty(getDefaultPropertyValue());
                 int count = getPropertyCount();

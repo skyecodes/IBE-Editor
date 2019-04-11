@@ -5,7 +5,6 @@ import com.github.franckyi.guapi.Parent;
 import com.github.franckyi.guapi.ScreenEventListener;
 import com.github.franckyi.guapi.event.EventHandler;
 import com.github.franckyi.guapi.math.Insets;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiListExtended;
 import net.minecraft.client.gui.GuiSlot;
 import net.minecraftforge.client.event.GuiScreenEvent;
@@ -78,7 +77,7 @@ public class ListExtended<E extends GuiListExtended.IGuiListEntry & ScreenEventL
         private int realHeight;
 
         public GuiListExtendedView(int slotHeight) {
-            super(Minecraft.getInstance(), 0, 0, 0, 0, slotHeight);
+            super(ScreenEventListener.mc, 0, 0, 0, 0, slotHeight);
             offset = Insets.NONE;
         }
 

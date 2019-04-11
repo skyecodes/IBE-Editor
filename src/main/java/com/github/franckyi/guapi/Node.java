@@ -2,7 +2,6 @@ package com.github.franckyi.guapi;
 
 import com.github.franckyi.guapi.event.EventHandler;
 import com.github.franckyi.guapi.math.Insets;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.IGuiEventListener;
 import net.minecraftforge.client.event.GuiScreenEvent;
@@ -15,7 +14,6 @@ import java.util.function.BiConsumer;
 public abstract class Node<V extends Node.GuiView> implements ScreenEventListener {
 
     public static final int COMPUTED_SIZE = -1;
-    protected final Minecraft mc;
     private final List<EventHandler<GuiScreenEvent.MouseClickedEvent>> onMouseClickedListeners;
     private final List<EventHandler<GuiScreenEvent.MouseReleasedEvent>> onMouseReleasedListeners;
     private final List<EventHandler<GuiScreenEvent.MouseDragEvent>> onMouseDraggedListeners;
@@ -34,7 +32,6 @@ public abstract class Node<V extends Node.GuiView> implements ScreenEventListene
 
     public Node(V view) {
         this.view = view;
-        mc = Minecraft.getInstance();
         parent = null;
         computedWidth = 0;
         computedHeight = 0;

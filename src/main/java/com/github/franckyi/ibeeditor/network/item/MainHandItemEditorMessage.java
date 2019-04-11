@@ -8,7 +8,7 @@ import net.minecraftforge.fml.network.NetworkEvent;
 
 public class MainHandItemEditorMessage implements IMessage {
 
-    protected ItemStack itemStack;
+    protected final ItemStack itemStack;
 
     public MainHandItemEditorMessage(ItemStack itemStack) {
         this.itemStack = itemStack;

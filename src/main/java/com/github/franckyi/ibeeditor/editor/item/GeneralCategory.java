@@ -1,11 +1,11 @@
 package com.github.franckyi.ibeeditor.editor.item;
 
 import com.github.franckyi.ibeeditor.editor.AbstractProperty;
-import com.github.franckyi.ibeeditor.editor.EditablePropertyList;
-import com.github.franckyi.ibeeditor.editor.OrderableEditablePropertyListChild;
-import com.github.franckyi.ibeeditor.editor.property.BooleanProperty;
-import com.github.franckyi.ibeeditor.editor.property.FormattedTextProperty;
-import com.github.franckyi.ibeeditor.editor.property.IntegerProperty;
+import com.github.franckyi.ibeeditor.editor.EditableCategory;
+import com.github.franckyi.ibeeditor.editor.OrderableEditableCategoryProperty;
+import com.github.franckyi.ibeeditor.editor.property.PropertyBoolean;
+import com.github.franckyi.ibeeditor.editor.property.PropertyFormattedText;
+import com.github.franckyi.ibeeditor.editor.property.PropertyInteger;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -15,18 +15,18 @@ import net.minecraftforge.common.util.Constants;
 
 import java.util.function.Consumer;
 
-public class GeneralPropertyList extends EditablePropertyList<String> {
+public class GeneralCategory extends EditableCategory<String> {
 
-    private ItemStack itemStack;
+    private final ItemStack itemStack;
 
-    public GeneralPropertyList(ItemStack itemStack) {
+    public GeneralCategory(ItemStack itemStack) {
         super(4);
         this.itemStack = itemStack;
         this.addAll(
-                new BooleanProperty("Unbreakable", this.hasUnbreakable(), this::setUnbreakable),
-                new IntegerProperty("Count", itemStack.getCount(), itemStack::setCount, 1, 128),
-                new IntegerProperty("Damage", itemStack.getDamage(), itemStack::setDamage),
-                new FormattedTextProperty("Name", itemStack.getDisplayName().getFormattedText(),
+                new PropertyBoolean("Unbreakable", this.hasUnbreakable(), this::setUnbreakable),
+                new PropertyInteger("Count", itemStack.getCount(), itemStack::setCount, 1, 128),
+                new PropertyInteger("Damage", itemStack.getDamage(), itemStack::setDamage),
+                new PropertyFormattedText("Name", itemStack.getDisplayName().getFormattedText(),
                         s -> itemStack.setDisplayName(new TextComponentString(s))),
                 new AddButton("Add lore")
         );
@@ -67,7 +67,7 @@ public class GeneralPropertyList extends EditablePropertyList<String> {
 
     @Override
     protected AbstractProperty<String> createNewProperty(String initialValue, int index) {
-        return new LoreProperty(index, initialValue, this::setLore);
+        return new PropertyLore(index, initialValue, this::setLore);
     }
 
     @Override
@@ -75,18 +75,18 @@ public class GeneralPropertyList extends EditablePropertyList<String> {
         return "";
     }
 
-    public class LoreProperty extends FormattedTextProperty implements OrderableEditablePropertyListChild {
+    public class PropertyLore extends PropertyFormattedText implements OrderableEditableCategoryProperty {
 
-        private final OrderableListControls controls;
+        private final OrderablePropertyControls controls;
 
-        public LoreProperty(int index, String value, Consumer<String> action) {
+        public PropertyLore(int index, String value, Consumer<String> action) {
             super("", value, action);
-            this.controls = new OrderableListControls(GeneralPropertyList.this, index);
-            OrderableEditablePropertyListChild.super.build();
+            this.controls = new OrderablePropertyControls(GeneralCategory.this, index);
+            OrderableEditableCategoryProperty.super.build();
         }
 
         @Override
-        public OrderableListControls getControls() {
+        public OrderablePropertyControls getControls() {
             return controls;
         }
 
@@ -97,7 +97,7 @@ public class GeneralPropertyList extends EditablePropertyList<String> {
 
         @Override
         public void update(int newIndex) {
-            OrderableEditablePropertyListChild.super.update(newIndex);
+            OrderableEditableCategoryProperty.super.update(newIndex);
             nameLabel.setText("Lore #" + (newIndex + 1) + " :");
         }
 

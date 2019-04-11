@@ -4,8 +4,8 @@ import com.github.franckyi.guapi.Node;
 import com.github.franckyi.guapi.math.Pos;
 import com.github.franckyi.guapi.node.TextField;
 import com.github.franckyi.ibeeditor.editor.AbstractProperty;
-import com.github.franckyi.ibeeditor.editor.EditablePropertyList;
-import com.github.franckyi.ibeeditor.editor.EditablePropertyListChild;
+import com.github.franckyi.ibeeditor.editor.EditableCategory;
+import com.github.franckyi.ibeeditor.editor.EditableCategoryProperty;
 import com.github.franckyi.ibeeditor.editor.property.EmptyProperty;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
@@ -19,12 +19,12 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.function.Consumer;
 
-public class BlockPropertyList extends EditablePropertyList<Block> {
+public class BlockCategory extends EditableCategory<Block> {
 
     private final ItemStack itemStack;
     private final String tagName;
 
-    public BlockPropertyList(ItemStack itemStack, String tagName) {
+    public BlockCategory(ItemStack itemStack, String tagName) {
         this.itemStack = itemStack;
         this.tagName = tagName;
         this.getChildren().add(new AddButton("Add block"));
@@ -54,7 +54,7 @@ public class BlockPropertyList extends EditablePropertyList<Block> {
 
     @Override
     protected AbstractProperty<Block> createNewProperty(Block initialValue, int index) {
-        return new BlockProperty(index, initialValue, this::addBlock);
+        return new PropertyBlock(index, initialValue, this::addBlock);
     }
 
     @Override
@@ -62,16 +62,16 @@ public class BlockPropertyList extends EditablePropertyList<Block> {
         return Blocks.AIR;
     }
 
-    public class BlockProperty extends EmptyProperty<Block> implements EditablePropertyListChild {
+    public class PropertyBlock extends EmptyProperty<Block> implements EditableCategoryProperty {
 
-        private ListControls controls;
+        private PropertyControls controls;
 
         private TextField blockField;
 
-        public BlockProperty(int index, Block initialValue, Consumer<Block> action) {
+        public PropertyBlock(int index, Block initialValue, Consumer<Block> action) {
             super(initialValue.getNameTextComponent().getUnformattedComponentText(), initialValue, action);
-            controls = new ListControls(BlockPropertyList.this, index);
-            EditablePropertyListChild.super.build();
+            controls = new PropertyControls(BlockCategory.this, index);
+            EditableCategoryProperty.super.build();
         }
 
         @Override
@@ -85,7 +85,7 @@ public class BlockPropertyList extends EditablePropertyList<Block> {
         }
 
         @Override
-        public ListControls getControls() {
+        public PropertyControls getControls() {
             return controls;
         }
 
@@ -93,7 +93,7 @@ public class BlockPropertyList extends EditablePropertyList<Block> {
         public void build() {
             super.build();
             this.getNode().setAlignment(Pos.RIGHT);
-            this.getNode().getChildren().add(blockField = new TextField());
+            this.addAll(blockField = new TextField());
             blockField.getOnCharTypedListeners().add(e -> update());
             blockField.getOnKeyPressedListeners().add(e -> update());
             nameLabel.setPrefWidth(Node.COMPUTED_SIZE);

@@ -1,11 +1,14 @@
 package com.github.franckyi.guapi;
 
 import com.github.franckyi.guapi.event.EventHandler;
+import net.minecraft.client.Minecraft;
 import net.minecraftforge.client.event.GuiScreenEvent;
 
 import java.util.List;
 
 public interface ScreenEventListener {
+
+    Minecraft mc = Minecraft.getInstance();
 
     List<EventHandler<GuiScreenEvent.MouseClickedEvent>> getOnMouseClickedListeners();
 

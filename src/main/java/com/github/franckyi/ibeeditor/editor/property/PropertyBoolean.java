@@ -7,11 +7,11 @@ import com.github.franckyi.ibeeditor.editor.AbstractProperty;
 
 import java.util.function.Consumer;
 
-public class BooleanProperty extends AbstractProperty<Boolean> {
+public class PropertyBoolean extends AbstractProperty<Boolean> {
 
     protected CheckBox checkBox;
 
-    public BooleanProperty(String name, Boolean initialValue, Consumer<Boolean> action) {
+    public PropertyBoolean(String name, Boolean initialValue, Consumer<Boolean> action) {
         super(initialValue, action);
         checkBox.setText(name);
     }
@@ -29,7 +29,7 @@ public class BooleanProperty extends AbstractProperty<Boolean> {
     @Override
     protected void build() {
         this.getNode().setAlignment(Pos.LEFT);
-        this.getNode().getChildren().add(checkBox = new CheckBox());
+        this.addAll(checkBox = new CheckBox());
         this.getNode().setPadding(Insets.left(5));
     }
 

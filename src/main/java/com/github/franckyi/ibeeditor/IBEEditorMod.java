@@ -1,6 +1,11 @@
 package com.github.franckyi.ibeeditor;
 
+import com.github.franckyi.ibeeditor.command.IBEEditorCommand;
 import com.github.franckyi.ibeeditor.network.IMessage;
+import com.github.franckyi.ibeeditor.network.OpenEditorMessage;
+import com.github.franckyi.ibeeditor.network.block.BlockEditorMessage;
+import com.github.franckyi.ibeeditor.network.block.InitBlockEditorRequest;
+import com.github.franckyi.ibeeditor.network.block.InitBlockEditorResponse;
 import com.github.franckyi.ibeeditor.network.item.BlockInventoryItemEditorMessage;
 import com.github.franckyi.ibeeditor.network.item.MainHandItemEditorMessage;
 import com.github.franckyi.ibeeditor.network.item.PlayerInventoryItemEditorMessage;
@@ -9,9 +14,12 @@ import com.github.franckyi.ibeeditor.proxy.IProxy;
 import com.github.franckyi.ibeeditor.proxy.ServerProxy;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.network.NetworkRegistry;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
@@ -33,14 +41,28 @@ public class IBEEditorMod {
     private static int i = 0;
 
     public IBEEditorMod() {
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
+        MinecraftForge.EVENT_BUS.register(this);
+        FMLJavaModLoadingContext.get().getModEventBus().register(this);
     }
 
-    private void setup(FMLCommonSetupEvent event) {
-        proxy.setup();
+    @SubscribeEvent
+    public void onSetup(FMLCommonSetupEvent event) {
+        proxy.onSetup();
+        // Command
+        registerMessage(OpenEditorMessage.class, OpenEditorMessage::new);
+        // Item Editor
         registerMessage(MainHandItemEditorMessage.class, MainHandItemEditorMessage::new);
         registerMessage(PlayerInventoryItemEditorMessage.class, PlayerInventoryItemEditorMessage::new);
         registerMessage(BlockInventoryItemEditorMessage.class, BlockInventoryItemEditorMessage::new);
+        // Block Editor
+        registerMessage(InitBlockEditorRequest.class, InitBlockEditorRequest::new);
+        registerMessage(InitBlockEditorResponse.class, InitBlockEditorResponse::new);
+        registerMessage(BlockEditorMessage.class, BlockEditorMessage::new);
+    }
+
+    @SubscribeEvent
+    public void onServerStarting(FMLServerStartingEvent event) {
+        IBEEditorCommand.register(event.getCommandDispatcher());
     }
 
     private <MSG extends IMessage> void registerMessage(Class<MSG> c, Function<PacketBuffer, MSG> read) {

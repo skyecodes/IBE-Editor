@@ -11,23 +11,23 @@ import java.util.function.Function;
 
 public class ItemEditor extends AbstractEditor {
 
-    private ItemStack itemStack;
-    private Function<ItemStack, ?> action;
+    private final ItemStack itemStack;
+    private final Function<ItemStack, ?> action;
 
     public ItemEditor(ItemStack itemStack, Function<ItemStack, ?> action) {
         super();
         this.itemStack = itemStack;
         this.action = action;
-        this.addCategory("General", new GeneralPropertyList(itemStack));
-        this.addCategory("Enchantments", new EnchantmentsPropertyList(itemStack));
-        this.addCategory("Attribute modifiers", new AttributeModifiersPropertyList(itemStack));
-        this.addCategory("Hide Flags", new HideFlagsPropertyList(itemStack));
-        this.addCategory("Can destroy", new BlockPropertyList(itemStack, "CanDestroy"));
-        if (itemStack.getItem() instanceof ItemBlock) {
-            this.addCategory("Can place on", new BlockPropertyList(itemStack, "CanPlaceOn"));
-        }
+        this.addCategory("General", new GeneralCategory(itemStack));
+        this.addCategory("Enchantments", new EnchantmentsCategory(itemStack));
+        this.addCategory("Attribute modifiers", new AttributeModifiersCategory(itemStack));
         if (itemStack.getItem() instanceof ItemPotion || itemStack.getItem() instanceof ItemTippedArrow) {
             this.addCategory("Potion effects");
+        }
+        this.addCategory("Hide Flags", new HideFlagsCategory(itemStack));
+        this.addCategory("Can destroy", new BlockCategory(itemStack, "CanDestroy"));
+        if (itemStack.getItem() instanceof ItemBlock) {
+            this.addCategory("Can place on", new BlockCategory(itemStack, "CanPlaceOn"));
         }
         this.show();
     }

@@ -4,15 +4,15 @@ import com.github.franckyi.guapi.node.IntegerField;
 
 import java.util.function.Consumer;
 
-public class IntegerProperty extends EmptyProperty<Integer> {
+public class PropertyInteger extends EmptyProperty<Integer> {
 
     protected IntegerField integerField;
 
-    public IntegerProperty(String name, Integer initialValue, Consumer<Integer> action) {
+    public PropertyInteger(String name, Integer initialValue, Consumer<Integer> action) {
         super(name, initialValue, action);
     }
 
-    public IntegerProperty(String name, Integer initialValue, Consumer<Integer> action, int min, int max) {
+    public PropertyInteger(String name, Integer initialValue, Consumer<Integer> action, int min, int max) {
         this(name, initialValue, action);
         integerField.setMin(min);
         integerField.setMax(max);
@@ -31,7 +31,7 @@ public class IntegerProperty extends EmptyProperty<Integer> {
     @Override
     protected void build() {
         super.build();
-        this.getNode().getChildren().add(integerField = new IntegerField(initialValue));
+        this.addAll(integerField = new IntegerField(initialValue));
     }
 
     @Override

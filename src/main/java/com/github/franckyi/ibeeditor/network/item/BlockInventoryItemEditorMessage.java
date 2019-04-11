@@ -9,7 +9,7 @@ import net.minecraftforge.items.CapabilityItemHandler;
 
 public class BlockInventoryItemEditorMessage extends PlayerInventoryItemEditorMessage {
 
-    private BlockPos blockPos;
+    protected final BlockPos blockPos;
 
     public BlockInventoryItemEditorMessage(ItemStack itemStack, BlockPos blockPos, int slotIndex) {
         super(itemStack, slotIndex);

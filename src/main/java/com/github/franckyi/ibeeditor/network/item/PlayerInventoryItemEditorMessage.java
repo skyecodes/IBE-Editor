@@ -6,7 +6,7 @@ import net.minecraftforge.fml.network.NetworkEvent;
 
 public class PlayerInventoryItemEditorMessage extends MainHandItemEditorMessage {
 
-    protected int slotIndex;
+    protected final int slotIndex;
 
     public PlayerInventoryItemEditorMessage(ItemStack itemStack, int slotIndex) {
         super(itemStack);

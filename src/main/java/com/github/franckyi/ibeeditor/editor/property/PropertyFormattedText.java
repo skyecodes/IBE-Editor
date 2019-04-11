@@ -5,18 +5,18 @@ import net.minecraft.util.text.TextFormatting;
 
 import java.util.function.Consumer;
 
-public class FormattedTextProperty extends StringProperty {
+public class PropertyFormattedText extends PropertyString {
 
     protected TexturedButton formatButton;
 
-    public FormattedTextProperty(String name, String value, Consumer<String> action) {
+    public PropertyFormattedText(String name, String value, Consumer<String> action) {
         super(name, value.startsWith("§r") ? value.substring(2) : value, action);
     }
 
     @Override
     protected void build() {
         super.build();
-        this.getNode().getChildren().add(formatButton = new TexturedButton("format.png", TextFormatting.AQUA + "Format"));
+        this.addAll(formatButton = new TexturedButton("format.png", TextFormatting.AQUA + "Format"));
         formatButton.getOnMouseClickedListeners().add(e -> {
             textField.setText(textField.getText() + "§");
             textField.getView().setFocused(true);

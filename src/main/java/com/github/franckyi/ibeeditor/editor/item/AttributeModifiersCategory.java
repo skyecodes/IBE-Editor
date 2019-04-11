@@ -7,8 +7,8 @@ import com.github.franckyi.guapi.node.EnumButton;
 import com.github.franckyi.guapi.node.IntegerField;
 import com.github.franckyi.guapi.node.TextField;
 import com.github.franckyi.ibeeditor.editor.AbstractProperty;
-import com.github.franckyi.ibeeditor.editor.EditablePropertyList;
-import com.github.franckyi.ibeeditor.editor.EditablePropertyListChild;
+import com.github.franckyi.ibeeditor.editor.EditableCategory;
+import com.github.franckyi.ibeeditor.editor.EditableCategoryProperty;
 import com.google.common.collect.Multimap;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -21,13 +21,13 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
-public class AttributeModifiersPropertyList extends EditablePropertyList<AttributeModifiersPropertyList.AttributeModifierModel> {
+public class AttributeModifiersCategory extends EditableCategory<AttributeModifiersCategory.AttributeModifierModel> {
 
     private final List<AttributeModifierModel> initialModifiers;
-    private ItemStack itemStack;
-    private List<AttributeModifierModel> modifiers;
+    private final ItemStack itemStack;
+    private final List<AttributeModifierModel> modifiers;
 
-    public AttributeModifiersPropertyList(ItemStack itemStack) {
+    public AttributeModifiersCategory(ItemStack itemStack) {
         this.itemStack = itemStack;
         this.modifiers = this.getModifiers(itemStack::getAttributeModifiers);
         this.initialModifiers = this.getModifiers(slot -> itemStack.getItem().getAttributeModifiers(slot, itemStack));
@@ -52,19 +52,17 @@ public class AttributeModifiersPropertyList extends EditablePropertyList<Attribu
 
     @Override
     public void apply() {
-        System.out.println(itemStack.getOrCreateTag());
         itemStack.getOrCreateTag().remove("AttributeModifiers");
         modifiers.clear();
         super.apply();
         if (!modifiers.equals(initialModifiers)) {
             modifiers.forEach(modifier -> itemStack.addAttributeModifier(modifier.getAttributeName(), modifier.getModifier(), modifier.getSlot()));
         }
-        System.out.println(itemStack.getOrCreateTag());
     }
 
     @Override
     protected AbstractProperty<AttributeModifierModel> createNewProperty(AttributeModifierModel initialValue, int index) {
-        return new AttributeModifierProperty(index, initialValue, modifiers::add);
+        return new PropertyAttributeModifier(index, initialValue, modifiers::add);
     }
 
     @Override
@@ -72,19 +70,19 @@ public class AttributeModifiersPropertyList extends EditablePropertyList<Attribu
         return new AttributeModifierModel("", new AttributeModifier("", 0, 0), EntityEquipmentSlot.MAINHAND);
     }
 
-    public class AttributeModifierProperty extends AbstractProperty<AttributeModifierModel> implements EditablePropertyListChild {
+    public class PropertyAttributeModifier extends AbstractProperty<AttributeModifierModel> implements EditableCategoryProperty {
 
-        private ListControls controls;
+        private PropertyControls controls;
 
         private TextField nameField;
         private EnumButton<EntityEquipmentSlot> slotButton;
         private IntegerField operationField;
         private DoubleField amountField;
 
-        public AttributeModifierProperty(int index, AttributeModifierModel initialValue, Consumer<AttributeModifierModel> action) {
+        public PropertyAttributeModifier(int index, AttributeModifierModel initialValue, Consumer<AttributeModifierModel> action) {
             super(initialValue, action);
-            controls = new ListControls(AttributeModifiersPropertyList.this, index);
-            EditablePropertyListChild.super.build();
+            controls = new PropertyControls(AttributeModifiersCategory.this, index);
+            EditableCategoryProperty.super.build();
         }
 
         @Override
@@ -105,15 +103,17 @@ public class AttributeModifiersPropertyList extends EditablePropertyList<Attribu
         @Override
         public void build() {
             this.getNode().setAlignment(Pos.LEFT);
-            this.getNode().getChildren().add(nameField = new TextField(initialValue.getAttributeName()));
+            this.addAll(
+                    nameField = new TextField(initialValue.getAttributeName()),
+                    slotButton = new EnumButton<>(EntityEquipmentSlot.values()),
+                    operationField = new IntegerField(initialValue.getModifier().getOperation(), 0, 3),
+                    amountField = new DoubleField(initialValue.getModifier().getAmount())
+            );
             nameField.setMargin(Insets.left(5));
-            this.getNode().getChildren().add(slotButton = new EnumButton<>(EntityEquipmentSlot.values()));
             slotButton.setValue(initialValue.getSlot());
-            slotButton.setRenderer(aSlot -> StringUtils.capitalize(aSlot.getName()));
+            slotButton.setRenderer(aSlot -> StringUtils.capitalize(aSlot.getName().toLowerCase()));
             slotButton.setMargin(Insets.horizontal(4));
-            this.getNode().getChildren().add(operationField = new IntegerField(initialValue.getModifier().getOperation(), 0, 3));
             operationField.setPrefWidth(15);
-            this.getNode().getChildren().add(amountField = new DoubleField(initialValue.getModifier().getAmount()));
             amountField.setMargin(Insets.horizontal(4));
         }
 
@@ -123,7 +123,7 @@ public class AttributeModifiersPropertyList extends EditablePropertyList<Attribu
         }
 
         @Override
-        public ListControls getControls() {
+        public PropertyControls getControls() {
             return controls;
         }
     }

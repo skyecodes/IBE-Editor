@@ -4,9 +4,9 @@ import com.github.franckyi.guapi.node.ListExtended;
 
 import java.util.Arrays;
 
-public class PropertyList extends ListExtended<AbstractProperty> {
+public class Category extends ListExtended<AbstractProperty> {
 
-    public PropertyList() {
+    public Category() {
         super(25);
     }
 

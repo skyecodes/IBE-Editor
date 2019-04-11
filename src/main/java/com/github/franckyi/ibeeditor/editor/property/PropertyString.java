@@ -4,11 +4,11 @@ import com.github.franckyi.guapi.node.TextField;
 
 import java.util.function.Consumer;
 
-public class StringProperty extends EmptyProperty<String> {
+public class PropertyString extends EmptyProperty<String> {
 
     protected TextField textField;
 
-    public StringProperty(String name, String value, Consumer<String> action) {
+    public PropertyString(String name, String value, Consumer<String> action) {
         super(name, value, action);
     }
 
@@ -25,7 +25,7 @@ public class StringProperty extends EmptyProperty<String> {
     @Override
     protected void build() {
         super.build();
-        this.getNode().getChildren().add(textField = new TextField());
+        this.addAll(textField = new TextField());
     }
 
     @Override

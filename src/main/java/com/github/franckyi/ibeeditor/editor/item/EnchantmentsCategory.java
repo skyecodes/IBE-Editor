@@ -1,8 +1,8 @@
 package com.github.franckyi.ibeeditor.editor.item;
 
 import com.github.franckyi.guapi.math.Pos;
-import com.github.franckyi.ibeeditor.editor.PropertyList;
-import com.github.franckyi.ibeeditor.editor.property.IntegerProperty;
+import com.github.franckyi.ibeeditor.editor.Category;
+import com.github.franckyi.ibeeditor.editor.property.PropertyInteger;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -14,11 +14,11 @@ import net.minecraftforge.registries.ForgeRegistries;
 import java.util.*;
 import java.util.function.Consumer;
 
-public class EnchantmentsPropertyList extends PropertyList {
+public class EnchantmentsCategory extends Category {
 
-    private ItemStack itemStack;
+    private final ItemStack itemStack;
 
-    public EnchantmentsPropertyList(ItemStack itemStack) {
+    public EnchantmentsCategory(ItemStack itemStack) {
         this.itemStack = itemStack;
         NBTTagList enchTag = itemStack.getEnchantmentTagList();
         Map<Enchantment, Integer> itemEnch = new HashMap<>(enchTag.size());
@@ -31,7 +31,7 @@ public class EnchantmentsPropertyList extends PropertyList {
         List<Enchantment> enchantments = new ArrayList<>(ForgeRegistries.ENCHANTMENTS.getValues());
         enchantments.sort(new EnchantmentComparator());
         for (Enchantment e : enchantments) {
-            this.getChildren().add(new EnchantmentProperty(itemStack, e,
+            this.getChildren().add(new PropertyEnchantment(itemStack, e,
                     itemEnch.getOrDefault(e, 0), i -> this.setEnchantment(e, i)));
         }
     }
@@ -80,11 +80,11 @@ public class EnchantmentsPropertyList extends PropertyList {
         }
     }
 
-    public class EnchantmentProperty extends IntegerProperty {
+    public class PropertyEnchantment extends PropertyInteger {
 
         protected Enchantment enchantment;
 
-        public EnchantmentProperty(ItemStack itemStack, Enchantment enchantment, Integer initialValue, Consumer<Integer> action) {
+        public PropertyEnchantment(ItemStack itemStack, Enchantment enchantment, Integer initialValue, Consumer<Integer> action) {
             super(enchantment.getDisplayName(0).getUnformattedComponentText(), initialValue, action);
             this.enchantment = enchantment;
             nameLabel.setPrefWidth(COMPUTED_SIZE);
