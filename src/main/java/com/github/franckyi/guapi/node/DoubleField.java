@@ -1,6 +1,6 @@
 package com.github.franckyi.guapi.node;
 
-public class DoubleField extends TextField {
+public class DoubleField extends TextFieldBase<Double> {
 
     private double min;
     private double max;
@@ -14,7 +14,6 @@ public class DoubleField extends TextField {
     }
 
     public DoubleField(double value, double min, double max) {
-        super(new GuiTextFieldView(), Double.toString(value));
         this.min = min;
         this.max = max;
         this.getView().setValidator(s -> {
@@ -26,6 +25,7 @@ public class DoubleField extends TextField {
                 return false;
             }
         });
+        this.setText(Double.toString(value));
     }
 
     public double getMin() {
@@ -44,16 +44,20 @@ public class DoubleField extends TextField {
         this.max = max;
     }
 
-    public double getValue() {
-        if (this.getText().isEmpty() || this.getText().equals("-") || this.getText().endsWith(".")) return 0;
+    @Override
+    public Double getValue() {
+        String s = this.getText();
+        if (s.isEmpty() || s.equals("-") || s.endsWith(".")) return min;
         try {
-            return Double.parseDouble(this.getText());
+            return Double.parseDouble(s);
         } catch (NumberFormatException e) {
-            return 0;
+            return min;
         }
     }
 
-    public void setValue(double value) {
+    @Override
+    public void setValue(Double value) {
         this.setText(Double.toString(value));
     }
+
 }

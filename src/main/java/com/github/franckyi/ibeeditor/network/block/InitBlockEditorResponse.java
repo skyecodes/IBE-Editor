@@ -1,6 +1,6 @@
 package com.github.franckyi.ibeeditor.network.block;
 
-import com.github.franckyi.ibeeditor.editor.block.BlockEditor;
+import com.github.franckyi.ibeeditor.client.block.BlockEditor;
 import com.github.franckyi.ibeeditor.network.IMessage;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.PacketBuffer;

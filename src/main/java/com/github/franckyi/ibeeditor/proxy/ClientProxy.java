@@ -3,7 +3,8 @@ package com.github.franckyi.ibeeditor.proxy;
 import com.github.franckyi.guapi.Node;
 import com.github.franckyi.guapi.Scene;
 import com.github.franckyi.ibeeditor.IBEEditorMod;
-import com.github.franckyi.ibeeditor.editor.item.ItemEditor;
+import com.github.franckyi.ibeeditor.client.entity.EntityEditor;
+import com.github.franckyi.ibeeditor.client.item.ItemEditor;
 import com.github.franckyi.ibeeditor.network.block.InitBlockEditorRequest;
 import com.github.franckyi.ibeeditor.network.item.BlockInventoryItemEditorMessage;
 import com.github.franckyi.ibeeditor.network.item.MainHandItemEditorMessage;
@@ -35,20 +36,7 @@ public class ClientProxy implements IProxy {
     public static final KeyBinding KEY_OPEN_GUI = new KeyBinding("Open GUI", KeyConflictContext.UNIVERSAL, KeyModifier.NONE, InputMappings.Type.KEYSYM, GLFW.GLFW_KEY_I, KEYBINDING_CATEGORY);
 
     public static boolean openEditor() {
-        return openWorldEditor() || openItemEditor() || openSelfEditor();
-    }
-
-    public static boolean openWorldEditor() {
-        RayTraceResult res = mc.objectMouseOver;
-        switch (res.type) {
-            case MISS:
-                return false;
-            case BLOCK:
-                openBlockEditor(res.getBlockPos());
-            case ENTITY:
-                openEntityEditor(res.entity);
-        }
-        return true;
+        return openEntityEditor() || openBlockEditor() || openItemEditor() || openSelfEditor();
     }
 
     public static boolean openItemEditor() {
@@ -62,7 +50,7 @@ public class ClientProxy implements IProxy {
 
     public static boolean openEntityEditor() {
         RayTraceResult res = mc.objectMouseOver;
-        if (res.type == RayTraceResult.Type.ENTITY) {
+        if (res.type == RayTraceResult.Type.ENTITY && res.entity != null) {
             openEntityEditor(res.entity);
             return true;
         }
@@ -84,7 +72,7 @@ public class ClientProxy implements IProxy {
     }
 
     private static void openEntityEditor(Entity entity) {
-
+        new EntityEditor(entity);
     }
 
     private static void openBlockEditor(BlockPos blockPos) {

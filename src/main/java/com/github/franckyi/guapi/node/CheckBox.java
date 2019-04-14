@@ -1,9 +1,17 @@
 package com.github.franckyi.guapi.node;
 
 import com.github.franckyi.guapi.Node;
+import com.github.franckyi.guapi.ValueNode;
+import com.github.franckyi.guapi.gui.GuiView;
 import net.minecraftforge.fml.client.config.GuiCheckBox;
 
-public class CheckBox extends Node<CheckBox.GuiCheckBoxView> {
+import java.util.HashSet;
+import java.util.Set;
+import java.util.function.BiConsumer;
+
+public class CheckBox extends Node<CheckBox.GuiCheckBoxView> implements ValueNode<Boolean> {
+
+    private final Set<BiConsumer<Boolean, Boolean>> onValueChangedListeners;
 
     public CheckBox() {
         this("", false);
@@ -19,6 +27,7 @@ public class CheckBox extends Node<CheckBox.GuiCheckBoxView> {
 
     public CheckBox(String text, boolean checked) {
         super(new GuiCheckBoxView(text, checked));
+        onValueChangedListeners = new HashSet<>();
     }
 
     public String getText() {
@@ -34,7 +43,11 @@ public class CheckBox extends Node<CheckBox.GuiCheckBoxView> {
     }
 
     public void setChecked(boolean checked) {
+        boolean old = this.isChecked();
         this.getView().setIsChecked(checked);
+        if (old != checked) {
+            this.onValueChanged(old, checked);
+        }
     }
 
     public boolean isDisabled() {
@@ -55,7 +68,12 @@ public class CheckBox extends Node<CheckBox.GuiCheckBoxView> {
         this.setComputedHeight(11);
     }
 
-    public static class GuiCheckBoxView extends GuiCheckBox implements Node.GuiView {
+    @Override
+    public Set<BiConsumer<Boolean, Boolean>> getOnValueChangedListeners() {
+        return onValueChangedListeners;
+    }
+
+    public static class GuiCheckBoxView extends GuiCheckBox implements GuiView {
 
         public GuiCheckBoxView(String displayString, boolean isChecked) {
             super(0, 0, 0, displayString, isChecked);

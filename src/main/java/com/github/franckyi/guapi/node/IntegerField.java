@@ -1,6 +1,6 @@
 package com.github.franckyi.guapi.node;
 
-public class IntegerField extends TextField {
+public class IntegerField extends TextFieldBase<Integer> {
 
     private int min;
     private int max;
@@ -14,7 +14,6 @@ public class IntegerField extends TextField {
     }
 
     public IntegerField(int value, int min, int max) {
-        super(new GuiTextFieldView(), Integer.toString(value));
         this.min = min;
         this.max = max;
         this.getView().setValidator(s -> {
@@ -26,6 +25,7 @@ public class IntegerField extends TextField {
                 return false;
             }
         });
+        this.setText(Integer.toString(value));
     }
 
     public int getMin() {
@@ -44,16 +44,20 @@ public class IntegerField extends TextField {
         this.max = max;
     }
 
-    public int getValue() {
-        if (this.getText().isEmpty() || this.getText().equals("-")) return min;
+    @Override
+    public Integer getValue() {
+        String s = this.getText();
+        if (s.isEmpty() || s.equals("-")) return min;
         try {
-            return Integer.parseInt(this.getText());
+            return Integer.parseInt(s);
         } catch (NumberFormatException e) {
-            return 0;
+            return min;
         }
     }
 
-    public void setValue(int value) {
+    @Override
+    public void setValue(Integer value) {
         this.setText(Integer.toString(value));
     }
+
 }

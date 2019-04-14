@@ -1,19 +1,19 @@
 package com.github.franckyi.guapi.node;
 
+import com.github.franckyi.guapi.ValueNode;
 import net.minecraftforge.client.event.GuiScreenEvent;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.function.BiConsumer;
 import java.util.function.Function;
 
-public class EnumButton<T> extends Button {
+public class EnumButton<T> extends Button implements ValueNode<T> {
 
     private List<T> values;
     private T value;
     private int index;
     private Function<T, String> renderer;
+    private final Set<BiConsumer<T, T>> onValueChangedListeners;
 
     @SafeVarargs
     public EnumButton(T... values) {
@@ -24,6 +24,7 @@ public class EnumButton<T> extends Button {
         this.values = values;
         renderer = Objects::toString;
         index = 0;
+        onValueChangedListeners = new HashSet<>();
         if (!values.isEmpty()) {
             value = values.get(0);
         }
@@ -46,9 +47,15 @@ public class EnumButton<T> extends Button {
     }
 
     public void setValue(T value) {
-        this.value = value;
-        this.index = this.getValues().indexOf(value);
-        this.updateText();
+        if (values.contains(value)) {
+            T old = this.value;
+            this.value = value;
+            this.index = this.getValues().indexOf(value);
+            this.updateText();
+            if (old != value) {
+                this.onValueChanged(old, value);
+            }
+        }
     }
 
     public int getIndex() {
@@ -56,9 +63,11 @@ public class EnumButton<T> extends Button {
     }
 
     public void setIndex(int index) {
-        this.index = index;
-        this.value = this.getValues().get(index);
-        this.updateText();
+        if (index < values.size()) {
+            this.index = index;
+            this.value = this.getValues().get(index);
+            this.updateText();
+        }
     }
 
     public Function<T, String> getRenderer() {
@@ -102,4 +111,8 @@ public class EnumButton<T> extends Button {
         }
     }
 
+    @Override
+    public Set<BiConsumer<T, T>> getOnValueChangedListeners() {
+        return onValueChangedListeners;
+    }
 }

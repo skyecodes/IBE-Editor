@@ -1,6 +1,7 @@
 package com.github.franckyi.guapi.node;
 
 import com.github.franckyi.guapi.Node;
+import com.github.franckyi.guapi.gui.GuiView;
 import net.minecraft.client.gui.GuiButton;
 
 public class Button extends Node<Button.GuiButtonView> {
@@ -47,7 +48,7 @@ public class Button extends Node<Button.GuiButtonView> {
         this.setComputedHeight(20 + this.getPadding().getHorizontal());
     }
 
-    public static class GuiButtonView extends GuiButton implements Node.GuiView {
+    public static class GuiButtonView extends GuiButton implements GuiView {
 
         public GuiButtonView(String text) {
             super(0, 0, 0, text);

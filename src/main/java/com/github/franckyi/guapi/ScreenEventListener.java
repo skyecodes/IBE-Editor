@@ -1,28 +1,28 @@
 package com.github.franckyi.guapi;
 
-import com.github.franckyi.guapi.event.EventHandler;
+import com.github.franckyi.guapi.event.EventListener;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.client.event.GuiScreenEvent;
 
-import java.util.List;
+import java.util.Set;
 
 public interface ScreenEventListener {
 
     Minecraft mc = Minecraft.getInstance();
 
-    List<EventHandler<GuiScreenEvent.MouseClickedEvent>> getOnMouseClickedListeners();
+    Set<EventListener<GuiScreenEvent.MouseClickedEvent>> getOnMouseClickedListeners();
 
-    List<EventHandler<GuiScreenEvent.MouseReleasedEvent>> getOnMouseReleasedListeners();
+    Set<EventListener<GuiScreenEvent.MouseReleasedEvent>> getOnMouseReleasedListeners();
 
-    List<EventHandler<GuiScreenEvent.MouseDragEvent>> getOnMouseDraggedListeners();
+    Set<EventListener<GuiScreenEvent.MouseDragEvent>> getOnMouseDraggedListeners();
 
-    List<EventHandler<GuiScreenEvent.MouseScrollEvent>> getOnMouseScrolledListeners();
+    Set<EventListener<GuiScreenEvent.MouseScrollEvent>> getOnMouseScrolledListeners();
 
-    List<EventHandler<GuiScreenEvent.KeyboardKeyPressedEvent>> getOnKeyPressedListeners();
+    Set<EventListener<GuiScreenEvent.KeyboardKeyPressedEvent>> getOnKeyPressedListeners();
 
-    List<EventHandler<GuiScreenEvent.KeyboardKeyReleasedEvent>> getOnKeyReleasedListeners();
+    Set<EventListener<GuiScreenEvent.KeyboardKeyReleasedEvent>> getOnKeyReleasedListeners();
 
-    List<EventHandler<GuiScreenEvent.KeyboardCharTypedEvent>> getOnCharTypedListeners();
+    Set<EventListener<GuiScreenEvent.KeyboardCharTypedEvent>> getOnCharTypedListeners();
 
     default boolean onMouseClicked(GuiScreenEvent.MouseClickedEvent event) {
         this.getOnMouseClickedListeners().forEach(listener -> listener.handle(event));

@@ -1,7 +1,7 @@
 package com.github.franckyi.guapi;
 
-import com.github.franckyi.guapi.event.EventHandler;
-import com.github.franckyi.guapi.node.TextField;
+import com.github.franckyi.guapi.event.EventListener;
+import com.github.franckyi.guapi.node.TextFieldBase;
 import com.github.franckyi.guapi.scene.Background;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
@@ -9,26 +9,29 @@ import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.function.BiConsumer;
 
 public class Scene implements ScreenEventListener, Parent {
 
-    private final List<EventHandler<GuiScreenEvent.MouseClickedEvent>> onMouseClickedListeners;
-    private final List<EventHandler<GuiScreenEvent.MouseReleasedEvent>> onMouseReleasedListeners;
-    private final List<EventHandler<GuiScreenEvent.MouseDragEvent>> onMouseDraggedListeners;
-    private final List<EventHandler<GuiScreenEvent.MouseScrollEvent>> onMouseScrolledListeners;
-    private final List<EventHandler<GuiScreenEvent.KeyboardKeyPressedEvent>> onKeyPressedListeners;
-    private final List<EventHandler<GuiScreenEvent.KeyboardKeyReleasedEvent>> onKeyReleasedListeners;
-    private final List<EventHandler<GuiScreenEvent.KeyboardCharTypedEvent>> onCharTypedListeners;
-    private final List<EventHandler<GuiScreenEvent.InitGuiEvent>> onInitGuiListeners;
-    private final List<EventHandler<GuiScreenEvent.DrawScreenEvent>> onDrawScreenListeners;
-    private final List<EventHandler<GuiScreenEvent.BackgroundDrawnEvent>> onBackgroundDrawnListeners;
-    private final List<EventHandler<GuiScreenEvent.PotionShiftEvent>> onPotionShiftListeners;
-    private final List<EventHandler<GuiScreenEvent.ActionPerformedEvent>> onActionPerformedListeners;
-    private final List<Runnable> onGuiClosedListeners;
-    private final List<Runnable> onResizeListeners;
-    private final List<Runnable> onTickListeners;
+    private final Set<EventListener<GuiScreenEvent.MouseClickedEvent>> onMouseClickedListeners;
+    private final Set<EventListener<GuiScreenEvent.MouseReleasedEvent>> onMouseReleasedListeners;
+    private final Set<EventListener<GuiScreenEvent.MouseDragEvent>> onMouseDraggedListeners;
+    private final Set<EventListener<GuiScreenEvent.MouseScrollEvent>> onMouseScrolledListeners;
+    private final Set<EventListener<GuiScreenEvent.KeyboardKeyPressedEvent>> onKeyPressedListeners;
+    private final Set<EventListener<GuiScreenEvent.KeyboardKeyReleasedEvent>> onKeyReleasedListeners;
+    private final Set<EventListener<GuiScreenEvent.KeyboardCharTypedEvent>> onCharTypedListeners;
+    private final Set<EventListener<GuiScreenEvent.InitGuiEvent>> onInitGuiListeners;
+    private final Set<EventListener<GuiScreenEvent.DrawScreenEvent>> onDrawScreenListeners;
+    private final Set<EventListener<GuiScreenEvent.BackgroundDrawnEvent>> onBackgroundDrawnListeners;
+    private final Set<EventListener<GuiScreenEvent.PotionShiftEvent>> onPotionShiftListeners;
+    private final Set<EventListener<GuiScreenEvent.ActionPerformedEvent>> onActionPerformedListeners;
+    private final Set<Runnable> onGuiClosedListeners;
+    private final Set<Runnable> onResizeListeners;
+    private final Set<Runnable> onTickListeners;
 
     private final Screen screen;
     private GuiScreen oldScreen;
@@ -51,21 +54,21 @@ public class Scene implements ScreenEventListener, Parent {
         guiPauseGame = true;
         guiCloseWithEscape = true;
         background = Background.DEFAULT;
-        onMouseClickedListeners = new ArrayList<>();
-        onMouseReleasedListeners = new ArrayList<>();
-        onMouseDraggedListeners = new ArrayList<>();
-        onMouseScrolledListeners = new ArrayList<>();
-        onKeyPressedListeners = new ArrayList<>();
-        onKeyReleasedListeners = new ArrayList<>();
-        onCharTypedListeners = new ArrayList<>();
-        onInitGuiListeners = new ArrayList<>();
-        onDrawScreenListeners = new ArrayList<>();
-        onBackgroundDrawnListeners = new ArrayList<>();
-        onPotionShiftListeners = new ArrayList<>();
-        onActionPerformedListeners = new ArrayList<>();
-        onGuiClosedListeners = new ArrayList<>();
-        onResizeListeners = new ArrayList<>();
-        onTickListeners = new ArrayList<>();
+        onMouseClickedListeners = new HashSet<>();
+        onMouseReleasedListeners = new HashSet<>();
+        onMouseDraggedListeners = new HashSet<>();
+        onMouseScrolledListeners = new HashSet<>();
+        onKeyPressedListeners = new HashSet<>();
+        onKeyReleasedListeners = new HashSet<>();
+        onCharTypedListeners = new HashSet<>();
+        onInitGuiListeners = new HashSet<>();
+        onDrawScreenListeners = new HashSet<>();
+        onBackgroundDrawnListeners = new HashSet<>();
+        onPotionShiftListeners = new HashSet<>();
+        onActionPerformedListeners = new HashSet<>();
+        onGuiClosedListeners = new HashSet<>();
+        onResizeListeners = new HashSet<>();
+        onTickListeners = new HashSet<>();
     }
 
     public Screen getScreen() {
@@ -125,59 +128,59 @@ public class Scene implements ScreenEventListener, Parent {
         this.background = background;
     }
 
-    public List<EventHandler<GuiScreenEvent.MouseClickedEvent>> getOnMouseClickedListeners() {
+    public Set<EventListener<GuiScreenEvent.MouseClickedEvent>> getOnMouseClickedListeners() {
         return onMouseClickedListeners;
     }
 
-    public List<EventHandler<GuiScreenEvent.MouseReleasedEvent>> getOnMouseReleasedListeners() {
+    public Set<EventListener<GuiScreenEvent.MouseReleasedEvent>> getOnMouseReleasedListeners() {
         return onMouseReleasedListeners;
     }
 
-    public List<EventHandler<GuiScreenEvent.MouseDragEvent>> getOnMouseDraggedListeners() {
+    public Set<EventListener<GuiScreenEvent.MouseDragEvent>> getOnMouseDraggedListeners() {
         return onMouseDraggedListeners;
     }
 
-    public List<EventHandler<GuiScreenEvent.MouseScrollEvent>> getOnMouseScrolledListeners() {
+    public Set<EventListener<GuiScreenEvent.MouseScrollEvent>> getOnMouseScrolledListeners() {
         return onMouseScrolledListeners;
     }
 
-    public List<EventHandler<GuiScreenEvent.KeyboardKeyPressedEvent>> getOnKeyPressedListeners() {
+    public Set<EventListener<GuiScreenEvent.KeyboardKeyPressedEvent>> getOnKeyPressedListeners() {
         return onKeyPressedListeners;
     }
 
-    public List<EventHandler<GuiScreenEvent.KeyboardKeyReleasedEvent>> getOnKeyReleasedListeners() {
+    public Set<EventListener<GuiScreenEvent.KeyboardKeyReleasedEvent>> getOnKeyReleasedListeners() {
         return onKeyReleasedListeners;
     }
 
-    public List<EventHandler<GuiScreenEvent.KeyboardCharTypedEvent>> getOnCharTypedListeners() {
+    public Set<EventListener<GuiScreenEvent.KeyboardCharTypedEvent>> getOnCharTypedListeners() {
         return onCharTypedListeners;
     }
 
-    public List<EventHandler<GuiScreenEvent.InitGuiEvent>> getOnInitGuiListeners() {
+    public Set<EventListener<GuiScreenEvent.InitGuiEvent>> getOnInitGuiListeners() {
         return onInitGuiListeners;
     }
 
-    public List<EventHandler<GuiScreenEvent.DrawScreenEvent>> getOnDrawScreenListeners() {
+    public Set<EventListener<GuiScreenEvent.DrawScreenEvent>> getOnDrawScreenListeners() {
         return onDrawScreenListeners;
     }
 
-    public List<EventHandler<GuiScreenEvent.BackgroundDrawnEvent>> getOnBackgroundDrawnListeners() {
+    public Set<EventListener<GuiScreenEvent.BackgroundDrawnEvent>> getOnBackgroundDrawnListeners() {
         return onBackgroundDrawnListeners;
     }
 
-    public List<EventHandler<GuiScreenEvent.PotionShiftEvent>> getOnPotionShiftListeners() {
+    public Set<EventListener<GuiScreenEvent.PotionShiftEvent>> getOnPotionShiftListeners() {
         return onPotionShiftListeners;
     }
 
-    public List<Runnable> getOnGuiClosedListeners() {
+    public Set<Runnable> getOnGuiClosedListeners() {
         return onGuiClosedListeners;
     }
 
-    public List<Runnable> getOnResizeListeners() {
+    public Set<Runnable> getOnResizeListeners() {
         return onResizeListeners;
     }
 
-    public List<Runnable> getOnTickListeners() {
+    public Set<Runnable> getOnTickListeners() {
         return onTickListeners;
     }
 
@@ -185,7 +188,7 @@ public class Scene implements ScreenEventListener, Parent {
      * @deprecated The ActionPerformedEvent is never triggered, adding a listener won't do anything
      */
     @Deprecated
-    public List<EventHandler<GuiScreenEvent.ActionPerformedEvent>> getOnActionPerformedListeners() {
+    public Set<EventListener<GuiScreenEvent.ActionPerformedEvent>> getOnActionPerformedListeners() {
         return onActionPerformedListeners;
     }
 
@@ -233,8 +236,8 @@ public class Scene implements ScreenEventListener, Parent {
 
     private void tick(Parent parent) {
         for (ScreenEventListener e : parent.getChildren()) {
-            if (e instanceof TextField) {
-                ((TextField) e).tick();
+            if (e instanceof TextFieldBase) {
+                ((TextFieldBase) e).tick();
             } else if (e instanceof Parent) {
                 tick((Parent) e);
             }

@@ -1,26 +1,28 @@
 package com.github.franckyi.guapi;
 
-import com.github.franckyi.guapi.event.EventHandler;
+import com.github.franckyi.guapi.event.EventListener;
+import com.github.franckyi.guapi.gui.GuiView;
 import com.github.franckyi.guapi.math.Insets;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.IGuiEventListener;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.function.BiConsumer;
 
-public abstract class Node<V extends Node.GuiView> implements ScreenEventListener {
+public abstract class Node<V extends GuiView> implements ScreenEventListener {
 
     public static final int COMPUTED_SIZE = -1;
-    private final List<EventHandler<GuiScreenEvent.MouseClickedEvent>> onMouseClickedListeners;
-    private final List<EventHandler<GuiScreenEvent.MouseReleasedEvent>> onMouseReleasedListeners;
-    private final List<EventHandler<GuiScreenEvent.MouseDragEvent>> onMouseDraggedListeners;
-    private final List<EventHandler<GuiScreenEvent.MouseScrollEvent>> onMouseScrolledListeners;
-    private final List<EventHandler<GuiScreenEvent.KeyboardKeyPressedEvent>> onKeyPressedListeners;
-    private final List<EventHandler<GuiScreenEvent.KeyboardKeyReleasedEvent>> onKeyReleasedListeners;
-    private final List<EventHandler<GuiScreenEvent.KeyboardCharTypedEvent>> onCharTypedListeners;
+    private final Set<EventListener<GuiScreenEvent.MouseClickedEvent>> onMouseClickedListeners;
+    private final Set<EventListener<GuiScreenEvent.MouseReleasedEvent>> onMouseReleasedListeners;
+    private final Set<EventListener<GuiScreenEvent.MouseDragEvent>> onMouseDraggedListeners;
+    private final Set<EventListener<GuiScreenEvent.MouseScrollEvent>> onMouseScrolledListeners;
+    private final Set<EventListener<GuiScreenEvent.KeyboardKeyPressedEvent>> onKeyPressedListeners;
+    private final Set<EventListener<GuiScreenEvent.KeyboardKeyReleasedEvent>> onKeyReleasedListeners;
+    private final Set<EventListener<GuiScreenEvent.KeyboardCharTypedEvent>> onCharTypedListeners;
     private final V view;
     private Parent parent;
     private int computedWidth;
@@ -39,13 +41,13 @@ public abstract class Node<V extends Node.GuiView> implements ScreenEventListene
         prefHeight = COMPUTED_SIZE;
         padding = Insets.NONE;
         margin = Insets.NONE;
-        onMouseClickedListeners = new ArrayList<>();
-        onMouseReleasedListeners = new ArrayList<>();
-        onMouseDraggedListeners = new ArrayList<>();
-        onMouseScrolledListeners = new ArrayList<>();
-        onKeyPressedListeners = new ArrayList<>();
-        onKeyReleasedListeners = new ArrayList<>();
-        onCharTypedListeners = new ArrayList<>();
+        onMouseClickedListeners = new HashSet<>();
+        onMouseReleasedListeners = new HashSet<>();
+        onMouseDraggedListeners = new HashSet<>();
+        onMouseScrolledListeners = new HashSet<>();
+        onKeyPressedListeners = new HashSet<>();
+        onKeyReleasedListeners = new HashSet<>();
+        onCharTypedListeners = new HashSet<>();
     }
 
     public Parent getParent() {
@@ -233,31 +235,31 @@ public abstract class Node<V extends Node.GuiView> implements ScreenEventListene
         return view;
     }
 
-    public List<EventHandler<GuiScreenEvent.MouseClickedEvent>> getOnMouseClickedListeners() {
+    public Set<EventListener<GuiScreenEvent.MouseClickedEvent>> getOnMouseClickedListeners() {
         return onMouseClickedListeners;
     }
 
-    public List<EventHandler<GuiScreenEvent.MouseReleasedEvent>> getOnMouseReleasedListeners() {
+    public Set<EventListener<GuiScreenEvent.MouseReleasedEvent>> getOnMouseReleasedListeners() {
         return onMouseReleasedListeners;
     }
 
-    public List<EventHandler<GuiScreenEvent.MouseDragEvent>> getOnMouseDraggedListeners() {
+    public Set<EventListener<GuiScreenEvent.MouseDragEvent>> getOnMouseDraggedListeners() {
         return onMouseDraggedListeners;
     }
 
-    public List<EventHandler<GuiScreenEvent.MouseScrollEvent>> getOnMouseScrolledListeners() {
+    public Set<EventListener<GuiScreenEvent.MouseScrollEvent>> getOnMouseScrolledListeners() {
         return onMouseScrolledListeners;
     }
 
-    public List<EventHandler<GuiScreenEvent.KeyboardKeyPressedEvent>> getOnKeyPressedListeners() {
+    public Set<EventListener<GuiScreenEvent.KeyboardKeyPressedEvent>> getOnKeyPressedListeners() {
         return onKeyPressedListeners;
     }
 
-    public List<EventHandler<GuiScreenEvent.KeyboardKeyReleasedEvent>> getOnKeyReleasedListeners() {
+    public Set<EventListener<GuiScreenEvent.KeyboardKeyReleasedEvent>> getOnKeyReleasedListeners() {
         return onKeyReleasedListeners;
     }
 
-    public List<EventHandler<GuiScreenEvent.KeyboardCharTypedEvent>> getOnCharTypedListeners() {
+    public Set<EventListener<GuiScreenEvent.KeyboardCharTypedEvent>> getOnCharTypedListeners() {
         return onCharTypedListeners;
     }
 
@@ -349,82 +351,6 @@ public abstract class Node<V extends Node.GuiView> implements ScreenEventListene
     protected abstract void computeWidth();
 
     protected abstract void computeHeight();
-
-    public interface GuiView extends IGuiEventListener {
-
-        int getX();
-
-        void setX(int x);
-
-        int getY();
-
-        void setY(int y);
-
-        int getWidth();
-
-        void setWidth(int width);
-
-        int getHeight();
-
-        void setHeight(int height);
-
-        boolean isVisible();
-
-        void setVisible(boolean visible);
-
-        void render(int mouseX, int mouseY, float partialTicks);
-
-        @Override
-        default boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
-            return this.inBounds(mouseX, mouseY);
-        }
-
-        @Override
-        default boolean mouseReleased(double mouseX, double mouseY, int mouseButton) {
-            return this.inBounds(mouseX, mouseY);
-        }
-
-        @Override
-        default boolean mouseDragged(double mouseX, double mouseY, int mouseButton, double deltaX, double deltaY) {
-            return this.inBounds(mouseX, mouseY);
-        }
-
-        @Override
-        default boolean mouseScrolled(double amount) {
-            return false;
-        }
-
-        @Override
-        default boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-            return false;
-        }
-
-        @Override
-        default boolean keyReleased(int keyCode, int scanCode, int modifiers) {
-            return false;
-        }
-
-        @Override
-        default boolean charTyped(char charTyped, int modifiers) {
-            return false;
-        }
-
-        @Override
-        default void focusChanged(boolean focused) {
-
-        }
-
-        @Override
-        default boolean canFocus() {
-            return false;
-        }
-
-        default boolean inBounds(double x, double y) {
-            return x >= this.getX() && x <= this.getX() + this.getWidth() &&
-                    y >= this.getY() && y <= this.getY() + this.getHeight();
-        }
-
-    }
 
     public static class NodeEventHandler {
 

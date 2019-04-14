@@ -6,6 +6,7 @@ import com.github.franckyi.ibeeditor.network.OpenEditorMessage;
 import com.github.franckyi.ibeeditor.network.block.BlockEditorMessage;
 import com.github.franckyi.ibeeditor.network.block.InitBlockEditorRequest;
 import com.github.franckyi.ibeeditor.network.block.InitBlockEditorResponse;
+import com.github.franckyi.ibeeditor.network.entity.EntityEditorMessage;
 import com.github.franckyi.ibeeditor.network.item.BlockInventoryItemEditorMessage;
 import com.github.franckyi.ibeeditor.network.item.MainHandItemEditorMessage;
 import com.github.franckyi.ibeeditor.network.item.PlayerInventoryItemEditorMessage;
@@ -58,6 +59,8 @@ public class IBEEditorMod {
         registerMessage(InitBlockEditorRequest.class, InitBlockEditorRequest::new);
         registerMessage(InitBlockEditorResponse.class, InitBlockEditorResponse::new);
         registerMessage(BlockEditorMessage.class, BlockEditorMessage::new);
+        // Entity editor
+        registerMessage(EntityEditorMessage.class, EntityEditorMessage::new);
     }
 
     @SubscribeEvent

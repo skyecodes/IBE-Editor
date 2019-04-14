@@ -1,6 +1,7 @@
 package com.github.franckyi.guapi.node;
 
 import com.github.franckyi.guapi.Node;
+import com.github.franckyi.guapi.gui.GuiView;
 import net.minecraft.client.gui.GuiLabel;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 
@@ -90,7 +91,7 @@ public class Label extends Node<Label.GuiLabelView> {
         this.setComputedHeight(mc.fontRenderer.FONT_HEIGHT + this.getPadding().getHorizontal());
     }
 
-    public static class GuiLabelView extends GuiLabel implements Node.GuiView {
+    public static class GuiLabelView extends GuiLabel implements GuiView {
 
         public GuiLabelView(String text, int color) {
             super(new ArrayList<>(Collections.singletonList(text)), color, mc.fontRenderer);

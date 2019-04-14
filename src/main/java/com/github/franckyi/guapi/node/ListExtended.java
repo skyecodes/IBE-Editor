@@ -3,16 +3,18 @@ package com.github.franckyi.guapi.node;
 import com.github.franckyi.guapi.Node;
 import com.github.franckyi.guapi.Parent;
 import com.github.franckyi.guapi.ScreenEventListener;
-import com.github.franckyi.guapi.event.EventHandler;
+import com.github.franckyi.guapi.event.EventListener;
+import com.github.franckyi.guapi.gui.GuiView;
 import com.github.franckyi.guapi.math.Insets;
 import net.minecraft.client.gui.GuiListExtended;
 import net.minecraft.client.gui.GuiSlot;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 
-import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class ListExtended<E extends GuiListExtended.IGuiListEntry & ScreenEventListener> extends Node<ListExtended.GuiListExtendedView> implements Parent {
 
@@ -71,7 +73,7 @@ public class ListExtended<E extends GuiListExtended.IGuiListEntry & ScreenEventL
         this.setComputedHeight(200);
     }
 
-    public static class GuiListExtendedView<E extends GuiListExtended.IGuiListEntry<E>> extends GuiListExtended<E> implements Node.GuiView {
+    public static class GuiListExtendedView<E extends GuiListExtended.IGuiListEntry<E>> extends GuiListExtended<E> implements GuiView {
 
         private Insets offset;
         private int realHeight;
@@ -172,26 +174,26 @@ public class ListExtended<E extends GuiListExtended.IGuiListEntry & ScreenEventL
 
     public static class NodeEntry<T extends Node> extends GuiListExtended.IGuiListEntry<NodeEntry<T>> implements ScreenEventListener, Parent {
 
-        private final List<EventHandler<GuiScreenEvent.MouseClickedEvent>> onMouseClickedListeners;
-        private final List<EventHandler<GuiScreenEvent.MouseReleasedEvent>> onMouseReleasedListeners;
-        private final List<EventHandler<GuiScreenEvent.MouseDragEvent>> onMouseDraggedListeners;
-        private final List<EventHandler<GuiScreenEvent.MouseScrollEvent>> onMouseScrolledListeners;
-        private final List<EventHandler<GuiScreenEvent.KeyboardKeyPressedEvent>> onKeyPressedListeners;
-        private final List<EventHandler<GuiScreenEvent.KeyboardKeyReleasedEvent>> onKeyReleasedListeners;
-        private final List<EventHandler<GuiScreenEvent.KeyboardCharTypedEvent>> onCharTypedListeners;
+        private final Set<EventListener<GuiScreenEvent.MouseClickedEvent>> onMouseClickedListeners;
+        private final Set<EventListener<GuiScreenEvent.MouseReleasedEvent>> onMouseReleasedListeners;
+        private final Set<EventListener<GuiScreenEvent.MouseDragEvent>> onMouseDraggedListeners;
+        private final Set<EventListener<GuiScreenEvent.MouseScrollEvent>> onMouseScrolledListeners;
+        private final Set<EventListener<GuiScreenEvent.KeyboardKeyPressedEvent>> onKeyPressedListeners;
+        private final Set<EventListener<GuiScreenEvent.KeyboardKeyReleasedEvent>> onKeyReleasedListeners;
+        private final Set<EventListener<GuiScreenEvent.KeyboardCharTypedEvent>> onCharTypedListeners;
 
         private final T node;
 
         public NodeEntry(T node) {
             this.node = node;
             node.setParent(this);
-            onMouseClickedListeners = new ArrayList<>();
-            onMouseReleasedListeners = new ArrayList<>();
-            onMouseDraggedListeners = new ArrayList<>();
-            onMouseScrolledListeners = new ArrayList<>();
-            onKeyPressedListeners = new ArrayList<>();
-            onKeyReleasedListeners = new ArrayList<>();
-            onCharTypedListeners = new ArrayList<>();
+            onMouseClickedListeners = new HashSet<>();
+            onMouseReleasedListeners = new HashSet<>();
+            onMouseDraggedListeners = new HashSet<>();
+            onMouseScrolledListeners = new HashSet<>();
+            onKeyPressedListeners = new HashSet<>();
+            onKeyReleasedListeners = new HashSet<>();
+            onCharTypedListeners = new HashSet<>();
         }
 
         public T getNode() {
@@ -214,31 +216,31 @@ public class ListExtended<E extends GuiListExtended.IGuiListEntry & ScreenEventL
             node.render(mouseX, mouseY, partialTicks);
         }
 
-        public List<EventHandler<GuiScreenEvent.MouseClickedEvent>> getOnMouseClickedListeners() {
+        public Set<EventListener<GuiScreenEvent.MouseClickedEvent>> getOnMouseClickedListeners() {
             return onMouseClickedListeners;
         }
 
-        public List<EventHandler<GuiScreenEvent.MouseReleasedEvent>> getOnMouseReleasedListeners() {
+        public Set<EventListener<GuiScreenEvent.MouseReleasedEvent>> getOnMouseReleasedListeners() {
             return onMouseReleasedListeners;
         }
 
-        public List<EventHandler<GuiScreenEvent.MouseDragEvent>> getOnMouseDraggedListeners() {
+        public Set<EventListener<GuiScreenEvent.MouseDragEvent>> getOnMouseDraggedListeners() {
             return onMouseDraggedListeners;
         }
 
-        public List<EventHandler<GuiScreenEvent.MouseScrollEvent>> getOnMouseScrolledListeners() {
+        public Set<EventListener<GuiScreenEvent.MouseScrollEvent>> getOnMouseScrolledListeners() {
             return onMouseScrolledListeners;
         }
 
-        public List<EventHandler<GuiScreenEvent.KeyboardKeyPressedEvent>> getOnKeyPressedListeners() {
+        public Set<EventListener<GuiScreenEvent.KeyboardKeyPressedEvent>> getOnKeyPressedListeners() {
             return onKeyPressedListeners;
         }
 
-        public List<EventHandler<GuiScreenEvent.KeyboardKeyReleasedEvent>> getOnKeyReleasedListeners() {
+        public Set<EventListener<GuiScreenEvent.KeyboardKeyReleasedEvent>> getOnKeyReleasedListeners() {
             return onKeyReleasedListeners;
         }
 
-        public List<EventHandler<GuiScreenEvent.KeyboardCharTypedEvent>> getOnCharTypedListeners() {
+        public Set<EventListener<GuiScreenEvent.KeyboardCharTypedEvent>> getOnCharTypedListeners() {
             return onCharTypedListeners;
         }
 

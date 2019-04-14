@@ -22,10 +22,17 @@ public class IBEEditorCommand {
         LiteralArgumentBuilder<CommandSource> ibe = Commands.literal("ibe").executes(ctx -> execute(ctx, EditorArgument.ANY));
         for (EditorArgument argument : EditorArgument.values()) {
             if (argument != EditorArgument.ANY) {
-                ibe.then(Commands.literal(argument.str).executes(ctx -> execute(ctx, argument)));
+                ibe.then(Commands.literal(argument.str).executes(ctx -> execute0(ctx, argument)));
             }
         }
         return ibe;
+    }
+
+    private static int execute0(CommandContext<CommandSource> ctx, EditorArgument argument) {
+        if (argument != EditorArgument.ANY) {
+            return execute(ctx, argument);
+        }
+        return 1;
     }
 
     private static int execute(CommandContext<CommandSource> ctx, EditorArgument argument) {
