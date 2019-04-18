@@ -1,23 +1,25 @@
-package com.github.franckyi.ibeeditor.client.block;
+package com.github.franckyi.ibeeditor.client.block.tileentity.capability;
 
 import com.github.franckyi.guapi.Node;
 import com.github.franckyi.guapi.node.Button;
-import com.github.franckyi.ibeeditor.client.Category;
+import com.github.franckyi.ibeeditor.client.block.BlockEditor;
+import com.github.franckyi.ibeeditor.client.block.TileEntityCategory;
 import com.github.franckyi.ibeeditor.client.item.ItemEditor;
-import com.github.franckyi.ibeeditor.client.property.EmptyProperty;
+import com.github.franckyi.ibeeditor.client.property.LabeledCategory;
 import com.github.franckyi.ibeeditor.network.item.BlockInventoryItemEditorMessage;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraftforge.items.IItemHandler;
 
-public class InventoryCategory extends Category {
+public class ItemHandlerCategory extends TileEntityCategory<IItemHandler> {
 
-    public InventoryCategory(BlockEditor editor, IInventory inventory) {
-        for (int i = 0; i < inventory.getSizeInventory(); i++) {
-            ItemStack itemStack = inventory.getStackInSlot(i);
-            if (!itemStack.isEmpty()) {
-                this.getChildren().add(new SlotProperty(i, itemStack, editor.getBlockPos()));
+    public ItemHandlerCategory(BlockEditor editor, IItemHandler handler) {
+        super(editor, handler);
+        for (int i = 0; i < handler.getSlots(); i++) {
+            ItemStack stack = handler.getStackInSlot(i);
+            if (!stack.isEmpty()) {
+                this.getChildren().add(new SlotProperty(i, stack, editor.getBlockPos()));
             }
         }
     }
@@ -30,7 +32,7 @@ public class InventoryCategory extends Category {
         }
     }
 
-    private class SlotProperty extends EmptyProperty<Void> {
+    private class SlotProperty extends LabeledCategory<Void> {
 
         private Button openItem;
 

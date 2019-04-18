@@ -1,6 +1,7 @@
 package com.github.franckyi.ibeeditor;
 
 import com.github.franckyi.ibeeditor.command.IBEEditorCommand;
+import com.github.franckyi.ibeeditor.config.IBEEditorConfig;
 import com.github.franckyi.ibeeditor.network.IMessage;
 import com.github.franckyi.ibeeditor.network.OpenEditorMessage;
 import com.github.franckyi.ibeeditor.network.block.BlockEditorMessage;
@@ -49,6 +50,7 @@ public class IBEEditorMod {
     @SubscribeEvent
     public void onSetup(FMLCommonSetupEvent event) {
         proxy.onSetup();
+        IBEEditorConfig.load();
         // Command
         registerMessage(OpenEditorMessage.class, OpenEditorMessage::new);
         // Item Editor

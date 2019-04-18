@@ -4,6 +4,7 @@ import com.github.franckyi.guapi.event.EventListener;
 import com.github.franckyi.guapi.node.TextFieldBase;
 import com.github.franckyi.guapi.scene.Background;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -347,11 +348,11 @@ public class Scene implements ScreenEventListener, Parent {
     public class Screen extends GuiScreen {
 
         private final Scene scene;
-        private final Set<Runnable> postRender;
+        private final Set<Tooltip> tooltips;
 
         public Screen(Scene scene) {
             this.scene = scene;
-            this.postRender = new HashSet<>();
+            this.tooltips = new HashSet<>();
         }
 
         public Scene getScene() {
@@ -373,8 +374,8 @@ public class Scene implements ScreenEventListener, Parent {
         public void render(int mouseX, int mouseY, float partialTicks) {
             this.getScene().getBackground().draw(this);
             this.getScene().render(mouseX, mouseY, partialTicks);
-            postRender.forEach(Runnable::run);
-            postRender.clear();
+            tooltips.forEach(tooltip -> super.drawHoveringText(tooltip.textLines, tooltip.x, tooltip.y, tooltip.font));
+            tooltips.clear();
         }
 
         @Override
@@ -414,7 +415,31 @@ public class Scene implements ScreenEventListener, Parent {
 
         @Override
         public void drawHoveringText(String text, int x, int y) {
-            postRender.add(() -> super.drawHoveringText(text, x, y));
+            tooltips.add(new Tooltip(Collections.singletonList(text), x, y, fontRenderer));
+        }
+
+        @Override
+        public void drawHoveringText(List<String> textLines, int x, int y) {
+            tooltips.add(new Tooltip(textLines, x, y, fontRenderer));
+        }
+
+        @Override
+        public void drawHoveringText(List<String> textLines, int x, int y, FontRenderer font) {
+            tooltips.add(new Tooltip(textLines, x, y, font));
+        }
+
+        private class Tooltip {
+            private List<String> textLines;
+            private int x;
+            private int y;
+            private FontRenderer font;
+
+            private Tooltip(List<String> textLines, int x, int y, FontRenderer font) {
+                this.textLines = textLines;
+                this.x = x;
+                this.y = y;
+                this.font = font;
+            }
         }
     }
 

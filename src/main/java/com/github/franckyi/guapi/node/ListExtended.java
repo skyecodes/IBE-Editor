@@ -92,8 +92,8 @@ public class ListExtended<E extends GuiListExtended.IGuiListEntry & ScreenEventL
         }
 
         public void setOffset(Insets offset) {
-            int x = this.getX();
-            int y = this.getY();
+            int x = this.getViewX();
+            int y = this.getViewY();
             this.offset = offset;
             left = x + offset.getLeft();
             right = x + width - offset.getRight();
@@ -102,51 +102,56 @@ public class ListExtended<E extends GuiListExtended.IGuiListEntry & ScreenEventL
         }
 
         @Override
-        public int getX() {
+        public int getViewX() {
             return left - offset.getLeft();
         }
 
         @Override
-        public void setX(int x) {
+        public void setViewX(int x) {
             left = x + offset.getLeft();
             right = x + width - offset.getRight();
         }
 
         @Override
-        public int getY() {
+        public int getViewY() {
             return top - offset.getTop();
         }
 
         @Override
-        public void setY(int y) {
+        public void setViewY(int y) {
             top = y + offset.getTop();
             bottom = y + realHeight - offset.getBottom();
         }
 
         @Override
-        public int getWidth() {
+        public int getViewWidth() {
             return width;
         }
 
         @Override
-        public void setWidth(int width) {
+        public void setViewWidth(int width) {
             this.width = width;
             right = left + width;
         }
 
         @Override
-        public int getHeight() {
+        public int getViewHeight() {
             return realHeight;
         }
 
         @Override
-        public void setHeight(int height) {
+        public void setViewHeight(int height) {
             this.realHeight = height;
             bottom = top + height;
         }
 
         @Override
-        public void setVisible(boolean visible) {
+        public boolean isViewVisible() {
+            return this.isVisible();
+        }
+
+        @Override
+        public void setViewVisible(boolean visible) {
             this.visible = visible;
         }
 
@@ -161,7 +166,7 @@ public class ListExtended<E extends GuiListExtended.IGuiListEntry & ScreenEventL
         }
 
         @Override
-        public void render(int mouseX, int mouseY, float partialTicks) {
+        public void renderView(int mouseX, int mouseY, float partialTicks) {
             super.drawScreen(mouseX, mouseY, partialTicks);
         }
 
@@ -246,7 +251,7 @@ public class ListExtended<E extends GuiListExtended.IGuiListEntry & ScreenEventL
 
         @Override
         public boolean onMouseClicked(GuiScreenEvent.MouseClickedEvent event) {
-            if (node.getView().isVisible() && node.getView().mouseClicked(event.getMouseX(), event.getMouseY(), event.getButton())) {
+            if (node.getView().isViewVisible() && node.getView().mouseClicked(event.getMouseX(), event.getMouseY(), event.getButton())) {
                 ScreenEventListener.super.onMouseClicked(event);
                 node.onMouseClicked(event);
                 return true;
@@ -256,7 +261,7 @@ public class ListExtended<E extends GuiListExtended.IGuiListEntry & ScreenEventL
 
         @Override
         public boolean onMouseReleased(GuiScreenEvent.MouseReleasedEvent event) {
-            if (node.getView().isVisible() && node.getView().mouseReleased(event.getMouseX(), event.getMouseY(), event.getButton())) {
+            if (node.getView().isViewVisible() && node.getView().mouseReleased(event.getMouseX(), event.getMouseY(), event.getButton())) {
                 ScreenEventListener.super.onMouseReleased(event);
                 node.onMouseReleased(event);
                 return true;
@@ -266,7 +271,7 @@ public class ListExtended<E extends GuiListExtended.IGuiListEntry & ScreenEventL
 
         @Override
         public boolean onMouseDragged(GuiScreenEvent.MouseDragEvent event) {
-            if (node.getView().isVisible() && node.getView().mouseDragged(event.getMouseX(), event.getMouseY(), event.getMouseButton(), event.getDragX(), event.getDragY())) {
+            if (node.getView().isViewVisible() && node.getView().mouseDragged(event.getMouseX(), event.getMouseY(), event.getMouseButton(), event.getDragX(), event.getDragY())) {
                 ScreenEventListener.super.onMouseDragged(event);
                 node.onMouseDragged(event);
                 return true;
@@ -276,7 +281,7 @@ public class ListExtended<E extends GuiListExtended.IGuiListEntry & ScreenEventL
 
         @Override
         public boolean onMouseScrolled(GuiScreenEvent.MouseScrollEvent event) {
-            if (node.getView().isVisible() && node.getView().mouseScrolled(event.getScrollDelta())) {
+            if (node.getView().isViewVisible() && node.getView().mouseScrolled(event.getScrollDelta())) {
                 ScreenEventListener.super.onMouseScrolled(event);
                 node.onMouseScrolled(event);
                 return true;
@@ -286,7 +291,7 @@ public class ListExtended<E extends GuiListExtended.IGuiListEntry & ScreenEventL
 
         @Override
         public boolean onKeyPressed(GuiScreenEvent.KeyboardKeyPressedEvent event) {
-            if (node.getView().isVisible() && node.getView().keyPressed(event.getKeyCode(), event.getScanCode(), event.getModifiers())) {
+            if (node.getView().isViewVisible() && node.getView().keyPressed(event.getKeyCode(), event.getScanCode(), event.getModifiers())) {
                 ScreenEventListener.super.onKeyPressed(event);
                 node.onKeyPressed(event);
                 return true;
@@ -296,7 +301,7 @@ public class ListExtended<E extends GuiListExtended.IGuiListEntry & ScreenEventL
 
         @Override
         public boolean onKeyReleased(GuiScreenEvent.KeyboardKeyReleasedEvent event) {
-            if (node.getView().isVisible() && node.getView().keyReleased(event.getKeyCode(), event.getScanCode(), event.getModifiers())) {
+            if (node.getView().isViewVisible() && node.getView().keyReleased(event.getKeyCode(), event.getScanCode(), event.getModifiers())) {
                 ScreenEventListener.super.onKeyReleased(event);
                 node.onKeyReleased(event);
                 return true;
@@ -306,7 +311,7 @@ public class ListExtended<E extends GuiListExtended.IGuiListEntry & ScreenEventL
 
         @Override
         public boolean onCharTyped(GuiScreenEvent.KeyboardCharTypedEvent event) {
-            if (node.getView().isVisible() && node.getView().charTyped(event.getCodePoint(), event.getModifiers())) {
+            if (node.getView().isViewVisible() && node.getView().charTyped(event.getCodePoint(), event.getModifiers())) {
                 ScreenEventListener.super.onCharTyped(event);
                 node.onCharTyped(event);
                 return true;

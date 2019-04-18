@@ -70,19 +70,19 @@ public abstract class Node<V extends GuiView> implements ScreenEventListener {
     }
 
     public int getX() {
-        return this.getView().getX();
+        return this.getView().getViewX();
     }
 
     public void setX(int x) {
-        this.getView().setX(x);
+        this.getView().setViewX(x);
     }
 
     public int getY() {
-        return this.getView().getY();
+        return this.getView().getViewY();
     }
 
     public void setY(int y) {
-        this.getView().setY(y);
+        this.getView().setViewY(y);
     }
 
     public void setPosition(int x, int y) {
@@ -91,12 +91,12 @@ public abstract class Node<V extends GuiView> implements ScreenEventListener {
     }
 
     public int getWidth() {
-        return this.getView().getWidth();
+        return this.getView().getViewWidth();
     }
 
     protected void setWidth(int width) {
         if (this.getWidth() != width) {
-            this.getView().setWidth(width);
+            this.getView().setViewWidth(width);
             if (this.getParent() != null) {
                 this.getParent().updateChildrenPos();
             }
@@ -104,12 +104,12 @@ public abstract class Node<V extends GuiView> implements ScreenEventListener {
     }
 
     public int getHeight() {
-        return this.getView().getHeight();
+        return this.getView().getViewHeight();
     }
 
     protected void setHeight(int height) {
         if (this.getHeight() != height) {
-            this.getView().setHeight(height);
+            this.getView().setViewHeight(height);
             if (this.getParent() != null) {
                 this.getParent().updateChildrenPos();
             }
@@ -119,11 +119,11 @@ public abstract class Node<V extends GuiView> implements ScreenEventListener {
     protected void setSize(int width, int height) {
         boolean flag = false;
         if (this.getWidth() != width) {
-            this.getView().setWidth(width);
+            this.getView().setViewWidth(width);
             flag = true;
         }
         if (this.getHeight() != height) {
-            this.getView().setHeight(height);
+            this.getView().setViewHeight(height);
             flag = true;
         }
         if (flag && this.getParent() != null) {
@@ -224,11 +224,11 @@ public abstract class Node<V extends GuiView> implements ScreenEventListener {
     }
 
     public boolean isVisible() {
-        return this.getView().isVisible();
+        return this.getView().isViewVisible();
     }
 
     public void setVisible(boolean visible) {
-        this.getView().setVisible(visible);
+        this.getView().setViewVisible(visible);
     }
 
     public V getView() {
@@ -265,7 +265,7 @@ public abstract class Node<V extends GuiView> implements ScreenEventListener {
 
     @Override
     public boolean onMouseClicked(GuiScreenEvent.MouseClickedEvent event) {
-        if (this.getView().isVisible() && this.getView().mouseClicked(event.getMouseX(), event.getMouseY(), event.getButton())) {
+        if (this.getView().isViewVisible() && this.getView().mouseClicked(event.getMouseX(), event.getMouseY(), event.getButton())) {
             ScreenEventListener.super.onMouseClicked(event);
             return true;
         }
@@ -274,7 +274,7 @@ public abstract class Node<V extends GuiView> implements ScreenEventListener {
 
     @Override
     public boolean onMouseReleased(GuiScreenEvent.MouseReleasedEvent event) {
-        if (this.getView().isVisible() && this.getView().mouseReleased(event.getMouseX(), event.getMouseY(), event.getButton())) {
+        if (this.getView().isViewVisible() && this.getView().mouseReleased(event.getMouseX(), event.getMouseY(), event.getButton())) {
             ScreenEventListener.super.onMouseReleased(event);
             return true;
         }
@@ -283,7 +283,7 @@ public abstract class Node<V extends GuiView> implements ScreenEventListener {
 
     @Override
     public boolean onMouseDragged(GuiScreenEvent.MouseDragEvent event) {
-        if (this.getView().isVisible() && this.getView().mouseDragged(event.getMouseX(), event.getMouseY(), event.getMouseButton(), event.getDragX(), event.getDragY())) {
+        if (this.getView().isViewVisible() && this.getView().mouseDragged(event.getMouseX(), event.getMouseY(), event.getMouseButton(), event.getDragX(), event.getDragY())) {
             ScreenEventListener.super.onMouseDragged(event);
             return true;
         }
@@ -292,7 +292,7 @@ public abstract class Node<V extends GuiView> implements ScreenEventListener {
 
     @Override
     public boolean onMouseScrolled(GuiScreenEvent.MouseScrollEvent event) {
-        if (this.getView().isVisible() && this.getView().mouseScrolled(event.getScrollDelta())) {
+        if (this.getView().isViewVisible() && this.getView().mouseScrolled(event.getScrollDelta())) {
             ScreenEventListener.super.onMouseScrolled(event);
             return true;
         }
@@ -301,7 +301,7 @@ public abstract class Node<V extends GuiView> implements ScreenEventListener {
 
     @Override
     public boolean onKeyPressed(GuiScreenEvent.KeyboardKeyPressedEvent event) {
-        if (this.getView().isVisible() && this.getView().keyPressed(event.getKeyCode(), event.getScanCode(), event.getModifiers())) {
+        if (this.getView().isViewVisible() && this.getView().keyPressed(event.getKeyCode(), event.getScanCode(), event.getModifiers())) {
             ScreenEventListener.super.onKeyPressed(event);
             return true;
         }
@@ -310,7 +310,7 @@ public abstract class Node<V extends GuiView> implements ScreenEventListener {
 
     @Override
     public boolean onKeyReleased(GuiScreenEvent.KeyboardKeyReleasedEvent event) {
-        if (this.getView().isVisible() && this.getView().keyReleased(event.getKeyCode(), event.getScanCode(), event.getModifiers())) {
+        if (this.getView().isViewVisible() && this.getView().keyReleased(event.getKeyCode(), event.getScanCode(), event.getModifiers())) {
             ScreenEventListener.super.onKeyReleased(event);
             return true;
         }
@@ -319,7 +319,7 @@ public abstract class Node<V extends GuiView> implements ScreenEventListener {
 
     @Override
     public boolean onCharTyped(GuiScreenEvent.KeyboardCharTypedEvent event) {
-        if (this.getView().isVisible() && this.getView().charTyped(event.getCodePoint(), event.getModifiers())) {
+        if (this.getView().isViewVisible() && this.getView().charTyped(event.getCodePoint(), event.getModifiers())) {
             ScreenEventListener.super.onCharTyped(event);
             return true;
         }
@@ -340,7 +340,7 @@ public abstract class Node<V extends GuiView> implements ScreenEventListener {
     }
 
     public void render(int mouseX, int mouseY, float partialTicks) {
-        this.getView().render(mouseX, mouseY, partialTicks);
+        this.getView().renderView(mouseX, mouseY, partialTicks);
     }
 
     public void computeSize() {

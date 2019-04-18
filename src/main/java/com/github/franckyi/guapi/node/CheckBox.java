@@ -77,47 +77,62 @@ public class CheckBox extends Node<CheckBox.GuiCheckBoxView> implements ValueNod
 
         public GuiCheckBoxView(String displayString, boolean isChecked) {
             super(0, 0, 0, displayString, isChecked);
+            packedFGColor = 0xffffff;
         }
 
         @Override
-        public int getX() {
+        public int getViewX() {
             return x;
         }
 
         @Override
-        public void setX(int x) {
+        public void setViewX(int x) {
             this.x = x;
         }
 
         @Override
-        public int getY() {
+        public int getViewY() {
             return y;
         }
 
         @Override
-        public void setY(int y) {
+        public void setViewY(int y) {
             this.y = y;
         }
 
         @Override
-        public int getHeight() {
+        public int getViewWidth() {
+            return super.getWidth();
+        }
+
+        @Override
+        public void setViewWidth(int width) {
+            super.setWidth(width);
+        }
+
+        @Override
+        public int getViewHeight() {
             return height;
         }
 
         @Override
-        public void setHeight(int height) {
+        public void setViewHeight(int height) {
             this.height = height;
         }
 
         @Override
-        public boolean isVisible() {
+        public boolean isViewVisible() {
             return visible;
         }
 
         @Override
-        public void setVisible(boolean visible) {
+        public void setViewVisible(boolean visible) {
             this.visible = visible;
         }
 
+        @Override
+        public void renderView(int mouseX, int mouseY, float partialTicks) {
+            this.render(mouseX, mouseY, partialTicks);
+        }
     }
 }

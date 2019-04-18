@@ -71,7 +71,7 @@ public abstract class Group extends Node<Group.GuiGroupView> implements Parent {
     static class GuiGroupView extends AbstractGuiView {
 
         @Override
-        public void render(int mouseX, int mouseY, float partialTicks) {
+        public void renderView(int mouseX, int mouseY, float partialTicks) {
         }
     }
 

@@ -60,7 +60,7 @@ public class TexturedButton extends Button {
         }
 
         @Override
-        public void render(int mouseX, int mouseY, float partialTicks) {
+        public void renderView(int mouseX, int mouseY, float partialTicks) {
             super.render(mouseX, mouseY, partialTicks);
             if (this.visible) {
                 mc.getTextureManager().bindTexture(texture);

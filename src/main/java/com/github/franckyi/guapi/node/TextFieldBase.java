@@ -69,51 +69,62 @@ public abstract class TextFieldBase<T> extends Node<TextFieldBase.GuiTextFieldVi
 
         public GuiTextFieldView() {
             super(0, mc.fontRenderer, 0, 0, 0, 0);
+            this.setMaxStringLength(Short.MAX_VALUE);
         }
 
         @Override
-        public int getX() {
+        public int getViewX() {
             return x;
         }
 
         @Override
-        public void setX(int x) {
+        public void setViewX(int x) {
             this.x = x;
         }
 
         @Override
-        public int getY() {
+        public int getViewY() {
             return y;
         }
 
         @Override
-        public void setY(int y) {
+        public void setViewY(int y) {
             this.y = y;
         }
 
         @Override
-        public void setWidth(int width) {
+        public int getViewWidth() {
+            return super.getWidth();
+        }
+
+        @Override
+        public void setViewWidth(int width) {
             this.width = width;
             ObfuscationReflectionHelper.setPrivateValue(GuiTextField.class, this, 0, "field_146225_q");
         }
 
         @Override
-        public int getHeight() {
+        public int getViewHeight() {
             return height;
         }
 
         @Override
-        public void setHeight(int height) {
+        public void setViewHeight(int height) {
             this.height = height;
         }
 
         @Override
-        public boolean isVisible() {
+        public boolean isViewVisible() {
             return this.getVisible();
         }
 
         @Override
-        public void render(int mouseX, int mouseY, float partialTicks) {
+        public void setViewVisible(boolean visible) {
+            this.setVisible(visible);
+        }
+
+        @Override
+        public void renderView(int mouseX, int mouseY, float partialTicks) {
             this.drawTextField(mouseX, mouseY, partialTicks);
         }
 

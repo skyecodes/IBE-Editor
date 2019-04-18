@@ -2,6 +2,7 @@ package com.github.franckyi.ibeeditor.network.block;
 
 import com.github.franckyi.ibeeditor.client.block.BlockEditor;
 import com.github.franckyi.ibeeditor.network.IMessage;
+import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
@@ -40,7 +41,10 @@ public class InitBlockEditorResponse implements IMessage {
 
     @Override
     public void handle(NetworkEvent.Context context) {
-        TileEntity tileEntity = tag == null ? null : TileEntity.create(tag);
+        TileEntity tileEntity = Minecraft.getInstance().world.getTileEntity(blockPos);
+        if (tileEntity != null && tag != null) {
+            tileEntity.read(tag);
+        }
         new BlockEditor(blockPos, tileEntity);
     }
 }

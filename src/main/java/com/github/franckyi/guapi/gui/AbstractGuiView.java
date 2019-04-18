@@ -4,8 +4,11 @@ import net.minecraft.client.gui.Gui;
 
 public abstract class AbstractGuiView extends Gui implements GuiView {
 
-    private int x, y, width, height;
-    private boolean visible;
+    protected int x;
+    protected int y;
+    protected int width;
+    protected int height;
+    protected boolean visible;
 
     public AbstractGuiView() {
         x = 0;
@@ -16,52 +19,52 @@ public abstract class AbstractGuiView extends Gui implements GuiView {
     }
 
     @Override
-    public int getX() {
+    public int getViewX() {
         return x;
     }
 
     @Override
-    public void setX(int x) {
+    public void setViewX(int x) {
         this.x = x;
     }
 
     @Override
-    public int getY() {
+    public int getViewY() {
         return y;
     }
 
     @Override
-    public void setY(int y) {
+    public void setViewY(int y) {
         this.y = y;
     }
 
     @Override
-    public int getWidth() {
+    public int getViewWidth() {
         return width;
     }
 
     @Override
-    public void setWidth(int width) {
+    public void setViewWidth(int width) {
         this.width = width;
     }
 
     @Override
-    public int getHeight() {
+    public int getViewHeight() {
         return height;
     }
 
     @Override
-    public void setHeight(int height) {
+    public void setViewHeight(int height) {
         this.height = height;
     }
 
     @Override
-    public boolean isVisible() {
+    public boolean isViewVisible() {
         return visible;
     }
 
     @Override
-    public void setVisible(boolean visible) {
+    public void setViewVisible(boolean visible) {
         this.visible = visible;
     }
 

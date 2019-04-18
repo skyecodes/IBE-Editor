@@ -14,17 +14,17 @@ issueTrackerURL="https://github.com/Franckyi/IBE-Editor/issues" #optional
 # The modid of the mod
 modId="ibeeditor" #mandatory
 # The version number of the mod - there's a few well known ${} variables useable here or just hardcode it
-version="1.0.0-beta1" #mandatory
+version="${file.jarVersion}" #mandatory
  # A display name for the mod
 displayName="IBE Editor" #mandatory
 # A URL to query for updates for this mod. See the JSON update specification <here>
 #updateJSONURL="http://myurl.me/" #optional
 # A URL for the "homepage" for this mod, displayed in the mod UI
-displayURL="https://minecraft.curseforge.com/projects/ibe-category" #optional
+displayURL="https://minecraft.curseforge.com/projects/ibe-editor" #optional
 # A file name (in the root of the mod JAR) containing a logo for display
-logoFile="logo.png" #optional
+logoFile="logo-old.png" #optional
 # A text field displayed in the mod UI
-#credits="Thanks for this example mod goes to Java" #optional
+credits="Thanks to Emex for the logo !" #optional
 # A text field displayed in the mod UI
 authors="Franckyi" #optional
 # The description text for the mod (multi line!) (#mandatory)

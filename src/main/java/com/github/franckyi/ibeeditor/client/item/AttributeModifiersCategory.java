@@ -106,7 +106,7 @@ public class AttributeModifiersCategory extends EditableCategory<AttributeModifi
             this.addAll(
                     nameField = new TextField(initialValue.getAttributeName()),
                     slotButton = new EnumButton<>(EntityEquipmentSlot.values()),
-                    operationField = new IntegerField(initialValue.getModifier().getOperation(), 0, 3),
+                    operationField = new IntegerField(initialValue.getModifier().getOperation(), 0, 2),
                     amountField = new DoubleField(initialValue.getModifier().getAmount())
             );
             nameField.setMargin(Insets.left(5));

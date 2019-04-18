@@ -4,7 +4,7 @@ import com.github.franckyi.guapi.node.IntegerField;
 
 import java.util.function.Consumer;
 
-public class PropertyInteger extends EmptyProperty<Integer> {
+public class PropertyInteger extends LabeledCategory<Integer> {
 
     protected IntegerField integerField;
 

@@ -20,7 +20,7 @@ public class DoubleField extends TextFieldBase<Double> {
             if (s.isEmpty() || s.equals("-") || s.endsWith(".")) return true;
             try {
                 double d = Double.parseDouble(s);
-                return d >= min && d < max;
+                return d >= min && d <= max;
             } catch (NumberFormatException e) {
                 return false;
             }
@@ -34,6 +34,9 @@ public class DoubleField extends TextFieldBase<Double> {
 
     public void setMin(double min) {
         this.min = min;
+        if (this.getValue() < min) {
+            this.setValue(min);
+        }
     }
 
     public double getMax() {
@@ -42,6 +45,9 @@ public class DoubleField extends TextFieldBase<Double> {
 
     public void setMax(double max) {
         this.max = max;
+        if (this.getValue() > max) {
+            this.setValue(max);
+        }
     }
 
     @Override

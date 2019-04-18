@@ -9,6 +9,7 @@ import com.github.franckyi.guapi.node.Button;
 import com.github.franckyi.guapi.node.Label;
 import com.github.franckyi.guapi.node.ListExtended;
 import com.github.franckyi.guapi.scene.Background;
+import com.github.franckyi.ibeeditor.config.IBEEditorConfig;
 import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.event.GuiScreenEvent;
@@ -19,6 +20,7 @@ import java.util.List;
 public abstract class AbstractEditor extends Scene {
 
     protected final VBox content;
+    protected final Label header;
     protected final HBox editorBox;
     protected final ListExtended<CategoryEntry> categories;
     protected final List<Category> propertiesList;
@@ -28,12 +30,16 @@ public abstract class AbstractEditor extends Scene {
     protected final Button applyButton;
     protected int currentIndex;
 
-    public AbstractEditor() {
+    public AbstractEditor(String headerText) {
         super(new VBox());
+        mc.mouseHelper.ungrabMouse();
         content = (VBox) this.getContent();
+        header = new Label(headerText);
+        header.setPrefHeight(30);
+        header.setCentered(true);
         editorBox = new HBox();
         categories = new ListExtended<>(20);
-        categories.setOffset(new Insets(10));
+        categories.setOffset(new Insets(0, 10, 10, 10));
         propertiesList = new ArrayList<>();
         buttonBox = new HBox(20);
         doneButton = new Button(ChatFormatting.GREEN + "Done");
@@ -52,7 +58,8 @@ public abstract class AbstractEditor extends Scene {
         buttonBox.getChildren().add(doneButton);
         buttonBox.getChildren().add(cancelButton);
         buttonBox.getChildren().add(applyButton);
-        buttonBox.setAlignment(Pos.TOP);
+        buttonBox.setAlignment(Pos.CENTER);
+        content.getChildren().add(header);
         content.getChildren().add(editorBox);
         content.getChildren().add(buttonBox);
         this.setContentFullScreen();
@@ -61,6 +68,7 @@ public abstract class AbstractEditor extends Scene {
             this.setContentFullScreen();
             this.scaleChildrenSize();
         });
+        this.setGuiPauseGame(IBEEditorConfig.CLIENT.doesGuiPauseGame.get());
     }
 
     protected void apply() {
@@ -68,8 +76,9 @@ public abstract class AbstractEditor extends Scene {
     }
 
     protected void scaleChildrenSize() {
+        header.setPrefWidth(this.getContent().getWidth());
         buttonBox.setPrefWidth(this.getContent().getWidth());
-        categories.setPrefSize(this.getContent().getWidth() / 3, this.getContent().getHeight() - 30);
+        categories.setPrefSize(this.getContent().getWidth() / 3, this.getContent().getHeight() - 60);
         categories.getView().height = this.getContent().getHeight();
         if (propertiesList.isEmpty()) {
             categories.setVisible(false);
@@ -79,7 +88,7 @@ public abstract class AbstractEditor extends Scene {
     }
 
     protected void scalePropertiesSize(Category category) {
-        category.setPrefSize(2 * this.getContent().getWidth() / 3, this.getContent().getHeight() - 30);
+        category.setPrefSize(2 * this.getContent().getWidth() / 3, this.getContent().getHeight() - 60);
         category.getView().height = this.getContent().getHeight();
         category.getChildren().forEach(p -> p.updateSize(propertiesList.get(currentIndex).getWidth()));
     }
@@ -90,7 +99,6 @@ public abstract class AbstractEditor extends Scene {
 
     protected Category addCategory(String name, Category category) {
         this.categories.getChildren().add(new CategoryEntry(name));
-        category.setOffset(new Insets(10));
         this.propertiesList.add(category);
         return category;
     }
@@ -126,6 +134,13 @@ public abstract class AbstractEditor extends Scene {
         if (propertiesList.isEmpty()) {
             this.getScreen().drawCenteredString(mc.fontRenderer, "No parameters available !", this.getScreen().width / 2, editorBox.getY() + editorBox.getHeight() / 2 - 4, TextFormatting.DARK_RED.getColor());
         }
+    }
+
+    @Override
+    public void render(int mouseX, int mouseY, float partialTicks) {
+        editorBox.render(mouseX, mouseY, partialTicks);
+        header.render(mouseX, mouseY, partialTicks);
+        buttonBox.render(mouseX, mouseY, partialTicks);
     }
 
     public class CategoryEntry extends ListExtended.NodeEntry<Label> {

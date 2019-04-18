@@ -23,11 +23,10 @@ public class GeneralItemCategory extends EditableCategory<String> {
         super(4);
         this.itemStack = itemStack;
         this.addAll(
+                new PropertyFormattedText("Name", itemStack.getDisplayName().getFormattedText(), this::setName),
                 new PropertyBoolean("Unbreakable", this.hasUnbreakable(), this::setUnbreakable),
                 new PropertyInteger("Count", itemStack.getCount(), itemStack::setCount, 1, 128),
                 new PropertyInteger("Damage", itemStack.getDamage(), itemStack::setDamage),
-                new PropertyFormattedText("Name", itemStack.getDisplayName().getFormattedText(),
-                        s -> itemStack.setDisplayName(new TextComponentString(s))),
                 new AddButton("Add lore")
         );
         NBTTagCompound displayTag = itemStack.getOrCreateChildTag("display");
@@ -40,6 +39,15 @@ public class GeneralItemCategory extends EditableCategory<String> {
         }
         for (int i = 0; i < this.getPropertyCount(); i++) {
             this.getProperty(i).update(i);
+        }
+    }
+
+    private void setName(String s) {
+        TextComponentString name = new TextComponentString(s);
+        if (itemStack.getItem().getName().getString().equals(s)) {
+            itemStack.setDisplayName(null);
+        } else {
+            itemStack.setDisplayName(name);
         }
     }
 

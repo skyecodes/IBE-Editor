@@ -2,7 +2,7 @@ package com.github.franckyi.guapi.node;
 
 import com.github.franckyi.guapi.Node;
 import com.github.franckyi.guapi.gui.GuiView;
-import net.minecraft.client.gui.GuiButton;
+import net.minecraftforge.fml.client.config.GuiButtonExt;
 
 public class Button extends Node<Button.GuiButtonView> {
 
@@ -48,50 +48,65 @@ public class Button extends Node<Button.GuiButtonView> {
         this.setComputedHeight(20 + this.getPadding().getHorizontal());
     }
 
-    public static class GuiButtonView extends GuiButton implements GuiView {
+    public static class GuiButtonView extends GuiButtonExt implements GuiView {
 
         public GuiButtonView(String text) {
             super(0, 0, 0, text);
         }
 
         @Override
-        public int getX() {
+        public int getViewX() {
             return this.x;
         }
 
         @Override
-        public void setX(int x) {
+        public void setViewX(int x) {
             this.x = x;
         }
 
         @Override
-        public int getY() {
+        public int getViewY() {
             return this.y;
         }
 
         @Override
-        public void setY(int y) {
+        public void setViewY(int y) {
             this.y = y;
         }
 
         @Override
-        public int getHeight() {
+        public int getViewWidth() {
+            return super.getWidth();
+        }
+
+        @Override
+        public void setViewWidth(int width) {
+            super.setWidth(width);
+        }
+
+        @Override
+        public int getViewHeight() {
             return this.height;
         }
 
         @Override
-        public void setHeight(int height) {
+        public void setViewHeight(int height) {
             this.height = height;
         }
 
         @Override
-        public boolean isVisible() {
+        public boolean isViewVisible() {
             return visible;
         }
 
         @Override
-        public void setVisible(boolean visible) {
+        public void setViewVisible(boolean visible) {
             this.visible = visible;
+        }
+
+        @Override
+        public void renderView(int mouseX, int mouseY, float partialTicks) {
+            this.render(mouseX, mouseY, partialTicks);
         }
     }
 }

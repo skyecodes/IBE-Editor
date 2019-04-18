@@ -13,6 +13,7 @@ public class BlockStateCategory extends Category {
 
     private final BlockEditor editor;
 
+    @SuppressWarnings("unchecked")
     public BlockStateCategory(BlockEditor editor) {
         this.editor = editor;
         for (IProperty p : editor.getBlockState().getProperties()) {

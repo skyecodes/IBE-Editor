@@ -3,6 +3,7 @@ package com.github.franckyi.ibeeditor.proxy;
 import com.github.franckyi.guapi.Node;
 import com.github.franckyi.guapi.Scene;
 import com.github.franckyi.ibeeditor.IBEEditorMod;
+import com.github.franckyi.ibeeditor.client.clipboard.Clipboard;
 import com.github.franckyi.ibeeditor.client.entity.EntityEditor;
 import com.github.franckyi.ibeeditor.client.item.ItemEditor;
 import com.github.franckyi.ibeeditor.network.block.InitBlockEditorRequest;
@@ -33,7 +34,10 @@ public class ClientProxy implements IProxy {
 
     private static final Minecraft mc = Minecraft.getInstance();
     private static final String KEYBINDING_CATEGORY = "IBE Editor";
-    public static final KeyBinding KEY_OPEN_GUI = new KeyBinding("Open GUI", KeyConflictContext.UNIVERSAL, KeyModifier.NONE, InputMappings.Type.KEYSYM, GLFW.GLFW_KEY_I, KEYBINDING_CATEGORY);
+    public static final KeyBinding KEY_OPEN_EDITOR = new KeyBinding("Open GUI", KeyConflictContext.UNIVERSAL,
+            KeyModifier.NONE, InputMappings.Type.KEYSYM, GLFW.GLFW_KEY_I, KEYBINDING_CATEGORY);
+    public static final KeyBinding KEY_OPEN_CLIPBOARD = new KeyBinding("Open IBE clipboard", KeyConflictContext.UNIVERSAL,
+            KeyModifier.NONE, InputMappings.Type.KEYSYM, GLFW.GLFW_KEY_J, KEYBINDING_CATEGORY);
 
     public static boolean openEditor() {
         return openEntityEditor() || openBlockEditor() || openItemEditor() || openSelfEditor();
@@ -96,21 +100,24 @@ public class ClientProxy implements IProxy {
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(Node.NodeEventHandler.class);
         MinecraftForge.EVENT_BUS.register(Scene.ScreenEventHandler.class);
-        ClientRegistry.registerKeyBinding(KEY_OPEN_GUI);
+        ClientRegistry.registerKeyBinding(KEY_OPEN_EDITOR);
+        ClientRegistry.registerKeyBinding(KEY_OPEN_CLIPBOARD);
     }
 
     @SubscribeEvent
     public void onClientTick(TickEvent.ClientTickEvent e) {
         if (e.phase == TickEvent.Phase.END) {
-            if (KEY_OPEN_GUI.isPressed()) {
+            if (KEY_OPEN_EDITOR.isPressed()) {
                 openEditor();
+            } else if (KEY_OPEN_CLIPBOARD.isPressed()) {
+                Clipboard.getInstance().showRead();
             }
         }
     }
 
     @SubscribeEvent
     public void onKeyPressed(GuiScreenEvent.KeyboardKeyPressedEvent.Pre e) {
-        if (e.getGui() instanceof GuiContainer && e.getKeyCode() == KEY_OPEN_GUI.getKey().getKeyCode()) {
+        if (e.getGui() instanceof GuiContainer && e.getKeyCode() == KEY_OPEN_EDITOR.getKey().getKeyCode()) {
             GuiContainer gui = (GuiContainer) e.getGui();
             if (gui.getSlotUnderMouse() != null && gui.getSlotUnderMouse().getHasStack()) {
                 if (gui instanceof GuiInventory || gui instanceof GuiContainerCreative) {

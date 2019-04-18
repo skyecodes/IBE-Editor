@@ -7,15 +7,21 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
-public class PropertyEnum<T> extends EmptyProperty<T> {
+public class PropertyEnum<T> extends LabeledCategory<T> {
 
     protected EnumButton<T> enumButton;
 
     public PropertyEnum(String name, T initialValue, Collection<T> values, Consumer<T> action) {
+        this(name, initialValue, values, action, t -> StringUtils.capitalize(t.toString().toLowerCase()));
+    }
+
+    public PropertyEnum(String name, T initialValue, Collection<T> values, Consumer<T> action, Function<T, String> renderer) {
         super(name, initialValue, action);
         enumButton.setValues(new ArrayList<>(values));
-        enumButton.setRenderer(t -> StringUtils.capitalize(t.toString().toLowerCase()));
+        enumButton.setValue(initialValue);
+        enumButton.setRenderer(renderer);
     }
 
     @Override

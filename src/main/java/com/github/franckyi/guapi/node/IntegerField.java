@@ -20,7 +20,7 @@ public class IntegerField extends TextFieldBase<Integer> {
             if (s.isEmpty() || s.equals("-")) return true;
             try {
                 int i = Integer.parseInt(s);
-                return i >= this.min && i < this.max;
+                return i >= this.min && i <= this.max;
             } catch (NumberFormatException e) {
                 return false;
             }
@@ -34,6 +34,9 @@ public class IntegerField extends TextFieldBase<Integer> {
 
     public void setMin(int min) {
         this.min = min;
+        if (this.getValue() < min) {
+            this.setValue(min);
+        }
     }
 
     public int getMax() {
@@ -42,6 +45,9 @@ public class IntegerField extends TextFieldBase<Integer> {
 
     public void setMax(int max) {
         this.max = max;
+        if (this.getValue() > max) {
+            this.setValue(max);
+        }
     }
 
     @Override

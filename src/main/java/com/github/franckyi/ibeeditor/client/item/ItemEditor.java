@@ -15,7 +15,7 @@ public class ItemEditor extends AbstractEditor {
     private final Function<ItemStack, ?> action;
 
     public ItemEditor(ItemStack itemStack, Function<ItemStack, ?> action) {
-        super();
+        super("Item Editor");
         this.itemStack = itemStack;
         this.action = action;
         this.addCategory("General", new GeneralItemCategory(itemStack));
@@ -29,6 +29,7 @@ public class ItemEditor extends AbstractEditor {
         if (itemStack.getItem() instanceof ItemBlock) {
             this.addCategory("Can place on", new BlockCategory(itemStack, "CanPlaceOn"));
         }
+        this.addCategory("Tools", new ToolsItemCategory(itemStack));
         this.show();
     }
 

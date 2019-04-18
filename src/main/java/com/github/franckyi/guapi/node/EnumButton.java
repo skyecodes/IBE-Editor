@@ -80,7 +80,9 @@ public class EnumButton<T> extends Button implements ValueNode<T> {
     }
 
     private void updateText() {
-        this.setText(this.getRenderer().apply(this.getValue()));
+        if (this.getValue() != null) {
+            this.setText(this.getRenderer().apply(this.getValue()));
+        }
     }
 
     private void cycleValue() {

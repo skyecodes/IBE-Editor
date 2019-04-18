@@ -4,7 +4,7 @@ import com.github.franckyi.guapi.node.TextField;
 
 import java.util.function.Consumer;
 
-public class PropertyString extends EmptyProperty<String> {
+public class PropertyString extends LabeledCategory<String> {
 
     protected TextField textField;
 
@@ -31,6 +31,6 @@ public class PropertyString extends EmptyProperty<String> {
 
     @Override
     protected void updateSize(int listWidth) {
-        textField.setPrefWidth(listWidth - 85);
+        textField.setPrefWidth(listWidth - 116);
     }
 }

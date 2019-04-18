@@ -4,27 +4,27 @@ import net.minecraft.client.gui.IGuiEventListener;
 
 public interface GuiView extends IGuiEventListener {
 
-    int getX();
+    int getViewX();
 
-    void setX(int x);
+    void setViewX(int x);
 
-    int getY();
+    int getViewY();
 
-    void setY(int y);
+    void setViewY(int y);
 
-    int getWidth();
+    int getViewWidth();
 
-    void setWidth(int width);
+    void setViewWidth(int width);
 
-    int getHeight();
+    int getViewHeight();
 
-    void setHeight(int height);
+    void setViewHeight(int height);
 
-    boolean isVisible();
+    boolean isViewVisible();
 
-    void setVisible(boolean visible);
+    void setViewVisible(boolean visible);
 
-    void render(int mouseX, int mouseY, float partialTicks);
+    void renderView(int mouseX, int mouseY, float partialTicks);
 
     @Override
     default boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
@@ -72,8 +72,8 @@ public interface GuiView extends IGuiEventListener {
     }
 
     default boolean inBounds(double x, double y) {
-        return x >= this.getX() && x <= this.getX() + this.getWidth() &&
-                y >= this.getY() && y <= this.getY() + this.getHeight();
+        return x >= this.getViewX() && x <= this.getViewX() + this.getViewWidth() &&
+                y >= this.getViewY() && y <= this.getViewY() + this.getViewHeight();
     }
 
 }

@@ -6,7 +6,7 @@ import com.github.franckyi.guapi.node.TextField;
 import com.github.franckyi.ibeeditor.client.AbstractProperty;
 import com.github.franckyi.ibeeditor.client.EditableCategory;
 import com.github.franckyi.ibeeditor.client.EditableCategoryProperty;
-import com.github.franckyi.ibeeditor.client.property.EmptyProperty;
+import com.github.franckyi.ibeeditor.client.property.LabeledCategory;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -62,7 +62,7 @@ public class BlockCategory extends EditableCategory<Block> {
         return Blocks.AIR;
     }
 
-    public class PropertyBlock extends EmptyProperty<Block> implements EditableCategoryProperty {
+    public class PropertyBlock extends LabeledCategory<Block> implements EditableCategoryProperty {
 
         private PropertyControls controls;
 

@@ -18,11 +18,13 @@ public class EntityEditorMessage implements IMessage {
 
     public EntityEditorMessage(PacketBuffer buffer) {
         this.id = buffer.readInt();
+        this.nbt = buffer.readCompoundTag();
     }
 
     @Override
     public void write(PacketBuffer buffer) {
         buffer.writeInt(id);
+        buffer.writeCompoundTag(nbt);
     }
 
     @Override
