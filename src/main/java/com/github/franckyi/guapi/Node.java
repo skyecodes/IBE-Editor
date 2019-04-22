@@ -1,7 +1,7 @@
 package com.github.franckyi.guapi;
 
-import com.github.franckyi.guapi.event.EventListener;
-import com.github.franckyi.guapi.gui.GuiView;
+import com.github.franckyi.guapi.event.IEventListener;
+import com.github.franckyi.guapi.gui.IGuiView;
 import com.github.franckyi.guapi.math.Insets;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.client.event.GuiScreenEvent;
@@ -13,18 +13,18 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.BiConsumer;
 
-public abstract class Node<V extends GuiView> implements ScreenEventListener {
+public abstract class Node<V extends IGuiView> implements IScreenEventListener {
 
     public static final int COMPUTED_SIZE = -1;
-    private final Set<EventListener<GuiScreenEvent.MouseClickedEvent>> onMouseClickedListeners;
-    private final Set<EventListener<GuiScreenEvent.MouseReleasedEvent>> onMouseReleasedListeners;
-    private final Set<EventListener<GuiScreenEvent.MouseDragEvent>> onMouseDraggedListeners;
-    private final Set<EventListener<GuiScreenEvent.MouseScrollEvent>> onMouseScrolledListeners;
-    private final Set<EventListener<GuiScreenEvent.KeyboardKeyPressedEvent>> onKeyPressedListeners;
-    private final Set<EventListener<GuiScreenEvent.KeyboardKeyReleasedEvent>> onKeyReleasedListeners;
-    private final Set<EventListener<GuiScreenEvent.KeyboardCharTypedEvent>> onCharTypedListeners;
+    private final Set<IEventListener<GuiScreenEvent.MouseClickedEvent>> onMouseClickedListeners;
+    private final Set<IEventListener<GuiScreenEvent.MouseReleasedEvent>> onMouseReleasedListeners;
+    private final Set<IEventListener<GuiScreenEvent.MouseDragEvent>> onMouseDraggedListeners;
+    private final Set<IEventListener<GuiScreenEvent.MouseScrollEvent>> onMouseScrolledListeners;
+    private final Set<IEventListener<GuiScreenEvent.KeyboardKeyPressedEvent>> onKeyPressedListeners;
+    private final Set<IEventListener<GuiScreenEvent.KeyboardKeyReleasedEvent>> onKeyReleasedListeners;
+    private final Set<IEventListener<GuiScreenEvent.KeyboardCharTypedEvent>> onCharTypedListeners;
     private final V view;
-    private Parent parent;
+    private IParent parent;
     private int computedWidth;
     private int computedHeight;
     private int prefWidth;
@@ -50,11 +50,11 @@ public abstract class Node<V extends GuiView> implements ScreenEventListener {
         onCharTypedListeners = new HashSet<>();
     }
 
-    public Parent getParent() {
+    public IParent getParent() {
         return parent;
     }
 
-    public void setParent(Parent parent) {
+    public void setParent(IParent parent) {
         this.parent = parent;
         if (parent != null) {
             parent.updateChildrenPos();
@@ -235,38 +235,38 @@ public abstract class Node<V extends GuiView> implements ScreenEventListener {
         return view;
     }
 
-    public Set<EventListener<GuiScreenEvent.MouseClickedEvent>> getOnMouseClickedListeners() {
+    public Set<IEventListener<GuiScreenEvent.MouseClickedEvent>> getOnMouseClickedListeners() {
         return onMouseClickedListeners;
     }
 
-    public Set<EventListener<GuiScreenEvent.MouseReleasedEvent>> getOnMouseReleasedListeners() {
+    public Set<IEventListener<GuiScreenEvent.MouseReleasedEvent>> getOnMouseReleasedListeners() {
         return onMouseReleasedListeners;
     }
 
-    public Set<EventListener<GuiScreenEvent.MouseDragEvent>> getOnMouseDraggedListeners() {
+    public Set<IEventListener<GuiScreenEvent.MouseDragEvent>> getOnMouseDraggedListeners() {
         return onMouseDraggedListeners;
     }
 
-    public Set<EventListener<GuiScreenEvent.MouseScrollEvent>> getOnMouseScrolledListeners() {
+    public Set<IEventListener<GuiScreenEvent.MouseScrollEvent>> getOnMouseScrolledListeners() {
         return onMouseScrolledListeners;
     }
 
-    public Set<EventListener<GuiScreenEvent.KeyboardKeyPressedEvent>> getOnKeyPressedListeners() {
+    public Set<IEventListener<GuiScreenEvent.KeyboardKeyPressedEvent>> getOnKeyPressedListeners() {
         return onKeyPressedListeners;
     }
 
-    public Set<EventListener<GuiScreenEvent.KeyboardKeyReleasedEvent>> getOnKeyReleasedListeners() {
+    public Set<IEventListener<GuiScreenEvent.KeyboardKeyReleasedEvent>> getOnKeyReleasedListeners() {
         return onKeyReleasedListeners;
     }
 
-    public Set<EventListener<GuiScreenEvent.KeyboardCharTypedEvent>> getOnCharTypedListeners() {
+    public Set<IEventListener<GuiScreenEvent.KeyboardCharTypedEvent>> getOnCharTypedListeners() {
         return onCharTypedListeners;
     }
 
     @Override
     public boolean onMouseClicked(GuiScreenEvent.MouseClickedEvent event) {
         if (this.getView().isViewVisible() && this.getView().mouseClicked(event.getMouseX(), event.getMouseY(), event.getButton())) {
-            ScreenEventListener.super.onMouseClicked(event);
+            IScreenEventListener.super.onMouseClicked(event);
             return true;
         }
         return false;
@@ -275,7 +275,7 @@ public abstract class Node<V extends GuiView> implements ScreenEventListener {
     @Override
     public boolean onMouseReleased(GuiScreenEvent.MouseReleasedEvent event) {
         if (this.getView().isViewVisible() && this.getView().mouseReleased(event.getMouseX(), event.getMouseY(), event.getButton())) {
-            ScreenEventListener.super.onMouseReleased(event);
+            IScreenEventListener.super.onMouseReleased(event);
             return true;
         }
         return false;
@@ -284,7 +284,7 @@ public abstract class Node<V extends GuiView> implements ScreenEventListener {
     @Override
     public boolean onMouseDragged(GuiScreenEvent.MouseDragEvent event) {
         if (this.getView().isViewVisible() && this.getView().mouseDragged(event.getMouseX(), event.getMouseY(), event.getMouseButton(), event.getDragX(), event.getDragY())) {
-            ScreenEventListener.super.onMouseDragged(event);
+            IScreenEventListener.super.onMouseDragged(event);
             return true;
         }
         return false;
@@ -293,7 +293,7 @@ public abstract class Node<V extends GuiView> implements ScreenEventListener {
     @Override
     public boolean onMouseScrolled(GuiScreenEvent.MouseScrollEvent event) {
         if (this.getView().isViewVisible() && this.getView().mouseScrolled(event.getScrollDelta())) {
-            ScreenEventListener.super.onMouseScrolled(event);
+            IScreenEventListener.super.onMouseScrolled(event);
             return true;
         }
         return false;
@@ -302,7 +302,7 @@ public abstract class Node<V extends GuiView> implements ScreenEventListener {
     @Override
     public boolean onKeyPressed(GuiScreenEvent.KeyboardKeyPressedEvent event) {
         if (this.getView().isViewVisible() && this.getView().keyPressed(event.getKeyCode(), event.getScanCode(), event.getModifiers())) {
-            ScreenEventListener.super.onKeyPressed(event);
+            IScreenEventListener.super.onKeyPressed(event);
             return true;
         }
         return false;
@@ -311,7 +311,7 @@ public abstract class Node<V extends GuiView> implements ScreenEventListener {
     @Override
     public boolean onKeyReleased(GuiScreenEvent.KeyboardKeyReleasedEvent event) {
         if (this.getView().isViewVisible() && this.getView().keyReleased(event.getKeyCode(), event.getScanCode(), event.getModifiers())) {
-            ScreenEventListener.super.onKeyReleased(event);
+            IScreenEventListener.super.onKeyReleased(event);
             return true;
         }
         return false;
@@ -320,7 +320,7 @@ public abstract class Node<V extends GuiView> implements ScreenEventListener {
     @Override
     public boolean onCharTyped(GuiScreenEvent.KeyboardCharTypedEvent event) {
         if (this.getView().isViewVisible() && this.getView().charTyped(event.getCodePoint(), event.getModifiers())) {
-            ScreenEventListener.super.onCharTyped(event);
+            IScreenEventListener.super.onCharTyped(event);
             return true;
         }
         return false;
@@ -356,40 +356,40 @@ public abstract class Node<V extends GuiView> implements ScreenEventListener {
 
         @SubscribeEvent
         public static void onMouseClicked(GuiScreenEvent.MouseClickedEvent.Pre event) {
-            handle(event, ScreenEventListener::onMouseClicked);
+            handle(event, IScreenEventListener::onMouseClicked);
         }
 
         @SubscribeEvent
         public static void onMouseReleased(GuiScreenEvent.MouseReleasedEvent.Pre event) {
-            handle(event, ScreenEventListener::onMouseReleased);
+            handle(event, IScreenEventListener::onMouseReleased);
         }
 
         @SubscribeEvent
         public static void onMouseDragged(GuiScreenEvent.MouseDragEvent.Pre event) {
-            handle(event, ScreenEventListener::onMouseDragged);
+            handle(event, IScreenEventListener::onMouseDragged);
         }
 
         @SubscribeEvent
         public static void onMouseScrolled(GuiScreenEvent.MouseScrollEvent.Pre event) {
-            handle(event, ScreenEventListener::onMouseScrolled);
+            handle(event, IScreenEventListener::onMouseScrolled);
         }
 
         @SubscribeEvent
         public static void onKeyboardKeyPressed(GuiScreenEvent.KeyboardKeyPressedEvent.Pre event) {
-            handle(event, ScreenEventListener::onKeyPressed);
+            handle(event, IScreenEventListener::onKeyPressed);
         }
 
         @SubscribeEvent
         public static void onKeyboardKeyReleased(GuiScreenEvent.KeyboardKeyReleasedEvent.Pre event) {
-            handle(event, ScreenEventListener::onKeyReleased);
+            handle(event, IScreenEventListener::onKeyReleased);
         }
 
         @SubscribeEvent
         public static void onKeyboardCharTyped(GuiScreenEvent.KeyboardCharTypedEvent.Pre event) {
-            handle(event, ScreenEventListener::onCharTyped);
+            handle(event, IScreenEventListener::onCharTyped);
         }
 
-        private static <T extends GuiScreenEvent> void handle(T event, BiConsumer<ScreenEventListener, T> eh) {
+        private static <T extends GuiScreenEvent> void handle(T event, BiConsumer<IScreenEventListener, T> eh) {
             if (event != null && event.getGui() instanceof Scene.Screen) {
                 Scene scene = ((Scene.Screen) event.getGui()).getScene();
                 if (scene != null && scene.getContent() != null) {
@@ -399,11 +399,11 @@ public abstract class Node<V extends GuiView> implements ScreenEventListener {
             }
         }
 
-        private static <T extends GuiScreenEvent> void propagate(ScreenEventListener node, T event, BiConsumer<ScreenEventListener, T> eh) {
+        private static <T extends GuiScreenEvent> void propagate(IScreenEventListener node, T event, BiConsumer<IScreenEventListener, T> eh) {
             eh.accept(node, event);
-            if (node instanceof Parent) {
-                List<? extends ScreenEventListener> list = new ArrayList<ScreenEventListener>(((Parent) node).getChildren());
-                for (ScreenEventListener node0 : list) {
+            if (node instanceof IParent) {
+                List<? extends IScreenEventListener> list = new ArrayList<IScreenEventListener>(((IParent) node).getChildren());
+                for (IScreenEventListener node0 : list) {
                     propagate(node0, event, eh);
                 }
             }

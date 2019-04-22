@@ -1,11 +1,12 @@
 package com.github.franckyi.guapi;
 
-import com.github.franckyi.guapi.event.EventListener;
+import com.github.franckyi.guapi.event.IEventListener;
 import com.github.franckyi.guapi.node.TextFieldBase;
-import com.github.franckyi.guapi.scene.Background;
+import com.github.franckyi.guapi.scene.IBackground;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -16,20 +17,20 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.BiConsumer;
 
-public class Scene implements ScreenEventListener, Parent {
+public class Scene implements IScreenEventListener, IParent {
 
-    private final Set<EventListener<GuiScreenEvent.MouseClickedEvent>> onMouseClickedListeners;
-    private final Set<EventListener<GuiScreenEvent.MouseReleasedEvent>> onMouseReleasedListeners;
-    private final Set<EventListener<GuiScreenEvent.MouseDragEvent>> onMouseDraggedListeners;
-    private final Set<EventListener<GuiScreenEvent.MouseScrollEvent>> onMouseScrolledListeners;
-    private final Set<EventListener<GuiScreenEvent.KeyboardKeyPressedEvent>> onKeyPressedListeners;
-    private final Set<EventListener<GuiScreenEvent.KeyboardKeyReleasedEvent>> onKeyReleasedListeners;
-    private final Set<EventListener<GuiScreenEvent.KeyboardCharTypedEvent>> onCharTypedListeners;
-    private final Set<EventListener<GuiScreenEvent.InitGuiEvent>> onInitGuiListeners;
-    private final Set<EventListener<GuiScreenEvent.DrawScreenEvent>> onDrawScreenListeners;
-    private final Set<EventListener<GuiScreenEvent.BackgroundDrawnEvent>> onBackgroundDrawnListeners;
-    private final Set<EventListener<GuiScreenEvent.PotionShiftEvent>> onPotionShiftListeners;
-    private final Set<EventListener<GuiScreenEvent.ActionPerformedEvent>> onActionPerformedListeners;
+    private final Set<IEventListener<GuiScreenEvent.MouseClickedEvent>> onMouseClickedListeners;
+    private final Set<IEventListener<GuiScreenEvent.MouseReleasedEvent>> onMouseReleasedListeners;
+    private final Set<IEventListener<GuiScreenEvent.MouseDragEvent>> onMouseDraggedListeners;
+    private final Set<IEventListener<GuiScreenEvent.MouseScrollEvent>> onMouseScrolledListeners;
+    private final Set<IEventListener<GuiScreenEvent.KeyboardKeyPressedEvent>> onKeyPressedListeners;
+    private final Set<IEventListener<GuiScreenEvent.KeyboardKeyReleasedEvent>> onKeyReleasedListeners;
+    private final Set<IEventListener<GuiScreenEvent.KeyboardCharTypedEvent>> onCharTypedListeners;
+    private final Set<IEventListener<GuiScreenEvent.InitGuiEvent>> onInitGuiListeners;
+    private final Set<IEventListener<GuiScreenEvent.DrawScreenEvent>> onDrawScreenListeners;
+    private final Set<IEventListener<GuiScreenEvent.BackgroundDrawnEvent>> onBackgroundDrawnListeners;
+    private final Set<IEventListener<GuiScreenEvent.PotionShiftEvent>> onPotionShiftListeners;
+    private final Set<IEventListener<GuiScreenEvent.ActionPerformedEvent>> onActionPerformedListeners;
     private final Set<Runnable> onGuiClosedListeners;
     private final Set<Runnable> onResizeListeners;
     private final Set<Runnable> onTickListeners;
@@ -40,7 +41,7 @@ public class Scene implements ScreenEventListener, Parent {
 
     private boolean guiPauseGame;
     private boolean guiCloseWithEscape;
-    private Background background;
+    private IBackground background;
 
     public Scene() {
         this(null);
@@ -54,7 +55,7 @@ public class Scene implements ScreenEventListener, Parent {
         }
         guiPauseGame = true;
         guiCloseWithEscape = true;
-        background = Background.DEFAULT;
+        background = IBackground.DEFAULT;
         onMouseClickedListeners = new HashSet<>();
         onMouseReleasedListeners = new HashSet<>();
         onMouseDraggedListeners = new HashSet<>();
@@ -121,55 +122,55 @@ public class Scene implements ScreenEventListener, Parent {
         }
     }
 
-    public Background getBackground() {
+    public IBackground getBackground() {
         return background;
     }
 
-    public void setBackground(Background background) {
+    public void setBackground(IBackground background) {
         this.background = background;
     }
 
-    public Set<EventListener<GuiScreenEvent.MouseClickedEvent>> getOnMouseClickedListeners() {
+    public Set<IEventListener<GuiScreenEvent.MouseClickedEvent>> getOnMouseClickedListeners() {
         return onMouseClickedListeners;
     }
 
-    public Set<EventListener<GuiScreenEvent.MouseReleasedEvent>> getOnMouseReleasedListeners() {
+    public Set<IEventListener<GuiScreenEvent.MouseReleasedEvent>> getOnMouseReleasedListeners() {
         return onMouseReleasedListeners;
     }
 
-    public Set<EventListener<GuiScreenEvent.MouseDragEvent>> getOnMouseDraggedListeners() {
+    public Set<IEventListener<GuiScreenEvent.MouseDragEvent>> getOnMouseDraggedListeners() {
         return onMouseDraggedListeners;
     }
 
-    public Set<EventListener<GuiScreenEvent.MouseScrollEvent>> getOnMouseScrolledListeners() {
+    public Set<IEventListener<GuiScreenEvent.MouseScrollEvent>> getOnMouseScrolledListeners() {
         return onMouseScrolledListeners;
     }
 
-    public Set<EventListener<GuiScreenEvent.KeyboardKeyPressedEvent>> getOnKeyPressedListeners() {
+    public Set<IEventListener<GuiScreenEvent.KeyboardKeyPressedEvent>> getOnKeyPressedListeners() {
         return onKeyPressedListeners;
     }
 
-    public Set<EventListener<GuiScreenEvent.KeyboardKeyReleasedEvent>> getOnKeyReleasedListeners() {
+    public Set<IEventListener<GuiScreenEvent.KeyboardKeyReleasedEvent>> getOnKeyReleasedListeners() {
         return onKeyReleasedListeners;
     }
 
-    public Set<EventListener<GuiScreenEvent.KeyboardCharTypedEvent>> getOnCharTypedListeners() {
+    public Set<IEventListener<GuiScreenEvent.KeyboardCharTypedEvent>> getOnCharTypedListeners() {
         return onCharTypedListeners;
     }
 
-    public Set<EventListener<GuiScreenEvent.InitGuiEvent>> getOnInitGuiListeners() {
+    public Set<IEventListener<GuiScreenEvent.InitGuiEvent>> getOnInitGuiListeners() {
         return onInitGuiListeners;
     }
 
-    public Set<EventListener<GuiScreenEvent.DrawScreenEvent>> getOnDrawScreenListeners() {
+    public Set<IEventListener<GuiScreenEvent.DrawScreenEvent>> getOnDrawScreenListeners() {
         return onDrawScreenListeners;
     }
 
-    public Set<EventListener<GuiScreenEvent.BackgroundDrawnEvent>> getOnBackgroundDrawnListeners() {
+    public Set<IEventListener<GuiScreenEvent.BackgroundDrawnEvent>> getOnBackgroundDrawnListeners() {
         return onBackgroundDrawnListeners;
     }
 
-    public Set<EventListener<GuiScreenEvent.PotionShiftEvent>> getOnPotionShiftListeners() {
+    public Set<IEventListener<GuiScreenEvent.PotionShiftEvent>> getOnPotionShiftListeners() {
         return onPotionShiftListeners;
     }
 
@@ -189,7 +190,7 @@ public class Scene implements ScreenEventListener, Parent {
      * @deprecated The ActionPerformedEvent is never triggered, adding a listener won't do anything
      */
     @Deprecated
-    public Set<EventListener<GuiScreenEvent.ActionPerformedEvent>> getOnActionPerformedListeners() {
+    public Set<IEventListener<GuiScreenEvent.ActionPerformedEvent>> getOnActionPerformedListeners() {
         return onActionPerformedListeners;
     }
 
@@ -217,7 +218,7 @@ public class Scene implements ScreenEventListener, Parent {
     @Override
     public boolean onKeyPressed(GuiScreenEvent.KeyboardKeyPressedEvent event) {
         this.getScreen().keyPressed(event.getKeyCode(), event.getScanCode(), event.getModifiers());
-        return ScreenEventListener.super.onKeyPressed(event);
+        return IScreenEventListener.super.onKeyPressed(event);
     }
 
     protected void onGuiClosed() {
@@ -230,17 +231,17 @@ public class Scene implements ScreenEventListener, Parent {
 
     protected void onTick() {
         this.getOnTickListeners().forEach(Runnable::run);
-        if (content instanceof Parent) {
-            this.tick((Parent) content);
+        if (content instanceof IParent) {
+            this.tick((IParent) content);
         }
     }
 
-    private void tick(Parent parent) {
-        for (ScreenEventListener e : parent.getChildren()) {
+    private void tick(IParent parent) {
+        for (IScreenEventListener e : parent.getChildren()) {
             if (e instanceof TextFieldBase) {
                 ((TextFieldBase) e).tick();
-            } else if (e instanceof Parent) {
-                tick((Parent) e);
+            } else if (e instanceof IParent) {
+                tick((IParent) e);
             }
         }
     }
@@ -267,7 +268,7 @@ public class Scene implements ScreenEventListener, Parent {
     }
 
     @Override
-    public List<ScreenEventListener> getChildren() {
+    public List<IScreenEventListener> getChildren() {
         return Collections.singletonList(content);
     }
 
@@ -352,7 +353,7 @@ public class Scene implements ScreenEventListener, Parent {
 
         public Screen(Scene scene) {
             this.scene = scene;
-            this.tooltips = new HashSet<>();
+            tooltips = new HashSet<>();
         }
 
         public Scene getScene() {
@@ -414,6 +415,11 @@ public class Scene implements ScreenEventListener, Parent {
         }
 
         @Override
+        public void renderToolTip(ItemStack stack, int x, int y) {
+            super.renderToolTip(stack, x, y);
+        }
+
+        @Override
         public void drawHoveringText(String text, int x, int y) {
             tooltips.add(new Tooltip(Collections.singletonList(text), x, y, fontRenderer));
         }
@@ -429,6 +435,7 @@ public class Scene implements ScreenEventListener, Parent {
         }
 
         private class Tooltip {
+
             private List<String> textLines;
             private int x;
             private int y;
@@ -441,6 +448,7 @@ public class Scene implements ScreenEventListener, Parent {
                 this.font = font;
             }
         }
+
     }
 
 }

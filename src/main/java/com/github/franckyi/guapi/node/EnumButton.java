@@ -1,13 +1,13 @@
 package com.github.franckyi.guapi.node;
 
-import com.github.franckyi.guapi.ValueNode;
+import com.github.franckyi.guapi.IValueNode;
 import net.minecraftforge.client.event.GuiScreenEvent;
 
 import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
-public class EnumButton<T> extends Button implements ValueNode<T> {
+public class EnumButton<T> extends Button implements IValueNode<T> {
 
     private List<T> values;
     private T value;
@@ -86,10 +86,15 @@ public class EnumButton<T> extends Button implements ValueNode<T> {
     }
 
     private void cycleValue() {
+        T oldVal = value;
         if (this.getIndex() == this.getValues().size() - 1) {
             this.setIndex(0);
         } else {
             this.setIndex(this.getIndex() + 1);
+        }
+        T newVal = value;
+        if (oldVal != newVal) {
+            this.onValueChanged(oldVal, newVal);
         }
     }
 

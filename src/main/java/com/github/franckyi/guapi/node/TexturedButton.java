@@ -1,18 +1,21 @@
 package com.github.franckyi.guapi.node;
 
+import com.github.franckyi.guapi.Scene;
+import com.github.franckyi.ibeeditor.IBEEditorMod;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
 public class TexturedButton extends Button {
 
     public TexturedButton(String filename) {
-        this(new ResourceLocation("ibeeditor:textures/gui/" + filename));
+        this(new ResourceLocation(IBEEditorMod.MODID, "textures/gui/" + filename));
     }
 
     public TexturedButton(String filename, String text) {
-        this(new ResourceLocation("ibeeditor:textures/gui/" + filename), text);
+        this(new ResourceLocation(IBEEditorMod.MODID, "textures/gui/" + filename), text);
     }
 
     public TexturedButton(ResourceLocation texture) {
@@ -23,19 +26,23 @@ public class TexturedButton extends Button {
         super(new GuiTexturedButtonView(texture, text));
     }
 
+    public TexturedButton(ItemStack item) {
+        super(new GuiItemTexturedButtonView(item));
+    }
+
     @Override
-    public GuiTexturedButtonView getView() {
-        return (GuiTexturedButtonView) super.getView();
+    public GuiGraphicButtonView getView() {
+        return (GuiGraphicButtonView) super.getView();
     }
 
     @Override
     public String getText() {
-        return this.getView().tooltipText;
+        return this.getView().getText();
     }
 
     @Override
     public void setText(String text) {
-        this.getView().tooltipText = text;
+        this.getView().setText(text);
     }
 
     @Override
@@ -48,13 +55,24 @@ public class TexturedButton extends Button {
         this.setComputedHeight(20);
     }
 
-    public static class GuiTexturedButtonView extends Button.GuiButtonView {
+    public static abstract class GuiGraphicButtonView extends GuiButtonView {
+
+        public GuiGraphicButtonView() {
+            super("");
+        }
+
+        public abstract String getText();
+
+        public abstract void setText(String text);
+
+    }
+
+    public static class GuiTexturedButtonView extends GuiGraphicButtonView {
 
         private final ResourceLocation texture;
         private String tooltipText;
 
         public GuiTexturedButtonView(ResourceLocation texture, String text) {
-            super("");
             this.texture = texture;
             this.tooltipText = text;
         }
@@ -88,5 +106,47 @@ public class TexturedButton extends Button {
             tessellator.draw();
         }
 
+        @Override
+        public String getText() {
+            return tooltipText;
+        }
+
+        @Override
+        public void setText(String text) {
+            this.tooltipText = text;
+        }
+    }
+
+    private static class GuiItemTexturedButtonView extends GuiGraphicButtonView {
+
+        private final ItemStack item;
+        private Scene.Screen screen;
+
+        public GuiItemTexturedButtonView(ItemStack item) {
+            this.item = item;
+        }
+
+        @Override
+        public void renderView(int mouseX, int mouseY, float partialTicks) {
+            super.renderView(mouseX, mouseY, partialTicks);
+            if (this.visible) {
+                mc.getItemRenderer().renderItemIntoGUI(item, x + 2, y + 2);
+                if (this.hovered) {
+                    if (screen == null) {
+                        screen = (Scene.Screen) mc.currentScreen;
+                    }
+                    screen.renderToolTip(item, mouseX, mouseY);
+                }
+            }
+        }
+
+        @Override
+        public String getText() {
+            return "";
+        }
+
+        @Override
+        public void setText(String text) {
+        }
     }
 }

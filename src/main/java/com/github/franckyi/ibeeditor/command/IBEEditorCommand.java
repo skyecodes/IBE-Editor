@@ -19,7 +19,17 @@ public class IBEEditorCommand {
     }
 
     private static LiteralArgumentBuilder<CommandSource> getCommand() {
-        LiteralArgumentBuilder<CommandSource> ibe = Commands.literal("ibe").executes(ctx -> execute(ctx, EditorArgument.ANY));
+        LiteralArgumentBuilder<CommandSource> ibe = Commands
+                .literal("ibe")
+                .requires(commandSource -> {
+                    try {
+                        return commandSource.asPlayer().isCreative(); // TODO server config : onlyCreativeMode
+                    } catch (CommandSyntaxException e) {
+                        return false;
+                    }
+                })
+                .requires(commandSource -> commandSource.hasPermissionLevel(0)) // TODO server config : minimumPermissionLevel
+                .executes(ctx -> execute(ctx, EditorArgument.ANY));
         for (EditorArgument argument : EditorArgument.values()) {
             if (argument != EditorArgument.ANY) {
                 ibe.then(Commands.literal(argument.str).executes(ctx -> execute0(ctx, argument)));
@@ -37,9 +47,11 @@ public class IBEEditorCommand {
 
     private static int execute(CommandContext<CommandSource> ctx, EditorArgument argument) {
         try {
-            IBEEditorMod.CHANNEL.sendTo(new OpenEditorMessage(argument), ctx.getSource().asPlayer().connection.netManager, NetworkDirection.PLAY_TO_CLIENT);
+            IBEEditorMod.CHANNEL.sendTo(new OpenEditorMessage(argument),
+                    ctx.getSource().asPlayer().connection.netManager, NetworkDirection.PLAY_TO_CLIENT);
         } catch (CommandSyntaxException e) {
-            ctx.getSource().sendErrorMessage(new TextComponentString(TextFormatting.RED + "This command can only be executed by a player"));
+            ctx.getSource().sendErrorMessage(new TextComponentString(
+                    TextFormatting.RED + "This command can only be executed by a player"));
             return 0;
         }
         return 1;

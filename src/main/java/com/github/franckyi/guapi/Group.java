@@ -12,7 +12,7 @@ import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
 
-public abstract class Group extends Node<Group.GuiGroupView> implements Parent {
+public abstract class Group extends Node<Group.GuiGroupView> implements IParent {
 
     private final List<Node> children;
     private Pos alignment;

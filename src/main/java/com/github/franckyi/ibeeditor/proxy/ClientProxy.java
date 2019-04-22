@@ -2,10 +2,11 @@ package com.github.franckyi.ibeeditor.proxy;
 
 import com.github.franckyi.guapi.Node;
 import com.github.franckyi.guapi.Scene;
+import com.github.franckyi.guapi.util.Notification;
 import com.github.franckyi.ibeeditor.IBEEditorMod;
-import com.github.franckyi.ibeeditor.client.clipboard.Clipboard;
-import com.github.franckyi.ibeeditor.client.entity.EntityEditor;
-import com.github.franckyi.ibeeditor.client.item.ItemEditor;
+import com.github.franckyi.ibeeditor.client.clipboard.ViewClipboard;
+import com.github.franckyi.ibeeditor.client.editor.entity.EntityEditor;
+import com.github.franckyi.ibeeditor.client.editor.item.ItemEditor;
 import com.github.franckyi.ibeeditor.network.block.InitBlockEditorRequest;
 import com.github.franckyi.ibeeditor.network.item.BlockInventoryItemEditorMessage;
 import com.github.franckyi.ibeeditor.network.item.MainHandItemEditorMessage;
@@ -100,6 +101,7 @@ public class ClientProxy implements IProxy {
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(Node.NodeEventHandler.class);
         MinecraftForge.EVENT_BUS.register(Scene.ScreenEventHandler.class);
+        MinecraftForge.EVENT_BUS.register(Notification.class);
         ClientRegistry.registerKeyBinding(KEY_OPEN_EDITOR);
         ClientRegistry.registerKeyBinding(KEY_OPEN_CLIPBOARD);
     }
@@ -110,7 +112,7 @@ public class ClientProxy implements IProxy {
             if (KEY_OPEN_EDITOR.isPressed()) {
                 openEditor();
             } else if (KEY_OPEN_CLIPBOARD.isPressed()) {
-                Clipboard.getInstance().showRead();
+                new ViewClipboard();
             }
         }
     }

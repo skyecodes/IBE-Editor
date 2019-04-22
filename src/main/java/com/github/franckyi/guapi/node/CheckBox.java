@@ -1,15 +1,15 @@
 package com.github.franckyi.guapi.node;
 
+import com.github.franckyi.guapi.IValueNode;
 import com.github.franckyi.guapi.Node;
-import com.github.franckyi.guapi.ValueNode;
-import com.github.franckyi.guapi.gui.GuiView;
+import com.github.franckyi.guapi.gui.IGuiView;
 import net.minecraftforge.fml.client.config.GuiCheckBox;
 
 import java.util.HashSet;
 import java.util.Set;
 import java.util.function.BiConsumer;
 
-public class CheckBox extends Node<CheckBox.GuiCheckBoxView> implements ValueNode<Boolean> {
+public class CheckBox extends Node<CheckBox.GuiCheckBoxView> implements IValueNode<Boolean> {
 
     private final Set<BiConsumer<Boolean, Boolean>> onValueChangedListeners;
 
@@ -73,7 +73,7 @@ public class CheckBox extends Node<CheckBox.GuiCheckBoxView> implements ValueNod
         return onValueChangedListeners;
     }
 
-    public static class GuiCheckBoxView extends GuiCheckBox implements GuiView {
+    public static class GuiCheckBoxView extends GuiCheckBox implements IGuiView {
 
         public GuiCheckBoxView(String displayString, boolean isChecked) {
             super(0, 0, 0, displayString, isChecked);

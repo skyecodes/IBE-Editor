@@ -27,6 +27,7 @@ public class OpenEditorMessage implements IMessage {
         switch (argument) {
             case ANY:
                 ClientProxy.openEditor();
+                break;
             case ITEM:
                 ClientProxy.openItemEditor();
                 break;

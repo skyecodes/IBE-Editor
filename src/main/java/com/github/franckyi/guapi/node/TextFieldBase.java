@@ -1,8 +1,8 @@
 package com.github.franckyi.guapi.node;
 
+import com.github.franckyi.guapi.IValueNode;
 import com.github.franckyi.guapi.Node;
-import com.github.franckyi.guapi.ValueNode;
-import com.github.franckyi.guapi.gui.GuiView;
+import com.github.franckyi.guapi.gui.IGuiView;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 
@@ -10,7 +10,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.function.BiConsumer;
 
-public abstract class TextFieldBase<T> extends Node<TextFieldBase.GuiTextFieldView> implements ValueNode<T> {
+public abstract class TextFieldBase<T> extends Node<TextFieldBase.GuiTextFieldView> implements IValueNode<T> {
 
     private final Set<BiConsumer<T, T>> onValueChangedListeners;
     private T oldVal;
@@ -63,7 +63,7 @@ public abstract class TextFieldBase<T> extends Node<TextFieldBase.GuiTextFieldVi
         this.getView().setText(text);
     }
 
-    public static class GuiTextFieldView extends GuiTextField implements GuiView {
+    public static class GuiTextFieldView extends GuiTextField implements IGuiView {
 
         private boolean changed;
 

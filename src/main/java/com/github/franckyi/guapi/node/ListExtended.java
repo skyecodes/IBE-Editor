@@ -1,10 +1,10 @@
 package com.github.franckyi.guapi.node;
 
+import com.github.franckyi.guapi.IParent;
+import com.github.franckyi.guapi.IScreenEventListener;
 import com.github.franckyi.guapi.Node;
-import com.github.franckyi.guapi.Parent;
-import com.github.franckyi.guapi.ScreenEventListener;
-import com.github.franckyi.guapi.event.EventListener;
-import com.github.franckyi.guapi.gui.GuiView;
+import com.github.franckyi.guapi.event.IEventListener;
+import com.github.franckyi.guapi.gui.IGuiView;
 import com.github.franckyi.guapi.math.Insets;
 import net.minecraft.client.gui.GuiListExtended;
 import net.minecraft.client.gui.GuiSlot;
@@ -16,7 +16,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class ListExtended<E extends GuiListExtended.IGuiListEntry & ScreenEventListener> extends Node<ListExtended.GuiListExtendedView> implements Parent {
+public class ListExtended<E extends GuiListExtended.IGuiListEntry & IScreenEventListener> extends Node<ListExtended.GuiListExtendedView> implements IParent {
 
     private int lazySlotHeight;
 
@@ -73,13 +73,13 @@ public class ListExtended<E extends GuiListExtended.IGuiListEntry & ScreenEventL
         this.setComputedHeight(200);
     }
 
-    public static class GuiListExtendedView<E extends GuiListExtended.IGuiListEntry<E>> extends GuiListExtended<E> implements GuiView {
+    public static class GuiListExtendedView<E extends GuiListExtended.IGuiListEntry<E>> extends GuiListExtended<E> implements IGuiView {
 
         private Insets offset;
         private int realHeight;
 
         public GuiListExtendedView(int slotHeight) {
-            super(ScreenEventListener.mc, 0, 0, 0, 0, slotHeight);
+            super(IScreenEventListener.mc, 0, 0, 0, 0, slotHeight);
             offset = Insets.NONE;
         }
 
@@ -177,15 +177,15 @@ public class ListExtended<E extends GuiListExtended.IGuiListEntry & ScreenEventL
 
     }
 
-    public static class NodeEntry<T extends Node> extends GuiListExtended.IGuiListEntry<NodeEntry<T>> implements ScreenEventListener, Parent {
+    public static class NodeEntry<T extends Node> extends GuiListExtended.IGuiListEntry<NodeEntry<T>> implements IScreenEventListener, IParent {
 
-        private final Set<EventListener<GuiScreenEvent.MouseClickedEvent>> onMouseClickedListeners;
-        private final Set<EventListener<GuiScreenEvent.MouseReleasedEvent>> onMouseReleasedListeners;
-        private final Set<EventListener<GuiScreenEvent.MouseDragEvent>> onMouseDraggedListeners;
-        private final Set<EventListener<GuiScreenEvent.MouseScrollEvent>> onMouseScrolledListeners;
-        private final Set<EventListener<GuiScreenEvent.KeyboardKeyPressedEvent>> onKeyPressedListeners;
-        private final Set<EventListener<GuiScreenEvent.KeyboardKeyReleasedEvent>> onKeyReleasedListeners;
-        private final Set<EventListener<GuiScreenEvent.KeyboardCharTypedEvent>> onCharTypedListeners;
+        private final Set<IEventListener<GuiScreenEvent.MouseClickedEvent>> onMouseClickedListeners;
+        private final Set<IEventListener<GuiScreenEvent.MouseReleasedEvent>> onMouseReleasedListeners;
+        private final Set<IEventListener<GuiScreenEvent.MouseDragEvent>> onMouseDraggedListeners;
+        private final Set<IEventListener<GuiScreenEvent.MouseScrollEvent>> onMouseScrolledListeners;
+        private final Set<IEventListener<GuiScreenEvent.KeyboardKeyPressedEvent>> onKeyPressedListeners;
+        private final Set<IEventListener<GuiScreenEvent.KeyboardKeyReleasedEvent>> onKeyReleasedListeners;
+        private final Set<IEventListener<GuiScreenEvent.KeyboardCharTypedEvent>> onCharTypedListeners;
 
         private final T node;
 
@@ -221,38 +221,38 @@ public class ListExtended<E extends GuiListExtended.IGuiListEntry & ScreenEventL
             node.render(mouseX, mouseY, partialTicks);
         }
 
-        public Set<EventListener<GuiScreenEvent.MouseClickedEvent>> getOnMouseClickedListeners() {
+        public Set<IEventListener<GuiScreenEvent.MouseClickedEvent>> getOnMouseClickedListeners() {
             return onMouseClickedListeners;
         }
 
-        public Set<EventListener<GuiScreenEvent.MouseReleasedEvent>> getOnMouseReleasedListeners() {
+        public Set<IEventListener<GuiScreenEvent.MouseReleasedEvent>> getOnMouseReleasedListeners() {
             return onMouseReleasedListeners;
         }
 
-        public Set<EventListener<GuiScreenEvent.MouseDragEvent>> getOnMouseDraggedListeners() {
+        public Set<IEventListener<GuiScreenEvent.MouseDragEvent>> getOnMouseDraggedListeners() {
             return onMouseDraggedListeners;
         }
 
-        public Set<EventListener<GuiScreenEvent.MouseScrollEvent>> getOnMouseScrolledListeners() {
+        public Set<IEventListener<GuiScreenEvent.MouseScrollEvent>> getOnMouseScrolledListeners() {
             return onMouseScrolledListeners;
         }
 
-        public Set<EventListener<GuiScreenEvent.KeyboardKeyPressedEvent>> getOnKeyPressedListeners() {
+        public Set<IEventListener<GuiScreenEvent.KeyboardKeyPressedEvent>> getOnKeyPressedListeners() {
             return onKeyPressedListeners;
         }
 
-        public Set<EventListener<GuiScreenEvent.KeyboardKeyReleasedEvent>> getOnKeyReleasedListeners() {
+        public Set<IEventListener<GuiScreenEvent.KeyboardKeyReleasedEvent>> getOnKeyReleasedListeners() {
             return onKeyReleasedListeners;
         }
 
-        public Set<EventListener<GuiScreenEvent.KeyboardCharTypedEvent>> getOnCharTypedListeners() {
+        public Set<IEventListener<GuiScreenEvent.KeyboardCharTypedEvent>> getOnCharTypedListeners() {
             return onCharTypedListeners;
         }
 
         @Override
         public boolean onMouseClicked(GuiScreenEvent.MouseClickedEvent event) {
             if (node.getView().isViewVisible() && node.getView().mouseClicked(event.getMouseX(), event.getMouseY(), event.getButton())) {
-                ScreenEventListener.super.onMouseClicked(event);
+                IScreenEventListener.super.onMouseClicked(event);
                 node.onMouseClicked(event);
                 return true;
             }
@@ -262,7 +262,7 @@ public class ListExtended<E extends GuiListExtended.IGuiListEntry & ScreenEventL
         @Override
         public boolean onMouseReleased(GuiScreenEvent.MouseReleasedEvent event) {
             if (node.getView().isViewVisible() && node.getView().mouseReleased(event.getMouseX(), event.getMouseY(), event.getButton())) {
-                ScreenEventListener.super.onMouseReleased(event);
+                IScreenEventListener.super.onMouseReleased(event);
                 node.onMouseReleased(event);
                 return true;
             }
@@ -272,7 +272,7 @@ public class ListExtended<E extends GuiListExtended.IGuiListEntry & ScreenEventL
         @Override
         public boolean onMouseDragged(GuiScreenEvent.MouseDragEvent event) {
             if (node.getView().isViewVisible() && node.getView().mouseDragged(event.getMouseX(), event.getMouseY(), event.getMouseButton(), event.getDragX(), event.getDragY())) {
-                ScreenEventListener.super.onMouseDragged(event);
+                IScreenEventListener.super.onMouseDragged(event);
                 node.onMouseDragged(event);
                 return true;
             }
@@ -282,7 +282,7 @@ public class ListExtended<E extends GuiListExtended.IGuiListEntry & ScreenEventL
         @Override
         public boolean onMouseScrolled(GuiScreenEvent.MouseScrollEvent event) {
             if (node.getView().isViewVisible() && node.getView().mouseScrolled(event.getScrollDelta())) {
-                ScreenEventListener.super.onMouseScrolled(event);
+                IScreenEventListener.super.onMouseScrolled(event);
                 node.onMouseScrolled(event);
                 return true;
             }
@@ -292,7 +292,7 @@ public class ListExtended<E extends GuiListExtended.IGuiListEntry & ScreenEventL
         @Override
         public boolean onKeyPressed(GuiScreenEvent.KeyboardKeyPressedEvent event) {
             if (node.getView().isViewVisible() && node.getView().keyPressed(event.getKeyCode(), event.getScanCode(), event.getModifiers())) {
-                ScreenEventListener.super.onKeyPressed(event);
+                IScreenEventListener.super.onKeyPressed(event);
                 node.onKeyPressed(event);
                 return true;
             }
@@ -302,7 +302,7 @@ public class ListExtended<E extends GuiListExtended.IGuiListEntry & ScreenEventL
         @Override
         public boolean onKeyReleased(GuiScreenEvent.KeyboardKeyReleasedEvent event) {
             if (node.getView().isViewVisible() && node.getView().keyReleased(event.getKeyCode(), event.getScanCode(), event.getModifiers())) {
-                ScreenEventListener.super.onKeyReleased(event);
+                IScreenEventListener.super.onKeyReleased(event);
                 node.onKeyReleased(event);
                 return true;
             }
@@ -312,7 +312,7 @@ public class ListExtended<E extends GuiListExtended.IGuiListEntry & ScreenEventL
         @Override
         public boolean onCharTyped(GuiScreenEvent.KeyboardCharTypedEvent event) {
             if (node.getView().isViewVisible() && node.getView().charTyped(event.getCodePoint(), event.getModifiers())) {
-                ScreenEventListener.super.onCharTyped(event);
+                IScreenEventListener.super.onCharTyped(event);
                 node.onCharTyped(event);
                 return true;
             }
@@ -323,13 +323,13 @@ public class ListExtended<E extends GuiListExtended.IGuiListEntry & ScreenEventL
         public void updateChildrenPos() {
             this.getNode().computeSize();
             this.getNode().updateSize();
-            if (this.getNode() instanceof Parent) {
-                ((Parent) this.getNode()).updateChildrenPos();
+            if (this.getNode() instanceof IParent) {
+                ((IParent) this.getNode()).updateChildrenPos();
             }
         }
 
         @Override
-        public List<? extends ScreenEventListener> getChildren() {
+        public List<? extends IScreenEventListener> getChildren() {
             return Collections.singletonList(node);
         }
     }
