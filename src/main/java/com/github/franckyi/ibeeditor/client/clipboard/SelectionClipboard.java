@@ -1,21 +1,12 @@
 package com.github.franckyi.ibeeditor.client.clipboard;
 
-import com.github.franckyi.guapi.Node;
-import com.github.franckyi.guapi.group.HBox;
-import com.github.franckyi.guapi.math.Pos;
 import com.github.franckyi.guapi.node.Button;
-import com.github.franckyi.guapi.node.Label;
-import com.github.franckyi.guapi.node.ListExtended;
-import com.github.franckyi.guapi.node.TexturedButton;
-import com.github.franckyi.ibeeditor.client.IResizable;
 import com.github.franckyi.ibeeditor.client.clipboard.logic.EntityClipboardEntry;
 import com.github.franckyi.ibeeditor.client.clipboard.logic.IClipboardEntry;
 import com.github.franckyi.ibeeditor.client.clipboard.logic.ItemClipboardEntry;
 import com.mojang.realmsclient.gui.ChatFormatting;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextFormatting;
 
-import java.util.List;
 import java.util.function.Consumer;
 
 public class SelectionClipboard<T extends IClipboardEntry> extends AbstractClipboard {
@@ -43,18 +34,13 @@ public class SelectionClipboard<T extends IClipboardEntry> extends AbstractClipb
 
     }
 
-    private class ItemView extends ListExtended.NodeEntry<HBox> implements IResizable {
-        private final Label nameLabel;
+    private class ItemView extends ItemViewBase {
         private final Button selectButton;
 
         public ItemView(ItemClipboardEntry item) {
-            super(new HBox(10));
-            this.getNode().setAlignment(Pos.LEFT);
-            ItemStack itemStack = item.getItemStack();
-            List<Node> children = this.getNode().getChildren();
-            children.add(new TexturedButton(itemStack));
-            children.add(nameLabel = new Label(itemStack.getDisplayName().getFormattedText()));
+            super(item);
             children.add(selectButton = new Button(TextFormatting.GREEN + "Select"));
+            selectButton.setPrefWidth(80);
             selectButton.getOnMouseClickedListeners().add(e -> {
                 afterSelection.accept(((T) item));
                 SelectionClipboard.this.close();
@@ -63,7 +49,7 @@ public class SelectionClipboard<T extends IClipboardEntry> extends AbstractClipb
 
         @Override
         public void updateSize(int listWidth) {
-            nameLabel.setPrefWidth(listWidth - 115);
+            nameLabel.setPrefWidth(listWidth - 159);
         }
     }
 }

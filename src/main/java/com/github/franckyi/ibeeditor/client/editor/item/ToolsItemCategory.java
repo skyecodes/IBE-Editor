@@ -1,9 +1,9 @@
 package com.github.franckyi.ibeeditor.client.editor.item;
 
-import com.github.franckyi.ibeeditor.client.ClientUtils;
 import com.github.franckyi.ibeeditor.client.clipboard.logic.IBEClipboard;
 import com.github.franckyi.ibeeditor.client.editor.Category;
 import com.github.franckyi.ibeeditor.client.editor.property.ButtonProperty;
+import com.github.franckyi.ibeeditor.client.util.ClientUtils;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextFormatting;
 

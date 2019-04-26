@@ -1,14 +1,19 @@
 package com.github.franckyi.guapi.node;
 
+import com.github.franckyi.guapi.Node;
 import com.github.franckyi.guapi.Scene;
 import com.github.franckyi.ibeeditor.IBEEditorMod;
+import com.google.common.collect.Lists;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
-public class TexturedButton extends Button {
+import java.util.Collections;
+import java.util.List;
+
+public class TexturedButton extends Node<TexturedButton.GuiGraphicButtonView> {
 
     public TexturedButton(String filename) {
         this(new ResourceLocation(IBEEditorMod.MODID, "textures/gui/" + filename));
@@ -24,25 +29,31 @@ public class TexturedButton extends Button {
 
     public TexturedButton(ResourceLocation texture, String text) {
         super(new GuiTexturedButtonView(texture, text));
+        this.computeSize();
+        this.updateSize();
     }
 
     public TexturedButton(ItemStack item) {
         super(new GuiItemTexturedButtonView(item));
+        this.computeSize();
+        this.updateSize();
     }
 
     @Override
     public GuiGraphicButtonView getView() {
-        return (GuiGraphicButtonView) super.getView();
+        return super.getView();
     }
 
-    @Override
-    public String getText() {
+    public boolean isDisabled() {
+        return !this.getView().enabled;
+    }
+
+    public void setDisabled(boolean disabled) {
+        this.getView().enabled = !disabled;
+    }
+
+    public List<String> getText() {
         return this.getView().getText();
-    }
-
-    @Override
-    public void setText(String text) {
-        this.getView().setText(text);
     }
 
     @Override
@@ -55,26 +66,26 @@ public class TexturedButton extends Button {
         this.setComputedHeight(20);
     }
 
-    public static abstract class GuiGraphicButtonView extends GuiButtonView {
+    public static abstract class GuiGraphicButtonView extends Button.GuiButtonView {
 
         public GuiGraphicButtonView() {
             super("");
         }
 
-        public abstract String getText();
-
-        public abstract void setText(String text);
+        public List<String> getText() {
+            return Collections.emptyList();
+        }
 
     }
 
     public static class GuiTexturedButtonView extends GuiGraphicButtonView {
 
         private final ResourceLocation texture;
-        private String tooltipText;
+        private List<String> tooltipText;
 
-        public GuiTexturedButtonView(ResourceLocation texture, String text) {
+        public GuiTexturedButtonView(ResourceLocation texture, String... text) {
             this.texture = texture;
-            this.tooltipText = text;
+            this.tooltipText = Lists.newArrayList(text);
         }
 
         @Override
@@ -107,14 +118,10 @@ public class TexturedButton extends Button {
         }
 
         @Override
-        public String getText() {
+        public List<String> getText() {
             return tooltipText;
         }
 
-        @Override
-        public void setText(String text) {
-            this.tooltipText = text;
-        }
     }
 
     private static class GuiItemTexturedButtonView extends GuiGraphicButtonView {
@@ -138,15 +145,6 @@ public class TexturedButton extends Button {
                     screen.renderToolTip(item, mouseX, mouseY);
                 }
             }
-        }
-
-        @Override
-        public String getText() {
-            return "";
-        }
-
-        @Override
-        public void setText(String text) {
         }
     }
 }

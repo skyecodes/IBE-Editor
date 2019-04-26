@@ -23,6 +23,7 @@ public class BlockCategory extends EditableCategory<Block> {
 
     private final ItemStack itemStack;
     private final String tagName;
+    private boolean flag;
 
     public BlockCategory(ItemStack itemStack, String tagName) {
         this.itemStack = itemStack;
@@ -44,10 +45,15 @@ public class BlockCategory extends EditableCategory<Block> {
     @Override
     public void apply() {
         itemStack.getOrCreateTag().remove(tagName);
+        flag = true;
         super.apply();
     }
 
     private void addBlock(Block block) {
+        if (flag) {
+            itemStack.getOrCreateTag().put(tagName, new NBTTagList());
+            flag = false;
+        }
         itemStack.getOrCreateTag().getList(tagName, Constants.NBT.TAG_STRING)
                 .add(new NBTTagString(block.getRegistryName().toString()));
     }
@@ -106,6 +112,7 @@ public class BlockCategory extends EditableCategory<Block> {
 
         private void update() {
             nameLabel.setText(getValue().getNameTextComponent().getUnformattedComponentText() + " :");
+            this.updateChildrenPos();
         }
 
     }

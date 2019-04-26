@@ -1,5 +1,6 @@
 package com.github.franckyi.ibeeditor.client.clipboard;
 
+import com.github.franckyi.guapi.Node;
 import com.github.franckyi.guapi.Scene;
 import com.github.franckyi.guapi.group.HBox;
 import com.github.franckyi.guapi.group.VBox;
@@ -7,13 +8,19 @@ import com.github.franckyi.guapi.math.Insets;
 import com.github.franckyi.guapi.math.Pos;
 import com.github.franckyi.guapi.node.Label;
 import com.github.franckyi.guapi.node.ListExtended;
+import com.github.franckyi.guapi.node.TexturedButton;
 import com.github.franckyi.guapi.scene.IBackground;
+import com.github.franckyi.ibeeditor.IBEEditorConfig;
 import com.github.franckyi.ibeeditor.client.IResizable;
 import com.github.franckyi.ibeeditor.client.clipboard.logic.EntityClipboardEntry;
 import com.github.franckyi.ibeeditor.client.clipboard.logic.IBEClipboard;
 import com.github.franckyi.ibeeditor.client.clipboard.logic.ItemClipboardEntry;
-import com.github.franckyi.ibeeditor.config.IBEEditorConfig;
+import com.github.franckyi.ibeeditor.client.util.MobHeads;
+import net.minecraft.entity.Entity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextFormatting;
+
+import java.util.List;
 
 public abstract class AbstractClipboard extends Scene {
 
@@ -43,7 +50,7 @@ public abstract class AbstractClipboard extends Scene {
             this.setContentFullScreen();
             this.scaleChildrenSize();
         });
-        this.setGuiPauseGame(IBEEditorConfig.doesGuiPauseGame);
+        this.setGuiPauseGame(IBEEditorConfig.CLIENT.doesGuiPauseGame.get());
     }
 
     protected void scaleChildrenSize() {
@@ -107,6 +114,46 @@ public abstract class AbstractClipboard extends Scene {
         @Override
         public String toString() {
             return s;
+        }
+    }
+
+    protected abstract class ItemViewBase extends ListExtended.NodeEntry<HBox> implements IResizable {
+
+        protected final TexturedButton itemButton;
+        protected final Label nameLabel;
+
+        protected ItemStack itemStack;
+        protected List<Node> children;
+
+        public ItemViewBase(ItemClipboardEntry item) {
+            super(new HBox(10));
+            this.getNode().setAlignment(Pos.LEFT);
+            itemStack = item.getItemStack();
+            children = this.getNode().getChildren();
+            children.add(itemButton = new TexturedButton(itemStack));
+            itemButton.setMargin(Insets.left(5));
+            children.add(nameLabel = new Label(itemStack.getDisplayName().getFormattedText()));
+        }
+
+        public abstract void updateSize(int listWidth);
+    }
+
+    protected abstract class EntityViewBase extends ListExtended.NodeEntry<HBox> implements IResizable {
+
+        protected final TexturedButton entityButton;
+        protected final Label nameLabel;
+
+        protected Entity entity;
+        protected List<Node> children;
+
+        public EntityViewBase(EntityClipboardEntry entity) {
+            super(new HBox(10));
+            this.getNode().setAlignment(Pos.LEFT);
+            this.entity = entity.getEntity();
+            children = this.getNode().getChildren();
+            children.add(entityButton = new TexturedButton(MobHeads.getHeadFromEntity(entity.getEntityType())));
+            entityButton.setMargin(Insets.left(5));
+            children.add(nameLabel = new Label(entity.getEntityType().getName().getFormattedText()));
         }
     }
 

@@ -10,6 +10,6 @@ public class LockableCategory extends TileEntityCategory<TileEntityLockable> {
 
     public LockableCategory(BlockEditor editor, TileEntityLockable tileEntity) {
         super(editor, tileEntity);
-        this.addAll(new PropertyFormattedText("Lock code", tileEntity.getLockCode().getLock(), s -> tileEntity.setLockCode(new LockCode(s))));
+        this.addAll(new PropertyFormattedText("Lock code", tileEntity.getLockCode().getLock(), s -> tileEntity.setLockCode(new LockCode(s)), 80));
     }
 }

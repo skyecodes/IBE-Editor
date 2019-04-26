@@ -13,6 +13,7 @@ import com.google.common.collect.Multimap;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.text.TextFormatting;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
@@ -31,7 +32,15 @@ public class AttributeModifiersCategory extends EditableCategory<AttributeModifi
         this.itemStack = itemStack;
         this.modifiers = this.getModifiers(itemStack::getAttributeModifiers);
         this.initialModifiers = this.getModifiers(slot -> itemStack.getItem().getAttributeModifiers(slot, itemStack));
-        this.getChildren().add(new AddButton("Add attribute modifier"));
+        this.getChildren().add(new AddButton(
+                TextFormatting.GREEN + "     Add attribute modifier",
+                "",
+                "Fields are, from left to right :",
+                "- Attribute ID",
+                "- Slot",
+                "- Operation",
+                "- Amount"
+        ));
         modifiers.forEach(this::addProperty);
     }
 

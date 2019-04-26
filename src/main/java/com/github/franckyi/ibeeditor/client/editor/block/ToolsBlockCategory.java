@@ -1,8 +1,8 @@
 package com.github.franckyi.ibeeditor.client.editor.block;
 
-import com.github.franckyi.ibeeditor.client.ClientUtils;
 import com.github.franckyi.ibeeditor.client.editor.Category;
 import com.github.franckyi.ibeeditor.client.editor.property.ButtonProperty;
+import com.github.franckyi.ibeeditor.client.util.ClientUtils;
 import com.github.franckyi.ibeeditor.client.util.IBENotification;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;

@@ -1,10 +1,11 @@
-package com.github.franckyi.ibeeditor.client;
+package com.github.franckyi.ibeeditor.client.util;
 
-import com.github.franckyi.ibeeditor.client.util.IBENotification;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 
 public final class ClientUtils {
@@ -13,6 +14,10 @@ public final class ClientUtils {
 
     public static String unformat(String s) {
         return s.replaceAll("§.", "");
+    }
+
+    public static ITextComponent reset(ITextComponent component) {
+        return new TextComponentString(TextFormatting.RESET + component.getFormattedText());
     }
 
     public static void copyGiveCommand(ItemStack itemStack) {

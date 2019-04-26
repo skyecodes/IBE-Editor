@@ -2,8 +2,8 @@ package com.github.franckyi.ibeeditor.client.clipboard.logic;
 
 import com.github.franckyi.ibeeditor.IBEEditorMod;
 import com.github.franckyi.ibeeditor.client.util.IBENotification;
+import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.text.TextFormatting;
 
@@ -40,7 +40,7 @@ public class IBEClipboard {
         return instance == null ? new IBEClipboard() : instance;
     }
 
-    public void addEntity(NBTTagCompound entity) {
+    public void addEntity(Entity entity) {
         EntityClipboardEntry entry = new EntityClipboardEntry(entity);
         if (entities.contains(entry)) {
             IBENotification.show(IBENotification.Type.EDITOR, 3, TextFormatting.YELLOW + "This entity is already saved to the clipboard.");
@@ -51,8 +51,7 @@ public class IBEClipboard {
         }
     }
 
-    public void removeEntity(NBTTagCompound entity) {
-        EntityClipboardEntry entry = new EntityClipboardEntry(entity);
+    public void removeEntity(EntityClipboardEntry entry) {
         if (entities.remove(entry)) {
             IBENotification.show(IBENotification.Type.EDITOR, 3, TextFormatting.GREEN + "Entity successfully removed from clipboard.");
             this.save();
@@ -72,8 +71,7 @@ public class IBEClipboard {
         }
     }
 
-    public void removeItem(ItemStack item) {
-        ItemClipboardEntry entry = new ItemClipboardEntry(item);
+    public void removeItem(ItemClipboardEntry entry) {
         if (items.remove(entry)) {
             IBENotification.show(IBENotification.Type.EDITOR, 3, TextFormatting.GREEN + "Item successfully removed from clipboard.");
             this.save();

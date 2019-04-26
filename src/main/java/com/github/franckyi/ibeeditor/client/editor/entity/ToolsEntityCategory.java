@@ -1,11 +1,10 @@
 package com.github.franckyi.ibeeditor.client.editor.entity;
 
-import com.github.franckyi.ibeeditor.client.ClientUtils;
 import com.github.franckyi.ibeeditor.client.clipboard.logic.IBEClipboard;
 import com.github.franckyi.ibeeditor.client.editor.Category;
 import com.github.franckyi.ibeeditor.client.editor.property.ButtonProperty;
+import com.github.franckyi.ibeeditor.client.util.ClientUtils;
 import net.minecraft.entity.Entity;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.text.TextFormatting;
 
 public class ToolsEntityCategory extends Category {
@@ -22,9 +21,7 @@ public class ToolsEntityCategory extends Category {
     }
 
     private void copyToClipboard() {
-        NBTTagCompound tag = new NBTTagCompound();
-        entity.writeUnlessRemoved(tag);
-        IBEClipboard.getInstance().addEntity(tag);
+        IBEClipboard.getInstance().addEntity(entity);
     }
 
     private void copySummonCommand() {

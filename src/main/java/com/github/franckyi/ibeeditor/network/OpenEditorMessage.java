@@ -1,7 +1,7 @@
 package com.github.franckyi.ibeeditor.network;
 
-import com.github.franckyi.ibeeditor.command.IBEEditorCommand;
-import com.github.franckyi.ibeeditor.proxy.ClientProxy;
+import com.github.franckyi.ibeeditor.IBEEditorCommand;
+import com.github.franckyi.ibeeditor.client.util.EditorHandler;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkEvent;
 
@@ -26,19 +26,19 @@ public class OpenEditorMessage implements IMessage {
     public void handle(NetworkEvent.Context context) {
         switch (argument) {
             case ANY:
-                ClientProxy.openEditor();
+                EditorHandler.openEditor();
                 break;
             case ITEM:
-                ClientProxy.openItemEditor();
+                EditorHandler.openItemEditor();
                 break;
             case BLOCK:
-                ClientProxy.openBlockEditor();
+                EditorHandler.openBlockEditor();
                 break;
             case ENTITY:
-                ClientProxy.openEntityEditor();
+                EditorHandler.openEntityEditor();
                 break;
             case SELF:
-                ClientProxy.openSelfEditor();
+                EditorHandler.openSelfEditor();
                 break;
         }
     }

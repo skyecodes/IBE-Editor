@@ -2,16 +2,16 @@ package com.github.franckyi.ibeeditor.client.clipboard;
 
 import com.github.franckyi.guapi.Node;
 import com.github.franckyi.guapi.group.HBox;
-import com.github.franckyi.guapi.math.Pos;
-import com.github.franckyi.guapi.node.*;
-import com.github.franckyi.ibeeditor.client.ClientUtils;
-import com.github.franckyi.ibeeditor.client.IResizable;
+import com.github.franckyi.guapi.node.Button;
+import com.github.franckyi.guapi.node.EnumButton;
+import com.github.franckyi.guapi.node.Label;
+import com.github.franckyi.guapi.node.TexturedButton;
 import com.github.franckyi.ibeeditor.client.clipboard.logic.EntityClipboardEntry;
 import com.github.franckyi.ibeeditor.client.clipboard.logic.IBEClipboard;
 import com.github.franckyi.ibeeditor.client.clipboard.logic.ItemClipboardEntry;
+import com.github.franckyi.ibeeditor.client.editor.entity.EntityEditor;
 import com.github.franckyi.ibeeditor.client.editor.item.ItemEditor;
 import com.mojang.realmsclient.gui.ChatFormatting;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextFormatting;
 
 import java.util.List;
@@ -52,43 +52,67 @@ public class ViewClipboard extends AbstractClipboard {
 
     @Override
     protected void newEntityEntry(EntityClipboardEntry entity) {
-
+        body.getChildren().add(new EntityView(entity));
     }
 
-    private class ItemView extends ListExtended.NodeEntry<HBox> implements IResizable {
+    protected class ItemView extends ItemViewBase {
 
-        private final Label nameLabel;
-        private final Button copyButton;
         private final Button editButton;
         private final TexturedButton removeButton;
 
         public ItemView(ItemClipboardEntry item) {
-            super(new HBox(10));
-            this.getNode().setAlignment(Pos.LEFT);
-            ItemStack itemStack = item.getItemStack();
+            super(item);
             List<Node> children = this.getNode().getChildren();
-            children.add(new TexturedButton(itemStack));
-            children.add(nameLabel = new Label(itemStack.getDisplayName().getFormattedText()));
-            children.add(copyButton = new Button("Copy /give command"));
-            copyButton.setPrefWidth(130);
-            copyButton.getOnMouseClickedListeners().add(event -> ClientUtils.copyGiveCommand(itemStack));
-            children.add(editButton = new Button("Edit"));
+            children.add(editButton = new Button("Open in Item Editor"));
+            editButton.setPrefWidth(170);
             editButton.getOnMouseClickedListeners().add(event -> new ItemEditor(itemStack, null, stack -> {
                 List<ItemClipboardEntry> items = IBEClipboard.getInstance().getItems();
                 items.set(items.indexOf(item), new ItemClipboardEntry(stack));
                 IBEClipboard.getInstance().save();
+                setFilter(filter);
             }));
             children.add(removeButton =
                     new TexturedButton("delete.png", TextFormatting.RED + "Remove"));
             removeButton.getOnMouseClickedListeners().add(event -> {
-                IBEClipboard.getInstance().removeItem(itemStack);
+                IBEClipboard.getInstance().removeItem(item);
                 setFilter(filter);
             });
         }
 
         @Override
         public void updateSize(int listWidth) {
-            nameLabel.setPrefWidth(listWidth - 270);
+            nameLabel.setPrefWidth(listWidth - 279);
         }
+    }
+
+    protected class EntityView extends EntityViewBase {
+
+        private final Button editButton;
+        private final TexturedButton removeButton;
+
+        public EntityView(EntityClipboardEntry entity) {
+            super(entity);
+            List<Node> children = this.getNode().getChildren();
+            children.add(editButton = new Button("Open in Entity Editor"));
+            editButton.setPrefWidth(170);
+            editButton.getOnMouseClickedListeners().add(event -> new EntityEditor(this.entity, entity0 -> {
+                List<EntityClipboardEntry> entities = IBEClipboard.getInstance().getEntities();
+                entities.set(entities.indexOf(entity), new EntityClipboardEntry(entity0));
+                IBEClipboard.getInstance().save();
+                setFilter(filter);
+            }));
+            children.add(removeButton =
+                    new TexturedButton("delete.png", TextFormatting.RED + "Remove"));
+            removeButton.getOnMouseClickedListeners().add(event -> {
+                IBEClipboard.getInstance().removeEntity(entity);
+                setFilter(filter);
+            });
+        }
+
+        @Override
+        public void updateSize(int listWidth) {
+            nameLabel.setPrefWidth(listWidth - 279);
+        }
+
     }
 }

@@ -12,6 +12,11 @@ public class PropertyInteger extends LabeledCategory<Integer> {
         super(name, initialValue, action);
     }
 
+    public PropertyInteger(String name, Integer initialValue, Consumer<Integer> action, int labelSize) {
+        super(name, initialValue, action);
+        nameLabel.setPrefWidth(labelSize);
+    }
+
     public PropertyInteger(String name, Integer initialValue, Consumer<Integer> action, int min, int max) {
         this(name, initialValue, action);
         integerField.setMin(min);
@@ -36,6 +41,6 @@ public class PropertyInteger extends LabeledCategory<Integer> {
 
     @Override
     public void updateSize(int listWidth) {
-        integerField.setPrefWidth(listWidth - 116);
+        integerField.setPrefWidth(listWidth - 66 - nameLabel.getWidth());
     }
 }

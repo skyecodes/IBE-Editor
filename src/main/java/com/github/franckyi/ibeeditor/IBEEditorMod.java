@@ -1,8 +1,5 @@
 package com.github.franckyi.ibeeditor;
 
-import com.github.franckyi.ibeeditor.client.clipboard.logic.IBEClipboard;
-import com.github.franckyi.ibeeditor.command.IBEEditorCommand;
-import com.github.franckyi.ibeeditor.config.IBEEditorConfig;
 import com.github.franckyi.ibeeditor.network.IMessage;
 import com.github.franckyi.ibeeditor.network.OpenEditorMessage;
 import com.github.franckyi.ibeeditor.network.block.BlockEditorMessage;
@@ -10,7 +7,6 @@ import com.github.franckyi.ibeeditor.network.block.InitBlockEditorRequest;
 import com.github.franckyi.ibeeditor.network.block.InitBlockEditorResponse;
 import com.github.franckyi.ibeeditor.network.entity.EntityEditorMessage;
 import com.github.franckyi.ibeeditor.network.item.BlockInventoryItemEditorMessage;
-import com.github.franckyi.ibeeditor.network.item.EntityInventoryItemEditorMessage;
 import com.github.franckyi.ibeeditor.network.item.MainHandItemEditorMessage;
 import com.github.franckyi.ibeeditor.network.item.PlayerInventoryItemEditorMessage;
 import com.github.franckyi.ibeeditor.proxy.ClientProxy;
@@ -21,6 +17,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -40,7 +37,7 @@ public class IBEEditorMod {
 
     public static final Logger LOGGER = LogManager.getLogger();
     public static final IProxy proxy = DistExecutor.runForDist(() -> ClientProxy::new, () -> ServerProxy::new);
-    private static final String PROTOCOL_VERSION = "1";
+    private static final String PROTOCOL_VERSION = "1.0.0";
     public static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(
             new ResourceLocation(MODID, "network"),
             () -> PROTOCOL_VERSION, PROTOCOL_VERSION::equals, PROTOCOL_VERSION::equals
@@ -50,20 +47,19 @@ public class IBEEditorMod {
     public IBEEditorMod() {
         MinecraftForge.EVENT_BUS.register(this);
         FMLJavaModLoadingContext.get().getModEventBus().register(this);
+        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, IBEEditorConfig.clientSpec);
+        FMLJavaModLoadingContext.get().getModEventBus().register(IBEEditorConfig.class);
     }
 
     @SubscribeEvent
     public void onSetup(FMLCommonSetupEvent event) {
         proxy.onSetup();
-        IBEEditorConfig.load();
-        IBEClipboard.getInstance().load();
         // Command
         registerMessage(OpenEditorMessage.class, OpenEditorMessage::new);
         // Item Editor
         registerMessage(MainHandItemEditorMessage.class, MainHandItemEditorMessage::new);
         registerMessage(PlayerInventoryItemEditorMessage.class, PlayerInventoryItemEditorMessage::new);
         registerMessage(BlockInventoryItemEditorMessage.class, BlockInventoryItemEditorMessage::new);
-        registerMessage(EntityInventoryItemEditorMessage.class, EntityInventoryItemEditorMessage::new);
         // Block Editor
         registerMessage(InitBlockEditorRequest.class, InitBlockEditorRequest::new);
         registerMessage(InitBlockEditorResponse.class, InitBlockEditorResponse::new);
@@ -75,14 +71,6 @@ public class IBEEditorMod {
     @SubscribeEvent
     public void onServerStarting(FMLServerStartingEvent event) {
         IBEEditorCommand.register(event.getCommandDispatcher());
-    }
-
-    @SubscribeEvent
-    public void onModConfig(ModConfig.ModConfigEvent event) {
-        ModConfig config = event.getConfig();
-        if (config.getSpec() == IBEEditorConfig.SPEC) {
-            IBEEditorConfig.refresh();
-        }
     }
 
     private <MSG extends IMessage> void registerMessage(Class<MSG> c, Function<PacketBuffer, MSG> read) {

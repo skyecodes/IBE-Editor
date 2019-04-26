@@ -4,6 +4,7 @@ import com.github.franckyi.guapi.math.Pos;
 import com.github.franckyi.guapi.node.TexturedButton;
 import net.minecraft.util.text.TextFormatting;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -63,10 +64,15 @@ public abstract class EditableCategory<T> extends Category {
         }
 
         public AddButton(String text) {
+            this(new String[]{TextFormatting.GREEN + text});
+        }
+
+        public AddButton(String... textLines) {
             super(null, aVoid -> {
             });
             this.getNode().getChildren().remove(1);
-            button.setText(TextFormatting.GREEN + text);
+            button.getText().clear();
+            button.getText().addAll(Arrays.asList(textLines));
         }
 
         @Override

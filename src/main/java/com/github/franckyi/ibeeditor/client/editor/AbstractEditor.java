@@ -9,7 +9,7 @@ import com.github.franckyi.guapi.node.Button;
 import com.github.franckyi.guapi.node.Label;
 import com.github.franckyi.guapi.node.ListExtended;
 import com.github.franckyi.guapi.scene.IBackground;
-import com.github.franckyi.ibeeditor.config.IBEEditorConfig;
+import com.github.franckyi.ibeeditor.IBEEditorConfig;
 import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraft.util.text.TextFormatting;
 
@@ -67,7 +67,7 @@ public abstract class AbstractEditor extends Scene {
             this.setContentFullScreen();
             this.scaleChildrenSize();
         });
-        this.setGuiPauseGame(IBEEditorConfig.doesGuiPauseGame);
+        this.setGuiPauseGame(IBEEditorConfig.CLIENT.doesGuiPauseGame.get());
     }
 
     protected void apply() {

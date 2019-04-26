@@ -12,6 +12,10 @@ public class PropertyString extends LabeledCategory<String> {
         super(name, value, action);
     }
 
+    public PropertyString(String name, String initialValue, Consumer<String> action, int labelSize) {
+        super(name, initialValue, action, labelSize);
+    }
+
     @Override
     public String getValue() {
         return textField.getValue();
@@ -31,6 +35,6 @@ public class PropertyString extends LabeledCategory<String> {
 
     @Override
     public void updateSize(int listWidth) {
-        textField.setPrefWidth(listWidth - 116);
+        textField.setPrefWidth(listWidth - 66 - nameLabel.getWidth());
     }
 }

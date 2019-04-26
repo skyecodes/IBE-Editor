@@ -10,13 +10,21 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.text.TextFormatting;
 
+import java.util.function.Consumer;
+
 public class EntityEditor extends AbstractEditor {
 
     private final Entity entity;
+    private final Consumer<Entity> action;
 
     public EntityEditor(Entity entity) {
+        this(entity, null);
+    }
+
+    public EntityEditor(Entity entity, Consumer<Entity> action) {
         super("Entity Editor");
         this.entity = entity;
+        this.action = action;
         this.addCategory("General", new GeneralEntityCategory(entity));
         if (!(entity instanceof EntityPlayer)) {
             if (entity instanceof EntityLiving) {
@@ -34,8 +42,12 @@ public class EntityEditor extends AbstractEditor {
         if (entityTag.equals(entity.writeWithoutTypeId(new NBTTagCompound()))) {
             IBENotification.show(IBENotification.Type.EDITOR, 3, TextFormatting.YELLOW + "Nothing to save.");
         } else {
-            IBEEditorMod.CHANNEL.sendToServer(new EntityEditorMessage(entity));
-            IBENotification.show(IBENotification.Type.EDITOR, 3, TextFormatting.GREEN + "Entity saved.");
+            if (action != null) {
+                action.accept(entity);
+            } else {
+                IBEEditorMod.CHANNEL.sendToServer(new EntityEditorMessage(entity));
+                IBENotification.show(IBENotification.Type.EDITOR, 3, TextFormatting.GREEN + "Entity saved.");
+            }
         }
     }
 }

@@ -1,6 +1,5 @@
-package com.github.franckyi.ibeeditor.command;
+package com.github.franckyi.ibeeditor;
 
-import com.github.franckyi.ibeeditor.IBEEditorMod;
 import com.github.franckyi.ibeeditor.network.OpenEditorMessage;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
@@ -21,14 +20,6 @@ public class IBEEditorCommand {
     private static LiteralArgumentBuilder<CommandSource> getCommand() {
         LiteralArgumentBuilder<CommandSource> ibe = Commands
                 .literal("ibe")
-                .requires(commandSource -> {
-                    try {
-                        return commandSource.asPlayer().isCreative(); // TODO server config : onlyCreativeMode
-                    } catch (CommandSyntaxException e) {
-                        return false;
-                    }
-                })
-                .requires(commandSource -> commandSource.hasPermissionLevel(0)) // TODO server config : minimumPermissionLevel
                 .executes(ctx -> execute(ctx, EditorArgument.ANY));
         for (EditorArgument argument : EditorArgument.values()) {
             if (argument != EditorArgument.ANY) {

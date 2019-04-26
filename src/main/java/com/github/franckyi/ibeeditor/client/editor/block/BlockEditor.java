@@ -39,7 +39,6 @@ public class BlockEditor extends AbstractEditor {
             this.addCategory("Block state", new BlockStateCategory(this));
         }
         if (tileEntity != null) {
-            System.out.println(tileEntity.write(new NBTTagCompound()));
             BlockEditorConfiguration.get().forEach(configuration -> {
                 if (configuration.condition.test(this)) {
                     this.addCategory(configuration.name, configuration.categoryBuilder.apply(this, configuration.caster.apply(this)));
