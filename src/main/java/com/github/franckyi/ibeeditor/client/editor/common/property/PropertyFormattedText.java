@@ -1,4 +1,4 @@
-package com.github.franckyi.ibeeditor.client.editor.property;
+package com.github.franckyi.ibeeditor.client.editor.common.property;
 
 import com.github.franckyi.guapi.node.TexturedButton;
 import com.github.franckyi.ibeeditor.IBEEditorConfig;
@@ -37,7 +37,7 @@ public class PropertyFormattedText extends PropertyString {
 
     @Override
     public void updateSize(int listWidth) {
-        textField.setPrefWidth(listWidth - 86 - nameLabel.getWidth());
+        textField.setPrefWidth(listWidth - 87 - nameLabel.getWidth());
     }
 
 }

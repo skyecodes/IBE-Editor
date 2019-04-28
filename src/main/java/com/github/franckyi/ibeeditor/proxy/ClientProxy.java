@@ -6,6 +6,7 @@ import com.github.franckyi.guapi.util.Notification;
 import com.github.franckyi.ibeeditor.client.clipboard.ViewClipboard;
 import com.github.franckyi.ibeeditor.client.clipboard.logic.IBEClipboard;
 import com.github.franckyi.ibeeditor.client.util.EditorHandler;
+import com.github.franckyi.ibeeditor.client.util.EntityIcons;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.gui.inventory.GuiContainerCreative;
@@ -23,6 +24,7 @@ import org.lwjgl.glfw.GLFW;
 
 public class ClientProxy implements IProxy {
 
+    private static final Minecraft mc = Minecraft.getInstance();
     private static final String KEYBINDING_CATEGORY = "IBE Editor";
     public static final KeyBinding KEY_OPEN_EDITOR = new KeyBinding("Open GUI", KeyConflictContext.UNIVERSAL,
             KeyModifier.NONE, InputMappings.Type.KEYSYM, GLFW.GLFW_KEY_I, KEYBINDING_CATEGORY);
@@ -38,6 +40,7 @@ public class ClientProxy implements IProxy {
         ClientRegistry.registerKeyBinding(KEY_OPEN_EDITOR);
         ClientRegistry.registerKeyBinding(KEY_OPEN_CLIPBOARD);
         IBEClipboard.getInstance().load();
+        EntityIcons.setup();
     }
 
     @SubscribeEvent
@@ -59,7 +62,17 @@ public class ClientProxy implements IProxy {
                 if (gui instanceof GuiInventory || gui instanceof GuiContainerCreative) {
                     EditorHandler.openItemEditorFromGui(gui.getSlotUnderMouse());
                 } else {
-                    EditorHandler.openItemEditorFromGui(gui.getSlotUnderMouse(), Minecraft.getInstance().objectMouseOver.getBlockPos());
+                    switch (mc.objectMouseOver.type) {
+                        case BLOCK:
+                            EditorHandler.openItemEditorFromGui(gui.getSlotUnderMouse(), mc.objectMouseOver.getBlockPos());
+                            break;
+                        case ENTITY:
+                            EditorHandler.openItemEditorFromGui(gui.getSlotUnderMouse(), mc.objectMouseOver.entity);
+                            break;
+                        case MISS:
+                        default:
+                            break;
+                    }
                 }
             }
         }

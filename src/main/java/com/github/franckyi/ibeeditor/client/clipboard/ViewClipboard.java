@@ -11,7 +11,6 @@ import com.github.franckyi.ibeeditor.client.clipboard.logic.IBEClipboard;
 import com.github.franckyi.ibeeditor.client.clipboard.logic.ItemClipboardEntry;
 import com.github.franckyi.ibeeditor.client.editor.entity.EntityEditor;
 import com.github.franckyi.ibeeditor.client.editor.item.ItemEditor;
-import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraft.util.text.TextFormatting;
 
 import java.util.List;
@@ -32,7 +31,7 @@ public class ViewClipboard extends AbstractClipboard {
         filterBox.getChildren().add(filterButton = new EnumButton<>(Filter.values()));
         filterButton.getOnValueChangedListeners().add((oldVal, newVal) -> this.setFilter(newVal));
         filterButton.setValue(Filter.ITEM);
-        footer.getChildren().add(closeButton = new Button(ChatFormatting.GREEN + "Close"));
+        footer.getChildren().add(closeButton = new Button(TextFormatting.GREEN + "Close"));
         closeButton.getOnMouseClickedListeners().add(event -> this.close());
         closeButton.setPrefWidth(80);
         footer.getChildren().add(blankBox = new HBox());

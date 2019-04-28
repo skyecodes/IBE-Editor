@@ -7,6 +7,7 @@ import com.github.franckyi.ibeeditor.network.block.InitBlockEditorRequest;
 import com.github.franckyi.ibeeditor.network.block.InitBlockEditorResponse;
 import com.github.franckyi.ibeeditor.network.entity.EntityEditorMessage;
 import com.github.franckyi.ibeeditor.network.item.BlockInventoryItemEditorMessage;
+import com.github.franckyi.ibeeditor.network.item.EntityInventoryItemEditorMessage;
 import com.github.franckyi.ibeeditor.network.item.MainHandItemEditorMessage;
 import com.github.franckyi.ibeeditor.network.item.PlayerInventoryItemEditorMessage;
 import com.github.franckyi.ibeeditor.proxy.ClientProxy;
@@ -60,6 +61,7 @@ public class IBEEditorMod {
         registerMessage(MainHandItemEditorMessage.class, MainHandItemEditorMessage::new);
         registerMessage(PlayerInventoryItemEditorMessage.class, PlayerInventoryItemEditorMessage::new);
         registerMessage(BlockInventoryItemEditorMessage.class, BlockInventoryItemEditorMessage::new);
+        registerMessage(EntityInventoryItemEditorMessage.class, EntityInventoryItemEditorMessage::new);
         // Block Editor
         registerMessage(InitBlockEditorRequest.class, InitBlockEditorRequest::new);
         registerMessage(InitBlockEditorResponse.class, InitBlockEditorResponse::new);

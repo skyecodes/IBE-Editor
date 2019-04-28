@@ -1,23 +1,23 @@
 package com.github.franckyi.ibeeditor.client.editor.entity;
 
-import com.github.franckyi.ibeeditor.client.editor.Category;
-import com.github.franckyi.ibeeditor.client.editor.property.custom.SlotProperty;
+import com.github.franckyi.ibeeditor.client.editor.common.AbstractCategory;
+import com.github.franckyi.ibeeditor.client.editor.common.property.custom.SlotProperty;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
-public class InventoryEntityCategory extends Category {
+public class InventoryEntityCategory extends AbstractCategory {
 
     private final EntityLiving entity;
     private final Map<EntityEquipmentSlot, ItemStack> inventory;
 
     public InventoryEntityCategory(EntityLiving entity) {
         this.entity = entity;
-        inventory = new HashMap<>();
+        inventory = new TreeMap<>();
         for (EntityEquipmentSlot slot : EntityEquipmentSlot.values()) {
             inventory.put(slot, entity.getItemStackFromSlot(slot).copy());
         }

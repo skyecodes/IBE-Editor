@@ -1,10 +1,10 @@
-package com.github.franckyi.ibeeditor.client.editor.property;
+package com.github.franckyi.ibeeditor.client.editor.common.property;
 
 import com.github.franckyi.guapi.node.TextField;
 
 import java.util.function.Consumer;
 
-public class PropertyString extends LabeledCategory<String> {
+public class PropertyString extends LabeledProperty<String> {
 
     protected TextField textField;
 
@@ -35,6 +35,6 @@ public class PropertyString extends LabeledCategory<String> {
 
     @Override
     public void updateSize(int listWidth) {
-        textField.setPrefWidth(listWidth - 66 - nameLabel.getWidth());
+        textField.setPrefWidth(listWidth - 67 - nameLabel.getWidth());
     }
 }

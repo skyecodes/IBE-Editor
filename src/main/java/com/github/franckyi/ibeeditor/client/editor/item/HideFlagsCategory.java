@@ -1,10 +1,10 @@
 package com.github.franckyi.ibeeditor.client.editor.item;
 
-import com.github.franckyi.ibeeditor.client.editor.Category;
-import com.github.franckyi.ibeeditor.client.editor.property.PropertyBoolean;
+import com.github.franckyi.ibeeditor.client.editor.common.AbstractCategory;
+import com.github.franckyi.ibeeditor.client.editor.common.property.PropertyBoolean;
 import net.minecraft.item.ItemStack;
 
-public class HideFlagsCategory extends Category {
+public class HideFlagsCategory extends AbstractCategory {
 
     private final ItemStack itemStack;
     private int hideFlags;

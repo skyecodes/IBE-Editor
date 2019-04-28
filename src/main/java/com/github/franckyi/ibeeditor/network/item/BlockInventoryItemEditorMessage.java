@@ -11,7 +11,7 @@ public class BlockInventoryItemEditorMessage extends PlayerInventoryItemEditorMe
 
     protected final BlockPos blockPos;
 
-    public BlockInventoryItemEditorMessage(ItemStack itemStack, BlockPos blockPos, int slotIndex) {
+    public BlockInventoryItemEditorMessage(ItemStack itemStack, int slotIndex, BlockPos blockPos) {
         super(itemStack, slotIndex);
         this.blockPos = blockPos;
     }

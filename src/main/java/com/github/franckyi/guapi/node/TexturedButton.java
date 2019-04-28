@@ -3,7 +3,6 @@ package com.github.franckyi.guapi.node;
 import com.github.franckyi.guapi.Node;
 import com.github.franckyi.guapi.Scene;
 import com.github.franckyi.ibeeditor.IBEEditorMod;
-import com.google.common.collect.Lists;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -25,6 +24,7 @@ public class TexturedButton extends Node<TexturedButton.GuiGraphicButtonView> {
 
     public TexturedButton(ResourceLocation texture) {
         this(texture, "");
+        this.getView().getText().clear();
     }
 
     public TexturedButton(ResourceLocation texture, String text) {
@@ -68,8 +68,8 @@ public class TexturedButton extends Node<TexturedButton.GuiGraphicButtonView> {
 
     public static abstract class GuiGraphicButtonView extends Button.GuiButtonView {
 
-        public GuiGraphicButtonView() {
-            super("");
+        public GuiGraphicButtonView(String... text) {
+            super("", text);
         }
 
         public List<String> getText() {
@@ -80,12 +80,19 @@ public class TexturedButton extends Node<TexturedButton.GuiGraphicButtonView> {
 
     public static class GuiTexturedButtonView extends GuiGraphicButtonView {
 
-        private final ResourceLocation texture;
-        private List<String> tooltipText;
+        private ResourceLocation texture;
 
         public GuiTexturedButtonView(ResourceLocation texture, String... text) {
+            super(text);
             this.texture = texture;
-            this.tooltipText = Lists.newArrayList(text);
+        }
+
+        public ResourceLocation getTexture() {
+            return texture;
+        }
+
+        public void setTexture(ResourceLocation texture) {
+            this.texture = texture;
         }
 
         @Override
@@ -137,7 +144,10 @@ public class TexturedButton extends Node<TexturedButton.GuiGraphicButtonView> {
         public void renderView(int mouseX, int mouseY, float partialTicks) {
             super.renderView(mouseX, mouseY, partialTicks);
             if (this.visible) {
-                mc.getItemRenderer().renderItemIntoGUI(item, x + 2, y + 2);
+                int x = this.x + 2;
+                int y = this.y + 2;
+                mc.getItemRenderer().renderItemAndEffectIntoGUI(item, x, y);
+                mc.getItemRenderer().renderItemOverlays(mc.fontRenderer, item, x, y);
                 if (this.hovered) {
                     if (screen == null) {
                         screen = (Scene.Screen) mc.currentScreen;

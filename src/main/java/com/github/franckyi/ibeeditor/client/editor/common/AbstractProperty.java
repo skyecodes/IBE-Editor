@@ -1,4 +1,4 @@
-package com.github.franckyi.ibeeditor.client.editor;
+package com.github.franckyi.ibeeditor.client.editor.common;
 
 import com.github.franckyi.guapi.IValueNode;
 import com.github.franckyi.guapi.Node;

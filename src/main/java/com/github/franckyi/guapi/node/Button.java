@@ -2,7 +2,10 @@ package com.github.franckyi.guapi.node;
 
 import com.github.franckyi.guapi.Node;
 import com.github.franckyi.guapi.gui.IGuiView;
+import com.google.common.collect.Lists;
 import net.minecraftforge.fml.client.config.GuiButtonExt;
+
+import java.util.List;
 
 public class Button extends Node<Button.GuiButtonView> {
 
@@ -13,7 +16,11 @@ public class Button extends Node<Button.GuiButtonView> {
     }
 
     public Button(String text) {
-        this(new GuiButtonView(text));
+        this(text, new String[0]);
+    }
+
+    public Button(String text, String... tooltip) {
+        this(new GuiButtonView(text, tooltip));
     }
 
     public Button() {
@@ -50,8 +57,11 @@ public class Button extends Node<Button.GuiButtonView> {
 
     public static class GuiButtonView extends GuiButtonExt implements IGuiView {
 
-        public GuiButtonView(String text) {
+        protected final List<String> tooltipText;
+
+        public GuiButtonView(String text, String[] tooltip) {
             super(0, 0, 0, text);
+            this.tooltipText = Lists.newArrayList(tooltip);
         }
 
         @Override
@@ -107,6 +117,9 @@ public class Button extends Node<Button.GuiButtonView> {
         @Override
         public void renderView(int mouseX, int mouseY, float partialTicks) {
             this.render(mouseX, mouseY, partialTicks);
+            if (this.hovered && !tooltipText.isEmpty()) {
+                mc.currentScreen.drawHoveringText(tooltipText, mouseX, mouseY);
+            }
         }
     }
 }

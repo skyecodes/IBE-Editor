@@ -2,10 +2,13 @@ package com.github.franckyi.guapi.node;
 
 import com.github.franckyi.guapi.IValueNode;
 import com.github.franckyi.guapi.Node;
+import com.github.franckyi.guapi.Scene;
 import com.github.franckyi.guapi.gui.IGuiView;
+import com.google.common.collect.Lists;
 import net.minecraftforge.fml.client.config.GuiCheckBox;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.function.BiConsumer;
 
@@ -38,16 +41,20 @@ public class CheckBox extends Node<CheckBox.GuiCheckBoxView> implements IValueNo
         this.getView().displayString = text;
     }
 
-    public boolean isChecked() {
+    public boolean getValue() {
         return this.getView().isChecked();
     }
 
-    public void setChecked(boolean checked) {
-        boolean old = this.isChecked();
+    public void setValue(boolean checked) {
+        boolean old = this.getValue();
         this.getView().setIsChecked(checked);
         if (old != checked) {
             this.onValueChanged(old, checked);
         }
+    }
+
+    public List<String> getTooltipText() {
+        return this.getView().tooltipText;
     }
 
     public boolean isDisabled() {
@@ -75,9 +82,13 @@ public class CheckBox extends Node<CheckBox.GuiCheckBoxView> implements IValueNo
 
     public static class GuiCheckBoxView extends GuiCheckBox implements IGuiView {
 
-        public GuiCheckBoxView(String displayString, boolean isChecked) {
+        private final List<String> tooltipText;
+        private Scene.Screen screen;
+
+        public GuiCheckBoxView(String displayString, boolean isChecked, String... tooltipText) {
             super(0, 0, 0, displayString, isChecked);
             packedFGColor = 0xffffff;
+            this.tooltipText = Lists.newArrayList(tooltipText);
         }
 
         @Override
@@ -133,6 +144,12 @@ public class CheckBox extends Node<CheckBox.GuiCheckBoxView> implements IValueNo
         @Override
         public void renderView(int mouseX, int mouseY, float partialTicks) {
             this.render(mouseX, mouseY, partialTicks);
+            if (this.hovered) {
+                if (screen == null) {
+                    screen = (Scene.Screen) mc.currentScreen;
+                }
+                screen.drawHoveringText(tooltipText, mouseX, mouseY);
+            }
         }
     }
 }

@@ -2,8 +2,8 @@ package com.github.franckyi.ibeeditor.client.editor.item;
 
 import com.github.franckyi.guapi.math.Pos;
 import com.github.franckyi.guapi.node.TexturedButton;
-import com.github.franckyi.ibeeditor.client.editor.Category;
-import com.github.franckyi.ibeeditor.client.editor.property.PropertyInteger;
+import com.github.franckyi.ibeeditor.client.editor.common.AbstractCategory;
+import com.github.franckyi.ibeeditor.client.editor.common.property.PropertyInteger;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -15,7 +15,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import java.util.*;
 import java.util.function.Consumer;
 
-public class EnchantmentsCategory extends Category {
+public class EnchantmentsCategory extends AbstractCategory {
 
     private final ItemStack itemStack;
 
@@ -88,7 +88,7 @@ public class EnchantmentsCategory extends Category {
         protected Enchantment enchantment;
 
         public PropertyEnchantment(ItemStack itemStack, Enchantment enchantment, Integer initialValue, Consumer<Integer> action) {
-            super(enchantment.getDisplayName(0).getUnformattedComponentText(), initialValue, action, 0, 128);
+            super(enchantment.getDisplayName(0).getUnformattedComponentText(), initialValue, action, 0, 127);
             this.enchantment = enchantment;
             nameLabel.setPrefWidth(COMPUTED_SIZE);
             nameLabel.setColor(enchantment.isCurse() ? TextFormatting.RED.getColor() : (enchantment.canApply(itemStack) ? TextFormatting.GREEN.getColor() : 0xffffff));
@@ -109,7 +109,7 @@ public class EnchantmentsCategory extends Category {
         }
 
         private void updateButtons(int val) {
-            plusButton.setDisabled(val == integerField.getMax() - 1);
+            plusButton.setDisabled(val == integerField.getMax());
             minusButton.setDisabled(val == integerField.getMin());
         }
 

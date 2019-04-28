@@ -1,9 +1,8 @@
-package com.github.franckyi.ibeeditor.client.editor.property;
+package com.github.franckyi.ibeeditor.client.editor.common.property;
 
-import com.github.franckyi.guapi.math.Insets;
 import com.github.franckyi.guapi.math.Pos;
 import com.github.franckyi.guapi.node.CheckBox;
-import com.github.franckyi.ibeeditor.client.editor.AbstractProperty;
+import com.github.franckyi.ibeeditor.client.editor.common.AbstractProperty;
 
 import java.util.function.Consumer;
 
@@ -18,23 +17,22 @@ public class PropertyBoolean extends AbstractProperty<Boolean> {
 
     @Override
     public Boolean getValue() {
-        return checkBox.isChecked();
+        return checkBox.getValue();
     }
 
     @Override
     protected void setValue(Boolean value) {
-        checkBox.setChecked(value);
+        checkBox.setValue(value);
     }
 
     @Override
     protected void build() {
         this.getNode().setAlignment(Pos.LEFT);
         this.addAll(checkBox = new CheckBox());
-        this.getNode().setPadding(Insets.left(5));
     }
 
     @Override
     public void updateSize(int listWidth) {
-        checkBox.setPrefWidth(listWidth - 59);
+        checkBox.setPrefWidth(listWidth - 60);
     }
 }

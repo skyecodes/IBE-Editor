@@ -1,7 +1,8 @@
-package com.github.franckyi.ibeeditor.client.editor;
+package com.github.franckyi.ibeeditor.client.editor.common.property;
 
 import com.github.franckyi.guapi.Group;
 import com.github.franckyi.guapi.node.TexturedButton;
+import com.github.franckyi.ibeeditor.client.editor.common.category.EditableCategory;
 
 public interface IOrderableEditableCategoryProperty extends IEditableCategoryProperty {
 

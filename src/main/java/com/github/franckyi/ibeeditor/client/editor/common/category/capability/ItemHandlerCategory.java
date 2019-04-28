@@ -1,20 +1,19 @@
-package com.github.franckyi.ibeeditor.client.editor.block.tileentity.capability;
+package com.github.franckyi.ibeeditor.client.editor.common.category.capability;
 
-import com.github.franckyi.ibeeditor.client.editor.block.BlockEditor;
-import com.github.franckyi.ibeeditor.client.editor.block.TileEntityCategory;
-import com.github.franckyi.ibeeditor.client.editor.property.custom.SlotProperty;
+import com.github.franckyi.ibeeditor.client.editor.common.category.CapabilityCategory;
+import com.github.franckyi.ibeeditor.client.editor.common.property.custom.SlotProperty;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.IItemHandler;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class ItemHandlerCategory extends TileEntityCategory<IItemHandler> {
+public class ItemHandlerCategory extends CapabilityCategory<IItemHandler> {
 
     private final Map<Integer, ItemStack> inventory;
 
-    public ItemHandlerCategory(BlockEditor editor, IItemHandler handler) {
-        super(editor, handler);
+    public ItemHandlerCategory(IItemHandler handler) {
+        super(handler);
         inventory = new HashMap<>();
         for (int i = 0; i < handler.getSlots(); i++) {
             inventory.put(i, handler.getStackInSlot(i).copy());
@@ -29,8 +28,8 @@ public class ItemHandlerCategory extends TileEntityCategory<IItemHandler> {
     @Override
     public void apply() {
         inventory.forEach((slot, itemStack) -> {
-            t.extractItem(slot, Integer.MAX_VALUE, false);
-            t.insertItem(slot, itemStack, false);
+            capability.extractItem(slot, Integer.MAX_VALUE, false);
+            capability.insertItem(slot, itemStack, false);
         });
     }
 

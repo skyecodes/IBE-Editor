@@ -2,11 +2,14 @@ package com.github.franckyi.guapi.node;
 
 import com.github.franckyi.guapi.IValueNode;
 import com.github.franckyi.guapi.Node;
+import com.github.franckyi.guapi.Scene;
 import com.github.franckyi.guapi.gui.IGuiView;
+import com.google.common.collect.Lists;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.function.BiConsumer;
 
@@ -25,7 +28,6 @@ public abstract class TextFieldBase<T> extends Node<TextFieldBase.GuiTextFieldVi
     public int getWidth() {
         return super.getWidth() + 10;
     }
-
 
     @Override
     protected void computeWidth() {
@@ -63,12 +65,19 @@ public abstract class TextFieldBase<T> extends Node<TextFieldBase.GuiTextFieldVi
         this.getView().setText(text);
     }
 
+    public List<String> getTooltipText() {
+        return this.getView().tooltipText;
+    }
+
     public static class GuiTextFieldView extends GuiTextField implements IGuiView {
 
+        private final List<String> tooltipText;
+        private Scene.Screen screen;
         private boolean changed;
 
-        public GuiTextFieldView() {
+        public GuiTextFieldView(String... tooltipText) {
             super(0, mc.fontRenderer, 0, 0, 0, 0);
+            this.tooltipText = Lists.newArrayList(tooltipText);
             this.setMaxStringLength(Short.MAX_VALUE);
         }
 
@@ -126,6 +135,18 @@ public abstract class TextFieldBase<T> extends Node<TextFieldBase.GuiTextFieldVi
         @Override
         public void renderView(int mouseX, int mouseY, float partialTicks) {
             this.drawTextField(mouseX, mouseY, partialTicks);
+            if (this.inBounds(mouseX, mouseY)) {
+                if (screen == null) {
+                    screen = (Scene.Screen) mc.currentScreen;
+                }
+                screen.drawHoveringText(tooltipText, mouseX, mouseY);
+            }
+        }
+
+        @Override
+        public boolean inBounds(double x, double y) {
+            return x >= this.getViewX() && x <= this.getViewX() + this.getViewWidth() + 8 &&
+                    y >= this.getViewY() && y <= this.getViewY() + this.getViewHeight();
         }
 
         @Override

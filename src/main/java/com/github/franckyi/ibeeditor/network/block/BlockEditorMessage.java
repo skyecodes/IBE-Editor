@@ -40,9 +40,10 @@ public class BlockEditorMessage implements IMessage {
     public void handle(NetworkEvent.Context context) {
         WorldServer world = context.getSender().getServerWorld();
         world.setBlockState(blockPos, blockState);
-        if (!tag.isEmpty()) {
-            TileEntity tileEntity = TileEntity.create(tag);
-            world.setTileEntity(blockPos, tileEntity);
+        TileEntity te = world.getTileEntity(blockPos);
+        if (te != null && !tag.isEmpty()) {
+            te.read(tag);
+            te.markDirty();
         }
     }
 }

@@ -15,7 +15,7 @@ import com.github.franckyi.ibeeditor.client.IResizable;
 import com.github.franckyi.ibeeditor.client.clipboard.logic.EntityClipboardEntry;
 import com.github.franckyi.ibeeditor.client.clipboard.logic.IBEClipboard;
 import com.github.franckyi.ibeeditor.client.clipboard.logic.ItemClipboardEntry;
-import com.github.franckyi.ibeeditor.client.util.MobHeads;
+import com.github.franckyi.ibeeditor.client.util.EntityIcons;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextFormatting;
@@ -33,7 +33,7 @@ public abstract class AbstractClipboard extends Scene {
     public AbstractClipboard(String headerText) {
         super(new VBox());
         content = (VBox) this.getContent();
-        header = new Label(headerText);
+        header = new Label(TextFormatting.UNDERLINE + headerText);
         header.setPrefHeight(30);
         header.setCentered(true);
         body = new ListExtended<>(25);
@@ -151,7 +151,7 @@ public abstract class AbstractClipboard extends Scene {
             this.getNode().setAlignment(Pos.LEFT);
             this.entity = entity.getEntity();
             children = this.getNode().getChildren();
-            children.add(entityButton = new TexturedButton(MobHeads.getHeadFromEntity(entity.getEntityType())));
+            children.add(entityButton = new TexturedButton(EntityIcons.getHeadFromEntityType(entity.getEntityType())));
             entityButton.setMargin(Insets.left(5));
             children.add(nameLabel = new Label(entity.getEntityType().getName().getFormattedText()));
         }

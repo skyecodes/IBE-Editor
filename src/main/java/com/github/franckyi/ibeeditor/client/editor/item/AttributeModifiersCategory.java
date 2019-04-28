@@ -6,14 +6,13 @@ import com.github.franckyi.guapi.node.DoubleField;
 import com.github.franckyi.guapi.node.EnumButton;
 import com.github.franckyi.guapi.node.IntegerField;
 import com.github.franckyi.guapi.node.TextField;
-import com.github.franckyi.ibeeditor.client.editor.AbstractProperty;
-import com.github.franckyi.ibeeditor.client.editor.EditableCategory;
-import com.github.franckyi.ibeeditor.client.editor.IEditableCategoryProperty;
+import com.github.franckyi.ibeeditor.client.editor.common.AbstractProperty;
+import com.github.franckyi.ibeeditor.client.editor.common.category.EditableCategory;
+import com.github.franckyi.ibeeditor.client.editor.common.property.IEditableCategoryProperty;
 import com.google.common.collect.Multimap;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.TextFormatting;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
@@ -32,15 +31,7 @@ public class AttributeModifiersCategory extends EditableCategory<AttributeModifi
         this.itemStack = itemStack;
         this.modifiers = this.getModifiers(itemStack::getAttributeModifiers);
         this.initialModifiers = this.getModifiers(slot -> itemStack.getItem().getAttributeModifiers(slot, itemStack));
-        this.getChildren().add(new AddButton(
-                TextFormatting.GREEN + "     Add attribute modifier",
-                "",
-                "Fields are, from left to right :",
-                "- Attribute ID",
-                "- Slot",
-                "- Operation",
-                "- Amount"
-        ));
+        this.getChildren().add(new AddButton("Add attribute modifier"));
         modifiers.forEach(this::addProperty);
     }
 
@@ -121,14 +112,17 @@ public class AttributeModifiersCategory extends EditableCategory<AttributeModifi
             nameField.setMargin(Insets.left(5));
             slotButton.setValue(initialValue.getSlot());
             slotButton.setRenderer(aSlot -> StringUtils.capitalize(aSlot.getName().toLowerCase()));
-            slotButton.setMargin(Insets.horizontal(4));
+            slotButton.setMargin(Insets.horizontal(2));
             operationField.setPrefWidth(15);
-            amountField.setMargin(Insets.horizontal(4));
+            amountField.setMargin(Insets.horizontal(2));
+            nameField.getTooltipText().add("Attribute name");
+            operationField.getTooltipText().add("Operation");
+            amountField.getTooltipText().add("Amount");
         }
 
         @Override
         public void updateSize(int listWidth) {
-            amountField.setPrefWidth(listWidth - 270);
+            amountField.setPrefWidth(listWidth - 268);
         }
 
         @Override

@@ -1,10 +1,10 @@
-package com.github.franckyi.ibeeditor.client.editor.property;
+package com.github.franckyi.ibeeditor.client.editor.common.property;
 
 import com.github.franckyi.guapi.node.IntegerField;
 
 import java.util.function.Consumer;
 
-public class PropertyInteger extends LabeledCategory<Integer> {
+public class PropertyInteger extends LabeledProperty<Integer> {
 
     protected IntegerField integerField;
 
@@ -41,6 +41,6 @@ public class PropertyInteger extends LabeledCategory<Integer> {
 
     @Override
     public void updateSize(int listWidth) {
-        integerField.setPrefWidth(listWidth - 66 - nameLabel.getWidth());
+        integerField.setPrefWidth(listWidth - 67 - nameLabel.getWidth());
     }
 }

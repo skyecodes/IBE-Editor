@@ -1,4 +1,4 @@
-package com.github.franckyi.ibeeditor.client.editor.property;
+package com.github.franckyi.ibeeditor.client.editor.common.property;
 
 import com.github.franckyi.guapi.math.Insets;
 import com.github.franckyi.guapi.node.EnumButton;
@@ -9,7 +9,7 @@ import java.util.Collection;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public class PropertyEnum<T> extends LabeledCategory<T> {
+public class PropertyEnum<T> extends LabeledProperty<T> {
 
     protected EnumButton<T> enumButton;
 
@@ -33,7 +33,7 @@ public class PropertyEnum<T> extends LabeledCategory<T> {
 
     @Override
     public void updateSize(int listWidth) {
-        nameLabel.setPrefWidth(listWidth - enumButton.getWidth() - 69);
+        nameLabel.setPrefWidth(listWidth - enumButton.getWidth() - 70);
     }
 
     @Override

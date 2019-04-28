@@ -1,4 +1,4 @@
-package com.github.franckyi.ibeeditor.client.editor;
+package com.github.franckyi.ibeeditor.client.editor.common;
 
 import com.github.franckyi.guapi.Scene;
 import com.github.franckyi.guapi.group.HBox;
@@ -10,19 +10,21 @@ import com.github.franckyi.guapi.node.Label;
 import com.github.franckyi.guapi.node.ListExtended;
 import com.github.franckyi.guapi.scene.IBackground;
 import com.github.franckyi.ibeeditor.IBEEditorConfig;
-import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraft.util.text.TextFormatting;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 public abstract class AbstractEditor extends Scene {
 
     protected final VBox content;
-    protected final Label header;
+    protected final HBox header;
+    protected final Label headerLabel;
     protected final HBox body;
     protected final ListExtended<CategoryEntry> categories;
-    protected final List<Category> propertiesList;
+    protected final List<AbstractCategory> propertiesList;
     protected final HBox footer;
     protected final Button doneButton;
     protected final Button cancelButton;
@@ -32,27 +34,29 @@ public abstract class AbstractEditor extends Scene {
     public AbstractEditor(String headerText) {
         super(new VBox());
         content = (VBox) this.getContent();
-        header = new Label(headerText);
+        header = new HBox(5);
         header.setPrefHeight(30);
-        header.setCentered(true);
+        header.setAlignment(Pos.CENTER);
+        headerLabel = new Label(TextFormatting.BOLD + headerText);
         body = new HBox();
         categories = new ListExtended<>(20);
         categories.setOffset(new Insets(0, 10, 10, 10));
         propertiesList = new ArrayList<>();
         footer = new HBox(20);
         footer.setPrefHeight(20);
-        doneButton = new Button(ChatFormatting.GREEN + "Done");
+        doneButton = new Button(TextFormatting.GREEN + "Done");
         doneButton.setPrefWidth(80);
         doneButton.getOnMouseClickedListeners().add(event -> {
             this.apply();
             this.close();
         });
-        cancelButton = new Button(ChatFormatting.RED + "Close");
+        cancelButton = new Button(TextFormatting.RED + "Close");
         cancelButton.setPrefWidth(80);
         cancelButton.getOnMouseClickedListeners().add(event -> this.close());
-        applyButton = new Button(ChatFormatting.GREEN + "Apply");
+        applyButton = new Button(TextFormatting.GREEN + "Apply");
         applyButton.setPrefWidth(80);
         applyButton.getOnMouseClickedListeners().add(event -> this.apply());
+        header.getChildren().add(headerLabel);
         body.getChildren().add(categories);
         footer.getChildren().add(doneButton);
         footer.getChildren().add(cancelButton);
@@ -71,7 +75,7 @@ public abstract class AbstractEditor extends Scene {
     }
 
     protected void apply() {
-        this.propertiesList.forEach(Category::apply);
+        this.propertiesList.forEach(AbstractCategory::apply);
     }
 
     protected void scaleChildrenSize() {
@@ -86,17 +90,13 @@ public abstract class AbstractEditor extends Scene {
         }
     }
 
-    protected void scalePropertiesSize(Category category) {
+    protected void scalePropertiesSize(AbstractCategory category) {
         category.setPrefSize(2 * content.getWidth() / 3, content.getHeight() - 60);
         category.getView().height = content.getHeight();
         category.getChildren().forEach(p -> p.updateSize(propertiesList.get(currentIndex).getWidth()));
     }
 
-    protected Category addCategory(String name) {
-        return this.addCategory(name, new Category());
-    }
-
-    protected Category addCategory(String name, Category category) {
+    protected AbstractCategory addCategory(String name, AbstractCategory category) {
         this.categories.getChildren().add(new CategoryEntry(name));
         this.propertiesList.add(category);
         return category;
@@ -106,13 +106,13 @@ public abstract class AbstractEditor extends Scene {
         int categoryIndex = categories.getChildren().indexOf(category);
         if (currentIndex != categoryIndex) {
             Label oldCategoryLabel = categories.getChildren().get(currentIndex).getNode();
-            oldCategoryLabel.setText(oldCategoryLabel.getText().substring(2, oldCategoryLabel.getText().length() - 2));
+            oldCategoryLabel.setText(oldCategoryLabel.getText().substring(2));
             currentIndex = categoryIndex;
-            Category propertyList = propertiesList.get(categoryIndex);
+            AbstractCategory propertyList = propertiesList.get(categoryIndex);
             body.getChildren().set(1, propertyList);
             this.scalePropertiesSize(propertyList);
             Label newCategoryLabel = categories.getChildren().get(currentIndex).getNode();
-            newCategoryLabel.setText("> " + newCategoryLabel.getText() + " <");
+            newCategoryLabel.setText(TextFormatting.BOLD + newCategoryLabel.getText());
         }
     }
 
@@ -122,7 +122,7 @@ public abstract class AbstractEditor extends Scene {
             currentIndex = 0;
             body.getChildren().add(propertiesList.get(0));
             Label categoryLabel = categories.getChildren().get(0).getNode();
-            categoryLabel.setText("> " + categoryLabel.getText() + " <");
+            categoryLabel.setText(TextFormatting.BOLD + categoryLabel.getText());
         }
         super.show();
     }
@@ -137,10 +137,49 @@ public abstract class AbstractEditor extends Scene {
         }
     }
 
+    protected <X> void applyConfigurations(List<? extends AbstractEditorConfiguration<X, Object>> configurations, X x) {
+        configurations.forEach(configuration -> {
+            if (configuration.getCondition().test(x)) {
+                this.addCategory(configuration.getName(), configuration.getCategoryBuilder().apply(configuration.getCaster().apply(x)));
+            }
+        });
+    }
+
+    protected static abstract class AbstractEditorConfiguration<X, T> {
+
+        private final Predicate<X> condition;
+        private final Function<X, T> caster;
+        private final String name;
+        private final Function<T, AbstractCategory> categoryBuilder;
+
+        protected AbstractEditorConfiguration(Predicate<X> condition, Function<X, T> caster, String name, Function<T, AbstractCategory> categoryBuilder) {
+            this.condition = condition;
+            this.caster = caster;
+            this.name = name;
+            this.categoryBuilder = categoryBuilder;
+        }
+
+        public Predicate<X> getCondition() {
+            return condition;
+        }
+
+        public Function<X, T> getCaster() {
+            return caster;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public Function<T, AbstractCategory> getCategoryBuilder() {
+            return categoryBuilder;
+        }
+    }
+
     public class CategoryEntry extends ListExtended.NodeEntry<Label> {
 
         public CategoryEntry(String name) {
-            super(new Label(name));
+            super(new Label("  " + name));
             this.getNode().setCentered(true);
             this.getOnMouseClickedListeners().add(e -> AbstractEditor.this.onCategoryClicked(this));
         }

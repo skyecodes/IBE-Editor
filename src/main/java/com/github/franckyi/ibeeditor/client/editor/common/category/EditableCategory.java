@@ -1,14 +1,17 @@
-package com.github.franckyi.ibeeditor.client.editor;
+package com.github.franckyi.ibeeditor.client.editor.common.category;
 
 import com.github.franckyi.guapi.math.Pos;
 import com.github.franckyi.guapi.node.TexturedButton;
+import com.github.franckyi.ibeeditor.client.editor.common.AbstractCategory;
+import com.github.franckyi.ibeeditor.client.editor.common.AbstractProperty;
+import com.github.franckyi.ibeeditor.client.editor.common.property.IEditableCategoryProperty;
 import net.minecraft.util.text.TextFormatting;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public abstract class EditableCategory<T> extends Category {
+public abstract class EditableCategory<T> extends AbstractCategory {
 
     private int editableStart;
 

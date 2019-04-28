@@ -1,15 +1,15 @@
 package com.github.franckyi.ibeeditor.client.editor.block;
 
-import com.github.franckyi.ibeeditor.client.editor.Category;
-import com.github.franckyi.ibeeditor.client.editor.property.PropertyBoolean;
-import com.github.franckyi.ibeeditor.client.editor.property.PropertyEnum;
-import com.github.franckyi.ibeeditor.client.editor.property.PropertyInteger;
+import com.github.franckyi.ibeeditor.client.editor.common.AbstractCategory;
+import com.github.franckyi.ibeeditor.client.editor.common.property.PropertyBoolean;
+import com.github.franckyi.ibeeditor.client.editor.common.property.PropertyEnum;
+import com.github.franckyi.ibeeditor.client.editor.common.property.PropertyInteger;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.IProperty;
 import net.minecraft.state.IntegerProperty;
 import org.apache.commons.lang3.StringUtils;
 
-public class BlockStateCategory extends Category {
+public class BlockStateCategory extends AbstractCategory {
 
     private final BlockEditor editor;
 

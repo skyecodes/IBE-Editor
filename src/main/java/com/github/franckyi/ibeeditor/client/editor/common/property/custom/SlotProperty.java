@@ -1,4 +1,4 @@
-package com.github.franckyi.ibeeditor.client.editor.property.custom;
+package com.github.franckyi.ibeeditor.client.editor.common.property.custom;
 
 import com.github.franckyi.guapi.math.Insets;
 import com.github.franckyi.guapi.node.Button;
@@ -6,13 +6,14 @@ import com.github.franckyi.guapi.node.TexturedButton;
 import com.github.franckyi.ibeeditor.client.clipboard.AbstractClipboard;
 import com.github.franckyi.ibeeditor.client.clipboard.SelectionClipboard;
 import com.github.franckyi.ibeeditor.client.clipboard.logic.ItemClipboardEntry;
+import com.github.franckyi.ibeeditor.client.editor.common.property.LabeledProperty;
 import com.github.franckyi.ibeeditor.client.editor.item.ItemEditor;
-import com.github.franckyi.ibeeditor.client.editor.property.LabeledCategory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.text.TextFormatting;
 
 import java.util.function.Consumer;
 
-public class SlotProperty extends LabeledCategory<Void> {
+public class SlotProperty extends LabeledProperty<Void> {
 
     public SlotProperty(String name, ItemStack itemStack, Consumer<ItemStack> update) {
         super(name, null, aVoid -> {
@@ -30,10 +31,10 @@ public class SlotProperty extends LabeledCategory<Void> {
             TexturedButton itemButton;
             TexturedButton removeButton;
             this.getNode().getChildren().add(0, itemButton = new TexturedButton(itemStack));
-            itemButton.setMargin(Insets.right(5));
+            itemButton.setMargin(Insets.right(10));
             this.addAll(
                     actionButton = new Button("Open Item Editor"),
-                    removeButton = new TexturedButton("delete.png")
+                    removeButton = new TexturedButton("delete.png", TextFormatting.RED + "Remove")
             );
             actionButton.getOnMouseClickedListeners().add(e ->
                     new ItemEditor(itemStack, null, update));
@@ -53,6 +54,6 @@ public class SlotProperty extends LabeledCategory<Void> {
 
     @Override
     public void updateSize(int listWidth) {
-        nameLabel.setPrefWidth(listWidth - 189);
+        nameLabel.setPrefWidth(listWidth - 195);
     }
 }

@@ -5,6 +5,7 @@ import com.github.franckyi.ibeeditor.client.editor.entity.EntityEditor;
 import com.github.franckyi.ibeeditor.client.editor.item.ItemEditor;
 import com.github.franckyi.ibeeditor.network.block.InitBlockEditorRequest;
 import com.github.franckyi.ibeeditor.network.item.BlockInventoryItemEditorMessage;
+import com.github.franckyi.ibeeditor.network.item.EntityInventoryItemEditorMessage;
 import com.github.franckyi.ibeeditor.network.item.MainHandItemEditorMessage;
 import com.github.franckyi.ibeeditor.network.item.PlayerInventoryItemEditorMessage;
 import net.minecraft.client.Minecraft;
@@ -76,13 +77,22 @@ public final class EditorHandler {
 
     public static void openItemEditorFromGui(Slot slot) {
         if (checkPermissions()) {
-            new ItemEditor(slot.getStack(), itemStack -> new PlayerInventoryItemEditorMessage(itemStack, slot.getSlotIndex()));
+            new ItemEditor(slot.getStack(), itemStack ->
+                    new PlayerInventoryItemEditorMessage(itemStack, slot.getSlotIndex()));
         }
     }
 
     public static void openItemEditorFromGui(Slot slot, BlockPos blockPos) {
         if (checkPermissions()) {
-            new ItemEditor(slot.getStack(), itemStack -> new BlockInventoryItemEditorMessage(itemStack, blockPos, slot.getSlotIndex()));
+            new ItemEditor(slot.getStack(), itemStack ->
+                    new BlockInventoryItemEditorMessage(itemStack, slot.getSlotIndex(), blockPos));
+        }
+    }
+
+    public static void openItemEditorFromGui(Slot slot, Entity entity) {
+        if (checkPermissions()) {
+            new ItemEditor(slot.getStack(), itemStack ->
+                    new EntityInventoryItemEditorMessage(itemStack, slot.getSlotIndex(), entity.getEntityId()));
         }
     }
 
@@ -90,7 +100,8 @@ public final class EditorHandler {
         if (mc.player.isCreative()) {
             return true;
         }
-        mc.player.sendMessage(new TextComponentString(TextFormatting.RED + "You must be in creative mode in order to use the editor."));
+        mc.player.sendMessage(new TextComponentString(
+                TextFormatting.RED + "You must be in creative mode in order to use the editor."));
         return false;
     }
 

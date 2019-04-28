@@ -1,16 +1,17 @@
 package com.github.franckyi.ibeeditor.client.editor.item;
 
-import com.github.franckyi.ibeeditor.client.editor.AbstractProperty;
-import com.github.franckyi.ibeeditor.client.editor.EditableCategory;
-import com.github.franckyi.ibeeditor.client.editor.IOrderableEditableCategoryProperty;
-import com.github.franckyi.ibeeditor.client.editor.property.PropertyBoolean;
-import com.github.franckyi.ibeeditor.client.editor.property.PropertyFormattedText;
-import com.github.franckyi.ibeeditor.client.editor.property.PropertyInteger;
+import com.github.franckyi.ibeeditor.client.editor.common.AbstractProperty;
+import com.github.franckyi.ibeeditor.client.editor.common.category.EditableCategory;
+import com.github.franckyi.ibeeditor.client.editor.common.property.IOrderableEditableCategoryProperty;
+import com.github.franckyi.ibeeditor.client.editor.common.property.PropertyBoolean;
+import com.github.franckyi.ibeeditor.client.editor.common.property.PropertyFormattedText;
+import com.github.franckyi.ibeeditor.client.editor.common.property.PropertyInteger;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.common.util.Constants;
 
 import java.util.function.Consumer;
@@ -26,7 +27,7 @@ public class GeneralItemCategory extends EditableCategory<String> {
         this.addAll(
                 new PropertyFormattedText("Name", itemStack.getDisplayName().getFormattedText(), this::setName),
                 new PropertyBoolean("Unbreakable", this.hasUnbreakable(), this::setUnbreakable),
-                new PropertyInteger("Count", itemStack.getCount(), itemStack::setCount, 1, 128),
+                new PropertyInteger("Count", itemStack.getCount(), itemStack::setCount, 1, 127),
                 new PropertyInteger("Damage", itemStack.getDamage(), this::setDamage),
                 new AddButton("Add lore")
         );
@@ -56,11 +57,11 @@ public class GeneralItemCategory extends EditableCategory<String> {
     }
 
     private void setName(String s) {
-        TextComponentString name = new TextComponentString(s);
-        if (itemStack.getItem().getName().getString().equals(s)) {
+        TextComponentTranslation baseName = new TextComponentTranslation(itemStack.getItem().getTranslationKey(itemStack));
+        if (baseName.getUnformattedComponentText().equals(s)) {
             itemStack.getOrCreateTag().remove("display");
         } else {
-            itemStack.setDisplayName(name);
+            itemStack.setDisplayName(new TextComponentString(s));
         }
     }
 
@@ -128,7 +129,7 @@ public class GeneralItemCategory extends EditableCategory<String> {
 
         @Override
         public void updateSize(int listWidth) {
-            textField.setPrefWidth(listWidth - 196);
+            textField.setPrefWidth(listWidth - 197);
         }
 
     }

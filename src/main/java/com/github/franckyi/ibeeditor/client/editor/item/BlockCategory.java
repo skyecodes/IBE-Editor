@@ -3,10 +3,10 @@ package com.github.franckyi.ibeeditor.client.editor.item;
 import com.github.franckyi.guapi.Node;
 import com.github.franckyi.guapi.math.Pos;
 import com.github.franckyi.guapi.node.TextField;
-import com.github.franckyi.ibeeditor.client.editor.AbstractProperty;
-import com.github.franckyi.ibeeditor.client.editor.EditableCategory;
-import com.github.franckyi.ibeeditor.client.editor.IEditableCategoryProperty;
-import com.github.franckyi.ibeeditor.client.editor.property.LabeledCategory;
+import com.github.franckyi.ibeeditor.client.editor.common.AbstractProperty;
+import com.github.franckyi.ibeeditor.client.editor.common.category.EditableCategory;
+import com.github.franckyi.ibeeditor.client.editor.common.property.IEditableCategoryProperty;
+import com.github.franckyi.ibeeditor.client.editor.common.property.LabeledProperty;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -68,14 +68,14 @@ public class BlockCategory extends EditableCategory<Block> {
         return Blocks.AIR;
     }
 
-    public class PropertyBlock extends LabeledCategory<Block> implements IEditableCategoryProperty {
+    public class PropertyBlock extends LabeledProperty<Block> implements IEditableCategoryProperty {
 
         private PropertyControls controls;
 
         private TextField blockField;
 
         public PropertyBlock(int index, Block initialValue, Consumer<Block> action) {
-            super(initialValue.getNameTextComponent().getUnformattedComponentText(), initialValue, action);
+            super(initialValue.getNameTextComponent().getUnformattedComponentText(), initialValue, action, Node.COMPUTED_SIZE);
             controls = new PropertyControls(BlockCategory.this, index);
             IEditableCategoryProperty.super.build();
         }
@@ -102,7 +102,6 @@ public class BlockCategory extends EditableCategory<Block> {
             this.addAll(blockField = new TextField());
             blockField.getOnCharTypedListeners().add(e -> update());
             blockField.getOnKeyPressedListeners().add(e -> update());
-            nameLabel.setPrefWidth(Node.COMPUTED_SIZE);
         }
 
         @Override

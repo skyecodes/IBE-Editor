@@ -213,11 +213,11 @@ public class ListExtended<E extends GuiListExtended.IGuiListEntry & IScreenEvent
         @Override
         public void drawEntry(int entryWidth, int entryHeight, int mouseX, int mouseY, boolean p_194999_5_, float partialTicks) {
             GuiListExtendedView list = this.getList();
-            int width = entryWidth - list.getOffset().getHorizontal() - 9;
+            int width = entryWidth - list.getOffset().getHorizontal() - 10;
             if (this.getX() != node.getX() || this.getY() != node.getY())
-                node.setPosition(this.getX(), this.getY());
+                node.setPosition(this.getX() + 4, this.getY());
             if (width != node.getWidth() || entryHeight != node.getHeight())
-                node.setPrefSize(width, entryHeight);
+                node.setPrefSize(width - 10, entryHeight);
             node.render(mouseX, mouseY, partialTicks);
         }
 

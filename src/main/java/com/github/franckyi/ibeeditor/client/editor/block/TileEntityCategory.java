@@ -1,14 +1,12 @@
 package com.github.franckyi.ibeeditor.client.editor.block;
 
-import com.github.franckyi.ibeeditor.client.editor.Category;
+import com.github.franckyi.ibeeditor.client.editor.common.AbstractCategory;
 
-public abstract class TileEntityCategory<T> extends Category {
+public abstract class TileEntityCategory<T> extends AbstractCategory {
 
-    protected final BlockEditor editor;
     protected final T t;
 
-    public TileEntityCategory(BlockEditor editor, T t) {
-        this.editor = editor;
+    public TileEntityCategory(T t) {
         this.t = t;
     }
 }
