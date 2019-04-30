@@ -1,6 +1,5 @@
 package com.github.franckyi.ibeeditor.client.editor.block.tileentity;
 
-import com.github.franckyi.guapi.math.Insets;
 import com.github.franckyi.guapi.math.Pos;
 import com.github.franckyi.guapi.node.Button;
 import com.github.franckyi.guapi.node.Label;
@@ -86,7 +85,6 @@ public class MobSpawnerCategory extends TileEntityCategory<TileEntityMobSpawner>
                     editButton = new Button("Editor", "Open in Entity Editor"),
                     replaceButton = new Button("Clipboard", "Replace with Clipboard...")
             );
-            entityLabel.setMargin(Insets.horizontal(5));
             editButton.getOnMouseClickedListeners().add(e ->
                     new EntityEditor(ClientUtils.createEntity(entityType, spawnData), action1));
             replaceButton.getOnMouseClickedListeners().add(e ->
@@ -108,7 +106,7 @@ public class MobSpawnerCategory extends TileEntityCategory<TileEntityMobSpawner>
 
         @Override
         public void updateSize(int listWidth) {
-            entityLabel.setPrefWidth(listWidth - 161);
+            entityLabel.setPrefWidth(listWidth - 157);
         }
     }
 }

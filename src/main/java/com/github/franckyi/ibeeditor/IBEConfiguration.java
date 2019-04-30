@@ -6,7 +6,7 @@ import net.minecraftforge.fml.config.ModConfig;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 
-public final class IBEEditorConfig {
+public final class IBEConfiguration {
 
     public static final Client CLIENT;
     static final ForgeConfigSpec clientSpec;

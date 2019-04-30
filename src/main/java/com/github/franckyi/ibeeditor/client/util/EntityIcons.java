@@ -1,8 +1,8 @@
 package com.github.franckyi.ibeeditor.client.util;
 
 import com.github.franckyi.ibeeditor.IBEEditorMod;
+import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.entity.EntityType;
-import net.minecraft.init.Blocks;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -18,7 +18,7 @@ public final class EntityIcons {
     }
 
     public static ResourceLocation getHeadFromEntityType(EntityType<?> entityType) {
-        return map.getOrDefault(entityType, Blocks.AIR.getRegistryName());
+        return map.getOrDefault(entityType, TextureManager.RESOURCE_LOCATION_EMPTY);
     }
 
     public static ResourceLocation getHeadFromEntityId(ResourceLocation resourceLocation) {

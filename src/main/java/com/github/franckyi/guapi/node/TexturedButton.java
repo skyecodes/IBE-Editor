@@ -5,10 +5,13 @@ import com.github.franckyi.guapi.Scene;
 import com.github.franckyi.ibeeditor.IBEEditorMod;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.texture.SimpleTexture;
+import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
@@ -34,7 +37,11 @@ public class TexturedButton extends Node<TexturedButton.GuiGraphicButtonView> {
     }
 
     public TexturedButton(ItemStack item) {
-        super(new GuiItemTexturedButtonView(item));
+        this(item, true);
+    }
+
+    public TexturedButton(ItemStack item, boolean showTooltip) {
+        super(new GuiItemTexturedButtonView(item, showTooltip));
         this.computeSize();
         this.updateSize();
     }
@@ -80,30 +87,48 @@ public class TexturedButton extends Node<TexturedButton.GuiGraphicButtonView> {
 
     public static class GuiTexturedButtonView extends GuiGraphicButtonView {
 
+        private ResourceLocation resource;
         private ResourceLocation texture;
+        private boolean flag;
 
-        public GuiTexturedButtonView(ResourceLocation texture, String... text) {
+        public GuiTexturedButtonView(ResourceLocation resource, String... text) {
             super(text);
-            this.texture = texture;
+            this.setResource(resource);
         }
 
-        public ResourceLocation getTexture() {
-            return texture;
+        public ResourceLocation getResource() {
+            return resource;
         }
 
-        public void setTexture(ResourceLocation texture) {
-            this.texture = texture;
+        public void setResource(ResourceLocation resource) {
+            if (!resource.equals(this.resource)) {
+                this.resource = resource;
+                flag = true;
+            }
         }
 
         @Override
         public void renderView(int mouseX, int mouseY, float partialTicks) {
             super.render(mouseX, mouseY, partialTicks);
             if (this.visible) {
+                if (flag) {
+                    texture = this.loadTexture();
+                }
                 mc.getTextureManager().bindTexture(texture);
                 this.drawModalRectWithCustomSizedTexture(this.x + 2, this.y + 2, 0, 0, 16, 16, 16, 16, 2);
                 if (this.hovered && !tooltipText.isEmpty()) {
                     mc.currentScreen.drawHoveringText(tooltipText, mouseX, mouseY);
                 }
+            }
+        }
+
+        private ResourceLocation loadTexture() {
+            SimpleTexture tex = new SimpleTexture(resource);
+            try {
+                tex.loadTexture(mc.getResourceManager());
+                return resource;
+            } catch (IOException e) {
+                return TextureManager.RESOURCE_LOCATION_EMPTY;
             }
         }
 
@@ -134,10 +159,12 @@ public class TexturedButton extends Node<TexturedButton.GuiGraphicButtonView> {
     private static class GuiItemTexturedButtonView extends GuiGraphicButtonView {
 
         private final ItemStack item;
+        private final boolean showTooltip;
         private Scene.Screen screen;
 
-        public GuiItemTexturedButtonView(ItemStack item) {
+        public GuiItemTexturedButtonView(ItemStack item, boolean showTooltip) {
             this.item = item;
+            this.showTooltip = showTooltip;
         }
 
         @Override
@@ -148,7 +175,7 @@ public class TexturedButton extends Node<TexturedButton.GuiGraphicButtonView> {
                 int y = this.y + 2;
                 mc.getItemRenderer().renderItemAndEffectIntoGUI(item, x, y);
                 mc.getItemRenderer().renderItemOverlays(mc.fontRenderer, item, x, y);
-                if (this.hovered) {
+                if (this.hovered && this.showTooltip) {
                     if (screen == null) {
                         screen = (Scene.Screen) mc.currentScreen;
                     }

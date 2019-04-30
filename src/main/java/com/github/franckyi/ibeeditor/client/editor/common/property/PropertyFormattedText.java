@@ -1,7 +1,7 @@
 package com.github.franckyi.ibeeditor.client.editor.common.property;
 
 import com.github.franckyi.guapi.node.TexturedButton;
-import com.github.franckyi.ibeeditor.IBEEditorConfig;
+import com.github.franckyi.ibeeditor.IBEConfiguration;
 import net.minecraft.util.text.TextFormatting;
 
 import java.util.function.Consumer;
@@ -23,7 +23,7 @@ public class PropertyFormattedText extends PropertyString {
         super.build();
         this.addAll(formatButton = new TexturedButton("format.png", TextFormatting.AQUA + "Format"));
         formatButton.getOnMouseClickedListeners().add(e -> {
-            if (IBEEditorConfig.CLIENT.appendFormatCharAtCursor.get()) {
+            if (IBEConfiguration.CLIENT.appendFormatCharAtCursor.get()) {
                 int i = textField.getView().getCursorPosition();
                 String s = textField.getValue();
                 textField.setValue(s.substring(0, i) + "§" + s.substring(i));

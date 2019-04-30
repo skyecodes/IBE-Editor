@@ -1,10 +1,10 @@
 package com.github.franckyi.ibeeditor.client.editor.item;
 
 import com.github.franckyi.guapi.node.TexturedButton;
-import com.github.franckyi.ibeeditor.IBEEditorMod;
 import com.github.franckyi.ibeeditor.client.editor.common.AbstractCategory;
 import com.github.franckyi.ibeeditor.client.editor.common.CapabilityProviderEditor;
 import com.github.franckyi.ibeeditor.client.util.IBENotification;
+import com.github.franckyi.ibeeditor.network.IBENetworkHandler;
 import com.github.franckyi.ibeeditor.network.IMessage;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemPotion;
@@ -33,17 +33,17 @@ public class ItemEditor extends CapabilityProviderEditor {
         this.action = action;
         header.getChildren().add(new TexturedButton(itemStack));
         this.addCategory("General", new GeneralItemCategory(itemStack));
-        this.addCategory("Enchantments", new EnchantmentsCategory(itemStack));
-        this.addCategory("Attribute modifiers", new AttributeModifiersCategory(itemStack));
         if (itemStack.getItem() instanceof ItemPotion || itemStack.getItem() instanceof ItemTippedArrow) {
             this.addCategory("Potion effects", new PotionCategory(itemStack));
         }
         this.applyConfigurations(this.getCapabilityConfigurations(), itemStack);
+        this.addCategory("Enchantments", new EnchantmentsCategory(itemStack));
+        this.addCategory("Attribute modifiers", new AttributeModifiersCategory(itemStack));
         this.addCategory("Hide Flags", new HideFlagsCategory(itemStack));
-        this.addCategory("Can destroy", new BlockCategory(itemStack, "CanDestroy"));
         if (itemStack.getItem() instanceof ItemBlock) {
             this.addCategory("Can place on", new BlockCategory(itemStack, "CanPlaceOn"));
         }
+        this.addCategory("Can destroy", new BlockCategory(itemStack, "CanDestroy"));
         this.addCategory("Tools", new ToolsItemCategory(itemStack));
         this.show();
     }
@@ -59,7 +59,7 @@ public class ItemEditor extends CapabilityProviderEditor {
         } else {
             this.action.accept(itemStack);
             if (packetFactory != null) {
-                IBEEditorMod.CHANNEL.sendToServer(packetFactory.apply(itemStack));
+                IBENetworkHandler.getModChannel().sendToServer(packetFactory.apply(itemStack));
                 IBENotification.show(IBENotification.Type.EDITOR, 3, TextFormatting.GREEN + "Item saved.");
             }
         }

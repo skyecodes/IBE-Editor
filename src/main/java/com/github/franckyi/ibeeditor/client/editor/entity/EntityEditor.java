@@ -1,10 +1,10 @@
 package com.github.franckyi.ibeeditor.client.editor.entity;
 
 import com.github.franckyi.guapi.node.TexturedButton;
-import com.github.franckyi.ibeeditor.IBEEditorMod;
 import com.github.franckyi.ibeeditor.client.editor.common.CapabilityProviderEditor;
 import com.github.franckyi.ibeeditor.client.util.EntityIcons;
 import com.github.franckyi.ibeeditor.client.util.IBENotification;
+import com.github.franckyi.ibeeditor.network.IBENetworkHandler;
 import com.github.franckyi.ibeeditor.network.entity.EntityEditorMessage;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -51,7 +51,7 @@ public class EntityEditor extends CapabilityProviderEditor {
             if (action != null) {
                 action.accept(entity);
             } else {
-                IBEEditorMod.CHANNEL.sendToServer(new EntityEditorMessage(entity));
+                IBENetworkHandler.getModChannel().sendToServer(new EntityEditorMessage(entity));
                 IBENotification.show(IBENotification.Type.EDITOR, 3, TextFormatting.GREEN + "Entity saved.");
             }
         }

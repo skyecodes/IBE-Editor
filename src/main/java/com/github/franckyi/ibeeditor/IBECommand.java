@@ -1,5 +1,6 @@
 package com.github.franckyi.ibeeditor;
 
+import com.github.franckyi.ibeeditor.network.IBENetworkHandler;
 import com.github.franckyi.ibeeditor.network.OpenEditorMessage;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
@@ -11,7 +12,7 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.network.NetworkDirection;
 
-public class IBEEditorCommand {
+public class IBECommand {
 
     public static void register(CommandDispatcher<CommandSource> dispatcher) {
         dispatcher.register(getCommand());
@@ -38,7 +39,7 @@ public class IBEEditorCommand {
 
     private static int execute(CommandContext<CommandSource> ctx, EditorArgument argument) {
         try {
-            IBEEditorMod.CHANNEL.sendTo(new OpenEditorMessage(argument),
+            IBENetworkHandler.getModChannel().sendTo(new OpenEditorMessage(argument),
                     ctx.getSource().asPlayer().connection.netManager, NetworkDirection.PLAY_TO_CLIENT);
         } catch (CommandSyntaxException e) {
             ctx.getSource().sendErrorMessage(new TextComponentString(

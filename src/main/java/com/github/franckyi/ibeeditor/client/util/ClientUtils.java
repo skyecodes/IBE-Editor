@@ -12,12 +12,17 @@ import net.minecraft.util.text.TextFormatting;
 
 public final class ClientUtils {
 
-    public static final Minecraft mc = Minecraft.getInstance();
-    public static final String[] NOTE_TOOLTIP = new String[]{TextFormatting.RED.toString() + TextFormatting.BOLD +
-            "Important note", "The text formatting won't be copied", "because it doesn't work with commands."};
+    private static final Minecraft mc = Minecraft.getInstance();
 
-    public static String unformat(String s) {
-        return s.replaceAll("§.", "");
+    public static Entity createEntity(NBTTagCompound entityTag) {
+        EntityType<?> entityType = EntityType.getById(entityTag.getString("id"));
+        return createEntity(entityType, entityTag);
+    }
+
+    public static <T extends Entity> T createEntity(EntityType<T> entityType, NBTTagCompound entityTag) {
+        T entity = entityType.create(Minecraft.getInstance().world);
+        entity.read(entityTag);
+        return entity;
     }
 
     public static NBTTagCompound getCleanEntityTag(Entity entity) {
@@ -72,7 +77,7 @@ public final class ClientUtils {
     }
 
     public static void copyGiveCommandWithoutFormatting(ItemStack itemStack) {
-        copyCommand(unformat(getGiveCommand(itemStack)));
+        copyCommand(TextFormatting.getTextWithoutFormattingCodes(getGiveCommand(itemStack)));
     }
 
     public static void copyGiveCommand(IBlockState blockState, TileEntity tileEntity) {
@@ -80,7 +85,7 @@ public final class ClientUtils {
     }
 
     public static void copyGiveCommandWithoutFormatting(IBlockState blockState, TileEntity tileEntity) {
-        copyCommand(unformat(getGiveCommand(blockState, tileEntity)));
+        copyCommand(TextFormatting.getTextWithoutFormattingCodes(getGiveCommand(blockState, tileEntity)));
     }
 
     public static void copySetblockCommand(IBlockState blockState, TileEntity tileEntity) {
@@ -88,7 +93,7 @@ public final class ClientUtils {
     }
 
     public static void copySetblockCommandWithoutFormatting(IBlockState blockState, TileEntity tileEntity) {
-        copyCommand(unformat(getSetblockCommand(blockState, tileEntity)));
+        copyCommand(TextFormatting.getTextWithoutFormattingCodes(getSetblockCommand(blockState, tileEntity)));
     }
 
     public static void copySummonCommand(Entity entity) {
@@ -96,17 +101,6 @@ public final class ClientUtils {
     }
 
     public static void copySummonCommandWithoutFormatting(Entity entity) {
-        copyCommand(unformat(getSummonCommand(entity)));
-    }
-
-    public static Entity createEntity(NBTTagCompound entityTag) {
-        EntityType<?> entityType = EntityType.getById(entityTag.getString("id"));
-        return createEntity(entityType, entityTag);
-    }
-
-    public static <T extends Entity> T createEntity(EntityType<T> entityType, NBTTagCompound entityTag) {
-        T entity = entityType.create(Minecraft.getInstance().world);
-        entity.read(entityTag);
-        return entity;
+        copyCommand(TextFormatting.getTextWithoutFormattingCodes(getSummonCommand(entity)));
     }
 }

@@ -133,7 +133,7 @@ public class SpawnPotentialsCategory extends EditableCategory<SpawnPotentialsCat
 
         private void updateEntityButton() {
             EntityType<?> entityType = EntityType.getById(tag.getString("id"));
-            ((TexturedButton.GuiTexturedButtonView) entityButton.getView()).setTexture(EntityIcons.getHeadFromEntityType(entityType));
+            ((TexturedButton.GuiTexturedButtonView) entityButton.getView()).setResource(EntityIcons.getHeadFromEntityType(entityType));
             entityButton.getText().clear();
             entityButton.getText().add(entityType.getName().getFormattedText());
         }
@@ -145,7 +145,7 @@ public class SpawnPotentialsCategory extends EditableCategory<SpawnPotentialsCat
 
         @Override
         public void updateSize(int listWidth) {
-            weightField.setPrefWidth(listWidth - 239);
+            weightField.setPrefWidth(listWidth - 245);
         }
     }
 

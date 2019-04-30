@@ -10,7 +10,7 @@ import com.github.franckyi.guapi.node.Label;
 import com.github.franckyi.guapi.node.ListExtended;
 import com.github.franckyi.guapi.node.TexturedButton;
 import com.github.franckyi.guapi.scene.IBackground;
-import com.github.franckyi.ibeeditor.IBEEditorConfig;
+import com.github.franckyi.ibeeditor.IBEConfiguration;
 import com.github.franckyi.ibeeditor.client.IResizable;
 import com.github.franckyi.ibeeditor.client.clipboard.logic.EntityClipboardEntry;
 import com.github.franckyi.ibeeditor.client.clipboard.logic.IBEClipboard;
@@ -50,7 +50,7 @@ public abstract class AbstractClipboard extends Scene {
             this.setContentFullScreen();
             this.scaleChildrenSize();
         });
-        this.setGuiPauseGame(IBEEditorConfig.CLIENT.doesGuiPauseGame.get());
+        this.setGuiPauseGame(IBEConfiguration.CLIENT.doesGuiPauseGame.get());
     }
 
     protected void scaleChildrenSize() {

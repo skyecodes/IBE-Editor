@@ -1,19 +1,19 @@
 package com.github.franckyi.ibeeditor.network;
 
-import com.github.franckyi.ibeeditor.IBEEditorCommand;
-import com.github.franckyi.ibeeditor.client.util.EditorHandler;
+import com.github.franckyi.ibeeditor.IBECommand;
+import com.github.franckyi.ibeeditor.client.util.EditorHelper;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkEvent;
 
 public class OpenEditorMessage implements IMessage {
 
-    private IBEEditorCommand.EditorArgument argument;
+    private IBECommand.EditorArgument argument;
 
     public OpenEditorMessage(PacketBuffer buffer) {
-        argument = IBEEditorCommand.EditorArgument.valueOf(buffer.readString(6));
+        argument = IBECommand.EditorArgument.valueOf(buffer.readString(6));
     }
 
-    public OpenEditorMessage(IBEEditorCommand.EditorArgument argument) {
+    public OpenEditorMessage(IBECommand.EditorArgument argument) {
         this.argument = argument;
     }
 
@@ -26,19 +26,19 @@ public class OpenEditorMessage implements IMessage {
     public void handle(NetworkEvent.Context context) {
         switch (argument) {
             case ANY:
-                EditorHandler.openEditor();
+                EditorHelper.openEditor();
                 break;
             case ITEM:
-                EditorHandler.openItemEditor();
+                EditorHelper.openItemEditor();
                 break;
             case BLOCK:
-                EditorHandler.openBlockEditor();
+                EditorHelper.openBlockEditor();
                 break;
             case ENTITY:
-                EditorHandler.openEntityEditor();
+                EditorHelper.openEntityEditor();
                 break;
             case SELF:
-                EditorHandler.openSelfEditor();
+                EditorHelper.openSelfEditor();
                 break;
         }
     }

@@ -1,6 +1,6 @@
 package com.github.franckyi.ibeeditor.network.block;
 
-import com.github.franckyi.ibeeditor.IBEEditorMod;
+import com.github.franckyi.ibeeditor.network.IBENetworkHandler;
 import com.github.franckyi.ibeeditor.network.IMessage;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
@@ -29,10 +29,10 @@ public class InitBlockEditorRequest implements IMessage {
     public void handle(NetworkEvent.Context context) {
         TileEntity tileEntity = context.getSender().getServerWorld().getTileEntity(blockPos);
         if (tileEntity == null) {
-            IBEEditorMod.CHANNEL.send(PacketDistributor.PLAYER.with(context::getSender),
+            IBENetworkHandler.getModChannel().send(PacketDistributor.PLAYER.with(context::getSender),
                     new InitBlockEditorResponse(blockPos));
         } else {
-            IBEEditorMod.CHANNEL.send(PacketDistributor.PLAYER.with(context::getSender),
+            IBENetworkHandler.getModChannel().send(PacketDistributor.PLAYER.with(context::getSender),
                     new InitBlockEditorResponse(tileEntity));
         }
     }

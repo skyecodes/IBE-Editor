@@ -1,14 +1,12 @@
 package com.github.franckyi.ibeeditor.network;
 
-import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public interface IMessage {
+public interface IMessage extends IPacket {
 
-    void write(PacketBuffer buffer);
-
+    @Override
     default void handle(Supplier<NetworkEvent.Context> contextSupplier) {
         contextSupplier.get().enqueueWork(() -> handle(contextSupplier.get()));
     }

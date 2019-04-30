@@ -4,61 +4,54 @@ import com.github.franckyi.guapi.math.Pos;
 import com.github.franckyi.guapi.node.CheckBox;
 import com.github.franckyi.guapi.node.IntegerField;
 import com.github.franckyi.guapi.node.TextField;
+import com.github.franckyi.guapi.node.TexturedButton;
 import com.github.franckyi.ibeeditor.client.editor.common.AbstractProperty;
 import com.github.franckyi.ibeeditor.client.editor.common.category.EditableCategory;
 import com.github.franckyi.ibeeditor.client.editor.common.property.IEditableCategoryProperty;
-import com.github.franckyi.ibeeditor.client.editor.common.property.PropertyString;
+import com.github.franckyi.ibeeditor.client.editor.common.property.custom.ColorProperty;
+import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.potion.PotionType;
 import net.minecraft.potion.PotionUtils;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import java.awt.*;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 public class PotionCategory extends EditableCategory<PotionCategory.PotionEffectModel> {
 
     private final ItemStack itemStack;
     private final List<PotionEffect> effects;
-    private PotionType potionType;
-    private List<PotionEffect> baseEffects;
 
     public PotionCategory(ItemStack itemStack) {
         super(1);
         mc.mouseHelper.ungrabMouse();
         this.itemStack = itemStack;
-        potionType = PotionUtils.getPotionFromItem(itemStack);
         effects = PotionUtils.getFullEffectsFromItem(itemStack);
         this.addAll(
-                new PropertyString("Base potion", potionType.getRegistryName().toString(), this::setPotion, 65),
+                new PotionColorProperty(new Color(PotionUtils.getColor(itemStack)), this::setColor),
                 new AddButton("Add potion effect")
         );
-        this.updateBaseEffects();
         effects.forEach(potionEffect -> this.addProperty(new PotionEffectModel(potionEffect, false)));
+    }
+
+    private void setColor(Color color) {
+        int c = color.getRGB();
+        if (c != PotionUtils.getPotionColorFromEffectList(PotionUtils.getEffectsFromStack(itemStack))) {
+            itemStack.getOrCreateTag().putInt("CustomPotionColor", c);
+        }
     }
 
     private void addEffect(PotionEffectModel effect) {
         if (!effect.isDisabled()) {
             effects.add(effect);
         }
-    }
-
-    private void setPotion(String potion) {
-        itemStack.getOrCreateTag().putString("Potion", potion);
-        potionType = PotionType.getPotionTypeForName(potion);
-        if (!baseEffects.isEmpty()) {
-            this.getChildren().subList(1, baseEffects.size() + 1).clear();
-        }
-        this.updateBaseEffects();
-    }
-
-    private void updateBaseEffects() {
-        baseEffects = potionType.getEffects();
-        baseEffects.forEach(potionEffect -> this.addProperty(new PotionEffectModel(potionEffect, true)));
     }
 
     @Override
@@ -75,7 +68,9 @@ public class PotionCategory extends EditableCategory<PotionCategory.PotionEffect
     public void apply() {
         effects.clear();
         itemStack.getOrCreateTag().remove("CustomPotionEffects");
-        super.apply();
+        itemStack.getOrCreateTag().remove("CustomPotionColor");
+        this.getChildren().subList(1, this.getChildren().size()).forEach(AbstractProperty::apply);
+        this.getChildren().get(0).apply();
         PotionUtils.appendEffects(itemStack, effects);
     }
 
@@ -142,7 +137,7 @@ public class PotionCategory extends EditableCategory<PotionCategory.PotionEffect
                     showIcon = new CheckBox("I")
             );
             amplifier.setPrefWidth(20);
-            duration.setPrefWidth(30);
+            duration.setPrefWidth(32);
             name.getTooltipText().add("Potion name");
             amplifier.getTooltipText().add("Amplifier (0 => level 1)");
             duration.getTooltipText().add("Duration (in ticks)");
@@ -153,7 +148,7 @@ public class PotionCategory extends EditableCategory<PotionCategory.PotionEffect
 
         @Override
         public void updateSize(int listWidth) {
-            name.setPrefWidth(listWidth - 191);
+            name.setPrefWidth(listWidth - 193);
         }
     }
 
@@ -177,6 +172,44 @@ public class PotionCategory extends EditableCategory<PotionCategory.PotionEffect
 
         public boolean isDisabled() {
             return disabled;
+        }
+    }
+
+    private class PotionColorProperty extends ColorProperty {
+
+        private TexturedButton refreshButton;
+
+        public PotionColorProperty(Color initialValue, Consumer<Color> action) {
+            super("Potion color", initialValue, action);
+        }
+
+        @Override
+        protected void setValue(Color value) {
+            super.setValue(value);
+            ItemStack stack = new ItemStack(Items.POTION);
+            stack.getOrCreateTag().putInt("CustomPotionColor", value.getRGB());
+            testGroup.getChildren().set(0, new TexturedButton(stack, false));
+        }
+
+        @Override
+        protected void build() {
+            super.build();
+            this.getNode().getChildren().add(5, refreshButton = new TexturedButton("download.png",
+                    TextFormatting.AQUA + "Calculate color from effects"));
+            refreshButton.getOnMouseClickedListeners().add(e -> {
+                List<AbstractProperty<?>> children = PotionCategory.this.getChildren();
+                List<PotionEffect> effects = children.subList(1, children.size() - 1).stream()
+                        .map(abstractProperty -> ((PotionEffect) ((PotionEffectProperty) abstractProperty).getValue()))
+                        .collect(Collectors.toList());
+                effects.addAll(PotionUtils.getPotionFromItem(itemStack).getEffects());
+                this.setValue(new Color(PotionUtils.getPotionColorFromEffectList(effects)));
+            });
+            testGroup.getChildren().add(new TexturedButton(new ItemStack(Items.POTION), false));
+        }
+
+        @Override
+        public void updateSize(int listWidth) {
+            testGroup.setPrefWidth(listWidth - 239);
         }
     }
 }

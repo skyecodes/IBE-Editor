@@ -5,7 +5,7 @@ import com.github.franckyi.guapi.Scene;
 import com.github.franckyi.guapi.util.Notification;
 import com.github.franckyi.ibeeditor.client.clipboard.ViewClipboard;
 import com.github.franckyi.ibeeditor.client.clipboard.logic.IBEClipboard;
-import com.github.franckyi.ibeeditor.client.util.EditorHandler;
+import com.github.franckyi.ibeeditor.client.util.EditorHelper;
 import com.github.franckyi.ibeeditor.client.util.EntityIcons;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -47,7 +47,7 @@ public class ClientProxy implements IProxy {
     public void onClientTick(TickEvent.ClientTickEvent e) {
         if (e.phase == TickEvent.Phase.END) {
             if (KEY_OPEN_EDITOR.isPressed()) {
-                EditorHandler.openEditor();
+                EditorHelper.openEditor();
             } else if (KEY_OPEN_CLIPBOARD.isPressed()) {
                 new ViewClipboard();
             }
@@ -60,14 +60,14 @@ public class ClientProxy implements IProxy {
             GuiContainer gui = (GuiContainer) e.getGui();
             if (gui.getSlotUnderMouse() != null && gui.getSlotUnderMouse().getHasStack()) {
                 if (gui instanceof GuiInventory || gui instanceof GuiContainerCreative) {
-                    EditorHandler.openItemEditorFromGui(gui.getSlotUnderMouse());
+                    EditorHelper.openItemEditorFromGui(gui.getSlotUnderMouse());
                 } else {
                     switch (mc.objectMouseOver.type) {
                         case BLOCK:
-                            EditorHandler.openItemEditorFromGui(gui.getSlotUnderMouse(), mc.objectMouseOver.getBlockPos());
+                            EditorHelper.openItemEditorFromGui(gui.getSlotUnderMouse(), mc.objectMouseOver.getBlockPos());
                             break;
                         case ENTITY:
-                            EditorHandler.openItemEditorFromGui(gui.getSlotUnderMouse(), mc.objectMouseOver.entity);
+                            EditorHelper.openItemEditorFromGui(gui.getSlotUnderMouse(), mc.objectMouseOver.entity);
                             break;
                         case MISS:
                         default:

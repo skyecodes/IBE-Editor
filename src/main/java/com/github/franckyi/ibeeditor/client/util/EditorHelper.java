@@ -1,8 +1,8 @@
 package com.github.franckyi.ibeeditor.client.util;
 
-import com.github.franckyi.ibeeditor.IBEEditorMod;
 import com.github.franckyi.ibeeditor.client.editor.entity.EntityEditor;
 import com.github.franckyi.ibeeditor.client.editor.item.ItemEditor;
+import com.github.franckyi.ibeeditor.network.IBENetworkHandler;
 import com.github.franckyi.ibeeditor.network.block.InitBlockEditorRequest;
 import com.github.franckyi.ibeeditor.network.item.BlockInventoryItemEditorMessage;
 import com.github.franckyi.ibeeditor.network.item.EntityInventoryItemEditorMessage;
@@ -17,7 +17,7 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 
-public final class EditorHandler {
+public final class EditorHelper {
 
     private static final Minecraft mc = Minecraft.getInstance();
 
@@ -65,7 +65,7 @@ public final class EditorHandler {
 
     public static void openBlockEditor(BlockPos blockPos) {
         if (checkPermissions()) {
-            IBEEditorMod.CHANNEL.sendToServer(new InitBlockEditorRequest(blockPos));
+            IBENetworkHandler.getModChannel().sendToServer(new InitBlockEditorRequest(blockPos));
         }
     }
 

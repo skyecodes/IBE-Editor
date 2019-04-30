@@ -9,7 +9,7 @@ import com.github.franckyi.guapi.node.Button;
 import com.github.franckyi.guapi.node.Label;
 import com.github.franckyi.guapi.node.ListExtended;
 import com.github.franckyi.guapi.scene.IBackground;
-import com.github.franckyi.ibeeditor.IBEEditorConfig;
+import com.github.franckyi.ibeeditor.IBEConfiguration;
 import net.minecraft.util.text.TextFormatting;
 
 import java.util.ArrayList;
@@ -71,7 +71,7 @@ public abstract class AbstractEditor extends Scene {
             this.setContentFullScreen();
             this.scaleChildrenSize();
         });
-        this.setGuiPauseGame(IBEEditorConfig.CLIENT.doesGuiPauseGame.get());
+        this.setGuiPauseGame(IBEConfiguration.CLIENT.doesGuiPauseGame.get());
     }
 
     protected void apply() {
@@ -106,13 +106,13 @@ public abstract class AbstractEditor extends Scene {
         int categoryIndex = categories.getChildren().indexOf(category);
         if (currentIndex != categoryIndex) {
             Label oldCategoryLabel = categories.getChildren().get(currentIndex).getNode();
-            oldCategoryLabel.setText(oldCategoryLabel.getText().substring(2));
+            oldCategoryLabel.setText("  " + oldCategoryLabel.getText().substring(6));
             currentIndex = categoryIndex;
             AbstractCategory propertyList = propertiesList.get(categoryIndex);
             body.getChildren().set(1, propertyList);
             this.scalePropertiesSize(propertyList);
             Label newCategoryLabel = categories.getChildren().get(currentIndex).getNode();
-            newCategoryLabel.setText(TextFormatting.BOLD + newCategoryLabel.getText());
+            newCategoryLabel.setText(" " + TextFormatting.YELLOW + " " + TextFormatting.BOLD + newCategoryLabel.getText().substring(2));
         }
     }
 
@@ -122,7 +122,7 @@ public abstract class AbstractEditor extends Scene {
             currentIndex = 0;
             body.getChildren().add(propertiesList.get(0));
             Label categoryLabel = categories.getChildren().get(0).getNode();
-            categoryLabel.setText(TextFormatting.BOLD + categoryLabel.getText());
+            categoryLabel.setText(" " + TextFormatting.YELLOW + " " + TextFormatting.BOLD + categoryLabel.getText().substring(2));
         }
         super.show();
     }

@@ -1,11 +1,11 @@
 package com.github.franckyi.ibeeditor.client.editor.block;
 
 import com.github.franckyi.guapi.node.TexturedButton;
-import com.github.franckyi.ibeeditor.IBEEditorMod;
 import com.github.franckyi.ibeeditor.client.editor.block.tileentity.*;
 import com.github.franckyi.ibeeditor.client.editor.common.AbstractCategory;
 import com.github.franckyi.ibeeditor.client.editor.common.CapabilityProviderEditor;
 import com.github.franckyi.ibeeditor.client.util.IBENotification;
+import com.github.franckyi.ibeeditor.network.IBENetworkHandler;
 import com.github.franckyi.ibeeditor.network.block.BlockEditorMessage;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
@@ -65,7 +65,7 @@ public class BlockEditor extends CapabilityProviderEditor {
         if (baseState.equals(blockState) && (teTag == null || teTag.equals(tileEntity.write(new NBTTagCompound())))) {
             IBENotification.show(IBENotification.Type.EDITOR, 3, TextFormatting.YELLOW + "Nothing to save.");
         } else {
-            IBEEditorMod.CHANNEL.sendToServer(new BlockEditorMessage(blockPos, blockState, tileEntity));
+            IBENetworkHandler.getModChannel().sendToServer(new BlockEditorMessage(blockPos, blockState, tileEntity));
             IBENotification.show(IBENotification.Type.EDITOR, 3, TextFormatting.GREEN + "Block saved.");
         }
     }
