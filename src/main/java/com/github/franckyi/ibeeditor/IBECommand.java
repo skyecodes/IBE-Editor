@@ -1,20 +1,40 @@
 package com.github.franckyi.ibeeditor;
 
-import com.github.franckyi.ibeeditor.network.IBENetworkHandler;
-import com.github.franckyi.ibeeditor.network.OpenEditorMessage;
+import com.github.franckyi.ibeeditor.common.network.IBENetworkHandler;
+import com.github.franckyi.ibeeditor.common.network.editor.OpenEditorMessage;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.event.ClickEvent;
 import net.minecraftforge.fml.network.NetworkDirection;
+
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
 
 public class IBECommand {
 
-    public static void register(CommandDispatcher<CommandSource> dispatcher) {
+    private static final ITextComponent DOWNLOAD_LINK = new TextComponentString("Click here to download the mod !")
+            .setStyle(new Style().setUnderlined(true).setBold(true).setColor(TextFormatting.BLUE).setClickEvent(
+                    new ClickEvent(ClickEvent.Action.OPEN_URL,
+                            "https://minecraft.curseforge.com/projects/ibe-editor")));
+    private static final ITextComponent MUST_INSTALL = new TextComponentString(
+            TextFormatting.RED + "You must install the IBE Editor mod to use this command.");
+    private static final ITextComponent PLAYER_ONLY = new TextComponentString(
+            TextFormatting.RED + "This command can only be executed by a player");
+
+
+    private static Set<UUID> allowedPlayers = new HashSet<>();
+
+    static void register(CommandDispatcher<CommandSource> dispatcher) {
         dispatcher.register(getCommand());
     }
 
@@ -24,7 +44,7 @@ public class IBECommand {
                 .executes(ctx -> execute(ctx, EditorArgument.ANY));
         for (EditorArgument argument : EditorArgument.values()) {
             if (argument != EditorArgument.ANY) {
-                ibe.then(Commands.literal(argument.str).executes(ctx -> execute0(ctx, argument)));
+                ibe.then(Commands.literal(argument.toString()).executes(ctx -> execute0(ctx, argument)));
             }
         }
         return ibe;
@@ -39,14 +59,34 @@ public class IBECommand {
 
     private static int execute(CommandContext<CommandSource> ctx, EditorArgument argument) {
         try {
-            IBENetworkHandler.getModChannel().sendTo(new OpenEditorMessage(argument),
-                    ctx.getSource().asPlayer().connection.netManager, NetworkDirection.PLAY_TO_CLIENT);
+            if (allowedPlayers.contains(ctx.getSource().asPlayer().getUniqueID())) {
+                IBENetworkHandler.getModChannel().sendTo(new OpenEditorMessage(argument),
+                        ctx.getSource().asPlayer().connection.netManager, NetworkDirection.PLAY_TO_CLIENT);
+            } else {
+                ctx.getSource().sendErrorMessage(MUST_INSTALL);
+                ctx.getSource().sendErrorMessage(DOWNLOAD_LINK);
+                IBEEditorMod.LOGGER.debug(ctx.getSource().asPlayer().getName().getUnformattedComponentText()
+                        + " tried to open the editor without having the client mod installed.");
+                return 0;
+            }
         } catch (CommandSyntaxException e) {
-            ctx.getSource().sendErrorMessage(new TextComponentString(
-                    TextFormatting.RED + "This command can only be executed by a player"));
+            ctx.getSource().sendErrorMessage(PLAYER_ONLY);
+            IBEEditorMod.LOGGER.debug(ctx.getSource() + " tried to eopen the editor, but it's not a player.");
             return 0;
         }
         return 1;
+    }
+
+    public static void addAllowedPlayer(EntityPlayer player) {
+        if (allowedPlayers.add(player.getUniqueID())) {
+            IBEEditorMod.LOGGER.debug("Adding " + player.getName().getUnformattedComponentText() + " to allowed players list.");
+        }
+    }
+
+    public static void removeAllowedPlayer(EntityPlayer player) {
+        if (allowedPlayers.remove(player.getUniqueID())) {
+            IBEEditorMod.LOGGER.debug("Removing " + player.getName().getUnformattedComponentText() + " from allowed players list.");
+        }
     }
 
     public enum EditorArgument {
@@ -58,6 +98,10 @@ public class IBECommand {
             this.str = str;
         }
 
+        @Override
+        public String toString() {
+            return str;
+        }
     }
 
 }
