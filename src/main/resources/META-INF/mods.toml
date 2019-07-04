@@ -5,9 +5,9 @@ logoFile="logo.png"
 
 [[mods]]
 modId="ibeeditor"
-version="${file.jarVersion}"
+version="1.0.1"
 displayName="IBE Editor"
-displayURL="https://minecraft.curseforge.com/projects/ibe-editor"
+displayURL="https://www.curseforge.com/minecraft/mc-mods/ibe-editor"
 credits="Thanks to Emex for the logo !"
 authors="Franckyi"
 description='''

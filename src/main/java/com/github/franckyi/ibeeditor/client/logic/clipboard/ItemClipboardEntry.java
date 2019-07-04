@@ -1,23 +1,28 @@
 package com.github.franckyi.ibeeditor.client.logic.clipboard;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.PacketBuffer;
 
 public class ItemClipboardEntry implements IClipboardEntry {
 
-    private final ItemStack itemStack;
+    private ItemStack itemStack;
 
     public ItemClipboardEntry(ItemStack itemStack) {
         this.itemStack = itemStack;
     }
 
-    public ItemClipboardEntry(PacketBuffer buffer) {
-        itemStack = buffer.readItemStack();
+    public ItemClipboardEntry(PacketBuffer buffer, boolean oldFormat) {
+        if (oldFormat) {
+            itemStack = buffer.readItemStack();
+        } else {
+            itemStack = ItemStack.read(buffer.readCompoundTag());
+        }
     }
 
     @Override
     public void write(PacketBuffer buffer) {
-        buffer.writeItemStack(itemStack);
+        buffer.writeCompoundTag(itemStack.write(new NBTTagCompound()));
     }
 
     public ItemStack getItemStack() {

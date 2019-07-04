@@ -19,6 +19,7 @@ import static io.netty.buffer.Unpooled.buffer;
 
 public class IBEClipboard {
 
+    private static final int VERSION = 101;
     private static IBEClipboard instance;
 
     private boolean disabled;
@@ -104,6 +105,7 @@ public class IBEClipboard {
     private void save(boolean firstInit) {
         if (!disabled) {
             try {
+                buffer.writeInt(VERSION);
                 buffer.writeInt(items.size());
                 items.forEach(entry -> entry.write(buffer));
                 buffer.writeInt(entities.size());
@@ -146,13 +148,34 @@ public class IBEClipboard {
                 InputStream input = Files.newInputStream(path);
                 buffer.writeBytes(input, input.available());
                 input.close();
-                int itemsSize = buffer.readInt();
+                int version = buffer.readInt();
+                int itemsSize;
+                boolean toConvert;
+                if (version < 100) {
+                    itemsSize = version;
+                    toConvert = true;
+                    IBENotification.show(IBENotification.Type.CLIPBOARD, 3,
+                            TextFormatting.GREEN + "Converting IBE Clipboard to new format (version " + VERSION + ").");
+                    IBEEditorMod.LOGGER.warn("Converting IBE Clipboard to new format (version " + VERSION + ").");
+                } else if (version == VERSION) {
+                    itemsSize = buffer.readInt();
+                    toConvert = false;
+                } else {
+                    IBENotification.show(IBENotification.Type.CLIPBOARD, 3,
+                            TextFormatting.RED + TextFormatting.BOLD.toString() +
+                                    "IBE Clipboard version " + version + " is not supported.");
+                    IBEEditorMod.LOGGER.error("IBE Clipboard version " + version + " is not supported.");
+                    return;
+                }
                 for (int i = 0; i < itemsSize; i++) {
-                    items.add(new ItemClipboardEntry(buffer));
+                    items.add(new ItemClipboardEntry(buffer, toConvert));
                 }
                 int entitiesSize = buffer.readInt();
                 for (int i = 0; i < entitiesSize; i++) {
                     entities.add(new EntityClipboardEntry(buffer));
+                }
+                if (toConvert) {
+                    save();
                 }
                 IBENotification.show(IBENotification.Type.CLIPBOARD, 3,
                         TextFormatting.GREEN + "IBE Clipboard successfully loaded from disk.");
