@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[25,)"
+loaderVersion="[28,)"
 issueTrackerURL="https://github.com/Franckyi/IBE-Editor/issues"
 logoFile="logo.png"
 
@@ -19,13 +19,13 @@ Simple GUIs system makes it very easy to use!
 [[dependencies.ibeeditor]]
     modId="forge"
     mandatory=true
-    versionRange="[25,)"
+    versionRange="[28,)"
     ordering="NONE"
     side="BOTH"
 
 [[dependencies.ibeeditor]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.13.2]"
+    versionRange="[1.14.4]"
     ordering="NONE"
     side="BOTH"
