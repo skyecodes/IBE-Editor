@@ -10,19 +10,21 @@ import com.github.franckyi.ibeeditor.common.network.editor.item.MainHandItemEdit
 import com.github.franckyi.ibeeditor.common.network.editor.item.PlayerInventoryItemEditorMessage;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
-import net.minecraft.inventory.Slot;
+import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 
 public final class EditorHelper {
 
-    private static final ITextComponent MUST_INSTALL = new TextComponentString(TextFormatting.RED +
+    private static final ITextComponent MUST_INSTALL = new StringTextComponent(TextFormatting.RED +
             "IBE Editor must be installed on the server in order to use it.");
-    private static final ITextComponent MUST_CREATIVE = new TextComponentString(TextFormatting.RED +
+    private static final ITextComponent MUST_CREATIVE = new StringTextComponent(TextFormatting.RED +
             "You must be in creative mode in order to use the editor.");
 
     private static final Minecraft mc = Minecraft.getInstance();
@@ -43,8 +45,8 @@ public final class EditorHelper {
 
     public static boolean openEntityEditor() {
         RayTraceResult res = mc.objectMouseOver;
-        if (res.type == RayTraceResult.Type.ENTITY && res.entity != null) {
-            openEntityEditor(res.entity);
+        if (res instanceof EntityRayTraceResult) {
+            openEntityEditor(((EntityRayTraceResult) res).getEntity());
             return true;
         }
         return false;
@@ -52,8 +54,8 @@ public final class EditorHelper {
 
     public static boolean openBlockEditor() {
         RayTraceResult res = mc.objectMouseOver;
-        if (res.type == RayTraceResult.Type.BLOCK) {
-            openBlockEditor(res.getBlockPos());
+        if (res instanceof BlockRayTraceResult) {
+            openBlockEditor(((BlockRayTraceResult) res).getPos());
             return true;
         }
         return false;

@@ -7,11 +7,11 @@ import com.github.franckyi.ibeeditor.client.gui.editor.base.property.PropertyBoo
 import com.github.franckyi.ibeeditor.client.gui.editor.base.property.PropertyFormattedText;
 import com.github.franckyi.ibeeditor.client.gui.editor.base.property.PropertyInteger;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.nbt.NBTTagString;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.ListNBT;
+import net.minecraft.nbt.StringNBT;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.util.Constants;
 
 import java.util.function.Consumer;
@@ -32,11 +32,11 @@ public class GeneralItemCategory extends EditableCategory<String> {
                 new AddButton("Add lore")
         );
         if (itemStack.hasTag()) {
-            NBTTagCompound tag = itemStack.getOrCreateTag();
+            CompoundNBT tag = itemStack.getOrCreateTag();
             if (tag.contains("display", Constants.NBT.TAG_COMPOUND)) {
-                NBTTagCompound display = itemStack.getOrCreateChildTag("display");
+                CompoundNBT display = itemStack.getOrCreateChildTag("display");
                 if (display.contains("Lore", Constants.NBT.TAG_LIST)) {
-                    NBTTagList loreTag = display.getList("Lore", Constants.NBT.TAG_STRING);
+                    ListNBT loreTag = display.getList("Lore", Constants.NBT.TAG_STRING);
                     for (int i = 0; i < loreTag.size(); i++) {
                         this.addProperty(loreTag.getString(i));
                     }
@@ -57,11 +57,11 @@ public class GeneralItemCategory extends EditableCategory<String> {
     }
 
     private void setName(String s) {
-        TextComponentTranslation baseName = new TextComponentTranslation(itemStack.getItem().getTranslationKey(itemStack));
+        TranslationTextComponent baseName = new TranslationTextComponent(itemStack.getItem().getTranslationKey(itemStack));
         if (baseName.getUnformattedComponentText().equals(s)) {
             itemStack.getOrCreateTag().remove("display");
         } else {
-            itemStack.setDisplayName(new TextComponentString(s));
+            itemStack.setDisplayName(new StringTextComponent(s));
         }
     }
 
@@ -78,11 +78,11 @@ public class GeneralItemCategory extends EditableCategory<String> {
 
     private void setLore(String lore) {
         if (flag) {
-            itemStack.getOrCreateChildTag("display").put("Lore", new NBTTagList());
+            itemStack.getOrCreateChildTag("display").put("Lore", new ListNBT());
             flag = false;
         }
         itemStack.getOrCreateChildTag("display")
-                .getList("Lore", Constants.NBT.TAG_STRING).add(new NBTTagString(lore));
+                .getList("Lore", Constants.NBT.TAG_STRING).add(new StringNBT(lore));
     }
 
     private void setUnbreakable(boolean unbreakable) {

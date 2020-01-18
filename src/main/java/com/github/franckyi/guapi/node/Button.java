@@ -28,21 +28,21 @@ public class Button extends Node<Button.GuiButtonView> {
     }
 
     public String getText() {
-        return this.getView().displayString;
+        return this.getView().getMessage();
     }
 
     public void setText(String text) {
-        this.getView().displayString = text;
+        this.getView().setMessage(text);
         this.computeWidth();
         this.updateWidth();
     }
 
     public boolean isDisabled() {
-        return !this.getView().enabled;
+        return !this.getView().active;
     }
 
     public void setDisabled(boolean disabled) {
-        this.getView().enabled = !disabled;
+        this.getView().active = !disabled;
     }
 
     @Override
@@ -60,7 +60,8 @@ public class Button extends Node<Button.GuiButtonView> {
         protected final List<String> tooltipText;
 
         public GuiButtonView(String text, String[] tooltip) {
-            super(0, 0, 0, text);
+            super(0, 0, 0, 0, text, (b) -> {
+            });
             this.tooltipText = Lists.newArrayList(tooltip);
         }
 
@@ -117,8 +118,8 @@ public class Button extends Node<Button.GuiButtonView> {
         @Override
         public void renderView(int mouseX, int mouseY, float partialTicks) {
             this.render(mouseX, mouseY, partialTicks);
-            if (this.hovered && !tooltipText.isEmpty()) {
-                mc.currentScreen.drawHoveringText(tooltipText, mouseX, mouseY);
+            if (this.isHovered() && !tooltipText.isEmpty()) {
+                mc.currentScreen.renderTooltip(tooltipText, mouseX, mouseY);
             }
         }
     }

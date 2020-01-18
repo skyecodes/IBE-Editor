@@ -34,11 +34,11 @@ public class CheckBox extends Node<CheckBox.GuiCheckBoxView> implements IValueNo
     }
 
     public String getText() {
-        return this.getView().displayString;
+        return this.getView().getMessage();
     }
 
     public void setText(String text) {
-        this.getView().displayString = text;
+        this.getView().setMessage(text);
     }
 
     public boolean getValue() {
@@ -58,11 +58,11 @@ public class CheckBox extends Node<CheckBox.GuiCheckBoxView> implements IValueNo
     }
 
     public boolean isDisabled() {
-        return !this.getView().enabled;
+        return !this.getView().active;
     }
 
     public void setDisabled(boolean disabled) {
-        this.getView().enabled = !disabled;
+        this.getView().active = !disabled;
     }
 
     @Override
@@ -83,10 +83,10 @@ public class CheckBox extends Node<CheckBox.GuiCheckBoxView> implements IValueNo
     public static class GuiCheckBoxView extends GuiCheckBox implements IGuiView {
 
         private final List<String> tooltipText;
-        private Scene.Screen screen;
+        private Scene.GUAPIScreen screen;
 
         public GuiCheckBoxView(String displayString, boolean isChecked, String... tooltipText) {
-            super(0, 0, 0, displayString, isChecked);
+            super(0, 0, displayString, isChecked);
             packedFGColor = 0xffffff;
             this.tooltipText = Lists.newArrayList(tooltipText);
         }
@@ -144,11 +144,11 @@ public class CheckBox extends Node<CheckBox.GuiCheckBoxView> implements IValueNo
         @Override
         public void renderView(int mouseX, int mouseY, float partialTicks) {
             this.render(mouseX, mouseY, partialTicks);
-            if (this.hovered) {
+            if (this.isHovered) {
                 if (screen == null) {
-                    screen = (Scene.Screen) mc.currentScreen;
+                    screen = (Scene.GUAPIScreen) mc.currentScreen;
                 }
-                screen.drawHoveringText(tooltipText, mouseX, mouseY);
+                screen.renderTooltip(tooltipText, mouseX, mouseY);
             }
         }
     }

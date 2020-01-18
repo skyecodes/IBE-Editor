@@ -3,7 +3,7 @@ package com.github.franckyi.ibeeditor.common.network.editor.block;
 import com.github.franckyi.ibeeditor.client.gui.editor.block.BlockEditor;
 import com.github.franckyi.ibeeditor.common.network.IMessage;
 import net.minecraft.client.Minecraft;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
@@ -11,12 +11,12 @@ import net.minecraftforge.fml.network.NetworkEvent;
 
 public class InitBlockEditorResponse implements IMessage {
 
-    protected NBTTagCompound tag;
+    protected CompoundNBT tag;
     protected BlockPos blockPos;
 
     public InitBlockEditorResponse(TileEntity tileEntity) {
         this(tileEntity.getPos());
-        this.tag = tileEntity.write(new NBTTagCompound());
+        this.tag = tileEntity.write(new CompoundNBT());
     }
 
     public InitBlockEditorResponse(BlockPos blockPos) {

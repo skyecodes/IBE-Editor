@@ -9,11 +9,11 @@ import com.github.franckyi.ibeeditor.client.gui.editor.base.AbstractProperty;
 import com.github.franckyi.ibeeditor.client.gui.editor.base.category.EditableCategory;
 import com.github.franckyi.ibeeditor.client.gui.editor.base.property.IEditableCategoryProperty;
 import com.github.franckyi.ibeeditor.client.gui.editor.base.property.custom.ColorProperty;
-import net.minecraft.init.Items;
-import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.item.Items;
+import net.minecraft.potion.Effect;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.potion.PotionUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 public class PotionCategory extends EditableCategory<PotionCategory.PotionEffectModel> {
 
     private final ItemStack itemStack;
-    private final List<PotionEffect> effects;
+    private final List<EffectInstance> effects;
 
     public PotionCategory(ItemStack itemStack) {
         super(1);
@@ -61,7 +61,7 @@ public class PotionCategory extends EditableCategory<PotionCategory.PotionEffect
 
     @Override
     protected PotionEffectModel getDefaultPropertyValue() {
-        return new PotionEffectModel(MobEffects.SPEED);
+        return new PotionEffectModel(Effects.SPEED);
     }
 
     @Override
@@ -152,21 +152,21 @@ public class PotionCategory extends EditableCategory<PotionCategory.PotionEffect
         }
     }
 
-    public class PotionEffectModel extends PotionEffect {
+    public static class PotionEffectModel extends EffectInstance {
         private final boolean disabled;
 
-        public PotionEffectModel(Potion potion, int duration, int amplifier, boolean ambient, boolean showParticles, boolean showIcon, boolean disabled) {
-            super(potion, duration, amplifier, ambient, showParticles, showIcon);
+        public PotionEffectModel(Effect effect, int duration, int amplifier, boolean ambient, boolean showParticles, boolean showIcon, boolean disabled) {
+            super(effect, duration, amplifier, ambient, showParticles, showIcon);
             this.disabled = disabled;
         }
 
-        public PotionEffectModel(PotionEffect effect, boolean disabled) {
+        public PotionEffectModel(EffectInstance effect, boolean disabled) {
             super(effect);
             this.disabled = disabled;
         }
 
-        public PotionEffectModel(Potion potion) {
-            super(potion);
+        public PotionEffectModel(Effect effect) {
+            super(effect);
             disabled = false;
         }
 
@@ -198,8 +198,8 @@ public class PotionCategory extends EditableCategory<PotionCategory.PotionEffect
                     TextFormatting.AQUA + "Calculate color from effects"));
             refreshButton.getOnMouseClickedListeners().add(e -> {
                 List<AbstractProperty<?>> children = PotionCategory.this.getChildren();
-                List<PotionEffect> effects = children.subList(1, children.size() - 1).stream()
-                        .map(abstractProperty -> ((PotionEffect) ((PotionEffectProperty) abstractProperty).getValue()))
+                List<EffectInstance> effects = children.subList(1, children.size() - 1).stream()
+                        .map(abstractProperty -> ((EffectInstance) ((PotionEffectProperty) abstractProperty).getValue()))
                         .collect(Collectors.toList());
                 effects.addAll(PotionUtils.getPotionFromItem(itemStack).getEffects());
                 this.setValue(new Color(PotionUtils.getPotionColorFromEffectList(effects)));

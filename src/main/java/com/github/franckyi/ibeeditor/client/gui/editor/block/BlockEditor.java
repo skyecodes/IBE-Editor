@@ -4,13 +4,19 @@ import com.github.franckyi.guapi.node.TexturedButton;
 import com.github.franckyi.ibeeditor.client.IBENotification;
 import com.github.franckyi.ibeeditor.client.gui.editor.base.AbstractCategory;
 import com.github.franckyi.ibeeditor.client.gui.editor.base.CapabilityProviderEditor;
-import com.github.franckyi.ibeeditor.client.gui.editor.block.tileentity.*;
+import com.github.franckyi.ibeeditor.client.gui.editor.block.tileentity.CommandBlockCategory;
+import com.github.franckyi.ibeeditor.client.gui.editor.block.tileentity.LockableCategory;
+import com.github.franckyi.ibeeditor.client.gui.editor.block.tileentity.MobSpawnerCategory;
+import com.github.franckyi.ibeeditor.client.gui.editor.block.tileentity.SpawnPotentialsCategory;
 import com.github.franckyi.ibeeditor.common.network.IBENetworkHandler;
 import com.github.franckyi.ibeeditor.common.network.editor.block.BlockEditorMessage;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.*;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.tileentity.CommandBlockTileEntity;
+import net.minecraft.tileentity.LockableTileEntity;
+import net.minecraft.tileentity.MobSpawnerTileEntity;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 
@@ -23,7 +29,7 @@ public class BlockEditor extends CapabilityProviderEditor {
 
     private final BlockPos blockPos;
     private TileEntity tileEntity;
-    private IBlockState blockState;
+    private BlockState blockState;
 
     public BlockEditor(BlockPos blockPos, TileEntity tileEntity) {
         super("Block Editor :");
@@ -46,23 +52,23 @@ public class BlockEditor extends CapabilityProviderEditor {
         return blockPos;
     }
 
-    public IBlockState getBlockState() {
+    public BlockState getBlockState() {
         return blockState;
     }
 
-    public void setBlockState(IBlockState blockState) {
+    public void setBlockState(BlockState blockState) {
         this.blockState = blockState;
     }
 
     @Override
     protected void apply() {
-        IBlockState baseState = blockState;
-        NBTTagCompound teTag = null;
+        BlockState baseState = blockState;
+        CompoundNBT teTag = null;
         if (tileEntity != null) {
-            teTag = tileEntity.write(new NBTTagCompound());
+            teTag = tileEntity.write(new CompoundNBT());
         }
         super.apply();
-        if (baseState.equals(blockState) && (teTag == null || teTag.equals(tileEntity.write(new NBTTagCompound())))) {
+        if (baseState.equals(blockState) && (teTag == null || teTag.equals(tileEntity.write(new CompoundNBT())))) {
             IBENotification.show(IBENotification.Type.EDITOR, 3, TextFormatting.YELLOW + "Nothing to save.");
         } else {
             IBENetworkHandler.getModChannel().sendToServer(new BlockEditorMessage(blockPos, blockState, tileEntity));
@@ -89,11 +95,10 @@ public class BlockEditor extends CapabilityProviderEditor {
         @SuppressWarnings("unchecked")
         private static List<BlockEditorConfiguration<Object>> build() {
             return Arrays.asList(
-                    create(TileEntityLockable.class, "Lock", LockableCategory::new),
-                    create(TileEntityLockableLoot.class, "Name & Loot table", LootTableCategory::new),
-                    create(TileEntityCommandBlock.class, "Command block", CommandBlockCategory::new),
-                    create(TileEntityMobSpawner.class, "Mob Spawner", MobSpawnerCategory::new),
-                    create(TileEntityMobSpawner.class, "Spawn Potentials", SpawnPotentialsCategory::new)
+                    create(LockableTileEntity.class, "Name", LockableCategory::new),
+                    create(CommandBlockTileEntity.class, "Command block", CommandBlockCategory::new),
+                    create(MobSpawnerTileEntity.class, "Mob Spawner", MobSpawnerCategory::new),
+                    create(MobSpawnerTileEntity.class, "Spawn Potentials", SpawnPotentialsCategory::new)
             );
         }
 

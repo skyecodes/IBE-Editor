@@ -15,19 +15,19 @@ import com.github.franckyi.ibeeditor.client.gui.editor.entity.EntityEditor;
 import com.github.franckyi.ibeeditor.client.logic.clipboard.EntityClipboardEntry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntityMobSpawner;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.tileentity.MobSpawnerTileEntity;
 
 import java.util.function.Consumer;
 
-public class MobSpawnerCategory extends TileEntityCategory<TileEntityMobSpawner> {
+public class MobSpawnerCategory extends TileEntityCategory<MobSpawnerTileEntity> {
 
-    private final NBTTagCompound tag;
-    private NBTTagCompound spawnData;
+    private final CompoundNBT tag;
+    private CompoundNBT spawnData;
 
-    public MobSpawnerCategory(TileEntityMobSpawner tileEntityMobSpawner) {
+    public MobSpawnerCategory(MobSpawnerTileEntity tileEntityMobSpawner) {
         super(tileEntityMobSpawner);
-        tag = t.write(new NBTTagCompound());
+        tag = t.write(new CompoundNBT());
         spawnData = tag.getCompound("SpawnData");
         this.addEntityProperty();
         this.add("Spawn count", "SpawnCount");
@@ -40,7 +40,7 @@ public class MobSpawnerCategory extends TileEntityCategory<TileEntityMobSpawner>
     }
 
     private void addEntityProperty() {
-        this.getChildren().add(0, new EntityProperty(EntityType.getById(spawnData.getString("id")), spawnData, this::setEntity, this::setEntity));
+        this.getChildren().add(0, new EntityProperty(EntityType.byKey(spawnData.getString("id")).orElse(EntityType.PIG), spawnData, this::setEntity, this::setEntity));
     }
 
     private void setEntity(EntityClipboardEntry entry) {
@@ -51,7 +51,7 @@ public class MobSpawnerCategory extends TileEntityCategory<TileEntityMobSpawner>
         this.setData(ClientUtils.getCleanEntityTag(entity));
     }
 
-    private void setData(NBTTagCompound tag) {
+    private void setData(CompoundNBT tag) {
         spawnData = tag;
         this.getChildren().remove(0);
         this.addEntityProperty();
@@ -68,11 +68,11 @@ public class MobSpawnerCategory extends TileEntityCategory<TileEntityMobSpawner>
         t.read(tag);
     }
 
-    private class EntityProperty extends AbstractProperty<Void> {
+    private static class EntityProperty extends AbstractProperty<Void> {
 
         private final Label entityLabel;
 
-        public EntityProperty(EntityType<?> entityType, NBTTagCompound spawnData, Consumer<EntityClipboardEntry> action0, Consumer<Entity> action1) {
+        public EntityProperty(EntityType<?> entityType, CompoundNBT spawnData, Consumer<EntityClipboardEntry> action0, Consumer<Entity> action1) {
             super(null, aVoid -> {
             });
             this.getNode().setAlignment(Pos.LEFT);

@@ -2,18 +2,18 @@ package com.github.franckyi.ibeeditor.common.network.editor.entity;
 
 import com.github.franckyi.ibeeditor.common.network.IMessage;
 import net.minecraft.entity.Entity;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkEvent;
 
 public class EntityEditorMessage implements IMessage {
 
     private int id;
-    private NBTTagCompound nbt;
+    private CompoundNBT nbt;
 
     public EntityEditorMessage(Entity entity) {
         this.id = entity.getEntityId();
-        this.nbt = entity.writeWithoutTypeId(new NBTTagCompound());
+        this.nbt = entity.writeWithoutTypeId(new CompoundNBT());
     }
 
     public EntityEditorMessage(PacketBuffer buffer) {

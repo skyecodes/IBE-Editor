@@ -5,8 +5,7 @@ import com.github.franckyi.guapi.Node;
 import com.github.franckyi.guapi.Scene;
 import com.github.franckyi.guapi.gui.IGuiView;
 import com.google.common.collect.Lists;
-import net.minecraft.client.gui.GuiTextField;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
+import net.minecraft.client.gui.widget.TextFieldWidget;
 
 import java.util.HashSet;
 import java.util.List;
@@ -69,14 +68,14 @@ public abstract class TextFieldBase<T> extends Node<TextFieldBase.GuiTextFieldVi
         return this.getView().tooltipText;
     }
 
-    public static class GuiTextFieldView extends GuiTextField implements IGuiView {
+    public static class GuiTextFieldView extends TextFieldWidget implements IGuiView {
 
         private final List<String> tooltipText;
-        private Scene.Screen screen;
+        private Scene.GUAPIScreen screen;
         private boolean changed;
 
         public GuiTextFieldView(String... tooltipText) {
-            super(0, mc.fontRenderer, 0, 0, 0, 0);
+            super(mc.fontRenderer, 0, 0, 0, 0, "");
             this.tooltipText = Lists.newArrayList(tooltipText);
             this.setMaxStringLength(Short.MAX_VALUE);
         }
@@ -103,23 +102,22 @@ public abstract class TextFieldBase<T> extends Node<TextFieldBase.GuiTextFieldVi
 
         @Override
         public int getViewWidth() {
-            return super.getWidth();
+            return this.getWidth();
         }
 
         @Override
         public void setViewWidth(int width) {
-            this.width = width;
-            ObfuscationReflectionHelper.setPrivateValue(GuiTextField.class, this, 0, "field_146225_q");
+            this.setWidth(width);
         }
 
         @Override
         public int getViewHeight() {
-            return height;
+            return this.getHeight();
         }
 
         @Override
         public void setViewHeight(int height) {
-            this.height = height;
+            this.setHeight(height);
         }
 
         @Override
@@ -134,12 +132,12 @@ public abstract class TextFieldBase<T> extends Node<TextFieldBase.GuiTextFieldVi
 
         @Override
         public void renderView(int mouseX, int mouseY, float partialTicks) {
-            this.drawTextField(mouseX, mouseY, partialTicks);
+            this.render(mouseX, mouseY, partialTicks);
             if (this.inBounds(mouseX, mouseY)) {
                 if (screen == null) {
-                    screen = (Scene.Screen) mc.currentScreen;
+                    screen = (Scene.GUAPIScreen) mc.currentScreen;
                 }
-                screen.drawHoveringText(tooltipText, mouseX, mouseY);
+                screen.renderTooltip(tooltipText, mouseX, mouseY);
             }
         }
 

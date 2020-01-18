@@ -82,7 +82,7 @@ public abstract class AbstractEditor extends Scene {
         header.setPrefWidth(content.getWidth());
         footer.setPrefWidth(content.getWidth());
         categories.setPrefSize(content.getWidth() / 3, content.getHeight() - 60);
-        categories.getView().height = content.getHeight();
+        categories.getView().setHeight(content.getHeight());
         if (propertiesList.isEmpty()) {
             categories.setVisible(false);
         } else {
@@ -92,7 +92,7 @@ public abstract class AbstractEditor extends Scene {
 
     protected void scalePropertiesSize(AbstractCategory category) {
         category.setPrefSize(2 * content.getWidth() / 3, content.getHeight() - 60);
-        category.getView().height = content.getHeight();
+        category.getView().setHeight(content.getHeight());
         category.getChildren().forEach(p -> p.updateSize(propertiesList.get(currentIndex).getWidth()));
     }
 

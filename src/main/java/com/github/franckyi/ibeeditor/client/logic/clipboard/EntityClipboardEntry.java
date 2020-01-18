@@ -3,12 +3,12 @@ package com.github.franckyi.ibeeditor.client.logic.clipboard;
 import com.github.franckyi.ibeeditor.client.ClientUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
 
 public class EntityClipboardEntry implements IClipboardEntry {
 
-    private final NBTTagCompound entityTag;
+    private final CompoundNBT entityTag;
     private EntityType<?> entityType;
     private Entity entity;
 
@@ -25,13 +25,13 @@ public class EntityClipboardEntry implements IClipboardEntry {
         buffer.writeCompoundTag(entityTag);
     }
 
-    public NBTTagCompound getEntityTag() {
+    public CompoundNBT getEntityTag() {
         return entityTag;
     }
 
     public EntityType<?> getEntityType() {
         if (entityType == null) {
-            entityType = EntityType.getById(entityTag.getString("id"));
+            entityType = EntityType.byKey(entityTag.getString("id")).orElse(EntityType.PIG);
         }
         return entityType;
     }

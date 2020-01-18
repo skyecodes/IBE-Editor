@@ -17,10 +17,10 @@ import com.github.franckyi.ibeeditor.client.gui.editor.entity.EntityEditor;
 import com.github.franckyi.ibeeditor.client.logic.clipboard.EntityClipboardEntry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.init.Items;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.tileentity.TileEntityMobSpawner;
+import net.minecraft.item.Items;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.ListNBT;
+import net.minecraft.tileentity.MobSpawnerTileEntity;
 import net.minecraftforge.common.util.Constants;
 
 import java.util.ArrayList;
@@ -29,20 +29,20 @@ import java.util.function.Consumer;
 
 public class SpawnPotentialsCategory extends EditableCategory<SpawnPotentialsCategory.SpawnPotentialModel> {
 
-    private final TileEntityMobSpawner tileEntity;
+    private final MobSpawnerTileEntity tileEntity;
     private final List<SpawnPotentialModel> spawnPotentialList;
-    private final NBTTagCompound tag;
-    private NBTTagList spawnPotentialsTag;
+    private final CompoundNBT tag;
+    private ListNBT spawnPotentialsTag;
 
-    public SpawnPotentialsCategory(TileEntityMobSpawner tileEntity) {
+    public SpawnPotentialsCategory(MobSpawnerTileEntity tileEntity) {
         this.tileEntity = tileEntity;
         spawnPotentialList = new ArrayList<>();
-        tag = new NBTTagCompound();
+        tag = new CompoundNBT();
         tileEntity.write(tag);
         spawnPotentialsTag = tag.getList("SpawnPotentials", Constants.NBT.TAG_COMPOUND);
         this.getChildren().add(new AddButton("Add spawn potential"));
         for (int i = 0; i < spawnPotentialsTag.size(); i++) {
-            NBTTagCompound spawnPotential = spawnPotentialsTag.getCompound(i);
+            CompoundNBT spawnPotential = spawnPotentialsTag.getCompound(i);
             this.addProperty(new SpawnPotentialModel(spawnPotential.getInt("Weight"), spawnPotential.getCompound("Entity")));
         }
     }
@@ -54,7 +54,7 @@ public class SpawnPotentialsCategory extends EditableCategory<SpawnPotentialsCat
 
     @Override
     protected SpawnPotentialModel getDefaultPropertyValue() {
-        NBTTagCompound tag = new NBTTagCompound();
+        CompoundNBT tag = new CompoundNBT();
         tag.putString("id", "minecraft:pig");
         return new SpawnPotentialModel(0, tag);
     }
@@ -67,7 +67,7 @@ public class SpawnPotentialsCategory extends EditableCategory<SpawnPotentialsCat
         spawnPotentialsTag.clear();
         super.apply();
         spawnPotentialList.forEach(spawnPotential -> {
-            NBTTagCompound tag = new NBTTagCompound();
+            CompoundNBT tag = new CompoundNBT();
             tag.putInt("Weight", spawnPotential.weight);
             tag.put("Entity", spawnPotential.tag);
             spawnPotentialsTag.add(tag);
@@ -75,10 +75,21 @@ public class SpawnPotentialsCategory extends EditableCategory<SpawnPotentialsCat
         tileEntity.read(tag);
     }
 
+    protected static class SpawnPotentialModel {
+
+        private int weight;
+        private CompoundNBT tag;
+
+        private SpawnPotentialModel(int weight, CompoundNBT tag) {
+            this.weight = weight;
+            this.tag = tag;
+        }
+    }
+
     private class SpawnPotentialProperty extends AbstractProperty<SpawnPotentialModel> implements IEditableCategoryProperty {
 
         private PropertyControls controls;
-        private NBTTagCompound tag;
+        private CompoundNBT tag;
 
         private TexturedButton entityButton;
         private Label weightLabel;
@@ -132,10 +143,11 @@ public class SpawnPotentialsCategory extends EditableCategory<SpawnPotentialsCat
         }
 
         private void updateEntityButton() {
-            EntityType<?> entityType = EntityType.getById(tag.getString("id"));
-            ((TexturedButton.GuiTexturedButtonView) entityButton.getView()).setResource(EntityIcons.getHeadFromEntityType(entityType));
-            entityButton.getText().clear();
-            entityButton.getText().add(entityType.getName().getFormattedText());
+            EntityType.byKey(tag.getString("id")).ifPresent(entityType -> {
+                ((TexturedButton.GuiTexturedButtonView) entityButton.getView()).setResource(EntityIcons.getHeadFromEntityType(entityType));
+                entityButton.getText().clear();
+                entityButton.getText().add(entityType.getName().getFormattedText());
+            });
         }
 
         @Override
@@ -146,17 +158,6 @@ public class SpawnPotentialsCategory extends EditableCategory<SpawnPotentialsCat
         @Override
         public void updateSize(int listWidth) {
             weightField.setPrefWidth(listWidth - 245);
-        }
-    }
-
-    protected class SpawnPotentialModel {
-
-        private int weight;
-        private NBTTagCompound tag;
-
-        private SpawnPotentialModel(int weight, NBTTagCompound tag) {
-            this.weight = weight;
-            this.tag = tag;
         }
     }
 }

@@ -1,22 +1,22 @@
 package com.github.franckyi.guapi.scene;
 
-import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.screen.Screen;
 
 @FunctionalInterface
 public interface IBackground {
 
-    IBackground DEFAULT = GuiScreen::drawDefaultBackground;
+    IBackground DEFAULT = Screen::renderBackground;
     IBackground NONE = guiScreen -> {
     };
 
     static IBackground texturedBackground(int tint) {
-        return guiScreen -> guiScreen.drawBackground(tint);
+        return guiScreen -> guiScreen.renderDirtBackground(tint);
     }
 
     static IBackground worldBackground(int tint) {
-        return guiScreen -> guiScreen.drawWorldBackground(tint);
+        return guiScreen -> guiScreen.renderBackground(tint);
     }
 
-    void draw(GuiScreen screen);
+    void draw(Screen screen);
 
 }

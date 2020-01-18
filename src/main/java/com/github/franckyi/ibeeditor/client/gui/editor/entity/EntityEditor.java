@@ -7,9 +7,9 @@ import com.github.franckyi.ibeeditor.client.gui.editor.base.CapabilityProviderEd
 import com.github.franckyi.ibeeditor.common.network.IBENetworkHandler;
 import com.github.franckyi.ibeeditor.common.network.editor.entity.EntityEditorMessage;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.text.TextFormatting;
 
 import java.util.function.Consumer;
@@ -30,10 +30,10 @@ public class EntityEditor extends CapabilityProviderEditor {
         header.getChildren().add(new TexturedButton(
                 EntityIcons.getHeadFromEntityType(entity.getType()), entity.getName().getFormattedText()));
         this.addCategory("General", new GeneralEntityCategory(entity));
-        if (!(entity instanceof EntityPlayer)) {
+        if (!(entity instanceof PlayerEntity)) {
             //this.applyConfigurations(this.getCapabilityConfigurations(), entity); // NOT READY
-            if (entity instanceof EntityLiving) {
-                this.addCategory("Inventory", new InventoryEntityCategory((EntityLiving) entity));
+            if (entity instanceof LivingEntity) {
+                this.addCategory("Inventory", new InventoryEntityCategory((LivingEntity) entity));
             }
             this.addCategory("Tools", new ToolsEntityCategory(entity));
         }
@@ -42,9 +42,9 @@ public class EntityEditor extends CapabilityProviderEditor {
 
     @Override
     protected void apply() {
-        NBTTagCompound entityTag = entity.writeWithoutTypeId(new NBTTagCompound());
+        CompoundNBT entityTag = entity.writeWithoutTypeId(new CompoundNBT());
         super.apply();
-        NBTTagCompound newTag = entity.writeWithoutTypeId(new NBTTagCompound());
+        CompoundNBT newTag = entity.writeWithoutTypeId(new CompoundNBT());
         if (entityTag.equals(newTag)) {
             IBENotification.show(IBENotification.Type.EDITOR, 3, TextFormatting.YELLOW + "Nothing to save.");
         } else {

@@ -3,7 +3,7 @@ package com.github.franckyi.guapi;
 import com.github.franckyi.guapi.event.IEventListener;
 import com.github.franckyi.guapi.gui.IGuiView;
 import com.github.franckyi.guapi.math.Insets;
-import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
@@ -62,9 +62,9 @@ public abstract class Node<V extends IGuiView> implements IScreenEventListener {
     }
 
     public Scene getScene() {
-        GuiScreen screen = mc.currentScreen;
-        if (screen instanceof Scene.Screen) {
-            return ((Scene.Screen) screen).getScene();
+        Screen screen = mc.currentScreen;
+        if (screen instanceof Scene.GUAPIScreen) {
+            return ((Scene.GUAPIScreen) screen).getScene();
         }
         return null;
     }
@@ -292,7 +292,7 @@ public abstract class Node<V extends IGuiView> implements IScreenEventListener {
 
     @Override
     public boolean onMouseScrolled(GuiScreenEvent.MouseScrollEvent event) {
-        if (this.getView().isViewVisible() && this.getView().mouseScrolled(event.getScrollDelta())) {
+        if (this.getView().isViewVisible() && this.getView().mouseScrolled(event.getMouseX(), event.getMouseY(), event.getScrollDelta())) {
             IScreenEventListener.super.onMouseScrolled(event);
             return true;
         }
@@ -390,8 +390,8 @@ public abstract class Node<V extends IGuiView> implements IScreenEventListener {
         }
 
         private static <T extends GuiScreenEvent> void handle(T event, BiConsumer<IScreenEventListener, T> eh) {
-            if (event != null && event.getGui() instanceof Scene.Screen) {
-                Scene scene = ((Scene.Screen) event.getGui()).getScene();
+            if (event != null && event.getGui() instanceof Scene.GUAPIScreen) {
+                Scene scene = ((Scene.GUAPIScreen) event.getGui()).getScene();
                 if (scene != null && scene.getContent() != null) {
                     propagate(scene.getContent(), event, eh);
                     event.setCanceled(true);

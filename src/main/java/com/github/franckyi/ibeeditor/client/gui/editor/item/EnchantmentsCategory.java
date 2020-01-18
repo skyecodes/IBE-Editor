@@ -6,8 +6,8 @@ import com.github.franckyi.ibeeditor.client.gui.editor.base.AbstractCategory;
 import com.github.franckyi.ibeeditor.client.gui.editor.base.property.PropertyInteger;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -21,10 +21,10 @@ public class EnchantmentsCategory extends AbstractCategory {
 
     public EnchantmentsCategory(ItemStack itemStack) {
         this.itemStack = itemStack;
-        NBTTagList enchTag = itemStack.getEnchantmentTagList();
+        ListNBT enchTag = itemStack.getEnchantmentTagList();
         Map<Enchantment, Integer> itemEnch = new HashMap<>(enchTag.size());
         for (int i = 0; i < enchTag.size(); i++) {
-            NBTTagCompound c = enchTag.getCompound(i);
+            CompoundNBT c = enchTag.getCompound(i);
             String id = c.getString("id");
             int level = c.getInt("lvl");
             itemEnch.put(ForgeRegistries.ENCHANTMENTS.getValue(new ResourceLocation(id)), level);

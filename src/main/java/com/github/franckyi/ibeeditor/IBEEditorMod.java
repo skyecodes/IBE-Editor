@@ -5,13 +5,13 @@ import com.github.franckyi.ibeeditor.common.IBEConfiguration;
 import com.github.franckyi.ibeeditor.common.IProxy;
 import com.github.franckyi.ibeeditor.common.network.IBENetworkHandler;
 import com.github.franckyi.ibeeditor.common.network.handshake.S2CHandshake;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
@@ -50,7 +50,7 @@ public class IBEEditorMod {
 
     private void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
         IBENetworkHandler.getModChannel().sendTo(new S2CHandshake(),
-                ((EntityPlayerMP) event.getPlayer()).connection.netManager, NetworkDirection.PLAY_TO_CLIENT);
+                ((ServerPlayerEntity) event.getPlayer()).connection.netManager, NetworkDirection.PLAY_TO_CLIENT);
     }
 
     private void onPlayerLoggedOut(PlayerEvent.PlayerLoggedOutEvent event) {

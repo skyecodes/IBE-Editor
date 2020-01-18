@@ -31,7 +31,7 @@ public class PropertyFormattedText extends PropertyString {
             } else {
                 textField.setValue(textField.getValue() + "§");
             }
-            textField.getView().setFocused(true);
+            textField.getView().changeFocus(true);
         });
     }
 

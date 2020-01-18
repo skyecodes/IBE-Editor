@@ -1,11 +1,11 @@
 package com.github.franckyi.ibeeditor.client;
 
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
@@ -14,19 +14,19 @@ public final class ClientUtils {
 
     private static final Minecraft mc = Minecraft.getInstance();
 
-    public static Entity createEntity(NBTTagCompound entityTag) {
-        EntityType<?> entityType = EntityType.getById(entityTag.getString("id"));
+    public static Entity createEntity(CompoundNBT entityTag) {
+        EntityType<?> entityType = EntityType.byKey(entityTag.getString("id")).orElse(EntityType.PIG);
         return createEntity(entityType, entityTag);
     }
 
-    public static <T extends Entity> T createEntity(EntityType<T> entityType, NBTTagCompound entityTag) {
+    public static <T extends Entity> T createEntity(EntityType<T> entityType, CompoundNBT entityTag) {
         T entity = entityType.create(Minecraft.getInstance().world);
         entity.read(entityTag);
         return entity;
     }
 
-    public static NBTTagCompound getCleanEntityTag(Entity entity) {
-        NBTTagCompound tag = new NBTTagCompound();
+    public static CompoundNBT getCleanEntityTag(Entity entity) {
+        CompoundNBT tag = new CompoundNBT();
         entity.writeUnlessRemoved(tag);
         tag.remove("UUIDMost");
         tag.remove("UUIDLeast");
@@ -39,7 +39,7 @@ public final class ClientUtils {
         IBENotification.show(IBENotification.Type.EDITOR, 3, TextFormatting.GREEN + "Command copied to clipboard.");
     }
 
-    private static String getGiveCommand(ResourceLocation name, NBTTagCompound tag, int count) {
+    private static String getGiveCommand(ResourceLocation name, CompoundNBT tag, int count) {
         return String.format("/give @p %s%s %d", name, tag, count);
     }
 
@@ -47,12 +47,12 @@ public final class ClientUtils {
         return getGiveCommand(itemStack.getItem().getRegistryName(), itemStack.getOrCreateTag(), itemStack.getCount());
     }
 
-    private static String getGiveCommand(IBlockState blockState, TileEntity tileEntity) {
-        NBTTagCompound tag = new NBTTagCompound();
+    private static String getGiveCommand(BlockState blockState, TileEntity tileEntity) {
+        CompoundNBT tag = new CompoundNBT();
         return getGiveCommand(blockState.getBlock().getRegistryName(), tileEntity == null ? tag : tileEntity.write(tag), 1);
     }
 
-    private static String getSetblockCommand(IBlockState blockState, TileEntity tileEntity) {
+    private static String getSetblockCommand(BlockState blockState, TileEntity tileEntity) {
         StringBuilder builder = new StringBuilder("[");
         blockState.getProperties().forEach(property -> builder
                 .append(property.getName()).append("=")
@@ -62,7 +62,7 @@ public final class ClientUtils {
             builder.deleteCharAt(builder.length() - 1);
         }
         builder.append("]");
-        NBTTagCompound tag = new NBTTagCompound();
+        CompoundNBT tag = new CompoundNBT();
         return String.format("/setblock ~ ~ ~ %s%s%s",
                 blockState.getBlock().getRegistryName(), builder, tileEntity == null ? tag : tileEntity.write(tag));
     }
@@ -80,19 +80,19 @@ public final class ClientUtils {
         copyCommand(TextFormatting.getTextWithoutFormattingCodes(getGiveCommand(itemStack)));
     }
 
-    public static void copyGiveCommand(IBlockState blockState, TileEntity tileEntity) {
+    public static void copyGiveCommand(BlockState blockState, TileEntity tileEntity) {
         copyCommand(getGiveCommand(blockState, tileEntity));
     }
 
-    public static void copyGiveCommandWithoutFormatting(IBlockState blockState, TileEntity tileEntity) {
+    public static void copyGiveCommandWithoutFormatting(BlockState blockState, TileEntity tileEntity) {
         copyCommand(TextFormatting.getTextWithoutFormattingCodes(getGiveCommand(blockState, tileEntity)));
     }
 
-    public static void copySetblockCommand(IBlockState blockState, TileEntity tileEntity) {
+    public static void copySetblockCommand(BlockState blockState, TileEntity tileEntity) {
         copyCommand(getSetblockCommand(blockState, tileEntity));
     }
 
-    public static void copySetblockCommandWithoutFormatting(IBlockState blockState, TileEntity tileEntity) {
+    public static void copySetblockCommandWithoutFormatting(BlockState blockState, TileEntity tileEntity) {
         copyCommand(TextFormatting.getTextWithoutFormattingCodes(getSetblockCommand(blockState, tileEntity)));
     }
 

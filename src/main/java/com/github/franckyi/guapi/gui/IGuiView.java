@@ -42,7 +42,7 @@ public interface IGuiView extends IGuiEventListener {
     }
 
     @Override
-    default boolean mouseScrolled(double amount) {
+    default boolean mouseScrolled(double mouseX, double mouseY, double amount) {
         return false;
     }
 
@@ -62,12 +62,7 @@ public interface IGuiView extends IGuiEventListener {
     }
 
     @Override
-    default void focusChanged(boolean focused) {
-
-    }
-
-    @Override
-    default boolean canFocus() {
+    default boolean changeFocus(boolean focused) {
         return false;
     }
 

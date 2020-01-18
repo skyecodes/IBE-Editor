@@ -52,11 +52,11 @@ public class TexturedButton extends Node<TexturedButton.GuiGraphicButtonView> {
     }
 
     public boolean isDisabled() {
-        return !this.getView().enabled;
+        return !this.getView().active;
     }
 
     public void setDisabled(boolean disabled) {
-        this.getView().enabled = !disabled;
+        this.getView().active = !disabled;
     }
 
     public List<String> getText() {
@@ -116,8 +116,8 @@ public class TexturedButton extends Node<TexturedButton.GuiGraphicButtonView> {
                 }
                 mc.getTextureManager().bindTexture(texture);
                 this.drawModalRectWithCustomSizedTexture(this.x + 2, this.y + 2, 0, 0, 16, 16, 16, 16, 2);
-                if (this.hovered && !tooltipText.isEmpty()) {
-                    mc.currentScreen.drawHoveringText(tooltipText, mouseX, mouseY);
+                if (this.isHovered() && !tooltipText.isEmpty()) {
+                    mc.currentScreen.renderTooltip(tooltipText, mouseX, mouseY);
                 }
             }
         }
@@ -160,7 +160,7 @@ public class TexturedButton extends Node<TexturedButton.GuiGraphicButtonView> {
 
         private final ItemStack item;
         private final boolean showTooltip;
-        private Scene.Screen screen;
+        private Scene.GUAPIScreen screen;
 
         public GuiItemTexturedButtonView(ItemStack item, boolean showTooltip) {
             this.item = item;
@@ -175,11 +175,11 @@ public class TexturedButton extends Node<TexturedButton.GuiGraphicButtonView> {
                 int y = this.y + 2;
                 mc.getItemRenderer().renderItemAndEffectIntoGUI(item, x, y);
                 mc.getItemRenderer().renderItemOverlays(mc.fontRenderer, item, x, y);
-                if (this.hovered && this.showTooltip) {
+                if (this.isHovered() && this.showTooltip) {
                     if (screen == null) {
-                        screen = (Scene.Screen) mc.currentScreen;
+                        screen = (Scene.GUAPIScreen) mc.currentScreen;
                     }
-                    screen.renderToolTip(item, mouseX, mouseY);
+                    screen.renderTooltip(item, mouseX, mouseY);
                 }
             }
         }

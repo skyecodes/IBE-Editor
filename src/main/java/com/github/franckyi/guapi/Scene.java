@@ -5,12 +5,14 @@ import com.github.franckyi.guapi.node.TextFieldBase;
 import com.github.franckyi.guapi.scene.IBackground;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.client.config.GuiUtils;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -36,8 +38,8 @@ public class Scene implements IScreenEventListener, IParent {
     private final Set<Runnable> onResizeListeners;
     private final Set<Runnable> onTickListeners;
 
-    private final Screen screen;
-    private GuiScreen oldScreen;
+    private final GUAPIScreen screen;
+    private Screen oldScreen;
     private Node content;
 
     private boolean guiPauseGame;
@@ -49,7 +51,7 @@ public class Scene implements IScreenEventListener, IParent {
     }
 
     public Scene(Node content) {
-        screen = new Screen(this);
+        screen = new GUAPIScreen(this);
         if (content != null) {
             this.content = content;
             content.setParent(this);
@@ -74,7 +76,7 @@ public class Scene implements IScreenEventListener, IParent {
         onTickListeners = new HashSet<>();
     }
 
-    public Screen getScreen() {
+    public GUAPIScreen getScreen() {
         return screen;
     }
 
@@ -337,8 +339,8 @@ public class Scene implements IScreenEventListener, IParent {
         }
 
         private static <T extends GuiScreenEvent> void handle(T event, BiConsumer<Scene, T> eh) {
-            if (event != null && event.getGui() instanceof Screen) {
-                Scene scene = ((Screen) event.getGui()).getScene();
+            if (event != null && event.getGui() instanceof GUAPIScreen) {
+                Scene scene = ((GUAPIScreen) event.getGui()).getScene();
                 if (scene != null) {
                     eh.accept(scene, event);
                 }
@@ -347,12 +349,13 @@ public class Scene implements IScreenEventListener, IParent {
 
     }
 
-    public class Screen extends GuiScreen {
+    public class GUAPIScreen extends Screen {
 
         private final Scene scene;
         private final Set<Tooltip> tooltips;
 
-        public Screen(Scene scene) {
+        public GUAPIScreen(Scene scene) {
+            super(new StringTextComponent(""));
             this.scene = scene;
             tooltips = new HashSet<>();
         }
@@ -362,9 +365,9 @@ public class Scene implements IScreenEventListener, IParent {
         }
 
         @Override
-        public void setWorldAndResolution(Minecraft mc, int width, int height) {
+        public void init(Minecraft mc, int width, int height) {
             boolean flag = this.getScene().isContentFullScreen();
-            super.setWorldAndResolution(mc, width, height);
+            super.init(mc, width, height);
             if (flag) {
                 this.getScene().setContentFullScreen();
             } else {
@@ -377,37 +380,38 @@ public class Scene implements IScreenEventListener, IParent {
             this.getScene().getBackground().draw(this);
             RenderHelper.enableGUIStandardItemLighting();
             this.getScene().render(mouseX, mouseY, partialTicks);
-            tooltips.forEach(tooltip -> super.drawHoveringText(tooltip.textLines, tooltip.x, tooltip.y, tooltip.font));
+            tooltips.forEach(tooltip -> GuiUtils.drawHoveringText(tooltip.textLines, tooltip.x, tooltip.y, width, height, Integer.MAX_VALUE, tooltip.font));
             tooltips.clear();
         }
 
         @Override
-        public boolean allowCloseWithEscape() {
+        public boolean shouldCloseOnEsc() {
             return this.getScene().doesGuiCloseWithEscape();
         }
 
         @Override
-        public boolean doesGuiPauseGame() {
+        public boolean isPauseScreen() {
             return this.getScene().doesGuiPauseGame();
         }
 
         @Override
         public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-            if (keyCode == 256 && this.allowCloseWithEscape()) {
-                this.close();
+            if (keyCode == 256 && this.shouldCloseOnEsc()) {
+                this.onClose();
                 return true;
             }
             return false;
         }
 
         @Override
-        public void onGuiClosed() {
+        public void onClose() {
             this.getScene().onGuiClosed();
+            super.onClose();
         }
 
         @Override
-        public void onResize(Minecraft mcIn, int w, int h) {
-            super.onResize(mcIn, w, h);
+        public void resize(Minecraft mcIn, int w, int h) {
+            super.resize(mcIn, w, h);
             this.getScene().onResize();
         }
 
@@ -417,22 +421,22 @@ public class Scene implements IScreenEventListener, IParent {
         }
 
         @Override
-        public void renderToolTip(ItemStack stack, int x, int y) {
-            super.renderToolTip(stack, x, y);
+        public void renderTooltip(ItemStack stack, int x, int y) {
+            super.renderTooltip(stack, x, y);
         }
 
         @Override
-        public void drawHoveringText(String text, int x, int y) {
-            tooltips.add(new Tooltip(Collections.singletonList(text), x, y, fontRenderer));
+        public void renderTooltip(String text, int x, int y) {
+            tooltips.add(new Tooltip(Collections.singletonList(text), x, y, font));
         }
 
         @Override
-        public void drawHoveringText(List<String> textLines, int x, int y) {
-            tooltips.add(new Tooltip(textLines, x, y, fontRenderer));
+        public void renderTooltip(List<String> textLines, int x, int y) {
+            tooltips.add(new Tooltip(textLines, x, y, font));
         }
 
         @Override
-        public void drawHoveringText(List<String> textLines, int x, int y, FontRenderer font) {
+        public void renderTooltip(List<String> textLines, int x, int y, FontRenderer font) {
             tooltips.add(new Tooltip(textLines, x, y, font));
         }
 

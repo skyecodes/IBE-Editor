@@ -7,7 +7,7 @@ import com.github.franckyi.ibeeditor.client.gui.editor.base.property.PropertyInt
 import com.github.franckyi.ibeeditor.common.network.IBENetworkHandler;
 import com.github.franckyi.ibeeditor.common.network.editor.entity.EntityEditorMessage;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.StringTextComponent;
 
 public class GeneralEntityCategory extends AbstractCategory {
 
@@ -24,8 +24,7 @@ public class GeneralEntityCategory extends AbstractCategory {
                 new PropertyBoolean("Silent", entity.isSilent(), entity::setSilent),
                 new PropertyBoolean("No gravity", entity.hasNoGravity(), entity::setNoGravity),
                 new PropertyBoolean("Glowing", entity.isGlowing(), entity::setGlowing),
-                new PropertyInteger("Fire", (int) entity.getEntityData().getShort("Fire"),
-                        i -> entity.setFire(i / 20), Short.MIN_VALUE, Short.MAX_VALUE)
+                new PropertyInteger("Fire", entity.getFireTimer(), entity::setFireTimer)
         );
     }
 
@@ -33,7 +32,7 @@ public class GeneralEntityCategory extends AbstractCategory {
         if (s.isEmpty()) {
             entity.setCustomName(null);
         } else {
-            entity.setCustomName(new TextComponentString(s));
+            entity.setCustomName(new StringTextComponent(s));
         }
     }
 

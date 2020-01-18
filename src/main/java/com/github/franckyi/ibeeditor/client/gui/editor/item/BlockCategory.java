@@ -8,11 +8,11 @@ import com.github.franckyi.ibeeditor.client.gui.editor.base.category.EditableCat
 import com.github.franckyi.ibeeditor.client.gui.editor.base.property.IEditableCategoryProperty;
 import com.github.franckyi.ibeeditor.client.gui.editor.base.property.LabeledProperty;
 import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
+import net.minecraft.block.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.nbt.NBTTagString;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.ListNBT;
+import net.minecraft.nbt.StringNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -29,9 +29,9 @@ public class BlockCategory extends EditableCategory<Block> {
         this.itemStack = itemStack;
         this.tagName = tagName;
         this.getChildren().add(new AddButton("Add block"));
-        NBTTagCompound tag = itemStack.getOrCreateTag();
+        CompoundNBT tag = itemStack.getOrCreateTag();
         if (tag.contains(tagName, Constants.NBT.TAG_LIST)) {
-            NBTTagList list = tag.getList(tagName, Constants.NBT.TAG_STRING);
+            ListNBT list = tag.getList(tagName, Constants.NBT.TAG_STRING);
             for (int i = 0; i < list.size(); i++) {
                 this.addProperty(stringToBlock(list.getString(i)));
             }
@@ -51,11 +51,11 @@ public class BlockCategory extends EditableCategory<Block> {
 
     private void addBlock(Block block) {
         if (flag) {
-            itemStack.getOrCreateTag().put(tagName, new NBTTagList());
+            itemStack.getOrCreateTag().put(tagName, new ListNBT());
             flag = false;
         }
         itemStack.getOrCreateTag().getList(tagName, Constants.NBT.TAG_STRING)
-                .add(new NBTTagString(block.getRegistryName().toString()));
+                .add(new StringNBT(block.getRegistryName().toString()));
     }
 
     @Override

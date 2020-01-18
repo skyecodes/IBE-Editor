@@ -1,7 +1,7 @@
 package com.github.franckyi.ibeeditor.client.logic.clipboard;
 
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
 
 public class ItemClipboardEntry implements IClipboardEntry {
@@ -22,7 +22,7 @@ public class ItemClipboardEntry implements IClipboardEntry {
 
     @Override
     public void write(PacketBuffer buffer) {
-        buffer.writeCompoundTag(itemStack.write(new NBTTagCompound()));
+        buffer.writeCompoundTag(itemStack.write(new CompoundNBT()));
     }
 
     public ItemStack getItemStack() {

@@ -7,18 +7,20 @@ import com.github.franckyi.ibeeditor.client.gui.clipboard.ViewClipboard;
 import com.github.franckyi.ibeeditor.client.logic.clipboard.IBEClipboard;
 import com.github.franckyi.ibeeditor.common.IProxy;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.gui.inventory.GuiContainerCreative;
-import net.minecraft.client.gui.inventory.GuiInventory;
+import net.minecraft.client.gui.screen.inventory.ContainerScreen;
+import net.minecraft.client.gui.screen.inventory.CreativeScreen;
+import net.minecraft.client.gui.screen.inventory.InventoryScreen;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.client.util.InputMappings;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.settings.KeyConflictContext;
 import net.minecraftforge.client.settings.KeyModifier;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.lwjgl.glfw.GLFW;
 
 public class ClientProxy implements IProxy {
@@ -55,22 +57,16 @@ public class ClientProxy implements IProxy {
     }
 
     private void onKeyPressed(GuiScreenEvent.KeyboardKeyPressedEvent.Pre e) {
-        if (e.getGui() instanceof GuiContainer && e.getKeyCode() == KEY_OPEN_EDITOR.getKey().getKeyCode()) {
-            GuiContainer gui = (GuiContainer) e.getGui();
+        if (e.getGui() instanceof ContainerScreen && e.getKeyCode() == KEY_OPEN_EDITOR.getKey().getKeyCode()) {
+            ContainerScreen<?> gui = (ContainerScreen<?>) e.getGui();
             if (gui.getSlotUnderMouse() != null && gui.getSlotUnderMouse().getHasStack()) {
-                if (gui instanceof GuiInventory || gui instanceof GuiContainerCreative) {
+                if (gui instanceof InventoryScreen || gui instanceof CreativeScreen) {
                     EditorHelper.openItemEditorFromGui(gui.getSlotUnderMouse());
                 } else {
-                    switch (mc.objectMouseOver.type) {
-                        case BLOCK:
-                            EditorHelper.openItemEditorFromGui(gui.getSlotUnderMouse(), mc.objectMouseOver.getBlockPos());
-                            break;
-                        case ENTITY:
-                            EditorHelper.openItemEditorFromGui(gui.getSlotUnderMouse(), mc.objectMouseOver.entity);
-                            break;
-                        case MISS:
-                        default:
-                            break;
+                    if (mc.objectMouseOver instanceof BlockRayTraceResult) {
+                        EditorHelper.openItemEditorFromGui(gui.getSlotUnderMouse(), ((BlockRayTraceResult) mc.objectMouseOver).getPos());
+                    } else if (mc.objectMouseOver instanceof EntityRayTraceResult) {
+                        EditorHelper.openItemEditorFromGui(gui.getSlotUnderMouse(), ((EntityRayTraceResult) mc.objectMouseOver).getEntity());
                     }
                 }
             }

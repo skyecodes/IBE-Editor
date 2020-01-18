@@ -5,7 +5,7 @@ import com.github.franckyi.ibeeditor.client.EditorHelper;
 import com.github.franckyi.ibeeditor.common.network.IMessage;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.network.NetworkEvent;
 
@@ -47,7 +47,7 @@ public class OpenEditorMessage implements IMessage {
                 break;
         }
         if (!res) {
-            Minecraft.getInstance().player.sendMessage(new TextComponentString(TextFormatting.YELLOW +
+            Minecraft.getInstance().player.sendMessage(new StringTextComponent(TextFormatting.YELLOW +
                     "Can't open editor : no " + argument + " found."));
         }
     }

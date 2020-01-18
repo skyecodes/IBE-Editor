@@ -2,8 +2,8 @@ package com.github.franckyi.ibeeditor.client.gui.editor.entity;
 
 import com.github.franckyi.ibeeditor.client.gui.editor.base.AbstractCategory;
 import com.github.franckyi.ibeeditor.client.gui.editor.base.property.custom.SlotProperty;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import org.apache.commons.lang3.StringUtils;
 
@@ -12,13 +12,13 @@ import java.util.TreeMap;
 
 public class InventoryEntityCategory extends AbstractCategory {
 
-    private final EntityLiving entity;
-    private final Map<EntityEquipmentSlot, ItemStack> inventory;
+    private final LivingEntity entity;
+    private final Map<EquipmentSlotType, ItemStack> inventory;
 
-    public InventoryEntityCategory(EntityLiving entity) {
+    public InventoryEntityCategory(LivingEntity entity) {
         this.entity = entity;
         inventory = new TreeMap<>();
-        for (EntityEquipmentSlot slot : EntityEquipmentSlot.values()) {
+        for (EquipmentSlotType slot : EquipmentSlotType.values()) {
             inventory.put(slot, entity.getItemStackFromSlot(slot).copy());
         }
         build();
@@ -33,7 +33,7 @@ public class InventoryEntityCategory extends AbstractCategory {
         inventory.forEach(entity::setItemStackToSlot);
     }
 
-    private void update(EntityEquipmentSlot slot, ItemStack itemStack) {
+    private void update(EquipmentSlotType slot, ItemStack itemStack) {
         inventory.put(slot, itemStack);
         this.getChildren().clear();
         build();

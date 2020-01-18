@@ -2,7 +2,7 @@ package com.github.franckyi.guapi.node;
 
 import com.github.franckyi.guapi.Node;
 import com.github.franckyi.guapi.gui.AbstractGuiView;
-import net.minecraft.client.renderer.GlStateManager;
+import com.mojang.blaze3d.platform.GlStateManager;
 
 import java.awt.*;
 

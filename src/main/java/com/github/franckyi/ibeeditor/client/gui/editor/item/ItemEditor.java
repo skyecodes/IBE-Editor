@@ -6,10 +6,10 @@ import com.github.franckyi.ibeeditor.client.gui.editor.base.AbstractCategory;
 import com.github.franckyi.ibeeditor.client.gui.editor.base.CapabilityProviderEditor;
 import com.github.franckyi.ibeeditor.common.network.IBENetworkHandler;
 import com.github.franckyi.ibeeditor.common.network.IMessage;
-import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemPotion;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemTippedArrow;
+import net.minecraft.item.PotionItem;
+import net.minecraft.item.TippedArrowItem;
 import net.minecraft.util.text.TextFormatting;
 
 import java.util.function.Consumer;
@@ -33,14 +33,14 @@ public class ItemEditor extends CapabilityProviderEditor {
         this.action = action;
         header.getChildren().add(new TexturedButton(itemStack));
         this.addCategory("General", new GeneralItemCategory(itemStack));
-        if (itemStack.getItem() instanceof ItemPotion || itemStack.getItem() instanceof ItemTippedArrow) {
+        if (itemStack.getItem() instanceof PotionItem || itemStack.getItem() instanceof TippedArrowItem) {
             this.addCategory("Potion effects", new PotionCategory(itemStack));
         }
         this.applyConfigurations(this.getCapabilityConfigurations(), itemStack);
         this.addCategory("Enchantments", new EnchantmentsCategory(itemStack));
         this.addCategory("Attribute modifiers", new AttributeModifiersCategory(itemStack));
         this.addCategory("Hide Flags", new HideFlagsCategory(itemStack));
-        if (itemStack.getItem() instanceof ItemBlock) {
+        if (itemStack.getItem() instanceof BlockItem) {
             this.addCategory("Can place on", new BlockCategory(itemStack, "CanPlaceOn"));
         }
         this.addCategory("Can destroy", new BlockCategory(itemStack, "CanDestroy"));
