@@ -106,7 +106,7 @@ public class MobSpawnerCategory extends TileEntityCategory<MobSpawnerTileEntity>
 
         @Override
         public void updateSize(int listWidth) {
-            entityLabel.setPrefWidth(listWidth - 157);
+            entityLabel.setPrefWidth(listWidth - OFFSET - 155);
         }
     }
 }

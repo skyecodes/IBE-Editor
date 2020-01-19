@@ -31,7 +31,7 @@ public class SlotProperty extends LabeledProperty<Void> {
             TexturedButton itemButton;
             TexturedButton removeButton;
             this.getNode().getChildren().add(0, itemButton = new TexturedButton(itemStack));
-            itemButton.setMargin(Insets.right(10));
+            itemButton.setMargin(Insets.right(9));
             this.addAll(
                     actionButton = new Button("Open Item Editor"),
                     removeButton = new TexturedButton("delete.png", TextFormatting.RED + "Remove")
@@ -39,7 +39,7 @@ public class SlotProperty extends LabeledProperty<Void> {
             actionButton.getOnMouseClickedListeners().add(e ->
                     new ItemEditor(itemStack, null, update));
             removeButton.getOnMouseClickedListeners().add(e -> update.accept(ItemStack.EMPTY));
-            actionButton.setPrefWidth(100);
+            actionButton.setPrefWidth(99);
         }
     }
 
@@ -54,6 +54,6 @@ public class SlotProperty extends LabeledProperty<Void> {
 
     @Override
     public void updateSize(int listWidth) {
-        nameLabel.setPrefWidth(listWidth - 195);
+        nameLabel.setPrefWidth(listWidth - OFFSET - 191);
     }
 }

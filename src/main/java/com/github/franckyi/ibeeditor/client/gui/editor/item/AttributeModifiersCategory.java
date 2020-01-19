@@ -113,7 +113,7 @@ public class AttributeModifiersCategory extends EditableCategory<AttributeModifi
 
         private TextField nameField;
         private EnumButton<EquipmentSlotType> slotButton;
-        private EnumButton<AttributeModifier.Operation> operationField;
+        private EnumButton<AttributeModifier.Operation> operationButton;
         private DoubleField amountField;
 
         public PropertyAttributeModifier(int index, AttributeModifierModel initialValue, Consumer<AttributeModifierModel> action) {
@@ -126,14 +126,14 @@ public class AttributeModifiersCategory extends EditableCategory<AttributeModifi
         public AttributeModifierModel getValue() {
             return new AttributeModifierModel(nameField.getValue(), new AttributeModifier(
                     initialValue.getModifier().getID(), initialValue.getModifier().getName(),
-                    amountField.getValue(), operationField.getValue()), slotButton.getValue());
+                    amountField.getValue(), operationButton.getValue()), slotButton.getValue());
         }
 
         @Override
         protected void setValue(AttributeModifierModel value) {
             nameField.setValue(value.getAttributeName());
             slotButton.setValue(value.getSlot());
-            operationField.setValue(value.getModifier().getOperation());
+            operationButton.setValue(value.getModifier().getOperation());
             amountField.setValue(value.getModifier().getAmount());
         }
 
@@ -143,24 +143,24 @@ public class AttributeModifiersCategory extends EditableCategory<AttributeModifi
             this.addAll(
                     nameField = new TextField(initialValue.getAttributeName()),
                     slotButton = new EnumButton<>(EquipmentSlotType.values()),
-                    operationField = new EnumButton<>(AttributeModifier.Operation.values()),
+                    operationButton = new EnumButton<>(AttributeModifier.Operation.values()),
                     amountField = new DoubleField(initialValue.getModifier().getAmount())
             );
-            operationField.setValue(initialValue.getModifier().getOperation());
-            nameField.setMargin(Insets.left(5));
+            nameField.getTooltipText().add("Attribute name");
             slotButton.setValue(initialValue.getSlot());
             slotButton.setRenderer(aSlot -> StringUtils.capitalize(aSlot.getName().toLowerCase()));
-            slotButton.setMargin(Insets.horizontal(2));
-            operationField.setPrefWidth(15);
-            amountField.setMargin(Insets.horizontal(2));
-            nameField.getTooltipText().add("Attribute name");
-            //operationField.getTooltipText().add("Operation");
+            slotButton.getTooltipText().add("Slot");
+            operationButton.setValue(initialValue.getModifier().getOperation());
+            operationButton.setRenderer(operation -> Integer.toString(operation.getId()));
+            operationButton.setPrefWidth(12);
+            operationButton.getTooltipText().add("Operation");
+            amountField.setMargin(Insets.left(2));
             amountField.getTooltipText().add("Amount");
         }
 
         @Override
         public void updateSize(int listWidth) {
-            amountField.setPrefWidth(listWidth - 268);
+            amountField.setPrefWidth(listWidth - OFFSET - 252);
         }
 
         @Override

@@ -158,6 +158,16 @@ public class ListExtended<E extends ExtendedList.AbstractListEntry & IScreenEven
         }
 
         @Override
+        protected int getScrollbarPosition() {
+            return x1 - 7;
+        }
+
+        @Override
+        public int getRowWidth() {
+            return this.getWidth();
+        }
+
+        @Override
         public void renderView(int mouseX, int mouseY, float partialTicks) {
             super.render(mouseX, mouseY, partialTicks);
         }
@@ -212,11 +222,12 @@ public class ListExtended<E extends ExtendedList.AbstractListEntry & IScreenEven
         @Override
         public void render(int index, int entryTop, int entryLeft, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean p_194999_5_, float partialTicks) {
             GuiListExtendedView list = this.getList();
-            int width = entryWidth - list.getOffset().getHorizontal() - 10;
+            int width = entryWidth - list.getOffset().getHorizontal() - 5;
             if (entryLeft != node.getX() || entryTop != node.getY())
                 node.setPosition(entryLeft + 4, entryTop);
             if (width != node.getWidth() || entryHeight != node.getHeight())
                 node.setPrefSize(width - 10, entryHeight);
+            //AbstractGui.fill(node.getX(), node.getY(), node.getX() + node.getWidth(), node.getY() + node.getHeight(), Color.RED.getRGB());
             node.render(mouseX, mouseY, partialTicks);
         }
 

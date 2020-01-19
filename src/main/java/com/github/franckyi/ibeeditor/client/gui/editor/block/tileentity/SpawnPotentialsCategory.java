@@ -157,7 +157,7 @@ public class SpawnPotentialsCategory extends EditableCategory<SpawnPotentialsCat
 
         @Override
         public void updateSize(int listWidth) {
-            weightField.setPrefWidth(listWidth - 245);
+            weightField.setPrefWidth(listWidth - OFFSET - 246);
         }
     }
 }

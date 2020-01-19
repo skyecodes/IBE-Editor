@@ -50,7 +50,7 @@ public abstract class ToolsCategory extends AbstractCategory {
 
         @Override
         public void updateSize(int listWidth) {
-            button.setPrefWidth(listWidth - 45);
+            button.setPrefWidth(listWidth - OFFSET * 2 - 40);
         }
     }
 }

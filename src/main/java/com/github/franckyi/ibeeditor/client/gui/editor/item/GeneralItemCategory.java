@@ -124,12 +124,12 @@ public class GeneralItemCategory extends EditableCategory<String> {
         @Override
         public void update(int newIndex) {
             IOrderableEditableCategoryProperty.super.update(newIndex);
-            nameLabel.setText("Lore #" + (newIndex + 1) + " :");
+            nameLabel.setText("Lore #" + (newIndex + 1));
         }
 
         @Override
         public void updateSize(int listWidth) {
-            textField.setPrefWidth(listWidth - 197);
+            textField.setPrefWidth(listWidth - OFFSET - 198);
         }
 
     }

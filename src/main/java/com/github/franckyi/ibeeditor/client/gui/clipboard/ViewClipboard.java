@@ -80,7 +80,7 @@ public class ViewClipboard extends AbstractClipboard {
 
         @Override
         public void updateSize(int listWidth) {
-            nameLabel.setPrefWidth(listWidth - 279);
+            nameLabel.setPrefWidth(listWidth - OFFSET - 279);
         }
     }
 
@@ -110,7 +110,7 @@ public class ViewClipboard extends AbstractClipboard {
 
         @Override
         public void updateSize(int listWidth) {
-            nameLabel.setPrefWidth(listWidth - 279);
+            nameLabel.setPrefWidth(listWidth - OFFSET - 279);
         }
 
     }

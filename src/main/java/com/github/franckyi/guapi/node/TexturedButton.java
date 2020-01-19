@@ -63,6 +63,10 @@ public class TexturedButton extends Node<TexturedButton.GuiGraphicButtonView> {
         return this.getView().getText();
     }
 
+    public List<String> getTooltipText() {
+        return this.getView().tooltipText;
+    }
+
     @Override
     protected void computeWidth() {
         this.setComputedWidth(20);

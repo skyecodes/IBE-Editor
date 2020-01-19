@@ -106,11 +106,11 @@ public class BlockCategory extends EditableCategory<Block> {
 
         @Override
         public void updateSize(int listWidth) {
-            blockField.setPrefWidth(listWidth / 2 - 35);
+            blockField.setPrefWidth(listWidth / 2 - OFFSET - 35);
         }
 
         private void update() {
-            nameLabel.setText(getValue().getNameTextComponent().getUnformattedComponentText() + " :");
+            nameLabel.setText(getValue().getNameTextComponent().getUnformattedComponentText());
             this.updateChildrenPos();
         }
 

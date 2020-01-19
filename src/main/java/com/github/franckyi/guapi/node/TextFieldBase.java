@@ -24,8 +24,14 @@ public abstract class TextFieldBase<T> extends Node<TextFieldBase.GuiTextFieldVi
         this.updateSize();
     }
 
+    @Override
     public int getWidth() {
-        return super.getWidth() + 10;
+        return super.getWidth() + 2;
+    }
+
+    @Override
+    public int getX() {
+        return super.getX() - 1;
     }
 
     @Override
@@ -133,6 +139,7 @@ public abstract class TextFieldBase<T> extends Node<TextFieldBase.GuiTextFieldVi
         @Override
         public void renderView(int mouseX, int mouseY, float partialTicks) {
             this.render(mouseX, mouseY, partialTicks);
+            //AbstractGui.fill(x, y, x + width, y + height, Color.RED.getRGB());
             if (this.inBounds(mouseX, mouseY)) {
                 if (screen == null) {
                     screen = (Scene.GUAPIScreen) mc.currentScreen;
@@ -143,7 +150,7 @@ public abstract class TextFieldBase<T> extends Node<TextFieldBase.GuiTextFieldVi
 
         @Override
         public boolean inBounds(double x, double y) {
-            return x >= this.getViewX() && x <= this.getViewX() + this.getViewWidth() + 8 &&
+            return x >= this.getViewX() && x <= this.getViewX() + this.getViewWidth() &&
                     y >= this.getViewY() && y <= this.getViewY() + this.getViewHeight();
         }
 

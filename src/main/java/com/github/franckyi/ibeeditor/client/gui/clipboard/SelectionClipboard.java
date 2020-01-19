@@ -48,7 +48,7 @@ public class SelectionClipboard<T extends IClipboardEntry> extends AbstractClipb
 
         @Override
         public void updateSize(int listWidth) {
-            nameLabel.setPrefWidth(listWidth - 159);
+            nameLabel.setPrefWidth(listWidth - OFFSET - 159);
         }
     }
 
@@ -67,7 +67,7 @@ public class SelectionClipboard<T extends IClipboardEntry> extends AbstractClipb
 
         @Override
         public void updateSize(int listWidth) {
-            nameLabel.setPrefWidth(listWidth - 159);
+            nameLabel.setPrefWidth(listWidth - OFFSET - 159);
         }
     }
 

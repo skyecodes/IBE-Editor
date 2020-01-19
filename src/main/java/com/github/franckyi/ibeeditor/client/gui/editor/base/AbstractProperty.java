@@ -22,7 +22,7 @@ public abstract class AbstractProperty<T> extends ListExtended.NodeEntry<HBox> i
     private final Set<BiConsumer<T, T>> onValueChangedListeners;
 
     public AbstractProperty(T initialValue, Consumer<T> action) {
-        super(new HBox());
+        super(new HBox(1));
         this.initialValue = initialValue;
         this.action = action;
         onValueChangedListeners = new HashSet<>();

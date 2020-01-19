@@ -55,8 +55,11 @@ public final class EditorHelper {
     public static boolean openBlockEditor() {
         RayTraceResult res = mc.objectMouseOver;
         if (res instanceof BlockRayTraceResult) {
-            openBlockEditor(((BlockRayTraceResult) res).getPos());
-            return true;
+            BlockRayTraceResult block = (BlockRayTraceResult) res;
+            if (!mc.world.isAirBlock(block.getPos())) {
+                openBlockEditor(block.getPos());
+                return true;
+            }
         }
         return false;
     }

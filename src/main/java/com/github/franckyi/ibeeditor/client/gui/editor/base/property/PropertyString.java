@@ -35,6 +35,6 @@ public class PropertyString extends LabeledProperty<String> {
 
     @Override
     public void updateSize(int listWidth) {
-        textField.setPrefWidth(listWidth - 67 - nameLabel.getWidth());
+        textField.setPrefWidth(listWidth - nameLabel.getWidth() - OFFSET - 64);
     }
 }

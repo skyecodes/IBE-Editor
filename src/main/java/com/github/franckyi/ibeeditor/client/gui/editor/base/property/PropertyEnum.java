@@ -33,7 +33,7 @@ public class PropertyEnum<T> extends LabeledProperty<T> {
 
     @Override
     public void updateSize(int listWidth) {
-        nameLabel.setPrefWidth(listWidth - enumButton.getWidth() - 70);
+        nameLabel.setPrefWidth(listWidth - enumButton.getWidth() - OFFSET - 67);
     }
 
     @Override

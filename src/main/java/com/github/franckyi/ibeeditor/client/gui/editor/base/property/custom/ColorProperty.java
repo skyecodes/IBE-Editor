@@ -15,7 +15,7 @@ public class ColorProperty extends LabeledProperty<Color> {
     protected IntegerField red;
     protected IntegerField green;
     protected IntegerField blue;
-    protected HBox testGroup;
+    protected HBox previewGroup;
 
     public ColorProperty(String name, Color initialValue, Consumer<Color> action) {
         super(name, initialValue, action, 70);
@@ -40,12 +40,12 @@ public class ColorProperty extends LabeledProperty<Color> {
                 red = new IntegerField(0, 0, 255),
                 green = new IntegerField(0, 0, 255),
                 blue = new IntegerField(0, 0, 255),
-                testGroup = new HBox()
+                previewGroup = new HBox()
         );
         red.setPrefWidth(26);
         green.setPrefWidth(26);
         blue.setPrefWidth(26);
-        testGroup.setAlignment(Pos.CENTER);
+        previewGroup.setAlignment(Pos.CENTER);
         red.getTooltipText().add(TextFormatting.RED + "Red");
         green.getTooltipText().add(TextFormatting.GREEN + "Green");
         blue.getTooltipText().add(TextFormatting.BLUE + "Blue");
@@ -57,6 +57,6 @@ public class ColorProperty extends LabeledProperty<Color> {
 
     @Override
     public void updateSize(int listWidth) {
-        testGroup.setPrefWidth(listWidth - 219);
+        previewGroup.setPrefWidth(listWidth - OFFSET - 219);
     }
 }

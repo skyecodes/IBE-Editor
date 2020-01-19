@@ -81,7 +81,7 @@ public class EnchantmentsCategory extends AbstractCategory {
         }
     }
 
-    public class PropertyEnchantment extends PropertyInteger {
+    public static class PropertyEnchantment extends PropertyInteger {
 
         protected TexturedButton plusButton;
         protected TexturedButton minusButton;
@@ -115,7 +115,7 @@ public class EnchantmentsCategory extends AbstractCategory {
 
         @Override
         public void updateSize(int listWidth) {
-            integerField.setPrefWidth(listWidth - 250);
+            integerField.setPrefWidth(listWidth - OFFSET - 250);
         }
     }
 }

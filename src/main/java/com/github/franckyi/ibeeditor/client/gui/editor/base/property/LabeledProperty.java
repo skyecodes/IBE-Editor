@@ -17,7 +17,7 @@ public abstract class LabeledProperty<T> extends AbstractProperty<T> {
 
     public LabeledProperty(String name, T initialValue, Consumer<T> action, int labelSize) {
         super(initialValue, action);
-        nameLabel.setText(name + " :");
+        nameLabel.setText(name);
         nameLabel.setPrefWidth(labelSize);
     }
 

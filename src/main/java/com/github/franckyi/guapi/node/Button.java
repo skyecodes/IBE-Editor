@@ -45,6 +45,10 @@ public class Button extends Node<Button.GuiButtonView> {
         this.getView().active = !disabled;
     }
 
+    public List<String> getTooltipText() {
+        return this.getView().tooltipText;
+    }
+
     @Override
     protected void computeWidth() {
         this.setComputedWidth(mc.fontRenderer.getStringWidth(this.getText()) + this.getPadding().getVertical() + 10);

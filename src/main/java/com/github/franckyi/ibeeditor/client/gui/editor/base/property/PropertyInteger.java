@@ -41,6 +41,6 @@ public class PropertyInteger extends LabeledProperty<Integer> {
 
     @Override
     public void updateSize(int listWidth) {
-        integerField.setPrefWidth(listWidth - 67 - nameLabel.getWidth());
+        integerField.setPrefWidth(listWidth - nameLabel.getWidth() - OFFSET - 64);
     }
 }

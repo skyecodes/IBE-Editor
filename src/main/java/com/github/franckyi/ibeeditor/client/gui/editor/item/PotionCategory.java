@@ -31,7 +31,6 @@ public class PotionCategory extends EditableCategory<PotionCategory.PotionEffect
 
     public PotionCategory(ItemStack itemStack) {
         super(1);
-        mc.mouseHelper.ungrabMouse();
         this.itemStack = itemStack;
         effects = PotionUtils.getFullEffectsFromItem(itemStack);
         this.addAll(
@@ -148,7 +147,7 @@ public class PotionCategory extends EditableCategory<PotionCategory.PotionEffect
 
         @Override
         public void updateSize(int listWidth) {
-            name.setPrefWidth(listWidth - 193);
+            name.setPrefWidth(listWidth - OFFSET - 195);
         }
     }
 
@@ -188,7 +187,9 @@ public class PotionCategory extends EditableCategory<PotionCategory.PotionEffect
             super.setValue(value);
             ItemStack stack = new ItemStack(Items.POTION);
             stack.getOrCreateTag().putInt("CustomPotionColor", value.getRGB());
-            testGroup.getChildren().set(0, new TexturedButton(stack, false));
+            TexturedButton previewButton = new TexturedButton(stack, false);
+            previewButton.getTooltipText().add("Preview");
+            previewGroup.getChildren().set(0, previewButton);
         }
 
         @Override
@@ -204,12 +205,14 @@ public class PotionCategory extends EditableCategory<PotionCategory.PotionEffect
                 effects.addAll(PotionUtils.getPotionFromItem(itemStack).getEffects());
                 this.setValue(new Color(PotionUtils.getPotionColorFromEffectList(effects)));
             });
-            testGroup.getChildren().add(new TexturedButton(new ItemStack(Items.POTION), false));
+            TexturedButton previewButton = new TexturedButton(new ItemStack(Items.POTION), false);
+            previewButton.getTooltipText().add("Preview");
+            previewGroup.getChildren().add(previewButton);
         }
 
         @Override
         public void updateSize(int listWidth) {
-            testGroup.setPrefWidth(listWidth - 239);
+            previewGroup.setPrefWidth(listWidth - OFFSET - 240);
         }
     }
 }

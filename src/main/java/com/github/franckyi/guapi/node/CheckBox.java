@@ -5,7 +5,9 @@ import com.github.franckyi.guapi.Node;
 import com.github.franckyi.guapi.Scene;
 import com.github.franckyi.guapi.gui.IGuiView;
 import com.google.common.collect.Lists;
-import net.minecraftforge.fml.client.config.GuiCheckBox;
+import net.minecraftforge.client.event.GuiScreenEvent;
+import net.minecraftforge.fml.client.config.GuiButtonExt;
+import net.minecraftforge.fml.client.config.GuiUtils;
 
 import java.util.HashSet;
 import java.util.List;
@@ -31,6 +33,8 @@ public class CheckBox extends Node<CheckBox.GuiCheckBoxView> implements IValueNo
     public CheckBox(String text, boolean checked) {
         super(new GuiCheckBoxView(text, checked));
         onValueChangedListeners = new HashSet<>();
+        this.computeSize();
+        this.updateSize();
     }
 
     public String getText() {
@@ -47,7 +51,7 @@ public class CheckBox extends Node<CheckBox.GuiCheckBoxView> implements IValueNo
 
     public void setValue(boolean checked) {
         boolean old = this.getValue();
-        this.getView().setIsChecked(checked);
+        this.getView().setChecked(checked);
         if (old != checked) {
             this.onValueChanged(old, checked);
         }
@@ -76,19 +80,38 @@ public class CheckBox extends Node<CheckBox.GuiCheckBoxView> implements IValueNo
     }
 
     @Override
+    public boolean onMouseClicked(GuiScreenEvent.MouseClickedEvent event) {
+        if (super.onMouseClicked(event)) {
+            this.setValue(!this.getValue());
+            return true;
+        }
+        return false;
+    }
+
+    @Override
     public Set<BiConsumer<Boolean, Boolean>> getOnValueChangedListeners() {
         return onValueChangedListeners;
     }
 
-    public static class GuiCheckBoxView extends GuiCheckBox implements IGuiView {
+    public static class GuiCheckBoxView extends GuiButtonExt implements IGuiView {
 
+        private boolean checked;
         private final List<String> tooltipText;
         private Scene.GUAPIScreen screen;
 
-        public GuiCheckBoxView(String displayString, boolean isChecked, String... tooltipText) {
-            super(0, 0, displayString, isChecked);
-            packedFGColor = 0xffffff;
+        public GuiCheckBoxView(String displayString, boolean checked, String... tooltipText) {
+            super(0, 0, 0, 0, displayString, (b) -> {
+            });
+            this.checked = checked;
             this.tooltipText = Lists.newArrayList(tooltipText);
+        }
+
+        public boolean isChecked() {
+            return checked;
+        }
+
+        public void setChecked(boolean checked) {
+            this.checked = checked;
         }
 
         @Override
@@ -143,8 +166,13 @@ public class CheckBox extends Node<CheckBox.GuiCheckBoxView> implements IValueNo
 
         @Override
         public void renderView(int mouseX, int mouseY, float partialTicks) {
-            this.render(mouseX, mouseY, partialTicks);
-            if (this.isHovered) {
+            int boxWidth = this.height;
+            GuiUtils.drawContinuousTexturedBox(WIDGETS_LOCATION, this.x, this.y, 0, 46, boxWidth, this.height, 200, 20, 2, 3, 2, 2, this.blitOffset);
+            if (this.checked) {
+                this.drawCenteredString(mc.fontRenderer, "x", this.x + boxWidth / 2 + 1, this.y + 1, 14737632);
+            }
+            this.drawString(mc.fontRenderer, this.getMessage(), this.x + boxWidth + 2, this.y + 2, 0xffffff);
+            if (this.inBounds(mouseX, mouseY)) {
                 if (screen == null) {
                     screen = (Scene.GUAPIScreen) mc.currentScreen;
                 }

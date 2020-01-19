@@ -37,7 +37,7 @@ public class PropertyFormattedText extends PropertyString {
 
     @Override
     public void updateSize(int listWidth) {
-        textField.setPrefWidth(listWidth - 87 - nameLabel.getWidth());
+        textField.setPrefWidth(listWidth - nameLabel.getWidth() - OFFSET - 85);
     }
 
 }

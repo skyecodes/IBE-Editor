@@ -33,6 +33,6 @@ public class PropertyBoolean extends AbstractProperty<Boolean> {
 
     @Override
     public void updateSize(int listWidth) {
-        checkBox.setPrefWidth(listWidth - 60);
+        checkBox.setPrefWidth(listWidth - OFFSET - 56);
     }
 }
