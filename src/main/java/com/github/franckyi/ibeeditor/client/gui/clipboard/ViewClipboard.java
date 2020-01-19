@@ -6,11 +6,11 @@ import com.github.franckyi.guapi.node.Button;
 import com.github.franckyi.guapi.node.EnumButton;
 import com.github.franckyi.guapi.node.Label;
 import com.github.franckyi.guapi.node.TexturedButton;
+import com.github.franckyi.ibeeditor.client.clipboard.EntityClipboardEntry;
+import com.github.franckyi.ibeeditor.client.clipboard.IBEClipboard;
+import com.github.franckyi.ibeeditor.client.clipboard.ItemClipboardEntry;
 import com.github.franckyi.ibeeditor.client.gui.editor.entity.EntityEditor;
 import com.github.franckyi.ibeeditor.client.gui.editor.item.ItemEditor;
-import com.github.franckyi.ibeeditor.client.logic.clipboard.EntityClipboardEntry;
-import com.github.franckyi.ibeeditor.client.logic.clipboard.IBEClipboard;
-import com.github.franckyi.ibeeditor.client.logic.clipboard.ItemClipboardEntry;
 import net.minecraft.util.text.TextFormatting;
 
 import java.util.List;
@@ -80,7 +80,7 @@ public class ViewClipboard extends AbstractClipboard {
 
         @Override
         public void updateSize(int listWidth) {
-            nameLabel.setPrefWidth(listWidth - OFFSET - 279);
+            nameLabel.setPrefWidth(listWidth - OFFSET - 281);
         }
     }
 
@@ -110,7 +110,7 @@ public class ViewClipboard extends AbstractClipboard {
 
         @Override
         public void updateSize(int listWidth) {
-            nameLabel.setPrefWidth(listWidth - OFFSET - 279);
+            nameLabel.setPrefWidth(listWidth - OFFSET - 281);
         }
 
     }

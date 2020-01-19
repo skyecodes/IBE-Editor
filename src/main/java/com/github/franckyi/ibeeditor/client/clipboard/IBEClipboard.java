@@ -1,4 +1,4 @@
-package com.github.franckyi.ibeeditor.client.logic.clipboard;
+package com.github.franckyi.ibeeditor.client.clipboard;
 
 import com.github.franckyi.ibeeditor.IBEEditorMod;
 import com.github.franckyi.ibeeditor.client.IBENotification;

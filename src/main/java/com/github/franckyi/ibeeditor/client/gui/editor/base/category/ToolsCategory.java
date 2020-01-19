@@ -20,7 +20,7 @@ public abstract class ToolsCategory extends AbstractCategory {
         this.getChildren().add(new ButtonProperty(text, action));
     }
 
-    private class ButtonProperty extends AbstractProperty<Void> {
+    private static class ButtonProperty extends AbstractProperty<Void> {
 
         private Button button;
 

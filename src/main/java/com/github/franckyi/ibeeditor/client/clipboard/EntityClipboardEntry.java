@@ -1,4 +1,4 @@
-package com.github.franckyi.ibeeditor.client.logic.clipboard;
+package com.github.franckyi.ibeeditor.client.clipboard;
 
 import com.github.franckyi.ibeeditor.client.ClientUtils;
 import net.minecraft.entity.Entity;

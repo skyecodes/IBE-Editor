@@ -17,7 +17,7 @@ public abstract class CapabilityProviderEditor extends AbstractEditor {
     }
 
     protected List<? extends CapabilityProviderEditorConfiguration<Object>> getCapabilityConfigurations() {
-        return CapabilityProviderEditorConfiguration.get();
+        return CapabilityProviderEditorConfiguration.config;
     }
 
     protected static class CapabilityProviderEditorConfiguration<T> extends AbstractEditorConfiguration<CapabilityProvider<?>, T> {
@@ -37,10 +37,6 @@ public abstract class CapabilityProviderEditor extends AbstractEditor {
             return Arrays.asList(
                     createCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, "Inventory", ItemHandlerCategory::new)
             );
-        }
-
-        private static List<? extends CapabilityProviderEditorConfiguration<Object>> get() {
-            return config;
         }
 
         private static <T> CapabilityProviderEditorConfiguration createCapability(Capability<T> capability, String name, Function<T, AbstractCategory> categoryBuilder) {

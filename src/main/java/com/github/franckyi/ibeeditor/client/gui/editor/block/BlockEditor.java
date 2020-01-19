@@ -42,7 +42,7 @@ public class BlockEditor extends CapabilityProviderEditor {
         }
         if (tileEntity != null) {
             this.applyConfigurations(this.getCapabilityConfigurations(), tileEntity);
-            this.applyConfigurations(BlockEditorConfiguration.get(), tileEntity);
+            this.applyConfigurations(BlockEditorConfiguration.config, tileEntity);
         }
         this.addCategory("Tools", new ToolsBlockCategory(this));
         this.show();
@@ -100,10 +100,6 @@ public class BlockEditor extends CapabilityProviderEditor {
                     create(MobSpawnerTileEntity.class, "Mob Spawner", MobSpawnerCategory::new),
                     create(MobSpawnerTileEntity.class, "Spawn Potentials", SpawnPotentialsCategory::new)
             );
-        }
-
-        private static List<? extends BlockEditorConfiguration<Object>> get() {
-            return config;
         }
 
         private static <T> BlockEditorConfiguration create(Class<T> teClass, String name, Function<T, AbstractCategory> categoryBuilder) {

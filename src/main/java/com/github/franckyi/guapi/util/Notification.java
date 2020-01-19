@@ -29,8 +29,7 @@ public class Notification {
     public static void onRenderTick(TickEvent.RenderTickEvent e) {
         if (e.phase == TickEvent.Phase.END) {
             int j = 20;
-            for (int i = 0; i < notifications.size(); i++) {
-                Notification notification = notifications.get(i);
+            for (Notification notification : notifications) {
                 GuiUtils.drawHoveringText(notification.textLines, 0, j, mc.mainWindow.getWidth(),
                         mc.mainWindow.getHeight(), mc.mainWindow.getWidth(), mc.fontRenderer);
                 j += 5 + 12 * notification.textLines.size();

@@ -3,11 +3,11 @@ package com.github.franckyi.ibeeditor.client.gui.editor.base.property.custom;
 import com.github.franckyi.guapi.math.Insets;
 import com.github.franckyi.guapi.node.Button;
 import com.github.franckyi.guapi.node.TexturedButton;
+import com.github.franckyi.ibeeditor.client.clipboard.ItemClipboardEntry;
 import com.github.franckyi.ibeeditor.client.gui.clipboard.AbstractClipboard;
 import com.github.franckyi.ibeeditor.client.gui.clipboard.SelectionClipboard;
 import com.github.franckyi.ibeeditor.client.gui.editor.base.property.LabeledProperty;
 import com.github.franckyi.ibeeditor.client.gui.editor.item.ItemEditor;
-import com.github.franckyi.ibeeditor.client.logic.clipboard.ItemClipboardEntry;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextFormatting;
 

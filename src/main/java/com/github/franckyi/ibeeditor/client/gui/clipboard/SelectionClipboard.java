@@ -1,9 +1,9 @@
 package com.github.franckyi.ibeeditor.client.gui.clipboard;
 
 import com.github.franckyi.guapi.node.Button;
-import com.github.franckyi.ibeeditor.client.logic.clipboard.EntityClipboardEntry;
-import com.github.franckyi.ibeeditor.client.logic.clipboard.IClipboardEntry;
-import com.github.franckyi.ibeeditor.client.logic.clipboard.ItemClipboardEntry;
+import com.github.franckyi.ibeeditor.client.clipboard.EntityClipboardEntry;
+import com.github.franckyi.ibeeditor.client.clipboard.IClipboardEntry;
+import com.github.franckyi.ibeeditor.client.clipboard.ItemClipboardEntry;
 import net.minecraft.util.text.TextFormatting;
 
 import java.util.function.Consumer;
@@ -36,6 +36,7 @@ public class SelectionClipboard<T extends IClipboardEntry> extends AbstractClipb
     private class ItemView extends ItemViewBase {
         private final Button selectButton;
 
+        @SuppressWarnings("unchecked")
         public ItemView(ItemClipboardEntry item) {
             super(item);
             children.add(selectButton = new Button(TextFormatting.GREEN + "Select"));
@@ -48,13 +49,14 @@ public class SelectionClipboard<T extends IClipboardEntry> extends AbstractClipb
 
         @Override
         public void updateSize(int listWidth) {
-            nameLabel.setPrefWidth(listWidth - OFFSET - 159);
+            nameLabel.setPrefWidth(listWidth - OFFSET - 161);
         }
     }
 
     private class EntityView extends EntityViewBase {
         private final Button selectButton;
 
+        @SuppressWarnings("unchecked")
         public EntityView(EntityClipboardEntry entity) {
             super(entity);
             children.add(selectButton = new Button(TextFormatting.GREEN + "Select"));
@@ -67,7 +69,7 @@ public class SelectionClipboard<T extends IClipboardEntry> extends AbstractClipb
 
         @Override
         public void updateSize(int listWidth) {
-            nameLabel.setPrefWidth(listWidth - OFFSET - 159);
+            nameLabel.setPrefWidth(listWidth - OFFSET - 161);
         }
     }
 

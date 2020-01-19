@@ -46,11 +46,6 @@ public class TexturedButton extends Node<TexturedButton.GuiGraphicButtonView> {
         this.updateSize();
     }
 
-    @Override
-    public GuiGraphicButtonView getView() {
-        return super.getView();
-    }
-
     public boolean isDisabled() {
         return !this.getView().active;
     }
@@ -143,13 +138,13 @@ public class TexturedButton extends Node<TexturedButton.GuiGraphicButtonView> {
             Tessellator tessellator = Tessellator.getInstance();
             BufferBuilder vertexbuffer = tessellator.getBuffer();
             vertexbuffer.begin(7, DefaultVertexFormats.POSITION_TEX);
-            vertexbuffer.pos((double) x, (double) (y + height), zLevel)
-                    .tex((double) (u * f), (double) ((v + (float) height) * f1)).endVertex();
-            vertexbuffer.pos((double) (x + width), (double) (y + height), zLevel)
-                    .tex((double) ((u + (float) width) * f), (double) ((v + (float) height) * f1)).endVertex();
-            vertexbuffer.pos((double) (x + width), (double) y, zLevel)
-                    .tex((double) ((u + (float) width) * f), (double) (v * f1)).endVertex();
-            vertexbuffer.pos((double) x, (double) y, zLevel).tex((double) (u * f), (double) (v * f1)).endVertex();
+            vertexbuffer.pos(x, y + height, zLevel)
+                    .tex(u * f, (v + (float) height) * f1).endVertex();
+            vertexbuffer.pos(x + width, y + height, zLevel)
+                    .tex((u + (float) width) * f, (v + (float) height) * f1).endVertex();
+            vertexbuffer.pos(x + width, y, zLevel)
+                    .tex((u + (float) width) * f, v * f1).endVertex();
+            vertexbuffer.pos(x, y, zLevel).tex(u * f, v * f1).endVertex();
             tessellator.draw();
         }
 

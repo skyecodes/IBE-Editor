@@ -1,8 +1,8 @@
 package com.github.franckyi.ibeeditor.client.gui.editor.entity;
 
 import com.github.franckyi.ibeeditor.client.ClientUtils;
+import com.github.franckyi.ibeeditor.client.clipboard.IBEClipboard;
 import com.github.franckyi.ibeeditor.client.gui.editor.base.category.ToolsCategory;
-import com.github.franckyi.ibeeditor.client.logic.clipboard.IBEClipboard;
 import net.minecraft.entity.Entity;
 
 public class ToolsEntityCategory extends ToolsCategory {

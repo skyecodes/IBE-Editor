@@ -30,7 +30,7 @@ public class PropertyString extends LabeledProperty<String> {
     protected void build() {
         super.build();
         this.addAll(textField = new TextField());
-        textField.getOnValueChangedListeners().add((oldVal, newVal) -> onValueChanged(oldVal, newVal));
+        textField.getOnValueChangedListeners().add(this::onValueChanged);
     }
 
     @Override

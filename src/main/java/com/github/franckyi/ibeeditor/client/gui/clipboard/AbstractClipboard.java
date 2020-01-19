@@ -11,10 +11,10 @@ import com.github.franckyi.guapi.node.ListExtended;
 import com.github.franckyi.guapi.node.TexturedButton;
 import com.github.franckyi.guapi.scene.IBackground;
 import com.github.franckyi.ibeeditor.client.EntityIcons;
+import com.github.franckyi.ibeeditor.client.clipboard.EntityClipboardEntry;
+import com.github.franckyi.ibeeditor.client.clipboard.IBEClipboard;
+import com.github.franckyi.ibeeditor.client.clipboard.ItemClipboardEntry;
 import com.github.franckyi.ibeeditor.client.gui.IResizable;
-import com.github.franckyi.ibeeditor.client.logic.clipboard.EntityClipboardEntry;
-import com.github.franckyi.ibeeditor.client.logic.clipboard.IBEClipboard;
-import com.github.franckyi.ibeeditor.client.logic.clipboard.ItemClipboardEntry;
 import com.github.franckyi.ibeeditor.common.IBEConfiguration;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
@@ -117,7 +117,7 @@ public abstract class AbstractClipboard extends Scene {
         }
     }
 
-    protected abstract class ItemViewBase extends ListExtended.NodeEntry<HBox> implements IResizable {
+    protected abstract static class ItemViewBase extends ListExtended.NodeEntry<HBox> implements IResizable {
 
         protected final TexturedButton itemButton;
         protected final Label nameLabel;
@@ -138,7 +138,7 @@ public abstract class AbstractClipboard extends Scene {
         public abstract void updateSize(int listWidth);
     }
 
-    protected abstract class EntityViewBase extends ListExtended.NodeEntry<HBox> implements IResizable {
+    protected abstract static class EntityViewBase extends ListExtended.NodeEntry<HBox> implements IResizable {
 
         protected final TexturedButton entityButton;
         protected final Label nameLabel;

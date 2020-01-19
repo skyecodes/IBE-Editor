@@ -349,7 +349,7 @@ public class Scene implements IScreenEventListener, IParent {
 
     }
 
-    public class GUAPIScreen extends Screen {
+    public static class GUAPIScreen extends Screen {
 
         private final Scene scene;
         private final Set<Tooltip> tooltips;
