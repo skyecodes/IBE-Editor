@@ -27,7 +27,7 @@ public class EntityInventoryItemEditorMessage extends PlayerInventoryItemEditorM
 
     @Override
     public void handle(NetworkEvent.Context ctx) {
-        ctx.getSender().getServerWorld().getEntityByID(entityId).getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(itemHandler -> {
+        ctx.getSender().getEntityWorld().getEntityByID(entityId).getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(itemHandler -> {
             itemHandler.extractItem(slotIndex, itemHandler.getStackInSlot(slotIndex).getCount(), false);
             itemHandler.insertItem(slotIndex, itemStack, false);
         });

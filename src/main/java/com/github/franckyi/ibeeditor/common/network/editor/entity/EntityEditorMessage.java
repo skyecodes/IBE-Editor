@@ -29,7 +29,7 @@ public class EntityEditorMessage implements IMessage {
 
     @Override
     public void handle(NetworkEvent.Context ctx) {
-        Entity entity = ctx.getSender().getServerWorld().getEntityByID(id);
+        Entity entity = ctx.getSender().getEntityWorld().getEntityByID(id);
         if (entity != null) {
             entity.read(nbt);
         }

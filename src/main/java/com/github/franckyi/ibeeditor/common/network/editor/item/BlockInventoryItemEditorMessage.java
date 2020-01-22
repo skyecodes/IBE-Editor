@@ -29,7 +29,7 @@ public class BlockInventoryItemEditorMessage extends PlayerInventoryItemEditorMe
 
     @Override
     public void handle(NetworkEvent.Context ctx) {
-        TileEntity te = ctx.getSender().getServerWorld().getTileEntity(blockPos);
+        TileEntity te = ctx.getSender().getEntityWorld().getTileEntity(blockPos);
         if (te != null) {
             te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(itemHandler -> {
                 itemHandler.extractItem(slotIndex, itemHandler.getStackInSlot(slotIndex).getCount(), false);

@@ -7,7 +7,7 @@ import net.minecraft.nbt.NBTUtil;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkEvent;
 
 public class BlockEditorMessage implements IMessage {
@@ -38,7 +38,7 @@ public class BlockEditorMessage implements IMessage {
 
     @Override
     public void handle(NetworkEvent.Context ctx) {
-        ServerWorld world = ctx.getSender().getServerWorld();
+        World world = ctx.getSender().getEntityWorld();
         world.setBlockState(blockPos, blockState);
         TileEntity te = world.getTileEntity(blockPos);
         if (te != null && !tag.isEmpty()) {

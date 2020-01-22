@@ -6,10 +6,12 @@ import com.github.franckyi.ibeeditor.client.gui.editor.base.property.IOrderableE
 import com.github.franckyi.ibeeditor.client.gui.editor.base.property.PropertyBoolean;
 import com.github.franckyi.ibeeditor.client.gui.editor.base.property.PropertyFormattedText;
 import com.github.franckyi.ibeeditor.client.gui.editor.base.property.PropertyInteger;
+import com.google.gson.JsonObject;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.nbt.StringNBT;
+import net.minecraft.util.JSONUtils;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.util.Constants;
@@ -38,7 +40,8 @@ public class GeneralItemCategory extends EditableCategory<String> {
                 if (display.contains("Lore", Constants.NBT.TAG_LIST)) {
                     ListNBT loreTag = display.getList("Lore", Constants.NBT.TAG_STRING);
                     for (int i = 0; i < loreTag.size(); i++) {
-                        this.addProperty(loreTag.getString(i));
+                        JsonObject obj = JSONUtils.fromJson(loreTag.getString(i));
+                        this.addProperty(obj.getAsJsonPrimitive("text").getAsString());
                     }
                     for (int i = 0; i < this.getPropertyCount(); i++) {
                         this.getProperty(i).update(i);
@@ -82,7 +85,7 @@ public class GeneralItemCategory extends EditableCategory<String> {
             flag = false;
         }
         itemStack.getOrCreateChildTag("display")
-                .getList("Lore", Constants.NBT.TAG_STRING).add(new StringNBT(lore));
+                .getList("Lore", Constants.NBT.TAG_STRING).add(new StringNBT("{\"text\": \"" + lore + "\"}"));
     }
 
     private void setUnbreakable(boolean unbreakable) {
@@ -99,6 +102,18 @@ public class GeneralItemCategory extends EditableCategory<String> {
     @Override
     protected String getDefaultPropertyValue() {
         return "";
+    }
+
+    private static class Lore {
+        private final String text;
+
+        public Lore(String text) {
+            this.text = text;
+        }
+
+        public String getText() {
+            return text;
+        }
     }
 
     public class PropertyLore extends PropertyFormattedText implements IOrderableEditableCategoryProperty {

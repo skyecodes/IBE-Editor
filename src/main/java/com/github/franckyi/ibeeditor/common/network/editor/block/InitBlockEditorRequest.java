@@ -27,7 +27,7 @@ public class InitBlockEditorRequest implements IMessage {
 
     @Override
     public void handle(NetworkEvent.Context ctx) {
-        TileEntity tileEntity = ctx.getSender().getServerWorld().getTileEntity(blockPos);
+        TileEntity tileEntity = ctx.getSender().getEntityWorld().getTileEntity(blockPos);
         if (tileEntity == null) {
             IBENetworkHandler.getModChannel().send(PacketDistributor.PLAYER.with(ctx::getSender),
                     new InitBlockEditorResponse(blockPos));
