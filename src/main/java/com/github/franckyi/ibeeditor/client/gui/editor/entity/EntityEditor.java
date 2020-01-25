@@ -8,6 +8,7 @@ import com.github.franckyi.ibeeditor.common.network.IBENetworkHandler;
 import com.github.franckyi.ibeeditor.common.network.editor.entity.EntityEditorMessage;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.text.TextFormatting;
@@ -34,6 +35,9 @@ public class EntityEditor extends CapabilityProviderEditor {
             //this.applyConfigurations(this.getCapabilityConfigurations(), entity); // NOT READY
             if (entity instanceof LivingEntity) {
                 this.addCategory("Inventory", new InventoryEntityCategory((LivingEntity) entity));
+                if (entity instanceof MobEntity) {
+                    this.addCategory("Loot", new LootEntityCategory((MobEntity) entity));
+                }
             }
             this.addCategory("Tools", new ToolsEntityCategory(entity));
         }

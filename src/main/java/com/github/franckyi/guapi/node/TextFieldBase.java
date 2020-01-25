@@ -78,7 +78,7 @@ public abstract class TextFieldBase<T> extends Node<TextFieldBase.GuiTextFieldVi
 
         private final List<String> tooltipText;
         private Scene.GUAPIScreen screen;
-        private boolean changed;
+        private boolean changed, flag;
 
         public GuiTextFieldView(String... tooltipText) {
             super(mc.fontRenderer, 0, 0, 0, 0, "");
@@ -138,8 +138,11 @@ public abstract class TextFieldBase<T> extends Node<TextFieldBase.GuiTextFieldVi
 
         @Override
         public void renderView(int mouseX, int mouseY, float partialTicks) {
+            if (!flag) {
+                flag = true;
+                this.setCursorPosition(0);
+            }
             this.render(mouseX, mouseY, partialTicks);
-            //AbstractGui.fill(x, y, x + width, y + height, Color.RED.getRGB());
             if (this.inBounds(mouseX, mouseY)) {
                 if (screen == null) {
                     screen = (Scene.GUAPIScreen) mc.currentScreen;

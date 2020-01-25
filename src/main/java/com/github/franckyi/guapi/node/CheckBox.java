@@ -69,9 +69,17 @@ public class CheckBox extends Node<CheckBox.GuiCheckBoxView> implements IValueNo
         this.getView().active = !disabled;
     }
 
+    public int getSpacing() {
+        return this.getView().spacing;
+    }
+
+    public void setSpacing(int spacing) {
+        this.getView().spacing = spacing;
+    }
+
     @Override
     protected void computeWidth() {
-        this.setComputedWidth(11 + 2 + mc.fontRenderer.getStringWidth(this.getText()));
+        this.setComputedWidth(11 + this.getSpacing() + mc.fontRenderer.getStringWidth(this.getText()));
     }
 
     @Override
@@ -95,6 +103,7 @@ public class CheckBox extends Node<CheckBox.GuiCheckBoxView> implements IValueNo
 
     public static class GuiCheckBoxView extends GuiButtonExt implements IGuiView {
 
+        private int spacing;
         private boolean checked;
         private final List<String> tooltipText;
         private Scene.GUAPIScreen screen;
@@ -102,6 +111,7 @@ public class CheckBox extends Node<CheckBox.GuiCheckBoxView> implements IValueNo
         public GuiCheckBoxView(String displayString, boolean checked, String... tooltipText) {
             super(0, 0, 0, 0, displayString, (b) -> {
             });
+            this.spacing = 4;
             this.checked = checked;
             this.tooltipText = Lists.newArrayList(tooltipText);
         }
@@ -166,12 +176,12 @@ public class CheckBox extends Node<CheckBox.GuiCheckBoxView> implements IValueNo
 
         @Override
         public void renderView(int mouseX, int mouseY, float partialTicks) {
-            int boxWidth = this.height;
-            GuiUtils.drawContinuousTexturedBox(WIDGETS_LOCATION, this.x, this.y, 0, 46, boxWidth, this.height, 200, 20, 2, 3, 2, 2, this.blitOffset);
+            int boxSize = this.height;
+            GuiUtils.drawContinuousTexturedBox(WIDGETS_LOCATION, this.x, this.y, 0, 46, boxSize, this.height, 200, 20, 2, 3, 2, 2, this.blitOffset);
             if (this.checked) {
-                this.drawCenteredString(mc.fontRenderer, "x", this.x + boxWidth / 2 + 1, this.y + 1, 14737632);
+                this.drawCenteredString(mc.fontRenderer, "x", this.x + boxSize / 2 + 1, this.y + 1, 14737632);
             }
-            this.drawString(mc.fontRenderer, this.getMessage(), this.x + boxWidth + 2, this.y + 2, 0xffffff);
+            this.drawString(mc.fontRenderer, this.getMessage(), this.x + boxSize + spacing, this.y + 2, 0xffffff);
             if (this.inBounds(mouseX, mouseY)) {
                 if (screen == null) {
                     screen = (Scene.GUAPIScreen) mc.currentScreen;

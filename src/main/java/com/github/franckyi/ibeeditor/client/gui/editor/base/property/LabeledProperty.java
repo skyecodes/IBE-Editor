@@ -28,4 +28,7 @@ public abstract class LabeledProperty<T> extends AbstractProperty<T> {
         nameLabel.setMargin(Insets.right(5));
     }
 
+    public Label getNameLabel() {
+        return nameLabel;
+    }
 }

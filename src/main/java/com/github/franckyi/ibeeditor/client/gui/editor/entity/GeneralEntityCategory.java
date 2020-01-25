@@ -4,8 +4,6 @@ import com.github.franckyi.ibeeditor.client.gui.editor.base.AbstractCategory;
 import com.github.franckyi.ibeeditor.client.gui.editor.base.property.PropertyBoolean;
 import com.github.franckyi.ibeeditor.client.gui.editor.base.property.PropertyFormattedText;
 import com.github.franckyi.ibeeditor.client.gui.editor.base.property.PropertyInteger;
-import com.github.franckyi.ibeeditor.common.network.IBENetworkHandler;
-import com.github.franckyi.ibeeditor.common.network.editor.entity.EntityEditorMessage;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.text.StringTextComponent;
 
@@ -36,9 +34,4 @@ public class GeneralEntityCategory extends AbstractCategory {
         }
     }
 
-    @Override
-    public void apply() {
-        super.apply();
-        IBENetworkHandler.getModChannel().sendToServer(new EntityEditorMessage(entity));
-    }
 }
