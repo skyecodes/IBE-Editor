@@ -64,7 +64,7 @@ public class ViewClipboard extends AbstractClipboard {
             List<Node> children = this.getNode().getChildren();
             children.add(editButton = new Button("Open in Item Editor"));
             editButton.setPrefWidth(170);
-            editButton.getOnMouseClickedListeners().add(event -> new ItemEditor(itemStack, null, stack -> {
+            editButton.getOnMouseClickedListeners().add(event -> new ItemEditor(itemStack, stack -> {
                 List<ItemClipboardEntry> items = IBEClipboard.getInstance().getItems();
                 items.set(items.indexOf(item), new ItemClipboardEntry(stack));
                 IBEClipboard.getInstance().save();

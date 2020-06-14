@@ -1,6 +1,8 @@
 package com.github.franckyi.ibeeditor.client.gui.editor.block;
 
 import com.github.franckyi.guapi.node.TexturedButton;
+import com.github.franckyi.ibeeditor.client.ClientUtils;
+import com.github.franckyi.ibeeditor.client.EditorHelper;
 import com.github.franckyi.ibeeditor.client.IBENotification;
 import com.github.franckyi.ibeeditor.client.gui.editor.base.AbstractCategory;
 import com.github.franckyi.ibeeditor.client.gui.editor.base.CapabilityProviderEditor;
@@ -13,6 +15,7 @@ import com.github.franckyi.ibeeditor.common.network.editor.block.BlockEditorMess
 import net.minecraft.block.BlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.play.client.CChatMessagePacket;
 import net.minecraft.tileentity.CommandBlockTileEntity;
 import net.minecraft.tileentity.LockableTileEntity;
 import net.minecraft.tileentity.MobSpawnerTileEntity;
@@ -71,7 +74,11 @@ public class BlockEditor extends CapabilityProviderEditor {
         if (baseState.equals(blockState) && (teTag == null || teTag.equals(tileEntity.write(new CompoundNBT())))) {
             IBENotification.show(IBENotification.Type.EDITOR, 3, TextFormatting.YELLOW + "Nothing to save.");
         } else {
-            IBENetworkHandler.getModChannel().sendToServer(new BlockEditorMessage(blockPos, blockState, tileEntity));
+            if (EditorHelper.isServerEnabled()) {
+                IBENetworkHandler.getModChannel().sendToServer(new BlockEditorMessage(blockPos, blockState, tileEntity));
+            } else {
+                ClientUtils.sendCommand(ClientUtils.getSetblockCommand(blockPos, blockState, tileEntity));
+            }
             IBENotification.show(IBENotification.Type.EDITOR, 3, TextFormatting.GREEN + "Block saved.");
         }
     }

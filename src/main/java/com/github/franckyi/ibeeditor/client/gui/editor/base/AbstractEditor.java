@@ -75,7 +75,9 @@ public abstract class AbstractEditor extends Scene {
     }
 
     protected void apply() {
+        this.propertiesList.forEach(AbstractCategory::preApply);
         this.propertiesList.forEach(AbstractCategory::apply);
+        this.propertiesList.forEach(AbstractCategory::postApply);
     }
 
     protected void scaleChildrenSize() {

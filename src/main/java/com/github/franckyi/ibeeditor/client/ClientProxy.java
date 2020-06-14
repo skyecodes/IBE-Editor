@@ -57,16 +57,17 @@ public class ClientProxy implements IProxy {
     }
 
     private void onKeyPressed(GuiScreenEvent.KeyboardKeyPressedEvent.Pre e) {
+        Minecraft.getInstance().mouseHelper.ungrabMouse();
         if (e.getGui() instanceof ContainerScreen && e.getKeyCode() == KEY_OPEN_EDITOR.getKey().getKeyCode()) {
             ContainerScreen<?> gui = (ContainerScreen<?>) e.getGui();
             if (gui.getSlotUnderMouse() != null && gui.getSlotUnderMouse().getHasStack()) {
                 if (gui instanceof InventoryScreen || gui instanceof CreativeScreen) {
-                    EditorHelper.openItemEditorFromGui(gui.getSlotUnderMouse());
+                    EditorHelper.openItemEditorFromPlayerInventory(gui.getSlotUnderMouse());
                 } else {
                     if (mc.objectMouseOver instanceof BlockRayTraceResult) {
-                        EditorHelper.openItemEditorFromGui(gui.getSlotUnderMouse(), ((BlockRayTraceResult) mc.objectMouseOver).getPos());
+                        EditorHelper.openItemEditorFromBlockInventory(gui.getSlotUnderMouse(), ((BlockRayTraceResult) mc.objectMouseOver).getPos());
                     } else if (mc.objectMouseOver instanceof EntityRayTraceResult) {
-                        EditorHelper.openItemEditorFromGui(gui.getSlotUnderMouse(), ((EntityRayTraceResult) mc.objectMouseOver).getEntity());
+                        EditorHelper.openItemEditorFromEntityInventory(gui.getSlotUnderMouse(), ((EntityRayTraceResult) mc.objectMouseOver).getEntity());
                     }
                 }
             }
@@ -74,7 +75,7 @@ public class ClientProxy implements IProxy {
     }
 
     private void onWorldUnload(WorldEvent.Unload event) {
-        EditorHelper.disableServer();
+        EditorHelper.setServerEnabled(false);
     }
 
 }

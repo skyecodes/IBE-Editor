@@ -1,7 +1,9 @@
 package com.github.franckyi.ibeeditor.client;
 
+import com.github.franckyi.ibeeditor.client.gui.editor.block.BlockEditor;
 import com.github.franckyi.ibeeditor.client.gui.editor.entity.EntityEditor;
 import com.github.franckyi.ibeeditor.client.gui.editor.item.ItemEditor;
+import com.github.franckyi.ibeeditor.common.IBEConfiguration;
 import com.github.franckyi.ibeeditor.common.network.IBENetworkHandler;
 import com.github.franckyi.ibeeditor.common.network.editor.block.InitBlockEditorRequest;
 import com.github.franckyi.ibeeditor.common.network.editor.item.BlockInventoryItemEditorMessage;
@@ -21,9 +23,6 @@ import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 
 public final class EditorHelper {
-
-    private static final ITextComponent MUST_INSTALL = new StringTextComponent(TextFormatting.RED +
-            "IBE Editor must be installed on the server in order to use it.");
     private static final ITextComponent MUST_CREATIVE = new StringTextComponent(TextFormatting.RED +
             "You must be in creative mode in order to use the editor.");
 
@@ -37,7 +36,7 @@ public final class EditorHelper {
     public static boolean openItemEditor() {
         ItemStack heldItem = mc.player.getHeldItemMainhand();
         if (!heldItem.isEmpty()) {
-            openItemEditor(heldItem);
+            openItemEditorMainHand(heldItem);
             return true;
         }
         return false;
@@ -69,24 +68,60 @@ public final class EditorHelper {
         return true;
     }
 
-    static void openItemEditorFromGui(Slot slot) {
+    private static void openItemEditorMainHand(ItemStack itemStack) {
         if (checkPermissions()) {
-            new ItemEditor(slot.getStack(), itemStack ->
-                    new PlayerInventoryItemEditorMessage(itemStack, slot.getSlotIndex()));
+            if (isServerEnabled()) {
+                new ItemEditor(itemStack, itemStack1 -> IBENetworkHandler.getModChannel().sendToServer(new MainHandItemEditorMessage(itemStack1)));
+            } else {
+                if (mc.playerController.isInCreativeMode()) {
+                    new ItemEditor(itemStack, itemStack1 ->
+                            mc.playerController.sendSlotPacket(itemStack1, mc.player.inventory.currentItem));
+                } else {
+                    new ItemEditor(itemStack, itemStack1 -> ClientUtils.sendCommand(
+                            ClientUtils.getReplaceItemCommandForPlayerMainHand(itemStack1)));
+                }
+            }
         }
     }
 
-    static void openItemEditorFromGui(Slot slot, BlockPos blockPos) {
+    static void openItemEditorFromPlayerInventory(Slot slot) {
         if (checkPermissions()) {
-            new ItemEditor(slot.getStack(), itemStack ->
-                    new BlockInventoryItemEditorMessage(itemStack, slot.getSlotIndex(), blockPos));
+            if (isServerEnabled()) {
+                new ItemEditor(slot.getStack(), itemStack -> IBENetworkHandler.getModChannel().sendToServer(
+                        new PlayerInventoryItemEditorMessage(itemStack, slot.getSlotIndex())));
+            } else {
+                if (mc.playerController.isInCreativeMode()) {
+                    new ItemEditor(slot.getStack(), itemStack1 ->
+                            mc.playerController.sendSlotPacket(itemStack1, slot.slotNumber));
+                } else {
+                    new ItemEditor(slot.getStack(), itemStack1 -> ClientUtils.sendCommand(
+                            ClientUtils.getReplaceItemCommandForPlayer(itemStack1, slot)));
+                }
+            }
         }
     }
 
-    static void openItemEditorFromGui(Slot slot, Entity entity) {
+    static void openItemEditorFromBlockInventory(Slot slot, BlockPos blockPos) {
         if (checkPermissions()) {
-            new ItemEditor(slot.getStack(), itemStack ->
-                    new EntityInventoryItemEditorMessage(itemStack, slot.getSlotIndex(), entity.getEntityId()));
+            if (isServerEnabled()) {
+                new ItemEditor(slot.getStack(), itemStack -> IBENetworkHandler.getModChannel().sendToServer(
+                        new BlockInventoryItemEditorMessage(itemStack, slot.getSlotIndex(), blockPos)));
+            } else {
+                new ItemEditor(slot.getStack(), itemStack -> ClientUtils.sendCommand(
+                        ClientUtils.getReplaceItemCommandForBlock(itemStack, slot, blockPos)));
+            }
+        }
+    }
+
+    static void openItemEditorFromEntityInventory(Slot slot, Entity entity) {
+        if (checkPermissions()) {
+            if (isServerEnabled()) {
+                new ItemEditor(slot.getStack(), itemStack -> IBENetworkHandler.getModChannel().sendToServer(
+                        new EntityInventoryItemEditorMessage(itemStack, slot.getSlotIndex(), entity.getEntityId())));
+            } else {
+                new ItemEditor(slot.getStack(), itemStack -> ClientUtils.sendCommand(
+                        ClientUtils.getReplaceItemCommandForEntity(itemStack, slot, entity)));
+            }
         }
     }
 
@@ -98,34 +133,28 @@ public final class EditorHelper {
 
     private static void openBlockEditor(BlockPos blockPos) {
         if (checkPermissions()) {
-            IBENetworkHandler.getModChannel().sendToServer(new InitBlockEditorRequest(blockPos));
-        }
-    }
-
-    private static void openItemEditor(ItemStack itemStack) {
-        if (checkPermissions()) {
-            new ItemEditor(itemStack, MainHandItemEditorMessage::new);
+            if (isServerEnabled()) {
+                IBENetworkHandler.getModChannel().sendToServer(new InitBlockEditorRequest(blockPos));
+            } else {
+                new BlockEditor(blockPos, null);
+            }
         }
     }
 
     private static boolean checkPermissions() {
-        if (mc.player.isCreative()) {
-            if (serverEnabled) {
-                return true;
-            } else {
-                mc.player.sendMessage(MUST_INSTALL);
-            }
+        if (!IBEConfiguration.CLIENT.creativeModeOnly.get() || mc.player.isCreative()) {
+            return true;
         } else {
             mc.player.sendMessage(MUST_CREATIVE);
         }
         return false;
     }
 
-    public static void enableServer() {
-        serverEnabled = true;
+    public static boolean isServerEnabled() {
+        return serverEnabled;
     }
 
-    public static void disableServer() {
-        serverEnabled = false;
+    public static void setServerEnabled(boolean serverEnabled) {
+        EditorHelper.serverEnabled = serverEnabled;
     }
 }

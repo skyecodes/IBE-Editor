@@ -19,7 +19,7 @@ public class S2CHandshake extends EmptyMessage {
     @Override
     public void handle(NetworkEvent.Context ctx) {
         IBEEditorMod.LOGGER.debug("Recieved handshake from server. The mod is installed on the server.");
-        EditorHelper.enableServer();
+        EditorHelper.setServerEnabled(true);
         IBEEditorMod.LOGGER.debug("Notifying the server that we also have installed the mod.");
         IBENetworkHandler.getModChannel().sendToServer(new C2SHandshake());
     }

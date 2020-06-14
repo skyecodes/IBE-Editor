@@ -12,8 +12,14 @@ public abstract class AbstractCategory extends ListExtended<AbstractProperty<?>>
         this.setOffset(new Insets(0, 10, 10, 10));
     }
 
+    public void preApply() {
+    }
+
     public void apply() {
         this.getChildren().forEach(AbstractProperty::apply);
+    }
+
+    public void postApply() {
     }
 
     public final void addAll(AbstractProperty<?>... properties) {

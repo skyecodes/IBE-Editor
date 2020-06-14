@@ -1,6 +1,7 @@
 package com.github.franckyi.ibeeditor.client.gui.editor.item;
 
 import com.github.franckyi.guapi.node.TexturedButton;
+import com.github.franckyi.ibeeditor.client.EditorHelper;
 import com.github.franckyi.ibeeditor.client.IBENotification;
 import com.github.franckyi.ibeeditor.client.gui.editor.base.AbstractCategory;
 import com.github.franckyi.ibeeditor.client.gui.editor.base.CapabilityProviderEditor;
@@ -18,18 +19,16 @@ import java.util.function.Function;
 public class ItemEditor extends CapabilityProviderEditor {
 
     private final ItemStack itemStack;
-    private final Function<ItemStack, IMessage> packetFactory;
     private final Consumer<ItemStack> action;
 
-    public ItemEditor(ItemStack itemStack, Function<ItemStack, IMessage> packetFactory) {
-        this(itemStack, packetFactory, stack -> {
+    public ItemEditor(ItemStack itemStack) {
+        this(itemStack, stack -> {
         });
     }
 
-    public ItemEditor(ItemStack itemStack, Function<ItemStack, IMessage> packetFactory, Consumer<ItemStack> action) {
+    public ItemEditor(ItemStack itemStack, Consumer<ItemStack> action) {
         super("Item Editor :");
         this.itemStack = itemStack;
-        this.packetFactory = packetFactory;
         this.action = action;
         header.getChildren().add(new TexturedButton(itemStack));
         this.addCategory("General", new GeneralItemCategory(itemStack));
@@ -58,10 +57,7 @@ public class ItemEditor extends CapabilityProviderEditor {
             IBENotification.show(IBENotification.Type.EDITOR, 3, TextFormatting.YELLOW + "Nothing to save.");
         } else {
             this.action.accept(itemStack);
-            if (packetFactory != null) {
-                IBENetworkHandler.getModChannel().sendToServer(packetFactory.apply(itemStack));
-                IBENotification.show(IBENotification.Type.EDITOR, 3, TextFormatting.GREEN + "Item saved.");
-            }
+            IBENotification.show(IBENotification.Type.EDITOR, 3, TextFormatting.GREEN + "Item saved.");
         }
     }
 

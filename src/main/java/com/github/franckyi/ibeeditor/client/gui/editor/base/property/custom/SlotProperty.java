@@ -37,7 +37,7 @@ public class SlotProperty extends LabeledProperty<Void> {
                     removeButton = new TexturedButton("delete.png", TextFormatting.RED + "Remove")
             );
             actionButton.getOnMouseClickedListeners().add(e ->
-                    new ItemEditor(itemStack, null, update));
+                    new ItemEditor(itemStack, update));
             removeButton.getOnMouseClickedListeners().add(e -> update.accept(ItemStack.EMPTY));
             actionButton.setPrefWidth(99);
         }
