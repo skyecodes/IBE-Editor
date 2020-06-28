@@ -1,9 +1,6 @@
 package com.github.franckyi.guapi.node;
 
-public class IntegerField extends TextFieldBase<Integer> {
-
-    private int min;
-    private int max;
+public class IntegerField extends NumberField<Integer> {
 
     public IntegerField() {
         this(0);
@@ -14,56 +11,16 @@ public class IntegerField extends TextFieldBase<Integer> {
     }
 
     public IntegerField(int value, int min, int max) {
-        this.min = min;
-        this.max = max;
-        this.getView().setValidator(s -> {
-            if (s.isEmpty() || s.equals("-")) return true;
-            try {
-                int i = Integer.parseInt(s);
-                return i >= this.min && i <= this.max;
-            } catch (NumberFormatException e) {
-                return false;
-            }
-        });
-        this.setText(Integer.toString(value));
-    }
-
-    public int getMin() {
-        return min;
-    }
-
-    public void setMin(int min) {
-        this.min = min;
-        if (this.getValue() < min) {
-            this.setValue(min);
-        }
-    }
-
-    public int getMax() {
-        return max;
-    }
-
-    public void setMax(int max) {
-        this.max = max;
-        if (this.getValue() > max) {
-            this.setValue(max);
-        }
+        super(value, min, max);
     }
 
     @Override
-    public Integer getValue() {
-        String s = this.getText();
-        if (s.isEmpty() || s.equals("-")) return min;
-        try {
-            return Integer.parseInt(s);
-        } catch (NumberFormatException e) {
-            return min;
-        }
+    protected Integer fromString(String s) throws NumberFormatException {
+        return Integer.parseInt(s);
     }
 
     @Override
-    public void setValue(Integer value) {
-        this.setText(Integer.toString(value));
+    protected String toString(Integer value) {
+        return Integer.toString(value);
     }
-
 }

@@ -1,6 +1,8 @@
 package com.github.franckyi.ibeeditor.client.gui.editor.block;
 
 import com.github.franckyi.guapi.node.TexturedButton;
+import com.github.franckyi.ibeeditor.client.ClientUtils;
+import com.github.franckyi.ibeeditor.client.EditorHelper;
 import com.github.franckyi.ibeeditor.client.IBENotification;
 import com.github.franckyi.ibeeditor.client.gui.editor.base.AbstractCategory;
 import com.github.franckyi.ibeeditor.client.gui.editor.base.CapabilityProviderEditor;
@@ -10,7 +12,9 @@ import com.github.franckyi.ibeeditor.client.gui.editor.block.tileentity.MobSpawn
 import com.github.franckyi.ibeeditor.client.gui.editor.block.tileentity.SpawnPotentialsCategory;
 import com.github.franckyi.ibeeditor.common.network.IBENetworkHandler;
 import com.github.franckyi.ibeeditor.common.network.editor.block.BlockEditorMessage;
+import com.google.common.collect.ImmutableMap;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.CommandBlockTileEntity;
@@ -71,8 +75,15 @@ public class BlockEditor extends CapabilityProviderEditor {
         if (baseState.equals(blockState) && (teTag == null || teTag.equals(tileEntity.write(new CompoundNBT())))) {
             IBENotification.show(IBENotification.Type.EDITOR, 3, TextFormatting.YELLOW + "Nothing to save.");
         } else {
-            IBENetworkHandler.getModChannel().sendToServer(new BlockEditorMessage(blockPos, blockState, tileEntity));
-            IBENotification.show(IBENotification.Type.EDITOR, 3, TextFormatting.GREEN + "Block saved.");
+            if (EditorHelper.isServerEnabled()) {
+                IBENetworkHandler.getModChannel().sendToServer(new BlockEditorMessage(blockPos, blockState, tileEntity));
+                IBENotification.show(IBENotification.Type.EDITOR, 3, TextFormatting.GREEN + "Block saved.");
+            } else {
+                ClientUtils.sendCommand(ClientUtils.getSetblockCommand(blockPos, new BlockState(Blocks.AIR, ImmutableMap.of()), null));
+                if (ClientUtils.handleCommand(ClientUtils.getSetblockCommand(blockPos, blockState, tileEntity))) {
+                    IBENotification.show(IBENotification.Type.EDITOR, 3, TextFormatting.GREEN + "Block saved.");
+                }
+            }
         }
     }
 

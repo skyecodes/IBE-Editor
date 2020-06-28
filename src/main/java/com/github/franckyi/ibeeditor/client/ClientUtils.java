@@ -1,18 +1,40 @@
 package com.github.franckyi.ibeeditor.client;
 
+import com.github.franckyi.ibeeditor.IBEEditorMod;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.INBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.util.text.event.ClickEvent;
+import net.minecraft.util.text.event.HoverEvent;
+import org.apache.logging.log4j.MarkerManager;
 
 public final class ClientUtils {
-
     private static final Minecraft mc = Minecraft.getInstance();
+    private static final ITextComponent COMMAND_SENT_MESSAGE = new StringTextComponent("[IBE Editor] Command sent.")
+            .applyTextStyle(TextFormatting.GREEN);
+    private static final ITextComponent COMMAND_COPIED_MESSAGE = new StringTextComponent("[IBE Editor] Command copied in your clipboard. Paste it in a ")
+            .applyTextStyle(TextFormatting.YELLOW)
+            .appendSibling(new TranslationTextComponent("block.minecraft.command_block")
+                    .applyTextStyle(style -> style
+                            .setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/give @p minecraft:command_block 1"))
+                            .setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_ITEM, new StringTextComponent(new ItemStack(Items.COMMAND_BLOCK).write(new CompoundNBT()).toString())))
+                            .setColor(TextFormatting.LIGHT_PURPLE)
+                            .setUnderlined(true))
+            )
+            .appendSibling(new StringTextComponent(" to apply the changes."));
 
     public static Entity createEntity(CompoundNBT entityTag) {
         EntityType<?> entityType = EntityType.byKey(entityTag.getString("id")).orElse(EntityType.PIG);
@@ -39,35 +61,39 @@ public final class ClientUtils {
         IBENotification.show(IBENotification.Type.EDITOR, 3, TextFormatting.GREEN + "Command copied to clipboard.");
     }
 
-    private static String getGiveCommand(ResourceLocation name, CompoundNBT tag, int count) {
+    public static String getGiveCommand(ResourceLocation name, CompoundNBT tag, int count) {
         return String.format("/give @p %s%s %d", name, tag, count);
     }
 
-    private static String getGiveCommand(ItemStack itemStack) {
+    public static String getGiveCommand(ItemStack itemStack) {
         return getGiveCommand(itemStack.getItem().getRegistryName(), itemStack.getOrCreateTag(), itemStack.getCount());
     }
 
-    private static String getGiveCommand(BlockState blockState, TileEntity tileEntity) {
+    public static String getGiveCommand(BlockState blockState, TileEntity tileEntity) {
         CompoundNBT tag = new CompoundNBT();
         return getGiveCommand(blockState.getBlock().getRegistryName(), tileEntity == null ? tag : tileEntity.write(tag), 1);
     }
 
-    private static String getSetblockCommand(BlockState blockState, TileEntity tileEntity) {
+    public static String getSetblockCommand(BlockState blockState, TileEntity tileEntity) {
+        return getSetblockCommand(null, blockState, tileEntity);
+    }
+
+    public static String getSetblockCommand(BlockPos blockPos, BlockState blockState, TileEntity tileEntity) {
         StringBuilder builder = new StringBuilder("[");
         blockState.getProperties().forEach(property -> builder
                 .append(property.getName()).append("=")
-                .append(blockState.get(property))
+                .append(blockState.get(property).toString().toLowerCase())
                 .append(","));
         if (builder.length() > 1) {
             builder.deleteCharAt(builder.length() - 1);
         }
         builder.append("]");
         CompoundNBT tag = new CompoundNBT();
-        return String.format("/setblock ~ ~ ~ %s%s%s",
+        return String.format("/setblock %s %s%s%s", blockPos == null ? "~ ~ ~" : String.format("%d %d %d", blockPos.getX(), blockPos.getY(), blockPos.getZ()),
                 blockState.getBlock().getRegistryName(), builder, tileEntity == null ? tag : tileEntity.write(tag));
     }
 
-    private static String getSummonCommand(Entity entity) {
+    public static String getSummonCommand(Entity entity) {
         return String.format("/summon %s ~ ~ ~ %s",
                 entity.getType().getRegistryName(), getCleanEntityTag(entity));
     }
@@ -102,5 +128,46 @@ public final class ClientUtils {
 
     public static void copySummonCommandWithoutFormatting(Entity entity) {
         copyCommand(TextFormatting.getTextWithoutFormattingCodes(getSummonCommand(entity)));
+    }
+
+    public static String getReplaceItemCommandForPlayerMainHand(ItemStack itemStack) {
+        return String.format("/replaceitem entity @p weapon.mainhand %s%s %d",
+                itemStack.getItem().getRegistryName(), itemStack.getOrCreateTag(), itemStack.getCount());
+    }
+
+    public static String getReplaceItemCommandForPlayer(ItemStack itemStack, Slot slot) {
+        return String.format("/replaceitem entity @p container.%d %s%s %d",
+                slot.slotNumber, itemStack.getItem().getRegistryName(), itemStack.getOrCreateTag(), itemStack.getCount());
+    }
+
+    public static String getReplaceItemCommandForBlock(ItemStack itemStack, Slot slot, BlockPos pos) {
+        return String.format("/replaceitem block %d %d %d container.%d %s%s %d", pos.getX(), pos.getY(), pos.getZ(),
+                slot.slotNumber, itemStack.getItem().getRegistryName(), itemStack.getOrCreateTag(), itemStack.getCount());
+    }
+
+    public static String getReplaceItemCommandForEntity(ItemStack itemStack, Slot slot, Entity entity) {
+        return String.format("/replaceitem entity %s container.%d %s%s %d", entity.getUniqueID(),
+                slot.slotNumber, itemStack.getItem().getRegistryName(), itemStack.getOrCreateTag(), itemStack.getCount());
+    }
+
+    public static String getEntityData(Entity entity, INBT tag) {
+        return String.format("/data merge entity %s %s", entity.getUniqueID(), tag);
+    }
+
+    public static boolean handleCommand(String command) {
+        IBEEditorMod.LOGGER.debug(MarkerManager.getMarker("COMMAND"), command);
+        if (command.length() < 256) {
+            sendCommand(command);
+            mc.player.sendMessage(COMMAND_SENT_MESSAGE);
+            return true;
+        } else {
+            copyCommand(command);
+            mc.player.sendMessage(COMMAND_COPIED_MESSAGE);
+            return false;
+        }
+    }
+
+    public static void sendCommand(String command) {
+        mc.player.sendChatMessage(command);
     }
 }

@@ -1,30 +1,24 @@
 package com.github.franckyi.ibeeditor.client.gui.editor.item;
 
-import com.github.franckyi.guapi.math.Pos;
-import com.github.franckyi.guapi.node.CheckBox;
-import com.github.franckyi.guapi.node.IntegerField;
-import com.github.franckyi.guapi.node.TextField;
 import com.github.franckyi.guapi.node.TexturedButton;
 import com.github.franckyi.ibeeditor.client.gui.editor.base.AbstractProperty;
 import com.github.franckyi.ibeeditor.client.gui.editor.base.category.EditableCategory;
-import com.github.franckyi.ibeeditor.client.gui.editor.base.property.IEditableCategoryProperty;
+import com.github.franckyi.ibeeditor.client.gui.editor.base.property.custom.ItemPotionEffectProperty;
 import com.github.franckyi.ibeeditor.client.gui.editor.base.property.custom.ColorProperty;
+import com.github.franckyi.ibeeditor.client.gui.editor.base.property.custom.model.PotionEffectModel;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.potion.Effect;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.potion.PotionUtils;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import java.awt.*;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-public class PotionCategory extends EditableCategory<PotionCategory.PotionEffectModel> {
+public class PotionCategory extends EditableCategory<PotionEffectModel> {
 
     private final ItemStack itemStack;
     private final List<EffectInstance> effects;
@@ -55,7 +49,7 @@ public class PotionCategory extends EditableCategory<PotionCategory.PotionEffect
 
     @Override
     protected AbstractProperty<PotionEffectModel> createNewProperty(PotionEffectModel initialValue, int index) {
-        return new PotionEffectProperty(index, initialValue, this::addEffect);
+        return new ItemPotionEffectProperty(this, index, initialValue, this::addEffect);
     }
 
     @Override
@@ -71,107 +65,6 @@ public class PotionCategory extends EditableCategory<PotionCategory.PotionEffect
         this.getChildren().subList(1, this.getChildren().size()).forEach(AbstractProperty::apply);
         this.getChildren().get(0).apply();
         PotionUtils.appendEffects(itemStack, effects);
-    }
-
-    private class PotionEffectProperty extends AbstractProperty<PotionEffectModel> implements IEditableCategoryProperty {
-
-        private final PropertyControls controls;
-
-        private TextField name;
-        private IntegerField amplifier;
-        private IntegerField duration;
-        private CheckBox ambient;
-        private CheckBox showParticles;
-        private CheckBox showIcon;
-
-        public PotionEffectProperty(int index, PotionEffectModel initialValue, Consumer<PotionEffectModel> action) {
-            super(initialValue, action);
-            controls = new PropertyControls(PotionCategory.this, index);
-            IEditableCategoryProperty.super.build();
-            if (initialValue.isDisabled()) {
-                resetButton.setDisabled(true);
-                controls.getRemove().setDisabled(true);
-            }
-        }
-
-        @Override
-        protected PotionEffectModel getValue() {
-            return new PotionEffectModel(ForgeRegistries.POTIONS.getValue(ResourceLocation.tryCreate(name.getValue())),
-                    duration.getValue(), amplifier.getValue(), ambient.getValue(),
-                    showParticles.getValue(), showIcon.getValue(), initialValue.isDisabled());
-        }
-
-        @Override
-        protected void setValue(PotionEffectModel value) {
-            name.setValue(value.getPotion().getRegistryName().toString());
-            amplifier.setValue(value.getAmplifier());
-            duration.setValue(value.getDuration());
-            ambient.setValue(value.isAmbient());
-            showParticles.setValue(value.doesShowParticles());
-            showIcon.setValue(value.isShowIcon());
-            if (value.isDisabled()) {
-                name.getView().setEnabled(false);
-                amplifier.getView().setEnabled(false);
-                duration.getView().setEnabled(false);
-                ambient.setDisabled(true);
-                showParticles.setDisabled(true);
-                showIcon.setDisabled(true);
-            }
-        }
-
-        @Override
-        public PropertyControls getControls() {
-            return controls;
-        }
-
-        @Override
-        public void build() {
-            this.getNode().setAlignment(Pos.LEFT);
-            this.addAll(
-                    name = new TextField(),
-                    amplifier = new IntegerField(),
-                    duration = new IntegerField(),
-                    ambient = new CheckBox("A"),
-                    showParticles = new CheckBox("P"),
-                    showIcon = new CheckBox("I")
-            );
-            amplifier.setPrefWidth(20);
-            duration.setPrefWidth(32);
-            name.getTooltipText().add("Potion name");
-            amplifier.getTooltipText().add("Amplifier (0 => level 1)");
-            duration.getTooltipText().add("Duration (in ticks)");
-            ambient.getTooltipText().add("Ambient");
-            showParticles.getTooltipText().add("Show particles");
-            showIcon.getTooltipText().add("Show icon");
-        }
-
-        @Override
-        public void updateSize(int listWidth) {
-            name.setPrefWidth(listWidth - OFFSET - 195);
-        }
-    }
-
-    public static class PotionEffectModel extends EffectInstance {
-        private final boolean disabled;
-
-        public PotionEffectModel(Effect effect, int duration, int amplifier, boolean ambient, boolean showParticles, boolean showIcon, boolean disabled) {
-            super(effect, duration, amplifier, ambient, showParticles, showIcon);
-            this.disabled = disabled;
-        }
-
-        public PotionEffectModel(EffectInstance effect, boolean disabled) {
-            super(effect);
-            this.disabled = disabled;
-        }
-
-        public PotionEffectModel(Effect effect) {
-            super(effect);
-            disabled = false;
-        }
-
-        public boolean isDisabled() {
-            return disabled;
-        }
     }
 
     private class PotionColorProperty extends ColorProperty {
@@ -200,7 +93,7 @@ public class PotionCategory extends EditableCategory<PotionCategory.PotionEffect
             refreshButton.getOnMouseClickedListeners().add(e -> {
                 List<AbstractProperty<?>> children = PotionCategory.this.getChildren();
                 List<EffectInstance> effects = children.subList(1, children.size() - 1).stream()
-                        .map(abstractProperty -> ((EffectInstance) ((PotionEffectProperty) abstractProperty).getValue()))
+                        .map(abstractProperty -> ((EffectInstance) ((ItemPotionEffectProperty) abstractProperty).getValue()))
                         .collect(Collectors.toList());
                 effects.addAll(PotionUtils.getPotionFromItem(itemStack).getEffects());
                 this.setValue(new Color(PotionUtils.getPotionColorFromEffectList(effects)));

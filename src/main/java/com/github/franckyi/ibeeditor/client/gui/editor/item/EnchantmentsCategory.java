@@ -102,20 +102,20 @@ public class EnchantmentsCategory extends AbstractCategory {
                     plusButton = new TexturedButton("add.png", TextFormatting.GREEN + "+1 level"),
                     minusButton = new TexturedButton("minus.png", TextFormatting.RED + "-1 level")
             );
-            integerField.getOnValueChangedListeners().add((oldVal, newVal) -> updateButtons(newVal));
-            plusButton.getOnMouseClickedListeners().add(event -> this.setValue(this.getValue() + (this.getValue() == integerField.getMax() ? 0 : 1)));
-            minusButton.getOnMouseClickedListeners().add(event -> this.setValue(this.getValue() - (this.getValue() == integerField.getMin() ? 0 : 1)));
+            numberField.getOnValueChangedListeners().add((oldVal, newVal) -> updateButtons(newVal));
+            plusButton.getOnMouseClickedListeners().add(event -> this.setValue(this.getValue() + (this.getValue().equals(numberField.getMax()) ? 0 : 1)));
+            minusButton.getOnMouseClickedListeners().add(event -> this.setValue(this.getValue() - (this.getValue().equals(numberField.getMin()) ? 0 : 1)));
             this.getNode().setAlignment(Pos.RIGHT);
         }
 
         private void updateButtons(int val) {
-            plusButton.setDisabled(val == integerField.getMax());
-            minusButton.setDisabled(val == integerField.getMin());
+            plusButton.setDisabled(val == numberField.getMax());
+            minusButton.setDisabled(val == numberField.getMin());
         }
 
         @Override
         public void updateSize(int listWidth) {
-            integerField.setPrefWidth(listWidth - OFFSET - 250);
+            numberField.setPrefWidth(listWidth - OFFSET - 250);
         }
     }
 }

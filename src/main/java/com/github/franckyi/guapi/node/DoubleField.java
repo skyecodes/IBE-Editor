@@ -1,12 +1,9 @@
 package com.github.franckyi.guapi.node;
 
-public class DoubleField extends TextFieldBase<Double> {
-
-    private double min;
-    private double max;
+public class DoubleField extends NumberField<Double> {
 
     public DoubleField() {
-        this(0);
+        this(0.0d);
     }
 
     public DoubleField(double value) {
@@ -14,56 +11,16 @@ public class DoubleField extends TextFieldBase<Double> {
     }
 
     public DoubleField(double value, double min, double max) {
-        this.min = min;
-        this.max = max;
-        this.getView().setValidator(s -> {
-            if (s.isEmpty() || s.equals("-") || s.endsWith(".")) return true;
-            try {
-                double d = Double.parseDouble(s);
-                return d >= min && d <= max;
-            } catch (NumberFormatException e) {
-                return false;
-            }
-        });
-        this.setText(Double.toString(value));
-    }
-
-    public double getMin() {
-        return min;
-    }
-
-    public void setMin(double min) {
-        this.min = min;
-        if (this.getValue() < min) {
-            this.setValue(min);
-        }
-    }
-
-    public double getMax() {
-        return max;
-    }
-
-    public void setMax(double max) {
-        this.max = max;
-        if (this.getValue() > max) {
-            this.setValue(max);
-        }
+        super(value, min, max);
     }
 
     @Override
-    public Double getValue() {
-        String s = this.getText();
-        if (s.isEmpty() || s.equals("-") || s.endsWith(".")) return min;
-        try {
-            return Double.parseDouble(s);
-        } catch (NumberFormatException e) {
-            return min;
-        }
+    protected Double fromString(String s) throws NumberFormatException {
+        return Double.parseDouble(s);
     }
 
     @Override
-    public void setValue(Double value) {
-        this.setText(Double.toString(value));
+    protected String toString(Double value) {
+        return Double.toString(value);
     }
-
 }

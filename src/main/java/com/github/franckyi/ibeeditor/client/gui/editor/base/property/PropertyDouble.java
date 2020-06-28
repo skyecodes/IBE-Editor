@@ -1,46 +1,26 @@
 package com.github.franckyi.ibeeditor.client.gui.editor.base.property;
 
 import com.github.franckyi.guapi.node.DoubleField;
+import com.github.franckyi.guapi.node.NumberField;
 
 import java.util.function.Consumer;
 
-public class PropertyDouble extends LabeledProperty<Double> {
+public class PropertyDouble extends PropertyNumber<Double> {
 
-    protected DoubleField doubleField;
-
-    public PropertyDouble(String name, Double initialValue, Consumer<Double> action) {
+    public PropertyDouble(String name, double initialValue, Consumer<Double> action) {
         super(name, initialValue, action);
     }
 
-    public PropertyDouble(String name, Double initialValue, Consumer<Double> action, int labelSize) {
-        super(name, initialValue, action);
-        nameLabel.setPrefWidth(labelSize);
+    public PropertyDouble(String name, double initialValue, Consumer<Double> action, int labelSize) {
+        super(name, initialValue, action, labelSize);
     }
 
-    public PropertyDouble(String name, Double initialValue, Consumer<Double> action, int min, int max) {
-        this(name, initialValue, action);
-        doubleField.setMin(min);
-        doubleField.setMax(max);
+    public PropertyDouble(String name, double initialValue, Consumer<Double> action, double min, double max) {
+        super(name, initialValue, action, min, max);
     }
 
     @Override
-    public Double getValue() {
-        return doubleField.getValue();
-    }
-
-    @Override
-    protected void setValue(Double value) {
-        doubleField.setValue(value);
-    }
-
-    @Override
-    protected void build() {
-        super.build();
-        this.addAll(doubleField = new DoubleField(initialValue));
-    }
-
-    @Override
-    public void updateSize(int listWidth) {
-        doubleField.setPrefWidth(listWidth - nameLabel.getWidth() - OFFSET - 64);
+    protected NumberField<Double> createField(Double value) {
+        return new DoubleField(value);
     }
 }

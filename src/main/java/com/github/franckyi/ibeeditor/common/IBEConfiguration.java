@@ -1,17 +1,20 @@
 package com.github.franckyi.ibeeditor.common;
 
+import com.github.franckyi.ibeeditor.IBEEditorMod;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.config.ModConfig;
 import org.apache.commons.lang3.tuple.Pair;
-import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Marker;
+import org.apache.logging.log4j.MarkerManager;
 
 public final class IBEConfiguration {
-
-    public static final Client CLIENT;
+    private static final Marker MARKER;
     public static final ForgeConfigSpec clientSpec;
+    public static final Client CLIENT;
 
     static {
+        MARKER = MarkerManager.getMarker("CONFIG");
         final Pair<Client, ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder().configure(Client::new);
         clientSpec = specPair.getRight();
         CLIENT = specPair.getLeft();
@@ -19,20 +22,20 @@ public final class IBEConfiguration {
 
     @SubscribeEvent
     public static void onLoad(final ModConfig.Loading configEvent) {
-        LogManager.getLogger().debug("Loaded IBE Editor config file {}", configEvent.getConfig().getFileName());
+        IBEEditorMod.LOGGER.info(MARKER, "Loaded IBE Editor configuration file {}", configEvent.getConfig().getFileName());
     }
 
     @SubscribeEvent
     public static void onFileChange(final ModConfig.ConfigReloading configEvent) {
-        LogManager.getLogger().fatal("IBE Editor config just got changed on the file system!");
+        IBEEditorMod.LOGGER.info(MARKER, "Reloaded IBE Editor configuration file {}", configEvent.getConfig().getFileName());
     }
 
     public static class Client {
-
         public final ForgeConfigSpec.BooleanValue doesGuiPauseGame;
         public final ForgeConfigSpec.BooleanValue appendFormatCharAtCursor;
         public final ForgeConfigSpec.BooleanValue showEditorNotifications;
         public final ForgeConfigSpec.BooleanValue showClipboardNotifications;
+        public final ForgeConfigSpec.BooleanValue creativeModeOnly;
 
         private Client(ForgeConfigSpec.Builder builder) {
             builder.comment("These configurations are only for the client side").push("client");
@@ -48,9 +51,10 @@ public final class IBEConfiguration {
             showClipboardNotifications = builder
                     .comment("If true, notifications about the clipboard (clipboard loaded from disk / saved to disk) will be shown at the top-left corner of the screen.")
                     .define("showClipboardNotifications", false);
+            creativeModeOnly = builder
+                    .comment("If true, the editor will only open if the player is in creative mode.")
+                    .define("creativeModeOnly", true);
             builder.pop();
         }
     }
-
-
 }
