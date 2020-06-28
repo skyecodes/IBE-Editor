@@ -14,6 +14,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.EntityRayTraceResult;
@@ -21,6 +22,7 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraftforge.items.CapabilityItemHandler;
 
 public final class EditorHelper {
     private static final ITextComponent MUST_CREATIVE = new StringTextComponent(TextFormatting.RED +
@@ -28,6 +30,7 @@ public final class EditorHelper {
 
     private static final Minecraft mc = Minecraft.getInstance();
     private static boolean serverEnabled;
+    private static BlockPos warningPos;
 
     public static boolean openEditor() {
         return openEntityEditor() || openBlockEditor() || openItemEditor() || openSelfEditor();
@@ -71,13 +74,13 @@ public final class EditorHelper {
     private static void openItemEditorMainHand(ItemStack itemStack) {
         if (checkPermissions()) {
             if (isServerEnabled()) {
-                new ItemEditor(itemStack, itemStack1 -> IBENetworkHandler.getModChannel().sendToServer(new MainHandItemEditorMessage(itemStack1)));
+                ItemEditor.withConsumer(itemStack, itemStack1 -> IBENetworkHandler.getModChannel().sendToServer(new MainHandItemEditorMessage(itemStack1)));
             } else {
                 if (mc.playerController.isInCreativeMode()) {
-                    new ItemEditor(itemStack, itemStack1 ->
+                    ItemEditor.withConsumer(itemStack, itemStack1 ->
                             mc.playerController.sendSlotPacket(itemStack1, mc.player.inventory.currentItem));
                 } else {
-                    new ItemEditor(itemStack, itemStack1 -> ClientUtils.sendCommand(
+                    ItemEditor.withConsumer(itemStack, itemStack1 -> ClientUtils.handleCommand(
                             ClientUtils.getReplaceItemCommandForPlayerMainHand(itemStack1)));
                 }
             }
@@ -87,14 +90,14 @@ public final class EditorHelper {
     static void openItemEditorFromPlayerInventory(Slot slot) {
         if (checkPermissions()) {
             if (isServerEnabled()) {
-                new ItemEditor(slot.getStack(), itemStack -> IBENetworkHandler.getModChannel().sendToServer(
+                ItemEditor.withConsumer(slot.getStack(), itemStack -> IBENetworkHandler.getModChannel().sendToServer(
                         new PlayerInventoryItemEditorMessage(itemStack, slot.getSlotIndex())));
             } else {
                 if (mc.playerController.isInCreativeMode()) {
-                    new ItemEditor(slot.getStack(), itemStack1 ->
+                    ItemEditor.withConsumer(slot.getStack(), itemStack1 ->
                             mc.playerController.sendSlotPacket(itemStack1, slot.slotNumber));
                 } else {
-                    new ItemEditor(slot.getStack(), itemStack1 -> ClientUtils.sendCommand(
+                    ItemEditor.withConsumer(slot.getStack(), itemStack1 -> ClientUtils.handleCommand(
                             ClientUtils.getReplaceItemCommandForPlayer(itemStack1, slot)));
                 }
             }
@@ -104,10 +107,10 @@ public final class EditorHelper {
     static void openItemEditorFromBlockInventory(Slot slot, BlockPos blockPos) {
         if (checkPermissions()) {
             if (isServerEnabled()) {
-                new ItemEditor(slot.getStack(), itemStack -> IBENetworkHandler.getModChannel().sendToServer(
+                ItemEditor.withConsumer(slot.getStack(), itemStack -> IBENetworkHandler.getModChannel().sendToServer(
                         new BlockInventoryItemEditorMessage(itemStack, slot.getSlotIndex(), blockPos)));
             } else {
-                new ItemEditor(slot.getStack(), itemStack -> ClientUtils.sendCommand(
+                ItemEditor.withConsumer(slot.getStack(), itemStack -> ClientUtils.handleCommand(
                         ClientUtils.getReplaceItemCommandForBlock(itemStack, slot, blockPos)));
             }
         }
@@ -116,10 +119,10 @@ public final class EditorHelper {
     static void openItemEditorFromEntityInventory(Slot slot, Entity entity) {
         if (checkPermissions()) {
             if (isServerEnabled()) {
-                new ItemEditor(slot.getStack(), itemStack -> IBENetworkHandler.getModChannel().sendToServer(
+                ItemEditor.withConsumer(slot.getStack(), itemStack -> IBENetworkHandler.getModChannel().sendToServer(
                         new EntityInventoryItemEditorMessage(itemStack, slot.getSlotIndex(), entity.getEntityId())));
             } else {
-                new ItemEditor(slot.getStack(), itemStack -> ClientUtils.sendCommand(
+                ItemEditor.withConsumer(slot.getStack(), itemStack -> ClientUtils.handleCommand(
                         ClientUtils.getReplaceItemCommandForEntity(itemStack, slot, entity)));
             }
         }
@@ -136,7 +139,18 @@ public final class EditorHelper {
             if (isServerEnabled()) {
                 IBENetworkHandler.getModChannel().sendToServer(new InitBlockEditorRequest(blockPos));
             } else {
-                new BlockEditor(blockPos, null);
+                TileEntity te = mc.world.getTileEntity(blockPos);
+                if (te != null && te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).isPresent()) {
+                    if (!blockPos.equals(warningPos)) {
+                        mc.player.sendMessage(new StringTextComponent("[IBE Editor] Be careful, editing this block will delete all the items it contains! Open the editor again if you want to continue.")
+                                .applyTextStyle(TextFormatting.RED));
+                        warningPos = blockPos;
+                        return;
+                    } else {
+                        warningPos = null;
+                    }
+                }
+                new BlockEditor(blockPos, te);
             }
         }
     }

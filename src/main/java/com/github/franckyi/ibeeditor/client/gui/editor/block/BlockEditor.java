@@ -12,10 +12,11 @@ import com.github.franckyi.ibeeditor.client.gui.editor.block.tileentity.MobSpawn
 import com.github.franckyi.ibeeditor.client.gui.editor.block.tileentity.SpawnPotentialsCategory;
 import com.github.franckyi.ibeeditor.common.network.IBENetworkHandler;
 import com.github.franckyi.ibeeditor.common.network.editor.block.BlockEditorMessage;
+import com.google.common.collect.ImmutableMap;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.play.client.CChatMessagePacket;
 import net.minecraft.tileentity.CommandBlockTileEntity;
 import net.minecraft.tileentity.LockableTileEntity;
 import net.minecraft.tileentity.MobSpawnerTileEntity;
@@ -76,10 +77,13 @@ public class BlockEditor extends CapabilityProviderEditor {
         } else {
             if (EditorHelper.isServerEnabled()) {
                 IBENetworkHandler.getModChannel().sendToServer(new BlockEditorMessage(blockPos, blockState, tileEntity));
+                IBENotification.show(IBENotification.Type.EDITOR, 3, TextFormatting.GREEN + "Block saved.");
             } else {
-                ClientUtils.sendCommand(ClientUtils.getSetblockCommand(blockPos, blockState, tileEntity));
+                ClientUtils.sendCommand(ClientUtils.getSetblockCommand(blockPos, new BlockState(Blocks.AIR, ImmutableMap.of()), null));
+                if (ClientUtils.handleCommand(ClientUtils.getSetblockCommand(blockPos, blockState, tileEntity))) {
+                    IBENotification.show(IBENotification.Type.EDITOR, 3, TextFormatting.GREEN + "Block saved.");
+                }
             }
-            IBENotification.show(IBENotification.Type.EDITOR, 3, TextFormatting.GREEN + "Block saved.");
         }
     }
 

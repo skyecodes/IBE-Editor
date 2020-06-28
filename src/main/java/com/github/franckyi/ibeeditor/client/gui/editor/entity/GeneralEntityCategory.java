@@ -1,7 +1,10 @@
 package com.github.franckyi.ibeeditor.client.gui.editor.entity;
 
 import com.github.franckyi.ibeeditor.client.gui.editor.base.AbstractCategory;
-import com.github.franckyi.ibeeditor.client.gui.editor.base.property.*;
+import com.github.franckyi.ibeeditor.client.gui.editor.base.property.PropertyBoolean;
+import com.github.franckyi.ibeeditor.client.gui.editor.base.property.PropertyFloat;
+import com.github.franckyi.ibeeditor.client.gui.editor.base.property.PropertyFormattedText;
+import com.github.franckyi.ibeeditor.client.gui.editor.base.property.PropertyInteger;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.text.StringTextComponent;
@@ -40,8 +43,8 @@ public class GeneralEntityCategory extends AbstractCategory {
     }
 
     @Override
-    public void postApply() {
-        super.postApply();
+    public void apply() {
+        super.apply();
         if (healthProperty != null) {
             healthProperty.getNumberField().setMax(((LivingEntity) entity).getMaxHealth());
         }

@@ -7,22 +7,34 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
-import net.minecraft.nbt.ListNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
-import org.apache.logging.log4j.Marker;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.util.text.event.ClickEvent;
+import net.minecraft.util.text.event.HoverEvent;
 import org.apache.logging.log4j.MarkerManager;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 
 public final class ClientUtils {
     private static final Minecraft mc = Minecraft.getInstance();
+    private static final ITextComponent COMMAND_SENT_MESSAGE = new StringTextComponent("[IBE Editor] Command sent.")
+            .applyTextStyle(TextFormatting.GREEN);
+    private static final ITextComponent COMMAND_COPIED_MESSAGE = new StringTextComponent("[IBE Editor] Command copied in your clipboard. Paste it in a ")
+            .applyTextStyle(TextFormatting.YELLOW)
+            .appendSibling(new TranslationTextComponent("block.minecraft.command_block")
+                    .applyTextStyle(style -> style
+                            .setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/give @p minecraft:command_block 1"))
+                            .setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_ITEM, new StringTextComponent(new ItemStack(Items.COMMAND_BLOCK).write(new CompoundNBT()).toString())))
+                            .setColor(TextFormatting.LIGHT_PURPLE)
+                            .setUnderlined(true))
+            )
+            .appendSibling(new StringTextComponent(" to apply the changes."));
 
     public static Entity createEntity(CompoundNBT entityTag) {
         EntityType<?> entityType = EntityType.byKey(entityTag.getString("id")).orElse(EntityType.PIG);
@@ -70,7 +82,7 @@ public final class ClientUtils {
         StringBuilder builder = new StringBuilder("[");
         blockState.getProperties().forEach(property -> builder
                 .append(property.getName()).append("=")
-                .append(blockState.get(property))
+                .append(blockState.get(property).toString().toLowerCase())
                 .append(","));
         if (builder.length() > 1) {
             builder.deleteCharAt(builder.length() - 1);
@@ -142,33 +154,20 @@ public final class ClientUtils {
         return String.format("/data merge entity %s %s", entity.getUniqueID(), tag);
     }
 
-    public static void sendCommand(String command) {
+    public static boolean handleCommand(String command) {
         IBEEditorMod.LOGGER.debug(MarkerManager.getMarker("COMMAND"), command);
+        if (command.length() < 256) {
+            sendCommand(command);
+            mc.player.sendMessage(COMMAND_SENT_MESSAGE);
+            return true;
+        } else {
+            copyCommand(command);
+            mc.player.sendMessage(COMMAND_COPIED_MESSAGE);
+            return false;
+        }
+    }
+
+    public static void sendCommand(String command) {
         mc.player.sendChatMessage(command);
-    }
-
-    public static CompoundNBT compareNBT(CompoundNBT oldTag, CompoundNBT newTag) {
-        CompoundNBT res = new CompoundNBT();
-        for (String s : newTag.keySet()) {
-            INBT newNbt = newTag.get(s);
-            INBT oldNbt = oldTag.get(s);
-            if (newNbt == null) continue;
-            if (newNbt instanceof CompoundNBT) {
-                res.put(s, compareNBT(oldTag.getCompound(s), (CompoundNBT) newNbt));
-            } else if (!newNbt.equals(oldNbt)) {
-                res.put(s, newNbt);
-            }
-        }
-        return res;
-    }
-
-    public static List<CompoundNBT> split(CompoundNBT nbt) {
-        List<CompoundNBT> res = new ArrayList<>();
-        for (String s : nbt.keySet()) {
-            CompoundNBT c = new CompoundNBT();
-            c.put(s, nbt.get(s));
-            res.add(c);
-        }
-        return res;
     }
 }

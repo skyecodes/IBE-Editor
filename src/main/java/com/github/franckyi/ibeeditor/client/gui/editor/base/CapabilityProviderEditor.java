@@ -1,5 +1,6 @@
 package com.github.franckyi.ibeeditor.client.gui.editor.base;
 
+import com.github.franckyi.ibeeditor.client.EditorHelper;
 import com.github.franckyi.ibeeditor.client.gui.editor.base.category.capability.ItemHandlerCategory;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityProvider;
@@ -40,7 +41,7 @@ public abstract class CapabilityProviderEditor extends AbstractEditor {
         }
 
         private static <T> CapabilityProviderEditorConfiguration createCapability(Capability<T> capability, String name, Function<T, AbstractCategory> categoryBuilder) {
-            return new CapabilityProviderEditorConfiguration<>(provider -> provider.getCapability(capability).isPresent(), provider -> provider.getCapability(capability).orElse(null), name, categoryBuilder);
+            return new CapabilityProviderEditorConfiguration<>(provider -> EditorHelper.isServerEnabled() && provider.getCapability(capability).isPresent(), provider -> provider.getCapability(capability).orElse(null), name, categoryBuilder);
         }
 
     }

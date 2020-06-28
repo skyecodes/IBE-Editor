@@ -14,7 +14,6 @@ import net.minecraft.util.text.TextFormatting;
 import java.util.function.Consumer;
 
 public class SlotProperty extends LabeledProperty<Void> {
-
     public SlotProperty(String name, ItemStack itemStack, Consumer<ItemStack> update) {
         super(name, null, aVoid -> {
         });
@@ -37,7 +36,7 @@ public class SlotProperty extends LabeledProperty<Void> {
                     removeButton = new TexturedButton("delete.png", TextFormatting.RED + "Remove")
             );
             actionButton.getOnMouseClickedListeners().add(e ->
-                    new ItemEditor(itemStack, update));
+                    ItemEditor.withConsumer(itemStack, update));
             removeButton.getOnMouseClickedListeners().add(e -> update.accept(ItemStack.EMPTY));
             actionButton.setPrefWidth(99);
         }

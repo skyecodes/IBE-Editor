@@ -14,7 +14,6 @@ import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.passive.FoxEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.play.client.CChatMessagePacket;
 import net.minecraft.util.text.TextFormatting;
 
 import java.util.function.Consumer;
@@ -66,11 +65,12 @@ public class EntityEditor extends CapabilityProviderEditor {
             } else {
                 if (EditorHelper.isServerEnabled()) {
                     IBENetworkHandler.getModChannel().sendToServer(new EntityEditorMessage(entity));
+                    IBENotification.show(IBENotification.Type.EDITOR, 3, TextFormatting.GREEN + "Entity saved.");
                 } else {
-                    CompoundNBT diff = ClientUtils.compareNBT(entityTag, newTag);
-                    ClientUtils.sendCommand(ClientUtils.getEntityData(entity, diff));
+                    if (ClientUtils.handleCommand(ClientUtils.getEntityData(entity, newTag))) {
+                        IBENotification.show(IBENotification.Type.EDITOR, 3, TextFormatting.GREEN + "Entity saved.");
+                    }
                 }
-                IBENotification.show(IBENotification.Type.EDITOR, 3, TextFormatting.GREEN + "Entity saved.");
             }
         }
     }

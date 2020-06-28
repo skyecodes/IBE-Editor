@@ -1,12 +1,9 @@
 package com.github.franckyi.ibeeditor.client.gui.editor.item;
 
 import com.github.franckyi.guapi.node.TexturedButton;
-import com.github.franckyi.ibeeditor.client.EditorHelper;
 import com.github.franckyi.ibeeditor.client.IBENotification;
 import com.github.franckyi.ibeeditor.client.gui.editor.base.AbstractCategory;
 import com.github.franckyi.ibeeditor.client.gui.editor.base.CapabilityProviderEditor;
-import com.github.franckyi.ibeeditor.common.network.IBENetworkHandler;
-import com.github.franckyi.ibeeditor.common.network.IMessage;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.PotionItem;
@@ -14,19 +11,24 @@ import net.minecraft.item.TippedArrowItem;
 import net.minecraft.util.text.TextFormatting;
 
 import java.util.function.Consumer;
-import java.util.function.Function;
+import java.util.function.Predicate;
 
 public class ItemEditor extends CapabilityProviderEditor {
-
     private final ItemStack itemStack;
-    private final Consumer<ItemStack> action;
+    private final Predicate<ItemStack> action;
 
-    public ItemEditor(ItemStack itemStack) {
-        this(itemStack, stack -> {
+    public static void withConsumer(ItemStack itemStack, Consumer<ItemStack> action) {
+        new ItemEditor(itemStack, itemStack1 -> {
+            action.accept(itemStack1);
+            return true;
         });
     }
 
-    public ItemEditor(ItemStack itemStack, Consumer<ItemStack> action) {
+    public static void withPredicate(ItemStack itemStack, Predicate<ItemStack> action) {
+        new ItemEditor(itemStack, action);
+    }
+
+    private ItemEditor(ItemStack itemStack, Predicate<ItemStack> action) {
         super("Item Editor :");
         this.itemStack = itemStack;
         this.action = action;
@@ -56,8 +58,9 @@ public class ItemEditor extends CapabilityProviderEditor {
         if (baseStack.equals(itemStack, false)) {
             IBENotification.show(IBENotification.Type.EDITOR, 3, TextFormatting.YELLOW + "Nothing to save.");
         } else {
-            this.action.accept(itemStack);
-            IBENotification.show(IBENotification.Type.EDITOR, 3, TextFormatting.GREEN + "Item saved.");
+            if (this.action.test(itemStack)) {
+                IBENotification.show(IBENotification.Type.EDITOR, 3, TextFormatting.GREEN + "Item saved.");
+            }
         }
     }
 
