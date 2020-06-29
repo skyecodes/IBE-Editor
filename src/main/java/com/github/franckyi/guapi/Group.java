@@ -14,7 +14,7 @@ import java.util.stream.Stream;
 
 public abstract class Group extends Node<Group.GuiGroupView> implements IParent {
 
-    private final List<Node> children;
+    private final List<Node<?>> children;
     private Pos alignment;
 
     public Group(GuiGroupView view) {
@@ -28,7 +28,7 @@ public abstract class Group extends Node<Group.GuiGroupView> implements IParent 
     }
 
     @Override
-    public List<Node> getChildren() {
+    public List<Node<?>> getChildren() {
         return children;
     }
 
@@ -75,12 +75,12 @@ public abstract class Group extends Node<Group.GuiGroupView> implements IParent 
         }
     }
 
-    private class GroupChildren extends ArrayList<Node> {
+    private class GroupChildren extends ArrayList<Node<?>> {
 
         @Override
-        public Node set(int index, Node element) throws IllegalArgumentException {
+        public Node<?> set(int index, Node element) throws IllegalArgumentException {
             checkNode(element);
-            Node old = super.set(index, element);
+            Node<?> old = super.set(index, element);
             if (element != null) {
                 element.setParent(Group.this);
             }
@@ -110,8 +110,8 @@ public abstract class Group extends Node<Group.GuiGroupView> implements IParent 
         }
 
         @Override
-        public Node remove(int index) {
-            Node old = super.remove(index);
+        public Node<?> remove(int index) {
+            Node<?> old = super.remove(index);
             if (old != null) {
                 old.setParent(null);
             }
@@ -122,7 +122,7 @@ public abstract class Group extends Node<Group.GuiGroupView> implements IParent 
         public boolean remove(Object o) {
             boolean res = super.remove(o);
             if (o instanceof Node) {
-                ((Node) o).setParent(null);
+                ((Node<?>) o).setParent(null);
             }
             return res;
         }
@@ -136,7 +136,7 @@ public abstract class Group extends Node<Group.GuiGroupView> implements IParent 
         }
 
         @Override
-        public boolean addAll(Collection<? extends Node> c) throws IllegalArgumentException {
+        public boolean addAll(Collection<? extends Node<?>> c) throws IllegalArgumentException {
             c.forEach(this::checkNode);
             boolean res = super.addAll(c);
             if (res) {
@@ -149,7 +149,7 @@ public abstract class Group extends Node<Group.GuiGroupView> implements IParent 
         }
 
         @Override
-        public boolean addAll(int index, Collection<? extends Node> c) throws IllegalArgumentException {
+        public boolean addAll(int index, Collection<? extends Node<?>> c) throws IllegalArgumentException {
             c.forEach(this::checkNode);
             boolean res = super.addAll(index, c);
             if (res) {
@@ -163,7 +163,7 @@ public abstract class Group extends Node<Group.GuiGroupView> implements IParent 
 
         @Override
         protected void removeRange(int fromIndex, int toIndex) {
-            List<Node> subList = this.subList(fromIndex, toIndex);
+            List<Node<?>> subList = this.subList(fromIndex, toIndex);
             super.removeRange(fromIndex, toIndex);
             subList.stream()
                     .filter(node -> !this.contains(node))
@@ -178,7 +178,7 @@ public abstract class Group extends Node<Group.GuiGroupView> implements IParent 
                 c.stream()
                         .filter(node -> !this.contains(node))
                         .filter(o -> o instanceof Node)
-                        .map(o -> (Node) o)
+                        .map(o -> (Node<?>) o)
                         .forEach(node -> node.setParent(null));
             }
             return res;
@@ -186,31 +186,31 @@ public abstract class Group extends Node<Group.GuiGroupView> implements IParent 
 
         @Override
         public boolean retainAll(Collection<?> c) {
-            Stream<Node> removed = this.stream()
+            Stream<Node<?>> removed = this.stream()
                     .filter(node -> !c.contains(node));
             return checkResultAndRemoveParent(removed, super.retainAll(c));
         }
 
         @Override
-        public boolean removeIf(Predicate<? super Node> filter) {
-            Stream<Node> removed = this.stream()
+        public boolean removeIf(Predicate<? super Node<?>> filter) {
+            Stream<Node<?>> removed = this.stream()
                     .filter(filter);
             return checkResultAndRemoveParent(removed, super.removeIf(filter));
         }
 
         @Override
-        public void replaceAll(UnaryOperator<Node> operator) {
+        public void replaceAll(UnaryOperator<Node<?>> operator) {
             super.replaceAll(operator);
             this.forEach(node -> node.setParent(Group.this));
         }
 
-        private void checkNode(Node node) throws IllegalArgumentException {
+        private void checkNode(Node<?> node) throws IllegalArgumentException {
             if (node != null && node.getParent() != null)
                 IBEEditorMod.LOGGER.error("Argument node " + node + " already has a parent " + node.getParent());
             //throw new IllegalArgumentException("Argument node already has a parent");
         }
 
-        private boolean checkResultAndRemoveParent(Stream<Node> removed, boolean res) {
+        private boolean checkResultAndRemoveParent(Stream<Node<?>> removed, boolean res) {
             if (res) {
                 removed
                         .filter(node -> !this.contains(node))

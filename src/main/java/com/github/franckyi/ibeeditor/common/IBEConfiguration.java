@@ -26,7 +26,7 @@ public final class IBEConfiguration {
     }
 
     @SubscribeEvent
-    public static void onFileChange(final ModConfig.ConfigReloading configEvent) {
+    public static void onFileChange(final ModConfig.Reloading configEvent) {
         IBEEditorMod.LOGGER.info(MARKER, "Reloaded IBE Editor configuration file {}", configEvent.getConfig().getFileName());
     }
 

@@ -169,7 +169,7 @@ public class ListExtended<E extends ExtendedList.AbstractListEntry & IScreenEven
 
         @Override
         public void renderView(int mouseX, int mouseY, float partialTicks) {
-            super.render(mouseX, mouseY, partialTicks);
+            this.render(mouseX, mouseY, partialTicks);
         }
 
         @Override
@@ -187,7 +187,7 @@ public class ListExtended<E extends ExtendedList.AbstractListEntry & IScreenEven
         }
     }
 
-    public static class NodeEntry<T extends Node> extends ExtendedList.AbstractListEntry<NodeEntry<T>> implements IScreenEventListener, IParent {
+    public static class NodeEntry<T extends Node<?>> extends ExtendedList.AbstractListEntry<NodeEntry<T>> implements IScreenEventListener, IParent {
 
         private final Set<IEventListener<GuiScreenEvent.MouseClickedEvent>> onMouseClickedListeners;
         private final Set<IEventListener<GuiScreenEvent.MouseReleasedEvent>> onMouseReleasedListeners;
@@ -215,19 +215,18 @@ public class ListExtended<E extends ExtendedList.AbstractListEntry & IScreenEven
             return node;
         }
 
-        protected ListExtended.GuiListExtendedView<NodeEntry<T>> getList() {
+        protected GuiListExtendedView<NodeEntry<T>> getList() {
             return ((GuiListExtendedView<NodeEntry<T>>) this.list);
         }
 
         @Override
         public void render(int index, int entryTop, int entryLeft, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean p_194999_5_, float partialTicks) {
-            GuiListExtendedView list = this.getList();
+            GuiListExtendedView<?> list = this.getList();
             int width = entryWidth - list.getOffset().getHorizontal() - 5;
             if (entryLeft != node.getX() || entryTop != node.getY())
                 node.setPosition(entryLeft + 4, entryTop);
             if (width != node.getWidth() || entryHeight != node.getHeight())
                 node.setPrefSize(width - 10, entryHeight);
-            //AbstractGui.fill(node.getX(), node.getY(), node.getX() + node.getWidth(), node.getY() + node.getHeight(), Color.RED.getRGB());
             node.render(mouseX, mouseY, partialTicks);
         }
 

@@ -3,7 +3,6 @@ package com.github.franckyi.guapi.node;
 import com.github.franckyi.guapi.Node;
 import com.github.franckyi.guapi.gui.IGuiView;
 import com.google.common.collect.Lists;
-import net.minecraftforge.fml.client.config.GuiButtonExt;
 
 import java.util.List;
 
@@ -59,7 +58,7 @@ public class Button extends Node<Button.GuiButtonView> {
         this.setComputedHeight(20 + this.getPadding().getHorizontal());
     }
 
-    public static class GuiButtonView extends GuiButtonExt implements IGuiView {
+    public static class GuiButtonView extends net.minecraft.client.gui.widget.button.Button implements IGuiView {
 
         protected final List<String> tooltipText;
 

@@ -3,7 +3,7 @@ package com.github.franckyi.guapi.util;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.client.config.GuiUtils;
+import net.minecraftforge.fml.client.gui.GuiUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,8 +30,8 @@ public class Notification {
         if (e.phase == TickEvent.Phase.END) {
             int j = 20;
             for (Notification notification : notifications) {
-                GuiUtils.drawHoveringText(notification.textLines, 0, j, mc.mainWindow.getWidth(),
-                        mc.mainWindow.getHeight(), mc.mainWindow.getWidth(), mc.fontRenderer);
+                GuiUtils.drawHoveringText(notification.textLines, 0, j, mc.getMainWindow().getWidth(),
+                        mc.getMainWindow().getHeight(), mc.getMainWindow().getWidth(), mc.fontRenderer);
                 j += 5 + 12 * notification.textLines.size();
             }
             notifications.removeIf(notification -> notification.counter < 0);

@@ -47,7 +47,7 @@ public abstract class AbstractProperty<T> extends ListExtended.NodeEntry<HBox> i
         action.accept(this.getValue());
     }
 
-    public final void addAll(Node... nodes) {
+    public final void addAll(Node<?>... nodes) {
         this.getNode().getChildren().addAll(Arrays.asList(nodes));
     }
 

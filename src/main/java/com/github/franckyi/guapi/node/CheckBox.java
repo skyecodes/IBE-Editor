@@ -5,9 +5,9 @@ import com.github.franckyi.guapi.Node;
 import com.github.franckyi.guapi.Scene;
 import com.github.franckyi.guapi.gui.IGuiView;
 import com.google.common.collect.Lists;
+import net.minecraft.client.gui.widget.button.Button;
 import net.minecraftforge.client.event.GuiScreenEvent;
-import net.minecraftforge.fml.client.config.GuiButtonExt;
-import net.minecraftforge.fml.client.config.GuiUtils;
+import net.minecraftforge.fml.client.gui.GuiUtils;
 
 import java.util.HashSet;
 import java.util.List;
@@ -101,7 +101,7 @@ public class CheckBox extends Node<CheckBox.GuiCheckBoxView> implements IValueNo
         return onValueChangedListeners;
     }
 
-    public static class GuiCheckBoxView extends GuiButtonExt implements IGuiView {
+    public static class GuiCheckBoxView extends Button implements IGuiView {
 
         private int spacing;
         private boolean checked;
@@ -177,7 +177,7 @@ public class CheckBox extends Node<CheckBox.GuiCheckBoxView> implements IValueNo
         @Override
         public void renderView(int mouseX, int mouseY, float partialTicks) {
             int boxSize = this.height;
-            GuiUtils.drawContinuousTexturedBox(WIDGETS_LOCATION, this.x, this.y, 0, 46, boxSize, this.height, 200, 20, 2, 3, 2, 2, this.blitOffset);
+            GuiUtils.drawContinuousTexturedBox(WIDGETS_LOCATION, this.x, this.y, 0, 46, boxSize, this.height, 200, 20, 2, 3, 2, 2, this.getBlitOffset());
             if (this.checked) {
                 this.drawCenteredString(mc.fontRenderer, "x", this.x + boxSize / 2 + 1, this.y + 1, 14737632);
             }

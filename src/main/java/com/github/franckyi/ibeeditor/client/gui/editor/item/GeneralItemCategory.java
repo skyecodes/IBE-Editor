@@ -85,7 +85,7 @@ public class GeneralItemCategory extends EditableCategory<String> {
             flag = false;
         }
         itemStack.getOrCreateChildTag("display")
-                .getList("Lore", Constants.NBT.TAG_STRING).add(new StringNBT("{\"text\": \"" + lore + "\"}"));
+                .getList("Lore", Constants.NBT.TAG_STRING).add(StringNBT.valueOf("{\"text\": \"" + lore + "\"}"));
     }
 
     private void setUnbreakable(boolean unbreakable) {

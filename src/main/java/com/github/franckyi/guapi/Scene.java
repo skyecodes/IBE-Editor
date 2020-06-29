@@ -6,13 +6,12 @@ import com.github.franckyi.guapi.scene.IBackground;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.client.config.GuiUtils;
+import net.minecraftforge.fml.client.gui.GuiUtils;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -378,7 +377,7 @@ public class Scene implements IScreenEventListener, IParent {
         @Override
         public void render(int mouseX, int mouseY, float partialTicks) {
             this.getScene().getBackground().draw(this);
-            RenderHelper.enableGUIStandardItemLighting();
+            //RenderHelper.enableStandardItemLighting();
             this.getScene().render(mouseX, mouseY, partialTicks);
             tooltips.forEach(tooltip -> GuiUtils.drawHoveringText(tooltip.textLines, tooltip.x, tooltip.y, width, height, Integer.MAX_VALUE, tooltip.font));
             tooltips.clear();

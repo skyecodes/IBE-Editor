@@ -61,7 +61,7 @@ public class ViewClipboard extends AbstractClipboard {
 
         public ItemView(ItemClipboardEntry item) {
             super(item);
-            List<Node> children = this.getNode().getChildren();
+            List<Node<?>> children = this.getNode().getChildren();
             children.add(editButton = new Button("Open in Item Editor"));
             editButton.setPrefWidth(170);
             editButton.getOnMouseClickedListeners().add(event -> ItemEditor.withConsumer(itemStack, stack -> {
@@ -91,7 +91,7 @@ public class ViewClipboard extends AbstractClipboard {
 
         public EntityView(EntityClipboardEntry entity) {
             super(entity);
-            List<Node> children = this.getNode().getChildren();
+            List<Node<?>> children = this.getNode().getChildren();
             children.add(editButton = new Button("Open in Entity Editor"));
             editButton.setPrefWidth(170);
             editButton.getOnMouseClickedListeners().add(event -> new EntityEditor(this.entity, entity0 -> {

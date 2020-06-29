@@ -26,7 +26,7 @@ public abstract class AbstractClipboard extends Scene {
 
     protected final VBox content;
     protected final Label header;
-    protected final ListExtended<ListExtended.NodeEntry<?>> body;
+    protected final ListExtended<ClipboardView> body;
     protected final HBox footer;
     protected Filter filter;
 
@@ -57,14 +57,12 @@ public abstract class AbstractClipboard extends Scene {
         header.setPrefWidth(content.getWidth());
         footer.setPrefWidth(content.getWidth());
         body.setPrefSize(content.getWidth(), content.getHeight() - 60);
+        body.getView().setHeight(content.getHeight());
         this.scaleEntriesSize();
     }
 
     private void scaleEntriesSize() {
-        body.getChildren().stream()
-                .filter(node -> node instanceof IResizable)
-                .map(node -> (IResizable) node)
-                .forEach(resizable -> resizable.updateSize(content.getWidth()));
+        body.getChildren().forEach(resizable -> resizable.updateSize(content.getWidth()));
     }
 
     @Override
@@ -117,13 +115,19 @@ public abstract class AbstractClipboard extends Scene {
         }
     }
 
-    protected abstract static class ItemViewBase extends ListExtended.NodeEntry<HBox> implements IResizable {
+    protected abstract static class ClipboardView extends ListExtended.NodeEntry<HBox> implements IResizable {
+        public ClipboardView(HBox node) {
+            super(node);
+        }
+    }
+
+    protected abstract static class ItemViewBase extends ClipboardView {
 
         protected final TexturedButton itemButton;
         protected final Label nameLabel;
 
         protected ItemStack itemStack;
-        protected List<Node> children;
+        protected List<Node<?>> children;
 
         public ItemViewBase(ItemClipboardEntry item) {
             super(new HBox(10));
@@ -138,13 +142,13 @@ public abstract class AbstractClipboard extends Scene {
         public abstract void updateSize(int listWidth);
     }
 
-    protected abstract static class EntityViewBase extends ListExtended.NodeEntry<HBox> implements IResizable {
+    protected abstract static class EntityViewBase extends ClipboardView {
 
         protected final TexturedButton entityButton;
         protected final Label nameLabel;
 
         protected Entity entity;
-        protected List<Node> children;
+        protected List<Node<?>> children;
 
         public EntityViewBase(EntityClipboardEntry entity) {
             super(new HBox(10));

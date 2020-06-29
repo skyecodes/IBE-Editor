@@ -55,7 +55,7 @@ public class BlockCategory extends EditableCategory<Block> {
             flag = false;
         }
         itemStack.getOrCreateTag().getList(tagName, Constants.NBT.TAG_STRING)
-                .add(new StringNBT(block.getRegistryName().toString()));
+                .add(StringNBT.valueOf(block.getRegistryName().toString()));
     }
 
     @Override
