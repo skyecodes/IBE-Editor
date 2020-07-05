@@ -1,6 +1,5 @@
 package com.github.franckyi.ibeeditor.client.gui.editor.entity;
 
-import com.github.franckyi.guapi.node.TexturedButton;
 import com.github.franckyi.ibeeditor.client.ClientUtils;
 import com.github.franckyi.ibeeditor.client.EditorHelper;
 import com.github.franckyi.ibeeditor.client.EntityIcons;
@@ -31,8 +30,7 @@ public class EntityEditor extends CapabilityProviderEditor {
         super("Entity Editor :");
         this.entity = entity;
         this.action = action;
-        header.getChildren().add(new TexturedButton(
-                EntityIcons.getHeadFromEntityType(entity.getType()), entity.getName().getFormattedText()));
+        header.getChildren().add(EntityIcons.createTexturedButtonForEntity(entity.getType()));
         this.addCategory("General", new GeneralEntityCategory(entity));
         if (!(entity instanceof PlayerEntity)) {
             //this.applyConfigurations(this.getCapabilityConfigurations(), entity); // NOT READY

@@ -17,7 +17,6 @@ import com.github.franckyi.ibeeditor.client.gui.editor.base.property.IEditableCa
 import com.github.franckyi.ibeeditor.client.gui.editor.entity.EntityEditor;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.tileentity.MobSpawnerTileEntity;
@@ -119,7 +118,7 @@ public class SpawnPotentialsCategory extends EditableCategory<SpawnPotentialsCat
         public void build() {
             this.getNode().setAlignment(Pos.LEFT);
             this.addAll(
-                    entityButton = new TexturedButton(Items.AIR.getRegistryName()),
+                    entityButton = EntityIcons.createTexturedButtonForEntity(EntityType.PIG),
                     weightLabel = new Label("Weight :"),
                     weightField = new IntegerField(),
                     editButton = new Button("Editor", "Open in Entity Editor"),
@@ -143,11 +142,8 @@ public class SpawnPotentialsCategory extends EditableCategory<SpawnPotentialsCat
         }
 
         private void updateEntityButton() {
-            EntityType.byKey(tag.getString("id")).ifPresent(entityType -> {
-                ((TexturedButton.GuiTexturedButtonView) entityButton.getView()).setResource(EntityIcons.getHeadFromEntityType(entityType));
-                entityButton.getText().clear();
-                entityButton.getText().add(entityType.getName().getFormattedText());
-            });
+            EntityType.byKey(tag.getString("id")).ifPresent(entityType -> this.getNode().getChildren().set(0,
+                    entityButton = EntityIcons.createTexturedButtonForEntity(entityType)));
         }
 
         @Override

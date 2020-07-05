@@ -43,7 +43,6 @@ public class ClientProxy implements IProxy {
         ClientRegistry.registerKeyBinding(KEY_OPEN_EDITOR);
         ClientRegistry.registerKeyBinding(KEY_OPEN_CLIPBOARD);
         IBEClipboard.getInstance().load();
-        EntityIcons.setup();
     }
 
     private void onClientTick(TickEvent.ClientTickEvent e) {

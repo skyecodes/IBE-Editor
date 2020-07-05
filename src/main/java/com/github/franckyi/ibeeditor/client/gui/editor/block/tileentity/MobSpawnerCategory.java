@@ -3,7 +3,6 @@ package com.github.franckyi.ibeeditor.client.gui.editor.block.tileentity;
 import com.github.franckyi.guapi.math.Pos;
 import com.github.franckyi.guapi.node.Button;
 import com.github.franckyi.guapi.node.Label;
-import com.github.franckyi.guapi.node.TexturedButton;
 import com.github.franckyi.ibeeditor.client.ClientUtils;
 import com.github.franckyi.ibeeditor.client.EntityIcons;
 import com.github.franckyi.ibeeditor.client.clipboard.EntityClipboardEntry;
@@ -81,7 +80,7 @@ public class MobSpawnerCategory extends TileEntityCategory<MobSpawnerTileEntity>
             Button replaceButton;
             this.addAll(
                     entityLabel = new Label("Next spawn :"),
-                    new TexturedButton(EntityIcons.getHeadFromEntityType(entityType), entityType.getName().getFormattedText()),
+                    EntityIcons.createTexturedButtonForEntity(entityType),
                     editButton = new Button("Editor", "Open in Entity Editor"),
                     replaceButton = new Button("Clipboard", "Replace with Clipboard...")
             );

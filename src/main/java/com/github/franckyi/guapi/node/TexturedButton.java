@@ -30,8 +30,17 @@ public class TexturedButton extends Node<TexturedButton.GuiGraphicButtonView> {
         this.getView().getText().clear();
     }
 
+    public TexturedButton(ResourceLocation texture, int width, int height, int u, int v) {
+        this(texture, width, height, u, v, "");
+        this.getView().getText().clear();
+    }
+
     public TexturedButton(ResourceLocation texture, String text) {
-        super(new GuiTexturedButtonView(texture, text));
+        this(texture, 16, 16, 0, 0, text);
+    }
+
+    public TexturedButton(ResourceLocation texture, int width, int height, int u, int v, String text) {
+        super(new GuiTexturedButtonView(texture, width, height, u, v, text));
         this.computeSize();
         this.updateSize();
     }
@@ -85,14 +94,22 @@ public class TexturedButton extends Node<TexturedButton.GuiGraphicButtonView> {
     }
 
     public static class GuiTexturedButtonView extends GuiGraphicButtonView {
-
         private ResourceLocation resource;
+        private int u, v;
+        private int textureWidth, textureHeight;
+
         private ResourceLocation texture;
         private boolean flag;
 
         public GuiTexturedButtonView(ResourceLocation resource, String... text) {
+            this(resource, 16, 16, 0, 0, text);
+        }
+
+        public GuiTexturedButtonView(ResourceLocation resource, int width, int height, int u, int v, String... text) {
             super(text);
             this.setResource(resource);
+            this.setTextureSize(width, height);
+            this.setTexturePosition(u, v);
         }
 
         public ResourceLocation getResource() {
@@ -106,15 +123,26 @@ public class TexturedButton extends Node<TexturedButton.GuiGraphicButtonView> {
             }
         }
 
+        public void setTexturePosition(int u, int v) {
+            this.u = u;
+            this.v = v;
+        }
+
+        public void setTextureSize(int width, int height) {
+            this.textureWidth = width;
+            this.textureHeight = height;
+        }
+
         @Override
         public void renderView(int mouseX, int mouseY, float partialTicks) {
             super.render(mouseX, mouseY, partialTicks);
             if (this.visible) {
                 if (flag) {
                     texture = this.loadTexture();
+                    flag = false;
                 }
                 mc.getTextureManager().bindTexture(texture);
-                this.drawModalRectWithCustomSizedTexture(this.x + 2, this.y + 2, 0, 0, 16, 16, 16, 16, 2);
+                this.drawModalRectWithCustomSizedTexture(this.x + 2, this.y + 2, u, v, 16, 16, textureWidth, textureHeight, 2);
                 if (this.isHovered() && !tooltipText.isEmpty()) {
                     mc.currentScreen.renderTooltip(tooltipText, mouseX, mouseY);
                 }

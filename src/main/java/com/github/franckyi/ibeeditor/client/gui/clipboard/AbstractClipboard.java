@@ -155,7 +155,7 @@ public abstract class AbstractClipboard extends Scene {
             this.getNode().setAlignment(Pos.LEFT);
             this.entity = entity.getEntity();
             children = this.getNode().getChildren();
-            children.add(entityButton = new TexturedButton(EntityIcons.getHeadFromEntityType(entity.getEntityType())));
+            children.add(entityButton = EntityIcons.createTexturedButtonForEntity(entity.getEntityType()));
             entityButton.setMargin(Insets.left(5));
             children.add(nameLabel = new Label(entity.getEntityType().getName().getFormattedText()));
         }
