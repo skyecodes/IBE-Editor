@@ -42,7 +42,7 @@ public class BlockEditorMessage implements IMessage {
         world.setBlockState(blockPos, blockState);
         TileEntity te = world.getTileEntity(blockPos);
         if (te != null && !tag.isEmpty()) {
-            te.read(tag);
+            te.read(te.getBlockState(), tag);
             te.markDirty();
         }
     }

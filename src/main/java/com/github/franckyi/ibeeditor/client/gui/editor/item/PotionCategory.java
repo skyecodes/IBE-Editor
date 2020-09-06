@@ -3,14 +3,15 @@ package com.github.franckyi.ibeeditor.client.gui.editor.item;
 import com.github.franckyi.guapi.node.TexturedButton;
 import com.github.franckyi.ibeeditor.client.gui.editor.base.AbstractProperty;
 import com.github.franckyi.ibeeditor.client.gui.editor.base.category.EditableCategory;
-import com.github.franckyi.ibeeditor.client.gui.editor.base.property.custom.ItemPotionEffectProperty;
 import com.github.franckyi.ibeeditor.client.gui.editor.base.property.custom.ColorProperty;
+import com.github.franckyi.ibeeditor.client.gui.editor.base.property.custom.ItemPotionEffectProperty;
 import com.github.franckyi.ibeeditor.client.gui.editor.base.property.custom.model.PotionEffectModel;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.potion.PotionUtils;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 
 import java.awt.*;
@@ -81,7 +82,7 @@ public class PotionCategory extends EditableCategory<PotionEffectModel> {
             ItemStack stack = new ItemStack(Items.POTION);
             stack.getOrCreateTag().putInt("CustomPotionColor", value.getRGB());
             TexturedButton previewButton = new TexturedButton(stack, false);
-            previewButton.getTooltipText().add("Preview");
+            previewButton.getTooltipText().add(ITextComponent.func_244388_a("Preview"));
             previewGroup.getChildren().set(0, previewButton);
         }
 
@@ -99,7 +100,7 @@ public class PotionCategory extends EditableCategory<PotionEffectModel> {
                 this.setValue(new Color(PotionUtils.getPotionColorFromEffectList(effects)));
             });
             TexturedButton previewButton = new TexturedButton(new ItemStack(Items.POTION), false);
-            previewButton.getTooltipText().add("Preview");
+            previewButton.getTooltipText().add(ITextComponent.func_244388_a("Preview"));
             previewGroup.getChildren().add(previewButton);
         }
 

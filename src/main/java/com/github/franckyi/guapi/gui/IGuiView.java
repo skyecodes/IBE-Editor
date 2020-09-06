@@ -1,5 +1,6 @@
 package com.github.franckyi.guapi.gui;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.gui.IGuiEventListener;
 
 public interface IGuiView extends IGuiEventListener {
@@ -24,7 +25,7 @@ public interface IGuiView extends IGuiEventListener {
 
     void setViewVisible(boolean visible);
 
-    void renderView(int mouseX, int mouseY, float partialTicks);
+    void renderView(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks);
 
     @Override
     default boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {

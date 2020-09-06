@@ -5,11 +5,13 @@ import com.github.franckyi.guapi.node.TexturedButton;
 import com.github.franckyi.ibeeditor.client.gui.editor.base.AbstractCategory;
 import com.github.franckyi.ibeeditor.client.gui.editor.base.AbstractProperty;
 import com.github.franckyi.ibeeditor.client.gui.editor.base.property.IEditableCategoryProperty;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public abstract class EditableCategory<T> extends AbstractCategory {
 
@@ -75,7 +77,7 @@ public abstract class EditableCategory<T> extends AbstractCategory {
             });
             this.getNode().getChildren().remove(1);
             button.getText().clear();
-            button.getText().addAll(Arrays.asList(textLines));
+            button.getText().addAll(Stream.of(textLines).map(ITextComponent::func_244388_a).collect(Collectors.toList()));
         }
 
         @Override

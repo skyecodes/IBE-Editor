@@ -3,6 +3,7 @@ package com.github.franckyi.guapi;
 import com.github.franckyi.guapi.event.IEventListener;
 import com.github.franckyi.guapi.gui.IGuiView;
 import com.github.franckyi.guapi.math.Insets;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -339,8 +340,8 @@ public abstract class Node<V extends IGuiView> implements IScreenEventListener {
         this.setHeight(this.getPrefHeight() == COMPUTED_SIZE ? this.getComputedHeight() : this.getPrefHeight());
     }
 
-    public void render(int mouseX, int mouseY, float partialTicks) {
-        this.getView().renderView(mouseX, mouseY, partialTicks);
+    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+        this.getView().renderView(matrixStack, mouseX, mouseY, partialTicks);
     }
 
     public void computeSize() {

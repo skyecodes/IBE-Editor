@@ -75,7 +75,7 @@ public class BlockCategory extends EditableCategory<Block> {
         private TextField blockField;
 
         public PropertyBlock(int index, Block initialValue, Consumer<Block> action) {
-            super(initialValue.getNameTextComponent().getUnformattedComponentText(), initialValue, action, Node.COMPUTED_SIZE);
+            super(initialValue.getTranslatedName().getUnformattedComponentText(), initialValue, action, Node.COMPUTED_SIZE);
             controls = new PropertyControls(BlockCategory.this, index);
             IEditableCategoryProperty.super.build();
         }
@@ -110,7 +110,7 @@ public class BlockCategory extends EditableCategory<Block> {
         }
 
         private void update() {
-            nameLabel.setText(getValue().getNameTextComponent().getUnformattedComponentText());
+            nameLabel.setText(getValue().getTranslatedName().getUnformattedComponentText());
             this.updateChildrenPos();
         }
 

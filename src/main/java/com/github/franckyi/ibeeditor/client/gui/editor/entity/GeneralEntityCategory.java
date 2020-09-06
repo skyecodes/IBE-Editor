@@ -7,7 +7,7 @@ import com.github.franckyi.ibeeditor.client.gui.editor.base.property.PropertyFor
 import com.github.franckyi.ibeeditor.client.gui.editor.base.property.PropertyInteger;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.ITextComponent;
 
 public class GeneralEntityCategory extends AbstractCategory {
 
@@ -18,14 +18,14 @@ public class GeneralEntityCategory extends AbstractCategory {
         this.entity = entity;
         this.addAll(
                 new PropertyFormattedText("Name", entity.hasCustomName() ?
-                        entity.getCustomName().getFormattedText() : "", this::setName),
+                        entity.getCustomName().getString() : "", this::setName),
                 new PropertyBoolean("Show name", entity.isCustomNameVisible(), entity::setCustomNameVisible),
                 new PropertyBoolean("Invisible", entity.isInvisible(), entity::setInvisible),
                 new PropertyBoolean("Invulnerable", entity.isInvulnerable(), entity::setInvulnerable),
                 new PropertyBoolean("Silent", entity.isSilent(), entity::setSilent),
                 new PropertyBoolean("No gravity", entity.hasNoGravity(), entity::setNoGravity),
                 new PropertyBoolean("Glowing", entity.isGlowing(), entity::setGlowing),
-                new PropertyInteger("Fire", entity.getFireTimer(), entity::setFireTimer)
+                new PropertyInteger("Fire", entity.getFireTimer(), entity::setFire)
         );
         if (entity instanceof LivingEntity) {
             LivingEntity livingEntity = (LivingEntity) entity;
@@ -38,7 +38,7 @@ public class GeneralEntityCategory extends AbstractCategory {
         if (s.isEmpty()) {
             entity.setCustomName(null);
         } else {
-            entity.setCustomName(new StringTextComponent(s));
+            entity.setCustomName(ITextComponent.func_244388_a(s));
         }
     }
 

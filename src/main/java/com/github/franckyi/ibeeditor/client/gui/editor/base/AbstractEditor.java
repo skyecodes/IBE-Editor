@@ -10,6 +10,8 @@ import com.github.franckyi.guapi.node.Label;
 import com.github.franckyi.guapi.node.ListExtended;
 import com.github.franckyi.guapi.scene.IBackground;
 import com.github.franckyi.ibeeditor.common.IBEConfiguration;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.util.text.TextFormatting;
 
 import java.util.ArrayList;
@@ -128,12 +130,12 @@ public abstract class AbstractEditor extends Scene {
     }
 
     @Override
-    public void render(int mouseX, int mouseY, float partialTicks) {
-        body.render(mouseX, mouseY, partialTicks);
-        footer.render(mouseX, mouseY, partialTicks);
-        header.render(mouseX, mouseY, partialTicks);
+    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+        body.render(matrixStack, mouseX, mouseY, partialTicks);
+        footer.render(matrixStack, mouseX, mouseY, partialTicks);
+        header.render(matrixStack, mouseX, mouseY, partialTicks);
         if (propertiesList.isEmpty()) {
-            this.getScreen().drawCenteredString(mc.fontRenderer, "No parameters available !", this.getScreen().width / 2, body.getY() + body.getHeight() / 2 - 4, TextFormatting.DARK_RED.getColor());
+            AbstractGui.drawCenteredString(matrixStack, mc.fontRenderer, "No parameters available !", this.getScreen().width / 2, body.getY() + body.getHeight() / 2 - 4, TextFormatting.DARK_RED.getColor());
         }
     }
 

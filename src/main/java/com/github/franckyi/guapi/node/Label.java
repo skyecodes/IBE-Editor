@@ -2,6 +2,7 @@ package com.github.franckyi.guapi.node;
 
 import com.github.franckyi.guapi.Node;
 import com.github.franckyi.guapi.gui.AbstractGuiView;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 
@@ -77,15 +78,15 @@ public class Label extends Node<Label.GuiLabelView> {
         }
 
         @Override
-        public void renderView(int mouseX, int mouseY, float partialTicks) {
+        public void renderView(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
             if (this.visible) {
                 RenderSystem.enableBlend();
                 RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
                 int i = this.y + this.height / 2 - 4;
                 if (this.centered) {
-                    this.drawCenteredString(mc.fontRenderer, text, this.x + this.width / 2, i, this.color);
+                    drawCenteredString(matrixStack, mc.fontRenderer, text, this.x + this.width / 2, i, this.color);
                 } else {
-                    this.drawString(mc.fontRenderer, text, this.x, i, this.color);
+                    drawString(matrixStack, mc.fontRenderer, text, this.x, i, this.color);
                 }
             }
         }

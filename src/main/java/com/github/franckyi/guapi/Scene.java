@@ -3,21 +3,23 @@ package com.github.franckyi.guapi;
 import com.github.franckyi.guapi.event.IEventListener;
 import com.github.franckyi.guapi.node.TextFieldBase;
 import com.github.franckyi.guapi.scene.IBackground;
+import com.github.franckyi.guapi.util.GuapiUtils;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.client.gui.GuiUtils;
 
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.function.BiConsumer;
+import java.util.stream.Collectors;
 
 public class Scene implements IScreenEventListener, IParent {
 
@@ -32,7 +34,6 @@ public class Scene implements IScreenEventListener, IParent {
     private final Set<IEventListener<GuiScreenEvent.DrawScreenEvent>> onDrawScreenListeners;
     private final Set<IEventListener<GuiScreenEvent.BackgroundDrawnEvent>> onBackgroundDrawnListeners;
     private final Set<IEventListener<GuiScreenEvent.PotionShiftEvent>> onPotionShiftListeners;
-    private final Set<IEventListener<GuiScreenEvent.ActionPerformedEvent>> onActionPerformedListeners;
     private final Set<Runnable> onGuiClosedListeners;
     private final Set<Runnable> onResizeListeners;
     private final Set<Runnable> onTickListeners;
@@ -69,7 +70,6 @@ public class Scene implements IScreenEventListener, IParent {
         onDrawScreenListeners = new HashSet<>();
         onBackgroundDrawnListeners = new HashSet<>();
         onPotionShiftListeners = new HashSet<>();
-        onActionPerformedListeners = new HashSet<>();
         onGuiClosedListeners = new HashSet<>();
         onResizeListeners = new HashSet<>();
         onTickListeners = new HashSet<>();
@@ -188,14 +188,6 @@ public class Scene implements IScreenEventListener, IParent {
         return onTickListeners;
     }
 
-    /**
-     * @deprecated The ActionPerformedEvent is never triggered, adding a listener won't do anything
-     */
-    @Deprecated
-    public Set<IEventListener<GuiScreenEvent.ActionPerformedEvent>> getOnActionPerformedListeners() {
-        return onActionPerformedListeners;
-    }
-
     protected void onInitGui(GuiScreenEvent.InitGuiEvent event) {
         this.getOnInitGuiListeners().forEach(listener -> listener.handle(event));
     }
@@ -210,11 +202,6 @@ public class Scene implements IScreenEventListener, IParent {
 
     protected void onPotionShift(GuiScreenEvent.PotionShiftEvent event) {
         this.getOnPotionShiftListeners().forEach(listener -> listener.handle(event));
-    }
-
-    @Deprecated
-    protected void onActionPerformed(GuiScreenEvent.ActionPerformedEvent event) {
-        this.getOnActionPerformedListeners().forEach(listener -> listener.handle(event));
     }
 
     @Override
@@ -257,9 +244,9 @@ public class Scene implements IScreenEventListener, IParent {
         mc.displayGuiScreen(oldScreen);
     }
 
-    public void render(int mouseX, int mouseY, float partialTicks) {
+    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
         if (this.getContent() != null && this.getContent().isVisible())
-            this.getContent().render(mouseX, mouseY, partialTicks);
+            this.getContent().render(matrixStack, mouseX, mouseY, partialTicks);
     }
 
     @Override
@@ -294,12 +281,6 @@ public class Scene implements IScreenEventListener, IParent {
         @SubscribeEvent
         public static void onPotionShift(GuiScreenEvent.PotionShiftEvent event) {
             handle(event, Scene::onPotionShift);
-        }
-
-        @SubscribeEvent
-        @Deprecated
-        public static void onActionPerformed(GuiScreenEvent.ActionPerformedEvent.Post event) {
-            handle(event, Scene::onActionPerformed);
         }
 
         @SubscribeEvent(priority = EventPriority.HIGH)
@@ -354,7 +335,7 @@ public class Scene implements IScreenEventListener, IParent {
         private final Set<Tooltip> tooltips;
 
         public GUAPIScreen(Scene scene) {
-            super(new StringTextComponent(""));
+            super(ITextComponent.func_244388_a(""));
             this.scene = scene;
             tooltips = new HashSet<>();
         }
@@ -374,12 +355,13 @@ public class Scene implements IScreenEventListener, IParent {
             }
         }
 
+
         @Override
-        public void render(int mouseX, int mouseY, float partialTicks) {
-            this.getScene().getBackground().draw(this);
+        public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+            this.getScene().getBackground().draw(this, matrixStack);
             //RenderHelper.enableStandardItemLighting();
-            this.getScene().render(mouseX, mouseY, partialTicks);
-            tooltips.forEach(tooltip -> GuiUtils.drawHoveringText(tooltip.textLines, tooltip.x, tooltip.y, width, height, Integer.MAX_VALUE, tooltip.font));
+            this.getScene().render(matrixStack, mouseX, mouseY, partialTicks);
+            tooltips.forEach(tooltip -> GuapiUtils.drawHoveringText(matrixStack, tooltip.textLines, tooltip.x, tooltip.y, width, height, Integer.MAX_VALUE, tooltip.font));
             tooltips.clear();
         }
 
@@ -391,15 +373,6 @@ public class Scene implements IScreenEventListener, IParent {
         @Override
         public boolean isPauseScreen() {
             return this.getScene().doesGuiPauseGame();
-        }
-
-        @Override
-        public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-            if (keyCode == 256 && this.shouldCloseOnEsc()) {
-                this.onClose();
-                return true;
-            }
-            return false;
         }
 
         @Override
@@ -420,34 +393,35 @@ public class Scene implements IScreenEventListener, IParent {
         }
 
         @Override
-        public void renderTooltip(ItemStack stack, int x, int y) {
-            super.renderTooltip(stack, x, y);
+        public void renderTooltip(MatrixStack matrixStack, ItemStack stack, int x, int y) {
+            super.renderTooltip(matrixStack, stack, x, y);
         }
 
         @Override
+        public void renderTooltip(MatrixStack matrixStack, ITextComponent text, int x, int y) {
+            this.renderTooltip(text.getString(), x, y);
+        }
+
         public void renderTooltip(String text, int x, int y) {
             tooltips.add(new Tooltip(Collections.singletonList(text), x, y, font));
         }
 
-        @Override
         public void renderTooltip(List<String> textLines, int x, int y) {
             tooltips.add(new Tooltip(textLines, x, y, font));
         }
 
-        @Override
         public void renderTooltip(List<String> textLines, int x, int y, FontRenderer font) {
             tooltips.add(new Tooltip(textLines, x, y, font));
         }
 
         private class Tooltip {
-
-            private final List<String> textLines;
+            private final List<ITextComponent> textLines;
             private final int x;
             private final int y;
             private final FontRenderer font;
 
             private Tooltip(List<String> textLines, int x, int y, FontRenderer font) {
-                this.textLines = textLines;
+                this.textLines = textLines.stream().map(ITextComponent::func_244388_a).collect(Collectors.toList());
                 this.x = x;
                 this.y = y;
                 this.font = font;

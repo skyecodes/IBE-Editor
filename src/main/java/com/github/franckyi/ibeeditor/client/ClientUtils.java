@@ -13,10 +13,7 @@ import net.minecraft.nbt.INBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.util.text.*;
 import net.minecraft.util.text.event.ClickEvent;
 import net.minecraft.util.text.event.HoverEvent;
 import org.apache.logging.log4j.MarkerManager;
@@ -24,17 +21,17 @@ import org.apache.logging.log4j.MarkerManager;
 public final class ClientUtils {
     private static final Minecraft mc = Minecraft.getInstance();
     private static final ITextComponent COMMAND_SENT_MESSAGE = new StringTextComponent("[IBE Editor] Command sent.")
-            .applyTextStyle(TextFormatting.GREEN);
+            .mergeStyle(TextFormatting.GREEN);
     private static final ITextComponent COMMAND_COPIED_MESSAGE = new StringTextComponent("[IBE Editor] Command copied in your clipboard. Paste it in a ")
-            .applyTextStyle(TextFormatting.YELLOW)
-            .appendSibling(new TranslationTextComponent("block.minecraft.command_block")
-                    .applyTextStyle(style -> style
+            .mergeStyle(TextFormatting.YELLOW)
+            .append(new TranslationTextComponent("block.minecraft.command_block")
+                    .modifyStyle(style -> style
                             .setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/give @p minecraft:command_block 1"))
-                            .setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_ITEM, new StringTextComponent(new ItemStack(Items.COMMAND_BLOCK).write(new CompoundNBT()).toString())))
-                            .setColor(TextFormatting.LIGHT_PURPLE)
+                            .setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_ITEM, new HoverEvent.ItemHover(new ItemStack(Items.COMMAND_BLOCK))))
+                            .setColor(Color.func_240744_a_(TextFormatting.LIGHT_PURPLE))
                             .setUnderlined(true))
             )
-            .appendSibling(new StringTextComponent(" to apply the changes."));
+            .append(ITextComponent.func_244388_a(" to apply the changes."));
 
     public static Entity createEntity(CompoundNBT entityTag) {
         EntityType<?> entityType = EntityType.byKey(entityTag.getString("id")).orElse(EntityType.PIG);
@@ -158,11 +155,11 @@ public final class ClientUtils {
         IBEEditorMod.LOGGER.debug(MarkerManager.getMarker("COMMAND"), command);
         if (command.length() < 256) {
             sendCommand(command);
-            mc.player.sendMessage(COMMAND_SENT_MESSAGE);
+            mc.player.sendMessage(COMMAND_SENT_MESSAGE, null);
             return true;
         } else {
             copyCommand(command);
-            mc.player.sendMessage(COMMAND_COPIED_MESSAGE);
+            mc.player.sendMessage(COMMAND_COPIED_MESSAGE, null);
             return false;
         }
     }

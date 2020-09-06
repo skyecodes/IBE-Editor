@@ -5,7 +5,9 @@ import com.github.franckyi.guapi.Node;
 import com.github.franckyi.guapi.Scene;
 import com.github.franckyi.guapi.gui.IGuiView;
 import com.google.common.collect.Lists;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.fml.client.gui.GuiUtils;
 
@@ -38,11 +40,11 @@ public class CheckBox extends Node<CheckBox.GuiCheckBoxView> implements IValueNo
     }
 
     public String getText() {
-        return this.getView().getMessage();
+        return this.getView().getMessage().getString();
     }
 
     public void setText(String text) {
-        this.getView().setMessage(text);
+        this.getView().setMessage(ITextComponent.func_244388_a(text));
     }
 
     public boolean getValue() {
@@ -109,7 +111,7 @@ public class CheckBox extends Node<CheckBox.GuiCheckBoxView> implements IValueNo
         private Scene.GUAPIScreen screen;
 
         public GuiCheckBoxView(String displayString, boolean checked, String... tooltipText) {
-            super(0, 0, 0, 0, displayString, (b) -> {
+            super(0, 0, 0, 0, ITextComponent.func_244388_a(displayString), (b) -> {
             });
             this.spacing = 4;
             this.checked = checked;
@@ -175,13 +177,13 @@ public class CheckBox extends Node<CheckBox.GuiCheckBoxView> implements IValueNo
         }
 
         @Override
-        public void renderView(int mouseX, int mouseY, float partialTicks) {
+        public void renderView(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
             int boxSize = this.height;
             GuiUtils.drawContinuousTexturedBox(WIDGETS_LOCATION, this.x, this.y, 0, 46, boxSize, this.height, 200, 20, 2, 3, 2, 2, this.getBlitOffset());
             if (this.checked) {
-                this.drawCenteredString(mc.fontRenderer, "x", this.x + boxSize / 2 + 1, this.y + 1, 14737632);
+                drawCenteredString(matrixStack, mc.fontRenderer, "x", this.x + boxSize / 2 + 1, this.y + 1, 14737632);
             }
-            this.drawString(mc.fontRenderer, this.getMessage(), this.x + boxSize + spacing, this.y + 2, 0xffffff);
+            drawString(matrixStack, mc.fontRenderer, this.getMessage(), this.x + boxSize + spacing, this.y + 2, 0xffffff);
             if (this.inBounds(mouseX, mouseY)) {
                 if (screen == null) {
                     screen = (Scene.GUAPIScreen) mc.currentScreen;

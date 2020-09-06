@@ -25,7 +25,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.items.CapabilityItemHandler;
 
 public final class EditorHelper {
-    private static final ITextComponent MUST_CREATIVE = new StringTextComponent(TextFormatting.RED +
+    private static final ITextComponent MUST_CREATIVE = ITextComponent.func_244388_a(TextFormatting.RED +
             "You must be in creative mode in order to use the editor.");
 
     private static final Minecraft mc = Minecraft.getInstance();
@@ -143,7 +143,7 @@ public final class EditorHelper {
                 if (te != null && te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).isPresent()) {
                     if (!blockPos.equals(warningPos)) {
                         mc.player.sendMessage(new StringTextComponent("[IBE Editor] Be careful, editing this block will delete all the items it contains! Open the editor again if you want to continue.")
-                                .applyTextStyle(TextFormatting.RED));
+                                .mergeStyle(TextFormatting.RED), null);
                         warningPos = blockPos;
                         return;
                     } else {
@@ -159,7 +159,7 @@ public final class EditorHelper {
         if (!IBEConfiguration.CLIENT.creativeModeOnly.get() || mc.player.isCreative()) {
             return true;
         } else {
-            mc.player.sendMessage(MUST_CREATIVE);
+            mc.player.sendMessage(MUST_CREATIVE, null);
         }
         return false;
     }

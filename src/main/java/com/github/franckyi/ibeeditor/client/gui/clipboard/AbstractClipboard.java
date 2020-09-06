@@ -16,6 +16,8 @@ import com.github.franckyi.ibeeditor.client.clipboard.IBEClipboard;
 import com.github.franckyi.ibeeditor.client.clipboard.ItemClipboardEntry;
 import com.github.franckyi.ibeeditor.client.gui.IResizable;
 import com.github.franckyi.ibeeditor.common.IBEConfiguration;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextFormatting;
@@ -66,12 +68,12 @@ public abstract class AbstractClipboard extends Scene {
     }
 
     @Override
-    public void render(int mouseX, int mouseY, float partialTicks) {
-        body.render(mouseX, mouseY, partialTicks);
-        header.render(mouseX, mouseY, partialTicks);
-        footer.render(mouseX, mouseY, partialTicks);
+    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+        body.render(matrixStack, mouseX, mouseY, partialTicks);
+        header.render(matrixStack, mouseX, mouseY, partialTicks);
+        footer.render(matrixStack, mouseX, mouseY, partialTicks);
         if (body.getChildren().isEmpty()) {
-            this.getScreen().drawCenteredString(mc.fontRenderer, "The selection is empty !", this.getScreen().width / 2, body.getY() + body.getHeight() / 2 - 4, TextFormatting.DARK_RED.getColor());
+            AbstractGui.drawCenteredString(matrixStack, mc.fontRenderer, "The selection is empty !", this.getScreen().width / 2, body.getY() + body.getHeight() / 2 - 4, TextFormatting.DARK_RED.getColor());
         }
     }
 
@@ -136,7 +138,7 @@ public abstract class AbstractClipboard extends Scene {
             children = this.getNode().getChildren();
             children.add(itemButton = new TexturedButton(itemStack));
             itemButton.setMargin(Insets.left(5));
-            children.add(nameLabel = new Label(itemStack.getDisplayName().getFormattedText()));
+            children.add(nameLabel = new Label(itemStack.getDisplayName().getString()));
         }
 
         public abstract void updateSize(int listWidth);
@@ -157,7 +159,7 @@ public abstract class AbstractClipboard extends Scene {
             children = this.getNode().getChildren();
             children.add(entityButton = EntityIcons.createTexturedButtonForEntity(entity.getEntityType()));
             entityButton.setMargin(Insets.left(5));
-            children.add(nameLabel = new Label(entity.getEntityType().getName().getFormattedText()));
+            children.add(nameLabel = new Label(entity.getEntityType().getName().getString()));
         }
     }
 

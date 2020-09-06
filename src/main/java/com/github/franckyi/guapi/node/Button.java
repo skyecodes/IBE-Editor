@@ -2,9 +2,12 @@ package com.github.franckyi.guapi.node;
 
 import com.github.franckyi.guapi.Node;
 import com.github.franckyi.guapi.gui.IGuiView;
-import com.google.common.collect.Lists;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import net.minecraft.util.text.ITextComponent;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Button extends Node<Button.GuiButtonView> {
 
@@ -27,11 +30,11 @@ public class Button extends Node<Button.GuiButtonView> {
     }
 
     public String getText() {
-        return this.getView().getMessage();
+        return this.getView().getMessage().getString();
     }
 
     public void setText(String text) {
-        this.getView().setMessage(text);
+        this.getView().setMessage(ITextComponent.func_244388_a(text));
         this.computeWidth();
         this.updateWidth();
     }
@@ -44,7 +47,7 @@ public class Button extends Node<Button.GuiButtonView> {
         this.getView().active = !disabled;
     }
 
-    public List<String> getTooltipText() {
+    public List<ITextComponent> getTooltipText() {
         return this.getView().tooltipText;
     }
 
@@ -60,12 +63,12 @@ public class Button extends Node<Button.GuiButtonView> {
 
     public static class GuiButtonView extends net.minecraft.client.gui.widget.button.Button implements IGuiView {
 
-        protected final List<String> tooltipText;
+        protected final List<ITextComponent> tooltipText;
 
         public GuiButtonView(String text, String[] tooltip) {
-            super(0, 0, 0, 0, text, (b) -> {
+            super(0, 0, 0, 0, ITextComponent.func_244388_a(text), (b) -> {
             });
-            this.tooltipText = Lists.newArrayList(tooltip);
+            this.tooltipText = Stream.of(tooltip).map(ITextComponent::func_244388_a).collect(Collectors.toList());
         }
 
         @Override
@@ -119,10 +122,10 @@ public class Button extends Node<Button.GuiButtonView> {
         }
 
         @Override
-        public void renderView(int mouseX, int mouseY, float partialTicks) {
-            this.render(mouseX, mouseY, partialTicks);
+        public void renderView(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+            this.render(matrixStack, mouseX, mouseY, partialTicks);
             if (this.isHovered() && !tooltipText.isEmpty()) {
-                mc.currentScreen.renderTooltip(tooltipText, mouseX, mouseY);
+                mc.currentScreen.func_243308_b(matrixStack, tooltipText, mouseX, mouseY);
             }
         }
     }

@@ -64,7 +64,7 @@ public class MobSpawnerCategory extends TileEntityCategory<MobSpawnerTileEntity>
     public void apply() {
         super.apply();
         tag.put("SpawnData", spawnData);
-        t.read(tag);
+        t.read(t.getBlockState(), tag);
     }
 
     private static class EntityProperty extends AbstractProperty<Void> {

@@ -3,6 +3,7 @@ package com.github.franckyi.guapi.node;
 import com.github.franckyi.guapi.Node;
 import com.github.franckyi.guapi.Scene;
 import com.github.franckyi.ibeeditor.IBEEditorMod;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.SimpleTexture;
@@ -10,6 +11,7 @@ import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -63,11 +65,11 @@ public class TexturedButton extends Node<TexturedButton.GuiGraphicButtonView> {
         this.getView().active = !disabled;
     }
 
-    public List<String> getText() {
+    public List<ITextComponent> getText() {
         return this.getView().getText();
     }
 
-    public List<String> getTooltipText() {
+    public List<ITextComponent> getTooltipText() {
         return this.getView().tooltipText;
     }
 
@@ -87,7 +89,7 @@ public class TexturedButton extends Node<TexturedButton.GuiGraphicButtonView> {
             super("", text);
         }
 
-        public List<String> getText() {
+        public List<ITextComponent> getText() {
             return Collections.emptyList();
         }
 
@@ -134,8 +136,8 @@ public class TexturedButton extends Node<TexturedButton.GuiGraphicButtonView> {
         }
 
         @Override
-        public void renderView(int mouseX, int mouseY, float partialTicks) {
-            super.render(mouseX, mouseY, partialTicks);
+        public void renderView(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+            super.render(matrixStack, mouseX, mouseY, partialTicks);
             if (this.visible) {
                 if (flag) {
                     texture = this.loadTexture();
@@ -144,7 +146,7 @@ public class TexturedButton extends Node<TexturedButton.GuiGraphicButtonView> {
                 mc.getTextureManager().bindTexture(texture);
                 this.drawModalRectWithCustomSizedTexture(this.x + 2, this.y + 2, u, v, 16, 16, textureWidth, textureHeight, 2);
                 if (this.isHovered() && !tooltipText.isEmpty()) {
-                    mc.currentScreen.renderTooltip(tooltipText, mouseX, mouseY);
+                    mc.currentScreen.func_243308_b(matrixStack, tooltipText, mouseX, mouseY);
                 }
             }
         }
@@ -177,7 +179,7 @@ public class TexturedButton extends Node<TexturedButton.GuiGraphicButtonView> {
         }
 
         @Override
-        public List<String> getText() {
+        public List<ITextComponent> getText() {
             return tooltipText;
         }
 
@@ -195,8 +197,8 @@ public class TexturedButton extends Node<TexturedButton.GuiGraphicButtonView> {
         }
 
         @Override
-        public void renderView(int mouseX, int mouseY, float partialTicks) {
-            super.renderView(mouseX, mouseY, partialTicks);
+        public void renderView(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+            super.renderView(matrixStack, mouseX, mouseY, partialTicks);
             if (this.visible) {
                 int x = this.x + 2;
                 int y = this.y + 2;
@@ -206,7 +208,7 @@ public class TexturedButton extends Node<TexturedButton.GuiGraphicButtonView> {
                     if (screen == null) {
                         screen = (Scene.GUAPIScreen) mc.currentScreen;
                     }
-                    screen.renderTooltip(item, mouseX, mouseY);
+                    screen.renderTooltip(matrixStack, item, mouseX, mouseY);
                 }
             }
         }

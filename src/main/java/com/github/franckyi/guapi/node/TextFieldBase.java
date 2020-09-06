@@ -5,7 +5,9 @@ import com.github.franckyi.guapi.Node;
 import com.github.franckyi.guapi.Scene;
 import com.github.franckyi.guapi.gui.IGuiView;
 import com.google.common.collect.Lists;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.util.text.ITextComponent;
 
 import java.util.HashSet;
 import java.util.List;
@@ -81,7 +83,7 @@ public abstract class TextFieldBase<T> extends Node<TextFieldBase.GuiTextFieldVi
         private boolean changed, flag;
 
         public GuiTextFieldView(String... tooltipText) {
-            super(mc.fontRenderer, 0, 0, 0, 0, "");
+            super(mc.fontRenderer, 0, 0, 0, 0, ITextComponent.func_244388_a(""));
             this.tooltipText = Lists.newArrayList(tooltipText);
             this.setMaxStringLength(Short.MAX_VALUE);
         }
@@ -118,7 +120,7 @@ public abstract class TextFieldBase<T> extends Node<TextFieldBase.GuiTextFieldVi
 
         @Override
         public int getViewHeight() {
-            return this.getHeight();
+            return this.height;
         }
 
         @Override
@@ -137,12 +139,12 @@ public abstract class TextFieldBase<T> extends Node<TextFieldBase.GuiTextFieldVi
         }
 
         @Override
-        public void renderView(int mouseX, int mouseY, float partialTicks) {
+        public void renderView(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
             if (!flag) {
                 flag = true;
                 this.setCursorPosition(0);
             }
-            this.render(mouseX, mouseY, partialTicks);
+            this.render(matrixStack, mouseX, mouseY, partialTicks);
             if (this.inBounds(mouseX, mouseY)) {
                 if (screen == null) {
                     screen = (Scene.GUAPIScreen) mc.currentScreen;

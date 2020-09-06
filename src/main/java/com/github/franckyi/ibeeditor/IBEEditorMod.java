@@ -45,7 +45,7 @@ public class IBEEditorMod {
     }
 
     private void onServerStarting(FMLServerStartingEvent event) {
-        IBECommand.register(event.getCommandDispatcher());
+        IBECommand.register(event.getServer().getCommandManager().getDispatcher());
     }
 
     private void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {

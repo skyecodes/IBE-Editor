@@ -43,7 +43,7 @@ public class InitBlockEditorResponse implements IMessage {
     public void handle(NetworkEvent.Context ctx) {
         TileEntity tileEntity = Minecraft.getInstance().world.getTileEntity(blockPos);
         if (tileEntity != null && tag != null) {
-            tileEntity.read(tag);
+            tileEntity.read(tileEntity.getBlockState(), tag);
         }
         new BlockEditor(blockPos, tileEntity);
     }

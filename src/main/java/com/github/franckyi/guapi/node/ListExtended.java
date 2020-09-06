@@ -6,6 +6,7 @@ import com.github.franckyi.guapi.Node;
 import com.github.franckyi.guapi.event.IEventListener;
 import com.github.franckyi.guapi.gui.IGuiView;
 import com.github.franckyi.guapi.math.Insets;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.gui.widget.list.AbstractList;
 import net.minecraft.client.gui.widget.list.ExtendedList;
 import net.minecraftforge.client.event.GuiScreenEvent;
@@ -60,7 +61,7 @@ public class ListExtended<E extends ExtendedList.AbstractListEntry & IScreenEven
 
     @SuppressWarnings("unchecked")
     public List<E> getChildren() {
-        return this.getView().children();
+        return this.getView().getEventListeners();
     }
 
     @Override
@@ -168,8 +169,8 @@ public class ListExtended<E extends ExtendedList.AbstractListEntry & IScreenEven
         }
 
         @Override
-        public void renderView(int mouseX, int mouseY, float partialTicks) {
-            this.render(mouseX, mouseY, partialTicks);
+        public void renderView(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+            this.render(matrixStack, mouseX, mouseY, partialTicks);
         }
 
         @Override
@@ -220,14 +221,14 @@ public class ListExtended<E extends ExtendedList.AbstractListEntry & IScreenEven
         }
 
         @Override
-        public void render(int index, int entryTop, int entryLeft, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean p_194999_5_, float partialTicks) {
+        public void render(MatrixStack matrixStack, int index, int entryTop, int entryLeft, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean p_194999_5_, float partialTicks) {
             GuiListExtendedView<?> list = this.getList();
             int width = entryWidth - list.getOffset().getHorizontal() - 5;
             if (entryLeft != node.getX() || entryTop != node.getY())
                 node.setPosition(entryLeft + 4, entryTop);
             if (width != node.getWidth() || entryHeight != node.getHeight())
                 node.setPrefSize(width - 10, entryHeight);
-            node.render(mouseX, mouseY, partialTicks);
+            node.render(matrixStack, mouseX, mouseY, partialTicks);
         }
 
         public Set<IEventListener<GuiScreenEvent.MouseClickedEvent>> getOnMouseClickedListeners() {

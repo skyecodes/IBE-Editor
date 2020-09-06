@@ -12,7 +12,6 @@ import com.github.franckyi.ibeeditor.client.gui.editor.block.tileentity.MobSpawn
 import com.github.franckyi.ibeeditor.client.gui.editor.block.tileentity.SpawnPotentialsCategory;
 import com.github.franckyi.ibeeditor.common.network.IBENetworkHandler;
 import com.github.franckyi.ibeeditor.common.network.editor.block.BlockEditorMessage;
-import com.google.common.collect.ImmutableMap;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.ItemStack;
@@ -79,7 +78,7 @@ public class BlockEditor extends CapabilityProviderEditor {
                 IBENetworkHandler.getModChannel().sendToServer(new BlockEditorMessage(blockPos, blockState, tileEntity));
                 IBENotification.show(IBENotification.Type.EDITOR, 3, TextFormatting.GREEN + "Block saved.");
             } else {
-                ClientUtils.sendCommand(ClientUtils.getSetblockCommand(blockPos, new BlockState(Blocks.AIR, ImmutableMap.of()), null));
+                ClientUtils.sendCommand(ClientUtils.getSetblockCommand(blockPos, Blocks.AIR.getDefaultState(), null));
                 if (ClientUtils.handleCommand(ClientUtils.getSetblockCommand(blockPos, blockState, tileEntity))) {
                     IBENotification.show(IBENotification.Type.EDITOR, 3, TextFormatting.GREEN + "Block saved.");
                 }

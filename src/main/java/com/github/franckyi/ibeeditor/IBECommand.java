@@ -9,10 +9,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.Style;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.*;
 import net.minecraft.util.text.event.ClickEvent;
 import net.minecraftforge.fml.network.NetworkDirection;
 
@@ -23,12 +20,12 @@ import java.util.UUID;
 public class IBECommand {
 
     private static final ITextComponent DOWNLOAD_LINK = new StringTextComponent("Click here to download the mod !")
-            .setStyle(new Style().setUnderlined(true).setBold(true).setColor(TextFormatting.BLUE).setClickEvent(
-                    new ClickEvent(ClickEvent.Action.OPEN_URL,
+            .setStyle(Style.EMPTY.setUnderlined(true).setBold(true).setColor(Color.func_240744_a_(TextFormatting.BLUE))
+                    .setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL,
                             "https://minecraft.curseforge.com/projects/ibe-editor")));
-    private static final ITextComponent MUST_INSTALL = new StringTextComponent(
+    private static final ITextComponent MUST_INSTALL = ITextComponent.func_244388_a(
             TextFormatting.RED + "You must install the IBE Editor mod to use this command.");
-    private static final ITextComponent PLAYER_ONLY = new StringTextComponent(
+    private static final ITextComponent PLAYER_ONLY = ITextComponent.func_244388_a(
             TextFormatting.RED + "This command can only be executed by a player");
 
 

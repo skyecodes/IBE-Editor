@@ -9,9 +9,13 @@ import com.github.franckyi.ibeeditor.client.gui.editor.base.AbstractProperty;
 import com.github.franckyi.ibeeditor.client.gui.editor.base.category.EditableCategory;
 import com.github.franckyi.ibeeditor.client.gui.editor.base.property.IEditableCategoryProperty;
 import com.google.common.collect.Multimap;
+import net.minecraft.entity.ai.attributes.Attribute;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
@@ -34,15 +38,15 @@ public class AttributeModifiersCategory extends EditableCategory<AttributeModifi
         modifiers.forEach(this::addProperty);
     }
 
-    private List<AttributeModifierModel> getModifiers(Function<EquipmentSlotType, Multimap<String, AttributeModifier>> getAttributeModifiers) {
+    private List<AttributeModifierModel> getModifiers(Function<EquipmentSlotType, Multimap<Attribute, AttributeModifier>> getAttributeModifiers) {
         List<AttributeModifierModel> res = new ArrayList<>();
         Stream.of(EquipmentSlotType.values())
                 .forEach(slot -> getAttributeModifiers
                         .apply(slot)
                         .asMap()
-                        .forEach((name, modifiers) -> modifiers
+                        .forEach((attribute, modifiers) -> modifiers
                                 .stream()
-                                .map(modifier -> new AttributeModifierModel(name, modifier, slot))
+                                .map(modifier -> new AttributeModifierModel(attribute.func_233754_c_(), modifier, slot))
                                 .forEach(res::add)
                         )
                 );
@@ -55,7 +59,7 @@ public class AttributeModifiersCategory extends EditableCategory<AttributeModifi
         modifiers.clear();
         super.apply();
         if (!modifiers.equals(initialModifiers)) {
-            modifiers.forEach(modifier -> itemStack.addAttributeModifier(modifier.getAttributeName(), modifier.getModifier(), modifier.getSlot()));
+            modifiers.forEach(modifier -> itemStack.addAttributeModifier(ForgeRegistries.ATTRIBUTES.getValue(ResourceLocation.tryCreate(modifier.attributeName)), modifier.getModifier(), modifier.getSlot()));
         }
     }
 
@@ -149,11 +153,11 @@ public class AttributeModifiersCategory extends EditableCategory<AttributeModifi
             nameField.getTooltipText().add("Attribute name");
             slotButton.setValue(initialValue.getSlot());
             slotButton.setRenderer(aSlot -> StringUtils.capitalize(aSlot.getName().toLowerCase()));
-            slotButton.getTooltipText().add("Slot");
+            slotButton.getTooltipText().add(ITextComponent.func_244388_a("Slot"));
             operationButton.setValue(initialValue.getModifier().getOperation());
             operationButton.setRenderer(operation -> Integer.toString(operation.getId()));
             operationButton.setPrefWidth(12);
-            operationButton.getTooltipText().add("Operation");
+            operationButton.getTooltipText().add(ITextComponent.func_244388_a("Operation"));
             amountField.setMargin(Insets.left(2));
             amountField.getTooltipText().add("Amount");
         }

@@ -12,7 +12,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.nbt.StringNBT;
 import net.minecraft.util.JSONUtils;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.util.Constants;
 
@@ -27,7 +27,7 @@ public class GeneralItemCategory extends EditableCategory<String> {
         super(4);
         this.itemStack = itemStack;
         this.addAll(
-                new PropertyFormattedText("Name", itemStack.getDisplayName().getFormattedText(), this::setName),
+                new PropertyFormattedText("Name", itemStack.getDisplayName().getString(), this::setName),
                 new PropertyBoolean("Unbreakable", this.hasUnbreakable(), this::setUnbreakable),
                 new PropertyInteger("Count", itemStack.getCount(), itemStack::setCount, 1, 127),
                 new PropertyInteger("Damage", itemStack.getDamage(), this::setDamage),
@@ -64,7 +64,7 @@ public class GeneralItemCategory extends EditableCategory<String> {
         if (baseName.getUnformattedComponentText().equals(s)) {
             itemStack.getOrCreateTag().remove("display");
         } else {
-            itemStack.setDisplayName(new StringTextComponent(s));
+            itemStack.setDisplayName(ITextComponent.func_244388_a(s));
         }
     }
 

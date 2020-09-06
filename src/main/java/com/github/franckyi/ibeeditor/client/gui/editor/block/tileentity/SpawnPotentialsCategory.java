@@ -71,7 +71,7 @@ public class SpawnPotentialsCategory extends EditableCategory<SpawnPotentialsCat
             tag.put("Entity", spawnPotential.tag);
             spawnPotentialsTag.add(tag);
         });
-        tileEntity.read(tag);
+        tileEntity.read(tileEntity.getBlockState(), tag);
     }
 
     protected static class SpawnPotentialModel {

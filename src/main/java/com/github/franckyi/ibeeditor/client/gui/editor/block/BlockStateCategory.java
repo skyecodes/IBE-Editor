@@ -5,18 +5,18 @@ import com.github.franckyi.ibeeditor.client.gui.editor.base.property.PropertyBoo
 import com.github.franckyi.ibeeditor.client.gui.editor.base.property.PropertyEnum;
 import com.github.franckyi.ibeeditor.client.gui.editor.base.property.PropertyInteger;
 import net.minecraft.state.BooleanProperty;
-import net.minecraft.state.IProperty;
 import net.minecraft.state.IntegerProperty;
+import net.minecraft.state.Property;
 import org.apache.commons.lang3.StringUtils;
 
 public class BlockStateCategory extends AbstractCategory {
 
     private final BlockEditor editor;
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked", "rawtypes"})
     public BlockStateCategory(BlockEditor editor) {
         this.editor = editor;
-        for (IProperty p : editor.getBlockState().getProperties()) {
+        for (Property p : editor.getBlockState().getProperties()) {
             String name = StringUtils.capitalize(p.getName().toLowerCase());
             if (p instanceof BooleanProperty) {
                 BooleanProperty p1 = (BooleanProperty) p;
@@ -32,7 +32,7 @@ public class BlockStateCategory extends AbstractCategory {
         }
     }
 
-    private <T extends Comparable<T>> void withProperty(IProperty<T> p, T t) {
+    private <T extends Comparable<T>> void withProperty(Property<T> p, T t) {
         editor.setBlockState(editor.getBlockState().with(p, t));
     }
 }

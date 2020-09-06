@@ -3,6 +3,7 @@ package com.github.franckyi.guapi;
 import com.github.franckyi.guapi.gui.AbstractGuiView;
 import com.github.franckyi.guapi.math.Pos;
 import com.github.franckyi.ibeeditor.IBEEditorMod;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -63,15 +64,15 @@ public abstract class Group extends Node<Group.GuiGroupView> implements IParent 
     }
 
     @Override
-    public void render(int mouseX, int mouseY, float partialTicks) {
-        super.render(mouseX, mouseY, partialTicks);
-        this.getChildren().stream().filter(Node::isVisible).forEach(node -> node.render(mouseX, mouseY, partialTicks));
+    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+        super.render(matrixStack, mouseX, mouseY, partialTicks);
+        this.getChildren().stream().filter(Node::isVisible).forEach(node -> node.render(matrixStack, mouseX, mouseY, partialTicks));
     }
 
     static class GuiGroupView extends AbstractGuiView {
 
         @Override
-        public void renderView(int mouseX, int mouseY, float partialTicks) {
+        public void renderView(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
         }
     }
 

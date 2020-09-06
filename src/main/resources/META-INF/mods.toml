@@ -1,31 +1,32 @@
-modLoader="javafml"
-loaderVersion="[31,)"
-issueTrackerURL="https://github.com/Franckyi/IBE-Editor/issues"
-logoFile="logo.png"
+modLoader = "javafml"
+loaderVersion = "[33,)"
+license = "MIT License"
+issueTrackerURL = "https://github.com/Franckyi/IBE-Editor/issues"
+logoFile = "logo.png"
 
 [[mods]]
-modId="ibeeditor"
-version="1.1.0"
-displayName="IBE Editor"
-displayURL="https://www.curseforge.com/minecraft/mc-mods/ibe-editor"
-credits="Thanks to Emex for the logo !"
-authors="Franckyi"
-description='''
+modId = "ibeeditor"
+version = "1.1.0"
+displayName = "IBE Editor"
+displayURL = "https://www.curseforge.com/minecraft/mc-mods/ibe-editor"
+credits = "Thanks to Emex for the logo !"
+authors = "Franckyi"
+description = '''
 ItemBlockEntity Editor is a useful mod for mapmakers and server admins.
 It allows you to edit anything in your current world.
 Simple GUIs system makes it very easy to use!
 '''
 
 [[dependencies.ibeeditor]]
-    modId="forge"
-    mandatory=true
-    versionRange="[31,)"
-    ordering="NONE"
-    side="BOTH"
+modId = "forge"
+mandatory = true
+versionRange = "[33,)"
+ordering = "NONE"
+side = "BOTH"
 
 [[dependencies.ibeeditor]]
-    modId="minecraft"
-    mandatory=true
-    versionRange="[1.15.2]"
-    ordering="NONE"
-    side="BOTH"
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.16.2]"
+ordering = "NONE"
+side = "BOTH"
