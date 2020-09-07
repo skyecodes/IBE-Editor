@@ -88,7 +88,7 @@ public class EnchantmentsCategory extends AbstractCategory {
         protected Enchantment enchantment;
 
         public PropertyEnchantment(ItemStack itemStack, Enchantment enchantment, Integer initialValue, Consumer<Integer> action) {
-            super(enchantment.getDisplayName(0).getUnformattedComponentText(), initialValue, action, 0, 127);
+            super(enchantment.getDisplayName(0).copyRaw().getString(), initialValue, action, 0, 127);
             this.enchantment = enchantment;
             nameLabel.setPrefWidth(COMPUTED_SIZE);
             nameLabel.setColor(enchantment.isCurse() ? TextFormatting.RED.getColor() : (enchantment.canApply(itemStack) ? TextFormatting.GREEN.getColor() : 0xffffff));

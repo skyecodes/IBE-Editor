@@ -46,7 +46,7 @@ public class AttributeModifiersCategory extends EditableCategory<AttributeModifi
                         .asMap()
                         .forEach((attribute, modifiers) -> modifiers
                                 .stream()
-                                .map(modifier -> new AttributeModifierModel(attribute.func_233754_c_(), modifier, slot))
+                                .map(modifier -> new AttributeModifierModel(attribute.getRegistryName(), modifier, slot))
                                 .forEach(res::add)
                         )
                 );
@@ -59,7 +59,7 @@ public class AttributeModifiersCategory extends EditableCategory<AttributeModifi
         modifiers.clear();
         super.apply();
         if (!modifiers.equals(initialModifiers)) {
-            modifiers.forEach(modifier -> itemStack.addAttributeModifier(ForgeRegistries.ATTRIBUTES.getValue(ResourceLocation.tryCreate(modifier.attributeName)), modifier.getModifier(), modifier.getSlot()));
+            modifiers.forEach(modifier -> itemStack.addAttributeModifier(ForgeRegistries.ATTRIBUTES.getValue(modifier.getAttributeName()), modifier.getModifier(), modifier.getSlot()));
         }
     }
 
@@ -70,22 +70,22 @@ public class AttributeModifiersCategory extends EditableCategory<AttributeModifi
 
     @Override
     protected AttributeModifierModel getDefaultPropertyValue() {
-        return new AttributeModifierModel("", new AttributeModifier("", 0, AttributeModifier.Operation.ADDITION), EquipmentSlotType.MAINHAND);
+        return new AttributeModifierModel(new ResourceLocation(""), new AttributeModifier("", 0, AttributeModifier.Operation.ADDITION), EquipmentSlotType.MAINHAND);
     }
 
     protected static class AttributeModifierModel {
 
-        private final String attributeName;
+        private final ResourceLocation attributeName;
         private final AttributeModifier modifier;
         private final EquipmentSlotType slot;
 
-        public AttributeModifierModel(String attributeName, AttributeModifier modifier, EquipmentSlotType slot) {
+        public AttributeModifierModel(ResourceLocation attributeName, AttributeModifier modifier, EquipmentSlotType slot) {
             this.attributeName = attributeName;
             this.modifier = modifier;
             this.slot = slot;
         }
 
-        public String getAttributeName() {
+        public ResourceLocation getAttributeName() {
             return attributeName;
         }
 
@@ -113,7 +113,7 @@ public class AttributeModifiersCategory extends EditableCategory<AttributeModifi
 
     public class PropertyAttributeModifier extends AbstractProperty<AttributeModifierModel> implements IEditableCategoryProperty {
 
-        private PropertyControls controls;
+        private final PropertyControls controls;
 
         private TextField nameField;
         private EnumButton<EquipmentSlotType> slotButton;
@@ -128,14 +128,14 @@ public class AttributeModifiersCategory extends EditableCategory<AttributeModifi
 
         @Override
         public AttributeModifierModel getValue() {
-            return new AttributeModifierModel(nameField.getValue(), new AttributeModifier(
+            return new AttributeModifierModel(ResourceLocation.tryCreate(nameField.getValue()), new AttributeModifier(
                     initialValue.getModifier().getID(), initialValue.getModifier().getName(),
                     amountField.getValue(), operationButton.getValue()), slotButton.getValue());
         }
 
         @Override
         protected void setValue(AttributeModifierModel value) {
-            nameField.setValue(value.getAttributeName());
+            nameField.setValue(value.getAttributeName().toString());
             slotButton.setValue(value.getSlot());
             operationButton.setValue(value.getModifier().getOperation());
             amountField.setValue(value.getModifier().getAmount());
@@ -145,7 +145,7 @@ public class AttributeModifiersCategory extends EditableCategory<AttributeModifi
         public void build() {
             this.getNode().setAlignment(Pos.LEFT);
             this.addAll(
-                    nameField = new TextField(initialValue.getAttributeName()),
+                    nameField = new TextField(initialValue.getAttributeName().toString()),
                     slotButton = new EnumButton<>(EquipmentSlotType.values()),
                     operationButton = new EnumButton<>(AttributeModifier.Operation.values()),
                     amountField = new DoubleField(initialValue.getModifier().getAmount())
