@@ -3,7 +3,7 @@ package com.github.franckyi.guapi;
 import com.github.franckyi.guapi.event.IEventListener;
 import com.github.franckyi.guapi.node.TextFieldBase;
 import com.github.franckyi.guapi.scene.IBackground;
-import com.github.franckyi.guapi.util.GuapiUtils;
+import com.google.common.collect.Lists;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -359,9 +359,8 @@ public class Scene implements IScreenEventListener, IParent {
         @Override
         public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
             this.getScene().getBackground().draw(this, matrixStack);
-            //RenderHelper.enableStandardItemLighting();
             this.getScene().render(matrixStack, mouseX, mouseY, partialTicks);
-            tooltips.forEach(tooltip -> GuapiUtils.drawHoveringText(matrixStack, tooltip.textLines, tooltip.x, tooltip.y, width, height, Integer.MAX_VALUE, tooltip.font));
+            tooltips.forEach(tooltip -> this.renderToolTip(matrixStack, Lists.transform(tooltip.textLines, ITextComponent::func_241878_f), mouseX, mouseY, font));
             tooltips.clear();
         }
 
@@ -399,32 +398,41 @@ public class Scene implements IScreenEventListener, IParent {
 
         @Override
         public void renderTooltip(MatrixStack matrixStack, ITextComponent text, int x, int y) {
-            this.renderTooltip(text.getString(), x, y);
-        }
-
-        public void renderTooltip(String text, int x, int y) {
             tooltips.add(new Tooltip(Collections.singletonList(text), x, y, font));
         }
 
+        @Override
+        public void func_243308_b(MatrixStack matrixStack, List<ITextComponent> text, int x, int y) {
+            tooltips.add(new Tooltip(text, x, y, font));
+        }
+
+        public void renderTooltip(String text, int x, int y) {
+            tooltips.add(Tooltip.create(Collections.singletonList(text), x, y, font));
+        }
+
         public void renderTooltip(List<String> textLines, int x, int y) {
-            tooltips.add(new Tooltip(textLines, x, y, font));
+            tooltips.add(Tooltip.create(textLines, x, y, font));
         }
 
         public void renderTooltip(List<String> textLines, int x, int y, FontRenderer font) {
-            tooltips.add(new Tooltip(textLines, x, y, font));
+            tooltips.add(Tooltip.create(textLines, x, y, font));
         }
 
-        private class Tooltip {
+        private static class Tooltip {
             private final List<ITextComponent> textLines;
             private final int x;
             private final int y;
             private final FontRenderer font;
 
-            private Tooltip(List<String> textLines, int x, int y, FontRenderer font) {
-                this.textLines = textLines.stream().map(ITextComponent::func_244388_a).collect(Collectors.toList());
+            private Tooltip(List<ITextComponent> textLines, int x, int y, FontRenderer font) {
+                this.textLines = textLines;
                 this.x = x;
                 this.y = y;
                 this.font = font;
+            }
+
+            private static Tooltip create(List<String> textLines, int x, int y, FontRenderer font) {
+                return new Tooltip(textLines.stream().map(ITextComponent::func_244388_a).collect(Collectors.toList()), x, y, font);
             }
         }
 

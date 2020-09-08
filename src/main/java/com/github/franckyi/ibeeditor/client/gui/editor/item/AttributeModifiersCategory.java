@@ -59,7 +59,12 @@ public class AttributeModifiersCategory extends EditableCategory<AttributeModifi
         modifiers.clear();
         super.apply();
         if (!modifiers.equals(initialModifiers)) {
-            modifiers.forEach(modifier -> itemStack.addAttributeModifier(ForgeRegistries.ATTRIBUTES.getValue(modifier.getAttributeName()), modifier.getModifier(), modifier.getSlot()));
+            modifiers.forEach(modifier -> {
+                Attribute attribute = ForgeRegistries.ATTRIBUTES.getValue(modifier.getAttributeName());
+                if (attribute != null) {
+                    itemStack.addAttributeModifier(attribute, modifier.getModifier(), modifier.getSlot());
+                }
+            });
         }
     }
 
@@ -108,7 +113,6 @@ public class AttributeModifiersCategory extends EditableCategory<AttributeModifi
             }
             return false;
         }
-
     }
 
     public class PropertyAttributeModifier extends AbstractProperty<AttributeModifierModel> implements IEditableCategoryProperty {
