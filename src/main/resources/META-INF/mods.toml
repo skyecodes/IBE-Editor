@@ -1,5 +1,5 @@
 modLoader = "javafml"
-loaderVersion = "[33,)"
+loaderVersion = "[34,)"
 license = "MIT License"
 issueTrackerURL = "https://github.com/Franckyi/IBE-Editor/issues"
 logoFile = "logo.png"
@@ -20,13 +20,13 @@ Simple GUIs system makes it very easy to use!
 [[dependencies.ibeeditor]]
 modId = "forge"
 mandatory = true
-versionRange = "[33,)"
+versionRange = "[34,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.ibeeditor]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[1.16.2]"
+versionRange = "[1.16.3]"
 ordering = "NONE"
 side = "BOTH"
