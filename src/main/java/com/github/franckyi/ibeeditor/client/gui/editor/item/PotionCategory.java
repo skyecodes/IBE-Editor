@@ -16,6 +16,7 @@ import net.minecraft.util.text.TextFormatting;
 
 import java.awt.*;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
@@ -43,7 +44,7 @@ public class PotionCategory extends EditableCategory<PotionEffectModel> {
     }
 
     private void addEffect(PotionEffectModel effect) {
-        if (!effect.isDisabled()) {
+        if (effect != null && !effect.isDisabled()) {
             effects.add(effect);
         }
     }
@@ -95,6 +96,7 @@ public class PotionCategory extends EditableCategory<PotionEffectModel> {
                 List<AbstractProperty<?>> children = PotionCategory.this.getChildren();
                 List<EffectInstance> effects = children.subList(1, children.size() - 1).stream()
                         .map(abstractProperty -> ((EffectInstance) ((ItemPotionEffectProperty) abstractProperty).getValue()))
+                        .filter(Objects::nonNull)
                         .collect(Collectors.toList());
                 effects.addAll(PotionUtils.getPotionFromItem(itemStack).getEffects());
                 this.setValue(new Color(PotionUtils.getPotionColorFromEffectList(effects)));

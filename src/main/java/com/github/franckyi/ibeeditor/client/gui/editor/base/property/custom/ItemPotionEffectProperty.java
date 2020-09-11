@@ -3,6 +3,7 @@ package com.github.franckyi.ibeeditor.client.gui.editor.base.property.custom;
 import com.github.franckyi.guapi.node.CheckBox;
 import com.github.franckyi.ibeeditor.client.gui.editor.base.category.EditableCategory;
 import com.github.franckyi.ibeeditor.client.gui.editor.base.property.custom.model.PotionEffectModel;
+import net.minecraft.potion.Effect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -24,7 +25,8 @@ public class ItemPotionEffectProperty extends BasePotionEffectProperty<PotionEff
 
     @Override
     public PotionEffectModel getValue() {
-        return new PotionEffectModel(ForgeRegistries.POTIONS.getValue(ResourceLocation.tryCreate(name.getValue())),
+        Effect effect = ForgeRegistries.POTIONS.getValue(ResourceLocation.tryCreate(name.getValue()));
+        return effect == null ? null : new PotionEffectModel(effect,
                 duration.getValue(), amplifier.getValue(), ambient.getValue(),
                 showParticles.getValue(), showIcon.getValue(), initialValue.isDisabled());
     }
@@ -60,6 +62,6 @@ public class ItemPotionEffectProperty extends BasePotionEffectProperty<PotionEff
 
     @Override
     public void updateSize(int listWidth) {
-        name.setPrefWidth(listWidth - OFFSET - 195);
+        name.setPrefWidth(listWidth - OFFSET - 201);
     }
 }
