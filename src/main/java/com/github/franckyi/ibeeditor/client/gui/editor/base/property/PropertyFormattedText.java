@@ -1,7 +1,6 @@
 package com.github.franckyi.ibeeditor.client.gui.editor.base.property;
 
 import com.github.franckyi.guapi.node.TexturedButton;
-import com.github.franckyi.ibeeditor.common.IBEConfiguration;
 import net.minecraft.util.text.TextFormatting;
 
 import java.util.function.Consumer;
@@ -22,15 +21,13 @@ public class PropertyFormattedText extends PropertyString {
     protected void build() {
         super.build();
         this.addAll(formatButton = new TexturedButton("format.png", TextFormatting.AQUA + "Format"));
+        textField.getTooltipText().add(textField.getValue());
+        textField.getOnValueChangedListeners().add((oldVal, newVal) -> textField.getTooltipText().set(0, newVal));
         formatButton.getOnMouseClickedListeners().add(e -> {
-            if (IBEConfiguration.CLIENT.appendFormatCharAtCursor.get()) {
-                int i = textField.getView().getCursorPosition();
-                String s = textField.getValue();
-                textField.setValue(s.substring(0, i) + "§" + s.substring(i));
-                textField.getView().setCursorPosition(i + 1);
-            } else {
-                textField.setValue(textField.getValue() + "§");
-            }
+            int i = textField.getView().getCursorPosition();
+            String s = textField.getValue();
+            textField.setValue(s.substring(0, i) + "§" + s.substring(i));
+            textField.getView().setCursorPosition(i + 1);
             textField.getView().changeFocus(true);
         });
     }

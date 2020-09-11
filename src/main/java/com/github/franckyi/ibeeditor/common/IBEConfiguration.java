@@ -32,7 +32,6 @@ public final class IBEConfiguration {
 
     public static class Client {
         public final ForgeConfigSpec.BooleanValue doesGuiPauseGame;
-        public final ForgeConfigSpec.BooleanValue appendFormatCharAtCursor;
         public final ForgeConfigSpec.BooleanValue showEditorNotifications;
         public final ForgeConfigSpec.BooleanValue showClipboardNotifications;
         public final ForgeConfigSpec.BooleanValue creativeModeOnly;
@@ -42,9 +41,6 @@ public final class IBEConfiguration {
             doesGuiPauseGame = builder
                     .comment("If true, will pause the game while the player is in the editor.", "Only works in Singleplayer mode.")
                     .define("doesGuiPauseGame", true);
-            appendFormatCharAtCursor = builder
-                    .comment("If true, will append the formatting '§' character at the cursor position instead of the end of the field.")
-                    .define("appendFormatCharAtCursor", false);
             showEditorNotifications = builder
                     .comment("If true, notifications about the editor (modifications applied, command copied, etc..) will be shown at the top-left corner of the screen.")
                     .define("showEditorNotifications", true);
