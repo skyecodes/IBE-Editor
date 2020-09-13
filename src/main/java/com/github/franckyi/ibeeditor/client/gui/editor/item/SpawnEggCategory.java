@@ -1,4 +1,4 @@
-package com.github.franckyi.ibeeditor.client.gui.editor.block.tileentity;
+package com.github.franckyi.ibeeditor.client.gui.editor.item;
 
 import com.github.franckyi.guapi.math.Pos;
 import com.github.franckyi.guapi.node.Button;
@@ -8,38 +8,32 @@ import com.github.franckyi.ibeeditor.client.EntityIcons;
 import com.github.franckyi.ibeeditor.client.clipboard.EntityClipboardEntry;
 import com.github.franckyi.ibeeditor.client.gui.clipboard.AbstractClipboard;
 import com.github.franckyi.ibeeditor.client.gui.clipboard.SelectionClipboard;
+import com.github.franckyi.ibeeditor.client.gui.editor.base.AbstractCategory;
 import com.github.franckyi.ibeeditor.client.gui.editor.base.AbstractProperty;
-import com.github.franckyi.ibeeditor.client.gui.editor.base.property.PropertyInteger;
-import com.github.franckyi.ibeeditor.client.gui.editor.block.TileEntityCategory;
 import com.github.franckyi.ibeeditor.client.gui.editor.entity.EntityEditor;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.SpawnEggItem;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.MobSpawnerTileEntity;
 
 import java.util.function.Consumer;
 
-public class MobSpawnerCategory extends TileEntityCategory<MobSpawnerTileEntity> {
-
-    private final CompoundNBT tag;
+public class SpawnEggCategory extends AbstractCategory {
+    private final ItemStack itemStack;
+    private final SpawnEggItem item;
     private CompoundNBT spawnData;
 
-    public MobSpawnerCategory(MobSpawnerTileEntity tileEntityMobSpawner) {
-        super(tileEntityMobSpawner);
-        tag = t.write(new CompoundNBT());
-        spawnData = tag.getCompound("SpawnData");
+    public SpawnEggCategory(ItemStack itemStack, SpawnEggItem item) {
+        this.itemStack = itemStack;
+        this.item = item;
+        spawnData = itemStack.getOrCreateChildTag("EntityTag");
         this.addEntityProperty();
-        this.add("Spawn count", "SpawnCount");
-        this.add("Spawn range", "SpawnRange");
-        this.add("Required player range", "RequiredPlayerRange");
-        this.add("Delay", "Delay");
-        this.add("Min spawn delay", "MinSpawnDelay");
-        this.add("Max spawn delay", "MaxSpawnDelay");
-        this.add("Max nearby entities", "MaxNearbyEntities");
     }
 
     private void addEntityProperty() {
-        this.getChildren().add(0, new EntityProperty(EntityType.byKey(spawnData.getString("id")).orElse(EntityType.PIG), spawnData, this::setEntity, this::setEntity));
+        this.getChildren().add(0, new EntityProperty(EntityType.byKey(spawnData.getString("id"))
+                .orElse(item.getType(itemStack.getTag())), spawnData, this::setEntity, this::setEntity));
     }
 
     private void setEntity(EntityClipboardEntry entry) {
@@ -56,15 +50,10 @@ public class MobSpawnerCategory extends TileEntityCategory<MobSpawnerTileEntity>
         this.addEntityProperty();
     }
 
-    private void add(String name, String tagName) {
-        this.getChildren().add(new PropertyInteger(name, tag.getInt(tagName), i -> tag.putInt(tagName, i), 150));
-    }
-
     @Override
     public void apply() {
         super.apply();
-        tag.put("SpawnData", spawnData);
-        t.read(t.getBlockState(), tag);
+        itemStack.getOrCreateTag().put("EntityTag", spawnData);
     }
 
     private static class EntityProperty extends AbstractProperty<Void> {
@@ -79,7 +68,7 @@ public class MobSpawnerCategory extends TileEntityCategory<MobSpawnerTileEntity>
             Button editButton;
             Button replaceButton;
             this.addAll(
-                    entityLabel = new Label("Next spawn"),
+                    entityLabel = new Label("Entity"),
                     EntityIcons.createTexturedButtonForEntity(entityType),
                     editButton = new Button("Editor", "Open in Entity Editor"),
                     replaceButton = new Button("Clipboard", "Replace with Clipboard...")

@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-public class BlockEditor extends CapabilityProviderEditor {
+public class BlockEditor extends CapabilityProviderEditor implements BlockStateCategory.IBlockStateContainer {
 
     private final BlockPos blockPos;
     private TileEntity tileEntity;
@@ -55,10 +55,12 @@ public class BlockEditor extends CapabilityProviderEditor {
         return blockPos;
     }
 
+    @Override
     public BlockState getBlockState() {
         return blockState;
     }
 
+    @Override
     public void setBlockState(BlockState blockState) {
         this.blockState = blockState;
     }

@@ -12,6 +12,8 @@ import net.minecraft.client.gui.screen.inventory.CreativeScreen;
 import net.minecraft.client.gui.screen.inventory.InventoryScreen;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.client.util.InputMappings;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.container.Slot;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraftforge.client.event.GuiScreenEvent;
@@ -46,7 +48,7 @@ public class ClientProxy implements IProxy {
     }
 
     private void onClientTick(TickEvent.ClientTickEvent e) {
-        if (e.phase == TickEvent.Phase.END) {
+        if (e.phase == TickEvent.Phase.END && mc.currentScreen == null) {
             if (KEY_OPEN_EDITOR.isPressed()) {
                 EditorHelper.openEditor();
             } else if (KEY_OPEN_CLIPBOARD.isPressed()) {
@@ -60,7 +62,10 @@ public class ClientProxy implements IProxy {
             ContainerScreen<?> gui = (ContainerScreen<?>) e.getGui();
             if (gui.getSlotUnderMouse() != null && gui.getSlotUnderMouse().getHasStack()) {
                 if (gui instanceof InventoryScreen || gui instanceof CreativeScreen) {
-                    EditorHelper.openItemEditorFromPlayerInventory(gui.getSlotUnderMouse());
+                    Slot slot = gui.getSlotUnderMouse();
+                    if (slot.inventory instanceof PlayerInventory) {
+                        EditorHelper.openItemEditorFromPlayerInventory(gui.getSlotUnderMouse());
+                    }
                 } else {
                     if (mc.objectMouseOver instanceof BlockRayTraceResult) {
                         EditorHelper.openItemEditorFromBlockInventory(gui.getSlotUnderMouse(), ((BlockRayTraceResult) mc.objectMouseOver).getPos());
