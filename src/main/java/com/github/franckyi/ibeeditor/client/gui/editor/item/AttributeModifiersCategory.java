@@ -157,11 +157,11 @@ public class AttributeModifiersCategory extends EditableCategory<AttributeModifi
             nameField.getTooltipText().add("Attribute name");
             slotButton.setValue(initialValue.getSlot());
             slotButton.setRenderer(aSlot -> StringUtils.capitalize(aSlot.getName().toLowerCase()));
-            slotButton.getTooltipText().add(ITextComponent.func_244388_a("Slot"));
+            slotButton.getTooltipText().add(ITextComponent.getTextComponentOrEmpty("Slot"));
             operationButton.setValue(initialValue.getModifier().getOperation());
             operationButton.setRenderer(operation -> Integer.toString(operation.getId()));
             operationButton.setPrefWidth(12);
-            operationButton.getTooltipText().add(ITextComponent.func_244388_a("Operation"));
+            operationButton.getTooltipText().add(ITextComponent.getTextComponentOrEmpty("Operation"));
             amountField.setMargin(Insets.left(2));
             amountField.getTooltipText().add("Amount");
         }

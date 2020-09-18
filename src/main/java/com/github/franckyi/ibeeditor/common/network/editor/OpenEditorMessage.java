@@ -47,7 +47,7 @@ public class OpenEditorMessage implements IMessage {
                 break;
         }
         if (!res) {
-            Minecraft.getInstance().player.sendMessage(ITextComponent.func_244388_a(TextFormatting.YELLOW +
+            Minecraft.getInstance().player.sendMessage(ITextComponent.getTextComponentOrEmpty(TextFormatting.YELLOW +
                     "Can't open editor : no " + argument + " found."), null);
         }
     }

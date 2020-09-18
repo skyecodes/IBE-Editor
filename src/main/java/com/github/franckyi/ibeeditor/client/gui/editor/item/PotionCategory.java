@@ -83,7 +83,7 @@ public class PotionCategory extends EditableCategory<PotionEffectModel> {
             ItemStack stack = new ItemStack(Items.POTION);
             stack.getOrCreateTag().putInt("CustomPotionColor", value.getRGB());
             TexturedButton previewButton = new TexturedButton(stack, false);
-            previewButton.getTooltipText().add(ITextComponent.func_244388_a("Preview"));
+            previewButton.getTooltipText().add(ITextComponent.getTextComponentOrEmpty("Preview"));
             previewGroup.getChildren().set(0, previewButton);
         }
 
@@ -102,7 +102,7 @@ public class PotionCategory extends EditableCategory<PotionEffectModel> {
                 this.setValue(new Color(PotionUtils.getPotionColorFromEffectList(effects)));
             });
             TexturedButton previewButton = new TexturedButton(new ItemStack(Items.POTION), false);
-            previewButton.getTooltipText().add(ITextComponent.func_244388_a("Preview"));
+            previewButton.getTooltipText().add(ITextComponent.getTextComponentOrEmpty("Preview"));
             previewGroup.getChildren().add(previewButton);
         }
 

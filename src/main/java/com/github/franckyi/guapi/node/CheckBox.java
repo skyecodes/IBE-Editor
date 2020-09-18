@@ -44,7 +44,7 @@ public class CheckBox extends Node<CheckBox.GuiCheckBoxView> implements IValueNo
     }
 
     public void setText(String text) {
-        this.getView().setMessage(ITextComponent.func_244388_a(text));
+        this.getView().setMessage(ITextComponent.getTextComponentOrEmpty(text));
     }
 
     public boolean getValue() {
@@ -111,7 +111,7 @@ public class CheckBox extends Node<CheckBox.GuiCheckBoxView> implements IValueNo
         private Scene.GUAPIScreen screen;
 
         public GuiCheckBoxView(String displayString, boolean checked, String... tooltipText) {
-            super(0, 0, 0, 0, ITextComponent.func_244388_a(displayString), (b) -> {
+            super(0, 0, 0, 0, ITextComponent.getTextComponentOrEmpty(displayString), (b) -> {
             });
             this.spacing = 4;
             this.checked = checked;

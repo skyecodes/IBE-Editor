@@ -61,10 +61,13 @@ public class GeneralItemCategory extends EditableCategory<String> {
 
     private void setName(String s) {
         TranslationTextComponent baseName = new TranslationTextComponent(itemStack.getItem().getTranslationKey(itemStack));
-        if (baseName.getUnformattedComponentText().equals(s)) {
-            itemStack.getOrCreateTag().remove("display");
+        if (baseName.getString().equals(s)) {
+            CompoundNBT display = itemStack.getChildTag("display");
+            if (display != null) {
+                display.remove("Name");
+            }
         } else {
-            itemStack.setDisplayName(ITextComponent.func_244388_a(s));
+            itemStack.setDisplayName(ITextComponent.getTextComponentOrEmpty(s));
         }
     }
 

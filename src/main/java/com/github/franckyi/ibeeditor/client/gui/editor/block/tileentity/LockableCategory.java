@@ -9,7 +9,7 @@ public class LockableCategory extends TileEntityCategory<LockableTileEntity> {
 
     public LockableCategory(LockableTileEntity tileEntity) {
         super(tileEntity);
-        this.addAll(new PropertyFormattedText("Name", tileEntity.getName().getString(), s -> tileEntity.setCustomName(ITextComponent.func_244388_a(s))));
+        this.addAll(new PropertyFormattedText("Name", tileEntity.getName().getString(), s -> tileEntity.setCustomName(ITextComponent.getTextComponentOrEmpty(s))));
         //this.addAll(new PropertyFormattedText("Lock code", tileEntity.getLockCode().getLock(), s -> tileEntity.setLockCode(new LockCode(s)), 80));
     }
 }

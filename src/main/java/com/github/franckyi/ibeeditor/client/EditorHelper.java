@@ -25,7 +25,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.items.CapabilityItemHandler;
 
 public final class EditorHelper {
-    private static final ITextComponent MUST_CREATIVE = ITextComponent.func_244388_a(TextFormatting.RED +
+    private static final ITextComponent MUST_CREATIVE = ITextComponent.getTextComponentOrEmpty(TextFormatting.RED +
             "You must be in creative mode in order to use the editor.");
 
     private static final Minecraft mc = Minecraft.getInstance();

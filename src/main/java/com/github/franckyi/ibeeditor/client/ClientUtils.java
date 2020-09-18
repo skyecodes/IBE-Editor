@@ -28,10 +28,10 @@ public final class ClientUtils {
                     .modifyStyle(style -> style
                             .setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/give @p minecraft:command_block 1"))
                             .setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_ITEM, new HoverEvent.ItemHover(new ItemStack(Items.COMMAND_BLOCK))))
-                            .setColor(Color.func_240744_a_(TextFormatting.LIGHT_PURPLE))
+                            .setColor(Color.fromTextFormatting(TextFormatting.LIGHT_PURPLE))
                             .setUnderlined(true))
             )
-            .append(ITextComponent.func_244388_a(" to apply the changes."));
+            .append(ITextComponent.getTextComponentOrEmpty(" to apply the changes."));
 
     public static Entity createEntity(CompoundNBT entityTag) {
         EntityType<?> entityType = EntityType.byKey(entityTag.getString("id")).orElse(EntityType.PIG);

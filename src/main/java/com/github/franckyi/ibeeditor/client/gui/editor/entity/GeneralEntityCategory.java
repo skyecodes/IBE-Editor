@@ -38,7 +38,7 @@ public class GeneralEntityCategory extends AbstractCategory {
         if (s.isEmpty()) {
             entity.setCustomName(null);
         } else {
-            entity.setCustomName(ITextComponent.func_244388_a(s));
+            entity.setCustomName(ITextComponent.getTextComponentOrEmpty(s));
         }
     }
 

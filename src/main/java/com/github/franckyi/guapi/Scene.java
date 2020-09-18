@@ -335,7 +335,7 @@ public class Scene implements IScreenEventListener, IParent {
         private final Set<Tooltip> tooltips;
 
         public GUAPIScreen(Scene scene) {
-            super(ITextComponent.func_244388_a(""));
+            super(ITextComponent.getTextComponentOrEmpty(""));
             this.scene = scene;
             tooltips = new HashSet<>();
         }
@@ -432,7 +432,7 @@ public class Scene implements IScreenEventListener, IParent {
             }
 
             private static Tooltip create(List<String> textLines, int x, int y, FontRenderer font) {
-                return new Tooltip(textLines.stream().map(ITextComponent::func_244388_a).collect(Collectors.toList()), x, y, font);
+                return new Tooltip(textLines.stream().map(ITextComponent::getTextComponentOrEmpty).collect(Collectors.toList()), x, y, font);
             }
         }
 

@@ -83,7 +83,7 @@ public abstract class TextFieldBase<T> extends Node<TextFieldBase.GuiTextFieldVi
         private boolean changed, flag;
 
         public GuiTextFieldView(String... tooltipText) {
-            super(mc.fontRenderer, 0, 0, 0, 0, ITextComponent.func_244388_a(""));
+            super(mc.fontRenderer, 0, 0, 0, 0, ITextComponent.getTextComponentOrEmpty(""));
             this.tooltipText = Lists.newArrayList(tooltipText);
             this.setMaxStringLength(Short.MAX_VALUE);
         }

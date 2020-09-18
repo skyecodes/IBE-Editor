@@ -20,12 +20,12 @@ import java.util.UUID;
 public class IBECommand {
 
     private static final ITextComponent DOWNLOAD_LINK = new StringTextComponent("Click here to download the mod !")
-            .setStyle(Style.EMPTY.setUnderlined(true).setBold(true).setColor(Color.func_240744_a_(TextFormatting.BLUE))
+            .setStyle(Style.EMPTY.setUnderlined(true).setBold(true).setColor(Color.fromTextFormatting(TextFormatting.BLUE))
                     .setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL,
                             "https://minecraft.curseforge.com/projects/ibe-editor")));
-    private static final ITextComponent MUST_INSTALL = ITextComponent.func_244388_a(
+    private static final ITextComponent MUST_INSTALL = ITextComponent.getTextComponentOrEmpty(
             TextFormatting.RED + "You must install the IBE Editor mod to use this command.");
-    private static final ITextComponent PLAYER_ONLY = ITextComponent.func_244388_a(
+    private static final ITextComponent PLAYER_ONLY = ITextComponent.getTextComponentOrEmpty(
             TextFormatting.RED + "This command can only be executed by a player");
 
 

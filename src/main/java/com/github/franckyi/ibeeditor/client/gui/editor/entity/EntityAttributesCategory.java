@@ -13,7 +13,7 @@ public class EntityAttributesCategory extends AbstractCategory {
         this.entity = entity;
         entity.getAttributeManager().getInstances().forEach(instance -> {
             Attribute a = instance.getAttribute();
-            String name = a.func_233754_c_();
+            String name = a.getAttributeName();
             PropertyDouble p = new PropertyDouble(name, instance.getBaseValue(),
                     instance::setBaseValue, a.clampValue(Double.NEGATIVE_INFINITY), a.clampValue(Double.POSITIVE_INFINITY));
             p.getNameLabel().setPrefWidth(150);

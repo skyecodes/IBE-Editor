@@ -34,7 +34,7 @@ public class Button extends Node<Button.GuiButtonView> {
     }
 
     public void setText(String text) {
-        this.getView().setMessage(ITextComponent.func_244388_a(text));
+        this.getView().setMessage(ITextComponent.getTextComponentOrEmpty(text));
         this.computeWidth();
         this.updateWidth();
     }
@@ -66,9 +66,9 @@ public class Button extends Node<Button.GuiButtonView> {
         protected final List<ITextComponent> tooltipText;
 
         public GuiButtonView(String text, String[] tooltip) {
-            super(0, 0, 0, 0, ITextComponent.func_244388_a(text), (b) -> {
+            super(0, 0, 0, 0, ITextComponent.getTextComponentOrEmpty(text), (b) -> {
             });
-            this.tooltipText = Stream.of(tooltip).map(ITextComponent::func_244388_a).collect(Collectors.toList());
+            this.tooltipText = Stream.of(tooltip).map(ITextComponent::getTextComponentOrEmpty).collect(Collectors.toList());
         }
 
         @Override

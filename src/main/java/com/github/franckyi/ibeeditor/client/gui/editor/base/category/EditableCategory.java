@@ -77,7 +77,7 @@ public abstract class EditableCategory<T> extends AbstractCategory {
             });
             this.getNode().getChildren().remove(1);
             button.getText().clear();
-            button.getText().addAll(Stream.of(textLines).map(ITextComponent::func_244388_a).collect(Collectors.toList()));
+            button.getText().addAll(Stream.of(textLines).map(ITextComponent::getTextComponentOrEmpty).collect(Collectors.toList()));
         }
 
         @Override
