@@ -49,6 +49,7 @@ public final class ClientUtils {
         entity.writeUnlessRemoved(tag);
         tag.remove("UUIDMost");
         tag.remove("UUIDLeast");
+        tag.remove("UUID");
         tag.remove("Pos");
         return tag;
     }
