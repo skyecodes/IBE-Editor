@@ -23,13 +23,13 @@ public class IBECommand {
             .setStyle(Style.EMPTY.setUnderlined(true).setBold(true).setColor(Color.fromTextFormatting(TextFormatting.BLUE))
                     .setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL,
                             "https://minecraft.curseforge.com/projects/ibe-editor")));
-    private static final ITextComponent MUST_INSTALL = ITextComponent.getTextComponentOrEmpty(
+    private static final ITextComponent MUST_INSTALL = new StringTextComponent(
             TextFormatting.RED + "You must install the IBE Editor mod to use this command.");
-    private static final ITextComponent PLAYER_ONLY = ITextComponent.getTextComponentOrEmpty(
+    private static final ITextComponent PLAYER_ONLY = new StringTextComponent(
             TextFormatting.RED + "This command can only be executed by a player");
 
 
-    private static Set<UUID> allowedPlayers = new HashSet<>();
+    private static final Set<UUID> allowedPlayers = new HashSet<>();
 
     static void register(CommandDispatcher<CommandSource> dispatcher) {
         dispatcher.register(getCommand());
