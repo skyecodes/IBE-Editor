@@ -1,90 +1,84 @@
-plugins {
-    id 'fabric-loom'
-    id 'maven-publish'
-    id "org.jetbrains.kotlin.jvm"
-}
+import java.nio.file.*
 
-sourceCompatibility = JavaVersion.VERSION_1_8
-targetCompatibility = JavaVersion.VERSION_1_8
+import org.apache.tools.ant.taskdefs.condition.Os
 
-archivesBaseName = project.archives_base_name
-version = project.mod_version
-group = project.maven_group
-
-minecraft {
-}
-
-
-repositories {
-    maven { url = "http://maven.fabricmc.net/" }
-}
-
-dependencies {
-    //to change the versions see the gradle.properties file
-    minecraft "com.mojang:minecraft:${project.minecraft_version}"
-    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-
-    // Fabric API. This is technically optional, but you probably want it anyway.
-    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-
-    modImplementation "net.fabricmc:fabric-language-kotlin:${project.fabric_kotlin_version}"
-
-    // PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.
-    // You may need to force-disable transitiveness on them.
-}
-
-processResources {
-    inputs.property "version", project.version
-
-    from(sourceSets.main.resources.srcDirs) {
-        include "fabric.mod.json"
-        expand "version": project.version
-    }
-
-    from(sourceSets.main.resources.srcDirs) {
-        exclude "fabric.mod.json"
-    }
-}
-
-// ensure that the encoding is set to UTF-8, no matter what the system default is
-// this fixes some edge cases with special characters not displaying correctly
-// see http://yodaconditions.net/blog/fix-for-java-file-encoding-problems-with-gradle.html
-tasks.withType(JavaCompile) {
-    options.encoding = "UTF-8"
-}
-
-// Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
-// if it is present.
-// If you remove this task, sources will not be generated.
-task sourcesJar(type: Jar, dependsOn: classes) {
-    classifier = "sources"
-    from sourceSets.main.allSource
-}
-
-jar {
-    from "LICENSE"
-}
-
-// configure the maven publication
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            // add all the jars that should be included when publishing to maven
-            artifact(remapJar) {
-                builtBy remapJar
-            }
-            artifact(sourcesJar) {
-                builtBy remapSourcesJar
-            }
-        }
-    }
-
-    // select the repositories you want to publish to
+buildscript {
     repositories {
-        // uncomment to publish to the local maven
-        // mavenLocal()
+        maven {
+            name = "Modmuss50"
+            url = "http://maven.modmuss50.me/"
+        }
+        jcenter()
+    }
+}
+plugins {
+	id 'java'
+}
+
+version = "2.0.0"
+group = "com.github.franckyi"
+archivesBaseName = "IBEEditor"
+
+///*********************************************************************************************************************
+/// Everything below this line is used to make the build work. Only touch if you know what you're doing.
+/// If you do know what you're doing and feel this could be improved, feel free to make a Pull Request to
+/// https://github.com/The-Fireplace-Minecraft-Mods/Fabric-Forge-Combined-Build
+///*********************************************************************************************************************
+
+boolean isWindows() {
+    return Os.isFamily(Os.FAMILY_WINDOWS);
+}
+
+String appendPrefix(String dir) {
+    if(isWindows())
+        dir = buildscript.sourceFile.getParentFile().getPath().toString()+"\\"+dir
+    return dir
+}
+
+void copyFiles(String dir) {
+    println("Copying $dir files...")
+    File devOutDir = new File("$buildDir/libs")
+    String inDirPath = appendPrefix(dir)
+    File inDir = new File("$inDirPath/build/libs")
+    inDir.listFiles().each { file ->
+        File outFile = new File(devOutDir, file.getName())
+        if (outFile.exists())
+            outFile.delete()
+        Files.copy(file.toPath(), outFile.toPath())
     }
 }
 
-compileKotlin.kotlinOptions.jvmTarget = "1.8"
+task copyFiles {
+    inputs.files(fileTree("forge/build/libs"))
+    inputs.files(fileTree("fabric/build/libs"))
+    outputs.files(fileTree("$buildDir/libs"))
+    doLast {
+        copyFiles("forge")
+        copyFiles("fabric")
+        Files.delete(new File("$buildDir/libs/$archivesBaseName-${version}.jar").toPath())
+    }
+}
+
+task execBuilds {
+    inputs.files(fileTree('fabric'))
+    inputs.files(fileTree('forge'))
+    outputs.files(fileTree("forge/build/libs"))
+    outputs.files(fileTree("fabric/build/libs"))
+    finalizedBy copyFiles
+    doLast {
+        def gradleFile = isWindows() ? "./gradlew.bat" : "./gradlew"
+        def sout = System.out, serr = System.err
+        println("Building Fabric...")
+        def procFabric = "$gradleFile clean build -Pversion=$version -Pgroup=$group -PoutputJarBaseName=$archivesBaseName-Fabric-${project.gameVersion}".execute(null, new File("fabric"))
+        procFabric.consumeProcessOutput(sout, serr)
+        procFabric.waitForOrKill(1800000)
+        println("Building Forge...")
+        def procForge = "$gradleFile clean build -Pversion=$version -Pgroup=$group -PoutputJarBaseName=$archivesBaseName-Forge-${project.gameVersion}".execute(null, new File("forge"))
+        procForge.consumeProcessOutput(sout, serr)
+        procForge.waitForOrKill(1800000)
+    }
+}
+
+build {
+    finalizedBy execBuilds
+}

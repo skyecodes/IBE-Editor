@@ -16,3 +16,6 @@ classes/
 bin/
 .classpath
 .project
+
+# forge
+run/

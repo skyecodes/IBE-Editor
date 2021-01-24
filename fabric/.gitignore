@@ -16,3 +16,6 @@ classes/
 bin/
 .classpath
 .project
+
+# fabric
+run/
