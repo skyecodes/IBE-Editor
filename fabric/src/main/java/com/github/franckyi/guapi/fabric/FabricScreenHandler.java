@@ -3,6 +3,7 @@ package com.github.franckyi.guapi.fabric;
 import com.github.franckyi.guapi.common.hooks.RenderContext;
 import com.github.franckyi.guapi.common.hooks.ScreenHandlerBase;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.LiteralText;
@@ -22,15 +23,6 @@ public class FabricScreenHandler extends ScreenHandlerBase<Screen> {
     private class ScreenImpl extends Screen {
         protected ScreenImpl() {
             super(new LiteralText(""));
-        }
-
-        @Override
-        public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-            if (keyCode == 256 && shouldCloseOnEsc()) {
-                hide();
-                return true;
-            }
-            return false;
         }
 
         @Override
@@ -57,6 +49,46 @@ public class FabricScreenHandler extends ScreenHandlerBase<Screen> {
                     return partialTicks;
                 }
             });
+        }
+
+        @Override
+        public boolean mouseClicked(double mouseX, double mouseY, int button) {
+            return FabricScreenHandler.this.mouseClicked(mouseX, mouseY, button);
+        }
+
+        @Override
+        public boolean mouseReleased(double mouseX, double mouseY, int button) {
+            return FabricScreenHandler.this.mouseReleased(mouseX, mouseY, button);
+        }
+
+        @Override
+        public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
+            return FabricScreenHandler.this.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
+        }
+
+        @Override
+        public boolean mouseScrolled(double mouseX, double mouseY, double amount) {
+            return FabricScreenHandler.this.mouseScrolled(mouseX, mouseY, amount);
+        }
+
+        @Override
+        public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+            return FabricScreenHandler.this.keyPressed(keyCode, scanCode, modifiers);
+        }
+
+        @Override
+        public boolean keyReleased(int keyCode, int scanCode, int modifiers) {
+            return FabricScreenHandler.this.keyReleased(keyCode, scanCode, modifiers);
+        }
+
+        @Override
+        public boolean charTyped(char chr, int keyCode) {
+            return FabricScreenHandler.this.charTyped(chr, keyCode);
+        }
+
+        @Override
+        public void mouseMoved(double mouseX, double mouseY) {
+           FabricScreenHandler.this.mouseMoved(mouseX, mouseY);
         }
     }
 }

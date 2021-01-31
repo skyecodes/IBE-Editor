@@ -1,13 +1,13 @@
 package com.github.franckyi.guapi.common.data;
 
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import com.github.franckyi.guapi.common.data.event.PropertyChangeEvent;
+
+import java.util.*;
 
 public class ObjectProperty<T> implements Property<T> {
     private T value;
-    private final Set<ChangeListener<? super T>> listeners;
-    private final ChangeListener<T> valueListener = (oldVal, newVal) -> setValue(newVal);
+    private final List<PropertyChangeEvent.Listener<? super T>> listeners;
+    private final PropertyChangeEvent.Listener<T> valueListener = event -> setValue(event.getNewValue());
     private ObservableValue<? extends T> boundValue;
 
     public ObjectProperty() {
@@ -16,7 +16,7 @@ public class ObjectProperty<T> implements Property<T> {
 
     public ObjectProperty(T value) {
         this.value = value;
-        listeners = new HashSet<>();
+        listeners = new ArrayList<>();
     }
 
     public T getValue() {
@@ -25,16 +25,17 @@ public class ObjectProperty<T> implements Property<T> {
 
     public void setValue(T value) {
         if (!Objects.equals(this.value, value)) {
-            listeners.forEach(listener -> listener.onChange(this.value, value));
+            PropertyChangeEvent<T> event = new PropertyChangeEvent<>(this.value, value);
+            listeners.forEach(listener -> listener.onChange(event));
             this.value = value;
         }
     }
 
-    public void addListener(ChangeListener<? super T> listener) {
+    public void addListener(PropertyChangeEvent.Listener<? super T> listener) {
         listeners.add(listener);
     }
 
-    public void removeListener(ChangeListener<? super T> listener) {
+    public void removeListener(PropertyChangeEvent.Listener<? super T> listener) {
         listeners.remove(listener);
     }
 

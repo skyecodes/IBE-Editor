@@ -5,13 +5,14 @@ import com.github.franckyi.guapi.common.data.ObjectProperty;
 import com.github.franckyi.guapi.common.data.ObservableValue;
 import com.github.franckyi.guapi.common.data.Property;
 import com.github.franckyi.guapi.common.data.ReadOnlyProperty;
+import com.github.franckyi.guapi.common.event.ScreenEventHandler;
 import com.github.franckyi.guapi.common.hooks.RenderContext;
 import com.github.franckyi.guapi.common.skin.Skin;
 import com.github.franckyi.guapi.common.skin.Theme;
 
 import java.util.function.Function;
 
-public abstract class Node {
+public abstract class Node implements ScreenEventHandler {
     public static final Integer INFINITE = Integer.MAX_VALUE;
     public static final Integer COMPUTED = -1;
 

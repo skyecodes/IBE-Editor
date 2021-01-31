@@ -1,5 +1,7 @@
 package com.github.franckyi.guapi.common.data;
 
+import com.github.franckyi.guapi.common.data.event.PropertyChangeEvent;
+
 public class ReadOnlyProperty<T> implements ObservableValue<T> {
     private final Property<T> property;
 
@@ -13,12 +15,12 @@ public class ReadOnlyProperty<T> implements ObservableValue<T> {
     }
 
     @Override
-    public void addListener(ChangeListener<? super T> listener) {
+    public void addListener(PropertyChangeEvent.Listener<? super T> listener) {
         property.addListener(listener);
     }
 
     @Override
-    public void removeListener(ChangeListener<? super T> listener) {
+    public void removeListener(PropertyChangeEvent.Listener<? super T> listener) {
         property.removeListener(listener);
     }
 }
