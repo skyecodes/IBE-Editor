@@ -1,7 +1,7 @@
 package com.github.franckyi.guapi.common.event;
 
 public class MouseDragEvent extends MouseButtonEvent {
-    private final double deltaX, deltaY;
+    protected final double deltaX, deltaY;
 
     public MouseDragEvent(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
         super(mouseX, mouseY, button);
@@ -15,5 +15,16 @@ public class MouseDragEvent extends MouseButtonEvent {
 
     public double getDeltaY() {
         return deltaY;
+    }
+
+    @Override
+    public String toString() {
+        return "MouseDragEvent{" +
+                "button=" + button +
+                ", deltaY=" + deltaY +
+                ", mouseX=" + mouseX +
+                ", mouseY=" + mouseY +
+                ", consumed=" + consumed +
+                '}';
     }
 }

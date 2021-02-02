@@ -1,6 +1,9 @@
-package com.github.franckyi.guapi.common.math;
+package com.github.franckyi.guapi.common.util;
+
+import java.util.Objects;
 
 public final class Insets {
+    public static final Insets NONE = new Insets(0);
     private final int top, right, bottom, left;
 
     public Insets(int topRightBottomLeft) {
@@ -36,5 +39,26 @@ public final class Insets {
 
     public int getLeft() {
         return left;
+    }
+
+    public int getHorizontal() {
+        return getLeft() + getRight();
+    }
+
+    public int getVertical() {
+        return getTop() + getBottom();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Insets insets = (Insets) o;
+        return top == insets.top && right == insets.right && bottom == insets.bottom && left == insets.left;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(top, right, bottom, left);
     }
 }

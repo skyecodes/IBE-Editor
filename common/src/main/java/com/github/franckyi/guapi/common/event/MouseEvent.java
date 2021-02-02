@@ -1,7 +1,10 @@
 package com.github.franckyi.guapi.common.event;
 
+import com.github.franckyi.guapi.common.node.Node;
+
 public class MouseEvent extends ScreenEvent {
-    private final double mouseX, mouseY;
+    protected final double mouseX, mouseY;
+    private Node target;
 
     public MouseEvent(double mouseX, double mouseY) {
         this.mouseX = mouseX;
@@ -14,5 +17,23 @@ public class MouseEvent extends ScreenEvent {
 
     public double getMouseY() {
         return mouseY;
+    }
+
+    public Node getTarget() {
+        return target;
+    }
+
+    public void setTarget(Node target) {
+        this.target = target;
+    }
+
+    @Override
+    public String toString() {
+        return "MouseEvent{" +
+                "target=" + target +
+                ", mouseX=" + mouseX +
+                ", mouseY=" + mouseY +
+                ", consumed=" + consumed +
+                '}';
     }
 }

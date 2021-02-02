@@ -1,12 +1,12 @@
 package com.github.franckyi.guapi.common.event;
 
-public class KeyEvent extends ScreenEvent {
-    private final int keyCode, scanCode, modifiers;
+public class KeyEvent extends KeyboardEvent {
+    protected final int keyCode, scanCode;
 
     public KeyEvent(int keyCode, int scanCode, int modifiers) {
+        super(modifiers);
         this.keyCode = keyCode;
         this.scanCode = scanCode;
-        this.modifiers = modifiers;
     }
 
     public int getKeyCode() {
@@ -17,7 +17,13 @@ public class KeyEvent extends ScreenEvent {
         return scanCode;
     }
 
-    public int getModifiers() {
-        return modifiers;
+    @Override
+    public String toString() {
+        return "KeyEvent{" +
+                "keyCode=" + keyCode +
+                ", scanCode=" + scanCode +
+                ", modifiers=" + modifiers +
+                ", consumed=" + consumed +
+                '}';
     }
 }

@@ -1,19 +1,10 @@
 package com.github.franckyi.guapi.common.event;
 
 public interface ScreenEventHandler {
-    boolean mouseClicked(MouseButtonEvent event);
+    <E extends ScreenEvent> void handleEvent(ScreenEventType<E> type, E event);
 
-    boolean mouseReleased(MouseButtonEvent event);
+    <E extends ScreenEvent> void addListener(ScreenEventType<E> type, ScreenEvent.Listener<E> listener);
 
-    boolean mouseDragged(MouseDragEvent event);
+    <E extends ScreenEvent> void removeListener(ScreenEventType<E> type, ScreenEvent.Listener<E> listener);
 
-    boolean mouseScrolled(MouseScrollEvent event);
-
-    boolean keyPressed(KeyEvent event);
-
-    boolean keyReleased(KeyEvent event);
-
-    boolean charTyped(TypeEvent event);
-
-    void mouseMoved(MouseEvent event);
 }

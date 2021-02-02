@@ -1,7 +1,7 @@
 package com.github.franckyi.guapi.common.event;
 
 public class MouseScrollEvent extends MouseEvent {
-    private final double amount;
+    protected final double amount;
 
     public MouseScrollEvent(double mouseX, double mouseY, double amount) {
         super(mouseX, mouseY);
@@ -10,5 +10,15 @@ public class MouseScrollEvent extends MouseEvent {
 
     public double getAmount() {
         return amount;
+    }
+
+    @Override
+    public String toString() {
+        return "MouseScrollEvent{" +
+                "mouseX=" + mouseX +
+                ", mouseY=" + mouseY +
+                ", amount=" + amount +
+                ", consumed=" + consumed +
+                '}';
     }
 }

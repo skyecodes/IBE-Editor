@@ -1,49 +1,72 @@
 package com.github.franckyi.guapi.common.node;
 
 import com.github.franckyi.guapi.common.GUAPI;
-import com.github.franckyi.guapi.common.data.ObjectProperty;
-import com.github.franckyi.guapi.common.data.ObservableValue;
-import com.github.franckyi.guapi.common.data.Property;
-import com.github.franckyi.guapi.common.data.ReadOnlyProperty;
-import com.github.franckyi.guapi.common.event.ScreenEventHandler;
+import com.github.franckyi.guapi.common.data.*;
+import com.github.franckyi.guapi.common.data.event.PropertyChangeEvent;
+import com.github.franckyi.guapi.common.event.*;
 import com.github.franckyi.guapi.common.hooks.RenderContext;
-import com.github.franckyi.guapi.common.skin.Skin;
-import com.github.franckyi.guapi.common.skin.Theme;
+import com.github.franckyi.guapi.common.theme.Skin;
+import com.github.franckyi.guapi.common.theme.Theme;
+import com.github.franckyi.guapi.common.util.Insets;
 
 import java.util.function.Function;
 
 public abstract class Node implements ScreenEventHandler {
-    public static final Integer INFINITE = Integer.MAX_VALUE;
-    public static final Integer COMPUTED = -1;
+    public static final Integer INFINITE_SIZE = Integer.MAX_VALUE;
+    public static final Integer COMPUTED_SIZE = -1;
 
-    protected final Property<Integer> xProperty = new ObjectProperty<>(0);
-    private final ObservableValue<Integer> xPropertyReadOnly = new ReadOnlyProperty<>(xProperty);
-    protected final Property<Integer> yProperty = new ObjectProperty<>(0);
-    private final ObservableValue<Integer> yPropertyReadOnly = new ReadOnlyProperty<>(yProperty);
-    protected final Property<Integer> widthProperty = new ObjectProperty<>(0);
-    private final ObservableValue<Integer> widthPropertyReadOnly = new ReadOnlyProperty<>(widthProperty);
-    protected final Property<Integer> heightProperty = new ObjectProperty<>(0);
-    private final ObservableValue<Integer> heightPropertyReadOnly = new ReadOnlyProperty<>(heightProperty);
+    protected final IntegerProperty xProperty = new SimpleIntegerProperty();
+    protected final IntegerProperty yProperty = new SimpleIntegerProperty();
+    protected final IntegerProperty widthProperty = new SimpleIntegerProperty();
+    protected final IntegerProperty heightProperty = new SimpleIntegerProperty();
+    protected final IntegerProperty computedWidthProperty = new SimpleIntegerProperty();
+    protected final IntegerProperty computedHeightProperty = new SimpleIntegerProperty();
+    protected final ObjectProperty<Group> parentProperty = new SimpleObjectProperty<>();
+    protected final ObjectProperty<Scene> sceneProperty = new SimpleObjectProperty<>();
+    protected final ScreenEventHandler eventHandlerDelegate = new ScreenEventHandlerDelegate();
+    private final ObservableIntegerValue xPropertyReadOnly = new ReadOnlyIntegerProperty(xProperty);
+    private final ObservableIntegerValue yPropertyReadOnly = new ReadOnlyIntegerProperty(yProperty);
+    private final ObservableIntegerValue widthPropertyReadOnly = new ReadOnlyIntegerProperty(widthProperty);
+    private final ObservableIntegerValue heightPropertyReadOnly = new ReadOnlyIntegerProperty(heightProperty);
+    private final IntegerProperty minWidthProperty = new SimpleIntegerProperty();
+    private final IntegerProperty minHeightProperty = new SimpleIntegerProperty();
+    private final IntegerProperty prefWidthProperty = new SimpleIntegerProperty(COMPUTED_SIZE);
+    private final IntegerProperty prefHeightProperty = new SimpleIntegerProperty(COMPUTED_SIZE);
+    private final IntegerProperty maxWidthProperty = new SimpleIntegerProperty(INFINITE_SIZE);
+    private final IntegerProperty maxHeightProperty = new SimpleIntegerProperty(INFINITE_SIZE);
+    private final ObservableIntegerValue computedWidthPropertyReadOnly = new ReadOnlyIntegerProperty(computedWidthProperty);
+    private final ObservableIntegerValue computedHeightPropertyReadOnly = new ReadOnlyIntegerProperty(computedHeightProperty);
+    private final ObjectProperty<Insets> paddingProperty = new SimpleObjectProperty<>(Insets.NONE);
+    private final ObservableValue<Group> parentPropertyReadOnly = new ReadOnlyObjectProperty<>(parentProperty);
+    private final ObservableValue<Scene> scenePropertyReadOnly = new ReadOnlyObjectProperty<>(sceneProperty);
+    private final ObservableBooleanValue rootProperty = sceneProperty().mapNotNull();
+    private final ObservableBooleanValue focusedProperty = sceneProperty()
+            .safeBindMap(Scene::focusedProperty, null)
+            .mapToBoolean(node -> node == Node.this);
+    private final ObservableBooleanValue hoveredProperty = sceneProperty()
+            .safeBindMap(Scene::hoveredProperty, null)
+            .mapToBoolean(node -> node == Node.this);
 
-    private final Property<Integer> minWidthProperty = new ObjectProperty<>(0);
-    private final Property<Integer> minHeightProperty = new ObjectProperty<>(0);
-    private final Property<Integer> prefWidthProperty = new ObjectProperty<>(COMPUTED);
-    private final Property<Integer> prefHeightProperty = new ObjectProperty<>(COMPUTED);
-    private final Property<Integer> maxWidthProperty = new ObjectProperty<>(INFINITE);
-    private final Property<Integer> maxHeightProperty = new ObjectProperty<>(INFINITE);
-    protected final Property<Integer> computedWidthProperty = new ObjectProperty<>(0);
-    private final ObservableValue<Integer> computedWidthPropertyReadOnly = new ReadOnlyProperty<>(computedWidthProperty);
-    protected final Property<Integer> computedHeightProperty = new ObjectProperty<>(0);
-    private final ObservableValue<Integer> computedHeightPropertyReadOnly = new ReadOnlyProperty<>(computedHeightProperty);
-
-    protected final Property<Node> parentProperty = new ObjectProperty<>();
-    private final ObservableValue<Node> parentPropertyReadOnly = new ReadOnlyProperty<>(parentProperty);
-
-    public int getX() {
-        return xProperty.getValue();
+    public Node() {
+        minWidthProperty().addListener(this::_updateWidth);
+        minHeightProperty().addListener(this::_updateHeight);
+        prefWidthProperty().addListener(this::_updateWidth);
+        prefHeightProperty().addListener(this::_updateHeight);
+        maxWidthProperty().addListener(this::_updateWidth);
+        maxHeightProperty().addListener(this::_updateHeight);
+        computedWidthProperty().addListener(this::_updateWidth);
+        computedHeightProperty().addListener(this::_updateHeight);
+        widthProperty().addListener(this::_updateParentWidth);
+        heightProperty().addListener(this::_updateParentHeight);
+        paddingProperty().addListener(this::_updateSize);
+        sceneProperty.bind(parentProperty().safeBindMap(Node::sceneProperty, null));
     }
 
-    public ObservableValue<Integer> xProperty() {
+    public int getX() {
+        return xProperty().getValue();
+    }
+
+    public ObservableIntegerValue xProperty() {
         return xPropertyReadOnly;
     }
 
@@ -52,10 +75,10 @@ public abstract class Node implements ScreenEventHandler {
     }
 
     public int getY() {
-        return yProperty.getValue();
+        return yProperty().getValue();
     }
 
-    public ObservableValue<Integer> yProperty() {
+    public ObservableIntegerValue yProperty() {
         return yPropertyReadOnly;
     }
 
@@ -64,10 +87,10 @@ public abstract class Node implements ScreenEventHandler {
     }
 
     public int getWidth() {
-        return widthProperty.getValue();
+        return widthProperty().getValue();
     }
 
-    public ObservableValue<Integer> widthProperty() {
+    public ObservableIntegerValue widthProperty() {
         return widthPropertyReadOnly;
     }
 
@@ -76,10 +99,10 @@ public abstract class Node implements ScreenEventHandler {
     }
 
     public int getHeight() {
-        return heightProperty.getValue();
+        return heightProperty().getValue();
     }
 
-    public ObservableValue<Integer> heightProperty() {
+    public ObservableIntegerValue heightProperty() {
         return heightPropertyReadOnly;
     }
 
@@ -88,82 +111,82 @@ public abstract class Node implements ScreenEventHandler {
     }
 
     public int getMinWidth() {
-        return minWidthProperty.getValue();
-    }
-
-    public Property<Integer> minWidthProperty() {
-        return minWidthProperty;
+        return minWidthProperty().getValue();
     }
 
     public void setMinWidth(int value) {
-        minWidthProperty.setValue(value);
+        minWidthProperty().setValue(value);
+    }
+
+    public IntegerProperty minWidthProperty() {
+        return minWidthProperty;
     }
 
     public int getMinHeight() {
-        return minHeightProperty.getValue();
-    }
-
-    public Property<Integer> minHeightProperty() {
-        return minHeightProperty;
+        return minHeightProperty().getValue();
     }
 
     public void setMinHeight(int value) {
-        minHeightProperty.setValue(value);
+        minHeightProperty().setValue(value);
+    }
+
+    public IntegerProperty minHeightProperty() {
+        return minHeightProperty;
     }
 
     public int getPrefWidth() {
-        return prefWidthProperty.getValue();
-    }
-
-    public Property<Integer> prefWidthProperty() {
-        return prefWidthProperty;
+        return prefWidthProperty().getValue();
     }
 
     public void setPrefWidth(int value) {
-        prefWidthProperty.setValue(value);
+        prefWidthProperty().setValue(value);
+    }
+
+    public IntegerProperty prefWidthProperty() {
+        return prefWidthProperty;
     }
 
     public int getPrefHeight() {
-        return prefHeightProperty.getValue();
-    }
-
-    public Property<Integer> prefHeightProperty() {
-        return prefHeightProperty;
+        return prefHeightProperty().getValue();
     }
 
     public void setPrefHeight(int value) {
-        prefHeightProperty.setValue(value);
+        prefHeightProperty().setValue(value);
+    }
+
+    public IntegerProperty prefHeightProperty() {
+        return prefHeightProperty;
     }
 
     public int getMaxWidth() {
-        return maxWidthProperty.getValue();
-    }
-
-    public Property<Integer> maxWidthProperty() {
-        return maxWidthProperty;
+        return maxWidthProperty().getValue();
     }
 
     public void setMaxWidth(int value) {
-        maxWidthProperty.setValue(value);
+        maxWidthProperty().setValue(value);
+    }
+
+    public IntegerProperty maxWidthProperty() {
+        return maxWidthProperty;
     }
 
     public int getMaxHeight() {
-        return maxHeightProperty.getValue();
-    }
-
-    public Property<Integer> maxHeightProperty() {
-        return maxHeightProperty;
+        return maxHeightProperty().getValue();
     }
 
     public void setMaxHeight(int value) {
-        maxHeightProperty.setValue(value);
+        maxHeightProperty().setValue(value);
+    }
+
+    public IntegerProperty maxHeightProperty() {
+        return maxHeightProperty;
     }
 
     public int getComputedWidth() {
-        return computedWidthProperty.getValue();
+        return computedWidthProperty().getValue();
     }
 
-    public ObservableValue<Integer> computedWidthProperty() {
+    public ObservableIntegerValue computedWidthProperty() {
         return computedWidthPropertyReadOnly;
     }
 
@@ -172,10 +195,10 @@ public abstract class Node implements ScreenEventHandler {
     }
 
     public int getComputedHeight() {
-        return computedHeightProperty.getValue();
+        return computedHeightProperty().getValue();
     }
 
-    public ObservableValue<Integer> computedHeightProperty() {
+    public ObservableIntegerValue computedHeightProperty() {
         return computedHeightPropertyReadOnly;
     }
 
@@ -183,29 +206,182 @@ public abstract class Node implements ScreenEventHandler {
         computedHeightProperty.setValue(value);
     }
 
-    public Node getParent() {
-        return parentProperty.getValue();
+    public Insets getPadding() {
+        return paddingProperty().getValue();
     }
 
-    public ObservableValue<Node> parentProperty() {
-        return parentPropertyReadOnly;
+    public void setPadding(Insets value) {
+        paddingProperty().setValue(value);
     }
 
-    protected void setParent(Node value) {
+    public ObjectProperty<Insets> paddingProperty() {
+        return paddingProperty;
+    }
+
+    public Group getParent() {
+        return parentProperty().getValue();
+    }
+
+    protected void setParent(Group value) {
         parentProperty.setValue(value);
     }
 
-    public abstract <T extends Node> Function<Theme, Skin<T>> getSkinFactory();
+    public ObservableValue<Group> parentProperty() {
+        return parentPropertyReadOnly;
+    }
+
+    public Scene getScene() {
+        return sceneProperty().getValue();
+    }
+
+    void setScene(Scene value) {
+        sceneProperty.setValue(value);
+    }
+
+    public ObservableValue<Scene> sceneProperty() {
+        return scenePropertyReadOnly;
+    }
+
+    public boolean isRoot() {
+        return rootProperty().getValue();
+    }
+
+    public ObservableBooleanValue rootProperty() {
+        return rootProperty;
+    }
+
+    public boolean isFocused() {
+        return focusedProperty().getValue();
+    }
+
+    public ObservableBooleanValue focusedProperty() {
+        return focusedProperty;
+    }
+
+    public boolean isHovered() {
+        return hoveredProperty().getValue();
+    }
+
+    public ObservableBooleanValue hoveredProperty() {
+        return hoveredProperty;
+    }
+
+    public boolean inBounds(double x, double y) {
+        return x >= getX() && x <= getX() + getWidth() && y >= getY() && y <= getY() + getHeight();
+    }
+
+    public void mouseClicked(MouseButtonEvent event) {
+    }
+
+    public void mouseReleased(MouseButtonEvent event) {
+    }
+
+    public void mouseDragged(MouseDragEvent event) {
+    }
+
+    public void mouseScrolled(MouseScrollEvent event) {
+    }
+
+    public void keyPressed(KeyEvent event) {
+    }
+
+    public void keyReleased(KeyEvent event) {
+    }
+
+    public void charTyped(TypeEvent event) {
+    }
+
+    public void mouseMoved(MouseEvent event) {
+    }
+
+    @Override
+    public <E extends ScreenEvent> void handleEvent(ScreenEventType<E> type, E event) {
+        type.ifMouseEvent(event, this::handleMouseEvent);
+    }
+
+    protected abstract <E extends MouseEvent> void handleMouseEvent(ScreenEventType<E> type, E event);
+
+    @Override
+    public <E extends ScreenEvent> void addListener(ScreenEventType<E> type, ScreenEvent.Listener<E> listener) {
+        eventHandlerDelegate.addListener(type, listener);
+    }
+
+    @Override
+    public <E extends ScreenEvent> void removeListener(ScreenEventType<E> type, ScreenEvent.Listener<E> listener) {
+        eventHandlerDelegate.removeListener(type, listener);
+    }
+
+    protected abstract <T extends Node> Function<Theme, Skin<T>> getSkinFactory();
 
     public void render(RenderContext<?> ctx) {
-        this.getSkinFactory().apply(GUAPI.getTheme()).render(this, ctx);
+        getSkinFactory().apply(GUAPI.getTheme()).render(this, ctx);
     }
 
-    public void computeHeight() {
-        this.setComputedHeight(this.getSkinFactory().apply(GUAPI.getTheme()).computeHeight(this));
+    protected void computeWidth() {
+        setComputedWidth(getSkinFactory().apply(GUAPI.getTheme()).computeWidth(this) + getPadding().getHorizontal());
     }
 
-    public void computeWidth() {
-        this.setComputedWidth(this.getSkinFactory().apply(GUAPI.getTheme()).computeWidth(this));
+    protected void computeHeight() {
+        setComputedHeight(getSkinFactory().apply(GUAPI.getTheme()).computeHeight(this) + getPadding().getVertical());
+    }
+
+    protected void computeSize() {
+        computeWidth();
+        computeHeight();
+    }
+
+    protected void updateWidth() {
+        int width = getPrefWidth();
+        if (width == COMPUTED_SIZE) {
+            width = getComputedWidth();
+        }
+        width = Math.max(Math.min(width, getMaxWidth()), getMinWidth());
+        if (getParent() != null) {
+            width = Math.min(width, getParent().getWidth());
+        }
+        setWidth(width);
+    }
+
+    protected void updateHeight() {
+        int height = getPrefHeight();
+        if (height == COMPUTED_SIZE) {
+            height = getComputedHeight();
+        }
+        height = Math.max(Math.min(height, getMaxHeight()), getMinHeight());
+        if (getParent() != null) {
+            height = Math.min(height, getParent().getHeight());
+        }
+        setHeight(height);
+    }
+
+    protected void updateSize() {
+        updateWidth();
+        updateHeight();
+    }
+
+    private void _updateWidth(PropertyChangeEvent<?> event) {
+        updateWidth();
+    }
+
+    private void _updateHeight(PropertyChangeEvent<?> event) {
+        updateHeight();
+    }
+
+    private void _updateSize(PropertyChangeEvent<?> event) {
+        updateSize();
+    }
+
+    private void _updateParentWidth(PropertyChangeEvent<?> event) {
+        if (getParent() != null) {
+            getParent().computeWidth();
+            getParent().updateChildrenPos();
+        }
+    }
+
+    private void _updateParentHeight(PropertyChangeEvent<?> event) {
+        if (getParent() != null) {
+            getParent().computeHeight();
+            getParent().updateChildrenPos();
+        }
     }
 }

@@ -2,10 +2,10 @@ package com.github.franckyi.guapi.common.data;
 
 import com.github.franckyi.guapi.common.data.event.PropertyChangeEvent;
 
-public class ReadOnlyProperty<T> implements ObservableValue<T> {
-    private final Property<T> property;
+public class ReadOnlyObjectProperty<T> implements ObservableValue<T> {
+    private final ObjectProperty<T> property;
 
-    public ReadOnlyProperty(Property<T> property) {
+    public ReadOnlyObjectProperty(ObjectProperty<T> property) {
         this.property = property;
     }
 
@@ -22,5 +22,10 @@ public class ReadOnlyProperty<T> implements ObservableValue<T> {
     @Override
     public void removeListener(PropertyChangeEvent.Listener<? super T> listener) {
         property.removeListener(listener);
+    }
+
+    @Override
+    public String toString() {
+        return property.toString();
     }
 }

@@ -1,19 +1,23 @@
 package com.github.franckyi.guapi.common.event;
 
-public class TypeEvent {
-    private final char character;
-    private final int keyCode;
+public class TypeEvent extends KeyboardEvent {
+    protected final char character;
 
-    public TypeEvent(char character, int keyCode) {
+    public TypeEvent(char character, int modifiers) {
+        super(modifiers);
         this.character = character;
-        this.keyCode = keyCode;
     }
 
     public char getCharacter() {
         return character;
     }
 
-    public int getKeyCode() {
-        return keyCode;
+    @Override
+    public String toString() {
+        return "TypeEvent{" +
+                "modifiers=" + modifiers +
+                ", consumed=" + consumed +
+                ", character=" + character +
+                '}';
     }
 }

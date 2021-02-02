@@ -22,20 +22,20 @@ public class ListChangeEvent<E> {
         return allChanged;
     }
 
-    public List<SimpleChangeEntry<E>> getAdded() {
+    public List<SimpleChangeEntry<E>> getAdded(boolean andReplaced) {
         if (added == null) {
             added = allChanged.stream()
-                    .filter(ChangeEntry::isAdd)
+                    .filter(andReplaced ? ChangeEntry::isAddOrReplace : ChangeEntry::isAdd)
                     .map(e -> new SimpleChangeEntry<>(e.index, e.newValue))
                     .collect(Collectors.toList());
         }
         return added;
     }
 
-    public List<SimpleChangeEntry<E>> getRemoved() {
+    public List<SimpleChangeEntry<E>> getRemoved(boolean andReplaced) {
         if (removed == null) {
             removed = allChanged.stream()
-                    .filter(ChangeEntry::isRemove)
+                    .filter(andReplaced ? ChangeEntry::isRemoveOrReplace : ChangeEntry::isRemove)
                     .map(e -> new SimpleChangeEntry<>(e.index, e.oldValue))
                     .collect(Collectors.toList());
         }
@@ -85,8 +85,16 @@ public class ListChangeEvent<E> {
             return oldValue == null && newValue != null;
         }
 
+        public boolean isAddOrReplace() {
+            return isAdd() || isReplace();
+        }
+
         public boolean isRemove() {
             return oldValue != null && newValue == null;
+        }
+
+        public boolean isRemoveOrReplace() {
+            return isRemove() || isReplace();
         }
 
         public boolean isReplace() {

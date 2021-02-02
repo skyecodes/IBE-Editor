@@ -1,4 +1,4 @@
-package com.github.franckyi.guapi.common.math;
+package com.github.franckyi.guapi.common.util;
 
 public enum Align {
     TOP_LEFT(Vertical.TOP, Horizontal.LEFT),

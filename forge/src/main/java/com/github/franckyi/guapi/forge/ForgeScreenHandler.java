@@ -1,7 +1,7 @@
 package com.github.franckyi.guapi.forge;
 
 import com.github.franckyi.guapi.common.hooks.RenderContext;
-import com.github.franckyi.guapi.common.hooks.ScreenHandlerBase;
+import com.github.franckyi.guapi.common.hooks.AbstractScreenHandler;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
@@ -9,8 +9,10 @@ import net.minecraft.util.text.StringTextComponent;
 
 import java.util.function.Consumer;
 
-public class ForgeScreenHandler extends ScreenHandlerBase<Screen> {
-    public ForgeScreenHandler() {
+public class ForgeScreenHandler extends AbstractScreenHandler<Screen> {
+    public static final ForgeScreenHandler INSTANCE = new ForgeScreenHandler();
+
+    private ForgeScreenHandler() {
         initScreen(new ScreenImpl());
     }
 
@@ -22,15 +24,6 @@ public class ForgeScreenHandler extends ScreenHandlerBase<Screen> {
     private class ScreenImpl extends Screen {
         protected ScreenImpl() {
             super(new StringTextComponent(""));
-        }
-
-        @Override
-        public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-            if (keyCode == 256 && shouldCloseOnEsc()) {
-                hide();
-                return true;
-            }
-            return false;
         }
 
         @Override
@@ -57,6 +50,46 @@ public class ForgeScreenHandler extends ScreenHandlerBase<Screen> {
                     return partialTicks;
                 }
             });
+        }
+
+        @Override
+        public boolean mouseClicked(double mouseX, double mouseY, int button) {
+            return ForgeScreenHandler.this.mouseClicked(mouseX, mouseY, button);
+        }
+
+        @Override
+        public boolean mouseReleased(double mouseX, double mouseY, int button) {
+            return ForgeScreenHandler.this.mouseReleased(mouseX, mouseY, button);
+        }
+
+        @Override
+        public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
+            return ForgeScreenHandler.this.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
+        }
+
+        @Override
+        public boolean mouseScrolled(double mouseX, double mouseY, double amount) {
+            return ForgeScreenHandler.this.mouseScrolled(mouseX, mouseY, amount);
+        }
+
+        @Override
+        public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+            return ForgeScreenHandler.this.keyPressed(keyCode, scanCode, modifiers);
+        }
+
+        @Override
+        public boolean keyReleased(int keyCode, int scanCode, int modifiers) {
+            return ForgeScreenHandler.this.keyReleased(keyCode, scanCode, modifiers);
+        }
+
+        @Override
+        public boolean charTyped(char chr, int modifiers) {
+            return ForgeScreenHandler.this.charTyped(chr, modifiers);
+        }
+
+        @Override
+        public void mouseMoved(double mouseX, double mouseY) {
+            ForgeScreenHandler.this.mouseMoved(mouseX, mouseY);
         }
     }
 }

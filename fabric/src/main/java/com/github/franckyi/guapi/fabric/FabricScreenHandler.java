@@ -1,17 +1,18 @@
 package com.github.franckyi.guapi.fabric;
 
 import com.github.franckyi.guapi.common.hooks.RenderContext;
-import com.github.franckyi.guapi.common.hooks.ScreenHandlerBase;
+import com.github.franckyi.guapi.common.hooks.AbstractScreenHandler;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.LiteralText;
 
 import java.util.function.Consumer;
 
-public class FabricScreenHandler extends ScreenHandlerBase<Screen> {
-    public FabricScreenHandler() {
+public class FabricScreenHandler extends AbstractScreenHandler<Screen> {
+    public static final FabricScreenHandler INSTANCE = new FabricScreenHandler();
+
+    private FabricScreenHandler() {
         initScreen(new ScreenImpl());
     }
 
@@ -82,8 +83,8 @@ public class FabricScreenHandler extends ScreenHandlerBase<Screen> {
         }
 
         @Override
-        public boolean charTyped(char chr, int keyCode) {
-            return FabricScreenHandler.this.charTyped(chr, keyCode);
+        public boolean charTyped(char chr, int modifiers) {
+            return FabricScreenHandler.this.charTyped(chr, modifiers);
         }
 
         @Override

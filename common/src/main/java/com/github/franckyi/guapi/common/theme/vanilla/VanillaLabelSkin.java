@@ -1,25 +1,40 @@
 package com.github.franckyi.guapi.common.theme.vanilla;
 
-import com.github.franckyi.guapi.common.GUAPI;
 import com.github.franckyi.guapi.common.hooks.RenderContext;
 import com.github.franckyi.guapi.common.node.Label;
-import com.github.franckyi.guapi.common.skin.Skin;
+import com.github.franckyi.guapi.common.theme.AbstractSkin;
+import com.github.franckyi.guapi.common.theme.Skin;
 
-public class VanillaLabelSkin implements Skin<Label> {
+public class VanillaLabelSkin extends AbstractSkin<Label> {
     public static final Skin<Label> INSTANCE = new VanillaLabelSkin();
 
     @Override
     public void render(Label node, RenderContext<?> ctx) {
-        GUAPI.getRenderer().font().drawString(ctx.getMatrixStack(), node.getText(), node.getX(), node.getY(), 0xffffff);
+        super.render(node, ctx);
+        String text = font().trimToWidth(node.getText(), node.getWidth() - node.getPadding().getHorizontal());
+        int x, textWidth = font().getFontWidth(text);
+        switch (node.getTextAlign()) {
+            case CENTER:
+                x = node.getX() + node.getPadding().getLeft() + ((node.getWidth() - node.getPadding().getHorizontal()) - textWidth) / 2;
+                break;
+            case RIGHT:
+                x = node.getX() + node.getPadding().getLeft() + (node.getWidth() - node.getPadding().getHorizontal()) - textWidth;
+                break;
+            case LEFT:
+            default:
+                x = node.getX() + node.getPadding().getLeft();
+                break;
+        }
+        font().drawString(ctx.getMatrixStack(), text, x, node.getY(), node.getColor(), node.hasShadow());
     }
 
     @Override
     public int computeWidth(Label node) {
-        return GUAPI.getRenderer().font().getFontWidth(node.getText());
+        return font().getFontWidth(node.getText());
     }
 
     @Override
     public int computeHeight(Label node) {
-        return GUAPI.getRenderer().font().getFontHeight();
+        return font().getFontHeight();
     }
 }

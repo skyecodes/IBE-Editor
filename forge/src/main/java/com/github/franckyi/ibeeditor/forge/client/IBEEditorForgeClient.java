@@ -1,7 +1,7 @@
 package com.github.franckyi.ibeeditor.forge.client;
 
 import com.github.franckyi.guapi.common.GUAPI;
-import com.github.franckyi.guapi.common.Scene;
+import com.github.franckyi.guapi.common.node.Scene;
 import com.github.franckyi.guapi.common.node.Label;
 import com.github.franckyi.guapi.forge.ForgeRenderer;
 import com.github.franckyi.guapi.forge.ForgeScreenHandler;
@@ -17,7 +17,7 @@ import org.lwjgl.glfw.GLFW;
 public class IBEEditorForgeClient {
     public static KeyBinding keyBinding;
     public static void onClientInit(FMLClientSetupEvent event) {
-        GUAPI.init(new ForgeRenderer(), new ForgeScreenHandler());
+        GUAPI.init(ForgeRenderer.INSTANCE, ForgeScreenHandler.INSTANCE);
         ClientRegistry.registerKeyBinding(keyBinding = new KeyBinding(
                 "ibeeditor.key.editor",
                 InputMappings.Type.KEYSYM,

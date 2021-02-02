@@ -1,9 +1,9 @@
 package com.github.franckyi.guapi.common.event;
 
 public abstract class ScreenEvent {
-    private boolean consumed = false;
+    protected boolean consumed = false;
 
-    public ScreenEvent() {
+    protected ScreenEvent() {
     }
 
     public boolean isConsumed() {
@@ -12,5 +12,9 @@ public abstract class ScreenEvent {
 
     public void consume() {
         this.consumed = true;
+    }
+
+    public interface Listener<E extends ScreenEvent> {
+        void handle(E event);
     }
 }

@@ -5,16 +5,25 @@ import com.github.franckyi.guapi.common.data.event.ListChangeEvent;
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
+import java.util.stream.Collectors;
 
 public class ObservableArrayList<E> extends ArrayList<E> implements ObservableList<E> {
-    private final List<ListChangeEvent.Listener<? super E>> listeners;
+    private final List<ListChangeEvent.Listener<? super E>> listeners = new ArrayList<>();
+
+    public ObservableArrayList(int initialCapacity) {
+        super(initialCapacity);
+    }
 
     public ObservableArrayList() {
-        listeners = new ArrayList<>();
+    }
+
+    public ObservableArrayList(Collection<? extends E> c) {
+        super(c);
     }
 
     @Override
     public E set(int index, E element) {
+        if (!canAdd(element)) return null;
         E removed = super.set(index, element);
         if (removed != element) {
             notify(ListChangeEvent.<E>builder().replace(index, removed, element).build());
@@ -24,6 +33,7 @@ public class ObservableArrayList<E> extends ArrayList<E> implements ObservableLi
 
     @Override
     public boolean add(E e) {
+        if (!canAdd(e)) return false;
         super.add(e);
         notify(ListChangeEvent.<E>builder().add(size() - 1, e).build());
         return true;
@@ -31,6 +41,7 @@ public class ObservableArrayList<E> extends ArrayList<E> implements ObservableLi
 
     @Override
     public void add(int index, E element) {
+        if (!canAdd(element)) return;
         super.add(index, element);
         notify(ListChangeEvent.<E>builder().add(index, element).build());
     }
@@ -43,6 +54,7 @@ public class ObservableArrayList<E> extends ArrayList<E> implements ObservableLi
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public boolean remove(Object o) {
         int index = indexOf(o);
         if (index >= 0 && super.remove(o)) {
@@ -61,6 +73,7 @@ public class ObservableArrayList<E> extends ArrayList<E> implements ObservableLi
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
+        c = canAddAll(c);
         int initialSize = size();
         if (super.addAll(c)) {
             notify(ListChangeEvent.<E>builder().addAll(initialSize, c).build());
@@ -71,6 +84,7 @@ public class ObservableArrayList<E> extends ArrayList<E> implements ObservableLi
 
     @Override
     public boolean addAll(int index, Collection<? extends E> c) {
+        c = canAddAll(c);
         if (super.addAll(index, c)) {
             notify(ListChangeEvent.<E>builder().addAll(index, c).build());
             return true;
@@ -136,6 +150,14 @@ public class ObservableArrayList<E> extends ArrayList<E> implements ObservableLi
         listeners.remove(listener);
     }
 
+    protected boolean canAdd(E element) {
+        return true;
+    }
+
+    protected Collection<? extends E> canAddAll(Collection<? extends E> c) {
+        return c.stream().filter(this::canAdd).collect(Collectors.toList());
+    }
+
     protected void computeRemoved(List<E> copy) {
         ListChangeEvent.Builder<E> builder = ListChangeEvent.builder();
         int index = 0;
@@ -153,5 +175,12 @@ public class ObservableArrayList<E> extends ArrayList<E> implements ObservableLi
 
     protected void notify(ListChangeEvent<E> event) {
         listeners.forEach(listener -> listener.onChange(event));
+    }
+
+    @Override
+    public String toString() {
+        return "ObservableArrayList{" +
+                super.toString() +
+                "}";
     }
 }
