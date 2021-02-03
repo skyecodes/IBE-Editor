@@ -26,7 +26,7 @@ archivesBaseName = "IBEEditor"
 ///*********************************************************************************************************************
 
 boolean isWindows() {
-    return Os.isFamily(Os.FAMILY_WINDOWS);
+    return Os.isFamily(Os.FAMILY_WINDOWS)
 }
 
 String appendPrefix(String dir) {
@@ -40,7 +40,9 @@ void copyFiles(String dir) {
     File devOutDir = new File("$buildDir/libs")
     String inDirPath = appendPrefix(dir)
     File inDir = new File("$inDirPath/build/libs")
-    inDir.listFiles().each { file ->
+    inDir.listFiles((FilenameFilter) {
+        File dir0, String name -> !name.contains("-all.jar")
+    }).each { file ->
         File outFile = new File(devOutDir, file.getName())
         if (outFile.exists())
             outFile.delete()

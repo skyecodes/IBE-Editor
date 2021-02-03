@@ -1,8 +1,9 @@
 package com.github.franckyi.ibeeditor.fabric.client;
 
-import com.github.franckyi.guapi.common.GUAPI;
-import com.github.franckyi.guapi.fabric.FabricRenderer;
-import com.github.franckyi.guapi.fabric.FabricScreenHandler;
+import com.github.franckyi.gamehooks.GameHooks;
+import com.github.franckyi.gamehooks.impl.FabricHooks;
+import com.github.franckyi.guapi.GUAPI;
+import com.github.franckyi.guapi.hooks.impl.FabricScreenHandler;
 import com.github.franckyi.ibeeditor.common.IBEEditorCommonTest;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
@@ -16,7 +17,8 @@ public class IBEEditorFabricClient implements ClientModInitializer {
     public static KeyBinding keyBinding;
     @Override
     public void onInitializeClient() {
-        GUAPI.init(FabricRenderer.INSTANCE, FabricScreenHandler.INSTANCE);
+        GameHooks.init(FabricHooks.INSTANCE);
+        GUAPI.init(FabricScreenHandler.INSTANCE);
         keyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding(
                 "ibeeditor.key.editor",
                 InputUtil.Type.KEYSYM,

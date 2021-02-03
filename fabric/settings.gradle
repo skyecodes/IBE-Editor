@@ -8,3 +8,6 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
+
+include ':common'
+project(':common').projectDir = new File('../common')

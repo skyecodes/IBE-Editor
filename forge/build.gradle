@@ -9,24 +9,13 @@ buildscript {
     }
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
+        classpath 'com.github.jengelman.gradle.plugins:shadow:4.0.4'
     }
 }
 apply plugin: 'net.minecraftforge.gradle'
+apply plugin: 'com.github.johnrengelman.shadow'
 
 archivesBaseName = project.hasProperty("outputJarBaseName") ? project.outputJarBaseName : "forge"
-
-sourceSets {
-    main {
-        java {
-            srcDir 'src/main/java'
-            srcDir '../common/src/main/java'
-        }
-        resources {
-            srcDir 'src/main/resources'
-            srcDir '../common/src/main/resources'
-        }
-    }
-}
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 
@@ -57,18 +46,23 @@ minecraft {
     }
 }
 
+configurations {
+    shade
+}
+
 dependencies {
+    implementation project(':common')
+    shade project(':common')
     minecraft "net.minecraftforge:forge:${project.gameVersion}-${project.forgeVersion}"
 }
 
-jar.finalizedBy('reobfJar')
+shadowJar {
+    classifier = ''
+    configurations = [project.configurations.shade]
 
-task deobfJar(type: Jar) {
-    from sourceSets.main.output
-    classifier = 'deobf'
+    exclude 'org/apache/logging/log4j/**'
 }
 
-artifacts {
-    archives jar
-    archives deobfJar
+reobf {
+    shadowJar {}
 }
