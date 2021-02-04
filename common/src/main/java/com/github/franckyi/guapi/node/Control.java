@@ -8,8 +8,7 @@ public abstract class Control extends Node {
     public <E extends MouseEvent> void handleMouseEvent(ScreenEventType<E> type, E event) {
         if (inBounds(event.getMouseX(), event.getMouseY())) {
             event.setTarget(this);
-            type.onEvent(this, event);
-            eventHandlerDelegate.handleEvent(type, event);
+            notifyEvent(type, event);
         }
     }
 }

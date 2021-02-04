@@ -7,7 +7,7 @@ import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.FontRenderer;
 
 public final class ForgeRenderer implements Renderer<MatrixStack> {
-    public static final ForgeRenderer INSTANCE = new ForgeRenderer();
+    public static final Renderer<?> INSTANCE = new ForgeRenderer();
 
     private ForgeRenderer() {
     }

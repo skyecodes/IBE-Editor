@@ -39,17 +39,22 @@ public abstract class Node implements ScreenEventHandler {
 
     private final ObjectProperty<Insets> paddingProperty = PropertyFactory.ofObject(Insets.NONE);
 
-    protected final ObjectProperty<Group> parentProperty = PropertyFactory.ofObject();
-    private final ObservableObjectValue<Group> parentPropertyReadOnly = PropertyFactory.readOnly(parentProperty);
+    protected final ObjectProperty<Parent> parentProperty = PropertyFactory.ofObject();
+    private final ObservableObjectValue<Parent> parentPropertyReadOnly = PropertyFactory.readOnly(parentProperty);
     protected final ObjectProperty<Scene> sceneProperty = PropertyFactory.ofObject();
     private final ObservableObjectValue<Scene> scenePropertyReadOnly = PropertyFactory.readOnly(sceneProperty);
 
-    private final ObservableBooleanValue rootProperty = sceneProperty().notNull();
+    private final ObservableBooleanValue rootProperty = sceneProperty()
+            .bindMap(Scene::rootProperty, null)
+            .mapToBoolean(node -> node == Node.this);
     private final ObservableBooleanValue focusedProperty = sceneProperty()
             .bindMap(Scene::focusedProperty, null)
             .mapToBoolean(node -> node == Node.this);
     private final ObservableBooleanValue hoveredProperty = sceneProperty()
             .bindMap(Scene::hoveredProperty, null)
+            .mapToBoolean(node -> node == Node.this);
+    private final ObservableBooleanValue activeProperty = sceneProperty()
+            .bindMap(Scene::activeProperty, null)
             .mapToBoolean(node -> node == Node.this);
 
     protected final ScreenEventHandler eventHandlerDelegate = new ScreenEventHandlerDelegate();
@@ -66,7 +71,7 @@ public abstract class Node implements ScreenEventHandler {
         widthProperty().addListener(this::_updateParentWidth);
         heightProperty().addListener(this::_updateParentHeight);
         paddingProperty().addListener(this::_updateSize);
-        _bindSceneToParent();
+        parentProperty().addListener(this::_updateScene);
     }
 
     public int getX() {
@@ -225,15 +230,15 @@ public abstract class Node implements ScreenEventHandler {
         paddingProperty().setValue(value);
     }
 
-    public Group getParent() {
+    public Parent getParent() {
         return parentProperty().getValue();
     }
 
-    public ObservableObjectValue<Group> parentProperty() {
+    public ObservableObjectValue<Parent> parentProperty() {
         return parentPropertyReadOnly;
     }
 
-    protected void setParent(Group value) {
+    protected void setParent(Parent value) {
         parentProperty.setValue(value);
     }
 
@@ -243,15 +248,6 @@ public abstract class Node implements ScreenEventHandler {
 
     public ObservableObjectValue<Scene> sceneProperty() {
         return scenePropertyReadOnly;
-    }
-
-    void setScene(Scene value) {
-        if (value == null) {
-            _bindSceneToParent();
-        } else {
-            sceneProperty.unbind();
-            sceneProperty.setValue(value);
-        }
     }
 
     public boolean isRoot() {
@@ -276,6 +272,14 @@ public abstract class Node implements ScreenEventHandler {
 
     public ObservableBooleanValue hoveredProperty() {
         return hoveredProperty;
+    }
+
+    public boolean isActive() {
+        return activeProperty().getValue();
+    }
+
+    public ObservableBooleanValue activeProperty() {
+        return activeProperty;
     }
 
     public boolean inBounds(double x, double y) {
@@ -306,12 +310,20 @@ public abstract class Node implements ScreenEventHandler {
     public void mouseMoved(MouseEvent event) {
     }
 
+    public void action(ActionEvent event) {
+    }
+
     @Override
     public <E extends ScreenEvent> void handleEvent(ScreenEventType<E> type, E event) {
-        type.ifMouseEvent(event, this::handleMouseEvent);
+        type.ifMouseEvent(event, this::handleMouseEvent, () -> notifyEvent(type, event));
     }
 
     protected abstract <E extends MouseEvent> void handleMouseEvent(ScreenEventType<E> type, E event);
+
+    protected <E extends ScreenEvent> void notifyEvent(ScreenEventType<E> type, E event) {
+        type.onEvent(this, event);
+        eventHandlerDelegate.handleEvent(type, event);
+    }
 
     @Override
     public <E extends ScreenEvent> void addListener(ScreenEventType<E> type, ScreenEvent.Listener<E> listener) {
@@ -329,11 +341,11 @@ public abstract class Node implements ScreenEventHandler {
         getSkinFactory().apply(GUAPI.getTheme()).render(this, ctx);
     }
 
-    protected void computeWidth() {
+    public void computeWidth() {
         setComputedWidth(getSkinFactory().apply(GUAPI.getTheme()).computeWidth(this) + getPadding().getHorizontal());
     }
 
-    protected void computeHeight() {
+    public void computeHeight() {
         setComputedHeight(getSkinFactory().apply(GUAPI.getTheme()).computeHeight(this) + getPadding().getVertical());
     }
 
@@ -346,10 +358,12 @@ public abstract class Node implements ScreenEventHandler {
         int width = getPrefWidth();
         if (width == COMPUTED_SIZE) {
             width = getComputedWidth();
+        } else {
+            width = Math.max(width, getComputedWidth());
         }
         width = Math.max(Math.min(width, getMaxWidth()), getMinWidth());
-        if (getParent() != null && (getParent().getPrefWidth() != COMPUTED_SIZE || getParent().getMaxWidth() != INFINITE_SIZE)) {
-            width = Math.min(width, getParent().getWidth() - getParent().getPadding().getHorizontal());
+        if (parentProperty().hasValue()) {
+            width = Math.min(width, getParent().getMaxChildrenWidth());
         }
         setWidth(width);
     }
@@ -358,10 +372,12 @@ public abstract class Node implements ScreenEventHandler {
         int height = getPrefHeight();
         if (height == COMPUTED_SIZE) {
             height = getComputedHeight();
+        } else {
+            height = Math.max(height, getComputedHeight());
         }
         height = Math.max(Math.min(height, getMaxHeight()), getMinHeight());
-        if (getParent() != null && (getParent().getPrefHeight() != COMPUTED_SIZE || getParent().getMaxHeight() != INFINITE_SIZE)) {
-            height = Math.min(height, getParent().getHeight() - getParent().getPadding().getVertical());
+        if (parentProperty().hasValue()) {
+            height = Math.min(height, getParent().getMaxChildrenHeight());
         }
         setHeight(height);
     }
@@ -369,10 +385,6 @@ public abstract class Node implements ScreenEventHandler {
     protected void updateSize() {
         updateWidth();
         updateHeight();
-    }
-
-    private void _bindSceneToParent() {
-        sceneProperty.bind(parentProperty().bindMap(Node::sceneProperty, null));
     }
 
     private void _updateWidth(PropertyChangeEvent<?> event) {
@@ -398,6 +410,15 @@ public abstract class Node implements ScreenEventHandler {
         if (getParent() != null) {
             getParent().computeHeight();
             getParent().updateChildrenPos();
+        }
+    }
+
+    private void _updateScene(PropertyChangeEvent<? extends Parent> event) {
+        sceneProperty.unbind();
+        if (event.getNewValue() != null) {
+            sceneProperty.bind(event.getNewValue().sceneProperty());
+        } else {
+            sceneProperty.setValue(null);
         }
     }
 }

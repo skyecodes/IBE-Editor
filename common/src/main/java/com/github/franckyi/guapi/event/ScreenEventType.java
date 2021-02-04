@@ -16,8 +16,9 @@ public class ScreenEventType<E extends ScreenEvent> {
     public static final ScreenEventType<KeyEvent> KEY_RELEASED = new ScreenEventType<>("KEY_RELEASED", false, Node::keyReleased);
     public static final ScreenEventType<TypeEvent> CHAR_TYPED = new ScreenEventType<>("CHAR_TYPED", false, Node::charTyped);
     public static final ScreenEventType<MouseEvent> MOUSE_MOVED = new ScreenEventType<>("MOUSE_MOVED", true, Node::mouseMoved);
+    public static final ScreenEventType<ActionEvent> ACTION = new ScreenEventType<>("ACTION", false, Node::action);
     public static final List<ScreenEventType<?>> VALUES = Arrays.asList(MOUSE_CLICKED, MOUSE_RELEASED,
-            MOUSE_DRAGGED, MOUSE_SCOLLED, KEY_PRESSED, KEY_RELEASED, CHAR_TYPED, MOUSE_MOVED);
+            MOUSE_DRAGGED, MOUSE_SCOLLED, KEY_PRESSED, KEY_RELEASED, CHAR_TYPED, MOUSE_MOVED, ACTION);
     private final String name;
     private final boolean mouseEvent;
     private final BiConsumer<Node, E> onEvent;
@@ -28,10 +29,17 @@ public class ScreenEventType<E extends ScreenEvent> {
         this.onEvent = onEvent;
     }
 
+    public <EE extends MouseEvent> void ifMouseEvent(E event, BiConsumer<ScreenEventType<EE>, EE> thenDo) {
+        ifMouseEvent(event, thenDo, () -> {
+        });
+    }
+
     @SuppressWarnings("unchecked")
-    public <EE extends MouseEvent> void ifMouseEvent(E event, BiConsumer<ScreenEventType<EE>, EE> action) {
+    public <EE extends MouseEvent> void ifMouseEvent(E event, BiConsumer<ScreenEventType<EE>, EE> thenDo, Runnable elseDo) {
         if (mouseEvent) {
-            action.accept((ScreenEventType<EE>) this, (EE) event);
+            thenDo.accept((ScreenEventType<EE>) this, (EE) event);
+        } else {
+            elseDo.run();
         }
     }
 

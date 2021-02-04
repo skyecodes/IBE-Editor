@@ -17,7 +17,7 @@ public interface Skin<N extends Node> {
     }
 
     default <MS> Renderer<MS> renderer() {
-        return GameHooks.renderer();
+        return GameHooks.client().renderer();
     }
 
     default <MS> Renderer.Font<MS> font() {

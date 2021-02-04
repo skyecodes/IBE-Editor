@@ -39,7 +39,9 @@ public abstract class AbstractProperty<T> implements Property<T> {
         if (!Objects.equals(this.value, value)) {
             PropertyChangeEvent<T> event = new PropertyChangeEvent<>(this.value, value);
             this.value = value;
-            listeners.forEach(listener -> listener.onChange(event));
+            for (int i = 0; i < listeners.size(); i++) { // avoid ConcurrentModificationException
+                listeners.get(i).onChange(event);
+            }
         }
     }
 

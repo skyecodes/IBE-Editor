@@ -4,7 +4,7 @@ import com.github.franckyi.gamehooks.api.client.KeyBindings;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 
 public final class FabricKeyBindings implements KeyBindings {
-    public static final FabricKeyBindings INSTANCE = new FabricKeyBindings();
+    public static final KeyBindings INSTANCE = new FabricKeyBindings();
 
     private FabricKeyBindings() {
     }

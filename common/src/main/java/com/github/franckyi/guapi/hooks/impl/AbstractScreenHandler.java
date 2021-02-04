@@ -1,5 +1,6 @@
 package com.github.franckyi.guapi.hooks.impl;
 
+import com.github.franckyi.databindings.api.IntegerProperty;
 import com.github.franckyi.databindings.api.ObjectProperty;
 import com.github.franckyi.databindings.factory.PropertyFactory;
 import com.github.franckyi.guapi.event.*;
@@ -13,17 +14,23 @@ import java.util.function.Consumer;
 public abstract class AbstractScreenHandler<T> implements ScreenHandler {
     private final Queue<Scene> scenes = new LinkedList<>();
     private final ObjectProperty<Scene> currentSceneProperty = PropertyFactory.ofObject();
+    private final IntegerProperty widthProperty = PropertyFactory.ofInteger();
+    private final IntegerProperty heightProperty = PropertyFactory.ofInteger();
     private T screen;
 
     public AbstractScreenHandler() {
-        currentSceneProperty.addListener(event -> {
+        currentSceneProperty().addListener(event -> {
             if (event.getNewValue() == null) {
                 close();
             } else {
+                event.getNewValue().widthProperty().bind(widthProperty);
+                event.getNewValue().heightProperty().bind(heightProperty);
                 event.getNewValue().show();
                 if (event.getOldValue() == null) {
                     open();
                 } else {
+                    event.getNewValue().widthProperty().unbind();
+                    event.getNewValue().heightProperty().unbind();
                     event.getOldValue().hide();
                 }
             }
@@ -132,5 +139,12 @@ public abstract class AbstractScreenHandler<T> implements ScreenHandler {
     public void mouseMoved(double mouseX, double mouseY) {
         if (getCurrentScene() == null) return;
         getCurrentScene().handleEvent(ScreenEventType.MOUSE_MOVED, new MouseEvent(mouseX, mouseY));
+    }
+
+    public void updateSize(int width, int height) {
+        //widthProperty.setValue(width);
+        //heightProperty.setValue(height);
+        heightProperty.setValue(height);
+        widthProperty.setValue(width); // TODO investigate why it only displays correctly this way around
     }
 }

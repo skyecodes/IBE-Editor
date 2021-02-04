@@ -1,6 +1,7 @@
 package com.github.franckyi.guapi.hooks.impl;
 
 import com.github.franckyi.guapi.hooks.api.RenderContext;
+import com.github.franckyi.guapi.hooks.api.ScreenHandler;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.math.MatrixStack;
@@ -9,7 +10,7 @@ import net.minecraft.text.LiteralText;
 import java.util.function.Consumer;
 
 public final class FabricScreenHandler extends AbstractScreenHandler<Screen> {
-    public static final FabricScreenHandler INSTANCE = new FabricScreenHandler();
+    public static final ScreenHandler INSTANCE = new FabricScreenHandler();
 
     private FabricScreenHandler() {
         initScreen(new ScreenImpl());
@@ -49,6 +50,12 @@ public final class FabricScreenHandler extends AbstractScreenHandler<Screen> {
                     return partialTicks;
                 }
             });
+        }
+
+        @Override
+        public void init(MinecraftClient client, int width, int height) {
+            super.init(client, width, height);
+            FabricScreenHandler.this.updateSize(width, height);
         }
 
         @Override

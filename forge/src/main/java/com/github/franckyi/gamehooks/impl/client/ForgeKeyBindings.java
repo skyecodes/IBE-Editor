@@ -4,7 +4,7 @@ import com.github.franckyi.gamehooks.api.client.KeyBindings;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 
 public final class ForgeKeyBindings implements KeyBindings {
-    public static final ForgeKeyBindings INSTANCE = new ForgeKeyBindings();
+    public static final KeyBindings INSTANCE = new ForgeKeyBindings();
 
     private ForgeKeyBindings() {
     }

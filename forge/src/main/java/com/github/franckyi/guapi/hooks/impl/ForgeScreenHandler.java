@@ -1,6 +1,7 @@
 package com.github.franckyi.guapi.hooks.impl;
 
 import com.github.franckyi.guapi.hooks.api.RenderContext;
+import com.github.franckyi.guapi.hooks.api.ScreenHandler;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
@@ -9,7 +10,7 @@ import net.minecraft.util.text.StringTextComponent;
 import java.util.function.Consumer;
 
 public final class ForgeScreenHandler extends AbstractScreenHandler<Screen> {
-    public static final ForgeScreenHandler INSTANCE = new ForgeScreenHandler();
+    public static final ScreenHandler INSTANCE = new ForgeScreenHandler();
 
     private ForgeScreenHandler() {
         initScreen(new ScreenImpl());
@@ -49,6 +50,12 @@ public final class ForgeScreenHandler extends AbstractScreenHandler<Screen> {
                     return partialTicks;
                 }
             });
+        }
+
+        @Override
+        public void init(Minecraft client, int width, int height) {
+            super.init(client, width, height);
+            ForgeScreenHandler.this.updateSize(width, height);
         }
 
         @Override

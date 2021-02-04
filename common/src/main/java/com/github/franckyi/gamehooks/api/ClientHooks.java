@@ -7,4 +7,6 @@ public interface ClientHooks {
     <MS> Renderer<MS> renderer();
 
     KeyBindings keyBindings();
+
+    void unlockCursor();
 }

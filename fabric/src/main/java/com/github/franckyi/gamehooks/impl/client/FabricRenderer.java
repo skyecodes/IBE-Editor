@@ -7,7 +7,7 @@ import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
 
 public final class FabricRenderer implements Renderer<MatrixStack> {
-    public static final FabricRenderer INSTANCE = new FabricRenderer();
+    public static final Renderer<?> INSTANCE = new FabricRenderer();
 
     private FabricRenderer() {
     }

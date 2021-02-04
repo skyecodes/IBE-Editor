@@ -11,7 +11,7 @@ public final class GUAPI {
     private static Theme theme = VanillaTheme.INSTANCE;
     private static boolean debugMode = false;
     private static ScreenHandler screenHandler;
-    private static final Marker MARKER = MarkerManager.getMarker("GUAPI");
+    public static final Marker MARKER = MarkerManager.getMarker("GUAPI");
 
     public static void init(ScreenHandler screenHandler) {
         if (GUAPI.screenHandler != null) {

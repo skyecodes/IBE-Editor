@@ -1,34 +1,63 @@
 package com.github.franckyi.guapi.node;
 
-import com.github.franckyi.databindings.api.ObjectProperty;
-import com.github.franckyi.databindings.api.ObservableObjectValue;
+import com.github.franckyi.databindings.api.*;
+import com.github.franckyi.databindings.event.PropertyChangeEvent;
 import com.github.franckyi.databindings.factory.PropertyFactory;
+import com.github.franckyi.gamehooks.GameHooks;
+import com.github.franckyi.guapi.GUAPI;
 import com.github.franckyi.guapi.event.*;
 import com.github.franckyi.guapi.hooks.api.RenderContext;
+import com.github.franckyi.guapi.util.Insets;
 
-public class Scene implements ScreenEventHandler {
+public class Scene implements ScreenEventHandler, Parent {
     private final ObjectProperty<Node> rootProperty = PropertyFactory.ofObject();
+    private final BooleanProperty fullScreenProperty = PropertyFactory.ofBoolean();
+
+    private final IntegerProperty widthProperty = PropertyFactory.ofInteger(Integer.MAX_VALUE);
+    private final IntegerProperty heightProperty = PropertyFactory.ofInteger(Integer.MAX_VALUE);
+
+    private final ObjectProperty<Insets> paddingProperty = PropertyFactory.ofObject(Insets.NONE);
+    private final ObservableValue<Scene> thisValue = ObservableValue.of(this);
+
     protected final ObjectProperty<Node> focusedProperty = PropertyFactory.ofObject();
     private final ObservableObjectValue<Node> focusedPropertyReadOnly = PropertyFactory.readOnly(focusedProperty);
     protected final ObjectProperty<Node> hoveredProperty = PropertyFactory.ofObject();
     private final ObservableObjectValue<Node> hoveredPropertyReadOnly = PropertyFactory.readOnly(hoveredProperty);
+    protected final ObjectProperty<MouseButtonEvent> lastClickEvent = PropertyFactory.ofObject();
+    private final ObservableObjectValue<Node> activePropertyReadOnly = lastClickEvent.map(MouseEvent::getTarget, null);
 
     protected final ScreenEventHandler eventHandlerDelegate = new ScreenEventHandlerDelegate();
 
     public Scene(Node root) {
+        this(root, false);
+    }
+
+    public Scene(Node root, boolean fullScreen) {
         rootProperty().addListener(event -> {
-            if (event.getNewValue().getScene() != null) {
-                System.err.println("Can't set node \"" + event.getNewValue() + "\" as scene root: node already has a scene");
-                return;
-            }
-            if (event.getOldValue() != null && event.getOldValue().getScene() == this) {
-                event.getOldValue().setScene(null);
+            if (event.getOldValue() != null && event.getOldValue().getParent() == this) {
+                event.getOldValue().setParent(null);
+                _bindFullScreen(event.getOldValue(), false);
             }
             if (event.getNewValue() != null) {
-                event.getNewValue().setScene(this);
+                if (event.getNewValue().getParent() != null) {
+                    GameHooks.getLogger().error(GUAPI.MARKER, "Can't set Node \"" + event.getNewValue() +
+                            "\" as Scene root: node already has a Parent \"" + event.getNewValue().getParent() + "\"");
+                    return;
+                }
+                event.getNewValue().setParent(this);
+                _bindFullScreen(event.getNewValue(), isFullScreen());
+            }
+        });
+        fullScreenProperty().addListener(event -> {
+            if (rootProperty().hasValue()) {
+                _bindFullScreen(getRoot(), event.getNewValue());
             }
         });
         setRoot(root);
+        setFullScreen(fullScreen);
+        paddingProperty().addListener(event -> updateChildrenPos());
+        widthProperty().addListener(this::_updateRootWidth);
+        heightProperty().addListener(this::_updateRootHeight);
     }
 
     public Node getRoot() {
@@ -41,6 +70,46 @@ public class Scene implements ScreenEventHandler {
 
     public void setRoot(Node value) {
         rootProperty().setValue(value);
+    }
+
+    public boolean isFullScreen() {
+        return fullScreenProperty().getValue();
+    }
+
+    public BooleanProperty fullScreenProperty() {
+        return fullScreenProperty;
+    }
+
+    public void setFullScreen(boolean value) {
+        fullScreenProperty().setValue(value);
+    }
+
+    public int getWidth() {
+        return widthProperty().getValue();
+    }
+
+    public IntegerProperty widthProperty() {
+        return widthProperty;
+    }
+
+    public int getHeight() {
+        return heightProperty().getValue();
+    }
+
+    public IntegerProperty heightProperty() {
+        return heightProperty;
+    }
+
+    public Insets getPadding() {
+        return paddingProperty().getValue();
+    }
+
+    public ObjectProperty<Insets> paddingProperty() {
+        return paddingProperty;
+    }
+
+    public void setPadding(Insets value) {
+        paddingProperty().setValue(value);
     }
 
     public Node getFocused() {
@@ -67,18 +136,24 @@ public class Scene implements ScreenEventHandler {
         hoveredProperty.setValue(value);
     }
 
+    public Node getActive() {
+        return activeProperty().getValue();
+    }
+
+    public ObservableObjectValue<Node> activeProperty() {
+        return activePropertyReadOnly;
+    }
+
     public void render(RenderContext<?> ctx) {
-        if (getRoot() != null) {
+        if (rootProperty().hasValue()) {
             getRoot().render(ctx);
         }
     }
 
     public void show() {
-
     }
 
     public void hide() {
-
     }
 
     @Override
@@ -86,15 +161,29 @@ public class Scene implements ScreenEventHandler {
         if (getRoot() != null) {
             type.ifMouseEvent(event, (t, e) -> {
                 getRoot().handleEvent(type, event);
-                if (type == ScreenEventType.MOUSE_CLICKED) {
-                    setFocused(e.getTarget());
+                if (e instanceof MouseButtonEvent) {
+                    MouseButtonEvent be = (MouseButtonEvent) e;
+                    if (type == ScreenEventType.MOUSE_CLICKED && be.getButton() == MouseButtonEvent.LEFT_BUTTON) {
+                        lastClickEvent.setValue(be);
+                    } else if (type == ScreenEventType.MOUSE_RELEASED && be.getButton() == MouseButtonEvent.LEFT_BUTTON) {
+                        if (lastClickEvent.hasValue()) {
+                            if (e.getTarget() == getActive()) {
+                                setFocused(e.getTarget());
+                                if (e.getTarget() != null) {
+                                    this.handleEvent(ScreenEventType.ACTION, new ActionEvent(lastClickEvent.getValue(), (MouseButtonEvent) e));
+                                }
+                            }
+                            lastClickEvent.setValue(null);
+                        }
+                    }
                 } else if (type == ScreenEventType.MOUSE_MOVED) {
                     setHovered(e.getTarget());
                 }
+            }, () -> {
+                if (getFocused() != null) {
+                    getFocused().handleEvent(type, event);
+                }
             });
-            if (event instanceof KeyboardEvent && getFocused() != null) {
-                getFocused().handleEvent(type, event);
-            }
         }
         eventHandlerDelegate.handleEvent(type, event);
     }
@@ -107,6 +196,43 @@ public class Scene implements ScreenEventHandler {
     @Override
     public <E extends ScreenEvent> void removeListener(ScreenEventType<E> type, ScreenEvent.Listener<E> listener) {
         eventHandlerDelegate.removeListener(type, listener);
+    }
+
+    @Override
+    public ObservableValue<Scene> sceneProperty() {
+        return thisValue;
+    }
+
+    @Override
+    public void updateChildrenPos() {
+        if (rootProperty().hasValue()) {
+            getRoot().setX(getPadding().getLeft());
+            getRoot().setY(getPadding().getTop());
+        }
+    }
+
+    private void _updateRootWidth(PropertyChangeEvent<?> event) {
+        if (rootProperty().hasValue()) {
+            getRoot().updateWidth();
+            getRoot().computeWidth();
+        }
+    }
+
+    private void _updateRootHeight(PropertyChangeEvent<?> event) {
+        if (rootProperty().hasValue()) {
+            getRoot().updateHeight();
+            getRoot().computeHeight();
+        }
+    }
+
+    private void _bindFullScreen(Node root, boolean bind) {
+        if (bind) {
+            root.prefWidthProperty().bind(widthProperty());
+            root.prefHeightProperty().bind(heightProperty());
+        } else {
+            root.prefWidthProperty().unbind();
+            root.prefHeightProperty().unbind();
+        }
     }
 
     @Override

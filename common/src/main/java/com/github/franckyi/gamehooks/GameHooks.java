@@ -3,8 +3,6 @@ package com.github.franckyi.gamehooks;
 import com.github.franckyi.gamehooks.api.ClientHooks;
 import com.github.franckyi.gamehooks.api.CommonHooks;
 import com.github.franckyi.gamehooks.api.ServerHooks;
-import com.github.franckyi.gamehooks.api.client.KeyBindings;
-import com.github.franckyi.gamehooks.api.client.Renderer;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
@@ -50,35 +48,28 @@ public final class GameHooks {
         logger.info(MARKER, "ServerHooks initialized");
     }
 
-    public static <MS> Renderer<MS> renderer() {
-        checkIsClientInitialized();
-        return clientHooks.renderer();
+    public static CommonHooks common() {
+        if (commonHooks == null) {
+            throw new IllegalStateException("CommonHooks is not initialized");
+        }
+        return commonHooks;
     }
 
-    public static KeyBindings keyBindings() {
-        checkIsClientInitialized();
-        return clientHooks.keyBindings();
+    public static ClientHooks client() {
+        if (clientHooks == null) {
+            throw new IllegalStateException("ClientHooks is not initialized");
+        }
+        return clientHooks;
+    }
+
+    public static ServerHooks server() {
+        if (serverHooks == null) {
+            throw new IllegalStateException("ServerHooks is not initialized");
+        }
+        return serverHooks;
     }
 
     public static Logger getLogger() {
         return logger;
-    }
-
-    private static void checkIsCommonInitialized() {
-        if (commonHooks == null) {
-            throw new IllegalStateException("CommonHooks is not initialized");
-        }
-    }
-
-    private static void checkIsClientInitialized() {
-        if (clientHooks == null) {
-            throw new IllegalStateException("ClientHooks is not initialized");
-        }
-    }
-
-    private static void checkIsServerInitialized() {
-        if (serverHooks == null) {
-            throw new IllegalStateException("ServerHooks is not initialized");
-        }
     }
 }

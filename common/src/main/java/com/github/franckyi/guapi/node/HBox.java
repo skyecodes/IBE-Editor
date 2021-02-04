@@ -55,7 +55,7 @@ public class HBox extends Group {
     }
 
     @Override
-    protected void updateChildrenPos() {
+    public void updateChildrenPos() {
         int x = getX() + getPadding().getLeft();
         for (Node child : getChildren()) {
             int y;

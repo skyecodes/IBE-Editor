@@ -55,7 +55,7 @@ public class VBox extends Group {
     }
 
     @Override
-    protected void updateChildrenPos() {
+    public void updateChildrenPos() {
         int y = getY() + getPadding().getTop();
         for (Node child : getChildren()) {
             int x;
