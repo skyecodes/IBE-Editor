@@ -2,15 +2,18 @@ plugins {
 	id 'java'
 }
 
-sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
-
 repositories {
 	mavenCentral()
 }
 
+sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = JavaVersion.VERSION_1_8
+
+archivesBaseName = project.hasProperty("outputJarBaseName") ? project.outputJarBaseName : "common"
+
 dependencies {
 	testImplementation 'org.junit.jupiter:junit-jupiter:5.7.0'
 	compile 'org.apache.logging.log4j:log4j-api:2.8.1'
+	compile 'org.lwjgl:lwjgl-glfw:3.2.2'
 }
 
 test {

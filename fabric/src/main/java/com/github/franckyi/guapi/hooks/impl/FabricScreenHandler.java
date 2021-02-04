@@ -20,7 +20,7 @@ public final class FabricScreenHandler extends AbstractScreenHandler<Screen> {
         return MinecraftClient.getInstance()::openScreen;
     }
 
-    private class ScreenImpl extends Screen {
+    private final class ScreenImpl extends Screen {
         protected ScreenImpl() {
             super(new LiteralText(""));
         }

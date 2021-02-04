@@ -66,7 +66,7 @@ public abstract class Node implements ScreenEventHandler {
         widthProperty().addListener(this::_updateParentWidth);
         heightProperty().addListener(this::_updateParentHeight);
         paddingProperty().addListener(this::_updateSize);
-        sceneProperty.bind(parentProperty().bindMap(Node::sceneProperty, null));
+        _bindSceneToParent();
     }
 
     public int getX() {
@@ -246,8 +246,12 @@ public abstract class Node implements ScreenEventHandler {
     }
 
     void setScene(Scene value) {
-        sceneProperty.unbind();
-        sceneProperty.setValue(value);
+        if (value == null) {
+            _bindSceneToParent();
+        } else {
+            sceneProperty.unbind();
+            sceneProperty.setValue(value);
+        }
     }
 
     public boolean isRoot() {
@@ -365,6 +369,10 @@ public abstract class Node implements ScreenEventHandler {
     protected void updateSize() {
         updateWidth();
         updateHeight();
+    }
+
+    private void _bindSceneToParent() {
+        sceneProperty.bind(parentProperty().bindMap(Node::sceneProperty, null));
     }
 
     private void _updateWidth(PropertyChangeEvent<?> event) {

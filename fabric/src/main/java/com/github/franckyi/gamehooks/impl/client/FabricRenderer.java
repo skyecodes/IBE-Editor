@@ -1,6 +1,6 @@
-package com.github.franckyi.gamehooks.impl;
+package com.github.franckyi.gamehooks.impl.client;
 
-import com.github.franckyi.gamehooks.api.Renderer;
+import com.github.franckyi.gamehooks.api.client.Renderer;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawableHelper;

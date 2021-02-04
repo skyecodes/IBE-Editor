@@ -20,7 +20,7 @@ public final class ForgeScreenHandler extends AbstractScreenHandler<Screen> {
         return Minecraft.getInstance()::displayGuiScreen;
     }
 
-    private class ScreenImpl extends Screen {
+    private final class ScreenImpl extends Screen {
         protected ScreenImpl() {
             super(new StringTextComponent(""));
         }

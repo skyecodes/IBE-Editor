@@ -13,14 +13,13 @@ buildscript {
     }
 }
 apply plugin: 'net.minecraftforge.gradle'
-apply plugin: 'com.github.johnrengelman.shadow'
 
 archivesBaseName = project.hasProperty("outputJarBaseName") ? project.outputJarBaseName : "forge"
 
-sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
+sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = JavaVersion.VERSION_1_8
 
 minecraft {
-    mappings channel: "${project.mappingsChannel}", version: "${project.mappingsVersion}"
+    mappings channel: "${project.mappings_channel}", version: "${project.mappings_version}"
     runs {
         client {
             workingDirectory project.file('run')
@@ -46,23 +45,7 @@ minecraft {
     }
 }
 
-configurations {
-    shade
-}
-
 dependencies {
+    minecraft "net.minecraftforge:forge:${project.forge_version}"
     implementation project(':common')
-    shade project(':common')
-    minecraft "net.minecraftforge:forge:${project.gameVersion}-${project.forgeVersion}"
-}
-
-shadowJar {
-    classifier = ''
-    configurations = [project.configurations.shade]
-
-    exclude 'org/apache/logging/log4j/**'
-}
-
-reobf {
-    shadowJar {}
 }

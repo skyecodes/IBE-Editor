@@ -13,6 +13,7 @@ public class ScreenEventHandlerDelegate implements ScreenEventHandler {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public <E extends ScreenEvent> void handleEvent(ScreenEventType<E> type, E event) {
         for (ScreenEvent.Listener<?> listener : eventListenerMap.get(type)) {
             ((ScreenEvent.Listener<E>) listener).handle(event);

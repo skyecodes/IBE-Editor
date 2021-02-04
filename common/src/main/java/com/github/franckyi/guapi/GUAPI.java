@@ -1,30 +1,28 @@
 package com.github.franckyi.guapi;
 
+import com.github.franckyi.gamehooks.GameHooks;
 import com.github.franckyi.guapi.hooks.api.ScreenHandler;
 import com.github.franckyi.guapi.theme.Theme;
 import com.github.franckyi.guapi.theme.vanilla.VanillaTheme;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.Marker;
+import org.apache.logging.log4j.MarkerManager;
 
 public final class GUAPI {
     private static Theme theme = VanillaTheme.INSTANCE;
     private static boolean debugMode = false;
     private static ScreenHandler screenHandler;
-    private static boolean initialized;
-    private static Logger logger;
+    private static final Marker MARKER = MarkerManager.getMarker("GUAPI");
 
     public static void init(ScreenHandler screenHandler) {
-        if (isInitialized()) {
+        if (GUAPI.screenHandler != null) {
             throw new IllegalStateException("GUAPI is already initialized");
         }
         if (screenHandler == null) {
             throw new IllegalArgumentException("ScreenHandler can't be null");
         }
         GUAPI.screenHandler = screenHandler;
-        logger = LogManager.getLogger();
-        initialized = true;
+        GameHooks.getLogger().info(MARKER, "GUAPI initialized");
         setDebugMode(true);
-        logger.info("GUAPI initialized");
     }
 
     public static Theme getTheme() {
@@ -47,17 +45,9 @@ public final class GUAPI {
     }
 
     public static ScreenHandler getScreenHandler() {
-        if (!isInitialized()) {
+        if (screenHandler == null) {
             throw new IllegalStateException("GUAPI is not initialized");
         }
         return screenHandler;
-    }
-
-    public static boolean isInitialized() {
-        return initialized;
-    }
-
-    public static Logger getLogger() {
-        return logger;
     }
 }

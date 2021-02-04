@@ -1,6 +1,6 @@
-package com.github.franckyi.gamehooks.impl;
+package com.github.franckyi.gamehooks.impl.client;
 
-import com.github.franckyi.gamehooks.api.Renderer;
+import com.github.franckyi.gamehooks.api.client.Renderer;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;

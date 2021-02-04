@@ -1,6 +1,6 @@
-import java.nio.file.*
-
 import org.apache.tools.ant.taskdefs.condition.Os
+
+import java.nio.file.Files
 
 buildscript {
     repositories {
@@ -15,9 +15,8 @@ plugins {
 	id 'java'
 }
 
-version = "2.0.0"
 group = "com.github.franckyi"
-archivesBaseName = "IBEEditor"
+archivesBaseName = "IBEEditor-$game_version"
 
 ///*********************************************************************************************************************
 /// Everything below this line is used to make the build work. Only touch if you know what you're doing.
@@ -25,24 +24,76 @@ archivesBaseName = "IBEEditor"
 /// https://github.com/The-Fireplace-Minecraft-Mods/Fabric-Forge-Combined-Build
 ///*********************************************************************************************************************
 
-boolean isWindows() {
+static boolean isWindows() {
     return Os.isFamily(Os.FAMILY_WINDOWS)
 }
 
-String appendPrefix(String dir) {
-    if(isWindows())
-        dir = buildscript.sourceFile.getParentFile().getPath().toString()+"\\"+dir
-    return dir
+static void deleteDir(File file) {
+    File[] contents = file.listFiles()
+    if (contents != null)
+        for (File f: contents)
+            if (!Files.isSymbolicLink(f.toPath()))
+                deleteDir(f)
+    file.delete()
+}
+
+task createFinalJar(type: Jar) {
+    from("$buildDir/rebuild")
+    manifest {
+        attributes([
+                "Specification-Title"     : "ibeeditor",
+                "Specification-Vendor"    : "Franckyi",
+                "Specification-Version"   : "1",
+                "Implementation-Title"    : "ibeeditor",
+                "Implementation-Version"  : "${version}",
+                "Implementation-Vendor"   : "Franckyi",
+                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+        ])
+    }
+}
+
+void extractJar(FileTree tree) {
+    String regexSafeBuildDir = buildDir.toString().replaceAll('\\\\', '\\\\\\\\')
+    tree.getFiles().each { file ->
+        String rebuildPath = isWindows() ? file.getPath().replaceAll("$regexSafeBuildDir\\\\tmp\\\\expandedArchives\\\\$archivesBaseName-${version}\\.jar_[0-9a-z]+\\\\", '') : file.getPath().replaceAll("$regexSafeBuildDir/tmp/expandedArchives/$archivesBaseName-${version}.jar_[0-z]+/", '')
+        File outFile = new File("$buildDir/rebuild/" + rebuildPath)
+        outFile.getParentFile().mkdirs()
+        if (!outFile.exists())
+            Files.copy(file.toPath(), outFile.toPath())
+    }
+}
+
+task extractMainJars {
+    inputs.files(fileTree("$buildDir/libs"))
+    outputs.files(fileTree("$buildDir/rebuild"))
+    outputs.files(fileTree("$buildDir/tmp/expandedArchives"))
+    finalizedBy createFinalJar
+    doLast {
+        FileTree commonTree = zipTree(new File("$buildDir/libs/common/$archivesBaseName-${version}.jar"))
+        FileTree fabricTree = zipTree(new File("$buildDir/libs/fabric/$archivesBaseName-${version}.jar"))
+        FileTree forgeTree = zipTree(new File("$buildDir/libs/forge/$archivesBaseName-${version}.jar"))
+        File rebuildDir = new File("$buildDir/rebuild")
+        if (rebuildDir.exists()) {
+            println("Clearing old data...")
+            deleteDir(rebuildDir)
+        }
+        rebuildDir.mkdirs()
+        println("Extracting jars to merge...")
+        extractJar(commonTree)
+        extractJar(fabricTree)
+        extractJar(forgeTree)
+        //Do this because otherwise we end up with a lot of temporary files that never get cleared
+        deleteDir(new File("$buildDir/tmp/expandedArchives"))
+    }
 }
 
 void copyFiles(String dir) {
     println("Copying $dir files...")
-    File devOutDir = new File("$buildDir/libs")
-    String inDirPath = appendPrefix(dir)
+    File devOutDir = new File("$buildDir/libs/$dir")
+    devOutDir.mkdirs()
+    String inDirPath = isWindows() ? buildscript.sourceFile.getParentFile().getPath().toString()+"\\"+dir : dir
     File inDir = new File("$inDirPath/build/libs")
-    inDir.listFiles((FilenameFilter) {
-        File dir0, String name -> !name.contains("-all.jar")
-    }).each { file ->
+    inDir.listFiles().each { file ->
         File outFile = new File(devOutDir, file.getName())
         if (outFile.exists())
             outFile.delete()
@@ -51,33 +102,40 @@ void copyFiles(String dir) {
 }
 
 task copyFiles {
+    inputs.files(fileTree("common/build/libs"))
     inputs.files(fileTree("forge/build/libs"))
     inputs.files(fileTree("fabric/build/libs"))
     outputs.files(fileTree("$buildDir/libs"))
+    finalizedBy extractMainJars
     doLast {
+        copyFiles("common")
         copyFiles("forge")
         copyFiles("fabric")
         Files.delete(new File("$buildDir/libs/$archivesBaseName-${version}.jar").toPath())
     }
 }
 
+static void execBuild(String dir, String args) {
+    def gradleFile = isWindows() ? "./gradlew.bat" : "./gradlew"
+    println("Building $dir...")
+    def procCommon = "$gradleFile clean $args".execute(null, new File(dir))
+    procCommon.consumeProcessOutput(System.out, System.err)
+    procCommon.waitForOrKill(1800000)
+    if (procCommon.exitValue() != 0) throw new GradleException("$dir build failed")
+}
+
 task execBuilds {
+    inputs.files(fileTree('common'))
     inputs.files(fileTree('fabric'))
     inputs.files(fileTree('forge'))
+    outputs.files(fileTree("common/build/libs"))
     outputs.files(fileTree("forge/build/libs"))
     outputs.files(fileTree("fabric/build/libs"))
     finalizedBy copyFiles
     doLast {
-        def gradleFile = isWindows() ? "./gradlew.bat" : "./gradlew"
-        def sout = System.out, serr = System.err
-        println("Building Fabric...")
-        def procFabric = "$gradleFile clean build -Pversion=$version -Pgroup=$group -PoutputJarBaseName=$archivesBaseName-Fabric-${project.gameVersion}".execute(null, new File("fabric"))
-        procFabric.consumeProcessOutput(sout, serr)
-        procFabric.waitForOrKill(1800000)
-        println("Building Forge...")
-        def procForge = "$gradleFile clean build -Pversion=$version -Pgroup=$group -PoutputJarBaseName=$archivesBaseName-Forge-${project.gameVersion}".execute(null, new File("forge"))
-        procForge.consumeProcessOutput(sout, serr)
-        procForge.waitForOrKill(1800000)
+        execBuild("common", "jar -PoutputJarBaseName=$archivesBaseName")
+        execBuild("fabric", "build -Pversion=$version -Pgroup=$group -PoutputJarBaseName=$archivesBaseName")
+        execBuild("forge", "build -Pversion=$version -Pgroup=$group -PoutputJarBaseName=$archivesBaseName")
     }
 }
 

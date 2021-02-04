@@ -1,4 +1,4 @@
-package com.github.franckyi.gamehooks.api;
+package com.github.franckyi.gamehooks.api.client;
 
 public interface Renderer<MS> {
     Font<MS> font();

@@ -1,7 +1,7 @@
 package com.github.franckyi.guapi.theme;
 
 import com.github.franckyi.gamehooks.GameHooks;
-import com.github.franckyi.gamehooks.api.Renderer;
+import com.github.franckyi.gamehooks.api.client.Renderer;
 import com.github.franckyi.guapi.hooks.api.RenderContext;
 import com.github.franckyi.guapi.node.Node;
 
@@ -17,7 +17,7 @@ public interface Skin<N extends Node> {
     }
 
     default <MS> Renderer<MS> renderer() {
-        return GameHooks.getRenderer();
+        return GameHooks.renderer();
     }
 
     default <MS> Renderer.Font<MS> font() {

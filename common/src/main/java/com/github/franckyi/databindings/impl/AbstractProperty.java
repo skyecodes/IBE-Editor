@@ -28,7 +28,6 @@ public abstract class AbstractProperty<T> implements Property<T> {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public void set(T value) {
         if (isBound() && !(boundValue instanceof Property<?> && ((Property<?>) boundValue).isBound())) {
             throw new IllegalStateException("Property is bound to a value and cannot be set");
