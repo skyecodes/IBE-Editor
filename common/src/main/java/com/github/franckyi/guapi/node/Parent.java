@@ -14,6 +14,8 @@ public interface Parent {
 
     ObservableValue<Scene> sceneProperty();
 
+    ObservableValue<Boolean> disabledProperty();
+
     default void computeWidth() {
     }
 

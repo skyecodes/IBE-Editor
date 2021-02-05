@@ -9,6 +9,9 @@ import com.github.franckyi.guapi.theme.Skin;
 public class VanillaHBoxSkin extends AbstractSkin<HBox> {
     public static final Skin<HBox> INSTANCE = new VanillaHBoxSkin();
 
+    private VanillaHBoxSkin() {
+    }
+
     @Override
     public void render(HBox node, RenderContext<?> ctx) {
         super.render(node, ctx);

@@ -22,7 +22,6 @@ public final class GUAPI {
         }
         GUAPI.screenHandler = screenHandler;
         GameHooks.getLogger().info(MARKER, "GUAPI initialized");
-        setDebugMode(true);
     }
 
     public static Theme getTheme() {

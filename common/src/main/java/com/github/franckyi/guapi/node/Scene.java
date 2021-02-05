@@ -17,7 +17,8 @@ public class Scene implements ScreenEventHandler, Parent {
     private final IntegerProperty heightProperty = PropertyFactory.ofInteger(Integer.MAX_VALUE);
 
     private final ObjectProperty<Insets> paddingProperty = PropertyFactory.ofObject(Insets.NONE);
-    private final ObservableValue<Scene> thisValue = ObservableValue.of(this);
+    private final ObservableValue<Scene> sceneProperty = ObservableValue.of(this);
+    private final ObservableValue<Boolean> disabledProperty = ObservableValue.of(false);
 
     protected final ObjectProperty<Node> focusedProperty = PropertyFactory.ofObject();
     private final ObservableObjectValue<Node> focusedPropertyReadOnly = PropertyFactory.readOnly(focusedProperty);
@@ -180,7 +181,7 @@ public class Scene implements ScreenEventHandler, Parent {
                     setHovered(e.getTarget());
                 }
             }, () -> {
-                if (getFocused() != null) {
+                if (getFocused() != null && !getFocused().isDisabled()) {
                     getFocused().handleEvent(type, event);
                 }
             });
@@ -200,7 +201,12 @@ public class Scene implements ScreenEventHandler, Parent {
 
     @Override
     public ObservableValue<Scene> sceneProperty() {
-        return thisValue;
+        return sceneProperty;
+    }
+
+    @Override
+    public ObservableValue<Boolean> disabledProperty() {
+        return disabledProperty;
     }
 
     @Override

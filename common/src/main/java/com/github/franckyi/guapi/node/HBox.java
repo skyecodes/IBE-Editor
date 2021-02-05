@@ -3,11 +3,7 @@ package com.github.franckyi.guapi.node;
 import com.github.franckyi.databindings.api.IntegerProperty;
 import com.github.franckyi.databindings.api.ObjectProperty;
 import com.github.franckyi.databindings.factory.PropertyFactory;
-import com.github.franckyi.guapi.theme.Skin;
-import com.github.franckyi.guapi.theme.Theme;
 import com.github.franckyi.guapi.util.Align;
-
-import java.util.function.Function;
 
 public class HBox extends Group {
     private final IntegerProperty spacingProperty = PropertyFactory.ofInteger();
@@ -49,28 +45,10 @@ public class HBox extends Group {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    protected Function<Theme, Skin<HBox>> getSkinFactory() {
-        return Theme::getHBoxSkin;
-    }
-
-    @Override
     public void updateChildrenPos() {
         int x = getX() + getPadding().getLeft();
         for (Node child : getChildren()) {
-            int y;
-            switch (getAlignment()) {
-                case CENTER:
-                    y = getY() + getPadding().getTop() + ((getHeight() - getPadding().getVertical()) - child.getHeight()) / 2;
-                    break;
-                case BOTTOM:
-                    y = getY() + getPadding().getTop() + (getHeight() - getPadding().getVertical()) - child.getHeight();
-                    break;
-                case TOP:
-                default:
-                    y = getY() + getPadding().getTop();
-                    break;
-            }
+            int y = Align.getAlignedY(getAlignment(), this, child.getHeight());
             child.setX(x);
             child.setY(y);
             x += child.getWidth() + getSpacing();

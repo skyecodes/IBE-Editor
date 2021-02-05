@@ -27,12 +27,12 @@ public final class ForgeScreenHandler extends AbstractScreenHandler<Screen> {
         }
 
         @Override
-        public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+        public void render(MatrixStack matrices, int mouseX, int mouseY, float partialTicks) {
             if (getCurrentScene() == null) return;
             getCurrentScene().render(new RenderContext<MatrixStack>() {
                 @Override
-                public MatrixStack getMatrixStack() {
-                    return matrixStack;
+                public MatrixStack getMatrices() {
+                    return matrices;
                 }
 
                 @Override

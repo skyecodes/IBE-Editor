@@ -7,14 +7,14 @@ import com.github.franckyi.databindings.factory.PropertyFactory;
 
 import java.util.function.Function;
 
-public abstract class AbstractBindMappedObservableValue<T, X> implements ObservableValue<X>, PropertyChangeEvent.Listener<T> {
+public abstract class AbstractBoundObservableValue<T, X> implements ObservableValue<X>, PropertyChangeEvent.Listener<T> {
     protected final ObservableValue<T> source;
     protected final Function<T, ObservableValue<X>> mapper;
     protected final boolean nullSafe;
     protected final ObservableValue<X> orIfNull;
     protected final Property<X> property = PropertyFactory.ofObject();
 
-    protected AbstractBindMappedObservableValue(ObservableValue<T> source, Function<T, ObservableValue<X>> mapper, boolean nullSafe, X orIfNull) {
+    protected AbstractBoundObservableValue(ObservableValue<T> source, Function<T, ObservableValue<X>> mapper, boolean nullSafe, X orIfNull) {
         this.source = source;
         this.mapper = mapper;
         this.nullSafe = nullSafe;

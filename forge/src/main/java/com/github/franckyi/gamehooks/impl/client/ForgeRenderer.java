@@ -2,6 +2,7 @@ package com.github.franckyi.gamehooks.impl.client;
 
 import com.github.franckyi.gamehooks.api.client.Renderer;
 import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.FontRenderer;
@@ -24,6 +25,16 @@ public final class ForgeRenderer implements Renderer<MatrixStack> {
     @Override
     public Shape<MatrixStack> shape() {
         return shape;
+    }
+
+    @Override
+    public Widget<MatrixStack> widget() {
+        return widget;
+    }
+
+    @Override
+    public System system() {
+        return system;
     }
 
     private final Font<MatrixStack> font = new Font<MatrixStack>() {
@@ -60,6 +71,40 @@ public final class ForgeRenderer implements Renderer<MatrixStack> {
         @Override
         public void fillRectangle(MatrixStack matrices, int x0, int y0, int x1, int y1, int color) {
             AbstractGui.fill(matrices, x0, y0, x1, y1, color);
+        }
+    };
+
+    private final Widget<MatrixStack> widget = new Widget<MatrixStack>() {
+        @Override
+        public void bindTexture() {
+            mc().getTextureManager().bindTexture(net.minecraft.client.gui.widget.Widget.WIDGETS_LOCATION);
+        }
+
+        @Override
+        public void drawTexture(MatrixStack matrices, int x, int y, int u, int v, int width, int height) {
+            net.minecraft.client.gui.widget.Widget.blit(matrices, x, y, 0, (float) u, (float) v, width, height, 256, 256);
+        }
+    };
+
+    private final System system = new System() {
+        @Override
+        public void color4f(float red, float green, float blue, float alpha) {
+            RenderSystem.color4f(red, green, blue, alpha);
+        }
+
+        @Override
+        public void enableBlend() {
+            RenderSystem.enableBlend();
+        }
+
+        @Override
+        public void defaultBlendFunc() {
+            RenderSystem.defaultBlendFunc();
+        }
+
+        @Override
+        public void enableDepthTest() {
+            RenderSystem.enableDepthTest();
         }
     };
 }

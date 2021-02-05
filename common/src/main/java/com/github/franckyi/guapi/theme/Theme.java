@@ -1,13 +1,7 @@
 package com.github.franckyi.guapi.theme;
 
-import com.github.franckyi.guapi.node.HBox;
-import com.github.franckyi.guapi.node.Label;
-import com.github.franckyi.guapi.node.VBox;
+import com.github.franckyi.guapi.node.Node;
 
 public interface Theme {
-    Skin<Label> getLabelSkin();
-
-    Skin<HBox> getHBoxSkin();
-
-    Skin<VBox> getVBoxSkin();
+    <T extends Node> Skin<T> getSkin(T node);
 }

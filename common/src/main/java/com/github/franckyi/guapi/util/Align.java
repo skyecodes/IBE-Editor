@@ -1,5 +1,7 @@
 package com.github.franckyi.guapi.util;
 
+import com.github.franckyi.guapi.node.Node;
+
 public enum Align {
     TOP_LEFT(Vertical.TOP, Horizontal.LEFT),
     TOP_CENTER(Vertical.TOP, Horizontal.CENTER),
@@ -25,6 +27,30 @@ public enum Align {
 
     public Horizontal getHorizontalAlign() {
         return horizontalAlign;
+    }
+
+    public static int getAlignedX(Horizontal align, Node parent, int childWidth) {
+        switch (align) {
+            case CENTER:
+                return parent.getX() + parent.getPadding().getLeft() + ((parent.getWidth() - parent.getPadding().getHorizontal()) - childWidth) / 2;
+            case RIGHT:
+                return parent.getX() + parent.getPadding().getLeft() + (parent.getWidth() - parent.getPadding().getHorizontal()) - childWidth;
+            case LEFT:
+            default:
+                return parent.getX() + parent.getPadding().getLeft();
+        }
+    }
+
+    public static int getAlignedY(Vertical align, Node parent, int childHeight) {
+        switch (align) {
+            case CENTER:
+                return parent.getY() + parent.getPadding().getTop() + ((parent.getHeight() - parent.getPadding().getVertical()) - childHeight) / 2;
+            case BOTTOM:
+                return parent.getY() + parent.getPadding().getTop() + (parent.getHeight() - parent.getPadding().getVertical()) - childHeight;
+            case TOP:
+            default:
+                return parent.getY() + parent.getPadding().getTop();
+        }
     }
 
     public enum Horizontal {

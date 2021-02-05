@@ -6,13 +6,11 @@ import com.github.franckyi.databindings.factory.PropertyFactory;
 import com.github.franckyi.guapi.GUAPI;
 import com.github.franckyi.guapi.event.*;
 import com.github.franckyi.guapi.hooks.api.RenderContext;
-import com.github.franckyi.guapi.theme.Skin;
-import com.github.franckyi.guapi.theme.Theme;
+import com.github.franckyi.guapi.util.Color;
 import com.github.franckyi.guapi.util.Insets;
 
-import java.util.function.Function;
-
 public abstract class Node implements ScreenEventHandler {
+    public static final Color.Background DEFAULT_BACKGROUND_COLOR = new Color.Background(0, 0, 0, 0);
     public static final Integer INFINITE_SIZE = Integer.MAX_VALUE;
     public static final Integer COMPUTED_SIZE = -1;
 
@@ -37,12 +35,17 @@ public abstract class Node implements ScreenEventHandler {
     protected final IntegerProperty computedHeightProperty = PropertyFactory.ofInteger();
     private final ObservableIntegerValue computedHeightPropertyReadOnly = PropertyFactory.readOnly(computedHeightProperty);
 
+    private final ObjectProperty<Color.Background> backgroundColorProperty = PropertyFactory.ofObject(DEFAULT_BACKGROUND_COLOR);
     private final ObjectProperty<Insets> paddingProperty = PropertyFactory.ofObject(Insets.NONE);
 
     protected final ObjectProperty<Parent> parentProperty = PropertyFactory.ofObject();
     private final ObservableObjectValue<Parent> parentPropertyReadOnly = PropertyFactory.readOnly(parentProperty);
     protected final ObjectProperty<Scene> sceneProperty = PropertyFactory.ofObject();
     private final ObservableObjectValue<Scene> scenePropertyReadOnly = PropertyFactory.readOnly(sceneProperty);
+
+    private final BooleanProperty disableProperty = PropertyFactory.ofBoolean();
+    private final ObservableBooleanValue disabledProperty = disableProperty()
+            .or(parentProperty().bindMapToBoolean(Parent::disabledProperty, false));
 
     private final ObservableBooleanValue rootProperty = sceneProperty()
             .bindMap(Scene::rootProperty, null)
@@ -218,6 +221,18 @@ public abstract class Node implements ScreenEventHandler {
         computedHeightProperty.setValue(value);
     }
 
+    public Color.Background getBackgroundColor() {
+        return backgroundColorProperty().getValue();
+    }
+
+    public ObjectProperty<Color.Background> backgroundColorProperty() {
+        return backgroundColorProperty;
+    }
+
+    public void setBackgroundColor(Color.Background value) {
+        backgroundColorProperty().setValue(value);
+    }
+
     public Insets getPadding() {
         return paddingProperty().getValue();
     }
@@ -248,6 +263,26 @@ public abstract class Node implements ScreenEventHandler {
 
     public ObservableObjectValue<Scene> sceneProperty() {
         return scenePropertyReadOnly;
+    }
+
+    public boolean isDisable() {
+        return disableProperty().getValue();
+    }
+
+    public BooleanProperty disableProperty() {
+        return disableProperty;
+    }
+
+    public void setDisable(boolean value) {
+        disableProperty().setValue(value);
+    }
+
+    public boolean isDisabled() {
+        return disabledProperty().getValue();
+    }
+
+    public ObservableBooleanValue disabledProperty() {
+        return disabledProperty;
     }
 
     public boolean isRoot() {
@@ -282,8 +317,24 @@ public abstract class Node implements ScreenEventHandler {
         return activeProperty;
     }
 
+    public int getLeft() {
+        return getX();
+    }
+
+    public int getTop() {
+        return getY();
+    }
+
+    public int getRight() {
+        return getX() + getWidth();
+    }
+
+    public int getBottom() {
+        return getY() + getHeight();
+    }
+
     public boolean inBounds(double x, double y) {
-        return x >= getX() && x <= getX() + getWidth() && y >= getY() && y <= getY() + getHeight();
+        return x >= getLeft() && x <= getRight() && y >= getTop() && y <= getBottom();
     }
 
     public void mouseClicked(MouseButtonEvent event) {
@@ -335,18 +386,16 @@ public abstract class Node implements ScreenEventHandler {
         eventHandlerDelegate.removeListener(type, listener);
     }
 
-    protected abstract <T extends Node> Function<Theme, Skin<T>> getSkinFactory();
-
     public void render(RenderContext<?> ctx) {
-        getSkinFactory().apply(GUAPI.getTheme()).render(this, ctx);
+        GUAPI.getTheme().getSkin(this).render(this, ctx);
     }
 
     public void computeWidth() {
-        setComputedWidth(getSkinFactory().apply(GUAPI.getTheme()).computeWidth(this) + getPadding().getHorizontal());
+        setComputedWidth(GUAPI.getTheme().getSkin(this).computeWidth(this) + getPadding().getHorizontal());
     }
 
     public void computeHeight() {
-        setComputedHeight(getSkinFactory().apply(GUAPI.getTheme()).computeHeight(this) + getPadding().getVertical());
+        setComputedHeight(GUAPI.getTheme().getSkin(this).computeHeight(this) + getPadding().getVertical());
     }
 
     protected void computeSize() {

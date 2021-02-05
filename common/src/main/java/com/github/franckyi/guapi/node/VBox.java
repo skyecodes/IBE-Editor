@@ -3,11 +3,7 @@ package com.github.franckyi.guapi.node;
 import com.github.franckyi.databindings.api.IntegerProperty;
 import com.github.franckyi.databindings.api.ObjectProperty;
 import com.github.franckyi.databindings.factory.PropertyFactory;
-import com.github.franckyi.guapi.theme.Skin;
-import com.github.franckyi.guapi.theme.Theme;
 import com.github.franckyi.guapi.util.Align;
-
-import java.util.function.Function;
 
 public class VBox extends Group {
     private final IntegerProperty spacingProperty = PropertyFactory.ofInteger();
@@ -49,28 +45,10 @@ public class VBox extends Group {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    protected Function<Theme, Skin<VBox>> getSkinFactory() {
-        return Theme::getVBoxSkin;
-    }
-
-    @Override
     public void updateChildrenPos() {
         int y = getY() + getPadding().getTop();
         for (Node child : getChildren()) {
-            int x;
-            switch (getAlignment()) {
-                case CENTER:
-                    x = getX() + getPadding().getLeft() + ((getWidth() - getPadding().getHorizontal()) - child.getWidth()) / 2;
-                    break;
-                case RIGHT:
-                    x = getX() + getPadding().getLeft() + (getWidth() - getPadding().getHorizontal()) - child.getWidth();
-                    break;
-                case LEFT:
-                default:
-                    x = getX() + getPadding().getLeft();
-                    break;
-            }
+            int x = Align.getAlignedX(getAlignment(), this, child.getWidth());
             child.setX(x);
             child.setY(y);
             y += child.getHeight() + getSpacing();

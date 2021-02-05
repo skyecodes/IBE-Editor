@@ -16,15 +16,23 @@ public interface Skin<N extends Node> {
         return node.inBounds(ctx.getMouseX(), ctx.getMouseY());
     }
 
-    default <MS> Renderer<MS> renderer() {
+    default <M> Renderer<M> renderer() {
         return GameHooks.client().renderer();
     }
 
-    default <MS> Renderer.Font<MS> font() {
-        return this.<MS>renderer().font();
+    default <M> Renderer.Font<M> font() {
+        return this.<M>renderer().font();
     }
 
-    default <MS> Renderer.Shape<MS> shape() {
-        return this.<MS>renderer().shape();
+    default <M> Renderer.Shape<M> shape() {
+        return this.<M>renderer().shape();
+    }
+
+    default <M> Renderer.Widget<M> widget() {
+        return this.<M>renderer().widget();
+    }
+
+    default Renderer.System system() {
+        return renderer().system();
     }
 }

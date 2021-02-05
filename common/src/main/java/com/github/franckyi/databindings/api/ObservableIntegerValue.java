@@ -20,4 +20,20 @@ public interface ObservableIntegerValue extends ObservableValue<Integer> {
     default ObservableIntegerValue divide(int value) {
         return mapToInt(i -> i / value);
     }
+
+    default ObservableIntegerValue add(ObservableValue<Integer> value) {
+        return mapToInt(value, Integer::sum);
+    }
+
+    default ObservableIntegerValue substract(ObservableValue<Integer> value) {
+        return mapToInt(value, (x, y) -> x - y);
+    }
+
+    default ObservableIntegerValue multiply(ObservableValue<Integer> value) {
+        return mapToInt(value, (x, y) -> x * y);
+    }
+
+    default ObservableIntegerValue divide(ObservableValue<Integer> value) {
+        return mapToInt(value, (x, y) -> x / y);
+    }
 }

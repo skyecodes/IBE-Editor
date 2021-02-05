@@ -9,6 +9,9 @@ import com.github.franckyi.guapi.theme.Skin;
 public class VanillaVBoxSkin extends AbstractSkin<VBox> {
     public static final Skin<VBox> INSTANCE = new VanillaVBoxSkin();
 
+    private VanillaVBoxSkin() {
+    }
+
     @Override
     public void render(VBox node, RenderContext<?> ctx) {
         super.render(node, ctx);

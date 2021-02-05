@@ -4,6 +4,7 @@ import com.github.franckyi.databindings.event.PropertyChangeEvent;
 import com.github.franckyi.databindings.factory.MappingFactory;
 
 import java.util.Objects;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 
 public interface ObservableValue<T> {
@@ -92,6 +93,14 @@ public interface ObservableValue<T> {
 
     default ObservableIntegerValue bindMapToInt(Function<T, ObservableValue<Integer>> mapper, int orIfNull) {
         return MappingFactory.bindMapToInt(this, mapper, orIfNull);
+    }
+
+    default ObservableBooleanValue mapToBoolean(ObservableValue<T> other, BiFunction<T, T, Boolean> mapper) {
+        return MappingFactory.mapToBoolean(this, other, mapper);
+    }
+
+    default ObservableIntegerValue mapToInt(ObservableValue<T> other, BiFunction<T, T, Integer> mapper) {
+        return MappingFactory.mapToInt(this, other, mapper);
     }
 
     default ObservableBooleanValue isNull() {
