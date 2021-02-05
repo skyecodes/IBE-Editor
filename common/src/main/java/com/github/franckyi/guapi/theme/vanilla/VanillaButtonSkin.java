@@ -41,8 +41,13 @@ public class VanillaButtonSkin extends LabeledSkin<Button> {
     }
 
     @Override
-    protected void renderText(Button node, RenderContext<?> ctx, String text, int x, int y) {
-        super.renderText(node, ctx, text, x, y + 1);
+    protected int getTextY(Button node, String text) {
+        return super.getTextY(node, text) + 1;
+    }
+
+    @Override
+    protected int getTextColor(Button node) {
+        return node.isDisabled() ? node.getDisabledColor() : super.getTextColor(node);
     }
 
     @Override

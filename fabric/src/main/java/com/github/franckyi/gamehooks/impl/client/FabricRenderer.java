@@ -8,7 +8,7 @@ import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.widget.AbstractButtonWidget;
 import net.minecraft.client.util.math.MatrixStack;
 
-public final class FabricRenderer implements Renderer<MatrixStack> {
+public final class FabricRenderer extends DrawableHelper implements Renderer<MatrixStack> {
     public static final Renderer<?> INSTANCE = new FabricRenderer();
 
     private FabricRenderer() {
@@ -71,7 +71,7 @@ public final class FabricRenderer implements Renderer<MatrixStack> {
     private final Shape<MatrixStack> shape = new Shape<MatrixStack>() {
         @Override
         public void fillRectangle(MatrixStack matrices, int x0, int y0, int x1, int y1, int color) {
-            DrawableHelper.fill(matrices, x0, y0, x1, y1, color);
+            fill(matrices, x0, y0, x1, y1, color);
         }
     };
 

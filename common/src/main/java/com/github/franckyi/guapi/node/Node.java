@@ -10,9 +10,9 @@ import com.github.franckyi.guapi.util.Color;
 import com.github.franckyi.guapi.util.Insets;
 
 public abstract class Node implements ScreenEventHandler {
-    public static final Color.Background DEFAULT_BACKGROUND_COLOR = new Color.Background(0, 0, 0, 0);
-    public static final Integer INFINITE_SIZE = Integer.MAX_VALUE;
-    public static final Integer COMPUTED_SIZE = -1;
+    public static final int DEFAULT_BACKGROUND_COLOR = Color.rgba(0, 0, 0, 0);
+    public static final int INFINITE_SIZE = Integer.MAX_VALUE;
+    public static final int COMPUTED_SIZE = -1;
 
     protected final IntegerProperty xProperty = PropertyFactory.ofInteger();
     private final ObservableIntegerValue xPropertyReadOnly = PropertyFactory.readOnly(xProperty);
@@ -35,7 +35,7 @@ public abstract class Node implements ScreenEventHandler {
     protected final IntegerProperty computedHeightProperty = PropertyFactory.ofInteger();
     private final ObservableIntegerValue computedHeightPropertyReadOnly = PropertyFactory.readOnly(computedHeightProperty);
 
-    private final ObjectProperty<Color.Background> backgroundColorProperty = PropertyFactory.ofObject(DEFAULT_BACKGROUND_COLOR);
+    private final IntegerProperty backgroundColorProperty = PropertyFactory.ofInteger(DEFAULT_BACKGROUND_COLOR);
     private final ObjectProperty<Insets> paddingProperty = PropertyFactory.ofObject(Insets.NONE);
 
     protected final ObjectProperty<Parent> parentProperty = PropertyFactory.ofObject();
@@ -221,15 +221,15 @@ public abstract class Node implements ScreenEventHandler {
         computedHeightProperty.setValue(value);
     }
 
-    public Color.Background getBackgroundColor() {
+    public int getBackgroundColor() {
         return backgroundColorProperty().getValue();
     }
 
-    public ObjectProperty<Color.Background> backgroundColorProperty() {
+    public IntegerProperty backgroundColorProperty() {
         return backgroundColorProperty;
     }
 
-    public void setBackgroundColor(Color.Background value) {
+    public void setBackgroundColor(int value) {
         backgroundColorProperty().setValue(value);
     }
 

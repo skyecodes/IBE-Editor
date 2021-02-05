@@ -58,8 +58,7 @@ public class IBEEditorClient {
                 d.setDisable(true);
             });
 
-            Scene scene = new Scene(root);
-            scene.setFullScreen(true);
+            Scene scene = new Scene(root, true, true);
             scene.setPadding(new Insets(5));
             GUAPI.getScreenHandler().show(scene);
         } catch (Exception e) {

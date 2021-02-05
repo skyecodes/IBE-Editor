@@ -1,6 +1,7 @@
 package com.github.franckyi.guapi.node;
 
 import com.github.franckyi.databindings.api.BooleanProperty;
+import com.github.franckyi.databindings.api.IntegerProperty;
 import com.github.franckyi.databindings.api.ObjectProperty;
 import com.github.franckyi.databindings.api.StringProperty;
 import com.github.franckyi.databindings.factory.PropertyFactory;
@@ -11,7 +12,7 @@ public abstract class Labeled extends Control {
     private final StringProperty textProperty = PropertyFactory.ofString("");
     private final ObjectProperty<Align> textAlignProperty = PropertyFactory.ofObject(Align.TOP_LEFT);
     private final BooleanProperty shadowProperty = PropertyFactory.ofBoolean(false);
-    private final ObjectProperty<Color.Text> colorProperty = PropertyFactory.ofObject(new Color.Text(255, 255, 255));
+    private final IntegerProperty colorProperty = PropertyFactory.ofInteger(Color.rgb(255, 255, 255));
 
     protected Labeled(String text) {
         setText(text);
@@ -54,15 +55,15 @@ public abstract class Labeled extends Control {
         shadowProperty().setValue(value);
     }
 
-    public Color.Text getColor() {
+    public int getColor() {
         return colorProperty().getValue();
     }
 
-    public ObjectProperty<Color.Text> colorProperty() {
+    public IntegerProperty colorProperty() {
         return colorProperty;
     }
 
-    public void setColor(Color.Text value) {
+    public void setColor(int value) {
         colorProperty().setValue(value);
     }
 }

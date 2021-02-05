@@ -29,6 +29,11 @@ public final class ForgeScreenHandler extends AbstractScreenHandler<Screen> {
         @Override
         public void render(MatrixStack matrices, int mouseX, int mouseY, float partialTicks) {
             if (getCurrentScene() == null) return;
+            if (getCurrentScene().isTexturedBackground()) {
+                renderDirtBackground(0);
+            } else {
+                renderBackground(matrices);
+            }
             getCurrentScene().render(new RenderContext<MatrixStack>() {
                 @Override
                 public MatrixStack getMatrices() {

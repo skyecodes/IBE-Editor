@@ -17,8 +17,7 @@ public class Scene implements ScreenEventHandler, Parent {
     private final IntegerProperty heightProperty = PropertyFactory.ofInteger(Integer.MAX_VALUE);
 
     private final ObjectProperty<Insets> paddingProperty = PropertyFactory.ofObject(Insets.NONE);
-    private final ObservableValue<Scene> sceneProperty = ObservableValue.of(this);
-    private final ObservableValue<Boolean> disabledProperty = ObservableValue.of(false);
+    private final BooleanProperty texturedBackgroundProperty = PropertyFactory.ofBoolean();
 
     protected final ObjectProperty<Node> focusedProperty = PropertyFactory.ofObject();
     private final ObservableObjectValue<Node> focusedPropertyReadOnly = PropertyFactory.readOnly(focusedProperty);
@@ -27,6 +26,9 @@ public class Scene implements ScreenEventHandler, Parent {
     protected final ObjectProperty<MouseButtonEvent> lastClickEvent = PropertyFactory.ofObject();
     private final ObservableObjectValue<Node> activePropertyReadOnly = lastClickEvent.map(MouseEvent::getTarget, null);
 
+    private final ObservableValue<Scene> sceneProperty = ObservableValue.of(this);
+    private final ObservableValue<Boolean> disabledProperty = ObservableValue.of(false);
+
     protected final ScreenEventHandler eventHandlerDelegate = new ScreenEventHandlerDelegate();
 
     public Scene(Node root) {
@@ -34,6 +36,10 @@ public class Scene implements ScreenEventHandler, Parent {
     }
 
     public Scene(Node root, boolean fullScreen) {
+        this(root, fullScreen, false);
+    }
+
+    public Scene(Node root, boolean fullScreen, boolean texturedBackground) {
         rootProperty().addListener(event -> {
             if (event.getOldValue() != null && event.getOldValue().getParent() == this) {
                 event.getOldValue().setParent(null);
@@ -56,6 +62,7 @@ public class Scene implements ScreenEventHandler, Parent {
         });
         setRoot(root);
         setFullScreen(fullScreen);
+        setTexturedBackground(texturedBackground);
         paddingProperty().addListener(event -> updateChildrenPos());
         widthProperty().addListener(this::_updateRootWidth);
         heightProperty().addListener(this::_updateRootHeight);
@@ -111,6 +118,18 @@ public class Scene implements ScreenEventHandler, Parent {
 
     public void setPadding(Insets value) {
         paddingProperty().setValue(value);
+    }
+
+    public boolean isTexturedBackground() {
+        return texturedBackgroundProperty().getValue();
+    }
+
+    public BooleanProperty texturedBackgroundProperty() {
+        return texturedBackgroundProperty;
+    }
+
+    public void setTexturedBackground(boolean value) {
+        texturedBackgroundProperty().setValue(value);
     }
 
     public Node getFocused() {
@@ -246,5 +265,9 @@ public class Scene implements ScreenEventHandler, Parent {
         return "Scene{" +
                 "root=" + getRoot() +
                 '}';
+    }
+
+    public static class Background {
+        public static final Background DEFAULT = new Background();
     }
 }

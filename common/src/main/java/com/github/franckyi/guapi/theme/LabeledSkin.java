@@ -4,33 +4,46 @@ import com.github.franckyi.guapi.hooks.api.RenderContext;
 import com.github.franckyi.guapi.node.Labeled;
 import com.github.franckyi.guapi.util.Align;
 
-public abstract class LabeledSkin<T extends Labeled> extends AbstractSkin<T> {
+public abstract class LabeledSkin<N extends Labeled> extends AbstractSkin<N> {
     @Override
-    public void render(T node, RenderContext<?> ctx) {
+    public void render(N node, RenderContext<?> ctx) {
         super.render(node, ctx);
         renderText(node, ctx);
     }
 
     @Override
-    public int computeWidth(T node) {
+    public int computeWidth(N node) {
         return font().getFontWidth(node.getText());
     }
 
     @Override
-    public int computeHeight(T node) {
+    public int computeHeight(N node) {
         return font().getFontHeight();
     }
 
-    protected void renderText(T node, RenderContext<?> ctx) {
-        String text = font().trimToWidth(node.getText(), node.getWidth() - node.getPadding().getHorizontal());
-        int textWidth = font().getFontWidth(text);
-        int textHeight = font().getFontHeight();
-        int x = Align.getAlignedX(node.getTextAlign().getHorizontalAlign(), node, textWidth);
-        int y = Align.getAlignedY(node.getTextAlign().getVerticalAlign(), node, textHeight);
-        renderText(node, ctx, text, x, y);
+    protected void renderText(N node, RenderContext<?> ctx) {
+        String text = getText(node);
+        int x = getTextX(node, text);
+        int y = getTextY(node, text);
+        int color = getTextColor(node);
+        font().drawString(ctx.getMatrices(), text, x, y, color, node.hasShadow());
     }
 
-    protected void renderText(T node, RenderContext<?> ctx, String text, int x, int y) {
-        font().drawString(ctx.getMatrices(), text, x, y, node.getColor().getValue(), node.hasShadow());
+    protected String getText(N node) {
+        return font().trimToWidth(node.getText(), node.getWidth() - node.getPadding().getHorizontal());
+    }
+
+    protected int getTextX(N node, String text) {
+        int textWidth = font().getFontWidth(text);
+        return Align.getAlignedX(node.getTextAlign().getHorizontalAlign(), node, textWidth);
+    }
+
+    protected int getTextY(N node, String text) {
+        int textHeight = font().getFontHeight();
+        return Align.getAlignedY(node.getTextAlign().getVerticalAlign(), node, textHeight);
+    }
+
+    protected int getTextColor(N node) {
+        return node.getColor();
     }
 }

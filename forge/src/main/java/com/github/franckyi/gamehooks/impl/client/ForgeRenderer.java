@@ -6,8 +6,9 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.widget.Widget;
 
-public final class ForgeRenderer implements Renderer<MatrixStack> {
+public final class ForgeRenderer extends AbstractGui implements Renderer<MatrixStack> {
     public static final Renderer<?> INSTANCE = new ForgeRenderer();
 
     private ForgeRenderer() {
@@ -70,7 +71,7 @@ public final class ForgeRenderer implements Renderer<MatrixStack> {
     private final Shape<MatrixStack> shape = new Shape<MatrixStack>() {
         @Override
         public void fillRectangle(MatrixStack matrices, int x0, int y0, int x1, int y1, int color) {
-            AbstractGui.fill(matrices, x0, y0, x1, y1, color);
+            fill(matrices, x0, y0, x1, y1, color);
         }
     };
 
