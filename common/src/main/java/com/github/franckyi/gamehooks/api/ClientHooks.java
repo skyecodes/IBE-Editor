@@ -1,15 +1,12 @@
 package com.github.franckyi.gamehooks.api;
 
-import com.github.franckyi.gamehooks.api.client.KeyBindings;
-import com.github.franckyi.gamehooks.api.client.Renderer;
-import com.github.franckyi.gamehooks.api.client.Sound;
+import com.github.franckyi.gamehooks.api.client.KeyBindingHooks;
+import com.github.franckyi.gamehooks.api.client.RendererHooks;
 
 public interface ClientHooks {
-    <M> Renderer<M> renderer();
+    RendererHooks renderer();
 
-    KeyBindings keyBindings();
-
-    Sound sound();
+    KeyBindingHooks keyBindings();
 
     void unlockCursor();
 }

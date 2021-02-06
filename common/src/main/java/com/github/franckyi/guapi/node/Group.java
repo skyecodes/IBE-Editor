@@ -2,7 +2,6 @@ package com.github.franckyi.guapi.node;
 
 import com.github.franckyi.databindings.api.ObservableList;
 import com.github.franckyi.databindings.event.ListChangeEvent;
-import com.github.franckyi.databindings.event.PropertyChangeEvent;
 import com.github.franckyi.databindings.impl.ObservableArrayList;
 import com.github.franckyi.gamehooks.GameHooks;
 import com.github.franckyi.guapi.GUAPI;
@@ -16,16 +15,22 @@ public abstract class Group extends Node implements Parent {
     protected final ObservableList<Node> children = new ChildrenList();
 
     public Group() {
-        getChildren().addListener(this::_updateChildren);
-        paddingProperty().addListener(this::_updateSizeAndChildrenPos);
-        xProperty().addListener(this::_updateChildrenPos);
-        yProperty().addListener(this::_updateChildrenPos);
-        widthProperty().addListener(this::_updateSizeAndChildrenPos);
-        heightProperty().addListener(this::_updateSizeAndChildrenPos);
+        getChildren().addListener(this::updateChildren);
+        paddingProperty().addListener(this::updateSizeAndChildrenPos);
+        xProperty().addListener(this::updateChildrenPos);
+        yProperty().addListener(this::updateChildrenPos);
+        widthProperty().addListener(this::updateSizeAndChildrenPos);
+        heightProperty().addListener(this::updateSizeAndChildrenPos);
     }
 
     public ObservableList<Node> getChildren() {
         return children;
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+        getChildren().forEach(Node::tick);
     }
 
     @Override
@@ -70,27 +75,22 @@ public abstract class Group extends Node implements Parent {
         super.computeHeight();
     }
 
-    private void _updateChildren(ListChangeEvent<? extends Node> event) {
+    private void updateChildren(ListChangeEvent<? extends Node> event) {
         event.getRemoved(true).forEach(entry -> {
             if (entry.getValue().getParent() == Group.this) {
                 entry.getValue().setParent(null);
             }
         });
         event.getAdded(true).forEach(entry -> entry.getValue().setParent(this));
+        updateSizeAndChildrenPos();
+    }
+
+    private void updateSizeAndChildrenPos() {
         computeSize();
         updateChildrenPos();
     }
 
-    private void _updateSizeAndChildrenPos(PropertyChangeEvent<?> event) {
-        computeSize();
-        updateChildrenPos();
-    }
-
-    private void _updateChildrenPos(PropertyChangeEvent<?> event) {
-        updateChildrenPos();
-    }
-
-    private class ChildrenList extends ObservableArrayList<Node> {
+    private static class ChildrenList extends ObservableArrayList<Node> {
         @Override
         protected boolean canAdd(Node element) {
             if (element.getParent() != null) {

@@ -58,6 +58,13 @@ public final class ForgeScreenHandler extends AbstractScreenHandler<Screen> {
         }
 
         @Override
+        public void tick() {
+            if (currentSceneProperty().hasValue()) {
+                getCurrentScene().tick();
+            }
+        }
+
+        @Override
         public void init(Minecraft client, int width, int height) {
             super.init(client, width, height);
             ForgeScreenHandler.this.updateSize(width, height);

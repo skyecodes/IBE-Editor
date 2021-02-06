@@ -1,58 +1,25 @@
 package com.github.franckyi.guapi.theme.vanilla;
 
-import com.github.franckyi.guapi.hooks.api.RenderContext;
+import com.github.franckyi.guapi.hooks.api.theme.NodeRenderer;
 import com.github.franckyi.guapi.node.Button;
 import com.github.franckyi.guapi.theme.LabeledSkin;
-import com.github.franckyi.guapi.theme.Skin;
 
 public class VanillaButtonSkin extends LabeledSkin<Button> {
-    public static final Skin<Button> INSTANCE = new VanillaButtonSkin();
+    private final NodeRenderer<?> renderer;
 
-    private VanillaButtonSkin() {
+    public VanillaButtonSkin(NodeRenderer<?> renderer) {
+        this.renderer = renderer;
     }
 
     @Override
-    protected void renderBackground(Button node, RenderContext<?> ctx) {
-        super.renderBackground(node, ctx);
-        renderButton(node, ctx);
-    }
-
-    protected void renderButton(Button node, RenderContext<?> ctx) {
-        widget().bindTexture();
-        system().color4f(1.0f, 1.0f, 1.0f, 1.0f);
-        int i = getYImage(node, ctx);
-        system().enableBlend();
-        system().defaultBlendFunc();
-        system().enableDepthTest();
-        widget().drawTexture(ctx.getMatrices(), node.getX(), node.getY(),
-                0, 46 + i * 20, node.getWidth() / 2, node.getHeight());
-        widget().drawTexture(ctx.getMatrices(), node.getX() + node.getWidth() / 2, node.getY(),
-                200 - node.getWidth() / 2, 46 + i * 20, node.getWidth() / 2, node.getHeight());
-    }
-
-    protected int getYImage(Button node, RenderContext<?> ctx) {
-        if (node.isDisabled()) {
-            return 0;
-        }
-        if (node.inBounds(ctx.getMouseX(), ctx.getMouseY())) {
-            return 2;
-        }
-        return 1;
-    }
-
-    @Override
-    protected int getTextY(Button node, String text) {
-        return super.getTextY(node, text) + 1;
-    }
-
-    @Override
-    protected int getTextColor(Button node) {
-        return node.isDisabled() ? node.getDisabledColor() : super.getTextColor(node);
+    @SuppressWarnings("unchecked")
+    public <M> NodeRenderer<M> getRenderer() {
+        return (NodeRenderer<M>) renderer;
     }
 
     @Override
     public int computeWidth(Button node) {
-        return super.computeWidth(node) + 20;
+        return Math.max(90, super.computeWidth(node) + 20);
     }
 
     @Override

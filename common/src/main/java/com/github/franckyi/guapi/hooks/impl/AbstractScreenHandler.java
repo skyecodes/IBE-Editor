@@ -19,19 +19,19 @@ public abstract class AbstractScreenHandler<T> implements ScreenHandler {
     private T screen;
 
     public AbstractScreenHandler() {
-        currentSceneProperty().addListener(event -> {
-            if (event.getNewValue() == null) {
+        currentSceneProperty().addListener((oldVal, newVal) -> {
+            if (newVal == null) {
                 close();
             } else {
-                event.getNewValue().widthProperty().bind(widthProperty);
-                event.getNewValue().heightProperty().bind(heightProperty);
-                event.getNewValue().show();
-                if (event.getOldValue() == null) {
+                newVal.widthProperty().bind(widthProperty);
+                newVal.heightProperty().bind(heightProperty);
+                newVal.show();
+                if (oldVal == null) {
                     open();
                 } else {
-                    event.getNewValue().widthProperty().unbind();
-                    event.getNewValue().heightProperty().unbind();
-                    event.getOldValue().hide();
+                    oldVal.widthProperty().unbind();
+                    oldVal.heightProperty().unbind();
+                    oldVal.hide();
                 }
             }
         });
@@ -77,7 +77,7 @@ public abstract class AbstractScreenHandler<T> implements ScreenHandler {
 
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        if (getCurrentScene() == null) return false;
+        if (!currentSceneProperty().hasValue()) return false;
         MouseButtonEvent event = new MouseButtonEvent(mouseX, mouseY, button);
         getCurrentScene().handleEvent(ScreenEventType.MOUSE_CLICKED, event);
         return event.isConsumed();
@@ -85,7 +85,7 @@ public abstract class AbstractScreenHandler<T> implements ScreenHandler {
 
     @Override
     public boolean mouseReleased(double mouseX, double mouseY, int button) {
-        if (getCurrentScene() == null) return false;
+        if (!currentSceneProperty().hasValue()) return false;
         MouseButtonEvent event = new MouseButtonEvent(mouseX, mouseY, button);
         getCurrentScene().handleEvent(ScreenEventType.MOUSE_RELEASED, event);
         return event.isConsumed();
@@ -93,7 +93,7 @@ public abstract class AbstractScreenHandler<T> implements ScreenHandler {
 
     @Override
     public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
-        if (getCurrentScene() == null) return false;
+        if (!currentSceneProperty().hasValue()) return false;
         MouseDragEvent event = new MouseDragEvent(mouseX, mouseY, button, deltaX, deltaY);
         getCurrentScene().handleEvent(ScreenEventType.MOUSE_DRAGGED, event);
         return event.isConsumed();
@@ -101,7 +101,7 @@ public abstract class AbstractScreenHandler<T> implements ScreenHandler {
 
     @Override
     public boolean mouseScrolled(double mouseX, double mouseY, double amount) {
-        if (getCurrentScene() == null) return false;
+        if (!currentSceneProperty().hasValue()) return false;
         MouseScrollEvent event = new MouseScrollEvent(mouseX, mouseY, amount);
         getCurrentScene().handleEvent(ScreenEventType.MOUSE_SCOLLED, event);
         return event.isConsumed();
@@ -109,7 +109,7 @@ public abstract class AbstractScreenHandler<T> implements ScreenHandler {
 
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        if (getCurrentScene() == null) return false;
+        if (!currentSceneProperty().hasValue()) return false;
         if (keyCode == 256) {
             hide();
             return true;
@@ -121,7 +121,7 @@ public abstract class AbstractScreenHandler<T> implements ScreenHandler {
 
     @Override
     public boolean keyReleased(int keyCode, int scanCode, int modifiers) {
-        if (getCurrentScene() == null) return false;
+        if (!currentSceneProperty().hasValue()) return false;
         KeyEvent event = new KeyEvent(keyCode, scanCode, modifiers);
         getCurrentScene().handleEvent(ScreenEventType.KEY_RELEASED, event);
         return event.isConsumed();
@@ -129,7 +129,7 @@ public abstract class AbstractScreenHandler<T> implements ScreenHandler {
 
     @Override
     public boolean charTyped(char chr, int modifiers) {
-        if (getCurrentScene() == null) return false;
+        if (!currentSceneProperty().hasValue()) return false;
         TypeEvent event = new TypeEvent(chr, modifiers);
         getCurrentScene().handleEvent(ScreenEventType.CHAR_TYPED, event);
         return event.isConsumed();
@@ -137,7 +137,7 @@ public abstract class AbstractScreenHandler<T> implements ScreenHandler {
 
     @Override
     public void mouseMoved(double mouseX, double mouseY) {
-        if (getCurrentScene() == null) return;
+        if (!currentSceneProperty().hasValue()) return;
         getCurrentScene().handleEvent(ScreenEventType.MOUSE_MOVED, new MouseEvent(mouseX, mouseY));
     }
 

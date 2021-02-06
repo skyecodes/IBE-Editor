@@ -6,6 +6,8 @@ import com.github.franckyi.gamehooks.impl.FabricCommonHooks;
 import com.github.franckyi.gamehooks.impl.FabricServerHooks;
 import com.github.franckyi.guapi.GUAPI;
 import com.github.franckyi.guapi.hooks.impl.FabricScreenHandler;
+import com.github.franckyi.guapi.hooks.impl.theme.vanilla.FabricVanillaThemeRenderer;
+import com.github.franckyi.guapi.theme.vanilla.VanillaTheme;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.DedicatedServerModInitializer;
 import net.fabricmc.api.ModInitializer;
@@ -29,6 +31,7 @@ public final class IBEEditorFabricMod implements ModInitializer, ClientModInitia
         logger.info(marker, "Initializing mod - client");
         GameHooks.initClient(FabricClientHooks.INSTANCE);
         GUAPI.init(FabricScreenHandler.INSTANCE);
+        GUAPI.setTheme(VanillaTheme.create(FabricVanillaThemeRenderer.INSTANCE));
         IBEEditorClient.init();
         ClientTickEvents.END_CLIENT_TICK.register(mc -> IBEEditorClient.tick());
     }

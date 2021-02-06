@@ -1,14 +1,15 @@
 package com.github.franckyi.guapi;
 
+import com.github.franckyi.databindings.api.ObjectProperty;
+import com.github.franckyi.databindings.factory.PropertyFactory;
 import com.github.franckyi.gamehooks.GameHooks;
 import com.github.franckyi.guapi.hooks.api.ScreenHandler;
 import com.github.franckyi.guapi.theme.Theme;
-import com.github.franckyi.guapi.theme.vanilla.VanillaTheme;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
 
 public final class GUAPI {
-    private static Theme theme = VanillaTheme.INSTANCE;
+    private static final ObjectProperty<Theme> themeProperty = PropertyFactory.ofObject();
     private static boolean debugMode = false;
     private static ScreenHandler screenHandler;
     public static final Marker MARKER = MarkerManager.getMarker("GUAPI");
@@ -21,18 +22,20 @@ public final class GUAPI {
             throw new IllegalArgumentException("ScreenHandler can't be null");
         }
         GUAPI.screenHandler = screenHandler;
+        setDebugMode(true);
         GameHooks.getLogger().info(MARKER, "GUAPI initialized");
     }
 
     public static Theme getTheme() {
-        return theme;
+        return themeProperty().getValue();
+    }
+
+    public static ObjectProperty<Theme> themeProperty() {
+        return themeProperty;
     }
 
     public static void setTheme(Theme theme) {
-        if (theme == null) {
-            throw new IllegalArgumentException("Theme can't be null");
-        }
-        GUAPI.theme = theme;
+        themeProperty().setValue(theme);
     }
 
     public static boolean isDebugMode() {

@@ -2,16 +2,16 @@ package com.github.franckyi.databindings.impl;
 
 import com.github.franckyi.databindings.api.ObservableValue;
 import com.github.franckyi.databindings.api.Property;
-import com.github.franckyi.databindings.event.PropertyChangeEvent;
+import com.github.franckyi.databindings.event.PropertyChangeListener;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public abstract class AbstractProperty<T> implements Property<T> {
-    protected final List<PropertyChangeEvent.Listener<? super T>> listeners = new ArrayList<>();
+    protected final List<PropertyChangeListener<? super T>> listeners = new ArrayList<>();
     protected T value;
-    protected final PropertyChangeEvent.Listener<T> valueListener = event -> doSet(event.getNewValue());
+    protected final PropertyChangeListener<T> valueListener = (oldVal, newVal) -> doSet(newVal);
     protected ObservableValue<? extends T> boundValue;
 
     protected AbstractProperty() {
@@ -37,21 +37,21 @@ public abstract class AbstractProperty<T> implements Property<T> {
 
     protected void doSet(T value) {
         if (!Objects.equals(this.value, value)) {
-            PropertyChangeEvent<T> event = new PropertyChangeEvent<>(this.value, value);
+            T old = this.value;
             this.value = value;
-            for (int i = 0; i < listeners.size(); i++) { // avoid ConcurrentModificationException
-                listeners.get(i).onChange(event);
+            for (int i = 0; i < listeners.size(); i++) { // avoid ConcurrentModificationException TODO
+                listeners.get(i).onChange(old, value);
             }
         }
     }
 
     @Override
-    public void addListener(PropertyChangeEvent.Listener<? super T> listener) {
+    public void addListener(PropertyChangeListener<? super T> listener) {
         listeners.add(listener);
     }
 
     @Override
-    public void removeListener(PropertyChangeEvent.Listener<? super T> listener) {
+    public void removeListener(PropertyChangeListener<? super T> listener) {
         listeners.remove(listener);
     }
 

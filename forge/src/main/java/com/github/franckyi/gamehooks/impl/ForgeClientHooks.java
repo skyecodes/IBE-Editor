@@ -1,12 +1,10 @@
 package com.github.franckyi.gamehooks.impl;
 
 import com.github.franckyi.gamehooks.api.ClientHooks;
-import com.github.franckyi.gamehooks.api.client.KeyBindings;
-import com.github.franckyi.gamehooks.api.client.Renderer;
-import com.github.franckyi.gamehooks.api.client.Sound;
-import com.github.franckyi.gamehooks.impl.client.ForgeKeyBindings;
-import com.github.franckyi.gamehooks.impl.client.ForgeRenderer;
-import com.github.franckyi.gamehooks.impl.client.ForgeSound;
+import com.github.franckyi.gamehooks.api.client.KeyBindingHooks;
+import com.github.franckyi.gamehooks.api.client.RendererHooks;
+import com.github.franckyi.gamehooks.impl.client.ForgeKeyBindingHooks;
+import com.github.franckyi.gamehooks.impl.client.ForgeRendererHooks;
 import net.minecraft.client.Minecraft;
 
 public final class ForgeClientHooks implements ClientHooks {
@@ -16,19 +14,13 @@ public final class ForgeClientHooks implements ClientHooks {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public Renderer<?> renderer() {
-        return ForgeRenderer.INSTANCE;
+    public RendererHooks renderer() {
+        return ForgeRendererHooks.INSTANCE;
     }
 
     @Override
-    public KeyBindings keyBindings() {
-        return ForgeKeyBindings.INSTANCE;
-    }
-
-    @Override
-    public Sound sound() {
-        return ForgeSound.INSTANCE;
+    public KeyBindingHooks keyBindings() {
+        return ForgeKeyBindingHooks.INSTANCE;
     }
 
     @Override

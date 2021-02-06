@@ -1,12 +1,12 @@
 package com.github.franckyi.gamehooks.impl.client;
 
-import com.github.franckyi.gamehooks.api.client.KeyBindings;
+import com.github.franckyi.gamehooks.api.client.KeyBindingHooks;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 
-public final class ForgeKeyBindings implements KeyBindings {
-    public static final KeyBindings INSTANCE = new ForgeKeyBindings();
+public final class ForgeKeyBindingHooks implements KeyBindingHooks {
+    public static final KeyBindingHooks INSTANCE = new ForgeKeyBindingHooks();
 
-    private ForgeKeyBindings() {
+    private ForgeKeyBindingHooks() {
     }
 
     @Override

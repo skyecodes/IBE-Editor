@@ -28,7 +28,7 @@ public final class FabricScreenHandler extends AbstractScreenHandler<Screen> {
 
         @Override
         public void render(MatrixStack matrices, int mouseX, int mouseY, float partialTicks) {
-            if (getCurrentScene() == null) return;
+            if (!currentSceneProperty().hasValue()) return;
             if (getCurrentScene().isTexturedBackground()) {
                 renderBackgroundTexture(0);
             } else {
@@ -55,6 +55,13 @@ public final class FabricScreenHandler extends AbstractScreenHandler<Screen> {
                     return partialTicks;
                 }
             });
+        }
+
+        @Override
+        public void tick() {
+            if (currentSceneProperty().hasValue()) {
+                getCurrentScene().tick();
+            }
         }
 
         @Override

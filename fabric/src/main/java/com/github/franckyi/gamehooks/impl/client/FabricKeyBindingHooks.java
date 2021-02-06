@@ -1,12 +1,12 @@
 package com.github.franckyi.gamehooks.impl.client;
 
-import com.github.franckyi.gamehooks.api.client.KeyBindings;
+import com.github.franckyi.gamehooks.api.client.KeyBindingHooks;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 
-public final class FabricKeyBindings implements KeyBindings {
-    public static final KeyBindings INSTANCE = new FabricKeyBindings();
+public final class FabricKeyBindingHooks implements KeyBindingHooks {
+    public static final KeyBindingHooks INSTANCE = new FabricKeyBindingHooks();
 
-    private FabricKeyBindings() {
+    private FabricKeyBindingHooks() {
     }
 
     @Override

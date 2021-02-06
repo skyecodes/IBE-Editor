@@ -1,12 +1,10 @@
 package com.github.franckyi.gamehooks.impl;
 
 import com.github.franckyi.gamehooks.api.ClientHooks;
-import com.github.franckyi.gamehooks.api.client.KeyBindings;
-import com.github.franckyi.gamehooks.api.client.Renderer;
-import com.github.franckyi.gamehooks.api.client.Sound;
-import com.github.franckyi.gamehooks.impl.client.FabricKeyBindings;
-import com.github.franckyi.gamehooks.impl.client.FabricRenderer;
-import com.github.franckyi.gamehooks.impl.client.FabricSound;
+import com.github.franckyi.gamehooks.api.client.KeyBindingHooks;
+import com.github.franckyi.gamehooks.api.client.RendererHooks;
+import com.github.franckyi.gamehooks.impl.client.FabricKeyBindingHooks;
+import com.github.franckyi.gamehooks.impl.client.FabricRendererHooks;
 import net.minecraft.client.MinecraftClient;
 
 public final class FabricClientHooks implements ClientHooks {
@@ -16,19 +14,13 @@ public final class FabricClientHooks implements ClientHooks {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public Renderer<?> renderer() {
-        return FabricRenderer.INSTANCE;
+    public RendererHooks renderer() {
+        return FabricRendererHooks.INSTANCE;
     }
 
     @Override
-    public KeyBindings keyBindings() {
-        return FabricKeyBindings.INSTANCE;
-    }
-
-    @Override
-    public Sound sound() {
-        return FabricSound.INSTANCE;
+    public KeyBindingHooks keyBindings() {
+        return FabricKeyBindingHooks.INSTANCE;
     }
 
     @Override

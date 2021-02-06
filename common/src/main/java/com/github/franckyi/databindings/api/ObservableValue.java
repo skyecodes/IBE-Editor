@@ -1,18 +1,31 @@
 package com.github.franckyi.databindings.api;
 
-import com.github.franckyi.databindings.event.PropertyChangeEvent;
+import com.github.franckyi.databindings.event.PropertyChangeListener;
 import com.github.franckyi.databindings.factory.MappingFactory;
 
 import java.util.Objects;
 import java.util.function.BiFunction;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 public interface ObservableValue<T> {
     T get();
 
-    void addListener(PropertyChangeEvent.Listener<? super T> listener);
+    void addListener(PropertyChangeListener<? super T> listener);
 
-    void removeListener(PropertyChangeEvent.Listener<? super T> listener);
+    default PropertyChangeListener<? super T> addListener(Consumer<? super T> listener) {
+        PropertyChangeListener<? super T> realListener = (oldVal, newVal) -> listener.accept(newVal);
+        addListener(realListener);
+        return realListener;
+    }
+
+    default PropertyChangeListener<? super T> addListener(Runnable listener) {
+        PropertyChangeListener<? super T> realListener = (oldVal, newVal) -> listener.run();
+        addListener(realListener);
+        return realListener;
+    }
+
+    void removeListener(PropertyChangeListener<? super T> listener);
 
     static <T> ObservableValue<T> of(T value) {
         return new ObservableValue<T>() {
@@ -22,11 +35,11 @@ public interface ObservableValue<T> {
             }
 
             @Override
-            public void addListener(PropertyChangeEvent.Listener<? super T> listener) {
+            public void addListener(PropertyChangeListener<? super T> listener) {
             }
 
             @Override
-            public void removeListener(PropertyChangeEvent.Listener<? super T> listener) {
+            public void removeListener(PropertyChangeListener<? super T> listener) {
             }
         };
     }

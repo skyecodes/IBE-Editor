@@ -18,6 +18,27 @@ sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = co
 
 minecraft {
     mappings channel: "${project.mappings_channel}", version: "${project.mappings_version}"
+    runs {
+        client {
+            workingDirectory project.file('run')
+            property 'forge.logging.console.level', 'debug'
+            mods {
+                ibeeditor {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        server {
+            workingDirectory project.file('run')
+            property 'forge.logging.console.level', 'debug'
+            mods {
+                ibeeditor {
+                    source sourceSets.main
+                }
+            }
+        }
+    }
 }
 
 dependencies {

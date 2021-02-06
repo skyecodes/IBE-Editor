@@ -1,15 +1,17 @@
 package com.github.franckyi.guapi.node;
 
 import com.github.franckyi.databindings.api.*;
-import com.github.franckyi.databindings.event.PropertyChangeEvent;
 import com.github.franckyi.databindings.factory.PropertyFactory;
+import com.github.franckyi.guapi.EventTarget;
 import com.github.franckyi.guapi.GUAPI;
+import com.github.franckyi.guapi.Renderable;
 import com.github.franckyi.guapi.event.*;
 import com.github.franckyi.guapi.hooks.api.RenderContext;
+import com.github.franckyi.guapi.theme.Skin;
 import com.github.franckyi.guapi.util.Color;
 import com.github.franckyi.guapi.util.Insets;
 
-public abstract class Node implements ScreenEventHandler {
+public abstract class Node implements ScreenEventHandler, Renderable, EventTarget {
     public static final int DEFAULT_BACKGROUND_COLOR = Color.rgba(0, 0, 0, 0);
     public static final int INFINITE_SIZE = Integer.MAX_VALUE;
     public static final int COMPUTED_SIZE = -1;
@@ -60,21 +62,22 @@ public abstract class Node implements ScreenEventHandler {
             .bindMap(Scene::activeProperty, null)
             .mapToBoolean(node -> node == Node.this);
 
+    protected Skin<? super Node> skin;
     protected final ScreenEventHandler eventHandlerDelegate = new ScreenEventHandlerDelegate();
 
     public Node() {
-        minWidthProperty().addListener(this::_updateWidth);
-        minHeightProperty().addListener(this::_updateHeight);
-        prefWidthProperty().addListener(this::_updateWidth);
-        prefHeightProperty().addListener(this::_updateHeight);
-        maxWidthProperty().addListener(this::_updateWidth);
-        maxHeightProperty().addListener(this::_updateHeight);
-        computedWidthProperty().addListener(this::_updateWidth);
-        computedHeightProperty().addListener(this::_updateHeight);
-        widthProperty().addListener(this::_updateParentWidth);
-        heightProperty().addListener(this::_updateParentHeight);
-        paddingProperty().addListener(this::_updateSize);
-        parentProperty().addListener(this::_updateScene);
+        minWidthProperty().addListener(this::updateWidth);
+        minHeightProperty().addListener(this::updateHeight);
+        prefWidthProperty().addListener(this::updateWidth);
+        prefHeightProperty().addListener(this::updateHeight);
+        maxWidthProperty().addListener(this::updateWidth);
+        maxHeightProperty().addListener(this::updateHeight);
+        computedWidthProperty().addListener(this::updateWidth);
+        computedHeightProperty().addListener(this::updateHeight);
+        widthProperty().addListener(this::updateParentWidth);
+        heightProperty().addListener(this::updateParentHeight);
+        paddingProperty().addListener(this::updateSize);
+        parentProperty().addListener(this::updateScene);
     }
 
     public int getX() {
@@ -337,31 +340,11 @@ public abstract class Node implements ScreenEventHandler {
         return x >= getLeft() && x <= getRight() && y >= getTop() && y <= getBottom();
     }
 
-    public void mouseClicked(MouseButtonEvent event) {
-    }
-
-    public void mouseReleased(MouseButtonEvent event) {
-    }
-
-    public void mouseDragged(MouseDragEvent event) {
-    }
-
-    public void mouseScrolled(MouseScrollEvent event) {
-    }
-
-    public void keyPressed(KeyEvent event) {
-    }
-
-    public void keyReleased(KeyEvent event) {
-    }
-
-    public void charTyped(TypeEvent event) {
-    }
-
-    public void mouseMoved(MouseEvent event) {
-    }
-
-    public void action(ActionEvent event) {
+    protected <N extends Node> Skin<? super N> getSkin() {
+        if (skin == null) {
+            skin = GUAPI.getTheme().provideSkin(this);
+        }
+        return skin;
     }
 
     @Override
@@ -374,6 +357,10 @@ public abstract class Node implements ScreenEventHandler {
     protected <E extends ScreenEvent> void notifyEvent(ScreenEventType<E> type, E event) {
         type.onEvent(this, event);
         eventHandlerDelegate.handleEvent(type, event);
+        type.onEvent(getSkin(), event);
+        if (getSkin().hasRenderer()) {
+            type.onEvent(getSkin().getRenderer(), event);
+        }
     }
 
     @Override
@@ -387,15 +374,19 @@ public abstract class Node implements ScreenEventHandler {
     }
 
     public void render(RenderContext<?> ctx) {
-        GUAPI.getTheme().getSkin(this).render(this, ctx);
+        getSkin().render(this, ctx);
+    }
+
+    public void tick() {
+        getSkin().tick();
     }
 
     public void computeWidth() {
-        setComputedWidth(GUAPI.getTheme().getSkin(this).computeWidth(this) + getPadding().getHorizontal());
+        setComputedWidth(getSkin().computeWidth(this) + getPadding().getHorizontal());
     }
 
     public void computeHeight() {
-        setComputedHeight(GUAPI.getTheme().getSkin(this).computeHeight(this) + getPadding().getVertical());
+        setComputedHeight(getSkin().computeHeight(this) + getPadding().getVertical());
     }
 
     protected void computeSize() {
@@ -436,36 +427,24 @@ public abstract class Node implements ScreenEventHandler {
         updateHeight();
     }
 
-    private void _updateWidth(PropertyChangeEvent<?> event) {
-        updateWidth();
-    }
-
-    private void _updateHeight(PropertyChangeEvent<?> event) {
-        updateHeight();
-    }
-
-    private void _updateSize(PropertyChangeEvent<?> event) {
-        updateSize();
-    }
-
-    private void _updateParentWidth(PropertyChangeEvent<?> event) {
+    private void updateParentWidth() {
         if (getParent() != null) {
             getParent().computeWidth();
             getParent().updateChildrenPos();
         }
     }
 
-    private void _updateParentHeight(PropertyChangeEvent<?> event) {
+    private void updateParentHeight() {
         if (getParent() != null) {
             getParent().computeHeight();
             getParent().updateChildrenPos();
         }
     }
 
-    private void _updateScene(PropertyChangeEvent<? extends Parent> event) {
+    private void updateScene(Parent newVal) {
         sceneProperty.unbind();
-        if (event.getNewValue() != null) {
-            sceneProperty.bind(event.getNewValue().sceneProperty());
+        if (newVal != null) {
+            sceneProperty.bind(newVal.sceneProperty());
         } else {
             sceneProperty.setValue(null);
         }

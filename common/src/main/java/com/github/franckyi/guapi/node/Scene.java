@@ -1,15 +1,15 @@
 package com.github.franckyi.guapi.node;
 
 import com.github.franckyi.databindings.api.*;
-import com.github.franckyi.databindings.event.PropertyChangeEvent;
 import com.github.franckyi.databindings.factory.PropertyFactory;
 import com.github.franckyi.gamehooks.GameHooks;
 import com.github.franckyi.guapi.GUAPI;
+import com.github.franckyi.guapi.Renderable;
 import com.github.franckyi.guapi.event.*;
 import com.github.franckyi.guapi.hooks.api.RenderContext;
 import com.github.franckyi.guapi.util.Insets;
 
-public class Scene implements ScreenEventHandler, Parent {
+public class Scene implements ScreenEventHandler, Parent, Renderable {
     private final ObjectProperty<Node> rootProperty = PropertyFactory.ofObject();
     private final BooleanProperty fullScreenProperty = PropertyFactory.ofBoolean();
 
@@ -40,32 +40,32 @@ public class Scene implements ScreenEventHandler, Parent {
     }
 
     public Scene(Node root, boolean fullScreen, boolean texturedBackground) {
-        rootProperty().addListener(event -> {
-            if (event.getOldValue() != null && event.getOldValue().getParent() == this) {
-                event.getOldValue().setParent(null);
-                _bindFullScreen(event.getOldValue(), false);
+        rootProperty().addListener((oldVal, newVal) -> {
+            if (oldVal != null && oldVal.getParent() == this) {
+                oldVal.setParent(null);
+                bindFullScreen(oldVal, false);
             }
-            if (event.getNewValue() != null) {
-                if (event.getNewValue().getParent() != null) {
-                    GameHooks.getLogger().error(GUAPI.MARKER, "Can't set Node \"" + event.getNewValue() +
-                            "\" as Scene root: node already has a Parent \"" + event.getNewValue().getParent() + "\"");
+            if (newVal != null) {
+                if (newVal.getParent() != null) {
+                    GameHooks.getLogger().error(GUAPI.MARKER, "Can't set Node \"" + newVal +
+                            "\" as Scene root: node already has a Parent \"" + newVal.getParent() + "\"");
                     return;
                 }
-                event.getNewValue().setParent(this);
-                _bindFullScreen(event.getNewValue(), isFullScreen());
+                newVal.setParent(this);
+                bindFullScreen(newVal, isFullScreen());
             }
         });
-        fullScreenProperty().addListener(event -> {
+        fullScreenProperty().addListener(newVal -> {
             if (rootProperty().hasValue()) {
-                _bindFullScreen(getRoot(), event.getNewValue());
+                bindFullScreen(getRoot(), newVal);
             }
         });
         setRoot(root);
         setFullScreen(fullScreen);
         setTexturedBackground(texturedBackground);
-        paddingProperty().addListener(event -> updateChildrenPos());
-        widthProperty().addListener(this::_updateRootWidth);
-        heightProperty().addListener(this::_updateRootHeight);
+        paddingProperty().addListener(this::updateChildrenPos);
+        widthProperty().addListener(this::updateRootWidth);
+        heightProperty().addListener(this::updateRootHeight);
     }
 
     public Node getRoot() {
@@ -170,6 +170,12 @@ public class Scene implements ScreenEventHandler, Parent {
         }
     }
 
+    public void tick() {
+        if (rootProperty().hasValue()) {
+            getRoot().tick();
+        }
+    }
+
     public void show() {
     }
 
@@ -236,21 +242,21 @@ public class Scene implements ScreenEventHandler, Parent {
         }
     }
 
-    private void _updateRootWidth(PropertyChangeEvent<?> event) {
+    private void updateRootWidth() {
         if (rootProperty().hasValue()) {
             getRoot().updateWidth();
             getRoot().computeWidth();
         }
     }
 
-    private void _updateRootHeight(PropertyChangeEvent<?> event) {
+    private void updateRootHeight() {
         if (rootProperty().hasValue()) {
             getRoot().updateHeight();
             getRoot().computeHeight();
         }
     }
 
-    private void _bindFullScreen(Node root, boolean bind) {
+    private void bindFullScreen(Node root, boolean bind) {
         if (bind) {
             root.prefWidthProperty().bind(widthProperty());
             root.prefHeightProperty().bind(heightProperty());
@@ -265,9 +271,5 @@ public class Scene implements ScreenEventHandler, Parent {
         return "Scene{" +
                 "root=" + getRoot() +
                 '}';
-    }
-
-    public static class Background {
-        public static final Background DEFAULT = new Background();
     }
 }

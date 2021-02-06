@@ -1,6 +1,6 @@
 package com.github.franckyi.gamehooks.api.client;
 
-public interface KeyBindings {
+public interface KeyBindingHooks {
     KeyBinding register(String name, int keyCode, String category);
 
     interface KeyBinding {

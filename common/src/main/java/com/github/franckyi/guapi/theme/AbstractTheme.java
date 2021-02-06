@@ -4,20 +4,21 @@ import com.github.franckyi.guapi.node.Node;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
 
 public abstract class AbstractTheme implements Theme {
-    private final Map<Class<?>, Skin<?>> map = new HashMap<>();
+    private final Map<Class<?>, SkinProvider<?>> map = new HashMap<>();
 
     protected AbstractTheme() {
     }
 
-    protected <T extends Node> void register(Class<T> tClass, Skin<T> skin) {
-        map.put(tClass, skin);
+    protected <N extends Node> void registerSkinProvider(Class<N> nodeClass, SkinProvider<N> skin) {
+        map.put(nodeClass, skin);
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public <T extends Node> Skin<T> getSkin(T node) {
-        return (Skin<T>) map.get(node.getClass());
+    public <N extends Node> Skin<N> provideSkin(N node) {
+        return ((SkinProvider<N>) map.get(node.getClass())).provide(node);
     }
 }

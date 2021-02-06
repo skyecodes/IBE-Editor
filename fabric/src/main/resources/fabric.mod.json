@@ -28,9 +28,6 @@
       "com.github.franckyi.ibeeditor.IBEEditorFabricMod"
     ]
   },
-  "mixins": [
-    "ibeeditor.mixins.json"
-  ],
 
   "depends": {
     "fabricloader": ">=0.7.4",

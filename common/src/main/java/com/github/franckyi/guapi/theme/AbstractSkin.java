@@ -19,6 +19,13 @@ public abstract class AbstractSkin<N extends Node> implements Skin<N> {
         if (GUAPI.isDebugMode()) {
             renderDebug(node, ctx);
         }
+        if (hasRenderer()) {
+            render(ctx);
+        }
+    }
+
+    protected <M> void render(RenderContext<M> ctx) {
+       this.<M>getRenderer().render(ctx);
     }
 
     protected void renderDebug(N node, RenderContext<?> ctx) {

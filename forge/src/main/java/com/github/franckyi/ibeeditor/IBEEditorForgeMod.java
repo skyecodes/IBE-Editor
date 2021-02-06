@@ -6,6 +6,8 @@ import com.github.franckyi.gamehooks.impl.ForgeCommonHooks;
 import com.github.franckyi.gamehooks.impl.ForgeServerHooks;
 import com.github.franckyi.guapi.GUAPI;
 import com.github.franckyi.guapi.hooks.impl.ForgeScreenHandler;
+import com.github.franckyi.guapi.hooks.impl.theme.vanilla.ForgeVanillaThemeRenderer;
+import com.github.franckyi.guapi.theme.vanilla.VanillaTheme;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -38,6 +40,7 @@ public final class IBEEditorForgeMod {
         logger.info(marker, "Initializing mod - client");
         GameHooks.initClient(ForgeClientHooks.INSTANCE);
         GUAPI.init(ForgeScreenHandler.INSTANCE);
+        GUAPI.setTheme(VanillaTheme.create(ForgeVanillaThemeRenderer.INSTANCE));
         IBEEditorClient.init();
         MinecraftForge.EVENT_BUS.addListener(this::onClientTick);
     }
