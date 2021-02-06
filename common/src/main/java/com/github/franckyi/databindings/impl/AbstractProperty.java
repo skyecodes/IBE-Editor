@@ -4,12 +4,12 @@ import com.github.franckyi.databindings.api.ObservableValue;
 import com.github.franckyi.databindings.api.Property;
 import com.github.franckyi.databindings.event.PropertyChangeListener;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public abstract class AbstractProperty<T> implements Property<T> {
-    protected final List<PropertyChangeListener<? super T>> listeners = new ArrayList<>();
+    protected final List<PropertyChangeListener<? super T>> listeners = new CopyOnWriteArrayList<>();
     protected T value;
     protected final PropertyChangeListener<T> valueListener = (oldVal, newVal) -> doSet(newVal);
     protected ObservableValue<? extends T> boundValue;
@@ -39,9 +39,7 @@ public abstract class AbstractProperty<T> implements Property<T> {
         if (!Objects.equals(this.value, value)) {
             T old = this.value;
             this.value = value;
-            for (int i = 0; i < listeners.size(); i++) { // avoid ConcurrentModificationException TODO
-                listeners.get(i).onChange(old, value);
-            }
+            listeners.forEach(listener -> listener.onChange(old, value));
         }
     }
 

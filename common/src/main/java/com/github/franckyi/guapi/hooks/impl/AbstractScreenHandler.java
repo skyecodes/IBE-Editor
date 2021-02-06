@@ -142,9 +142,7 @@ public abstract class AbstractScreenHandler<T> implements ScreenHandler {
     }
 
     public void updateSize(int width, int height) {
-        //widthProperty.setValue(width);
-        //heightProperty.setValue(height);
+        widthProperty.setValue(width);
         heightProperty.setValue(height);
-        widthProperty.setValue(width); // TODO investigate why it only displays correctly this way around
     }
 }
