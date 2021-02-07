@@ -1,5 +1,6 @@
 package com.github.franckyi.ibeeditor;
 
+import com.github.franckyi.databindings.api.ObservableIntegerValue;
 import com.github.franckyi.gamehooks.GameHooks;
 import com.github.franckyi.gamehooks.api.client.KeyBindingHooks;
 import com.github.franckyi.guapi.GUAPI;
@@ -28,24 +29,42 @@ public class IBEEditorClient {
     private static void openEditor() {
         try {
             GameHooks.client().unlockCursor();
-            HBox root;
+            VBox root = new VBox(5);
+            HBox main, top, bottom;
             VBox left, right;
-            Button a, b;
-            root = new HBox();
+            Button a, b, done, cancel;
 
+            top = new HBox();
+            top.getChildren().add(new Label("Title"));
+            top.setAlignment(Align.Vertical.CENTER);
+            top.setPrefHeight(30);
+
+            bottom = new HBox(20);
+            done = new Button("Done");
+            done.setPrefWidth(90);
+            cancel = new Button("Cancel");
+            cancel.setPrefWidth(90);
+            bottom.getChildren().addAll(done, cancel);
+
+            ObservableIntegerValue mainHeight = root.heightProperty().substract(top.heightProperty()).substract(bottom.heightProperty()).substract(10);
+
+            main = new HBox(10);
             left = new VBox(5);
             left.setPadding(new Insets(5));
             left.setAlignment(Align.Horizontal.CENTER);
             left.getChildren().addAll(new Label("Category A"), new Label("Category B"), new TextField("Test"));
-            left.prefWidthProperty().bind(root.widthProperty().divide(3));
-
+            left.prefWidthProperty().bind(root.widthProperty().divide(3).substract(5));
+            left.prefHeightProperty().bind(mainHeight);
             right = new VBox(5);
             right.setPadding(new Insets(5));
             right.setAlignment(Align.Horizontal.CENTER);
             right.getChildren().addAll(a = new Button("Property C"), b = new Button("Property D"));
-            right.prefWidthProperty().bind(root.widthProperty().divide(3).multiply(2));
+            right.prefWidthProperty().bind(root.widthProperty().divide(3).multiply(2).substract(5));
+            right.prefHeightProperty().bind(mainHeight);
+            main.getChildren().addAll(left, right);
 
-            root.getChildren().addAll(left, right);
+            root.setAlignment(Align.Horizontal.CENTER);
+            root.getChildren().addAll(top, main, bottom);
 
             a.addListener(ScreenEventType.ACTION, event -> {
                 a.setDisable(true);
