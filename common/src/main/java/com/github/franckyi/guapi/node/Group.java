@@ -63,18 +63,6 @@ public abstract class Group extends Node implements Parent {
         return getParent().getMaxChildrenHeight() - getPadding().getVertical();
     }
 
-    @Override
-    public void computeWidth() {
-        children.forEach(Node::updateWidth);
-        super.computeWidth();
-    }
-
-    @Override
-    public void computeHeight() {
-        children.forEach(Node::updateHeight);
-        super.computeHeight();
-    }
-
     private void updateChildren(ListChangeEvent<? extends Node> event) {
         event.getRemoved(true).forEach(entry -> {
             if (entry.getValue().getParent() == Group.this) {

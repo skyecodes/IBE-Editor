@@ -64,8 +64,6 @@ public class Scene implements ScreenEventHandler, Parent, Renderable {
         setFullScreen(fullScreen);
         setTexturedBackground(texturedBackground);
         paddingProperty().addListener(this::updateChildrenPos);
-        widthProperty().addListener(this::updateRootWidth);
-        heightProperty().addListener(this::updateRootHeight);
     }
 
     public Node getRoot() {
@@ -239,20 +237,6 @@ public class Scene implements ScreenEventHandler, Parent, Renderable {
         if (rootProperty().hasValue()) {
             getRoot().setX(getPadding().getLeft());
             getRoot().setY(getPadding().getTop());
-        }
-    }
-
-    private void updateRootWidth() {
-        if (rootProperty().hasValue()) {
-            getRoot().updateWidth();
-            getRoot().computeWidth();
-        }
-    }
-
-    private void updateRootHeight() {
-        if (rootProperty().hasValue()) {
-            getRoot().updateHeight();
-            getRoot().computeHeight();
         }
     }
 

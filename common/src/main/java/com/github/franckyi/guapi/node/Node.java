@@ -64,19 +64,20 @@ public abstract class Node implements ScreenEventHandler, Renderable, EventTarge
 
     protected Skin<? super Node> skin;
     protected final ScreenEventHandler eventHandlerDelegate = new ScreenEventHandlerDelegate();
+    protected boolean dirty = true;
 
     public Node() {
-        minWidthProperty().addListener(this::updateWidth);
-        minHeightProperty().addListener(this::updateHeight);
-        prefWidthProperty().addListener(this::updateWidth);
-        prefHeightProperty().addListener(this::updateHeight);
-        maxWidthProperty().addListener(this::updateWidth);
-        maxHeightProperty().addListener(this::updateHeight);
-        computedWidthProperty().addListener(this::updateWidth);
-        computedHeightProperty().addListener(this::updateHeight);
+        minWidthProperty().addListener(this::markDirty);
+        minHeightProperty().addListener(this::markDirty);
+        prefWidthProperty().addListener(this::markDirty);
+        prefHeightProperty().addListener(this::markDirty);
+        maxWidthProperty().addListener(this::markDirty);
+        maxHeightProperty().addListener(this::markDirty);
+        computedWidthProperty().addListener(this::markDirty);
+        computedHeightProperty().addListener(this::markDirty);
         widthProperty().addListener(this::updateParentWidth);
         heightProperty().addListener(this::updateParentHeight);
-        paddingProperty().addListener(this::updateSize);
+        paddingProperty().addListener(this::markDirty);
         parentProperty().addListener(this::updateScene);
     }
 
@@ -374,6 +375,10 @@ public abstract class Node implements ScreenEventHandler, Renderable, EventTarge
     }
 
     public void render(RenderContext<?> ctx) {
+        if (dirty) {
+            updateSize();
+        }
+        dirty = false;
         getSkin().render(this, ctx);
     }
 
@@ -420,6 +425,10 @@ public abstract class Node implements ScreenEventHandler, Renderable, EventTarge
             height = Math.min(height, getParent().getMaxChildrenHeight());
         }
         setHeight(height);
+    }
+
+    protected void markDirty() {
+        dirty = true;
     }
 
     protected void updateSize() {
