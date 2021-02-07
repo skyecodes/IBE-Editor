@@ -5,6 +5,7 @@ import com.github.franckyi.databindings.factory.PropertyFactory;
 import com.github.franckyi.gamehooks.GameHooks;
 import com.github.franckyi.guapi.hooks.api.ScreenHandler;
 import com.github.franckyi.guapi.theme.Theme;
+import com.github.franckyi.guapi.theme.vanilla.VanillaTheme;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
 
@@ -15,7 +16,7 @@ public final class GUAPI {
     public static final Marker MARKER = MarkerManager.getMarker("GUAPI");
 
     public static void init(ScreenHandler screenHandler) {
-        init(screenHandler, null);
+        init(screenHandler, VanillaTheme.INSTANCE);
     }
 
     public static void init(ScreenHandler screenHandler, Theme theme) {

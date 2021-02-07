@@ -1,17 +1,18 @@
 package com.github.franckyi.guapi.hooks.impl.theme.vanilla;
 
 import com.github.franckyi.guapi.hooks.api.RenderContext;
-import com.github.franckyi.guapi.hooks.api.theme.vanilla.VanillaNodeRenderer;
+import com.github.franckyi.guapi.hooks.api.theme.vanilla.VanillaDelegatedRenderer;
 import com.github.franckyi.guapi.node.Button;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.LiteralText;
 
-public class FabricVanillaButtonRenderer extends ButtonWidget implements VanillaNodeRenderer<MatrixStack> {
+public class FabricVanillaButtonRenderer extends ButtonWidget implements VanillaDelegatedRenderer<MatrixStack> {
     private final Button node;
 
-    FabricVanillaButtonRenderer(Button node) {
-        super(node.getX(), node.getY(), node.getWidth(), node.getHeight(), new LiteralText(node.getText()), button -> {});
+    public FabricVanillaButtonRenderer(Button node) {
+        super(node.getX(), node.getY(), node.getWidth(), node.getHeight(), new LiteralText(node.getText()), button -> {
+        });
         this.node = node;
         active = !node.isDisabled();
         node.xProperty().addListener(newVal -> x = newVal);

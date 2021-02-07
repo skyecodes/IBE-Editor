@@ -1,17 +1,17 @@
 package com.github.franckyi.guapi.hooks.impl.theme.vanilla;
 
 import com.github.franckyi.guapi.hooks.api.RenderContext;
-import com.github.franckyi.guapi.hooks.api.theme.vanilla.VanillaNodeRenderer;
+import com.github.franckyi.guapi.hooks.api.theme.vanilla.VanillaDelegatedRenderer;
 import com.github.franckyi.guapi.node.TextField;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.LiteralText;
 
-public class FabricVanillaTextFieldRenderer extends TextFieldWidget implements VanillaNodeRenderer<MatrixStack> {
+public class FabricVanillaTextFieldRenderer extends TextFieldWidget implements VanillaDelegatedRenderer<MatrixStack> {
     private final TextField node;
 
-    FabricVanillaTextFieldRenderer(TextField node) {
+    public FabricVanillaTextFieldRenderer(TextField node) {
         super(MinecraftClient.getInstance().textRenderer, node.getX(), node.getY(), node.getWidth(), node.getHeight(), LiteralText.EMPTY);
         this.node = node;
         active = !node.isDisabled();

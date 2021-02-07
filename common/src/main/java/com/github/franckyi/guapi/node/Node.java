@@ -358,10 +358,7 @@ public abstract class Node implements ScreenEventHandler, Renderable, EventTarge
     protected <E extends ScreenEvent> void notifyEvent(ScreenEventType<E> type, E event) {
         type.onEvent(this, event);
         eventHandlerDelegate.handleEvent(type, event);
-        type.onEvent(getSkin(), event);
-        if (getSkin().hasRenderer()) {
-            type.onEvent(getSkin().getRenderer(), event);
-        }
+        getSkin().onEvent(type, event);
     }
 
     @Override

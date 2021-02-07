@@ -2,11 +2,11 @@ package com.github.franckyi.guapi.theme.vanilla;
 
 import com.github.franckyi.guapi.hooks.api.RenderContext;
 import com.github.franckyi.guapi.node.Label;
-import com.github.franckyi.guapi.theme.LabeledSkin;
+import com.github.franckyi.guapi.theme.AbstractSkin;
 import com.github.franckyi.guapi.theme.Skin;
 import com.github.franckyi.guapi.util.Align;
 
-public class VanillaLabelSkin extends LabeledSkin<Label> {
+public class VanillaLabelSkin extends AbstractSkin<Label> {
     public static final Skin<Label> INSTANCE = new VanillaLabelSkin();
 
     private VanillaLabelSkin() {
@@ -15,33 +15,19 @@ public class VanillaLabelSkin extends LabeledSkin<Label> {
     @Override
     public void render(Label node, RenderContext<?> ctx) {
         super.render(node, ctx);
-        renderText(node, ctx);
+        String text = font().trimToWidth(node.getText(), node.getWidth() - node.getPadding().getHorizontal());
+        int x = Align.getAlignedX(node.getTextAlign().getHorizontalAlign(), node, font().getFontWidth(text));
+        int y = Align.getAlignedY(node.getTextAlign().getVerticalAlign(), node, font().getFontHeight());
+        font().drawString(ctx.getMatrices(), text().getLiteralText(text), x, y, node.getColor(), node.hasShadow());
     }
 
-    protected void renderText(Label node, RenderContext<?> ctx) {
-        String text = getText(node);
-        int x = getTextX(node, text);
-        int y = getTextY(node, text);
-        int color = getTextColor(node);
-        font().drawString(ctx.getMatrices(), text().getLiteralText(text), x, y, color, node.hasShadow());
+    @Override
+    public int computeWidth(Label node) {
+        return font().getFontWidth(node.getText());
     }
 
-    protected String getText(Label node) {
-        return font().trimToWidth(node.getText(), node.getWidth() - node.getPadding().getHorizontal());
+    @Override
+    public int computeHeight(Label node) {
+        return font().getFontHeight();
     }
-
-    protected int getTextX(Label node, String text) {
-        int textWidth = font().getFontWidth(text);
-        return Align.getAlignedX(node.getTextAlign().getHorizontalAlign(), node, textWidth);
-    }
-
-    protected int getTextY(Label node, String text) {
-        int textHeight = font().getFontHeight();
-        return Align.getAlignedY(node.getTextAlign().getVerticalAlign(), node, textHeight);
-    }
-
-    protected int getTextColor(Label node) {
-        return node.getColor();
-    }
-
 }

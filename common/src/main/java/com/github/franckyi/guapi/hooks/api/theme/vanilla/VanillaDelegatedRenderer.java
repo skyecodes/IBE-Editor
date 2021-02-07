@@ -1,9 +1,9 @@
 package com.github.franckyi.guapi.hooks.api.theme.vanilla;
 
 import com.github.franckyi.guapi.event.*;
-import com.github.franckyi.guapi.hooks.api.theme.NodeRenderer;
+import com.github.franckyi.guapi.hooks.api.theme.DelegatedRenderer;
 
-public interface VanillaNodeRenderer<M> extends NodeRenderer<M> {
+public interface VanillaDelegatedRenderer<M> extends DelegatedRenderer<M> {
     default void mouseMoved(double mouseX, double mouseY) {
     }
 

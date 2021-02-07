@@ -6,7 +6,6 @@ import com.github.franckyi.gamehooks.api.CommonHooks;
 import com.github.franckyi.gamehooks.api.ServerHooks;
 import com.github.franckyi.guapi.GUAPI;
 import com.github.franckyi.guapi.hooks.api.ScreenHandler;
-import com.github.franckyi.guapi.theme.Theme;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.Marker;
@@ -21,10 +20,10 @@ public final class IBEEditor {
         GameHooks.initCommon(commonHooks, LOGGER);
     }
 
-    public static void initClient(ClientHooks clientHooks, ScreenHandler screenHandler, Theme theme) {
+    public static void initClient(ClientHooks clientHooks, ScreenHandler screenHandler) {
         LOGGER.info(marker, "Initializing IBE Editor - client");
         GameHooks.initClient(clientHooks);
-        GUAPI.init(screenHandler, theme);
+        GUAPI.init(screenHandler);
         IBEEditorClient.init();
     }
 

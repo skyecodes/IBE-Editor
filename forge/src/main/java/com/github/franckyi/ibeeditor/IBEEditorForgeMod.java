@@ -4,7 +4,10 @@ import com.github.franckyi.gamehooks.impl.ForgeClientHooks;
 import com.github.franckyi.gamehooks.impl.ForgeCommonHooks;
 import com.github.franckyi.gamehooks.impl.ForgeServerHooks;
 import com.github.franckyi.guapi.hooks.impl.ForgeScreenHandler;
-import com.github.franckyi.guapi.hooks.impl.theme.vanilla.ForgeVanillaThemeRenderer;
+import com.github.franckyi.guapi.hooks.impl.theme.vanilla.ForgeVanillaButtonRenderer;
+import com.github.franckyi.guapi.hooks.impl.theme.vanilla.ForgeVanillaTextFieldRenderer;
+import com.github.franckyi.guapi.node.Button;
+import com.github.franckyi.guapi.node.TextField;
 import com.github.franckyi.guapi.theme.vanilla.VanillaTheme;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
@@ -27,7 +30,9 @@ public final class IBEEditorForgeMod {
     }
 
     private void onClientInit(FMLClientSetupEvent event) {
-        IBEEditor.initClient(ForgeClientHooks.INSTANCE, ForgeScreenHandler.INSTANCE, VanillaTheme.create(ForgeVanillaThemeRenderer.INSTANCE));
+        IBEEditor.initClient(ForgeClientHooks.INSTANCE, ForgeScreenHandler.INSTANCE);
+        VanillaTheme.INSTANCE.registerDelegatedSkinProvider(Button.class, ForgeVanillaButtonRenderer::new);
+        VanillaTheme.INSTANCE.registerDelegatedSkinProvider(TextField.class, ForgeVanillaTextFieldRenderer::new);
         MinecraftForge.EVENT_BUS.addListener(this::onClientTick);
     }
 
