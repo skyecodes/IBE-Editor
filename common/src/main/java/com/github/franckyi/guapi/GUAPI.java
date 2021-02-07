@@ -15,6 +15,10 @@ public final class GUAPI {
     public static final Marker MARKER = MarkerManager.getMarker("GUAPI");
 
     public static void init(ScreenHandler screenHandler) {
+        init(screenHandler, null);
+    }
+
+    public static void init(ScreenHandler screenHandler, Theme theme) {
         if (GUAPI.screenHandler != null) {
             throw new IllegalStateException("GUAPI is already initialized");
         }
@@ -22,6 +26,9 @@ public final class GUAPI {
             throw new IllegalArgumentException("ScreenHandler can't be null");
         }
         GUAPI.screenHandler = screenHandler;
+        if (theme != null) {
+            setTheme(theme);
+        }
         setDebugMode(true);
         GameHooks.getLogger().info(MARKER, "GUAPI initialized");
     }
