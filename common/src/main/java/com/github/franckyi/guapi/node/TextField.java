@@ -13,7 +13,6 @@ public class TextField extends Labeled {
 
     public TextField(String text) {
         super(text);
-        computeSize();
     }
 
     public int getMaxLength() {

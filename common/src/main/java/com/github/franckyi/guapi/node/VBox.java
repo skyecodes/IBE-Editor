@@ -15,9 +15,8 @@ public class VBox extends Group {
 
     public VBox(int spacing) {
         setSpacing(spacing);
-        spacingProperty().addListener(event -> computeHeight());
+        spacingProperty().addListener(this::shouldComputeSize);
         alignmentProperty().addListener(event -> updateChildrenPos());
-        computeSize();
     }
 
     public int getSpacing() {

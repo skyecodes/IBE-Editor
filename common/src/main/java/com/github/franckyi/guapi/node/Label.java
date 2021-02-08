@@ -18,8 +18,7 @@ public class Label extends Labeled {
 
     public Label(String text) {
         super(text);
-        textProperty().addListener(event -> computeWidth());
-        computeSize();
+        textProperty().addListener(this::shouldComputeSize);
     }
 
     public Align getTextAlign() {

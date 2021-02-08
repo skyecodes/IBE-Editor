@@ -64,20 +64,21 @@ public abstract class Node implements ScreenEventHandler, Renderable, EventTarge
 
     protected Skin<? super Node> skin;
     protected final ScreenEventHandler eventHandlerDelegate = new ScreenEventHandlerDelegate();
-    protected boolean dirty = true;
+    protected boolean shouldComputeSize = true;
+    protected boolean shouldUpdateSize = true;
 
     public Node() {
-        minWidthProperty().addListener(this::markDirty);
-        minHeightProperty().addListener(this::markDirty);
-        prefWidthProperty().addListener(this::markDirty);
-        prefHeightProperty().addListener(this::markDirty);
-        maxWidthProperty().addListener(this::markDirty);
-        maxHeightProperty().addListener(this::markDirty);
-        computedWidthProperty().addListener(this::markDirty);
-        computedHeightProperty().addListener(this::markDirty);
+        minWidthProperty().addListener(this::shouldUpdateSize);
+        minHeightProperty().addListener(this::shouldUpdateSize);
+        prefWidthProperty().addListener(this::shouldUpdateSize);
+        prefHeightProperty().addListener(this::shouldUpdateSize);
+        maxWidthProperty().addListener(this::shouldUpdateSize);
+        maxHeightProperty().addListener(this::shouldUpdateSize);
+        computedWidthProperty().addListener(this::shouldUpdateSize);
+        computedHeightProperty().addListener(this::shouldUpdateSize);
         widthProperty().addListener(this::updateParentWidth);
         heightProperty().addListener(this::updateParentHeight);
-        paddingProperty().addListener(this::markDirty);
+        paddingProperty().addListener(this::shouldUpdateSize);
         parentProperty().addListener(this::updateScene);
     }
 
@@ -372,15 +373,27 @@ public abstract class Node implements ScreenEventHandler, Renderable, EventTarge
     }
 
     public void render(RenderContext<?> ctx) {
-        if (dirty) {
-            updateSize();
-        }
-        dirty = false;
+        checkRender();
         getSkin().render(this, ctx);
     }
 
     public void tick() {
         getSkin().tick();
+    }
+
+    protected void checkRender() {
+        if (shouldComputeSize) {
+            computeSize();
+            shouldComputeSize = false;
+        }
+        if (shouldUpdateSize) {
+            updateSize();
+            shouldUpdateSize = false;
+        }
+    }
+
+    protected void shouldComputeSize() {
+        shouldComputeSize = true;
     }
 
     public void computeWidth() {
@@ -394,6 +407,10 @@ public abstract class Node implements ScreenEventHandler, Renderable, EventTarge
     protected void computeSize() {
         computeWidth();
         computeHeight();
+    }
+
+    protected void shouldUpdateSize() {
+        shouldUpdateSize = true;
     }
 
     protected void updateWidth() {
@@ -422,10 +439,6 @@ public abstract class Node implements ScreenEventHandler, Renderable, EventTarge
             height = Math.min(height, getParent().getMaxChildrenHeight());
         }
         setHeight(height);
-    }
-
-    protected void markDirty() {
-        dirty = true;
     }
 
     protected void updateSize() {

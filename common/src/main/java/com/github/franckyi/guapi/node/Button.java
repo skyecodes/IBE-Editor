@@ -7,8 +7,7 @@ public class Button extends Labeled {
 
     public Button(String text) {
         super(text);
-        textProperty().addListener(event -> computeWidth());
-        computeSize();
+        textProperty().addListener(this::shouldComputeSize);
     }
 
     @Override

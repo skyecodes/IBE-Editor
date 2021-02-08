@@ -15,9 +15,8 @@ public class HBox extends Group {
 
     public HBox(int spacing) {
         setSpacing(spacing);
-        spacingProperty().addListener(event -> computeWidth());
+        spacingProperty().addListener(this::shouldComputeSize);
         alignmentProperty().addListener(event -> updateChildrenPos());
-        computeSize();
     }
 
     public int getSpacing() {

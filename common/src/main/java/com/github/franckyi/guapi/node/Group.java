@@ -14,13 +14,15 @@ import java.util.stream.Collectors;
 public abstract class Group extends Node implements Parent {
     protected final ObservableList<Node> children = new ChildrenList();
 
+    protected boolean shouldUpdateChildrenPos = true;
+
     public Group() {
         getChildren().addListener(this::updateChildren);
-        paddingProperty().addListener(this::updateSizeAndChildrenPos);
-        xProperty().addListener(this::updateChildrenPos);
-        yProperty().addListener(this::updateChildrenPos);
-        widthProperty().addListener(this::updateSizeAndChildrenPos);
-        heightProperty().addListener(this::updateSizeAndChildrenPos);
+        paddingProperty().addListener(this::shouldComputeSizeAndChildrenPos);
+        xProperty().addListener(this::shouldUpdateChildrenPos);
+        yProperty().addListener(this::shouldUpdateChildrenPos);
+        widthProperty().addListener(this::shouldComputeSizeAndChildrenPos);
+        heightProperty().addListener(this::shouldComputeSizeAndChildrenPos);
     }
 
     public ObservableList<Node> getChildren() {
@@ -31,6 +33,19 @@ public abstract class Group extends Node implements Parent {
     public void tick() {
         super.tick();
         getChildren().forEach(Node::tick);
+    }
+
+    @Override
+    protected void checkRender() {
+        super.checkRender();
+        if (shouldUpdateChildrenPos) {
+            updateChildrenPos();
+            shouldUpdateChildrenPos = false;
+        }
+    }
+
+    protected void shouldUpdateChildrenPos() {
+        shouldUpdateChildrenPos = true;
     }
 
     @Override
@@ -70,12 +85,12 @@ public abstract class Group extends Node implements Parent {
             }
         });
         event.getAdded(true).forEach(entry -> entry.getValue().setParent(this));
-        updateSizeAndChildrenPos();
+        shouldComputeSizeAndChildrenPos();
     }
 
-    private void updateSizeAndChildrenPos() {
-        computeSize();
-        updateChildrenPos();
+    private void shouldComputeSizeAndChildrenPos() {
+        this.shouldComputeSize();
+        this.shouldUpdateChildrenPos();
     }
 
     private static class ChildrenList extends ObservableArrayList<Node> {
@@ -90,7 +105,7 @@ public abstract class Group extends Node implements Parent {
 
         @Override
         protected Collection<? extends Node> canAddAll(Collection<? extends Node> c) {
-            return super.canAddAll(c).stream().distinct().collect(Collectors.toList());
+            return super.canAddAll(c).stream().distinct().filter(this::canAdd).collect(Collectors.toList());
         }
     }
 }
