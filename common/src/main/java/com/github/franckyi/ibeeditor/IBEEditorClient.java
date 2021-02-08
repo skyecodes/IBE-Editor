@@ -13,15 +13,44 @@ import org.lwjgl.glfw.GLFW;
 
 public class IBEEditorClient {
     private static KeyBindingHooks.KeyBinding editorKey;
+    private static KeyBindingHooks.KeyBinding testingKey;
     private static final Marker MARKER = MarkerManager.getMarker("Client");
 
     public static void init() {
         editorKey = GameHooks.client().keyBindings().register("ibeeditor.key.editor", GLFW.GLFW_KEY_I, "ibeeditor.category");
+        testingKey = GameHooks.client().keyBindings().register("Testing", GLFW.GLFW_KEY_J, "ibeeditor.category");
     }
 
     public static void tick() {
         if (editorKey.isPressed()) {
             openEditor();
+        } else if (testingKey.isPressed()) {
+            openTesting();
+        }
+    }
+
+    private static void openTesting() {
+        try {
+            GameHooks.client().unlockCursor();
+            VBox root = new VBox();
+            HBox b1 = new HBox();
+            VBox b2 = new VBox(10);
+            HBox b3 = new HBox(5);
+            HBox b4 = new HBox(5);
+            TextField t1 = new TextField("Test 1");
+            TextField t2 = new TextField("Test 2");
+            TextField t3 = new TextField("Test 3");
+            TextField t4 = new TextField("Test 4");
+            root.getChildren().add(b1);
+            b1.getChildren().add(b2);
+            b2.getChildren().addAll(b3, b4);
+            b3.getChildren().addAll(t1, t2);
+            b4.getChildren().addAll(t3, t4);
+            Scene scene = new Scene(root);
+            scene.setPadding(new Insets(10));
+            GUAPI.getScreenHandler().show(scene);
+        } catch (Exception e) {
+            GameHooks.logger().error(MARKER, "Error during test screen initialization", e);
         }
     }
 

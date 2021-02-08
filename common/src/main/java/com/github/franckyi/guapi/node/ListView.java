@@ -20,6 +20,8 @@ public class ListView<E> extends Node implements Parent {
     public ListView(int itemHeight) {
         setItemHeight(itemHeight);
         itemHeightProperty().addListener(this::resetSkin);
+        widthProperty().addListener(this::shouldComputeSize);
+        heightProperty().addListener(this::shouldComputeSize);
     }
 
     @Override
@@ -121,7 +123,7 @@ public class ListView<E> extends Node implements Parent {
     }
 
     @Override
-    public void updateChildrenPos() {
+    public void shouldUpdateChildrenPos() {
     }
 
     public interface Renderer<E> {

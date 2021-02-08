@@ -57,9 +57,6 @@ public abstract class Node implements ScreenEventHandler, Renderable, EventTarge
     private final ObservableBooleanValue hoveredProperty = sceneProperty()
             .bindMap(Scene::hoveredProperty, null)
             .mapToBoolean(node -> node == Node.this);
-    private final ObservableBooleanValue activeProperty = sceneProperty()
-            .bindMap(Scene::activeProperty, null)
-            .mapToBoolean(node -> node == Node.this);
 
     private final IntegerProperty renderPriorityProperty = PropertyFactory.ofInteger();
 
@@ -315,14 +312,6 @@ public abstract class Node implements ScreenEventHandler, Renderable, EventTarge
         return hoveredProperty;
     }
 
-    public boolean isActive() {
-        return activeProperty().getValue();
-    }
-
-    public ObservableBooleanValue activeProperty() {
-        return activeProperty;
-    }
-
     public int getRenderPriority() {
         return renderPriorityProperty().getValue();
     }
@@ -410,15 +399,15 @@ public abstract class Node implements ScreenEventHandler, Renderable, EventTarge
         }
     }
 
-    protected void shouldComputeSize() {
+    public void shouldComputeSize() {
         shouldComputeSize = true;
     }
 
-    public void computeWidth() {
+    private void computeWidth() {
         setComputedWidth(getSkin().computeWidth(this) + getPadding().getHorizontal());
     }
 
-    public void computeHeight() {
+    private void computeHeight() {
         setComputedHeight(getSkin().computeHeight(this) + getPadding().getVertical());
     }
 
@@ -462,15 +451,15 @@ public abstract class Node implements ScreenEventHandler, Renderable, EventTarge
 
     private void updateParentWidth() {
         if (getParent() != null) {
-            getParent().computeWidth();
-            getParent().updateChildrenPos();
+            getParent().shouldComputeSize();
+            getParent().shouldUpdateChildrenPos();
         }
     }
 
     private void updateParentHeight() {
         if (getParent() != null) {
-            getParent().computeHeight();
-            getParent().updateChildrenPos();
+            getParent().shouldComputeSize();
+            getParent().shouldUpdateChildrenPos();
         }
     }
 

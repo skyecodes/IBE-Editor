@@ -10,17 +10,9 @@ public interface Parent {
 
     Insets getPadding();
 
-    void updateChildrenPos();
-
     ObservableValue<Scene> sceneProperty();
 
     ObservableValue<Boolean> disabledProperty();
-
-    default void computeWidth() {
-    }
-
-    default void computeHeight() {
-    }
 
     default int getMaxChildrenWidth() {
         return getWidth() - getPadding().getHorizontal();
@@ -29,4 +21,8 @@ public interface Parent {
     default int getMaxChildrenHeight() {
         return getHeight() - getPadding().getVertical();
     }
+
+    void shouldComputeSize();
+
+    void shouldUpdateChildrenPos();
 }

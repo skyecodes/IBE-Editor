@@ -24,13 +24,12 @@ public class Scene implements ScreenEventHandler, Parent, Renderable {
     private final ObservableObjectValue<Node> focusedPropertyReadOnly = PropertyFactory.readOnly(focusedProperty);
     protected final ObjectProperty<Node> hoveredProperty = PropertyFactory.ofObject();
     private final ObservableObjectValue<Node> hoveredPropertyReadOnly = PropertyFactory.readOnly(hoveredProperty);
-    protected final ObjectProperty<MouseButtonEvent> lastClickEvent = PropertyFactory.ofObject();
-    private final ObservableObjectValue<Node> activePropertyReadOnly = lastClickEvent.map(MouseEvent::getTarget, null);
 
     private final ObservableValue<Scene> sceneProperty = ObservableValue.of(this);
     private final ObservableValue<Boolean> disabledProperty = ObservableValue.of(false);
 
     protected final ScreenEventHandler eventHandlerDelegate = new ScreenEventHandlerDelegate();
+    protected boolean shouldUpdateChildrenPos;
 
     public Scene(Node root) {
         this(root, false);
@@ -70,7 +69,7 @@ public class Scene implements ScreenEventHandler, Parent, Renderable {
         setRoot(root);
         setFullScreen(fullScreen);
         setTexturedBackground(texturedBackground);
-        paddingProperty().addListener(this::updateChildrenPos);
+        paddingProperty().addListener(this::shouldUpdateChildrenPos);
     }
 
     public Node getRoot() {
@@ -173,19 +172,24 @@ public class Scene implements ScreenEventHandler, Parent, Renderable {
         hoveredProperty.setValue(value);
     }
 
-    public Node getActive() {
-        return activeProperty().getValue();
-    }
-
-    public ObservableObjectValue<Node> activeProperty() {
-        return activePropertyReadOnly;
-    }
-
     @Override
     public void render(Object matrices, int mouseX, int mouseY, float delta) {
+        if (shouldUpdateChildrenPos) {
+            updateChildrenPos();
+            shouldUpdateChildrenPos = false;
+        }
         if (rootProperty().hasValue()) {
             getRoot().render(matrices, mouseX, mouseY, delta);
         }
+    }
+
+    @Override
+    public void shouldComputeSize() {
+    }
+
+    @Override
+    public void shouldUpdateChildrenPos() {
+        shouldUpdateChildrenPos = true;
     }
 
     public void tick() {
@@ -208,17 +212,7 @@ public class Scene implements ScreenEventHandler, Parent, Renderable {
                 if (e instanceof MouseButtonEvent) {
                     MouseButtonEvent be = (MouseButtonEvent) e;
                     if (type == ScreenEventType.MOUSE_CLICKED && be.getButton() == MouseButtonEvent.LEFT_BUTTON) {
-                        lastClickEvent.setValue(be);
-                    } else if (type == ScreenEventType.MOUSE_RELEASED && be.getButton() == MouseButtonEvent.LEFT_BUTTON) {
-                        if (lastClickEvent.hasValue()) {
-                            if (e.getTarget() == getActive()) {
-                                setFocused(e.getTarget());
-                                if (e.getTarget() != null) {
-                                    this.handleEvent(ScreenEventType.ACTION, new ActionEvent(lastClickEvent.getValue(), (MouseButtonEvent) e));
-                                }
-                            }
-                            lastClickEvent.setValue(null);
-                        }
+                        setFocused(e.getTarget());
                     }
                 } else if (type == ScreenEventType.MOUSE_MOVED) {
                     setHovered(e.getTarget());
@@ -252,8 +246,7 @@ public class Scene implements ScreenEventHandler, Parent, Renderable {
         return disabledProperty;
     }
 
-    @Override
-    public void updateChildrenPos() {
+    protected void updateChildrenPos() {
         if (rootProperty().hasValue()) {
             getRoot().setX(getPadding().getLeft());
             getRoot().setY(getPadding().getTop());

@@ -44,7 +44,7 @@ public class VBox extends Group {
     }
 
     @Override
-    public void updateChildrenPos() {
+    protected void updateChildrenPos() {
         int y = getY() + getPadding().getTop();
         for (Node child : getChildren()) {
             int x = Align.getAlignedX(getAlignment(), this, child.getWidth());

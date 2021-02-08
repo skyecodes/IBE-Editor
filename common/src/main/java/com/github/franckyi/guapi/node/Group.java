@@ -44,9 +44,11 @@ public abstract class Group extends Node implements Parent {
         }
     }
 
-    protected void shouldUpdateChildrenPos() {
+    public void shouldUpdateChildrenPos() {
         shouldUpdateChildrenPos = true;
     }
+
+    protected abstract void updateChildrenPos();
 
     @Override
     public <E extends MouseEvent> void handleMouseEvent(ScreenEventType<E> type, E event) {

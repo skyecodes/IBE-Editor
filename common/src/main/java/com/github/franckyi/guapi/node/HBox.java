@@ -44,7 +44,7 @@ public class HBox extends Group {
     }
 
     @Override
-    public void updateChildrenPos() {
+    protected void updateChildrenPos() {
         int x = getX() + getPadding().getLeft();
         for (Node child : getChildren()) {
             int y = Align.getAlignedY(getAlignment(), this, child.getHeight());
