@@ -97,7 +97,7 @@ public abstract class Group extends Node implements Parent {
         @Override
         protected boolean canAdd(Node element) {
             if (element.getParent() != null) {
-                GameHooks.getLogger().error(GUAPI.MARKER, "Can't add Node \"" + element + "\" to Group: already present in Parent \"" + element.getParent() + "\"");
+                GameHooks.logger().error(GUAPI.MARKER, "Can't add Node \"" + element + "\" to Group: already present in Parent \"" + element.getParent() + "\"");
                 return false;
             }
             return true;

@@ -12,5 +12,6 @@ public class VanillaTheme extends AbstractTheme {
         registerSkinInstance(VBox.class, VanillaVBoxSkin.INSTANCE);
         delegateSkinProvider(Button.class, VanillaButtonSkin::new);
         delegateSkinProvider(TextField.class, VanillaTextFieldSkin::new);
+        delegateSkinProvider(CheckBox.class, VanillaCheckBoxSkin::new);
     }
 }

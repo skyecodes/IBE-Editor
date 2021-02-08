@@ -25,17 +25,27 @@ public abstract class AbstractTheme implements Theme {
     }
 
     public <N extends Node> void registerDelegatedSkinProvider(Class<N> nodeClass, DelegatedRendererProvider<N> delegatedRendererProvider) {
-        registerSkinProvider(nodeClass, n -> getDelegatedSkinProvider(nodeClass).provide(delegatedRendererProvider.provide(n)));
+        DelegatedSkinProvider<N> delegatedSkinProvider = getDelegatedSkinProvider(nodeClass);
+        registerSkinProvider(nodeClass, n -> delegatedSkinProvider.provide(delegatedRendererProvider.provide(n)));
+        delegatedSkinProviderMap.remove(nodeClass);
     }
 
     @SuppressWarnings("unchecked")
     protected <N extends Node> DelegatedSkinProvider<N> getDelegatedSkinProvider(Class<N> nodeClass) {
-        return (DelegatedSkinProvider<N>) delegatedSkinProviderMap.get(nodeClass);
+        DelegatedSkinProvider<N> delegatedSkinProvider = (DelegatedSkinProvider<N>) delegatedSkinProviderMap.get(nodeClass);
+        if (delegatedSkinProvider == null) {
+            throw new IllegalStateException("Skin of type " + nodeClass.getName() + " isn't delegated by Theme " + getClass().getName());
+        }
+        return delegatedSkinProvider;
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public <N extends Node> Skin<N> provideSkin(N node) {
-        return ((SkinProvider<N>) skinProviderMap.get(node.getClass())).provide(node);
+        SkinProvider<N> provider = (SkinProvider<N>) skinProviderMap.get(node.getClass());
+        if (provider == null) {
+            throw new IllegalStateException("Skin of type " + node.getClass().getName() + " can't be provided by Theme " + getClass().getName());
+        }
+        return provider.provide(node);
     }
 }

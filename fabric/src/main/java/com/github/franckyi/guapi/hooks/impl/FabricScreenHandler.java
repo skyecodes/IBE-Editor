@@ -34,7 +34,7 @@ public final class FabricScreenHandler extends AbstractScreenHandler<Screen> {
             } else {
                 renderBackground(matrices);
             }
-            getCurrentScene().render(new RenderContext<MatrixStack>() {
+            FabricScreenHandler.this.render(new RenderContext<MatrixStack>() {
                 @Override
                 public MatrixStack getMatrices() {
                     return matrices;
@@ -59,9 +59,7 @@ public final class FabricScreenHandler extends AbstractScreenHandler<Screen> {
 
         @Override
         public void tick() {
-            if (currentSceneProperty().hasValue()) {
-                getCurrentScene().tick();
-            }
+            FabricScreenHandler.this.tick();
         }
 
         @Override

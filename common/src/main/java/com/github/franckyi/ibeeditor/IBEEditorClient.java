@@ -52,7 +52,7 @@ public class IBEEditorClient {
             left = new VBox(5);
             left.setPadding(new Insets(5));
             left.setAlignment(Align.Horizontal.CENTER);
-            left.getChildren().addAll(new Label("Category A"), new Label("Category B"), new TextField("Test"));
+            left.getChildren().addAll(new Label("Category A"), new Label("Category B"), new TextField("Test"), new CheckBox("Check?"));
             left.prefWidthProperty().bind(root.widthProperty().divide(3).substract(5));
             left.prefHeightProperty().bind(mainHeight);
             right = new VBox(5);
@@ -80,7 +80,7 @@ public class IBEEditorClient {
             scene.setPadding(new Insets(5));
             GUAPI.getScreenHandler().show(scene);
         } catch (Exception e) {
-            GameHooks.getLogger().error(MARKER, "Error during test screen initialization", e);
+            GameHooks.logger().error(MARKER, "Error during test screen initialization", e);
         }
     }
 }

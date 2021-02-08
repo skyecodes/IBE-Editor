@@ -8,6 +8,7 @@ import com.github.franckyi.guapi.Renderable;
 import com.github.franckyi.guapi.event.*;
 import com.github.franckyi.guapi.hooks.api.RenderContext;
 import com.github.franckyi.guapi.util.Insets;
+import org.lwjgl.glfw.GLFW;
 
 public class Scene implements ScreenEventHandler, Parent, Renderable {
     private final ObjectProperty<Node> rootProperty = PropertyFactory.ofObject();
@@ -18,6 +19,7 @@ public class Scene implements ScreenEventHandler, Parent, Renderable {
 
     private final ObjectProperty<Insets> paddingProperty = PropertyFactory.ofObject(Insets.NONE);
     private final BooleanProperty texturedBackgroundProperty = PropertyFactory.ofBoolean();
+    private final BooleanProperty closeOnEscProperty = PropertyFactory.ofBoolean(true);
 
     protected final ObjectProperty<Node> focusedProperty = PropertyFactory.ofObject();
     private final ObservableObjectValue<Node> focusedPropertyReadOnly = PropertyFactory.readOnly(focusedProperty);
@@ -47,7 +49,7 @@ public class Scene implements ScreenEventHandler, Parent, Renderable {
             }
             if (newVal != null) {
                 if (newVal.getParent() != null) {
-                    GameHooks.getLogger().error(GUAPI.MARKER, "Can't set Node \"" + newVal +
+                    GameHooks.logger().error(GUAPI.MARKER, "Can't set Node \"" + newVal +
                             "\" as Scene root: node already has a Parent \"" + newVal.getParent() + "\"");
                     return;
                 }
@@ -58,6 +60,12 @@ public class Scene implements ScreenEventHandler, Parent, Renderable {
         fullScreenProperty().addListener(newVal -> {
             if (rootProperty().hasValue()) {
                 bindFullScreen(getRoot(), newVal);
+            }
+        });
+        addListener(ScreenEventType.KEY_PRESSED, e -> {
+            if (e.getKeyCode() == GLFW.GLFW_KEY_ESCAPE && isCloseOnEsc()) {
+                GUAPI.getScreenHandler().hide();
+                e.consume();
             }
         });
         setRoot(root);
@@ -128,6 +136,18 @@ public class Scene implements ScreenEventHandler, Parent, Renderable {
 
     public void setTexturedBackground(boolean value) {
         texturedBackgroundProperty().setValue(value);
+    }
+
+    public boolean isCloseOnEsc() {
+        return closeOnEscProperty().getValue();
+    }
+
+    public BooleanProperty closeOnEscProperty() {
+        return closeOnEscProperty;
+    }
+
+    public void setCloseOnEsc(boolean value) {
+        closeOnEscProperty().setValue(value);
     }
 
     public Node getFocused() {

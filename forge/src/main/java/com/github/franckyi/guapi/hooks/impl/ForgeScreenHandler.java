@@ -34,7 +34,7 @@ public final class ForgeScreenHandler extends AbstractScreenHandler<Screen> {
             } else {
                 renderBackground(matrices);
             }
-            getCurrentScene().render(new RenderContext<MatrixStack>() {
+            ForgeScreenHandler.this.render(new RenderContext<MatrixStack>() {
                 @Override
                 public MatrixStack getMatrices() {
                     return matrices;
@@ -59,9 +59,7 @@ public final class ForgeScreenHandler extends AbstractScreenHandler<Screen> {
 
         @Override
         public void tick() {
-            if (currentSceneProperty().hasValue()) {
-                getCurrentScene().tick();
-            }
+            ForgeScreenHandler.this.tick();
         }
 
         @Override

@@ -31,7 +31,7 @@ public final class GUAPI {
             setTheme(theme);
         }
         setDebugMode(true);
-        GameHooks.getLogger().info(MARKER, "GUAPI initialized");
+        GameHooks.logger().info(MARKER, "GUAPI initialized");
     }
 
     public static Theme getTheme() {

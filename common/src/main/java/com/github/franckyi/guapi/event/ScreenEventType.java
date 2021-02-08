@@ -30,6 +30,14 @@ public class ScreenEventType<E extends ScreenEvent> {
         this.onEvent = onEvent;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public boolean isMouseEvent() {
+        return mouseEvent;
+    }
+
     @SuppressWarnings("unchecked")
     public <EE extends MouseEvent> void ifMouseEvent(E event, BiConsumer<ScreenEventType<EE>, EE> thenDo, Runnable elseDo) {
         if (mouseEvent) {

@@ -69,7 +69,7 @@ public final class GameHooks {
         return serverHooks;
     }
 
-    public static Logger getLogger() {
+    public static Logger logger() {
         return logger;
     }
 }
