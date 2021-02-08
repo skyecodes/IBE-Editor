@@ -8,7 +8,6 @@ import com.github.franckyi.gamehooks.api.common.TextHooks;
 import com.github.franckyi.guapi.GUAPI;
 import com.github.franckyi.guapi.event.ScreenEvent;
 import com.github.franckyi.guapi.event.ScreenEventType;
-import com.github.franckyi.guapi.hooks.api.RenderContext;
 import com.github.franckyi.guapi.node.Node;
 
 import java.util.Random;
@@ -21,10 +20,10 @@ public abstract class AbstractSkin<N extends Node> implements Skin<N> {
     }
 
     @Override
-    public void render(N node, RenderContext<?> ctx) {
-        renderBackground(node, ctx);
+    public void render(N node, Object matrices, int mouseX, int mouseY, float delta) {
+        renderBackground(node, matrices);
         if (GUAPI.isDebugMode()) {
-            renderDebug(node, ctx);
+            renderDebug(node, matrices);
         }
     }
 
@@ -33,18 +32,14 @@ public abstract class AbstractSkin<N extends Node> implements Skin<N> {
         type.onEvent(this, event);
     }
 
-    protected void renderDebug(N node, RenderContext<?> ctx) {
-        shape().drawRectangle(ctx.getMatrices(), node.getLeft(), node.getTop(),
+    protected void renderDebug(N node, Object matrices) {
+        shape().drawRectangle(matrices, node.getLeft(), node.getTop(),
                 node.getRight(), node.getBottom(), debugColor);
     }
 
-    protected void renderBackground(N node, RenderContext<?> ctx) {
-        shape().fillRectangle(ctx.getMatrices(), node.getLeft(), node.getTop(),
+    protected void renderBackground(N node, Object matrices) {
+        shape().fillRectangle(matrices, node.getLeft(), node.getTop(),
                 node.getRight(), node.getBottom(), node.getBackgroundColor());
-    }
-
-    protected boolean isHovered(N node, RenderContext<?> ctx) {
-        return node.inBounds(ctx.getMouseX(), ctx.getMouseY());
     }
 
     protected RendererHooks renderer() {

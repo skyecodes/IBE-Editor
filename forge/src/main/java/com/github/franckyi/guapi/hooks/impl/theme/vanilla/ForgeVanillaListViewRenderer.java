@@ -1,7 +1,6 @@
 package com.github.franckyi.guapi.hooks.impl.theme.vanilla;
 
 import com.github.franckyi.guapi.event.*;
-import com.github.franckyi.guapi.hooks.api.RenderContext;
 import com.github.franckyi.guapi.hooks.api.theme.vanilla.VanillaDelegatedRenderer;
 import com.github.franckyi.guapi.node.ListView;
 import com.github.franckyi.guapi.node.Node;
@@ -27,8 +26,6 @@ public class ForgeVanillaListViewRenderer<E> extends AbstractList<ForgeVanillaLi
         node.fullWidthProperty().addListener(rs);
         node.fullHeightProperty().addListener(rs);
         node.getItems().addListener(this::shouldRefreshList);
-        //method_31322(false); // draw darker background
-        //method_31323(false); // draw shadows on top & bottom
     }
 
     @Override
@@ -159,7 +156,7 @@ public class ForgeVanillaListViewRenderer<E> extends AbstractList<ForgeVanillaLi
             parent.forceY(node, y);
             node.setPrefWidth(entryWidth);
             node.setPrefHeight(entryHeight);
-            node.render(RenderContext.of(matrices, mouseX, mouseY, tickDelta));
+            node.render(matrices, mouseX, mouseY, tickDelta);
         }
     }
 }

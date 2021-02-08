@@ -1,7 +1,6 @@
 package com.github.franckyi.guapi.hooks.impl.theme.vanilla;
 
 import com.github.franckyi.guapi.event.*;
-import com.github.franckyi.guapi.hooks.api.RenderContext;
 import com.github.franckyi.guapi.hooks.api.theme.vanilla.VanillaDelegatedRenderer;
 import com.github.franckyi.guapi.node.ListView;
 import com.github.franckyi.guapi.node.Node;
@@ -159,7 +158,7 @@ public class FabricVanillaListViewRenderer<E> extends EntryListWidget<FabricVani
             parent.forceY(node, y);
             node.setPrefWidth(entryWidth);
             node.setPrefHeight(entryHeight);
-            node.render(RenderContext.of(matrices, mouseX, mouseY, tickDelta));
+            node.render(matrices, mouseX, mouseY, tickDelta);
         }
     }
 }

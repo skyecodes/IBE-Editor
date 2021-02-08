@@ -6,7 +6,6 @@ import com.github.franckyi.gamehooks.GameHooks;
 import com.github.franckyi.guapi.GUAPI;
 import com.github.franckyi.guapi.Renderable;
 import com.github.franckyi.guapi.event.*;
-import com.github.franckyi.guapi.hooks.api.RenderContext;
 import com.github.franckyi.guapi.util.Insets;
 import org.lwjgl.glfw.GLFW;
 
@@ -182,9 +181,10 @@ public class Scene implements ScreenEventHandler, Parent, Renderable {
         return activePropertyReadOnly;
     }
 
-    public void render(RenderContext<?> ctx) {
+    @Override
+    public void render(Object matrices, int mouseX, int mouseY, float delta) {
         if (rootProperty().hasValue()) {
-            getRoot().render(ctx);
+            getRoot().render(matrices, mouseX, mouseY, delta);
         }
     }
 

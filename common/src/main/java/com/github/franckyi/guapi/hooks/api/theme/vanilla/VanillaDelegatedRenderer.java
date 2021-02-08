@@ -1,7 +1,6 @@
 package com.github.franckyi.guapi.hooks.api.theme.vanilla;
 
 import com.github.franckyi.guapi.event.*;
-import com.github.franckyi.guapi.hooks.api.RenderContext;
 import com.github.franckyi.guapi.hooks.api.theme.DelegatedRenderer;
 
 public interface VanillaDelegatedRenderer<M> extends DelegatedRenderer<M> {
@@ -77,10 +76,5 @@ public interface VanillaDelegatedRenderer<M> extends DelegatedRenderer<M> {
     @Override
     default void charTyped(TypeEvent event) {
         charTyped(event.getCharacter(), event.getModifiers());
-    }
-
-    @Override
-    default void render(RenderContext<M> ctx) {
-        render(ctx.getMatrices(), ctx.getMouseX(), ctx.getMouseY(), ctx.getDelta());
     }
 }

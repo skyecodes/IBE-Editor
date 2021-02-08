@@ -1,6 +1,5 @@
 package com.github.franckyi.guapi.hooks.impl;
 
-import com.github.franckyi.guapi.hooks.api.RenderContext;
 import com.github.franckyi.guapi.hooks.api.ScreenHandler;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
@@ -34,7 +33,7 @@ public final class FabricScreenHandler extends AbstractScreenHandler<Screen> {
             } else {
                 renderBackground(matrices);
             }
-            FabricScreenHandler.this.render(RenderContext.of(matrices, mouseX, mouseY, partialTicks));
+            FabricScreenHandler.this.render(matrices, mouseX, mouseY, partialTicks);
         }
 
         @Override

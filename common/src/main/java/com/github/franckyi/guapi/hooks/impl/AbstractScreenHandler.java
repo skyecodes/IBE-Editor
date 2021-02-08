@@ -6,7 +6,6 @@ import com.github.franckyi.databindings.factory.PropertyFactory;
 import com.github.franckyi.gamehooks.GameHooks;
 import com.github.franckyi.guapi.GUAPI;
 import com.github.franckyi.guapi.event.*;
-import com.github.franckyi.guapi.hooks.api.RenderContext;
 import com.github.franckyi.guapi.hooks.api.ScreenHandler;
 import com.github.franckyi.guapi.node.Scene;
 
@@ -78,9 +77,9 @@ public abstract class AbstractScreenHandler<T> implements ScreenHandler {
 
     protected abstract Consumer<T> getMinecraftScreenHandler();
 
-    public void render(RenderContext<?> ctx) {
+    public void render(Object matrices, int mouseX, int mouseY, float delta) {
         try {
-            getCurrentScene().render(ctx);
+            getCurrentScene().render(matrices, mouseX, mouseY, delta);
         } catch (Exception e) {
             GameHooks.logger().error(GUAPI.MARKER, "Error while rendering GUAPI Scene", e);
             hide();

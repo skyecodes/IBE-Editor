@@ -2,7 +2,6 @@ package com.github.franckyi.guapi.theme;
 
 import com.github.franckyi.guapi.event.ScreenEvent;
 import com.github.franckyi.guapi.event.ScreenEventType;
-import com.github.franckyi.guapi.hooks.api.RenderContext;
 import com.github.franckyi.guapi.hooks.api.theme.DelegatedRenderer;
 import com.github.franckyi.guapi.node.Node;
 
@@ -14,9 +13,9 @@ public abstract class DelegatedSkin<N extends Node> extends AbstractSkin<N> {
     }
 
     @Override
-    public void render(N node, RenderContext<?> ctx) {
-        super.render(node, ctx);
-        renderDelegate(ctx);
+    public void render(N node, Object matrices, int mouseX, int mouseY, float delta) {
+        super.render(node, matrices, mouseX, mouseY, delta);
+        renderDelegate(matrices, mouseX, mouseY, delta);
     }
 
     @Override
@@ -30,8 +29,8 @@ public abstract class DelegatedSkin<N extends Node> extends AbstractSkin<N> {
         type.onEvent(delegatedRenderer, event);
     }
 
-    protected <M> void renderDelegate(RenderContext<M> ctx) {
-        this.<M>getRendererDelegate().render(ctx);
+    protected <M> void renderDelegate(M matrices, int mouseX, int mouseY, float delta) {
+        this.<M>getRendererDelegate().render(matrices, mouseX, mouseY, delta);
     }
 
     @SuppressWarnings("unchecked")

@@ -6,7 +6,6 @@ import com.github.franckyi.guapi.EventTarget;
 import com.github.franckyi.guapi.GUAPI;
 import com.github.franckyi.guapi.Renderable;
 import com.github.franckyi.guapi.event.*;
-import com.github.franckyi.guapi.hooks.api.RenderContext;
 import com.github.franckyi.guapi.theme.Skin;
 import com.github.franckyi.guapi.util.Color;
 import com.github.franckyi.guapi.util.Insets;
@@ -390,9 +389,10 @@ public abstract class Node implements ScreenEventHandler, Renderable, EventTarge
         eventHandlerDelegate.removeListener(type, listener);
     }
 
-    public void render(RenderContext<?> ctx) {
+    @Override
+    public void render(Object matrices, int mouseX, int mouseY, float delta) {
         checkRender();
-        getSkin().render(this, ctx);
+        getSkin().render(this, matrices, mouseX, mouseY, delta);
     }
 
     public void tick() {
