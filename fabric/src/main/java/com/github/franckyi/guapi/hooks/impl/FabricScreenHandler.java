@@ -34,27 +34,7 @@ public final class FabricScreenHandler extends AbstractScreenHandler<Screen> {
             } else {
                 renderBackground(matrices);
             }
-            FabricScreenHandler.this.render(new RenderContext<MatrixStack>() {
-                @Override
-                public MatrixStack getMatrices() {
-                    return matrices;
-                }
-
-                @Override
-                public int getMouseX() {
-                    return mouseX;
-                }
-
-                @Override
-                public int getMouseY() {
-                    return mouseY;
-                }
-
-                @Override
-                public float getDelta() {
-                    return partialTicks;
-                }
-            });
+            FabricScreenHandler.this.render(RenderContext.of(matrices, mouseX, mouseY, partialTicks));
         }
 
         @Override

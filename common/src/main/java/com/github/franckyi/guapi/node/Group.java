@@ -64,17 +64,23 @@ public abstract class Group extends Node implements Parent {
 
     @Override
     public int getMaxChildrenWidth() {
-        if (getMaxWidth() != INFINITE_SIZE) return getMaxWidth() - getPadding().getHorizontal();
-        if (getPrefWidth() != COMPUTED_SIZE) return getPrefWidth() - getPadding().getHorizontal();
-        if (!parentProperty().hasValue()) return Parent.super.getMaxChildrenWidth();
+        if (getMaxWidth() != INFINITE_SIZE)
+            return getMaxWidth() - getPadding().getHorizontal();
+        if (getPrefWidth() != COMPUTED_SIZE)
+            return getPrefWidth() - getPadding().getHorizontal();
+        if (!parentProperty().hasValue())
+            return Parent.super.getMaxChildrenWidth();
         return getParent().getMaxChildrenWidth() - getPadding().getHorizontal();
     }
 
     @Override
     public int getMaxChildrenHeight() {
-        if (getMaxHeight() != INFINITE_SIZE) return getMaxHeight() - getPadding().getVertical();
-        if (getPrefHeight() != COMPUTED_SIZE) return getPrefHeight() - getPadding().getVertical();
-        if (!parentProperty().hasValue()) return Parent.super.getMaxChildrenHeight();
+        if (getMaxHeight() != INFINITE_SIZE)
+            return getMaxHeight() - getPadding().getVertical();
+        if (getPrefHeight() != COMPUTED_SIZE)
+            return getPrefHeight() - getPadding().getVertical();
+        if (!parentProperty().hasValue())
+            return Parent.super.getMaxChildrenHeight();
         return getParent().getMaxChildrenHeight() - getPadding().getVertical();
     }
 

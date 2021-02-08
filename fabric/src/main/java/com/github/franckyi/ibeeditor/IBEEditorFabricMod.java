@@ -6,9 +6,11 @@ import com.github.franckyi.gamehooks.impl.FabricServerHooks;
 import com.github.franckyi.guapi.hooks.impl.FabricScreenHandler;
 import com.github.franckyi.guapi.hooks.impl.theme.vanilla.FabricVanillaButtonRenderer;
 import com.github.franckyi.guapi.hooks.impl.theme.vanilla.FabricVanillaCheckBoxRenderer;
+import com.github.franckyi.guapi.hooks.impl.theme.vanilla.FabricVanillaListViewRenderer;
 import com.github.franckyi.guapi.hooks.impl.theme.vanilla.FabricVanillaTextFieldRenderer;
 import com.github.franckyi.guapi.node.Button;
 import com.github.franckyi.guapi.node.CheckBox;
+import com.github.franckyi.guapi.node.ListView;
 import com.github.franckyi.guapi.node.TextField;
 import com.github.franckyi.guapi.theme.vanilla.VanillaTheme;
 import net.fabricmc.api.ClientModInitializer;
@@ -28,6 +30,7 @@ public final class IBEEditorFabricMod implements ModInitializer, ClientModInitia
         VanillaTheme.INSTANCE.registerDelegatedSkinProvider(Button.class, FabricVanillaButtonRenderer::new);
         VanillaTheme.INSTANCE.registerDelegatedSkinProvider(TextField.class, FabricVanillaTextFieldRenderer::new);
         VanillaTheme.INSTANCE.registerDelegatedSkinProvider(CheckBox.class, FabricVanillaCheckBoxRenderer::new);
+        VanillaTheme.INSTANCE.registerDelegatedSkinProvider(ListView.class, FabricVanillaListViewRenderer::new);
         ClientTickEvents.END_CLIENT_TICK.register(mc -> IBEEditorClient.tick());
     }
 

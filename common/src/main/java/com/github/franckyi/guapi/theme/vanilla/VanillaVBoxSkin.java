@@ -1,23 +1,13 @@
 package com.github.franckyi.guapi.theme.vanilla;
 
-import com.github.franckyi.guapi.hooks.api.RenderContext;
 import com.github.franckyi.guapi.node.Node;
 import com.github.franckyi.guapi.node.VBox;
-import com.github.franckyi.guapi.theme.AbstractSkin;
 import com.github.franckyi.guapi.theme.Skin;
 
-public class VanillaVBoxSkin extends AbstractSkin<VBox> {
+public class VanillaVBoxSkin extends VanillaGroupSkin<VBox> {
     public static final Skin<VBox> INSTANCE = new VanillaVBoxSkin();
 
     private VanillaVBoxSkin() {
-    }
-
-    @Override
-    public void render(VBox node, RenderContext<?> ctx) {
-        super.render(node, ctx);
-        for (Node child : node.getChildren()) {
-            child.render(ctx);
-        }
     }
 
     @Override

@@ -34,27 +34,7 @@ public final class ForgeScreenHandler extends AbstractScreenHandler<Screen> {
             } else {
                 renderBackground(matrices);
             }
-            ForgeScreenHandler.this.render(new RenderContext<MatrixStack>() {
-                @Override
-                public MatrixStack getMatrices() {
-                    return matrices;
-                }
-
-                @Override
-                public int getMouseX() {
-                    return mouseX;
-                }
-
-                @Override
-                public int getMouseY() {
-                    return mouseY;
-                }
-
-                @Override
-                public float getDelta() {
-                    return partialTicks;
-                }
-            });
+            ForgeScreenHandler.this.render(RenderContext.of(matrices, mouseX, mouseY, partialTicks));
         }
 
         @Override

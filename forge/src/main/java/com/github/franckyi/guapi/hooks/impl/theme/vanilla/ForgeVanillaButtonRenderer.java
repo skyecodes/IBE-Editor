@@ -1,6 +1,5 @@
 package com.github.franckyi.guapi.hooks.impl.theme.vanilla;
 
-import com.github.franckyi.guapi.hooks.api.RenderContext;
 import com.github.franckyi.guapi.hooks.api.theme.vanilla.VanillaDelegatedRenderer;
 import com.github.franckyi.guapi.node.Button;
 import com.mojang.blaze3d.matrix.MatrixStack;
@@ -20,11 +19,6 @@ public class ForgeVanillaButtonRenderer extends net.minecraft.client.gui.widget.
         node.heightProperty().addListener(newVal -> height = newVal);
         node.textProperty().addListener(newVal -> setMessage(new StringTextComponent(node.getText())));
         node.disabledProperty().addListener(newVal -> active = !newVal);
-    }
-
-    @Override
-    public void render(RenderContext<MatrixStack> ctx) {
-        render(ctx.getMatrices(), ctx.getMouseX(), ctx.getMouseY(), ctx.getDelta());
     }
 
     @Override

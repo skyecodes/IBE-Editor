@@ -62,6 +62,8 @@ public abstract class Node implements ScreenEventHandler, Renderable, EventTarge
             .bindMap(Scene::activeProperty, null)
             .mapToBoolean(node -> node == Node.this);
 
+    private final IntegerProperty renderPriorityProperty = PropertyFactory.ofInteger();
+
     protected Skin<? super Node> skin;
     protected final ScreenEventHandler eventHandlerDelegate = new ScreenEventHandlerDelegate();
     protected boolean shouldComputeSize = true;
@@ -322,6 +324,18 @@ public abstract class Node implements ScreenEventHandler, Renderable, EventTarge
         return activeProperty;
     }
 
+    public int getRenderPriority() {
+        return renderPriorityProperty().getValue();
+    }
+
+    public IntegerProperty renderPriorityProperty() {
+        return renderPriorityProperty;
+    }
+
+    public void setRenderPriority(int value) {
+        renderPriorityProperty().setValue(value);
+    }
+
     public int getLeft() {
         return getX();
     }
@@ -347,6 +361,10 @@ public abstract class Node implements ScreenEventHandler, Renderable, EventTarge
             skin = GUAPI.getTheme().provideSkin(this);
         }
         return skin;
+    }
+
+    protected void resetSkin() {
+        skin = null;
     }
 
     @Override
@@ -417,8 +435,6 @@ public abstract class Node implements ScreenEventHandler, Renderable, EventTarge
         int width = getPrefWidth();
         if (width == COMPUTED_SIZE) {
             width = getComputedWidth();
-        } else {
-            width = Math.max(width, getComputedWidth());
         }
         width = Math.max(Math.min(width, getMaxWidth()), getMinWidth());
         if (parentProperty().hasValue()) {
@@ -431,8 +447,6 @@ public abstract class Node implements ScreenEventHandler, Renderable, EventTarge
         int height = getPrefHeight();
         if (height == COMPUTED_SIZE) {
             height = getComputedHeight();
-        } else {
-            height = Math.max(height, getComputedHeight());
         }
         height = Math.max(Math.min(height, getMaxHeight()), getMinHeight());
         if (parentProperty().hasValue()) {

@@ -8,7 +8,14 @@ import java.util.List;
 
 public interface ObservableList<E> extends List<E> {
     void addListener(ListChangeEvent.Listener<? super E> listener);
+
     void removeListener(ListChangeEvent.Listener<? super E> listener);
+
+    default ListChangeEvent.Listener<? super E> addListener(Runnable listener) {
+        ListChangeEvent.Listener<? super E> realListener = event -> listener.run();
+        addListener(realListener);
+        return realListener;
+    }
 
     @SuppressWarnings("unchecked")
     default boolean addAll(E... elements) {
@@ -31,16 +38,7 @@ public interface ObservableList<E> extends List<E> {
     }
 
     default void setAll(Collection<? extends E> c) {
-        int i = 0;
-        for (E e : c) {
-            if (i < size()) {
-                set(i++, e);
-            } else {
-                add(e);
-            }
-        }
-        for (; i < size(); i++) {
-            remove(i);
-        }
+        clear();
+        addAll(c);
     }
 }

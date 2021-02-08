@@ -13,5 +13,6 @@ public class VanillaTheme extends AbstractTheme {
         delegateSkinProvider(Button.class, VanillaButtonSkin::new);
         delegateSkinProvider(TextField.class, VanillaTextFieldSkin::new);
         delegateSkinProvider(CheckBox.class, VanillaCheckBoxSkin::new);
+        delegateSkinProvider(ListView.class, VanillaListViewSkin::new);
     }
 }

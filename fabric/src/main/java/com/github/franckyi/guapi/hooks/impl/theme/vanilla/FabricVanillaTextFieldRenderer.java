@@ -1,6 +1,5 @@
 package com.github.franckyi.guapi.hooks.impl.theme.vanilla;
 
-import com.github.franckyi.guapi.hooks.api.RenderContext;
 import com.github.franckyi.guapi.hooks.api.theme.vanilla.VanillaDelegatedRenderer;
 import com.github.franckyi.guapi.node.TextField;
 import net.minecraft.client.MinecraftClient;
@@ -26,13 +25,12 @@ public class FabricVanillaTextFieldRenderer extends TextFieldWidget implements V
         node.heightProperty().addListener(newVal -> height = newVal);
         node.disabledProperty().addListener(newVal -> active = !newVal);
         node.maxLengthProperty().addListener(this::setMaxLength);
-        node.textProperty().addListener(this::setText);
+        node.textProperty().addListener(text -> {
+            int cursor = getCursor();
+            setText(text);
+            setCursor(cursor);
+        });
         node.focusedProperty().addListener(this::setFocused);
-    }
-
-    @Override
-    public void render(RenderContext<MatrixStack> ctx) {
-        render(ctx.getMatrices(), ctx.getMouseX(), ctx.getMouseY(), ctx.getDelta());
     }
 
     @Override

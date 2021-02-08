@@ -1,8 +1,6 @@
 package com.github.franckyi.guapi.hooks.impl.theme.vanilla;
 
-import com.github.franckyi.guapi.hooks.api.RenderContext;
 import com.github.franckyi.guapi.hooks.api.theme.vanilla.VanillaDelegatedRenderer;
-import com.github.franckyi.guapi.node.Button;
 import com.github.franckyi.guapi.node.CheckBox;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.gui.widget.button.CheckboxButton;
@@ -22,11 +20,6 @@ public class ForgeVanillaCheckBoxRenderer extends CheckboxButton implements Vani
         node.textProperty().addListener(newVal -> setMessage(new StringTextComponent(node.getText())));
         node.checkedProperty().addListener(this::onPress);
         node.disabledProperty().addListener(newVal -> active = !newVal);
-    }
-
-    @Override
-    public void render(RenderContext<MatrixStack> ctx) {
-        render(ctx.getMatrices(), ctx.getMouseX(), ctx.getMouseY(), ctx.getDelta());
     }
 
     @Override

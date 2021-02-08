@@ -1,6 +1,5 @@
 package com.github.franckyi.guapi.hooks.impl.theme.vanilla;
 
-import com.github.franckyi.guapi.hooks.api.RenderContext;
 import com.github.franckyi.guapi.hooks.api.theme.vanilla.VanillaDelegatedRenderer;
 import com.github.franckyi.guapi.node.TextField;
 import com.mojang.blaze3d.matrix.MatrixStack;
@@ -28,11 +27,6 @@ public class ForgeVanillaTextFieldRenderer extends TextFieldWidget implements Va
         node.maxLengthProperty().addListener(this::setMaxStringLength);
         node.textProperty().addListener(this::setText);
         node.focusedProperty().addListener(this::setFocused);
-    }
-
-    @Override
-    public void render(RenderContext<MatrixStack> ctx) {
-        render(ctx.getMatrices(), ctx.getMouseX(), ctx.getMouseY(), ctx.getDelta());
     }
 
     @Override
