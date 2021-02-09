@@ -16,22 +16,22 @@ public abstract class AbstractTheme implements Theme {
         skinProviderMap.put(nodeClass, skinProvider);
     }
 
-    protected <N extends Node> void registerSkinInstance(Class<N> nodeClass, Skin<N> instance) {
+    protected <N extends Node> void registerSkinInstance(Class<N> nodeClass, Skin<? super N> instance) {
         registerSkinProvider(nodeClass, n -> instance);
     }
 
-    protected <N extends Node> void delegateSkinProvider(Class<N> nodeClass, DelegatedSkinProvider<N> delegatedSkinProvider) {
+    protected <N extends Node> void delegateSkinProvider(Class<N> nodeClass, DelegatedSkinProvider<? super N> delegatedSkinProvider) {
         delegatedSkinProviderMap.put(nodeClass, delegatedSkinProvider);
     }
 
-    public <N extends Node> void registerDelegatedSkinProvider(Class<N> nodeClass, DelegatedRendererProvider<N> delegatedRendererProvider) {
-        DelegatedSkinProvider<N> delegatedSkinProvider = getDelegatedSkinProvider(nodeClass);
+    public <N extends Node> void registerDelegatedSkinProvider(Class<N> nodeClass, DelegatedRendererProvider<? super N> delegatedRendererProvider) {
+        DelegatedSkinProvider<? super N> delegatedSkinProvider = getDelegatedSkinProvider(nodeClass);
         registerSkinProvider(nodeClass, n -> delegatedSkinProvider.provide(delegatedRendererProvider.provide(n)));
         delegatedSkinProviderMap.remove(nodeClass);
     }
 
     @SuppressWarnings("unchecked")
-    protected <N extends Node> DelegatedSkinProvider<N> getDelegatedSkinProvider(Class<N> nodeClass) {
+    protected <N extends Node> DelegatedSkinProvider<? super N> getDelegatedSkinProvider(Class<N> nodeClass) {
         DelegatedSkinProvider<N> delegatedSkinProvider = (DelegatedSkinProvider<N>) delegatedSkinProviderMap.get(nodeClass);
         if (delegatedSkinProvider == null) {
             throw new IllegalStateException("Skin of type " + nodeClass.getName() + " isn't delegated by Theme " + getClass().getName());
@@ -41,7 +41,7 @@ public abstract class AbstractTheme implements Theme {
 
     @Override
     @SuppressWarnings("unchecked")
-    public <N extends Node> Skin<N> provideSkin(N node) {
+    public <N extends Node> Skin<? super N> provideSkin(N node) {
         SkinProvider<N> provider = (SkinProvider<N>) skinProviderMap.get(node.getClass());
         if (provider == null) {
             throw new IllegalStateException("Skin of type " + node.getClass().getName() + " can't be provided by Theme " + getClass().getName());

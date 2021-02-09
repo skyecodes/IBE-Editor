@@ -16,6 +16,6 @@ public class VanillaTextFieldSkin extends DelegatedSkin<TextField> {
 
     @Override
     public int computeWidth(TextField node) {
-        return 200;
+        return 150;
     }
 }

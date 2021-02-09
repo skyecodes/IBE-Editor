@@ -99,10 +99,11 @@ public class IBEEditorClient {
                     "Property I", "Property J", "Property K", "Property L"
             );
             right.setRenderer(s -> {
-                HBox box = new HBox(20);
+                WeightedHBox box = new WeightedHBox(20);
                 box.getChildren().add(new Label(s));
                 box.getChildren().add(new TextField(s));
                 box.setAlignment(Align.Vertical.CENTER);
+                box.setWeight(box.getChildren().get(1), 2);
                 return box;
             });
             right.prefWidthProperty().bind(root.widthProperty().divide(3).multiply(2).substract(10));

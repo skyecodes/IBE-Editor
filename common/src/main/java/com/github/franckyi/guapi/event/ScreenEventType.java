@@ -18,7 +18,7 @@ public class ScreenEventType<E extends ScreenEvent> {
     public static final ScreenEventType<TypeEvent> CHAR_TYPED = new ScreenEventType<>("CHAR_TYPED", false, EventTarget::charTyped);
     public static final ScreenEventType<MouseEvent> MOUSE_MOVED = new ScreenEventType<>("MOUSE_MOVED", true, EventTarget::mouseMoved);
     public static final List<ScreenEventType<?>> VALUES = Arrays.asList(MOUSE_CLICKED, MOUSE_RELEASED,
-            MOUSE_DRAGGED, MOUSE_SCOLLED, KEY_PRESSED, KEY_RELEASED, CHAR_TYPED, MOUSE_MOVED, ACTION);
+            MOUSE_DRAGGED, MOUSE_SCOLLED, KEY_PRESSED, KEY_RELEASED, CHAR_TYPED, MOUSE_MOVED);
     private final String name;
     private final boolean mouseEvent;
     private final BiConsumer<EventTarget, E> onEvent;
