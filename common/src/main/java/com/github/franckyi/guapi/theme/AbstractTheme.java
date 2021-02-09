@@ -20,11 +20,11 @@ public abstract class AbstractTheme implements Theme {
         registerSkinProvider(nodeClass, n -> instance);
     }
 
-    protected <N extends Node> void delegateSkinProvider(Class<N> nodeClass, DelegatedSkinProvider<? super N> delegatedSkinProvider) {
+    protected <N extends Node> void delegateSkinRenderer(Class<N> nodeClass, DelegatedSkinProvider<? super N> delegatedSkinProvider) {
         delegatedSkinProviderMap.put(nodeClass, delegatedSkinProvider);
     }
 
-    public <N extends Node> void registerDelegatedSkinProvider(Class<N> nodeClass, DelegatedRendererProvider<? super N> delegatedRendererProvider) {
+    public <N extends Node> void registerDelegatedSkinRenderer(Class<N> nodeClass, DelegatedRendererProvider<? super N> delegatedRendererProvider) {
         DelegatedSkinProvider<? super N> delegatedSkinProvider = getDelegatedSkinProvider(nodeClass);
         registerSkinProvider(nodeClass, n -> delegatedSkinProvider.provide(delegatedRendererProvider.provide(n)));
         delegatedSkinProviderMap.remove(nodeClass);

@@ -27,10 +27,10 @@ public final class IBEEditorFabricMod implements ModInitializer, ClientModInitia
     @Override
     public void onInitializeClient() {
         IBEEditor.initClient(FabricClientHooks.INSTANCE, FabricScreenHandler.INSTANCE);
-        VanillaTheme.INSTANCE.registerDelegatedSkinProvider(Button.class, FabricVanillaButtonRenderer::new);
-        VanillaTheme.INSTANCE.registerDelegatedSkinProvider(TextField.class, FabricVanillaTextFieldRenderer::new);
-        VanillaTheme.INSTANCE.registerDelegatedSkinProvider(CheckBox.class, FabricVanillaCheckBoxRenderer::new);
-        VanillaTheme.INSTANCE.registerDelegatedSkinProvider(ListView.class, FabricVanillaListViewRenderer::new);
+        VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(Button.class, FabricVanillaButtonRenderer::new);
+        VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(TextField.class, FabricVanillaTextFieldRenderer::new);
+        VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(CheckBox.class, FabricVanillaCheckBoxRenderer::new);
+        VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(ListView.class, FabricVanillaListViewRenderer::new);
         ClientTickEvents.END_CLIENT_TICK.register(mc -> IBEEditorClient.tick());
     }
 

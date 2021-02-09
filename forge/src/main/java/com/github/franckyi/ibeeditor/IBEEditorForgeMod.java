@@ -35,10 +35,10 @@ public final class IBEEditorForgeMod {
 
     private void onClientInit(FMLClientSetupEvent event) {
         IBEEditor.initClient(ForgeClientHooks.INSTANCE, ForgeScreenHandler.INSTANCE);
-        VanillaTheme.INSTANCE.registerDelegatedSkinProvider(Button.class, ForgeVanillaButtonRenderer::new);
-        VanillaTheme.INSTANCE.registerDelegatedSkinProvider(TextField.class, ForgeVanillaTextFieldRenderer::new);
-        VanillaTheme.INSTANCE.registerDelegatedSkinProvider(CheckBox.class, ForgeVanillaCheckBoxRenderer::new);
-        VanillaTheme.INSTANCE.registerDelegatedSkinProvider(ListView.class, ForgeVanillaListViewRenderer::new);
+        VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(Button.class, ForgeVanillaButtonRenderer::new);
+        VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(TextField.class, ForgeVanillaTextFieldRenderer::new);
+        VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(CheckBox.class, ForgeVanillaCheckBoxRenderer::new);
+        VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(ListView.class, ForgeVanillaListViewRenderer::new);
         MinecraftForge.EVENT_BUS.addListener(this::onClientTick);
     }
 

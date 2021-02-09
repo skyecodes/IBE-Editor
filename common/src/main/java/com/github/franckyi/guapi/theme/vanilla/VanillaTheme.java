@@ -12,9 +12,9 @@ public class VanillaTheme extends AbstractTheme {
         registerSkinInstance(VBox.class, VanillaVBoxSkin.INSTANCE);
         registerSkinInstance(WeightedHBox.class, VanillaWeightedHBoxSkin.INSTANCE);
         registerSkinInstance(WeightedVBox.class, VanillaWeightedVBoxSkin.INSTANCE);
-        delegateSkinProvider(Button.class, VanillaButtonSkin::new);
-        delegateSkinProvider(TextField.class, VanillaTextFieldSkin::new);
-        delegateSkinProvider(CheckBox.class, VanillaCheckBoxSkin::new);
-        delegateSkinProvider(ListView.class, VanillaListViewSkin::new);
+        delegateSkinRenderer(Button.class, VanillaButtonSkin::new);
+        delegateSkinRenderer(TextField.class, VanillaTextFieldSkin::new);
+        delegateSkinRenderer(CheckBox.class, VanillaCheckBoxSkin::new);
+        delegateSkinRenderer(ListView.class, VanillaListViewSkin::new);
     }
 }
