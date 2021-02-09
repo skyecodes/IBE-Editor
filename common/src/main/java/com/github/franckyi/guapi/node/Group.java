@@ -36,12 +36,14 @@ public abstract class Group extends Node implements Parent {
     }
 
     @Override
-    protected void checkRender() {
-        super.checkRender();
+    public boolean checkRender() {
+        boolean res = super.checkRender();
         if (shouldUpdateChildrenPos) {
             updateChildrenPos();
             shouldUpdateChildrenPos = false;
+            res = true;
         }
+        return res;
     }
 
     public void shouldUpdateChildrenPos() {

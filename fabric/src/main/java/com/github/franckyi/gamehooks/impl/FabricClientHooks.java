@@ -1,9 +1,11 @@
 package com.github.franckyi.gamehooks.impl;
 
 import com.github.franckyi.gamehooks.api.ClientHooks;
+import com.github.franckyi.gamehooks.api.client.FontRenderer;
 import com.github.franckyi.gamehooks.api.client.KeyBinding;
-import com.github.franckyi.gamehooks.api.client.RendererHooks;
-import com.github.franckyi.gamehooks.impl.client.FabricRendererHooks;
+import com.github.franckyi.gamehooks.api.client.ShapeRenderer;
+import com.github.franckyi.gamehooks.impl.client.FabricFontRenderer;
+import com.github.franckyi.gamehooks.impl.client.FabricShapeRenderer;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.MinecraftClient;
 
@@ -14,8 +16,15 @@ public final class FabricClientHooks implements ClientHooks {
     }
 
     @Override
-    public RendererHooks renderer() {
-        return FabricRendererHooks.INSTANCE;
+    @SuppressWarnings("unchecked")
+    public FontRenderer<?, ?> fontRenderer() {
+        return FabricFontRenderer.INSTANCE;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public ShapeRenderer<?> shapeRenderer() {
+        return FabricShapeRenderer.INSTANCE;
     }
 
     @Override

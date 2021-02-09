@@ -198,6 +198,12 @@ public class Scene implements ScreenEventHandler, Parent, Renderable {
         }
     }
 
+    public void preRender() {
+        if (rootProperty().hasValue()) {
+            while (getRoot().preRender()) ;
+        }
+    }
+
     public void show() {
     }
 

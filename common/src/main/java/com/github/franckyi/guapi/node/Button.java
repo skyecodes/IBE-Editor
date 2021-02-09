@@ -1,19 +1,25 @@
 package com.github.franckyi.guapi.node;
 
+import com.github.franckyi.gamehooks.api.common.text.Text;
+
 public class Button extends Labeled {
     public Button() {
-        this("");
+        this(Text.EMPTY);
     }
 
     public Button(String text) {
+        this(Text.literal(text));
+    }
+
+    public Button(Text text) {
         super(text);
-        textProperty().addListener(this::shouldComputeSize);
+        labelProperty().addListener(this::shouldComputeSize);
     }
 
     @Override
     public String toString() {
         return "Button{" +
-                "text=" + getText() +
+                "text=" + getLabel() +
                 '}';
     }
 }

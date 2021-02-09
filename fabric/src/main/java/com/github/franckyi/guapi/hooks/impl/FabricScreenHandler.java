@@ -21,6 +21,8 @@ public final class FabricScreenHandler extends AbstractScreenHandler<Screen> {
     }
 
     private final class ScreenImpl extends Screen {
+        private boolean resizeFlag;
+
         protected ScreenImpl() {
             super(new LiteralText(""));
         }
@@ -45,6 +47,16 @@ public final class FabricScreenHandler extends AbstractScreenHandler<Screen> {
         public void init(MinecraftClient client, int width, int height) {
             super.init(client, width, height);
             FabricScreenHandler.this.updateSize(width, height);
+            if (!resizeFlag && currentSceneProperty().hasValue()) {
+                getCurrentScene().preRender();
+            }
+            resizeFlag = false;
+        }
+
+        @Override
+        public void resize(MinecraftClient client, int width, int height) {
+            resizeFlag = true;
+            super.resize(client, width, height);
         }
 
         @Override

@@ -11,7 +11,7 @@ public class VanillaCheckBoxSkin extends DelegatedSkin<CheckBox> {
 
     @Override
     public int computeWidth(CheckBox node) {
-        return font().getFontWidth(node.getText()) + 24;
+        return font().getFontWidth(node.getLabel()) + 24;
     }
 
     @Override

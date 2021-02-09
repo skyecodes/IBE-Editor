@@ -3,13 +3,13 @@ package com.github.franckyi.guapi.hooks.impl.theme.vanilla;
 import com.github.franckyi.guapi.hooks.api.theme.vanilla.VanillaDelegatedRenderer;
 import com.github.franckyi.guapi.node.Button;
 import com.mojang.blaze3d.matrix.MatrixStack;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.ITextComponent;
 
 public class ForgeVanillaButtonRenderer extends net.minecraft.client.gui.widget.button.Button implements VanillaDelegatedRenderer<MatrixStack> {
     private final Button node;
 
     public ForgeVanillaButtonRenderer(Button node) {
-        super(node.getX(), node.getY(), node.getWidth(), node.getHeight(), new StringTextComponent(node.getText()), button -> {
+        super(node.getX(), node.getY(), node.getWidth(), node.getHeight(), node.getLabelComponent(), button -> {
         });
         this.node = node;
         active = !node.isDisabled();
@@ -17,7 +17,7 @@ public class ForgeVanillaButtonRenderer extends net.minecraft.client.gui.widget.
         node.yProperty().addListener(newVal -> y = newVal);
         node.widthProperty().addListener(newVal -> width = newVal);
         node.heightProperty().addListener(newVal -> height = newVal);
-        node.textProperty().addListener(newVal -> setMessage(new StringTextComponent(node.getText())));
+        node.<ITextComponent>labelComponentProperty().addListener(this::setMessage);
         node.disabledProperty().addListener(newVal -> active = !newVal);
     }
 

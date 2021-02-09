@@ -3,7 +3,10 @@ package com.github.franckyi.ibeeditor;
 import com.github.franckyi.databindings.api.ObservableIntegerValue;
 import com.github.franckyi.gamehooks.GameHooks;
 import com.github.franckyi.gamehooks.api.client.KeyBinding;
+import com.github.franckyi.gamehooks.api.common.text.Text;
+import com.github.franckyi.gamehooks.api.common.text.TextFormatting;
 import com.github.franckyi.guapi.GUAPI;
+import com.github.franckyi.guapi.event.ScreenEventType;
 import com.github.franckyi.guapi.node.*;
 import com.github.franckyi.guapi.util.Align;
 import com.github.franckyi.guapi.util.Insets;
@@ -63,15 +66,17 @@ public class IBEEditorClient {
             Button done, cancel;
 
             top = new HBox();
-            top.getChildren().add(new Label("Editor"));
+            top.getChildren().add(new Label(Text.literal("Editor", TextFormatting.AQUA, TextFormatting.BOLD)));
             top.setAlignment(Align.Vertical.CENTER);
             top.setPrefHeight(20);
 
             bottom = new HBox(20);
-            done = new Button("Done");
+            done = new Button(Text.literal("Done", TextFormatting.GREEN));
             done.setPrefWidth(90);
-            cancel = new Button("Cancel");
+            done.addListener(ScreenEventType.MOUSE_CLICKED, e -> GUAPI.getScreenHandler().hide());
+            cancel = new Button(Text.literal("Cancel", TextFormatting.RED));
             cancel.setPrefWidth(90);
+            cancel.addListener(ScreenEventType.MOUSE_CLICKED, e -> GUAPI.getScreenHandler().hide());
             bottom.getChildren().addAll(done, cancel);
 
             ObservableIntegerValue mainHeight = root.heightProperty().substract(top.heightProperty()).substract(bottom.heightProperty()).substract(20);

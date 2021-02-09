@@ -1,8 +1,8 @@
 package com.github.franckyi.gamehooks.impl;
 
 import com.github.franckyi.gamehooks.api.CommonHooks;
-import com.github.franckyi.gamehooks.api.common.TextHooks;
-import com.github.franckyi.gamehooks.impl.common.ForgeTextHooks;
+import com.github.franckyi.gamehooks.api.common.text.TextFactory;
+import com.github.franckyi.gamehooks.impl.common.text.ForgeTextFactory;
 
 public final class ForgeCommonHooks implements CommonHooks {
     public static final CommonHooks INSTANCE = new ForgeCommonHooks();
@@ -12,7 +12,7 @@ public final class ForgeCommonHooks implements CommonHooks {
 
     @Override
     @SuppressWarnings("unchecked")
-    public TextHooks<?> text() {
-        return ForgeTextHooks.INSTANCE;
+    public TextFactory<?> text() {
+        return ForgeTextFactory.INSTANCE;
     }
 }

@@ -11,7 +11,7 @@ public class VanillaButtonSkin extends DelegatedSkin<Button> {
 
     @Override
     public int computeWidth(Button node) {
-        return Math.max(90, font().getFontWidth(node.getText()) + 20);
+        return Math.max(90, font().getFontWidth(node.getLabelComponent()) + 20);
     }
 
     @Override

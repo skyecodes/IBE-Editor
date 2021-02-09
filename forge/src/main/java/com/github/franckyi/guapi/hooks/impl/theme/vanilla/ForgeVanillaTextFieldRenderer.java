@@ -5,13 +5,13 @@ import com.github.franckyi.guapi.node.TextField;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.ITextComponent;
 
 public class ForgeVanillaTextFieldRenderer extends TextFieldWidget implements VanillaDelegatedRenderer<MatrixStack> {
     private final TextField node;
 
     public ForgeVanillaTextFieldRenderer(TextField node) {
-        super(Minecraft.getInstance().fontRenderer, node.getX(), node.getY(), node.getWidth(), node.getHeight(), StringTextComponent.EMPTY);
+        super(Minecraft.getInstance().fontRenderer, node.getX(), node.getY(), node.getWidth(), node.getHeight(), node.getLabelComponent());
         this.node = node;
         active = !node.isDisabled();
         setMaxStringLength(node.getMaxLength());
@@ -24,6 +24,7 @@ public class ForgeVanillaTextFieldRenderer extends TextFieldWidget implements Va
         node.widthProperty().addListener(newVal -> width = newVal);
         node.heightProperty().addListener(newVal -> height = newVal);
         node.disabledProperty().addListener(newVal -> active = !newVal);
+        node.<ITextComponent>labelComponentProperty().addListener(this::setMessage);
         node.maxLengthProperty().addListener(this::setMaxStringLength);
         node.textProperty().addListener(this::setText);
         node.focusedProperty().addListener(this::setFocused);

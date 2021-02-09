@@ -9,6 +9,15 @@ import java.util.stream.Collectors;
 
 public abstract class VanillaGroupSkin<N extends Group> extends AbstractSkin<N> {
     @Override
+    public boolean preRender(N node) {
+        boolean res = false;
+        for (Node child : node.getChildren()) {
+            res |= child.preRender();
+        }
+        return res;
+    }
+
+    @Override
     public void render(N node, Object matrices, int mouseX, int mouseY, float delta) {
         super.render(node, matrices, mouseX, mouseY, delta);
         for (Node child : node.getChildren().stream()

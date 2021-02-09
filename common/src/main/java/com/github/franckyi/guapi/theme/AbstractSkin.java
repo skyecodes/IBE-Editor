@@ -1,10 +1,5 @@
 package com.github.franckyi.guapi.theme;
 
-import com.github.franckyi.gamehooks.GameHooks;
-import com.github.franckyi.gamehooks.api.client.RendererHooks;
-import com.github.franckyi.gamehooks.api.client.renderer.FontHooks;
-import com.github.franckyi.gamehooks.api.client.renderer.ShapeHooks;
-import com.github.franckyi.gamehooks.api.common.TextHooks;
 import com.github.franckyi.guapi.GUAPI;
 import com.github.franckyi.guapi.event.ScreenEvent;
 import com.github.franckyi.guapi.event.ScreenEventType;
@@ -40,21 +35,5 @@ public abstract class AbstractSkin<N extends Node> implements Skin<N> {
     protected void renderBackground(N node, Object matrices) {
         shape().fillRectangle(matrices, node.getLeft(), node.getTop(),
                 node.getRight(), node.getBottom(), node.getBackgroundColor());
-    }
-
-    protected RendererHooks renderer() {
-        return GameHooks.client().renderer();
-    }
-
-    protected <M, T> FontHooks<M, T> font() {
-        return renderer().font();
-    }
-
-    protected <M> ShapeHooks<M> shape() {
-        return renderer().shape();
-    }
-
-    protected <T> TextHooks<T> text() {
-        return GameHooks.common().text();
     }
 }

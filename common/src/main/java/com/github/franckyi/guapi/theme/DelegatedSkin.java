@@ -13,6 +13,11 @@ public abstract class DelegatedSkin<N extends Node> extends AbstractSkin<N> {
     }
 
     @Override
+    public boolean preRender(N node) {
+        return delegatedRenderer.preRender();
+    }
+
+    @Override
     public void render(N node, Object matrices, int mouseX, int mouseY, float delta) {
         super.render(node, matrices, mouseX, mouseY, delta);
         renderDelegate(matrices, mouseX, mouseY, delta);

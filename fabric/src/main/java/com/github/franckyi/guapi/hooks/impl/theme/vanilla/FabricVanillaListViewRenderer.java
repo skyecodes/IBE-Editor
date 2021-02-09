@@ -46,16 +46,31 @@ public class FabricVanillaListViewRenderer<E> extends EntryListWidget<FabricVani
     }
 
     @Override
+    public boolean preRender() {
+        boolean res = checkRender();
+        for (NodeEntry entry : children()) {
+            res |= entry.node.preRender();
+        }
+        return res;
+    }
+
+    @Override
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+        checkRender();
+        super.render(matrices, mouseX, mouseY, delta);
+    }
+
+    protected boolean checkRender() {
+        boolean res = false;
         if (shouldRefreshSize) {
             refreshSize();
-            shouldRefreshSize = false;
+            res = true;
         }
         if (shouldRefreshList) {
             refreshList();
-            shouldRefreshList = false;
+            res = true;
         }
-        super.render(matrices, mouseX, mouseY, delta);
+        return res;
     }
 
     private void shouldRefreshSize() {
@@ -73,6 +88,7 @@ public class FabricVanillaListViewRenderer<E> extends EntryListWidget<FabricVani
         right = node.getRight();
         top = node.getTop();
         bottom = node.getBottom();
+        shouldRefreshSize = false;
     }
 
     private void refreshList() {
@@ -81,6 +97,7 @@ public class FabricVanillaListViewRenderer<E> extends EntryListWidget<FabricVani
                 .map(node.getRenderer()::getView)
                 .map(n -> new NodeEntry(node, n))
                 .forEach(this::addEntry);
+        shouldRefreshList = false;
     }
 
     @Override

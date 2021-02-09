@@ -4,13 +4,13 @@ import com.github.franckyi.guapi.hooks.api.theme.vanilla.VanillaDelegatedRendere
 import com.github.franckyi.guapi.node.Button;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 
 public class FabricVanillaButtonRenderer extends ButtonWidget implements VanillaDelegatedRenderer<MatrixStack> {
     private final Button node;
 
     public FabricVanillaButtonRenderer(Button node) {
-        super(node.getX(), node.getY(), node.getWidth(), node.getHeight(), new LiteralText(node.getText()), button -> {
+        super(node.getX(), node.getY(), node.getWidth(), node.getHeight(), node.getLabelComponent(), button -> {
         });
         this.node = node;
         active = !node.isDisabled();
@@ -18,7 +18,7 @@ public class FabricVanillaButtonRenderer extends ButtonWidget implements Vanilla
         node.yProperty().addListener(newVal -> y = newVal);
         node.widthProperty().addListener(newVal -> width = newVal);
         node.heightProperty().addListener(newVal -> height = newVal);
-        node.textProperty().addListener(newVal -> setMessage(new LiteralText(node.getText())));
+        node.<Text>labelComponentProperty().addListener(this::setMessage);
         node.disabledProperty().addListener(newVal -> active = !newVal);
     }
 

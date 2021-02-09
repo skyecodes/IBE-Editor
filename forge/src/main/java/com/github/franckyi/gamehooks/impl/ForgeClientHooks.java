@@ -1,9 +1,11 @@
 package com.github.franckyi.gamehooks.impl;
 
 import com.github.franckyi.gamehooks.api.ClientHooks;
+import com.github.franckyi.gamehooks.api.client.FontRenderer;
 import com.github.franckyi.gamehooks.api.client.KeyBinding;
-import com.github.franckyi.gamehooks.api.client.RendererHooks;
-import com.github.franckyi.gamehooks.impl.client.ForgeRendererHooks;
+import com.github.franckyi.gamehooks.api.client.ShapeRenderer;
+import com.github.franckyi.gamehooks.impl.client.ForgeFontRenderer;
+import com.github.franckyi.gamehooks.impl.client.ForgeShapeRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 
@@ -14,8 +16,15 @@ public final class ForgeClientHooks implements ClientHooks {
     }
 
     @Override
-    public RendererHooks renderer() {
-        return ForgeRendererHooks.INSTANCE;
+    @SuppressWarnings("unchecked")
+    public FontRenderer<?, ?> fontRenderer() {
+        return ForgeFontRenderer.INSTANCE;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public ShapeRenderer<?> shapeRenderer() {
+        return ForgeShapeRenderer.INSTANCE;
     }
 
     @Override

@@ -4,20 +4,20 @@ import com.github.franckyi.guapi.hooks.api.theme.vanilla.VanillaDelegatedRendere
 import com.github.franckyi.guapi.node.CheckBox;
 import net.minecraft.client.gui.widget.CheckboxWidget;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 
 public class FabricVanillaCheckBoxRenderer extends CheckboxWidget implements VanillaDelegatedRenderer<MatrixStack> {
     private final CheckBox node;
 
     public FabricVanillaCheckBoxRenderer(CheckBox node) {
-        super(node.getX(), node.getY(), node.getWidth(), node.getHeight(), new LiteralText(node.getText()), node.isChecked());
+        super(node.getX(), node.getY(), node.getWidth(), node.getHeight(), node.getLabelComponent(), node.isChecked());
         this.node = node;
         active = !node.isDisabled();
         node.xProperty().addListener(newVal -> x = newVal);
         node.yProperty().addListener(newVal -> y = newVal);
         node.widthProperty().addListener(newVal -> width = newVal);
         node.heightProperty().addListener(newVal -> height = newVal);
-        node.textProperty().addListener(newVal -> setMessage(new LiteralText(node.getText())));
+        node.<Text>labelComponentProperty().addListener(this::setMessage);
         node.checkedProperty().addListener(this::onPress);
         node.disabledProperty().addListener(newVal -> active = !newVal);
     }

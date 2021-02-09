@@ -378,6 +378,11 @@ public abstract class Node implements ScreenEventHandler, Renderable, EventTarge
         eventHandlerDelegate.removeListener(type, listener);
     }
 
+    public boolean preRender() {
+        boolean res = checkRender();
+        return res || getSkin().preRender(this);
+    }
+
     @Override
     public void render(Object matrices, int mouseX, int mouseY, float delta) {
         checkRender();
@@ -388,15 +393,17 @@ public abstract class Node implements ScreenEventHandler, Renderable, EventTarge
         getSkin().tick();
     }
 
-    protected void checkRender() {
+    public boolean checkRender() {
+        boolean res = false;
         if (shouldComputeSize) {
             computeSize();
-            shouldComputeSize = false;
+            res = true;
         }
         if (shouldUpdateSize) {
             updateSize();
-            shouldUpdateSize = false;
+            res = true;
         }
+        return res;
     }
 
     public void shouldComputeSize() {
@@ -414,6 +421,7 @@ public abstract class Node implements ScreenEventHandler, Renderable, EventTarge
     protected void computeSize() {
         computeWidth();
         computeHeight();
+        shouldComputeSize = false;
     }
 
     protected void shouldUpdateSize() {
@@ -447,6 +455,7 @@ public abstract class Node implements ScreenEventHandler, Renderable, EventTarge
     protected void updateSize() {
         updateWidth();
         updateHeight();
+        shouldUpdateSize = false;
     }
 
     private void updateParentWidth() {

@@ -5,13 +5,13 @@ import com.github.franckyi.guapi.node.TextField;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 
 public class FabricVanillaTextFieldRenderer extends TextFieldWidget implements VanillaDelegatedRenderer<MatrixStack> {
     private final TextField node;
 
     public FabricVanillaTextFieldRenderer(TextField node) {
-        super(MinecraftClient.getInstance().textRenderer, node.getX(), node.getY(), node.getWidth(), node.getHeight(), LiteralText.EMPTY);
+        super(MinecraftClient.getInstance().textRenderer, node.getX(), node.getY(), node.getWidth(), node.getHeight(), node.getLabelComponent());
         this.node = node;
         active = !node.isDisabled();
         setMaxLength(node.getMaxLength());
@@ -24,10 +24,11 @@ public class FabricVanillaTextFieldRenderer extends TextFieldWidget implements V
         node.widthProperty().addListener(newVal -> width = newVal);
         node.heightProperty().addListener(newVal -> height = newVal);
         node.disabledProperty().addListener(newVal -> active = !newVal);
+        node.<Text>labelComponentProperty().addListener(this::setMessage);
         node.maxLengthProperty().addListener(this::setMaxLength);
-        node.textProperty().addListener(text -> {
+        node.textProperty().addListener(newVal -> {
             int cursor = getCursor();
-            setText(text);
+            setText(newVal);
             setCursor(cursor);
         });
         node.focusedProperty().addListener(this::setFocused);

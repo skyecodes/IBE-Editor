@@ -1,15 +1,15 @@
-package com.github.franckyi.gamehooks.impl.client.renderer;
+package com.github.franckyi.gamehooks.impl.client;
 
-import com.github.franckyi.gamehooks.api.client.renderer.FontHooks;
+import com.github.franckyi.gamehooks.api.client.FontRenderer;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 
-public class FabricFontHooks implements FontHooks<MatrixStack, Text> {
-    public static final FontHooks<?, ?> INSTANCE = new FabricFontHooks();
+public class FabricFontRenderer implements FontRenderer<MatrixStack, Text> {
+    public static final FontRenderer<?, ?> INSTANCE = new FabricFontRenderer();
 
-    private FabricFontHooks() {
+    private FabricFontRenderer() {
     }
 
     private TextRenderer font() {
@@ -17,12 +17,12 @@ public class FabricFontHooks implements FontHooks<MatrixStack, Text> {
     }
 
     @Override
-    public int getFontHeight() {
+    public int getFontHeight(Text text) {
         return font().fontHeight;
     }
 
     @Override
-    public int getFontWidth(String text) {
+    public int getFontWidth(Text text) {
         return font().getWidth(text);
     }
 
@@ -33,10 +33,5 @@ public class FabricFontHooks implements FontHooks<MatrixStack, Text> {
         } else {
             font().draw(matrices, text, x, y, color);
         }
-    }
-
-    @Override
-    public String trimToWidth(String text, int maxWidth) {
-        return font().trimToWidth(text, maxWidth);
     }
 }

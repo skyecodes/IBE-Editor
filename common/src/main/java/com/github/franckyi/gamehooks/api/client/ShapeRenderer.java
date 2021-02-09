@@ -1,6 +1,6 @@
-package com.github.franckyi.gamehooks.api.client.renderer;
+package com.github.franckyi.gamehooks.api.client;
 
-public interface ShapeHooks<M> {
+public interface ShapeRenderer<M> {
     void fillRectangle(M matrices, int x0, int y0, int x1, int y1, int color);
 
     default void drawVLine(M matrices, int x, int y0, int y1, int color) {

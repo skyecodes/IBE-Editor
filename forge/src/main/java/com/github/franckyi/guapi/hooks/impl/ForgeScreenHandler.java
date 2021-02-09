@@ -21,6 +21,8 @@ public final class ForgeScreenHandler extends AbstractScreenHandler<Screen> {
     }
 
     private final class ScreenImpl extends Screen {
+        private boolean resizeFlag;
+
         protected ScreenImpl() {
             super(new StringTextComponent(""));
         }
@@ -45,6 +47,16 @@ public final class ForgeScreenHandler extends AbstractScreenHandler<Screen> {
         public void init(Minecraft client, int width, int height) {
             super.init(client, width, height);
             ForgeScreenHandler.this.updateSize(width, height);
+            if (!resizeFlag && currentSceneProperty().hasValue()) {
+                getCurrentScene().preRender();
+            }
+            resizeFlag = false;
+        }
+
+        @Override
+        public void resize(Minecraft client, int width, int height) {
+            resizeFlag = true;
+            super.resize(client, width, height);
         }
 
         @Override
