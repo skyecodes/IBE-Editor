@@ -2,7 +2,7 @@ package com.github.franckyi.ibeeditor;
 
 import com.github.franckyi.databindings.api.ObservableIntegerValue;
 import com.github.franckyi.gamehooks.GameHooks;
-import com.github.franckyi.gamehooks.api.client.KeyBindingHooks;
+import com.github.franckyi.gamehooks.api.client.KeyBinding;
 import com.github.franckyi.guapi.GUAPI;
 import com.github.franckyi.guapi.node.*;
 import com.github.franckyi.guapi.util.Align;
@@ -12,13 +12,13 @@ import org.apache.logging.log4j.MarkerManager;
 import org.lwjgl.glfw.GLFW;
 
 public class IBEEditorClient {
-    private static KeyBindingHooks.KeyBinding editorKey;
-    private static KeyBindingHooks.KeyBinding testingKey;
+    private static KeyBinding editorKey;
+    private static KeyBinding testingKey;
     private static final Marker MARKER = MarkerManager.getMarker("Client");
 
     public static void init() {
-        editorKey = GameHooks.client().keyBindings().register("ibeeditor.key.editor", GLFW.GLFW_KEY_I, "ibeeditor.category");
-        testingKey = GameHooks.client().keyBindings().register("Testing", GLFW.GLFW_KEY_J, "ibeeditor.category");
+        editorKey = GameHooks.client().registerKeyBinding("ibeeditor.key.editor", GLFW.GLFW_KEY_I, "ibeeditor.category");
+        testingKey = GameHooks.client().registerKeyBinding("Testing", GLFW.GLFW_KEY_J, "ibeeditor.category");
     }
 
     public static void tick() {

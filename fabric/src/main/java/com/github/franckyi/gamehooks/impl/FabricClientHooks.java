@@ -1,10 +1,10 @@
 package com.github.franckyi.gamehooks.impl;
 
 import com.github.franckyi.gamehooks.api.ClientHooks;
-import com.github.franckyi.gamehooks.api.client.KeyBindingHooks;
+import com.github.franckyi.gamehooks.api.client.KeyBinding;
 import com.github.franckyi.gamehooks.api.client.RendererHooks;
-import com.github.franckyi.gamehooks.impl.client.FabricKeyBindingHooks;
 import com.github.franckyi.gamehooks.impl.client.FabricRendererHooks;
+import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.MinecraftClient;
 
 public final class FabricClientHooks implements ClientHooks {
@@ -19,8 +19,10 @@ public final class FabricClientHooks implements ClientHooks {
     }
 
     @Override
-    public KeyBindingHooks keyBindings() {
-        return FabricKeyBindingHooks.INSTANCE;
+    public KeyBinding registerKeyBinding(String name, int keyCode, String category) {
+        net.minecraft.client.options.KeyBinding keyBinding = KeyBindingHelper.registerKeyBinding(
+                new net.minecraft.client.options.KeyBinding(name, keyCode, category));
+        return keyBinding::wasPressed;
     }
 
     @Override
