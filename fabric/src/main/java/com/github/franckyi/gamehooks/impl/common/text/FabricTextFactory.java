@@ -9,7 +9,7 @@ import net.minecraft.util.Formatting;
 import java.util.stream.Stream;
 
 public class FabricTextFactory implements TextFactory<net.minecraft.text.Text> {
-    public static final TextFactory<?> INSTANCE = new FabricTextFactory();
+    public static final TextFactory<net.minecraft.text.Text> INSTANCE = new FabricTextFactory();
 
     private FabricTextFactory() {
     }

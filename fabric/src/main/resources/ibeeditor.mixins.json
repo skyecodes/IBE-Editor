@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.github.franckyi.ibeeditor.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "client": [
+    "HandledScreenMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
