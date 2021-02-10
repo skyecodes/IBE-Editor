@@ -30,8 +30,6 @@ public class FabricVanillaListViewRenderer<E> extends EntryListWidget<FabricVani
         node.fullWidthProperty().addListener(rs);
         node.fullHeightProperty().addListener(rs);
         node.getItems().addListener(this::shouldRefreshList);
-        //method_31322(false); // draw darker background
-        //method_31323(false); // draw shadows on top & bottom
     }
 
     @Override
@@ -50,33 +48,15 @@ public class FabricVanillaListViewRenderer<E> extends EntryListWidget<FabricVani
     }
 
     @Override
-    public boolean preRender() {
-        boolean res = checkRender();
-        for (NodeEntry entry : children()) {
-            res |= entry.node.preRender();
-        }
-        return res;
-    }
-
-    @Override
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        checkRender();
-        super.render(matrices, mouseX, mouseY, delta);
-    }
-
-    protected boolean checkRender() {
-        boolean res = false;
         if (shouldRefreshSize) {
             refreshSize();
-            res = true;
         }
         if (shouldRefreshList) {
             refreshList();
-            res = true;
         }
-        return res;
+        super.render(matrices, mouseX, mouseY, delta);
     }
-
     private void shouldRefreshSize() {
         this.shouldRefreshSize = true;
     }
