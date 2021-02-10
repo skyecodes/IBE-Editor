@@ -12,7 +12,7 @@ buildscript {
     }
 }
 plugins {
-	id 'java'
+    id 'java'
 }
 
 group = "com.github.franckyi"
@@ -31,7 +31,7 @@ static boolean isWindows() {
 static void deleteDir(File file) {
     File[] contents = file.listFiles()
     if (contents != null)
-        for (File f: contents)
+        for (File f : contents)
             if (!Files.isSymbolicLink(f.toPath()))
                 deleteDir(f)
     file.delete()
@@ -91,7 +91,7 @@ void copyFiles(String dir) {
     println("Copying $dir files...")
     File devOutDir = new File("$buildDir/libs/$dir")
     devOutDir.mkdirs()
-    String inDirPath = isWindows() ? buildscript.sourceFile.getParentFile().getPath().toString()+"\\"+dir : dir
+    String inDirPath = isWindows() ? buildscript.sourceFile.getParentFile().getPath().toString() + "\\" + dir : dir
     File inDir = new File("$inDirPath/build/libs")
     inDir.listFiles().each { file ->
         File outFile = new File(devOutDir, file.getName())

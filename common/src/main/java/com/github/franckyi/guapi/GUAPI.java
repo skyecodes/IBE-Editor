@@ -1,11 +1,11 @@
 package com.github.franckyi.guapi;
 
+import com.github.franckyi.databindings.PropertyFactory;
 import com.github.franckyi.databindings.api.ObjectProperty;
-import com.github.franckyi.databindings.factory.PropertyFactory;
 import com.github.franckyi.gamehooks.GameHooks;
-import com.github.franckyi.guapi.hooks.api.ScreenHandler;
-import com.github.franckyi.guapi.theme.Theme;
-import com.github.franckyi.guapi.theme.vanilla.VanillaTheme;
+import com.github.franckyi.guapi.api.ScreenHandler;
+import com.github.franckyi.guapi.api.theme.Theme;
+import com.github.franckyi.guapi.impl.theme.vanilla.VanillaTheme;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
 

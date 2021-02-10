@@ -4,16 +4,9 @@ import com.github.franckyi.gamehooks.impl.FabricClientHooks;
 import com.github.franckyi.gamehooks.impl.FabricCommonHooks;
 import com.github.franckyi.gamehooks.impl.FabricServerHooks;
 import com.github.franckyi.gamehooks.impl.client.FabricScreen;
-import com.github.franckyi.guapi.hooks.impl.FabricScreenHandler;
-import com.github.franckyi.guapi.hooks.impl.theme.vanilla.FabricVanillaButtonRenderer;
-import com.github.franckyi.guapi.hooks.impl.theme.vanilla.FabricVanillaCheckBoxRenderer;
-import com.github.franckyi.guapi.hooks.impl.theme.vanilla.FabricVanillaListViewRenderer;
-import com.github.franckyi.guapi.hooks.impl.theme.vanilla.FabricVanillaTextFieldRenderer;
-import com.github.franckyi.guapi.node.Button;
-import com.github.franckyi.guapi.node.CheckBox;
-import com.github.franckyi.guapi.node.ListView;
-import com.github.franckyi.guapi.node.TextField;
-import com.github.franckyi.guapi.theme.vanilla.VanillaTheme;
+import com.github.franckyi.guapi.impl.FabricScreenHandler;
+import com.github.franckyi.guapi.impl.theme.vanilla.*;
+import com.github.franckyi.guapi.util.NodeType;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.DedicatedServerModInitializer;
 import net.fabricmc.api.ModInitializer;
@@ -33,10 +26,10 @@ public final class IBEEditorFabricMod implements ModInitializer, ClientModInitia
     @Override
     public void onInitializeClient() {
         IBEEditor.initClient(FabricClientHooks.INSTANCE, FabricScreenHandler.INSTANCE);
-        VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(Button.class, FabricVanillaButtonRenderer::new);
-        VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(TextField.class, FabricVanillaTextFieldRenderer::new);
-        VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(CheckBox.class, FabricVanillaCheckBoxRenderer::new);
-        VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(ListView.class, FabricVanillaListViewRenderer::new);
+        VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(NodeType.BUTTON, FabricVanillaButtonRenderer::new);
+        VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(NodeType.TEXTFIELD, FabricVanillaTextFieldRenderer::new);
+        VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(NodeType.CHECKBOX, FabricVanillaCheckBoxRenderer::new);
+        VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(NodeType.LISTVIEW, FabricVanillaListViewRenderer::new);
         ClientTickEvents.END_CLIENT_TICK.register(mc -> IBEEditorClient.tick());
         ScreenEvents.AFTER_INIT.register(this::afterScreenInit);
     }

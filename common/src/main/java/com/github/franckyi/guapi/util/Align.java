@@ -1,6 +1,6 @@
 package com.github.franckyi.guapi.util;
 
-import com.github.franckyi.guapi.node.Node;
+import com.github.franckyi.guapi.api.node.Node;
 
 public enum Align {
     TOP_LEFT(Vertical.TOP, Horizontal.LEFT),

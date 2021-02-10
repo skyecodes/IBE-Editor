@@ -7,9 +7,9 @@ public final class Color {
 
     public static int rgba(int r, int g, int b, int a) {
         checkValues(r, g, b, a);
-        return (a & 0xff) << 24  |
+        return (a & 0xff) << 24 |
                 (r & 0xff) << 16 |
-                (g & 0xff) << 8  |
+                (g & 0xff) << 8 |
                 b & 0xff;
     }
 

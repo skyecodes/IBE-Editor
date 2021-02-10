@@ -2,7 +2,7 @@ package com.github.franckyi.databindings.impl;
 
 import com.github.franckyi.databindings.api.ObservableValue;
 import com.github.franckyi.databindings.api.Property;
-import com.github.franckyi.databindings.event.PropertyChangeListener;
+import com.github.franckyi.databindings.api.event.PropertyChangeListener;
 
 public abstract class AbstractReadOnlyProperty<T> implements ObservableValue<T> {
     protected final Property<T> property;

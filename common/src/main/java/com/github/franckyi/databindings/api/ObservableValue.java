@@ -1,7 +1,7 @@
 package com.github.franckyi.databindings.api;
 
-import com.github.franckyi.databindings.event.PropertyChangeListener;
-import com.github.franckyi.databindings.factory.MappingFactory;
+import com.github.franckyi.databindings.MappingFactory;
+import com.github.franckyi.databindings.api.event.PropertyChangeListener;
 
 import java.util.Objects;
 import java.util.function.BiFunction;

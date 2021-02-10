@@ -2,7 +2,6 @@
   "schemaVersion": 1,
   "id": "ibeeditor",
   "version": "${version}",
-
   "name": "IBE Editor",
   "description": "Simple GUI Mod to edit an item, a block or an entity in your current world",
   "authors": [
@@ -12,10 +11,8 @@
     "homepage": "https://www.curseforge.com/minecraft/mc-mods/ibe-editor",
     "sources": "https://github.com/Franckyi/IBE-Editor"
   },
-
   "license": "MIT",
   "icon": "icon.png",
-
   "environment": "*",
   "entrypoints": {
     "main": [

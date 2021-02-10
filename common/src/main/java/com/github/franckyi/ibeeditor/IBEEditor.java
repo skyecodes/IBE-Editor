@@ -5,7 +5,7 @@ import com.github.franckyi.gamehooks.api.ClientHooks;
 import com.github.franckyi.gamehooks.api.CommonHooks;
 import com.github.franckyi.gamehooks.api.ServerHooks;
 import com.github.franckyi.guapi.GUAPI;
-import com.github.franckyi.guapi.hooks.api.ScreenHandler;
+import com.github.franckyi.guapi.api.ScreenHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.Marker;

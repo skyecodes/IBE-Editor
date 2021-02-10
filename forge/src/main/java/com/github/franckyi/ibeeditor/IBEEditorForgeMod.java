@@ -1,31 +1,14 @@
 package com.github.franckyi.ibeeditor;
 
-import com.github.franckyi.gamehooks.GameHooks;
 import com.github.franckyi.gamehooks.impl.ForgeClientHooks;
 import com.github.franckyi.gamehooks.impl.ForgeCommonHooks;
 import com.github.franckyi.gamehooks.impl.ForgeServerHooks;
 import com.github.franckyi.gamehooks.impl.client.ForgeScreen;
-import com.github.franckyi.gamehooks.impl.common.ForgeBlock;
-import com.github.franckyi.gamehooks.impl.common.ForgeItem;
-import com.github.franckyi.guapi.hooks.impl.ForgeScreenHandler;
-import com.github.franckyi.guapi.hooks.impl.theme.vanilla.ForgeVanillaButtonRenderer;
-import com.github.franckyi.guapi.hooks.impl.theme.vanilla.ForgeVanillaCheckBoxRenderer;
-import com.github.franckyi.guapi.hooks.impl.theme.vanilla.ForgeVanillaListViewRenderer;
-import com.github.franckyi.guapi.hooks.impl.theme.vanilla.ForgeVanillaTextFieldRenderer;
-import com.github.franckyi.guapi.node.Button;
-import com.github.franckyi.guapi.node.CheckBox;
-import com.github.franckyi.guapi.node.ListView;
-import com.github.franckyi.guapi.node.TextField;
-import com.github.franckyi.guapi.theme.vanilla.VanillaTheme;
+import com.github.franckyi.guapi.impl.ForgeScreenHandler;
+import com.github.franckyi.guapi.impl.theme.vanilla.*;
+import com.github.franckyi.guapi.util.NodeType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
-import net.minecraft.client.gui.screen.inventory.CreativeScreen;
-import net.minecraft.client.gui.screen.inventory.InventoryScreen;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.Slot;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.EntityRayTraceResult;
-import net.minecraft.util.math.RayTraceResult;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
@@ -49,10 +32,10 @@ public final class IBEEditorForgeMod {
 
     private void onClientInit(FMLClientSetupEvent event) {
         IBEEditor.initClient(ForgeClientHooks.INSTANCE, ForgeScreenHandler.INSTANCE);
-        VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(Button.class, ForgeVanillaButtonRenderer::new);
-        VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(TextField.class, ForgeVanillaTextFieldRenderer::new);
-        VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(CheckBox.class, ForgeVanillaCheckBoxRenderer::new);
-        VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(ListView.class, ForgeVanillaListViewRenderer::new);
+        VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(NodeType.BUTTON, ForgeVanillaButtonRenderer::new);
+        VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(NodeType.TEXTFIELD, ForgeVanillaTextFieldRenderer::new);
+        VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(NodeType.CHECKBOX, ForgeVanillaCheckBoxRenderer::new);
+        VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(NodeType.LISTVIEW, ForgeVanillaListViewRenderer::new);
         MinecraftForge.EVENT_BUS.addListener(this::onClientTick);
         MinecraftForge.EVENT_BUS.addListener(this::onKeyPressed);
     }
@@ -62,7 +45,7 @@ public final class IBEEditorForgeMod {
     }
 
     private void onClientTick(TickEvent.ClientTickEvent e) {
-        if (e.phase == TickEvent.Phase.END) {
+        if (e.phase == TickEvent.Phase.END && Minecraft.getInstance().currentScreen == null) {
             IBEEditorClient.tick();
         }
     }

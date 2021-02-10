@@ -1,7 +1,8 @@
 package com.github.franckyi.databindings.impl;
 
 import com.github.franckyi.databindings.api.ObservableList;
-import com.github.franckyi.databindings.event.ListChangeEvent;
+import com.github.franckyi.databindings.api.event.ListChangeListener;
+import com.github.franckyi.databindings.impl.event.ListChangeEventImpl;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -12,17 +13,9 @@ import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 
 public class ObservableArrayList<E> extends ArrayList<E> implements ObservableList<E> {
-    protected final List<ListChangeEvent.Listener<? super E>> listeners = new ArrayList<>();
-
-    public ObservableArrayList(int initialCapacity) {
-        super(initialCapacity);
-    }
+    protected final List<ListChangeListener<? super E>> listeners = new ArrayList<>();
 
     public ObservableArrayList() {
-    }
-
-    public ObservableArrayList(Collection<? extends E> c) {
-        super(c);
     }
 
     @Override
@@ -30,7 +23,7 @@ public class ObservableArrayList<E> extends ArrayList<E> implements ObservableLi
         if (!canAdd(element)) return null;
         E removed = super.set(index, element);
         if (removed != element) {
-            notify(ListChangeEvent.<E>builder().replace(index, removed, element).build());
+            notify(ListChangeEventImpl.<E>builder().replace(index, removed, element).build());
         }
         return removed;
     }
@@ -39,7 +32,7 @@ public class ObservableArrayList<E> extends ArrayList<E> implements ObservableLi
     public boolean add(E e) {
         if (!canAdd(e)) return false;
         super.add(e);
-        notify(ListChangeEvent.<E>builder().add(size() - 1, e).build());
+        notify(ListChangeEventImpl.<E>builder().add(size() - 1, e).build());
         return true;
     }
 
@@ -47,13 +40,13 @@ public class ObservableArrayList<E> extends ArrayList<E> implements ObservableLi
     public void add(int index, E element) {
         if (!canAdd(element)) return;
         super.add(index, element);
-        notify(ListChangeEvent.<E>builder().add(index, element).build());
+        notify(ListChangeEventImpl.<E>builder().add(index, element).build());
     }
 
     @Override
     public E remove(int index) {
         E removed = super.remove(index);
-        notify(ListChangeEvent.<E>builder().remove(index, removed).build());
+        notify(ListChangeEventImpl.<E>builder().remove(index, removed).build());
         return removed;
     }
 
@@ -62,7 +55,7 @@ public class ObservableArrayList<E> extends ArrayList<E> implements ObservableLi
     public boolean remove(Object o) {
         int index = indexOf(o);
         if (index >= 0 && super.remove(o)) {
-            notify(ListChangeEvent.<E>builder().remove(index, (E) o).build());
+            notify(ListChangeEventImpl.<E>builder().remove(index, (E) o).build());
             return true;
         }
         return false;
@@ -70,7 +63,7 @@ public class ObservableArrayList<E> extends ArrayList<E> implements ObservableLi
 
     @Override
     public void clear() {
-        ListChangeEvent<E> event = ListChangeEvent.<E>builder().clear(this).build();
+        ListChangeEventImpl<E> event = ListChangeEventImpl.<E>builder().clear(this).build();
         super.clear();
         notify(event);
     }
@@ -80,7 +73,7 @@ public class ObservableArrayList<E> extends ArrayList<E> implements ObservableLi
         c = canAddAll(c);
         int initialSize = size();
         if (super.addAll(c)) {
-            notify(ListChangeEvent.<E>builder().addAll(initialSize, c).build());
+            notify(ListChangeEventImpl.<E>builder().addAll(initialSize, c).build());
             return true;
         }
         return false;
@@ -90,7 +83,7 @@ public class ObservableArrayList<E> extends ArrayList<E> implements ObservableLi
     public boolean addAll(int index, Collection<? extends E> c) {
         c = canAddAll(c);
         if (super.addAll(index, c)) {
-            notify(ListChangeEvent.<E>builder().addAll(index, c).build());
+            notify(ListChangeEventImpl.<E>builder().addAll(index, c).build());
             return true;
         }
         return false;
@@ -130,7 +123,7 @@ public class ObservableArrayList<E> extends ArrayList<E> implements ObservableLi
     public void replaceAll(UnaryOperator<E> operator) {
         List<E> copy = new ArrayList<>(this);
         super.replaceAll(operator);
-        ListChangeEvent.Builder<E> builder = ListChangeEvent.builder();
+        ListChangeEventImpl.Builder<E> builder = ListChangeEventImpl.builder();
         for (int i = 0; i < copy.size(); i++) {
             E oldValue = copy.get(i);
             E newValue = get(i);
@@ -138,19 +131,19 @@ public class ObservableArrayList<E> extends ArrayList<E> implements ObservableLi
                 builder.replace(i, oldValue, newValue);
             }
         }
-        ListChangeEvent<E> event = builder.build();
+        ListChangeEventImpl<E> event = builder.build();
         if (!event.getAllChanged().isEmpty()) {
             notify(event);
         }
     }
 
     @Override
-    public void addListener(ListChangeEvent.Listener<? super E> listener) {
+    public void addListener(ListChangeListener<? super E> listener) {
         listeners.add(listener);
     }
 
     @Override
-    public void removeListener(ListChangeEvent.Listener<? super E> listener) {
+    public void removeListener(ListChangeListener<? super E> listener) {
         listeners.remove(listener);
     }
 
@@ -163,7 +156,7 @@ public class ObservableArrayList<E> extends ArrayList<E> implements ObservableLi
     }
 
     protected void computeRemoved(List<E> copy) {
-        ListChangeEvent.Builder<E> builder = ListChangeEvent.builder();
+        ListChangeEventImpl.Builder<E> builder = ListChangeEventImpl.builder();
         int index = 0;
         for (int copyIndex = 0; copyIndex < copy.size(); copyIndex++) {
             E oldValue = copy.get(copyIndex);
@@ -177,7 +170,7 @@ public class ObservableArrayList<E> extends ArrayList<E> implements ObservableLi
         notify(builder.build());
     }
 
-    protected void notify(ListChangeEvent<E> event) {
+    protected void notify(ListChangeEventImpl<E> event) {
         listeners.forEach(listener -> listener.onChange(event));
     }
 

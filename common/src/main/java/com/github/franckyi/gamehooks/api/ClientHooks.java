@@ -23,5 +23,6 @@ public interface ClientHooks {
 
     Block blockMouseOver();
 
+    @Deprecated
     void unlockCursor();
 }
