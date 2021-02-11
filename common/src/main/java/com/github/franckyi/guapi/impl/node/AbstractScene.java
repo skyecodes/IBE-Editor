@@ -5,10 +5,10 @@ import com.github.franckyi.databindings.api.*;
 import com.github.franckyi.gamehooks.GameHooks;
 import com.github.franckyi.guapi.GUAPI;
 import com.github.franckyi.guapi.api.event.ScreenEvent;
-import com.github.franckyi.guapi.api.node.ScreenEventHandler;
 import com.github.franckyi.guapi.api.event.ScreenEventListener;
 import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.api.node.Scene;
+import com.github.franckyi.guapi.api.node.ScreenEventHandler;
 import com.github.franckyi.guapi.impl.event.MouseButtonEventImpl;
 import com.github.franckyi.guapi.impl.event.ScreenEventHandlerDelegate;
 import com.github.franckyi.guapi.util.Insets;
@@ -203,6 +203,16 @@ public abstract class AbstractScene implements Scene {
     @Override
     public ObservableValue<Boolean> disabledProperty() {
         return disabledProperty;
+    }
+
+    @Override
+    public int getMaxChildrenWidth() {
+        return getWidth() - getPadding().getHorizontal();
+    }
+
+    @Override
+    public int getMaxChildrenHeight() {
+        return getHeight() - getPadding().getVertical();
     }
 
     protected void updateChildrenPos() {

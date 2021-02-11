@@ -93,4 +93,14 @@ public abstract class AbstractListView<E> extends AbstractNode implements ListVi
     public void shouldUpdateChildren() {
         // children are automatically updated by the Skin implementation
     }
+
+    @Override
+    public int getMaxChildrenWidth() {
+        return getWidth() - getPadding().getHorizontal();
+    }
+
+    @Override
+    public int getMaxChildrenHeight() {
+        return getHeight() - getPadding().getVertical();
+    }
 }

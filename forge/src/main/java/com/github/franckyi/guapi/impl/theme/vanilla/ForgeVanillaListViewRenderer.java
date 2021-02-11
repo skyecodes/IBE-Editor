@@ -84,6 +84,7 @@ public class ForgeVanillaListViewRenderer<E> extends AbstractList<ForgeVanillaLi
         x1 = node.getRight();
         y0 = node.getTop();
         y1 = node.getBottom();
+        shouldRefreshSize = false;
     }
 
     private void refreshList() {
@@ -92,6 +93,7 @@ public class ForgeVanillaListViewRenderer<E> extends AbstractList<ForgeVanillaLi
                 .map(node.getRenderer()::getView)
                 .map(n -> new NodeEntry(node, n))
                 .forEach(this::addEntry);
+        shouldRefreshList = false;
     }
 
     @Override

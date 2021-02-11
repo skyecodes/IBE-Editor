@@ -80,7 +80,7 @@ public abstract class AbstractGroup extends AbstractNode implements Group {
         if (getPrefWidth() != COMPUTED_SIZE)
             return getPrefWidth() - getPadding().getHorizontal();
         if (!parentProperty().hasValue())
-            return Group.super.getMaxChildrenWidth();
+            return getWidth() - getPadding().getHorizontal();
         return getParent().getMaxChildrenWidth() - getPadding().getHorizontal();
     }
 
@@ -93,7 +93,7 @@ public abstract class AbstractGroup extends AbstractNode implements Group {
         if (getPrefHeight() != COMPUTED_SIZE)
             return getPrefHeight() - getPadding().getVertical();
         if (!parentProperty().hasValue())
-            return Group.super.getMaxChildrenHeight();
+            return getHeight() - getPadding().getVertical();
         return getParent().getMaxChildrenHeight() - getPadding().getVertical();
     }
 
