@@ -11,4 +11,8 @@ public interface GenericLabelBuilder<N extends Label> extends Label, GenericLabe
     default N shadow(boolean value) {
         return with(n -> n.setShadow(value));
     }
+
+    default N shadow() {
+        return shadow(true);
+    }
 }

@@ -12,19 +12,31 @@ public interface GenericListViewBuilder<E, N extends ListView<E>> extends ListVi
     }
 
     default N fullWidth(int value) {
-        return with(n -> n.setFullWidth(value));
+        return with(n -> {
+            n.fullWidthProperty().unbind();
+            n.setFullWidth(value);
+        });
     }
 
     default N fullHeight(int value) {
-        return with(n -> n.setFullHeight(value));
+        return with(n -> {
+            n.fullHeightProperty().unbind();
+            n.setFullHeight(value);
+        });
     }
 
     default N baseX(int value) {
-        return with(n -> n.setBaseX(value));
+        return with(n -> {
+            n.baseXProperty().unbind();
+            n.setBaseX(value);
+        });
     }
 
     default N baseY(int value) {
-        return with(n -> n.setBaseY(value));
+        return with(n -> {
+            n.baseYProperty().unbind();
+            n.setBaseY(value);
+        });
     }
 
     default N renderer(Renderer<E> value) {

@@ -59,6 +59,10 @@ public interface GenericNodeBuilder<N extends Node> extends Node, Builder<N> {
         return with(n -> n.setDisable(value));
     }
 
+    default N disable() {
+        return disable(true);
+    }
+
     default <E extends ScreenEvent> N listener(ScreenEventType<E> type, ScreenEventListener<E> listener) {
         return with(n -> n.addListener(type, listener));
     }

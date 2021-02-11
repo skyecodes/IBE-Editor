@@ -117,13 +117,13 @@ public class IBEEditorClient {
         );
 
         GUAPI.getScreenHandler().show(scene(scene -> {
-            scene.fullScreen(true)
-                .texturedBackground(true);
+            scene.fullScreen()
+                .texturedBackground();
             scene.add(vBox(root -> {
                 root.spacing(5)
                     .align(CENTER)
                     .padding(5)
-                    .fillWidth(true);
+                    .fillWidth();
                 root.add(label(header -> {
                     header.label("Editor", AQUA, BOLD)
                         .textAlign(CENTER)
@@ -147,12 +147,12 @@ public class IBEEditorClient {
                         right.renderer(item -> hBox(prop -> {
                             prop.spacing(10)
                                 .align(CENTER)
-                                .add(label(item, true), 1)
+                                .add(label(item).shadow(), 1)
                                 .add(textField(item), 2);
                         }));
                     }), 2);
                     main.spacing(10)
-                        .fillHeight(true);
+                        .fillHeight();
                 }), 1);
                 root.add(hBox(footer -> {
                     footer.spacing(20)

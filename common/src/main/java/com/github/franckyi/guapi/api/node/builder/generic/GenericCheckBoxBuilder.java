@@ -6,4 +6,8 @@ public interface GenericCheckBoxBuilder<N extends CheckBox> extends CheckBox, Ge
     default N checked(boolean value) {
         return with(n -> n.setChecked(value));
     }
+
+    default N checked() {
+        return checked(true);
+    }
 }
