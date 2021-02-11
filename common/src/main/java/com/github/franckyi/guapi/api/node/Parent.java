@@ -24,5 +24,5 @@ public interface Parent {
 
     void shouldComputeSize();
 
-    void shouldUpdateChildrenPos();
+    void shouldUpdateChildren();
 }

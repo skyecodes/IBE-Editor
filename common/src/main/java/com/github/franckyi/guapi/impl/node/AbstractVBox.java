@@ -1,7 +1,7 @@
 package com.github.franckyi.guapi.impl.node;
 
 import com.github.franckyi.databindings.PropertyFactory;
-import com.github.franckyi.databindings.api.IntegerProperty;
+import com.github.franckyi.databindings.api.BooleanProperty;
 import com.github.franckyi.databindings.api.ObjectProperty;
 import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.api.node.VBox;
@@ -11,9 +11,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 
-public abstract class AbstractVBox extends AbstractGroup implements VBox {
-    private final IntegerProperty spacingProperty = PropertyFactory.ofInteger();
-    private final ObjectProperty<Align.Horizontal> alignmentProperty = PropertyFactory.ofObject(Align.Horizontal.LEFT);
+public abstract class AbstractVBox extends AbstractSpacedGroup implements VBox {
+    private final BooleanProperty fillWidthProperty = PropertyFactory.ofBoolean();
 
     protected AbstractVBox() {
         this(0);
@@ -36,50 +35,42 @@ public abstract class AbstractVBox extends AbstractGroup implements VBox {
     }
 
     protected AbstractVBox(int spacing, Collection<? extends Node> children) {
-        super(children);
-        setSpacing(spacing);
-        spacingProperty().addListener(this::shouldComputeSize);
-        alignmentProperty().addListener(this::shouldUpdateChildrenPos);
+        super(spacing, children);
+        fillWidthProperty().addListener(this::shouldUpdateChildren);
     }
 
     @Override
-    public int getSpacing() {
-        return spacingProperty().getValue();
+    public boolean isFillWidth() {
+        return fillWidthProperty().getValue();
     }
 
     @Override
-    public IntegerProperty spacingProperty() {
-        return spacingProperty;
+    public BooleanProperty fillWidthProperty() {
+        return fillWidthProperty;
     }
 
     @Override
-    public void setSpacing(int value) {
-        spacingProperty().setValue(value);
+    public void setFillWidth(boolean value) {
+        fillWidthProperty().setValue(value);
     }
 
     @Override
-    public Align.Horizontal getAlignment() {
-        return alignmentProperty().getValue();
-    }
-
-    @Override
-    public ObjectProperty<Align.Horizontal> alignmentProperty() {
-        return alignmentProperty;
-    }
-
-    @Override
-    public void setAlignment(Align.Horizontal value) {
-        alignmentProperty().setValue(value);
-    }
-
-    @Override
-    protected void updateChildrenPos() {
-        int y = getY() + getPadding().getTop();
+    protected void updateChildren() {
+        updateChildrenSize();
+        int y = Align.getAlignedY(getAlignment().getVerticalAlign(), this, getComputedHeight() - getPadding().getVertical());
         for (Node child : getChildren()) {
-            int x = Align.getAlignedX(getAlignment(), this, child.getWidth());
+            int x = Align.getAlignedX(getAlignment().getHorizontalAlign(), this, child.getWidth());
             child.setX(x);
             child.setY(y);
             y += child.getHeight() + getSpacing();
+        }
+    }
+
+    protected void updateChildrenSize() {
+        if (isFillWidth()) {
+            getChildren().forEach(node -> node.setParentPrefWidth(getMaxChildrenWidth()));
+        } else {
+            getChildren().forEach(node -> node.setParentPrefWidth(NONE));
         }
     }
 }

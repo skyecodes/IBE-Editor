@@ -16,13 +16,13 @@ import java.util.stream.Collectors;
 public abstract class AbstractGroup extends AbstractNode implements Group {
     protected final ObservableList<Node> children = new ChildrenList();
 
-    protected boolean shouldUpdateChildrenPos = true;
+    protected boolean shouldUpdateChildren = true;
 
     protected AbstractGroup(Collection<? extends Node> children) {
-        getChildren().addListener(this::updateChildren);
+        getChildren().addListener(this::onChildrenChange);
         paddingProperty().addListener(this::shouldComputeSizeAndChildrenPos);
-        xProperty().addListener(this::shouldUpdateChildrenPos);
-        yProperty().addListener(this::shouldUpdateChildrenPos);
+        xProperty().addListener(this::shouldUpdateChildren);
+        yProperty().addListener(this::shouldUpdateChildren);
         widthProperty().addListener(this::shouldComputeSizeAndChildrenPos);
         heightProperty().addListener(this::shouldComputeSizeAndChildrenPos);
         getChildren().addAll(children);
@@ -42,20 +42,20 @@ public abstract class AbstractGroup extends AbstractNode implements Group {
     @Override
     public boolean checkRender() {
         boolean res = super.checkRender();
-        if (shouldUpdateChildrenPos) {
-            updateChildrenPos();
-            shouldUpdateChildrenPos = false;
+        if (shouldUpdateChildren) {
+            shouldUpdateChildren = false;
+            updateChildren();
             res = true;
         }
         return res;
     }
 
     @Override
-    public void shouldUpdateChildrenPos() {
-        shouldUpdateChildrenPos = true;
+    public void shouldUpdateChildren() {
+        shouldUpdateChildren = true;
     }
 
-    protected abstract void updateChildrenPos();
+    protected abstract void updateChildren();
 
     @Override
     public <E extends MouseEvent> void handleMouseEvent(ScreenEventType<E> type, E event) {
@@ -93,10 +93,12 @@ public abstract class AbstractGroup extends AbstractNode implements Group {
         return getParent().getMaxChildrenHeight() - getPadding().getVertical();
     }
 
-    private void updateChildren(ListChangeEvent<? extends Node> event) {
+    private void onChildrenChange(ListChangeEvent<? extends Node> event) {
         event.getRemoved(true).forEach(entry -> {
             if (entry.getValue().getParent() == AbstractGroup.this) {
                 entry.getValue().setParent(null);
+                entry.getValue().setParentPrefWidth(NONE);
+                entry.getValue().setParentPrefHeight(NONE);
             }
         });
         event.getAdded(true).forEach(entry -> entry.getValue().setParent(this));
@@ -105,7 +107,7 @@ public abstract class AbstractGroup extends AbstractNode implements Group {
 
     private void shouldComputeSizeAndChildrenPos() {
         this.shouldComputeSize();
-        this.shouldUpdateChildrenPos();
+        this.shouldUpdateChildren();
     }
 
     private static class ChildrenList extends ObservableArrayList<Node> {

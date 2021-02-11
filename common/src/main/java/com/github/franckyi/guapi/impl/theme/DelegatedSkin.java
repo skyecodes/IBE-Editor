@@ -13,14 +13,19 @@ public abstract class DelegatedSkin<N extends Node> extends AbstractSkin<N> {
     }
 
     @Override
-    public boolean preRender(N node) {
-        return delegatedRenderer.preRender();
+    public boolean preRender(N node, Object matrices, int mouseX, int mouseY, float delta) {
+        return preRenderDelegate(matrices, mouseX, mouseY, delta);
     }
 
     @Override
     public void render(N node, Object matrices, int mouseX, int mouseY, float delta) {
         super.render(node, matrices, mouseX, mouseY, delta);
         renderDelegate(matrices, mouseX, mouseY, delta);
+    }
+
+    @Override
+    public void postRender(N node, Object matrices, int mouseX, int mouseY, float delta) {
+        postRenderDelegate(matrices, mouseX, mouseY, delta);
     }
 
     @Override
@@ -34,8 +39,16 @@ public abstract class DelegatedSkin<N extends Node> extends AbstractSkin<N> {
         type.onEvent(delegatedRenderer, event);
     }
 
+    protected <M> boolean preRenderDelegate(M matrices, int mouseX, int mouseY, float delta) {
+        return this.<M>getRendererDelegate().preRender(matrices, mouseX, mouseY, delta);
+    }
+
     protected <M> void renderDelegate(M matrices, int mouseX, int mouseY, float delta) {
         this.<M>getRendererDelegate().render(matrices, mouseX, mouseY, delta);
+    }
+
+    protected <M> void postRenderDelegate(M matrices, int mouseX, int mouseY, float delta) {
+        this.<M>getRendererDelegate().postRender(matrices, mouseX, mouseY, delta);
     }
 
     @SuppressWarnings("unchecked")

@@ -12,13 +12,26 @@ public class LabelImpl extends AbstractLabel implements LabelBuilder {
         super(text);
     }
 
-    public LabelImpl(Text label) {
-        super(label);
+    public LabelImpl(Text text) {
+        super(text);
+    }
+
+    public LabelImpl(String text, boolean shadow) {
+        super(text, shadow);
+    }
+
+    public LabelImpl(Text label, boolean shadow) {
+        super(label, shadow);
     }
 
     @Override
     @SuppressWarnings("unchecked")
     protected NodeType<?> getType() {
         return NodeType.LABEL;
+    }
+
+    @Override
+    public String toString() {
+        return "Label{\"" + getLabel() + "\"}";
     }
 }

@@ -35,9 +35,6 @@ public interface VanillaDelegatedRenderer<M> extends DelegatedRenderer<M> {
         return false;
     }
 
-    default void render(M matrices, int mouseX, int mouseY, float delta) {
-    }
-
     @Override
     default void mouseMoved(MouseEvent event) {
         mouseMoved(event.getMouseX(), event.getMouseY());

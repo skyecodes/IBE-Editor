@@ -53,4 +53,9 @@ public final class Text {
     public static Text translated(String text, TextFormatting... formatting) {
         return new Text(text, true, null, formatting);
     }
+
+    @Override
+    public String toString() {
+        return text;
+    }
 }

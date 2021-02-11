@@ -48,15 +48,27 @@ public class FabricVanillaListViewRenderer<E> extends EntryListWidget<FabricVani
     }
 
     @Override
-    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+    public boolean preRender(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+        boolean res = false;
         if (shouldRefreshSize) {
             refreshSize();
+            res = true;
         }
         if (shouldRefreshList) {
             refreshList();
+            res = true;
         }
-        super.render(matrices, mouseX, mouseY, delta);
+        super.render(matrices, mouseX, mouseY, delta); // doing the actual rendering here to not hide the other elements
+        return res;
     }
+
+    @Override
+    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+        for (NodeEntry entry : children()) {
+            entry.node.postRender(matrices, mouseX, mouseY, delta);
+        }
+    }
+
     private void shouldRefreshSize() {
         this.shouldRefreshSize = true;
     }
@@ -158,6 +170,7 @@ public class FabricVanillaListViewRenderer<E> extends EntryListWidget<FabricVani
             node.setY(y);
             node.setPrefWidth(entryWidth);
             node.setPrefHeight(entryHeight);
+            node.preRender(matrices, mouseX, mouseY, tickDelta);
             node.render(matrices, mouseX, mouseY, tickDelta);
         }
     }

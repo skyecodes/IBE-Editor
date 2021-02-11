@@ -72,7 +72,7 @@ public abstract class AbstractLabeled extends AbstractControl implements Labeled
     }
 
     protected void updateLabelComponent() {
-        setLabelComponent(GameHooks.common().text().create(getLabel()));
         shouldUpdateLabelComponent = false;
+        setLabelComponent(GameHooks.common().text().create(getLabel()));
     }
 }

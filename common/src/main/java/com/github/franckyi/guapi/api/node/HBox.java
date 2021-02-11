@@ -1,4 +1,4 @@
 package com.github.franckyi.guapi.api.node;
 
-public interface HBox extends Group, Spaced, HorizontalParent {
+public interface HBox extends Group, SpacedGroup, HorizontalParent {
 }

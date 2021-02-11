@@ -35,4 +35,9 @@ public class HBoxImpl extends AbstractHBox implements HBoxBuilder {
     protected NodeType<?> getType() {
         return NodeType.HBOX;
     }
+
+    @Override
+    public String toString() {
+        return "HBox" + getChildren();
+    }
 }

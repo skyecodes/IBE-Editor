@@ -51,8 +51,6 @@ public interface Scene extends ScreenEventHandler, Parent, Renderable {
 
     void tick();
 
-    void preRender();
-
     void show();
 
     void hide();

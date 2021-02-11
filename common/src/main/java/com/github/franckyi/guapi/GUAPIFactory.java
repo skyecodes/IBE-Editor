@@ -73,6 +73,14 @@ public final class GUAPIFactory {
         return new LabelImpl(text);
     }
 
+    public static LabelBuilder label(String text, boolean shadow) {
+        return new LabelImpl(text, shadow);
+    }
+
+    public static LabelBuilder label(Text text, boolean shadow) {
+        return new LabelImpl(text, shadow);
+    }
+
     public static <E> ListViewBuilder<E> listView(int itemHeight) {
         return new ListViewImpl<>(itemHeight);
     }

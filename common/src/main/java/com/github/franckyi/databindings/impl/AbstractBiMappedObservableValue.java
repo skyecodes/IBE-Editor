@@ -50,4 +50,9 @@ public abstract class AbstractBiMappedObservableValue<T, X> implements Observabl
         a.removeListener(this);
         b.removeListener(this);
     }
+
+    @Override
+    public String toString() {
+        return res.toString();
+    }
 }

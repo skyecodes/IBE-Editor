@@ -1,8 +1,6 @@
 package com.github.franckyi.guapi.api.node.builder.generic;
 
-import com.github.franckyi.guapi.api.event.MouseButtonEvent;
-import com.github.franckyi.guapi.api.event.ScreenEvent;
-import com.github.franckyi.guapi.api.event.ScreenEventListener;
+import com.github.franckyi.guapi.api.event.*;
 import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.api.node.builder.Builder;
 import com.github.franckyi.guapi.util.Insets;
@@ -61,15 +59,39 @@ public interface GenericNodeBuilder<N extends Node> extends Node, Builder<N> {
         return with(n -> n.setDisable(value));
     }
 
-    default N renderPriority(int value) {
-        return with(n -> n.setRenderPriority(value));
-    }
-
     default <E extends ScreenEvent> N listener(ScreenEventType<E> type, ScreenEventListener<E> listener) {
         return with(n -> n.addListener(type, listener));
     }
 
     default N onClick(ScreenEventListener<MouseButtonEvent> listener) {
         return listener(ScreenEventType.MOUSE_CLICKED, listener);
+    }
+
+    default N onRelease(ScreenEventListener<MouseButtonEvent> listener) {
+        return listener(ScreenEventType.MOUSE_RELEASED, listener);
+    }
+
+    default N onDrag(ScreenEventListener<MouseDragEvent> listener) {
+        return listener(ScreenEventType.MOUSE_DRAGGED, listener);
+    }
+
+    default N onScroll(ScreenEventListener<MouseScrollEvent> listener) {
+        return listener(ScreenEventType.MOUSE_SCOLLED, listener);
+    }
+
+    default N onPress(ScreenEventListener<KeyEvent> listener) {
+        return listener(ScreenEventType.KEY_PRESSED, listener);
+    }
+
+    default N onKeyRelease(ScreenEventListener<KeyEvent> listener) {
+        return listener(ScreenEventType.KEY_RELEASED, listener);
+    }
+
+    default N onType(ScreenEventListener<TypeEvent> listener) {
+        return listener(ScreenEventType.CHAR_TYPED, listener);
+    }
+
+    default N onMove(ScreenEventListener<MouseEvent> listener) {
+        return listener(ScreenEventType.MOUSE_MOVED, listener);
     }
 }

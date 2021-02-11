@@ -41,14 +41,14 @@ public abstract class AbstractWeightedVBox extends AbstractVBox implements Weigh
         }
         Integer old = weightMap.put(node, value);
         if (old != null && old == value) {
-            shouldUpdateChildrenPos();
+            shouldUpdateChildren();
         }
     }
 
     @Override
     public void resetWeight(Node node) {
         if (weightMap.remove(node) != 1) {
-            shouldUpdateChildrenPos();
+            shouldUpdateChildren();
         }
     }
 
@@ -62,11 +62,11 @@ public abstract class AbstractWeightedVBox extends AbstractVBox implements Weigh
     }
 
     @Override
-    protected void updateChildrenPos() {
+    protected void updateChildrenSize() {
+        super.updateChildrenSize();
         int totalHeight = getHeight() - getPadding().getVertical() - getSpacing() * (getChildren().size() - 1);
         int totalWeight = getChildren().stream().mapToInt(this::getWeight).sum();
         int weightedHeight = totalHeight / totalWeight;
-        getChildren().forEach(node -> node.setPrefHeight(weightedHeight * getWeight(node)));
-        super.updateChildrenPos();
+        getChildren().forEach(node -> node.setParentPrefHeight(weightedHeight * getWeight(node)));
     }
 }

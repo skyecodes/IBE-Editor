@@ -31,6 +31,8 @@ public abstract class AbstractNode implements Node {
     private final IntegerProperty prefHeightProperty = PropertyFactory.ofInteger(COMPUTED_SIZE);
     private final IntegerProperty maxWidthProperty = PropertyFactory.ofInteger(INFINITE_SIZE);
     private final IntegerProperty maxHeightProperty = PropertyFactory.ofInteger(INFINITE_SIZE);
+    private final IntegerProperty parentPrefWidthProperty = PropertyFactory.ofInteger(NONE);
+    private final IntegerProperty parentPrefHeightProperty = PropertyFactory.ofInteger(NONE);
 
     protected final IntegerProperty computedWidthProperty = PropertyFactory.ofInteger();
     private final ObservableIntegerValue computedWidthPropertyReadOnly = PropertyFactory.readOnly(computedWidthProperty);
@@ -73,6 +75,8 @@ public abstract class AbstractNode implements Node {
         prefHeightProperty().addListener(this::shouldUpdateSize);
         maxWidthProperty().addListener(this::shouldUpdateSize);
         maxHeightProperty().addListener(this::shouldUpdateSize);
+        parentPrefWidthProperty().addListener(this::shouldUpdateSize);
+        parentPrefHeightProperty().addListener(this::shouldUpdateSize);
         computedWidthProperty().addListener(this::shouldUpdateSize);
         computedHeightProperty().addListener(this::shouldUpdateSize);
         widthProperty().addListener(this::updateParentWidth);
@@ -232,6 +236,36 @@ public abstract class AbstractNode implements Node {
     }
 
     @Override
+    public int getParentPrefWidth() {
+        return parentPrefWidthProperty().getValue();
+    }
+
+    @Override
+    public IntegerProperty parentPrefWidthProperty() {
+        return parentPrefWidthProperty;
+    }
+
+    @Override
+    public void setParentPrefWidth(int value) {
+        parentPrefWidthProperty().setValue(value);
+    }
+
+    @Override
+    public int getParentPrefHeight() {
+        return parentPrefHeightProperty().getValue();
+    }
+
+    @Override
+    public IntegerProperty parentPrefHeightProperty() {
+        return parentPrefHeightProperty;
+    }
+
+    @Override
+    public void setParentPrefHeight(int value) {
+        parentPrefHeightProperty().setValue(value);
+    }
+
+    @Override
     public int getComputedWidth() {
         return computedWidthProperty().getValue();
     }
@@ -369,21 +403,6 @@ public abstract class AbstractNode implements Node {
         return hoveredProperty;
     }
 
-    @Override
-    public int getRenderPriority() {
-        return renderPriorityProperty().getValue();
-    }
-
-    @Override
-    public IntegerProperty renderPriorityProperty() {
-        return renderPriorityProperty;
-    }
-
-    @Override
-    public void setRenderPriority(int value) {
-        renderPriorityProperty().setValue(value);
-    }
-
     protected <N extends Node> Skin<? super N> getSkin() {
         if (skin == null) {
             skin = GUAPI.getTheme().provideSkin(this, getType());
@@ -419,15 +438,19 @@ public abstract class AbstractNode implements Node {
     }
 
     @Override
-    public boolean preRender() {
+    public boolean preRender(Object matrices, int mouseX, int mouseY, float delta) {
         boolean res = checkRender();
-        return res || getSkin().preRender(this);
+        return getSkin().preRender(this, matrices, mouseX, mouseY, delta) || res;
     }
 
     @Override
     public void render(Object matrices, int mouseX, int mouseY, float delta) {
-        checkRender();
         getSkin().render(this, matrices, mouseX, mouseY, delta);
+    }
+
+    @Override
+    public void postRender(Object matrices, int mouseX, int mouseY, float delta) {
+        getSkin().postRender(this, matrices, mouseX, mouseY, delta);
     }
 
     @Override
@@ -454,6 +477,12 @@ public abstract class AbstractNode implements Node {
         shouldComputeSize = true;
     }
 
+    protected void computeSize() {
+        shouldComputeSize = false;
+        computeWidth();
+        computeHeight();
+    }
+
     private void computeWidth() {
         setComputedWidth(getSkin().computeWidth(this) + getPadding().getHorizontal());
     }
@@ -462,20 +491,24 @@ public abstract class AbstractNode implements Node {
         setComputedHeight(getSkin().computeHeight(this) + getPadding().getVertical());
     }
 
-    protected void computeSize() {
-        computeWidth();
-        computeHeight();
-        shouldComputeSize = false;
-    }
-
     protected void shouldUpdateSize() {
         shouldUpdateSize = true;
     }
 
-    protected void updateWidth() {
+    protected void updateSize() {
+        shouldUpdateSize = false;
+        updateWidth();
+        updateHeight();
+    }
+
+    private void updateWidth() {
         int width = getPrefWidth();
         if (width == COMPUTED_SIZE) {
-            width = getComputedWidth();
+            if (getParentPrefWidth() != NONE) {
+                width = getParentPrefWidth();
+            } else {
+                width = getComputedWidth();
+            }
         }
         width = Math.max(Math.min(width, getMaxWidth()), getMinWidth());
         if (parentProperty().hasValue()) {
@@ -484,10 +517,14 @@ public abstract class AbstractNode implements Node {
         setWidth(width);
     }
 
-    protected void updateHeight() {
+    private void updateHeight() {
         int height = getPrefHeight();
         if (height == COMPUTED_SIZE) {
-            height = getComputedHeight();
+            if (getParentPrefHeight() != NONE) {
+                height = getParentPrefHeight();
+            } else {
+                height = getComputedHeight();
+            }
         }
         height = Math.max(Math.min(height, getMaxHeight()), getMinHeight());
         if (parentProperty().hasValue()) {
@@ -496,23 +533,17 @@ public abstract class AbstractNode implements Node {
         setHeight(height);
     }
 
-    protected void updateSize() {
-        updateWidth();
-        updateHeight();
-        shouldUpdateSize = false;
-    }
-
     private void updateParentWidth() {
         if (getParent() != null) {
             getParent().shouldComputeSize();
-            getParent().shouldUpdateChildrenPos();
+            getParent().shouldUpdateChildren();
         }
     }
 
     private void updateParentHeight() {
         if (getParent() != null) {
             getParent().shouldComputeSize();
-            getParent().shouldUpdateChildrenPos();
+            getParent().shouldUpdateChildren();
         }
     }
 

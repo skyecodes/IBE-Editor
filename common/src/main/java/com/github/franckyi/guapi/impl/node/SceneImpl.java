@@ -15,4 +15,9 @@ public class SceneImpl extends AbstractScene implements SceneBuilder {
     public SceneImpl(Node root, boolean fullScreen, boolean texturedBackground) {
         super(root, fullScreen, texturedBackground);
     }
+
+    @Override
+    public String toString() {
+        return "Scene[" + getRoot() + "]";
+    }
 }

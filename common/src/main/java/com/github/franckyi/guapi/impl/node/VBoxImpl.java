@@ -35,4 +35,9 @@ public class VBoxImpl extends AbstractVBox implements VBoxBuilder {
     protected NodeType<?> getType() {
         return NodeType.VBOX;
     }
+
+    @Override
+    public String toString() {
+        return "VBox" + getChildren();
+    }
 }

@@ -35,4 +35,9 @@ public class WeightedHBoxImpl extends AbstractWeightedHBox implements WeightedHB
     protected NodeType<?> getType() {
         return NodeType.WEIGHTED_HBOX;
     }
+
+    @Override
+    public String toString() {
+        return "WeightedHBox" + getChildren();
+    }
 }

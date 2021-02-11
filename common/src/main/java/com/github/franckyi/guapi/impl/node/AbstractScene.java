@@ -70,7 +70,7 @@ public abstract class AbstractScene implements Scene {
         setRoot(root);
         setFullScreen(fullScreen);
         setTexturedBackground(texturedBackground);
-        paddingProperty().addListener(this::shouldUpdateChildrenPos);
+        paddingProperty().addListener(this::shouldUpdateChildren);
     }
 
     @Override
@@ -200,7 +200,9 @@ public abstract class AbstractScene implements Scene {
             shouldUpdateChildrenPos = false;
         }
         if (rootProperty().hasValue()) {
+            while (getRoot().preRender(matrices, mouseX, mouseY, delta)) ;
             getRoot().render(matrices, mouseX, mouseY, delta);
+            getRoot().postRender(matrices, mouseX, mouseY, delta);
         }
     }
 
@@ -209,7 +211,7 @@ public abstract class AbstractScene implements Scene {
     }
 
     @Override
-    public void shouldUpdateChildrenPos() {
+    public void shouldUpdateChildren() {
         shouldUpdateChildrenPos = true;
     }
 
@@ -217,13 +219,6 @@ public abstract class AbstractScene implements Scene {
     public void tick() {
         if (rootProperty().hasValue()) {
             getRoot().tick();
-        }
-    }
-
-    @Override
-    public void preRender() {
-        if (rootProperty().hasValue()) {
-            while (getRoot().preRender()) ;
         }
     }
 

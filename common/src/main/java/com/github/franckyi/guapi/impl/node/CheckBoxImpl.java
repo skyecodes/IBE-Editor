@@ -21,4 +21,9 @@ public class CheckBoxImpl extends AbstractCheckBox implements CheckBoxBuilder {
     protected NodeType<?> getType() {
         return NodeType.CHECKBOX;
     }
+
+    @Override
+    public String toString() {
+        return "CheckBox{\"" + getLabel() + "\"}";
+    }
 }

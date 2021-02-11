@@ -173,11 +173,4 @@ public class ObservableArrayList<E> extends ArrayList<E> implements ObservableLi
     protected void notify(ListChangeEventImpl<E> event) {
         listeners.forEach(listener -> listener.onChange(event));
     }
-
-    @Override
-    public String toString() {
-        return "ObservableArrayList{" +
-                super.toString() +
-                "}";
-    }
 }

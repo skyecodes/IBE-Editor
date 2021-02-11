@@ -7,6 +7,7 @@ import com.github.franckyi.databindings.api.ObjectProperty;
 import com.github.franckyi.databindings.api.ObservableList;
 import com.github.franckyi.guapi.api.event.MouseEvent;
 import com.github.franckyi.guapi.api.node.ListView;
+import com.github.franckyi.guapi.api.node.Scene;
 import com.github.franckyi.guapi.util.ScreenEventType;
 
 import java.util.Arrays;
@@ -37,6 +38,10 @@ public abstract class AbstractListView<E> extends AbstractNode implements ListVi
         itemHeightProperty().addListener(this::resetSkin);
         widthProperty().addListener(this::shouldComputeSize);
         heightProperty().addListener(this::shouldComputeSize);
+        baseXProperty().bind(xProperty());
+        baseYProperty().bind(yProperty());
+        fullWidthProperty().bind(sceneProperty().bindMap(Scene::widthProperty, getWidth()));
+        fullHeightProperty().bind(sceneProperty().bindMap(Scene::heightProperty, getHeight()));
     }
 
     @Override
@@ -145,6 +150,6 @@ public abstract class AbstractListView<E> extends AbstractNode implements ListVi
     }
 
     @Override
-    public void shouldUpdateChildrenPos() {
+    public void shouldUpdateChildren() {
     }
 }

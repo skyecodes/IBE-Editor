@@ -25,4 +25,9 @@ public class TextFieldImpl extends AbstractTextField implements TextFieldBuilder
     protected NodeType<?> getType() {
         return NodeType.TEXTFIELD;
     }
+
+    @Override
+    public String toString() {
+        return "TextField{\"" + getText() + "\"}";
+    }
 }

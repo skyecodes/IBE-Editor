@@ -35,4 +35,9 @@ public class WeightedVBoxImpl extends AbstractWeightedVBox implements WeightedVB
     protected NodeType<?> getType() {
         return NodeType.WEIGHTED_VBOX;
     }
+
+    @Override
+    public String toString() {
+        return "WeightedVBox" + getChildren();
+    }
 }

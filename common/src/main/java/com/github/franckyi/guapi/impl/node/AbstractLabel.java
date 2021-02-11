@@ -16,11 +16,20 @@ public abstract class AbstractLabel extends AbstractLabeled implements Label {
     }
 
     protected AbstractLabel(String text) {
-        this(Text.literal(text));
+        this(text, false);
     }
 
-    protected AbstractLabel(Text label) {
+    protected AbstractLabel(Text text) {
+        this(text, false);
+    }
+
+    protected AbstractLabel(String text, boolean shadow) {
+        this(Text.literal(text), shadow);
+    }
+
+    protected AbstractLabel(Text label, boolean shadow) {
         super(label);
+        setShadow(shadow);
         labelProperty().addListener(this::shouldComputeSize);
     }
 

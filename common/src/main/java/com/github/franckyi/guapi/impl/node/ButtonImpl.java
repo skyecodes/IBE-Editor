@@ -21,4 +21,9 @@ public class ButtonImpl extends AbstractButton implements ButtonBuilder {
     protected NodeType<?> getType() {
         return NodeType.BUTTON;
     }
+
+    @Override
+    public String toString() {
+        return "Button{\"" + getLabel() + "\"}";
+    }
 }

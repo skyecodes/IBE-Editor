@@ -9,10 +9,11 @@ import com.github.franckyi.guapi.util.Color;
 import com.github.franckyi.guapi.util.Insets;
 import com.github.franckyi.guapi.util.ScreenEventType;
 
-public interface Node extends ScreenEventHandler, Renderable, EventTarget {
+public interface Node extends ScreenEventHandler, Renderable<Object>, EventTarget {
     int DEFAULT_BACKGROUND_COLOR = Color.rgba(0, 0, 0, 0);
     int INFINITE_SIZE = Integer.MAX_VALUE;
     int COMPUTED_SIZE = -1;
+    int NONE = -1;
 
     int getX();
 
@@ -74,6 +75,18 @@ public interface Node extends ScreenEventHandler, Renderable, EventTarget {
 
     void setMaxHeight(int value);
 
+    int getParentPrefWidth();
+
+    IntegerProperty parentPrefWidthProperty();
+
+    void setParentPrefWidth(int value);
+
+    int getParentPrefHeight();
+
+    IntegerProperty parentPrefHeightProperty();
+
+    void setParentPrefHeight(int value);
+
     int getComputedWidth();
 
     ObservableIntegerValue computedWidthProperty();
@@ -126,12 +139,6 @@ public interface Node extends ScreenEventHandler, Renderable, EventTarget {
 
     ObservableBooleanValue hoveredProperty();
 
-    int getRenderPriority();
-
-    IntegerProperty renderPriorityProperty();
-
-    void setRenderPriority(int value);
-
     <E extends MouseEvent> void handleMouseEvent(ScreenEventType<E> type, E event);
 
     default int getLeft() {
@@ -153,8 +160,6 @@ public interface Node extends ScreenEventHandler, Renderable, EventTarget {
     default boolean inBounds(double x, double y) {
         return x >= getLeft() && x <= getRight() && y >= getTop() && y <= getBottom();
     }
-
-    boolean preRender();
 
     boolean checkRender();
 

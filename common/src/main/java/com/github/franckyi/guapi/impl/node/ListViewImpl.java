@@ -24,4 +24,9 @@ public class ListViewImpl<E> extends AbstractListView<E> implements ListViewBuil
     protected NodeType<?> getType() {
         return NodeType.LISTVIEW;
     }
+
+    @Override
+    public String toString() {
+        return "ListView" + getItems();
+    }
 }

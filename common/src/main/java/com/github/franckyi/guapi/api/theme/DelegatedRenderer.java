@@ -1,11 +1,7 @@
 package com.github.franckyi.guapi.api.theme;
 
 import com.github.franckyi.guapi.api.EventTarget;
+import com.github.franckyi.guapi.api.Renderable;
 
-public interface DelegatedRenderer<M> extends EventTarget {
-    default boolean preRender() {
-        return false;
-    }
-
-    void render(M matrices, int mouseX, int mouseY, float delta);
+public interface DelegatedRenderer<M> extends EventTarget, Renderable<M> {
 }

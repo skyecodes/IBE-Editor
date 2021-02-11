@@ -1,6 +1,5 @@
 package com.github.franckyi.ibeeditor;
 
-import com.github.franckyi.databindings.api.ObservableIntegerValue;
 import com.github.franckyi.gamehooks.GameHooks;
 import com.github.franckyi.gamehooks.api.client.KeyBinding;
 import com.github.franckyi.gamehooks.api.client.Screen;
@@ -9,9 +8,7 @@ import com.github.franckyi.gamehooks.api.common.Entity;
 import com.github.franckyi.gamehooks.api.common.Item;
 import com.github.franckyi.gamehooks.api.common.Slot;
 import com.github.franckyi.guapi.GUAPI;
-import com.github.franckyi.guapi.api.node.HBox;
-import com.github.franckyi.guapi.api.node.ListView;
-import com.github.franckyi.guapi.api.node.VBox;
+import com.github.franckyi.guapi.api.node.WeightedHBox;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
 import org.lwjgl.glfw.GLFW;
@@ -73,47 +70,34 @@ public class IBEEditorClient {
     }
 
     public static void openClipboard() {
-        VBox root;
-        HBox main, top, bottom;
-        ListView<String> left, right;
+        WeightedHBox main;
         GUAPI.getScreenHandler().show(
                 scene(
-                        root = vBox(5,
-                                top = hBox(
-                                        label(text("Editor", AQUA, BOLD)).textAlign(CENTER).prefHeight(20)
-                                ),
+                        vBox(5,
+                                hBox(
+                                        label(text("Editor", AQUA, BOLD), true).textAlign(CENTER).prefHeight(20)
+                                ).align(CENTER),
                                 main = weightedHBox(10,
-                                        left = listView(25, "Category A", "Category B", "Category C", "Category D",
+                                        listView(25, "Category A", "Category B", "Category C", "Category D",
                                                 "Category E", "Category F", "Category G", "Category H",
                                                 "Category I", "Category J", "Category K", "Category L")
                                                 .padding(5).renderer(s -> label(s).textAlign(CENTER)),
-                                        right = listView(25, "Property A", "Property B", "Property C", "Property D",
+                                        listView(25, "Property A", "Property B", "Property C", "Property D",
                                                 "Property E", "Property F", "Property G", "Property H",
                                                 "Property I", "Property J", "Property K", "Property L")
                                                 .padding(5).renderer(
-                                                        s -> weightedHBox(20, label(s), textField(s))
-                                                                .align(CENTER_V)
-                                                                .weight(1, 2)
-                                                )
-                                ).weight(1, 2),
-                                bottom = hBox(20,
+                                                s -> weightedHBox(10, label(s, true), textField(s))
+                                                        .align(CENTER_LEFT)
+                                                        .weight(1, 2)
+                                        )
+                                ).weight(1, 2).fillHeight(true),
+                                hBox(20,
                                         button(text("Done", GREEN)).prefWidth(90).onClick(e -> GUAPI.getScreenHandler().hide()),
-                                        button(text("Cancel", RED)).prefWidth(90).onClick(e -> GUAPI.getScreenHandler().hide())
-                                )
-                        ).align(CENTER_H).padding(5),
+                                        button(text("Cancel", RED)).prefWidth(90).onClick(e -> GUAPI.setDebugMode(!GUAPI.isDebugMode()))
+                                ).align(CENTER)
+                        ).align(CENTER).padding(5).fillWidth(true).with(it -> main.prefHeightProperty().bind(it.heightProperty().substract(60))), // todo Vgrow for VBox / Hgrow for HBox
                         true, true
-                ).with(scene -> {
-                    ObservableIntegerValue mainHeight = root.heightProperty().substract(top.heightProperty()).substract(bottom.heightProperty()).substract(20);
-                    main.prefWidthProperty().bind(root.widthProperty().substract(10));
-                    main.setRenderPriority(1);
-                    left.prefHeightProperty().bind(mainHeight);
-                    right.prefHeightProperty().bind(mainHeight);
-                    right.baseXProperty().bind(right.xProperty());
-                    left.fullWidthProperty().bind(scene.widthProperty());
-                    left.fullHeightProperty().bind(scene.heightProperty());
-                    right.fullWidthProperty().bind(scene.widthProperty());
-                    right.fullHeightProperty().bind(scene.heightProperty());
-                })
+                )
         );
     }
 
