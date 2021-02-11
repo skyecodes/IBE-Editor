@@ -60,23 +60,8 @@ public abstract class AbstractListView<E> extends AbstractNode implements ListVi
     }
 
     @Override
-    public int getItemHeight() {
-        return itemHeightProperty().getValue();
-    }
-
-    @Override
     public IntegerProperty itemHeightProperty() {
         return itemHeightProperty;
-    }
-
-    @Override
-    public void setItemHeight(int value) {
-        itemHeightProperty().setValue(value);
-    }
-
-    @Override
-    public int getFullWidth() {
-        return fullWidthProperty().getValue();
     }
 
     @Override
@@ -85,28 +70,8 @@ public abstract class AbstractListView<E> extends AbstractNode implements ListVi
     }
 
     @Override
-    public void setFullWidth(int value) {
-        fullWidthProperty().setValue(value);
-    }
-
-    @Override
-    public int getFullHeight() {
-        return fullHeightProperty().getValue();
-    }
-
-    @Override
     public IntegerProperty fullHeightProperty() {
         return fullHeightProperty;
-    }
-
-    @Override
-    public void setFullHeight(int value) {
-        fullHeightProperty().setValue(value);
-    }
-
-    @Override
-    public int getBaseX() {
-        return baseXProperty().getValue();
     }
 
     @Override
@@ -115,28 +80,8 @@ public abstract class AbstractListView<E> extends AbstractNode implements ListVi
     }
 
     @Override
-    public void setBaseX(int value) {
-        baseXProperty().setValue(value);
-    }
-
-    @Override
-    public int getBaseY() {
-        return baseYProperty().getValue();
-    }
-
-    @Override
     public IntegerProperty baseYProperty() {
         return baseYProperty;
-    }
-
-    @Override
-    public void setBaseY(int value) {
-        baseYProperty().setValue(value);
-    }
-
-    @Override
-    public ListView.Renderer<E> getRenderer() {
-        return rendererProperty().getValue();
     }
 
     @Override
@@ -145,11 +90,7 @@ public abstract class AbstractListView<E> extends AbstractNode implements ListVi
     }
 
     @Override
-    public void setRenderer(ListView.Renderer<E> renderer) {
-        rendererProperty().setValue(renderer);
-    }
-
-    @Override
     public void shouldUpdateChildren() {
+        // children are automatically updated by the Skin implementation
     }
 }

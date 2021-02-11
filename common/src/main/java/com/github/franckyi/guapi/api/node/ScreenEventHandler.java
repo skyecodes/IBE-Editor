@@ -1,5 +1,7 @@
-package com.github.franckyi.guapi.api.event;
+package com.github.franckyi.guapi.api.node;
 
+import com.github.franckyi.guapi.api.event.ScreenEvent;
+import com.github.franckyi.guapi.api.event.ScreenEventListener;
 import com.github.franckyi.guapi.util.ScreenEventType;
 
 public interface ScreenEventHandler {

@@ -134,54 +134,6 @@ public final class GUAPIFactory {
         return new VBoxImpl(spacing, children);
     }
 
-    public static WeightedHBoxBuilder weightedHBox() {
-        return new WeightedHBoxImpl();
-    }
-
-    public static WeightedHBoxBuilder weightedHBox(int spacing) {
-        return new WeightedHBoxImpl(spacing);
-    }
-
-    public static WeightedHBoxBuilder weightedHBox(Node... children) {
-        return new WeightedHBoxImpl(children);
-    }
-
-    public static WeightedHBoxBuilder weightedHBox(Collection<? extends Node> children) {
-        return new WeightedHBoxImpl(children);
-    }
-
-    public static WeightedHBoxBuilder weightedHBox(int spacing, Node... children) {
-        return new WeightedHBoxImpl(spacing, children);
-    }
-
-    public static WeightedHBoxBuilder weightedHBox(int spacing, Collection<? extends Node> children) {
-        return new WeightedHBoxImpl(spacing, children);
-    }
-
-    public static WeightedVBoxBuilder weightedVBox() {
-        return new WeightedVBoxImpl();
-    }
-
-    public static WeightedVBoxBuilder weightedVBox(int spacing) {
-        return new WeightedVBoxImpl(spacing);
-    }
-
-    public static WeightedVBoxBuilder weightedVBox(Node... children) {
-        return new WeightedVBoxImpl(children);
-    }
-
-    public static WeightedVBoxBuilder weightedVBox(Collection<? extends Node> children) {
-        return new WeightedVBoxImpl(children);
-    }
-
-    public static WeightedVBoxBuilder weightedVBox(int spacing, Node... children) {
-        return new WeightedVBoxImpl(spacing, children);
-    }
-
-    public static WeightedVBoxBuilder weightedVBox(int spacing, Collection<? extends Node> children) {
-        return new WeightedVBoxImpl(spacing, children);
-    }
-
     public static SceneBuilder scene(Node root) {
         return new SceneImpl(root);
     }

@@ -3,17 +3,20 @@ package com.github.franckyi.guapi.impl.node;
 import com.github.franckyi.databindings.PropertyFactory;
 import com.github.franckyi.databindings.api.IntegerProperty;
 import com.github.franckyi.databindings.api.ObjectProperty;
+import com.github.franckyi.guapi.api.node.Box;
 import com.github.franckyi.guapi.api.node.Node;
-import com.github.franckyi.guapi.api.node.SpacedGroup;
 import com.github.franckyi.guapi.util.Align;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
-public abstract class AbstractSpacedGroup extends AbstractGroup implements SpacedGroup {
+public abstract class AbstractBox extends AbstractGroup implements Box {
     private final IntegerProperty spacingProperty = PropertyFactory.ofInteger();
     private final ObjectProperty<Align> alignmentProperty = PropertyFactory.ofObject(Align.TOP_LEFT);
+    protected final Map<Node, Integer> weightMap = new HashMap<>();
 
-    protected AbstractSpacedGroup(int spacing, Collection<? extends Node> children) {
+    protected AbstractBox(int spacing, Collection<? extends Node> children) {
         super(children);
         setSpacing(spacing);
         spacingProperty().addListener(this::shouldComputeSize);
@@ -48,5 +51,35 @@ public abstract class AbstractSpacedGroup extends AbstractGroup implements Space
     @Override
     public void setAlignment(Align value) {
         alignmentProperty().setValue(value);
+    }
+
+    @Override
+    public void setWeight(Node node, int value) {
+        if (value < 0) {
+            throw new IllegalArgumentException("Weight must be positive");
+        }
+        if (!getChildren().contains(node)) {
+            throw new IllegalArgumentException("This WeightedVBox doesn't contain the Node " + node);
+        }
+        Integer old = weightMap.put(node, value);
+        if (old != null && old == value) {
+            shouldUpdateChildren();
+        }
+    }
+
+    @Override
+    public void resetWeight(Node node) {
+        if (weightMap.remove(node) != 0) {
+            shouldUpdateChildren();
+        }
+    }
+
+    @Override
+    public int getWeight(Node node) {
+        Integer value = weightMap.get(node);
+        if (value == null) {
+            return 0;
+        }
+        return value;
     }
 }

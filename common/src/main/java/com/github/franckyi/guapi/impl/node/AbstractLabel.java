@@ -34,23 +34,8 @@ public abstract class AbstractLabel extends AbstractLabeled implements Label {
     }
 
     @Override
-    public Align getTextAlign() {
-        return textAlignProperty().getValue();
-    }
-
-    @Override
     public ObjectProperty<Align> textAlignProperty() {
         return textAlignProperty;
-    }
-
-    @Override
-    public void setTextAlign(Align value) {
-        textAlignProperty().setValue(value);
-    }
-
-    @Override
-    public boolean hasShadow() {
-        return shadowProperty().getValue();
     }
 
     @Override
@@ -58,8 +43,4 @@ public abstract class AbstractLabel extends AbstractLabeled implements Label {
         return shadowProperty;
     }
 
-    @Override
-    public void setShadow(boolean value) {
-        shadowProperty().setValue(value);
-    }
 }

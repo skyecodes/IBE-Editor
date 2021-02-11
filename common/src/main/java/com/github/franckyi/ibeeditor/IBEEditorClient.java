@@ -8,7 +8,7 @@ import com.github.franckyi.gamehooks.api.common.Entity;
 import com.github.franckyi.gamehooks.api.common.Item;
 import com.github.franckyi.gamehooks.api.common.Slot;
 import com.github.franckyi.guapi.GUAPI;
-import com.github.franckyi.guapi.api.node.WeightedHBox;
+import com.github.franckyi.guapi.util.Align;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
 import org.lwjgl.glfw.GLFW;
@@ -70,32 +70,28 @@ public class IBEEditorClient {
     }
 
     public static void openClipboard() {
-        WeightedHBox main;
+        GUAPI.setDebugMode(true);
         GUAPI.getScreenHandler().show(
                 scene(
                         vBox(5,
                                 hBox(
                                         label(text("Editor", AQUA, BOLD), true).textAlign(CENTER).prefHeight(20)
                                 ).align(CENTER),
-                                main = weightedHBox(10,
+                                hBox(10,
                                         listView(25, "Category A", "Category B", "Category C", "Category D",
                                                 "Category E", "Category F", "Category G", "Category H",
-                                                "Category I", "Category J", "Category K", "Category L")
-                                                .padding(5).renderer(s -> label(s).textAlign(CENTER)),
+                                                "Category I", "Category J", "Category K", "Category L").padding(5).renderer(
+                                                s -> label(s).textAlign(CENTER)),
                                         listView(25, "Property A", "Property B", "Property C", "Property D",
                                                 "Property E", "Property F", "Property G", "Property H",
-                                                "Property I", "Property J", "Property K", "Property L")
-                                                .padding(5).renderer(
-                                                s -> weightedHBox(10, label(s, true), textField(s))
-                                                        .align(CENTER_LEFT)
-                                                        .weight(1, 2)
-                                        )
-                                ).weight(1, 2).fillHeight(true),
+                                                "Property I", "Property J", "Property K", "Property L").padding(5).renderer(
+                                                s -> hBox(10, label(s, true), textField(s)).align(CENTER).weight(0, 1).weight(1, 2))
+                                ).weight(0, 1).weight(1, 2).fillHeight(true),
                                 hBox(20,
                                         button(text("Done", GREEN)).prefWidth(90).onClick(e -> GUAPI.getScreenHandler().hide()),
                                         button(text("Cancel", RED)).prefWidth(90).onClick(e -> GUAPI.setDebugMode(!GUAPI.isDebugMode()))
                                 ).align(CENTER)
-                        ).align(CENTER).padding(5).fillWidth(true).with(it -> main.prefHeightProperty().bind(it.heightProperty().substract(60))), // todo Vgrow for VBox / Hgrow for HBox
+                        ).align(CENTER).padding(5).fillWidth(true).weight(1, 1),
                         true, true
                 )
         );

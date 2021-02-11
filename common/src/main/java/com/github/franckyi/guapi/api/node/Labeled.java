@@ -4,15 +4,23 @@ import com.github.franckyi.databindings.api.ObjectProperty;
 import com.github.franckyi.gamehooks.util.common.Text;
 
 public interface Labeled extends Control {
-    Text getLabel();
+    default Text getLabel() {
+        return labelProperty().getValue();
+    }
 
     ObjectProperty<Text> labelProperty();
 
-    void setLabel(Text value);
+    default void setLabel(Text value) {
+        labelProperty().setValue(value);
+    }
 
-    <T> T getLabelComponent();
+    default <T> T getLabelComponent() {
+        return this.<T>labelComponentProperty().getValue();
+    }
 
     <T> ObjectProperty<T> labelComponentProperty();
 
-    <T> void setLabelComponent(T value);
+    default <T> void setLabelComponent(T value) {
+        labelComponentProperty().setValue(value);
+    }
 }

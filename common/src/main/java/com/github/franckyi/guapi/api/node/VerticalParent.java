@@ -1,13 +1,15 @@
 package com.github.franckyi.guapi.api.node;
 
 import com.github.franckyi.databindings.api.BooleanProperty;
-import com.github.franckyi.databindings.api.ObjectProperty;
-import com.github.franckyi.guapi.util.Align;
 
 public interface VerticalParent {
-    boolean isFillWidth();
+    default boolean isFillWidth() {
+        return fillWidthProperty().getValue();
+    }
 
     BooleanProperty fillWidthProperty();
 
-    void setFillWidth(boolean value);
+    default void setFillWidth(boolean value) {
+        fillWidthProperty().setValue(value);
+    }
 }

@@ -7,41 +7,65 @@ import com.github.franckyi.databindings.api.ObservableList;
 public interface ListView<E> extends Node, Parent {
     ObservableList<E> getItems();
 
-    int getItemHeight();
+    default int getItemHeight() {
+        return itemHeightProperty().getValue();
+    }
 
     IntegerProperty itemHeightProperty();
 
-    void setItemHeight(int value);
+    default void setItemHeight(int value) {
+        itemHeightProperty().setValue(value);
+    }
 
-    int getFullWidth();
+    default int getFullWidth() {
+        return fullWidthProperty().getValue();
+    }
 
     IntegerProperty fullWidthProperty();
 
-    void setFullWidth(int value);
+    default void setFullWidth(int value) {
+        fullWidthProperty().setValue(value);
+    }
 
-    int getFullHeight();
+    default int getFullHeight() {
+        return fullHeightProperty().getValue();
+    }
 
     IntegerProperty fullHeightProperty();
 
-    void setFullHeight(int value);
+    default void setFullHeight(int value) {
+        fullHeightProperty().setValue(value);
+    }
 
-    int getBaseX();
+    default int getBaseX() {
+        return baseXProperty().getValue();
+    }
 
     IntegerProperty baseXProperty();
 
-    void setBaseX(int value);
+    default void setBaseX(int value) {
+        baseXProperty().setValue(value);
+    }
 
-    int getBaseY();
+    default int getBaseY() {
+        return baseYProperty().getValue();
+    }
 
     IntegerProperty baseYProperty();
 
-    void setBaseY(int value);
+    default void setBaseY(int value) {
+        baseYProperty().setValue(value);
+    }
 
-    Renderer<E> getRenderer();
+    default Renderer<E> getRenderer() {
+        return rendererProperty().getValue();
+    }
 
     ObjectProperty<Renderer<E>> rendererProperty();
 
-    void setRenderer(Renderer<E> renderer);
+    default void setRenderer(Renderer<E> renderer) {
+        rendererProperty().setValue(renderer);
+    }
 
     interface Renderer<E> {
         Node getView(E item);

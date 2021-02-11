@@ -5,15 +5,23 @@ import com.github.franckyi.databindings.api.ObjectProperty;
 import com.github.franckyi.guapi.util.Align;
 
 public interface Label extends Labeled {
-    Align getTextAlign();
+    default Align getTextAlign() {
+        return textAlignProperty().getValue();
+    }
 
     ObjectProperty<Align> textAlignProperty();
 
-    void setTextAlign(Align value);
+    default void setTextAlign(Align value) {
+        textAlignProperty().setValue(value);
+    }
 
-    boolean hasShadow();
+    default boolean hasShadow() {
+        return shadowProperty().getValue();
+    }
 
     BooleanProperty shadowProperty();
 
-    void setShadow(boolean value);
+    default void setShadow(boolean value) {
+        shadowProperty().setValue(value);
+    }
 }

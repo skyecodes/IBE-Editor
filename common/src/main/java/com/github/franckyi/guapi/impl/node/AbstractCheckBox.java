@@ -20,17 +20,8 @@ public abstract class AbstractCheckBox extends AbstractLabeled implements CheckB
     }
 
     @Override
-    public boolean isChecked() {
-        return checkedProperty().getValue();
-    }
-
-    @Override
     public BooleanProperty checkedProperty() {
         return checkedProperty;
     }
 
-    @Override
-    public void setChecked(boolean value) {
-        checkedProperty().setValue(value);
-    }
 }

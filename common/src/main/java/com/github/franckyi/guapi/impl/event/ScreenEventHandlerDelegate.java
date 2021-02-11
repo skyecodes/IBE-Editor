@@ -1,8 +1,8 @@
 package com.github.franckyi.guapi.impl.event;
 
 import com.github.franckyi.guapi.api.event.ScreenEvent;
-import com.github.franckyi.guapi.api.event.ScreenEventHandler;
 import com.github.franckyi.guapi.api.event.ScreenEventListener;
+import com.github.franckyi.guapi.api.node.ScreenEventHandler;
 import com.github.franckyi.guapi.util.ScreenEventType;
 
 import java.util.ArrayList;

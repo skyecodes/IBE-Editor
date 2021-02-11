@@ -5,7 +5,7 @@ import com.github.franckyi.databindings.api.*;
 import com.github.franckyi.gamehooks.GameHooks;
 import com.github.franckyi.guapi.GUAPI;
 import com.github.franckyi.guapi.api.event.ScreenEvent;
-import com.github.franckyi.guapi.api.event.ScreenEventHandler;
+import com.github.franckyi.guapi.api.node.ScreenEventHandler;
 import com.github.franckyi.guapi.api.event.ScreenEventListener;
 import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.api.node.Scene;
@@ -74,23 +74,8 @@ public abstract class AbstractScene implements Scene {
     }
 
     @Override
-    public Node getRoot() {
-        return rootProperty().getValue();
-    }
-
-    @Override
     public ObjectProperty<Node> rootProperty() {
         return rootProperty;
-    }
-
-    @Override
-    public void setRoot(Node value) {
-        rootProperty().setValue(value);
-    }
-
-    @Override
-    public boolean isFullScreen() {
-        return fullScreenProperty().getValue();
     }
 
     @Override
@@ -99,30 +84,13 @@ public abstract class AbstractScene implements Scene {
     }
 
     @Override
-    public void setFullScreen(boolean value) {
-        fullScreenProperty().setValue(value);
-    }
-
-    public int getWidth() {
-        return widthProperty().getValue();
-    }
-
-    @Override
     public IntegerProperty widthProperty() {
         return widthProperty;
-    }
-
-    public int getHeight() {
-        return heightProperty().getValue();
     }
 
     @Override
     public IntegerProperty heightProperty() {
         return heightProperty;
-    }
-
-    public Insets getPadding() {
-        return paddingProperty().getValue();
     }
 
     @Override
@@ -131,43 +99,13 @@ public abstract class AbstractScene implements Scene {
     }
 
     @Override
-    public void setPadding(Insets value) {
-        paddingProperty().setValue(value);
-    }
-
-    @Override
-    public boolean isTexturedBackground() {
-        return texturedBackgroundProperty().getValue();
-    }
-
-    @Override
     public BooleanProperty texturedBackgroundProperty() {
         return texturedBackgroundProperty;
     }
 
     @Override
-    public void setTexturedBackground(boolean value) {
-        texturedBackgroundProperty().setValue(value);
-    }
-
-    @Override
-    public boolean isCloseOnEsc() {
-        return closeOnEscProperty().getValue();
-    }
-
-    @Override
     public BooleanProperty closeOnEscProperty() {
         return closeOnEscProperty;
-    }
-
-    @Override
-    public void setCloseOnEsc(boolean value) {
-        closeOnEscProperty().setValue(value);
-    }
-
-    @Override
-    public Node getFocused() {
-        return focusedProperty().getValue();
     }
 
     @Override
@@ -177,11 +115,6 @@ public abstract class AbstractScene implements Scene {
 
     protected void setFocused(Node value) {
         focusedProperty.setValue(value);
-    }
-
-    @Override
-    public Node getHovered() {
-        return hoveredProperty().getValue();
     }
 
     @Override

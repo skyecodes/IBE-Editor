@@ -10,8 +10,6 @@ public class VanillaTheme extends AbstractTheme {
         registerSkinInstance(NodeType.LABEL, VanillaLabelSkin.INSTANCE);
         registerSkinInstance(NodeType.HBOX, VanillaHBoxSkin.INSTANCE);
         registerSkinInstance(NodeType.VBOX, VanillaVBoxSkin.INSTANCE);
-        registerSkinInstance(NodeType.WEIGHTED_HBOX, VanillaWeightedHBoxSkin.INSTANCE);
-        registerSkinInstance(NodeType.WEIGHTED_VBOX, VanillaWeightedVBoxSkin.INSTANCE);
         delegateSkinRenderer(NodeType.BUTTON, VanillaButtonSkin::new);
         delegateSkinRenderer(NodeType.TEXTFIELD, VanillaTextFieldSkin::new);
         delegateSkinRenderer(NodeType.CHECKBOX, VanillaCheckBoxSkin::new);

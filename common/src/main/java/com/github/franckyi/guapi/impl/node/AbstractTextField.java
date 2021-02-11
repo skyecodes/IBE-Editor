@@ -28,23 +28,8 @@ public abstract class AbstractTextField extends AbstractLabeled implements TextF
     }
 
     @Override
-    public String getText() {
-        return textProperty().getValue();
-    }
-
-    @Override
     public StringProperty textProperty() {
         return textProperty;
-    }
-
-    @Override
-    public void setText(String value) {
-        textProperty().setValue(value);
-    }
-
-    @Override
-    public int getMaxLength() {
-        return maxLengthProperty().getValue();
     }
 
     @Override
@@ -52,8 +37,4 @@ public abstract class AbstractTextField extends AbstractLabeled implements TextF
         return maxLengthProperty;
     }
 
-    @Override
-    public void setMaxLength(int value) {
-        maxLengthProperty().setValue(value);
-    }
 }

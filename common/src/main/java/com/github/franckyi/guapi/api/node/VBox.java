@@ -1,4 +1,4 @@
 package com.github.franckyi.guapi.api.node;
 
-public interface VBox extends Group, SpacedGroup, VerticalParent {
+public interface VBox extends Box, VerticalParent {
 }

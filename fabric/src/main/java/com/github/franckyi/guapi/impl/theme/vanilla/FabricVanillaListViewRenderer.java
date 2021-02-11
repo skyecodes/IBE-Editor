@@ -168,8 +168,8 @@ public class FabricVanillaListViewRenderer<E> extends EntryListWidget<FabricVani
         public void render(MatrixStack matrices, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
             node.setX(x);
             node.setY(y);
-            node.setPrefWidth(entryWidth);
-            node.setPrefHeight(entryHeight);
+            node.setParentPrefWidth(entryWidth);
+            node.setParentPrefHeight(entryHeight);
             node.preRender(matrices, mouseX, mouseY, tickDelta);
             node.render(matrices, mouseX, mouseY, tickDelta);
         }

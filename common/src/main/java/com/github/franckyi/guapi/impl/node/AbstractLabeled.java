@@ -27,34 +27,14 @@ public abstract class AbstractLabeled extends AbstractControl implements Labeled
     }
 
     @Override
-    public Text getLabel() {
-        return labelProperty().getValue();
-    }
-
-    @Override
     public ObjectProperty<Text> labelProperty() {
         return labelProperty;
-    }
-
-    @Override
-    public void setLabel(Text value) {
-        labelProperty().setValue(value);
-    }
-
-    @Override
-    public <T> T getLabelComponent() {
-        return this.<T>labelComponentProperty().getValue();
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public <T> ObjectProperty<T> labelComponentProperty() {
         return (ObjectProperty<T>) labelComponentProperty;
-    }
-
-    @Override
-    public <T> void setLabelComponent(T value) {
-        labelComponentProperty().setValue(value);
     }
 
     @Override

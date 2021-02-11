@@ -2,7 +2,6 @@ package com.github.franckyi.guapi.impl.node;
 
 import com.github.franckyi.databindings.PropertyFactory;
 import com.github.franckyi.databindings.api.BooleanProperty;
-import com.github.franckyi.databindings.api.ObjectProperty;
 import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.api.node.VBox;
 import com.github.franckyi.guapi.util.Align;
@@ -11,7 +10,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 
-public abstract class AbstractVBox extends AbstractSpacedGroup implements VBox {
+public abstract class AbstractVBox extends AbstractBox implements VBox {
     private final BooleanProperty fillWidthProperty = PropertyFactory.ofBoolean();
 
     protected AbstractVBox() {
@@ -40,24 +39,15 @@ public abstract class AbstractVBox extends AbstractSpacedGroup implements VBox {
     }
 
     @Override
-    public boolean isFillWidth() {
-        return fillWidthProperty().getValue();
-    }
-
-    @Override
     public BooleanProperty fillWidthProperty() {
         return fillWidthProperty;
     }
 
     @Override
-    public void setFillWidth(boolean value) {
-        fillWidthProperty().setValue(value);
-    }
-
-    @Override
     protected void updateChildren() {
         updateChildrenSize();
-        int y = Align.getAlignedY(getAlignment().getVerticalAlign(), this, getComputedHeight() - getPadding().getVertical());
+        int childHeight = getChildren().stream().mapToInt(Node::getHeight).sum() + getSpacing() * (getChildren().size() - 1);
+        int y = Align.getAlignedY(getAlignment().getVerticalAlign(), this, childHeight);
         for (Node child : getChildren()) {
             int x = Align.getAlignedX(getAlignment().getHorizontalAlign(), this, child.getWidth());
             child.setX(x);
@@ -67,10 +57,21 @@ public abstract class AbstractVBox extends AbstractSpacedGroup implements VBox {
     }
 
     protected void updateChildrenSize() {
-        if (isFillWidth()) {
-            getChildren().forEach(node -> node.setParentPrefWidth(getMaxChildrenWidth()));
-        } else {
-            getChildren().forEach(node -> node.setParentPrefWidth(NONE));
-        }
+        int totalWeight = getChildren().stream().mapToInt(this::getWeight).sum();
+        int childrenHeightWithoutWeight = getChildren().stream().filter(node -> getWeight(node) == 0).mapToInt(Node::getHeight).sum();
+        int remainingHeight = getHeight() - getPadding().getVertical() - getSpacing() * (getChildren().size() - 1) - childrenHeightWithoutWeight;
+        int weightedHeight = totalWeight > 0 ? remainingHeight / totalWeight : 0;
+        getChildren().forEach(node -> {
+            if (getWeight(node) > 0) {
+                node.setParentPrefHeight(weightedHeight * getWeight(node));
+            } else {
+                node.setParentPrefHeight(NONE);
+            }
+            if (isFillWidth()) {
+                node.setParentPrefWidth(getMaxChildrenWidth());
+            } else {
+                node.setParentPrefWidth(NONE);
+            }
+        });
     }
 }

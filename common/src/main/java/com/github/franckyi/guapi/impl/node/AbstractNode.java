@@ -4,7 +4,7 @@ import com.github.franckyi.databindings.PropertyFactory;
 import com.github.franckyi.databindings.api.*;
 import com.github.franckyi.guapi.GUAPI;
 import com.github.franckyi.guapi.api.event.ScreenEvent;
-import com.github.franckyi.guapi.api.event.ScreenEventHandler;
+import com.github.franckyi.guapi.api.node.ScreenEventHandler;
 import com.github.franckyi.guapi.api.event.ScreenEventListener;
 import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.api.node.Parent;
@@ -17,13 +17,9 @@ import com.github.franckyi.guapi.util.ScreenEventType;
 
 public abstract class AbstractNode implements Node {
     protected final IntegerProperty xProperty = PropertyFactory.ofInteger();
-    private final ObservableIntegerValue xPropertyReadOnly = PropertyFactory.readOnly(xProperty);
     protected final IntegerProperty yProperty = PropertyFactory.ofInteger();
-    private final ObservableIntegerValue yPropertyReadOnly = PropertyFactory.readOnly(yProperty);
     protected final IntegerProperty widthProperty = PropertyFactory.ofInteger();
-    private final ObservableIntegerValue widthPropertyReadOnly = PropertyFactory.readOnly(widthProperty);
     protected final IntegerProperty heightProperty = PropertyFactory.ofInteger();
-    private final ObservableIntegerValue heightPropertyReadOnly = PropertyFactory.readOnly(heightProperty);
 
     private final IntegerProperty minWidthProperty = PropertyFactory.ofInteger();
     private final IntegerProperty minHeightProperty = PropertyFactory.ofInteger();
@@ -43,7 +39,6 @@ public abstract class AbstractNode implements Node {
     private final ObjectProperty<Insets> paddingProperty = PropertyFactory.ofObject(Insets.NONE);
 
     protected final ObjectProperty<Parent> parentProperty = PropertyFactory.ofObject();
-    private final ObservableObjectValue<Parent> parentPropertyReadOnly = PropertyFactory.readOnly(parentProperty);
     protected final ObjectProperty<Scene> sceneProperty = PropertyFactory.ofObject();
     private final ObservableObjectValue<Scene> scenePropertyReadOnly = PropertyFactory.readOnly(sceneProperty);
 
@@ -60,8 +55,6 @@ public abstract class AbstractNode implements Node {
     private final ObservableBooleanValue hoveredProperty = sceneProperty()
             .bindMap(Scene::hoveredProperty, null)
             .mapToBoolean(node -> node == AbstractNode.this);
-
-    private final IntegerProperty renderPriorityProperty = PropertyFactory.ofInteger();
 
     protected Skin<? super Node> skin;
     protected final ScreenEventHandler eventHandlerDelegate = new ScreenEventHandlerDelegate();
@@ -86,68 +79,23 @@ public abstract class AbstractNode implements Node {
     }
 
     @Override
-    public int getX() {
-        return xProperty().getValue();
+    public IntegerProperty xProperty() {
+        return xProperty;
     }
 
     @Override
-    public ObservableIntegerValue xProperty() {
-        return xPropertyReadOnly;
+    public IntegerProperty yProperty() {
+        return yProperty;
     }
 
     @Override
-    public void setX(int value) {
-        xProperty.setValue(value);
+    public IntegerProperty widthProperty() {
+        return widthProperty;
     }
 
     @Override
-    public int getY() {
-        return yProperty().getValue();
-    }
-
-    @Override
-    public ObservableIntegerValue yProperty() {
-        return yPropertyReadOnly;
-    }
-
-    @Override
-    public void setY(int value) {
-        yProperty.setValue(value);
-    }
-
-    @Override
-    public int getWidth() {
-        return widthProperty().getValue();
-    }
-
-    @Override
-    public ObservableIntegerValue widthProperty() {
-        return widthPropertyReadOnly;
-    }
-
-    @Override
-    public void setWidth(int value) {
-        widthProperty.setValue(value);
-    }
-
-    @Override
-    public int getHeight() {
-        return heightProperty().getValue();
-    }
-
-    @Override
-    public ObservableIntegerValue heightProperty() {
-        return heightPropertyReadOnly;
-    }
-
-    @Override
-    public void setHeight(int value) {
-        heightProperty.setValue(value);
-    }
-
-    @Override
-    public int getMinWidth() {
-        return minWidthProperty().getValue();
+    public IntegerProperty heightProperty() {
+        return heightProperty;
     }
 
     @Override
@@ -156,28 +104,8 @@ public abstract class AbstractNode implements Node {
     }
 
     @Override
-    public void setMinWidth(int value) {
-        minWidthProperty().setValue(value);
-    }
-
-    @Override
-    public int getMinHeight() {
-        return minHeightProperty().getValue();
-    }
-
-    @Override
     public IntegerProperty minHeightProperty() {
         return minHeightProperty;
-    }
-
-    @Override
-    public void setMinHeight(int value) {
-        minHeightProperty().setValue(value);
-    }
-
-    @Override
-    public int getPrefWidth() {
-        return prefWidthProperty().getValue();
     }
 
     @Override
@@ -186,28 +114,8 @@ public abstract class AbstractNode implements Node {
     }
 
     @Override
-    public void setPrefWidth(int value) {
-        prefWidthProperty().setValue(value);
-    }
-
-    @Override
-    public int getPrefHeight() {
-        return prefHeightProperty().getValue();
-    }
-
-    @Override
     public IntegerProperty prefHeightProperty() {
         return prefHeightProperty;
-    }
-
-    @Override
-    public void setPrefHeight(int value) {
-        prefHeightProperty().setValue(value);
-    }
-
-    @Override
-    public int getMaxWidth() {
-        return maxWidthProperty().getValue();
     }
 
     @Override
@@ -216,28 +124,8 @@ public abstract class AbstractNode implements Node {
     }
 
     @Override
-    public void setMaxWidth(int value) {
-        maxWidthProperty().setValue(value);
-    }
-
-    @Override
-    public int getMaxHeight() {
-        return maxHeightProperty().getValue();
-    }
-
-    @Override
     public IntegerProperty maxHeightProperty() {
         return maxHeightProperty;
-    }
-
-    @Override
-    public void setMaxHeight(int value) {
-        maxHeightProperty().setValue(value);
-    }
-
-    @Override
-    public int getParentPrefWidth() {
-        return parentPrefWidthProperty().getValue();
     }
 
     @Override
@@ -246,28 +134,8 @@ public abstract class AbstractNode implements Node {
     }
 
     @Override
-    public void setParentPrefWidth(int value) {
-        parentPrefWidthProperty().setValue(value);
-    }
-
-    @Override
-    public int getParentPrefHeight() {
-        return parentPrefHeightProperty().getValue();
-    }
-
-    @Override
     public IntegerProperty parentPrefHeightProperty() {
         return parentPrefHeightProperty;
-    }
-
-    @Override
-    public void setParentPrefHeight(int value) {
-        parentPrefHeightProperty().setValue(value);
-    }
-
-    @Override
-    public int getComputedWidth() {
-        return computedWidthProperty().getValue();
     }
 
     @Override
@@ -280,11 +148,6 @@ public abstract class AbstractNode implements Node {
     }
 
     @Override
-    public int getComputedHeight() {
-        return computedHeightProperty().getValue();
-    }
-
-    @Override
     public ObservableIntegerValue computedHeightProperty() {
         return computedHeightPropertyReadOnly;
     }
@@ -294,23 +157,8 @@ public abstract class AbstractNode implements Node {
     }
 
     @Override
-    public int getBackgroundColor() {
-        return backgroundColorProperty().getValue();
-    }
-
-    @Override
     public IntegerProperty backgroundColorProperty() {
         return backgroundColorProperty;
-    }
-
-    @Override
-    public void setBackgroundColor(int value) {
-        backgroundColorProperty().setValue(value);
-    }
-
-    @Override
-    public Insets getPadding() {
-        return paddingProperty().getValue();
     }
 
     @Override
@@ -319,28 +167,8 @@ public abstract class AbstractNode implements Node {
     }
 
     @Override
-    public void setPadding(Insets value) {
-        paddingProperty().setValue(value);
-    }
-
-    @Override
-    public Parent getParent() {
-        return parentProperty().getValue();
-    }
-
-    @Override
-    public ObservableObjectValue<Parent> parentProperty() {
-        return parentPropertyReadOnly;
-    }
-
-    @Override
-    public void setParent(Parent value) {
-        parentProperty.setValue(value);
-    }
-
-    @Override
-    public Scene getScene() {
-        return sceneProperty().getValue();
+    public ObjectProperty<Parent> parentProperty() {
+        return parentProperty;
     }
 
     @Override
@@ -349,23 +177,8 @@ public abstract class AbstractNode implements Node {
     }
 
     @Override
-    public boolean isDisable() {
-        return disableProperty().getValue();
-    }
-
-    @Override
     public BooleanProperty disableProperty() {
         return disableProperty;
-    }
-
-    @Override
-    public void setDisable(boolean value) {
-        disableProperty().setValue(value);
-    }
-
-    @Override
-    public boolean isDisabled() {
-        return disabledProperty().getValue();
     }
 
     @Override
@@ -374,28 +187,13 @@ public abstract class AbstractNode implements Node {
     }
 
     @Override
-    public boolean isRoot() {
-        return rootProperty().getValue();
-    }
-
-    @Override
     public ObservableBooleanValue rootProperty() {
         return rootProperty;
     }
 
     @Override
-    public boolean isFocused() {
-        return focusedProperty().getValue();
-    }
-
-    @Override
     public ObservableBooleanValue focusedProperty() {
         return focusedProperty;
-    }
-
-    @Override
-    public boolean isHovered() {
-        return hoveredProperty().getValue();
     }
 
     @Override

@@ -4,7 +4,7 @@ import com.github.franckyi.databindings.api.IntegerProperty;
 import com.github.franckyi.databindings.api.ObjectProperty;
 import com.github.franckyi.guapi.util.Align;
 
-public interface SpacedGroup extends Group {
+public interface Box extends Group {
     int getSpacing();
 
     IntegerProperty spacingProperty();
@@ -16,4 +16,10 @@ public interface SpacedGroup extends Group {
     ObjectProperty<Align> alignmentProperty();
 
     void setAlignment(Align value);
+
+    void setWeight(Node node, int value);
+
+    void resetWeight(Node node);
+
+    int getWeight(Node node);
 }

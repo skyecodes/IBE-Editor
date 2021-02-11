@@ -4,7 +4,6 @@ import com.github.franckyi.databindings.api.*;
 import com.github.franckyi.guapi.api.EventTarget;
 import com.github.franckyi.guapi.api.Renderable;
 import com.github.franckyi.guapi.api.event.MouseEvent;
-import com.github.franckyi.guapi.api.event.ScreenEventHandler;
 import com.github.franckyi.guapi.util.Color;
 import com.github.franckyi.guapi.util.Insets;
 import com.github.franckyi.guapi.util.ScreenEventType;
@@ -15,127 +14,205 @@ public interface Node extends ScreenEventHandler, Renderable<Object>, EventTarge
     int COMPUTED_SIZE = -1;
     int NONE = -1;
 
-    int getX();
+    default int getX() {
+        return xProperty().getValue();
+    }
 
-    ObservableIntegerValue xProperty();
+    IntegerProperty xProperty();
 
-    void setX(int value);
+    default void setX(int value) {
+        xProperty().setValue(value);
+    }
 
-    int getY();
+    default int getY() {
+        return yProperty().getValue();
+    }
 
-    ObservableIntegerValue yProperty();
+    IntegerProperty yProperty();
 
-    void setY(int value);
+    default void setY(int value) {
+        yProperty().setValue(value);
+    }
 
-    int getWidth();
+    default int getWidth() {
+        return widthProperty().getValue();
+    }
 
-    ObservableIntegerValue widthProperty();
+    IntegerProperty widthProperty();
 
-    void setWidth(int value);
+    default void setWidth(int value) {
+        widthProperty().setValue(value);
+    }
 
-    int getHeight();
+    default int getHeight() {
+        return heightProperty().getValue();
+    }
 
-    ObservableIntegerValue heightProperty();
+    IntegerProperty heightProperty();
 
-    void setHeight(int value);
+    default void setHeight(int value) {
+        heightProperty().setValue(value);
+    }
 
-    int getMinWidth();
+    default int getMinWidth() {
+        return minWidthProperty().getValue();
+    }
 
     IntegerProperty minWidthProperty();
 
-    void setMinWidth(int value);
+    default void setMinWidth(int value) {
+        minWidthProperty().setValue(value);
+    }
 
-    int getMinHeight();
+    default int getMinHeight() {
+        return minHeightProperty().getValue();
+    }
 
     IntegerProperty minHeightProperty();
 
-    void setMinHeight(int value);
+    default void setMinHeight(int value) {
+        minHeightProperty().setValue(value);
+    }
 
-    int getPrefWidth();
+    default int getPrefWidth() {
+        return prefWidthProperty().getValue();
+    }
 
     IntegerProperty prefWidthProperty();
 
-    void setPrefWidth(int value);
+    default void setPrefWidth(int value) {
+        prefWidthProperty().setValue(value);
+    }
 
-    int getPrefHeight();
+    default int getPrefHeight() {
+        return prefHeightProperty().getValue();
+    }
 
     IntegerProperty prefHeightProperty();
 
-    void setPrefHeight(int value);
+    default void setPrefHeight(int value) {
+        prefHeightProperty().setValue(value);
+    }
 
-    int getMaxWidth();
+    default int getMaxWidth() {
+        return maxWidthProperty().getValue();
+    }
 
     IntegerProperty maxWidthProperty();
 
-    void setMaxWidth(int value);
+    default void setMaxWidth(int value) {
+        maxWidthProperty().setValue(value);
+    }
 
-    int getMaxHeight();
+    default int getMaxHeight() {
+        return maxHeightProperty().getValue();
+    }
 
     IntegerProperty maxHeightProperty();
 
-    void setMaxHeight(int value);
+    default void setMaxHeight(int value) {
+        maxHeightProperty().setValue(value);
+    }
 
-    int getParentPrefWidth();
+    default int getParentPrefWidth() {
+        return parentPrefWidthProperty().getValue();
+    }
 
     IntegerProperty parentPrefWidthProperty();
 
-    void setParentPrefWidth(int value);
+    default void setParentPrefWidth(int value) {
+        parentPrefWidthProperty().setValue(value);
+    }
 
-    int getParentPrefHeight();
+    default int getParentPrefHeight() {
+        return parentPrefHeightProperty().getValue();
+    }
 
     IntegerProperty parentPrefHeightProperty();
 
-    void setParentPrefHeight(int value);
+    default void setParentPrefHeight(int value) {
+        parentPrefHeightProperty().setValue(value);
+    }
 
-    int getComputedWidth();
+    default int getComputedWidth() {
+        return computedWidthProperty().getValue();
+    }
 
     ObservableIntegerValue computedWidthProperty();
 
-    int getComputedHeight();
+    default int getComputedHeight() {
+        return computedHeightProperty().getValue();
+    }
 
     ObservableIntegerValue computedHeightProperty();
 
-    int getBackgroundColor();
+    default int getBackgroundColor() {
+        return backgroundColorProperty().getValue();
+    }
 
     IntegerProperty backgroundColorProperty();
 
-    void setBackgroundColor(int value);
+    default void setBackgroundColor(int value) {
+        backgroundColorProperty().setValue(value);
+    }
 
-    Insets getPadding();
+    default Insets getPadding() {
+        return paddingProperty().getValue();
+    }
 
     ObjectProperty<Insets> paddingProperty();
 
-    void setPadding(Insets value);
+    default void setPadding(Insets value) {
+        paddingProperty().setValue(value);
+    }
 
-    Parent getParent();
+    default Parent getParent() {
+        return parentProperty().getValue();
+    }
 
-    ObservableObjectValue<Parent> parentProperty();
+    ObjectProperty<Parent> parentProperty();
 
-    void setParent(Parent value);
+    default void setParent(Parent value) {
+        parentProperty().setValue(value);
+    }
 
-    Scene getScene();
+    default Scene getScene() {
+        return sceneProperty().getValue();
+    }
 
     ObservableObjectValue<Scene> sceneProperty();
 
-    boolean isDisable();
+    default boolean isDisable() {
+        return disableProperty().getValue();
+    }
 
     BooleanProperty disableProperty();
 
-    void setDisable(boolean value);
+    default void setDisable(boolean value) {
+        disableProperty().setValue(value);
+    }
 
-    boolean isDisabled();
+    default boolean isDisabled() {
+        return disabledProperty().getValue();
+    }
 
     ObservableBooleanValue disabledProperty();
 
-    boolean isRoot();
+    default boolean isRoot() {
+        return rootProperty().getValue();
+    }
 
     ObservableBooleanValue rootProperty();
 
-    boolean isFocused();
+    default boolean isFocused() {
+        return focusedProperty().getValue();
+    }
 
     ObservableBooleanValue focusedProperty();
 
-    boolean isHovered();
+    default boolean isHovered() {
+        return hoveredProperty().getValue();
+    }
 
     ObservableBooleanValue hoveredProperty();
 

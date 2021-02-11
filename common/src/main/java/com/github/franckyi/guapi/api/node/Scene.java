@@ -5,47 +5,80 @@ import com.github.franckyi.databindings.api.IntegerProperty;
 import com.github.franckyi.databindings.api.ObjectProperty;
 import com.github.franckyi.databindings.api.ObservableObjectValue;
 import com.github.franckyi.guapi.api.Renderable;
-import com.github.franckyi.guapi.api.event.ScreenEventHandler;
 import com.github.franckyi.guapi.util.Insets;
 
-public interface Scene extends ScreenEventHandler, Parent, Renderable {
-    Node getRoot();
+public interface Scene extends ScreenEventHandler, Parent, Renderable<Object> {
+    default Node getRoot() {
+        return rootProperty().getValue();
+    }
 
     ObjectProperty<Node> rootProperty();
 
-    void setRoot(Node value);
+    default void setRoot(Node value) {
+        rootProperty().setValue(value);
+    }
 
-    boolean isFullScreen();
+    default boolean isFullScreen() {
+        return fullScreenProperty().getValue();
+    }
 
     BooleanProperty fullScreenProperty();
 
-    void setFullScreen(boolean value);
+    default void setFullScreen(boolean value) {
+        fullScreenProperty().setValue(value);
+    }
+
+    default int getWidth() {
+        return widthProperty().getValue();
+    }
 
     IntegerProperty widthProperty();
 
+    default int getHeight() {
+        return heightProperty().getValue();
+    }
+
     IntegerProperty heightProperty();
+
+    default Insets getPadding() {
+        return paddingProperty().getValue();
+    }
 
     ObjectProperty<Insets> paddingProperty();
 
-    void setPadding(Insets value);
+    default void setPadding(Insets value) {
+        paddingProperty().setValue(value);
+    }
 
-    boolean isTexturedBackground();
+    default boolean isTexturedBackground() {
+        return texturedBackgroundProperty().getValue();
+    }
 
     BooleanProperty texturedBackgroundProperty();
 
-    void setTexturedBackground(boolean value);
+    default void setTexturedBackground(boolean value) {
+        texturedBackgroundProperty().setValue(value);
+    }
 
-    boolean isCloseOnEsc();
+    default boolean isCloseOnEsc() {
+        return closeOnEscProperty().getValue();
+    }
 
     BooleanProperty closeOnEscProperty();
 
-    void setCloseOnEsc(boolean value);
+    default void setCloseOnEsc(boolean value) {
+        closeOnEscProperty().setValue(value);
+    }
 
-    Node getFocused();
+    default Node getFocused() {
+        return focusedProperty().getValue();
+    }
 
     ObservableObjectValue<Node> focusedProperty();
 
-    Node getHovered();
+    default Node getHovered() {
+        return hoveredProperty().getValue();
+    }
 
     ObservableObjectValue<Node> hoveredProperty();
 

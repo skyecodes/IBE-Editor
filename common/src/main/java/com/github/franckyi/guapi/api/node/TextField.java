@@ -4,15 +4,23 @@ import com.github.franckyi.databindings.api.IntegerProperty;
 import com.github.franckyi.databindings.api.StringProperty;
 
 public interface TextField extends Labeled {
-    String getText();
+    default String getText() {
+        return textProperty().getValue();
+    }
 
     StringProperty textProperty();
 
-    void setText(String value);
+    default void setText(String value) {
+        textProperty().setValue(value);
+    }
 
-    int getMaxLength();
+    default int getMaxLength() {
+        return maxLengthProperty().getValue();
+    }
 
     IntegerProperty maxLengthProperty();
 
-    void setMaxLength(int value);
+    default void setMaxLength(int value) {
+        maxLengthProperty().setValue(value);
+    }
 }
