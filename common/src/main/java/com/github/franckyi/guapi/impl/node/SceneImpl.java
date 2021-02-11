@@ -4,6 +4,9 @@ import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.api.node.builder.SceneBuilder;
 
 public class SceneImpl extends AbstractScene implements SceneBuilder {
+    public SceneImpl() {
+    }
+
     public SceneImpl(Node root) {
         super(root);
     }

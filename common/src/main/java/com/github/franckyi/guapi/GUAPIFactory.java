@@ -11,6 +11,7 @@ import com.github.franckyi.guapi.util.Color;
 import com.github.franckyi.guapi.util.Insets;
 
 import java.util.Collection;
+import java.util.function.Consumer;
 
 public final class GUAPIFactory {
     public static ButtonBuilder button() {
@@ -25,6 +26,10 @@ public final class GUAPIFactory {
         return new ButtonImpl(text);
     }
 
+    public static ButtonBuilder button(Consumer<ButtonBuilder> with) {
+        return button().with(with);
+    }
+
     public static CheckBoxBuilder checkBox() {
         return new CheckBoxImpl();
     }
@@ -35,6 +40,10 @@ public final class GUAPIFactory {
 
     public static CheckBoxBuilder checkBox(Text text) {
         return new CheckBoxImpl(text);
+    }
+
+    public static CheckBoxBuilder checkBox(Consumer<CheckBoxBuilder> with) {
+        return checkBox().with(with);
     }
 
     public static HBoxBuilder hBox() {
@@ -61,6 +70,10 @@ public final class GUAPIFactory {
         return new HBoxImpl(spacing, children);
     }
 
+    public static HBoxBuilder hBox(Consumer<HBoxBuilder> with) {
+        return hBox().with(with);
+    }
+
     public static LabelBuilder label() {
         return new LabelImpl();
     }
@@ -81,6 +94,14 @@ public final class GUAPIFactory {
         return new LabelImpl(text, shadow);
     }
 
+    public static LabelBuilder label(Consumer<LabelBuilder> with) {
+        return label().with(with);
+    }
+
+    public static <E> ListViewBuilder<E> listView() {
+        return new ListViewImpl<>();
+    }
+
     public static <E> ListViewBuilder<E> listView(int itemHeight) {
         return new ListViewImpl<>(itemHeight);
     }
@@ -92,6 +113,10 @@ public final class GUAPIFactory {
 
     public static <E> ListViewBuilder<E> listView(int itemHeight, Collection<? extends E> items) {
         return new ListViewImpl<>(itemHeight, items);
+    }
+
+    public static <E> ListViewBuilder<E> listView(Class<E> eClass, Consumer<ListViewBuilder<E>> with) {
+        return GUAPIFactory.<E>listView().with(with);
     }
 
     public static TextFieldBuilder textField() {
@@ -108,6 +133,10 @@ public final class GUAPIFactory {
 
     public static TextFieldBuilder textField(Text label, String value) {
         return new TextFieldImpl(label, value);
+    }
+
+    public static TextFieldBuilder textField(Consumer<TextFieldBuilder> with) {
+        return textField().with(with);
     }
 
     public static VBoxBuilder vBox() {
@@ -134,6 +163,14 @@ public final class GUAPIFactory {
         return new VBoxImpl(spacing, children);
     }
 
+    public static VBoxBuilder vBox(Consumer<VBoxBuilder> with) {
+        return vBox().with(with);
+    }
+
+    public static SceneBuilder scene() {
+        return new SceneImpl();
+    }
+
     public static SceneBuilder scene(Node root) {
         return new SceneImpl(root);
     }
@@ -144,6 +181,10 @@ public final class GUAPIFactory {
 
     public static SceneBuilder scene(Node root, boolean fullScreen, boolean texturedBackground) {
         return new SceneImpl(root, fullScreen, texturedBackground);
+    }
+
+    public static SceneBuilder scene(Consumer<SceneBuilder> with) {
+        return scene().with(with);
     }
 
     public static final TextFormatting BLACK = TextFormatting.BLACK;

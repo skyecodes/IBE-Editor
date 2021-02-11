@@ -32,6 +32,10 @@ public abstract class AbstractScene implements Scene {
     private final ObservableValue<Boolean> disabledProperty = ObservableValue.of(false);
     protected boolean shouldUpdateChildrenPos;
 
+    protected AbstractScene() {
+        this(null);
+    }
+
     protected AbstractScene(Node root) {
         this(root, false);
     }

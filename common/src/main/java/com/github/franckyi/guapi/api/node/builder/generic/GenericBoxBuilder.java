@@ -20,4 +20,11 @@ public interface GenericBoxBuilder<N extends Box> extends Box, GenericGroupBuild
     default N weight(int index, int value) {
         return weight(getChildren().get(index), value);
     }
+
+    default N add(Node node, int weight) {
+        return with(n -> {
+            add(node);
+            weight(node, weight);
+        });
+    }
 }

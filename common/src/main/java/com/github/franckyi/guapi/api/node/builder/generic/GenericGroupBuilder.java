@@ -13,4 +13,8 @@ public interface GenericGroupBuilder<N extends Group> extends Group, GenericNode
     default N children(Collection<? extends Node> value) {
         return with(n -> n.getChildren().setAll(value));
     }
+
+    default N add(Node value) {
+        return with(n -> n.getChildren().add(value));
+    }
 }

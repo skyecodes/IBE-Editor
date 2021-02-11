@@ -23,6 +23,10 @@ public abstract class AbstractListView<E> extends AbstractNode implements ListVi
     private final IntegerProperty baseYProperty = PropertyFactory.ofInteger();
     private final ObjectProperty<ListView.Renderer<E>> rendererProperty = PropertyFactory.ofObject();
 
+    protected AbstractListView() {
+        this(0);
+    }
+
     protected AbstractListView(int itemHeight) {
         this(itemHeight, Collections.emptyList());
     }

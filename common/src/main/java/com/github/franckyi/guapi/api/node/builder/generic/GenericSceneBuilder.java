@@ -10,8 +10,16 @@ public interface GenericSceneBuilder<S extends Scene> extends Scene, Builder<S> 
         return with(s -> s.setRoot(value));
     }
 
+    default S add(Node value) {
+        return root(value);
+    }
+
     default S fullScreen(boolean value) {
         return with(s -> s.setFullScreen(value));
+    }
+
+    default S texturedBackground(boolean value) {
+        return with(s -> s.setTexturedBackground(value));
     }
 
     default S padding(Insets value) {

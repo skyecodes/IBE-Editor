@@ -6,6 +6,10 @@ import com.github.franckyi.guapi.util.NodeType;
 import java.util.Collection;
 
 public class ListViewImpl<E> extends AbstractListView<E> implements ListViewBuilder<E> {
+    public ListViewImpl() {
+        super();
+    }
+
     public ListViewImpl(int itemHeight) {
         super(itemHeight);
     }
