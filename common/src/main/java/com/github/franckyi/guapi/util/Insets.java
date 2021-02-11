@@ -6,8 +6,8 @@ public final class Insets {
     public static final Insets NONE = new Insets(0);
     private final int top, right, bottom, left;
 
-    public Insets(int topRightBottomLeft) {
-        this(topRightBottomLeft, topRightBottomLeft);
+    public Insets(int value) {
+        this(value, value);
     }
 
     public Insets(int topBottom, int rightLeft) {

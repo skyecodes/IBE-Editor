@@ -39,8 +39,8 @@ public interface GenericNodeBuilder<N extends Node> extends Node, Builder<N> {
         return with(n -> n.setPadding(value));
     }
 
-    default N padding(int topRightBottomLeft) {
-        return padding(new Insets(topRightBottomLeft));
+    default N padding(int value) {
+        return padding(new Insets(value));
     }
 
     default N padding(int topBottom, int rightLeft) {

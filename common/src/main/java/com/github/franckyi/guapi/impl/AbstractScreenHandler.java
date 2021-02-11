@@ -11,12 +11,14 @@ import com.github.franckyi.guapi.api.node.Scene;
 import com.github.franckyi.guapi.impl.event.*;
 import com.github.franckyi.guapi.util.ScreenEventType;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.function.Consumer;
 
 public abstract class AbstractScreenHandler<T> implements ScreenHandler {
-    private final Queue<Scene> scenes = new LinkedList<>();
+    private final Deque<Scene> scenes = new ArrayDeque<>();
     private final ObjectProperty<Scene> currentSceneProperty = PropertyFactory.ofObject();
     private final IntegerProperty widthProperty = PropertyFactory.ofInteger();
     private final IntegerProperty heightProperty = PropertyFactory.ofInteger();
@@ -47,13 +49,13 @@ public abstract class AbstractScreenHandler<T> implements ScreenHandler {
 
     @Override
     public void show(Scene scene) {
-        scenes.add(scene);
+        scenes.push(scene);
         setCurrentScene(scene);
     }
 
     @Override
     public void hide() {
-        scenes.poll();
+        scenes.pop();
         setCurrentScene(scenes.peek());
     }
 

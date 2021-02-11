@@ -75,45 +75,27 @@ public class IBEEditorClient {
         GUAPI.getScreenHandler().show(
             scene(
                 vBox(5,
-                    hBox(
-                        label(text("Editor", AQUA, BOLD), true)
-                            .textAlign(CENTER)
-                            .prefHeight(20))
-                        .align(CENTER),
+                    label(text("Editor A", AQUA, BOLD), true).textAlign(CENTER).prefHeight(20),
                     hBox(10,
                         listView(25, "Category A", "Category B", "Category C", "Category D",
                             "Category E", "Category F", "Category G", "Category H",
                             "Category I", "Category J", "Category K", "Category L")
-                            .padding(5)
-                            .renderer(item -> label(item).textAlign(CENTER)),
+                            .padding(5).renderer(item -> label(item).textAlign(CENTER)),
                         listView(25, "Property A", "Property B", "Property C", "Property D",
                             "Property E", "Property F", "Property G", "Property H",
                             "Property I", "Property J", "Property K", "Property L")
-                            .padding(5)
-                            .renderer(item ->
-                                hBox(10,
-                                    label(item, true),
-                                    textField(item))
-                                    .align(CENTER)
-                                    .weight(0, 1)
-                                    .weight(1, 2)))
-                        .weight(0, 1)
-                        .weight(1, 2)
-                        .fillHeight(true),
+                            .padding(5).renderer(item ->
+                            hBox(10,
+                                label(item, true),
+                                textField(item)
+                            ).align(CENTER).weight(0, 1).weight(1, 2))
+                    ).weight(0, 1).weight(1, 2).fillHeight(),
                     hBox(20,
-                        button(text("Done", GREEN))
-                            .prefWidth(90)
-                            .onClick(e -> GUAPI.getScreenHandler().hide()),
-                        button(text("Cancel", RED))
-                            .prefWidth(90)
-                            .onClick(e -> GUAPI.setDebugMode(!GUAPI.isDebugMode())))
-                        .align(CENTER))
-                    .align(CENTER)
-                    .padding(5)
-                    .fillWidth(true)
-                    .weight(1, 1),
-                true, true
-            )
+                        button(text("Done", GREEN)).prefWidth(90).onClick(e -> GUAPI.getScreenHandler().hide()),
+                        button(text("Cancel", RED)).prefWidth(90).onClick(e -> GUAPI.setDebugMode(!GUAPI.isDebugMode()))
+                    ).align(CENTER)
+                ).align(CENTER).padding(5).fillWidth().weight(1, 1)
+            ).fullScreen().texturedBackground()
         );
 
         GUAPI.getScreenHandler().show(scene(scene -> {
@@ -125,7 +107,7 @@ public class IBEEditorClient {
                     .padding(5)
                     .fillWidth();
                 root.add(label(header -> {
-                    header.label("Editor", AQUA, BOLD)
+                    header.label("Editor B", AQUA, BOLD)
                         .textAlign(CENTER)
                         .prefHeight(20);
                 }));
