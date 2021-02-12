@@ -11,12 +11,11 @@ buildscript {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '4.0.13'
     }
 }
+
 apply plugin: 'net.minecraftforge.gradle'
 
-sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = JavaVersion.VERSION_1_8
-
 minecraft {
-    mappings channel: "snapshot", version: "20201028-1.16.3"
+    mappings channel: "$mappings_channel", version: "$mappings_version"
     runs {
         client {
             workingDirectory project.file('../run')
@@ -41,7 +40,7 @@ minecraft {
 }
 
 dependencies {
-    minecraft "net.minecraftforge:forge:1.16.5-36.0.22"
+    minecraft "net.minecraftforge:forge:$forge_version"
     implementation project(':common')
 }
 

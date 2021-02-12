@@ -1,18 +1,10 @@
-buildscript {
-    repositories {
-        maven {
-            name = "Modmuss50"
-            url = "http://maven.modmuss50.me/"
-        }
-        jcenter()
-    }
-}
-plugins {
-    id 'java'
+allprojects {
+    apply plugin: 'java'
+    sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = JavaVersion.VERSION_1_8
 }
 
 group = "com.github.franckyi"
-archivesBaseName = "IBEEditor-$game_version"
+archivesBaseName = "IBEEditor-$minecraft_version"
 
 task buildJar(type: Jar) {
     dependsOn ":common:jar", ":fabric:build", ":forge:build"

@@ -1,14 +1,22 @@
+buildscript {
+    repositories {
+        maven {
+            name = "Modmuss50"
+            url = "http://maven.modmuss50.me/"
+        }
+        jcenter()
+    }
+}
+
 plugins {
     id 'fabric-loom' version '0.5-SNAPSHOT'
 }
 
-sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = JavaVersion.VERSION_1_8
-
 dependencies {
-    minecraft "com.mojang:minecraft:1.16.5"
-    mappings "net.fabricmc:yarn:1.16.5+build.4:v2"
-    modImplementation "net.fabricmc:fabric-loader:0.11.1"
-    modImplementation "net.fabricmc.fabric-api:fabric-api:0.30.0+1.16"
+    minecraft "com.mojang:minecraft:$minecraft_version"
+    mappings "net.fabricmc:yarn:$yarn_mappings:v2"
+    modImplementation "net.fabricmc:fabric-loader:$loader_version"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:$fabric_version"
     implementation project(':common')
 }
 
