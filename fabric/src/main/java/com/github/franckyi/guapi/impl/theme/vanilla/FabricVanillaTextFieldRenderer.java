@@ -1,13 +1,12 @@
 package com.github.franckyi.guapi.impl.theme.vanilla;
 
 import com.github.franckyi.guapi.api.node.TextField;
-import com.github.franckyi.guapi.api.theme.vanilla.VanillaDelegatedRenderer;
+import com.github.franckyi.guapi.api.theme.vanilla.FabricVanillaDelegateRenderer;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 
-public class FabricVanillaTextFieldRenderer extends TextFieldWidget implements VanillaDelegatedRenderer<MatrixStack> {
+public class FabricVanillaTextFieldRenderer extends TextFieldWidget implements FabricVanillaDelegateRenderer {
     private final TextField node;
 
     public FabricVanillaTextFieldRenderer(TextField node) {
@@ -32,19 +31,5 @@ public class FabricVanillaTextFieldRenderer extends TextFieldWidget implements V
             setCursor(cursor);
         });
         node.focusedProperty().addListener(this::setFocused);
-    }
-
-    @Override
-    public void mouseMoved(double mouseX, double mouseY) {
-    }
-
-    @Override
-    public boolean mouseScrolled(double mouseX, double mouseY, double amount) {
-        return false;
-    }
-
-    @Override
-    public boolean keyReleased(int keyCode, int scanCode, int modifiers) {
-        return false;
     }
 }

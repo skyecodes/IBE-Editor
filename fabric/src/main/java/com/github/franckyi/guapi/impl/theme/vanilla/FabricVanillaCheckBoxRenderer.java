@@ -1,12 +1,11 @@
 package com.github.franckyi.guapi.impl.theme.vanilla;
 
 import com.github.franckyi.guapi.api.node.CheckBox;
-import com.github.franckyi.guapi.api.theme.vanilla.VanillaDelegatedRenderer;
+import com.github.franckyi.guapi.api.theme.vanilla.FabricVanillaDelegateRenderer;
 import net.minecraft.client.gui.widget.CheckboxWidget;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 
-public class FabricVanillaCheckBoxRenderer extends CheckboxWidget implements VanillaDelegatedRenderer<MatrixStack> {
+public class FabricVanillaCheckBoxRenderer extends CheckboxWidget implements FabricVanillaDelegateRenderer {
     private final CheckBox node;
 
     public FabricVanillaCheckBoxRenderer(CheckBox node) {
@@ -20,24 +19,5 @@ public class FabricVanillaCheckBoxRenderer extends CheckboxWidget implements Van
         node.<Text>labelComponentProperty().addListener(this::setMessage);
         node.checkedProperty().addListener(this::onPress);
         node.disabledProperty().addListener(newVal -> active = !newVal);
-    }
-
-    @Override
-    public void mouseMoved(double mouseX, double mouseY) {
-    }
-
-    @Override
-    public boolean mouseScrolled(double mouseX, double mouseY, double amount) {
-        return false;
-    }
-
-    @Override
-    public boolean keyReleased(int keyCode, int scanCode, int modifiers) {
-        return false;
-    }
-
-    @Override
-    public boolean charTyped(char chr, int modifiers) {
-        return false;
     }
 }

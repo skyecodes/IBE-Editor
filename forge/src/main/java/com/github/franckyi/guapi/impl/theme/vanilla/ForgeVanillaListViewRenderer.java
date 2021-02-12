@@ -6,13 +6,13 @@ import com.github.franckyi.guapi.api.event.MouseEvent;
 import com.github.franckyi.guapi.api.event.MouseScrollEvent;
 import com.github.franckyi.guapi.api.node.ListView;
 import com.github.franckyi.guapi.api.node.Node;
-import com.github.franckyi.guapi.api.theme.vanilla.VanillaDelegatedRenderer;
+import com.github.franckyi.guapi.api.theme.vanilla.ForgeVanillaDelegateRenderer;
 import com.github.franckyi.guapi.util.ScreenEventType;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.widget.list.AbstractList;
 
-public class ForgeVanillaListViewRenderer<E> extends AbstractList<ForgeVanillaListViewRenderer.NodeEntry> implements VanillaDelegatedRenderer<MatrixStack> {
+public class ForgeVanillaListViewRenderer<E> extends AbstractList<ForgeVanillaListViewRenderer.NodeEntry> implements ForgeVanillaDelegateRenderer {
     private final ListView<E> node;
     private boolean shouldRefreshSize = true;
     private boolean shouldRefreshList = true;
@@ -97,20 +97,6 @@ public class ForgeVanillaListViewRenderer<E> extends AbstractList<ForgeVanillaLi
     }
 
     @Override
-    public void mouseMoved(double mouseX, double mouseY) {
-    }
-
-    @Override
-    public boolean keyReleased(int keyCode, int scanCode, int modifiers) {
-        return false;
-    }
-
-    @Override
-    public boolean charTyped(char chr, int modifiers) {
-        return false;
-    }
-
-    @Override
     public void tick() {
         for (NodeEntry child : getEventListeners()) {
             child.node.tick();
@@ -119,31 +105,31 @@ public class ForgeVanillaListViewRenderer<E> extends AbstractList<ForgeVanillaLi
 
     @Override
     public void mouseClicked(MouseButtonEvent event) {
-        VanillaDelegatedRenderer.super.mouseClicked(event);
+        ForgeVanillaDelegateRenderer.super.mouseClicked(event);
         handleMouseEvent(ScreenEventType.MOUSE_CLICKED, event);
     }
 
     @Override
     public void mouseReleased(MouseButtonEvent event) {
-        VanillaDelegatedRenderer.super.mouseReleased(event);
+        ForgeVanillaDelegateRenderer.super.mouseReleased(event);
         handleMouseEvent(ScreenEventType.MOUSE_RELEASED, event);
     }
 
     @Override
     public void mouseDragged(MouseDragEvent event) {
-        VanillaDelegatedRenderer.super.mouseDragged(event);
+        ForgeVanillaDelegateRenderer.super.mouseDragged(event);
         handleMouseEvent(ScreenEventType.MOUSE_DRAGGED, event);
     }
 
     @Override
     public void mouseScrolled(MouseScrollEvent event) {
-        VanillaDelegatedRenderer.super.mouseScrolled(event);
+        ForgeVanillaDelegateRenderer.super.mouseScrolled(event);
         handleMouseEvent(ScreenEventType.MOUSE_SCOLLED, event);
     }
 
     @Override
     public void mouseMoved(MouseEvent event) {
-        VanillaDelegatedRenderer.super.mouseMoved(event);
+        ForgeVanillaDelegateRenderer.super.mouseMoved(event);
         handleMouseEvent(ScreenEventType.MOUSE_MOVED, event);
     }
 

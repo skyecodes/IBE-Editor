@@ -6,13 +6,13 @@ import com.github.franckyi.guapi.api.event.MouseEvent;
 import com.github.franckyi.guapi.api.event.MouseScrollEvent;
 import com.github.franckyi.guapi.api.node.ListView;
 import com.github.franckyi.guapi.api.node.Node;
-import com.github.franckyi.guapi.api.theme.vanilla.VanillaDelegatedRenderer;
+import com.github.franckyi.guapi.api.theme.vanilla.FabricVanillaDelegateRenderer;
 import com.github.franckyi.guapi.util.ScreenEventType;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.widget.EntryListWidget;
 import net.minecraft.client.util.math.MatrixStack;
 
-public class FabricVanillaListViewRenderer<E> extends EntryListWidget<FabricVanillaListViewRenderer.NodeEntry> implements VanillaDelegatedRenderer<MatrixStack> {
+public class FabricVanillaListViewRenderer<E> extends EntryListWidget<FabricVanillaListViewRenderer.NodeEntry> implements FabricVanillaDelegateRenderer {
     private final ListView<E> node;
     private boolean shouldRefreshSize = true;
     private boolean shouldRefreshList = true;
@@ -90,24 +90,11 @@ public class FabricVanillaListViewRenderer<E> extends EntryListWidget<FabricVani
     private void refreshList() {
         children().clear();
         node.getItems().stream()
-                .map(node.getRenderer()::getView)
-                .map(n -> new NodeEntry(node, n))
+            .map(node.getRenderer()::getView)
+            .peek(n -> n.setParent(node))
+            .map(NodeEntry::new)
                 .forEach(this::addEntry);
         shouldRefreshList = false;
-    }
-
-    @Override
-    public void mouseMoved(double mouseX, double mouseY) {
-    }
-
-    @Override
-    public boolean keyReleased(int keyCode, int scanCode, int modifiers) {
-        return false;
-    }
-
-    @Override
-    public boolean charTyped(char chr, int modifiers) {
-        return false;
     }
 
     @Override
@@ -119,31 +106,31 @@ public class FabricVanillaListViewRenderer<E> extends EntryListWidget<FabricVani
 
     @Override
     public void mouseClicked(MouseButtonEvent event) {
-        VanillaDelegatedRenderer.super.mouseClicked(event);
+        FabricVanillaDelegateRenderer.super.mouseClicked(event);
         handleMouseEvent(ScreenEventType.MOUSE_CLICKED, event);
     }
 
     @Override
     public void mouseReleased(MouseButtonEvent event) {
-        VanillaDelegatedRenderer.super.mouseReleased(event);
+        FabricVanillaDelegateRenderer.super.mouseReleased(event);
         handleMouseEvent(ScreenEventType.MOUSE_RELEASED, event);
     }
 
     @Override
     public void mouseDragged(MouseDragEvent event) {
-        VanillaDelegatedRenderer.super.mouseDragged(event);
+        FabricVanillaDelegateRenderer.super.mouseDragged(event);
         handleMouseEvent(ScreenEventType.MOUSE_DRAGGED, event);
     }
 
     @Override
     public void mouseScrolled(MouseScrollEvent event) {
-        VanillaDelegatedRenderer.super.mouseScrolled(event);
+        FabricVanillaDelegateRenderer.super.mouseScrolled(event);
         handleMouseEvent(ScreenEventType.MOUSE_SCOLLED, event);
     }
 
     @Override
     public void mouseMoved(MouseEvent event) {
-        VanillaDelegatedRenderer.super.mouseMoved(event);
+        FabricVanillaDelegateRenderer.super.mouseMoved(event);
         handleMouseEvent(ScreenEventType.MOUSE_MOVED, event);
     }
 
@@ -155,13 +142,10 @@ public class FabricVanillaListViewRenderer<E> extends EntryListWidget<FabricVani
     }
 
     protected static class NodeEntry extends EntryListWidget.Entry<NodeEntry> {
-        private final ListView<?> parent;
         private final Node node;
 
-        public NodeEntry(ListView<?> parent, Node node) {
-            this.parent = parent;
+        public NodeEntry(Node node) {
             this.node = node;
-            node.setParent(parent);
         }
 
         @Override

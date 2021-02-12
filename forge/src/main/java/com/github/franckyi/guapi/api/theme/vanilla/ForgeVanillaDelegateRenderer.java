@@ -2,44 +2,10 @@ package com.github.franckyi.guapi.api.theme.vanilla;
 
 import com.github.franckyi.guapi.api.event.*;
 import com.github.franckyi.guapi.api.theme.DelegatedRenderer;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import net.minecraft.client.gui.IGuiEventListener;
 
-public interface VanillaDelegatedRenderer<M> extends DelegatedRenderer<M> {
-    default void mouseMoved(double mouseX, double mouseY) {
-    }
-
-    default boolean mouseClicked(double mouseX, double mouseY, int button) {
-        return false;
-    }
-
-    default boolean mouseReleased(double mouseX, double mouseY, int button) {
-        return false;
-    }
-
-    default boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
-        return false;
-    }
-
-    default boolean mouseScrolled(double mouseX, double mouseY, double amount) {
-        return false;
-    }
-
-    default boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        return false;
-    }
-
-    default boolean keyReleased(int keyCode, int scanCode, int modifiers) {
-        return false;
-    }
-
-    default boolean charTyped(char chr, int modifiers) {
-        return false;
-    }
-
-    @Override
-    default void mouseMoved(MouseEvent event) {
-        mouseMoved(event.getMouseX(), event.getMouseY());
-    }
-
+public interface ForgeVanillaDelegateRenderer extends DelegatedRenderer<MatrixStack>, IGuiEventListener {
     @Override
     default void mouseClicked(MouseButtonEvent event) {
         mouseClicked(event.getMouseX(), event.getMouseY(), event.getButton());
@@ -73,5 +39,10 @@ public interface VanillaDelegatedRenderer<M> extends DelegatedRenderer<M> {
     @Override
     default void charTyped(TypeEvent event) {
         charTyped(event.getCharacter(), event.getModifiers());
+    }
+
+    @Override
+    default void mouseMoved(MouseEvent event) {
+        mouseMoved(event.getMouseX(), event.getMouseY());
     }
 }

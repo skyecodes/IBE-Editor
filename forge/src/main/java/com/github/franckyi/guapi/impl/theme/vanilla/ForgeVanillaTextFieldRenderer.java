@@ -1,13 +1,12 @@
 package com.github.franckyi.guapi.impl.theme.vanilla;
 
 import com.github.franckyi.guapi.api.node.TextField;
-import com.github.franckyi.guapi.api.theme.vanilla.VanillaDelegatedRenderer;
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.github.franckyi.guapi.api.theme.vanilla.ForgeVanillaDelegateRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.util.text.ITextComponent;
 
-public class ForgeVanillaTextFieldRenderer extends TextFieldWidget implements VanillaDelegatedRenderer<MatrixStack> {
+public class ForgeVanillaTextFieldRenderer extends TextFieldWidget implements ForgeVanillaDelegateRenderer {
     private final TextField node;
 
     public ForgeVanillaTextFieldRenderer(TextField node) {
@@ -28,19 +27,5 @@ public class ForgeVanillaTextFieldRenderer extends TextFieldWidget implements Va
         node.maxLengthProperty().addListener(this::setMaxStringLength);
         node.textProperty().addListener(this::setText);
         node.focusedProperty().addListener(this::setFocused);
-    }
-
-    @Override
-    public void mouseMoved(double xPos, double mouseY) {
-    }
-
-    @Override
-    public boolean mouseScrolled(double mouseX, double mouseY, double delta) {
-        return false;
-    }
-
-    @Override
-    public boolean keyReleased(int keyCode, int scanCode, int modifiers) {
-        return false;
     }
 }
