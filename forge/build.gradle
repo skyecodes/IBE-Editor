@@ -13,14 +13,13 @@ buildscript {
 }
 apply plugin: 'net.minecraftforge.gradle'
 
-archivesBaseName = project.hasProperty("outputJarBaseName") ? project.outputJarBaseName : "forge"
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = JavaVersion.VERSION_1_8
 
 minecraft {
-    mappings channel: "${project.mappings_channel}", version: "${project.mappings_version}"
+    mappings channel: "snapshot", version: "20201028-1.16.3"
     runs {
         client {
-            workingDirectory project.file('run')
+            workingDirectory project.file('../run')
             property 'forge.logging.console.level', 'debug'
             mods {
                 ibeeditor {
@@ -30,7 +29,7 @@ minecraft {
         }
 
         server {
-            workingDirectory project.file('run')
+            workingDirectory project.file('../run')
             property 'forge.logging.console.level', 'debug'
             mods {
                 ibeeditor {
@@ -42,6 +41,6 @@ minecraft {
 }
 
 dependencies {
-    minecraft "net.minecraftforge:forge:${project.forge_version}"
+    minecraft "net.minecraftforge:forge:1.16.5-36.0.22"
     implementation project(':common')
 }

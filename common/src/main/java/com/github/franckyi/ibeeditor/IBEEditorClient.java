@@ -75,12 +75,12 @@ public class IBEEditorClient {
         GUAPI.getScreenHandler().show(
             scene(
                 vBox(5,
-                    label(text("Editor A", AQUA, BOLD), true).textAlign(CENTER).prefHeight(20),
+                    label(text("Editor", AQUA, BOLD), true).textAlign(CENTER).prefHeight(20),
                     hBox(10,
                         listView(25, "Category A", "Category B", "Category C", "Category D",
                             "Category E", "Category F", "Category G", "Category H",
                             "Category I", "Category J", "Category K", "Category L")
-                            .padding(5).renderer(item -> label(item).textAlign(CENTER)),
+                            .padding(5).renderer(item -> label(item, true).textAlign(CENTER)),
                         listView(25, "Property A", "Property B", "Property C", "Property D",
                             "Property E", "Property F", "Property G", "Property H",
                             "Property I", "Property J", "Property K", "Property L")
@@ -98,7 +98,7 @@ public class IBEEditorClient {
             ).fullScreen().texturedBackground()
         );
 
-        GUAPI.getScreenHandler().show(scene(scene -> {
+        /*GUAPI.getScreenHandler().show(scene(scene -> {
             scene.fullScreen()
                 .texturedBackground();
             scene.add(vBox(root -> {
@@ -149,7 +149,7 @@ public class IBEEditorClient {
                     );
                 }));
             }));
-        }));
+        }));*/
     }
 
     public static void handleScreenEvent(Screen screen, int keyCode) {

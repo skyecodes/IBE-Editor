@@ -16,3 +16,6 @@ classes/
 bin/
 .classpath
 .project
+
+# minecraft
+run/

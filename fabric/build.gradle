@@ -4,13 +4,11 @@ plugins {
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = JavaVersion.VERSION_1_8
 
-archivesBaseName = project.hasProperty("outputJarBaseName") ? project.outputJarBaseName : "fabric"
-
 dependencies {
-    minecraft "com.mojang:minecraft:${project.minecraft_version}"
-    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+    minecraft "com.mojang:minecraft:1.16.5"
+    mappings "net.fabricmc:yarn:1.16.5+build.4:v2"
+    modImplementation "net.fabricmc:fabric-loader:0.11.1"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:0.30.0+1.16"
     implementation project(':common')
 }
 
