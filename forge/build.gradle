@@ -44,3 +44,7 @@ dependencies {
     minecraft "net.minecraftforge:forge:1.16.5-36.0.22"
     implementation project(':common')
 }
+
+processResources {
+    from "src/main/resources", "../common/src/main/resources"
+}

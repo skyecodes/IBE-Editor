@@ -16,6 +16,7 @@ archivesBaseName = "IBEEditor-$game_version"
 
 task buildJar(type: Jar) {
     dependsOn ":common:jar", ":fabric:build", ":forge:build"
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     from zipTree("common/build/libs/common-${version}.jar"), zipTree("fabric/build/libs/fabric-${version}.jar"), zipTree("forge/build/libs/forge-${version}.jar")
     manifest {
         attributes([

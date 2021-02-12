@@ -13,6 +13,8 @@ dependencies {
 }
 
 processResources {
+    from "src/main/resources", "../common/src/main/resources"
+
     inputs.property "version", project.version
 
     filesMatching("fabric.mod.json") {
