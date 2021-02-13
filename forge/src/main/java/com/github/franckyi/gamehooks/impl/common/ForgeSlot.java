@@ -18,7 +18,7 @@ public class ForgeSlot implements Slot {
     }
 
     @Override
-    public boolean isPlayerInventory() {
+    public boolean isInPlayerInventory() {
         return slot.inventory instanceof PlayerInventory;
     }
 

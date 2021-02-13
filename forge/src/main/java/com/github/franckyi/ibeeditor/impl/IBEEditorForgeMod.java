@@ -1,4 +1,4 @@
-package com.github.franckyi.ibeeditor;
+package com.github.franckyi.ibeeditor.impl;
 
 import com.github.franckyi.gamehooks.impl.ForgeClientHooks;
 import com.github.franckyi.gamehooks.impl.ForgeCommonHooks;
@@ -7,6 +7,8 @@ import com.github.franckyi.gamehooks.impl.client.ForgeScreen;
 import com.github.franckyi.guapi.impl.ForgeScreenHandler;
 import com.github.franckyi.guapi.impl.theme.vanilla.*;
 import com.github.franckyi.guapi.util.NodeType;
+import com.github.franckyi.ibeeditor.impl.IBEEditor;
+import com.github.franckyi.ibeeditor.impl.client.IBEEditorClient;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraftforge.client.event.GuiScreenEvent;

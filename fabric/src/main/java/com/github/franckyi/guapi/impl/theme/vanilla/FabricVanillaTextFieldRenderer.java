@@ -7,17 +7,15 @@ import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.text.Text;
 
 public class FabricVanillaTextFieldRenderer extends TextFieldWidget implements FabricVanillaDelegateRenderer {
-    private final TextField node;
-
     public FabricVanillaTextFieldRenderer(TextField node) {
         super(MinecraftClient.getInstance().textRenderer, node.getX(), node.getY(), node.getWidth(), node.getHeight(), node.getLabelComponent());
-        this.node = node;
         active = !node.isDisabled();
         setMaxLength(node.getMaxLength());
         setText(node.getText());
         setCursorToStart(); // fix in order to render text
         setFocused(node.isFocused());
         setChangedListener(node::setText);
+        setTextPredicate(node.getValidator());
         node.xProperty().addListener(newVal -> x = newVal);
         node.yProperty().addListener(newVal -> y = newVal);
         node.widthProperty().addListener(newVal -> width = newVal);
@@ -31,5 +29,6 @@ public class FabricVanillaTextFieldRenderer extends TextFieldWidget implements F
             setCursor(cursor);
         });
         node.focusedProperty().addListener(this::setFocused);
+        node.validatorProperty().addListener(this::setTextPredicate);
     }
 }

@@ -1,4 +1,4 @@
-package com.github.franckyi.ibeeditor;
+package com.github.franckyi.ibeeditor.impl;
 
 import com.github.franckyi.gamehooks.impl.FabricClientHooks;
 import com.github.franckyi.gamehooks.impl.FabricCommonHooks;
@@ -7,6 +7,8 @@ import com.github.franckyi.gamehooks.impl.client.FabricScreen;
 import com.github.franckyi.guapi.impl.FabricScreenHandler;
 import com.github.franckyi.guapi.impl.theme.vanilla.*;
 import com.github.franckyi.guapi.util.NodeType;
+import com.github.franckyi.ibeeditor.impl.IBEEditor;
+import com.github.franckyi.ibeeditor.impl.client.IBEEditorClient;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.DedicatedServerModInitializer;
 import net.fabricmc.api.ModInitializer;

@@ -7,5 +7,5 @@ public interface Player {
 
     void sendMessage(Text message, boolean actionBar);
 
-    <P> P getPlayerEntity();
+    Entity getPlayerEntity();
 }

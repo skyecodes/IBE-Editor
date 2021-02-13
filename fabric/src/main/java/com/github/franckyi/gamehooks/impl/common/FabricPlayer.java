@@ -1,5 +1,6 @@
 package com.github.franckyi.gamehooks.impl.common;
 
+import com.github.franckyi.gamehooks.api.common.Entity;
 import com.github.franckyi.gamehooks.api.common.Item;
 import com.github.franckyi.gamehooks.api.common.Player;
 import com.github.franckyi.gamehooks.util.common.Text;
@@ -25,8 +26,7 @@ public class FabricPlayer implements Player {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public PlayerEntity getPlayerEntity() {
-        return player;
+    public Entity getPlayerEntity() {
+        return null;
     }
 }

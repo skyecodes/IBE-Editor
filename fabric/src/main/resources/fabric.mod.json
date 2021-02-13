@@ -16,13 +16,13 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "com.github.franckyi.ibeeditor.IBEEditorFabricMod"
+      "com.github.franckyi.ibeeditor.impl.IBEEditorFabricMod"
     ],
     "client": [
-      "com.github.franckyi.ibeeditor.IBEEditorFabricMod"
+      "com.github.franckyi.ibeeditor.impl.IBEEditorFabricMod"
     ],
     "server": [
-      "com.github.franckyi.ibeeditor.IBEEditorFabricMod"
+      "com.github.franckyi.ibeeditor.impl.IBEEditorFabricMod"
     ]
   },
   "mixins": [

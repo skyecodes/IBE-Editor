@@ -1,4 +1,4 @@
-package com.github.franckyi.ibeeditor.mixin;
+package com.github.franckyi.ibeeditor.impl.mixin;
 
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.screen.slot.Slot;
