@@ -1,5 +1,6 @@
 {
   "ibeeditor.category": "IBE Editor",
   "ibeeditor.key.editor": "Open Editor",
-  "ibeeditor.key.clipboard": "Open Clipboard"
+  "ibeeditor.key.clipboard": "Open Clipboard",
+  "ibeeditor.gui.editor": "Editor"
 }

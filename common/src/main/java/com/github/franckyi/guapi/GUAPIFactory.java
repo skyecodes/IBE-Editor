@@ -22,6 +22,14 @@ public final class GUAPIFactory {
         return new ButtonImpl(text);
     }
 
+    public static ButtonBuilder button(String text, TextStyle style) {
+        return button(text(text, style));
+    }
+
+    public static ButtonBuilder button(String text, TextFormatting... formatting) {
+        return button(text(text, formatting));
+    }
+
     public static ButtonBuilder button(Text text) {
         return new ButtonImpl(text);
     }
@@ -36,6 +44,14 @@ public final class GUAPIFactory {
 
     public static CheckBoxBuilder checkBox(String text) {
         return new CheckBoxImpl(text);
+    }
+
+    public static CheckBoxBuilder checkBox(String text, TextStyle style) {
+        return checkBox(text(text, style));
+    }
+
+    public static CheckBoxBuilder checkBox(String text, TextFormatting... formatting) {
+        return checkBox(text(text, formatting));
     }
 
     public static CheckBoxBuilder checkBox(Text text) {
@@ -82,6 +98,14 @@ public final class GUAPIFactory {
         return new LabelImpl(text);
     }
 
+    public static LabelBuilder label(String text, TextStyle style) {
+        return label(text(text, style));
+    }
+
+    public static LabelBuilder label(String text, TextFormatting... formatting) {
+        return label(text(text, formatting));
+    }
+
     public static LabelBuilder label(Text text) {
         return new LabelImpl(text);
     }
@@ -98,11 +122,11 @@ public final class GUAPIFactory {
         return label().with(with);
     }
 
-    public static <E> ListViewBuilder<E> listView() {
+    public static <E> ListViewBuilder<E> listView(Class<E> eClass) {
         return new ListViewImpl<>();
     }
 
-    public static <E> ListViewBuilder<E> listView(int itemHeight) {
+    public static <E> ListViewBuilder<E> listView(Class<E> eClass, int itemHeight) {
         return new ListViewImpl<>(itemHeight);
     }
 
@@ -116,7 +140,7 @@ public final class GUAPIFactory {
     }
 
     public static <E> ListViewBuilder<E> listView(Class<E> eClass, Consumer<ListViewBuilder<E>> with) {
-        return GUAPIFactory.<E>listView().with(with);
+        return listView(eClass).with(with);
     }
 
     public static TextFieldBuilder textField() {
