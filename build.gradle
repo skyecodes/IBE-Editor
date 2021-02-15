@@ -1,5 +1,5 @@
 allprojects {
-    apply plugin: 'java'
+    apply plugin: "java"
     sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = JavaVersion.VERSION_1_8
 }
 
@@ -8,6 +8,7 @@ archivesBaseName = "IBEEditor-$minecraft_version"
 
 task buildJar(type: Jar) {
     dependsOn ":common:jar", ":fabric:build", ":forge:build"
+    finalizedBy ":forge:signJar"
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     from zipTree("common/build/libs/common-${version}.jar"), zipTree("fabric/build/libs/fabric-${version}.jar"), zipTree("forge/build/libs/forge-${version}.jar")
     manifest {

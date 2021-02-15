@@ -1,3 +1,5 @@
+import net.minecraftforge.gradle.common.task.SignJar
+
 buildscript {
     repositories {
         maven {
@@ -46,4 +48,17 @@ dependencies {
 
 processResources {
     from "src/main/resources", "../common/src/main/resources"
+}
+
+task signJar(type: SignJar, dependsOn: rootProject.buildJar) {
+    onlyIf {
+        project.hasProperty('keyStore')
+    }
+
+    keyStore = project.keyStore
+    alias = project.keyStoreAlias
+    storePass = project.keyStorePass
+    keyPass = project.keyStoreKeyPass
+    inputFile = rootProject.jar.archivePath
+    outputFile = rootProject.jar.archivePath
 }
