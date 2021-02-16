@@ -78,7 +78,7 @@ public final class EditorHelper {
             } else {
                 if (mc.playerController.isInCreativeMode()) {
                     ItemEditor.withConsumer(itemStack, itemStack1 ->
-                            mc.playerController.sendSlotPacket(itemStack1, mc.player.inventory.currentItem));
+                            mc.playerController.sendSlotPacket(itemStack1, mc.player.inventory.currentItem + mc.player.inventory.mainInventory.size()));
                 } else {
                     ItemEditor.withConsumer(itemStack, itemStack1 -> ClientUtils.handleCommand(
                             ClientUtils.getReplaceItemCommandForPlayerMainHand(itemStack1)));
@@ -94,8 +94,7 @@ public final class EditorHelper {
                         new PlayerInventoryItemEditorMessage(itemStack, slot.getSlotIndex())));
             } else {
                 if (mc.playerController.isInCreativeMode()) {
-                    ItemEditor.withConsumer(slot.getStack(), itemStack1 ->
-                            mc.playerController.sendSlotPacket(itemStack1, slot.slotNumber));
+                    ItemEditor.withConsumer(slot.getStack(), itemStack1 -> {}); // CreativeScreen automatically triggers update
                 } else {
                     ItemEditor.withConsumer(slot.getStack(), itemStack1 -> ClientUtils.handleCommand(
                             ClientUtils.getReplaceItemCommandForPlayer(itemStack1, slot)));
