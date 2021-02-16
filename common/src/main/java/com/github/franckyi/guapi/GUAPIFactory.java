@@ -3,6 +3,9 @@ package com.github.franckyi.guapi;
 import com.github.franckyi.gamehooks.util.common.Text;
 import com.github.franckyi.gamehooks.util.common.TextFormatting;
 import com.github.franckyi.gamehooks.util.common.TextStyle;
+import com.github.franckyi.guapi.api.mvc.Controller;
+import com.github.franckyi.guapi.api.mvc.MVC;
+import com.github.franckyi.guapi.api.mvc.View;
 import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.api.node.builder.*;
 import com.github.franckyi.guapi.impl.node.*;
@@ -11,6 +14,8 @@ import com.github.franckyi.guapi.util.Color;
 import com.github.franckyi.guapi.util.Insets;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Consumer;
 
 public final class GUAPIFactory {
@@ -298,5 +303,20 @@ public final class GUAPIFactory {
 
     public static Insets left(int left) {
         return new Insets(0, 0, 0, left);
+    }
+
+    private static final Map<Class<?>, MVC<?, ?, ?>> mvcMap = new HashMap<>();
+
+    public static <M, V extends View, C extends Controller<M, V>> void registerMVC(Class<V> viewClass, MVC<M, V, C> mvc) {
+        mvcMap.put(viewClass, mvc);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <M, V extends View, C extends Controller<M, V>> Node mvc(Class<V> viewClass, M model) {
+        MVC<M, V, C> mvc = (MVC<M, V, C>) mvcMap.get(viewClass);
+        V view = mvc.createView();
+        C controller = mvc.getController();
+        controller.init(model, view);
+        return view.getRoot();
     }
 }

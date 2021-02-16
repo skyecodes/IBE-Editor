@@ -90,9 +90,9 @@ public class FabricVanillaListViewRenderer<E> extends EntryListWidget<FabricVani
     private void refreshList() {
         children().clear();
         node.getItems().stream()
-            .map(node.getRenderer()::getView)
-            .peek(n -> n.setParent(node))
-            .map(NodeEntry::new)
+                .map(node.getRenderer()::getView)
+                .peek(n -> n.setParent(node))
+                .map(n -> new NodeEntry(this, n))
                 .forEach(this::addEntry);
         shouldRefreshList = false;
     }
@@ -142,9 +142,11 @@ public class FabricVanillaListViewRenderer<E> extends EntryListWidget<FabricVani
     }
 
     protected static class NodeEntry extends EntryListWidget.Entry<NodeEntry> {
+        private final EntryListWidget<NodeEntry> list;
         private final Node node;
 
-        public NodeEntry(Node node) {
+        public NodeEntry(EntryListWidget<NodeEntry> list, Node node) {
+            this.list = list;
             this.node = node;
         }
 
@@ -152,9 +154,9 @@ public class FabricVanillaListViewRenderer<E> extends EntryListWidget<FabricVani
         public void render(MatrixStack matrices, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
             node.setX(x);
             node.setY(y);
-            node.setParentPrefWidth(entryWidth);
+            node.setParentPrefWidth(list.getMaxScroll() == 0 ? entryWidth + 6 : entryWidth);
             node.setParentPrefHeight(entryHeight);
-            node.preRender(matrices, mouseX, mouseY, tickDelta);
+            while (node.preRender(matrices, mouseX, mouseY, tickDelta)) ;
             node.render(matrices, mouseX, mouseY, tickDelta);
         }
     }

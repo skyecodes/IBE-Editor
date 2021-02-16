@@ -29,4 +29,7 @@ public interface EventTarget {
 
     default void mouseMoved(MouseEvent event) {
     }
+
+    default void action(MouseButtonEvent event) {
+    }
 }

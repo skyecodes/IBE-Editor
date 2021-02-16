@@ -4,8 +4,6 @@ import com.github.franckyi.databindings.api.BooleanProperty;
 import com.github.franckyi.databindings.api.ObservableList;
 import com.github.franckyi.databindings.api.StringProperty;
 
-import java.util.List;
-
 public interface CategoryModel {
     default String getName() {
         return nameProperty().getValue();
@@ -26,6 +24,8 @@ public interface CategoryModel {
     default void setSelected(boolean value) {
         selectedProperty().setValue(value);
     }
+
+    EditorModel getEditor();
 
     ObservableList<EntryModel> getEntries();
 }

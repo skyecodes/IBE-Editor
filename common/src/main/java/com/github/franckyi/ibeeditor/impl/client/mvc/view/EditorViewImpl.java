@@ -1,12 +1,9 @@
 package com.github.franckyi.ibeeditor.impl.client.mvc.view;
 
-import com.github.franckyi.guapi.GUAPIMVC;
-import com.github.franckyi.guapi.api.node.Button;
-import com.github.franckyi.guapi.api.node.Label;
-import com.github.franckyi.guapi.api.node.ListView;
-import com.github.franckyi.guapi.api.node.VBox;
+import com.github.franckyi.guapi.api.node.*;
 import com.github.franckyi.ibeeditor.api.client.mvc.model.CategoryModel;
 import com.github.franckyi.ibeeditor.api.client.mvc.model.EntryModel;
+import com.github.franckyi.ibeeditor.api.client.mvc.view.CategoryView;
 import com.github.franckyi.ibeeditor.api.client.mvc.view.EditorView;
 
 import static com.github.franckyi.guapi.GUAPIFactory.*;
@@ -22,10 +19,10 @@ public class EditorViewImpl implements EditorView {
     public EditorViewImpl() {
         root = vBox(root -> {
             root.spacing(5).align(CENTER).padding(5).fillWidth();
-            root.add(headerLabel = label(translated("ibeeditor.gui.editor", AQUA, BOLD)).textAlign(CENTER).prefHeight(20));
+            root.add(headerLabel = label(translated("ibeeditor.gui.editor", AQUA, BOLD), true).textAlign(CENTER).prefHeight(20));
             root.add(hBox(main -> {
-                main.add(categoryList = listView(CategoryModel.class, left -> left.itemHeight(25).padding(5).renderer(item -> GUAPIMVC.load(CategoryModel.class, item))), 1);
-                main.add(entryList = listView(EntryModel.class, right -> right.itemHeight(25).padding(5).renderer(item -> GUAPIMVC.load(EntryModel.class, item))), 2);
+                main.add(categoryList = listView(CategoryModel.class, left -> left.itemHeight(25).padding(5).renderer(item -> mvc(CategoryView.class, item))), 1);
+                main.add(entryList = listView(EntryModel.class, right -> right.itemHeight(25).padding(5).renderer(item -> mvc(item.getDefaultViewType(), item))), 2);
                 main.spacing(10).fillHeight();
             }), 1);
             root.add(hBox(footer -> {
@@ -37,7 +34,7 @@ public class EditorViewImpl implements EditorView {
     }
 
     @Override
-    public VBox getRoot() {
+    public Node getRoot() {
         return root;
     }
 

@@ -67,35 +67,79 @@ public interface GenericNodeBuilder<N extends Node> extends Node, Builder<N> {
         return with(n -> n.addListener(type, listener));
     }
 
-    default N onClick(ScreenEventListener<MouseButtonEvent> listener) {
-        return listener(ScreenEventType.MOUSE_CLICKED, listener);
+    default <E extends ScreenEvent> N listener(ScreenEventType<E> type, Runnable listener) {
+        return with(n -> n.addListener(type, listener));
     }
 
-    default N onRelease(ScreenEventListener<MouseButtonEvent> listener) {
-        return listener(ScreenEventType.MOUSE_RELEASED, listener);
+    default N mouseClicked(ScreenEventListener<MouseButtonEvent> listener) {
+        return with(n -> n.onMouseClick(listener));
     }
 
-    default N onDrag(ScreenEventListener<MouseDragEvent> listener) {
-        return listener(ScreenEventType.MOUSE_DRAGGED, listener);
+    default N mouseReleased(ScreenEventListener<MouseButtonEvent> listener) {
+        return with(n -> n.onMouseRelease(listener));
     }
 
-    default N onScroll(ScreenEventListener<MouseScrollEvent> listener) {
-        return listener(ScreenEventType.MOUSE_SCOLLED, listener);
+    default N mouseDragged(ScreenEventListener<MouseDragEvent> listener) {
+        return with(n -> n.onMouseDrag(listener));
     }
 
-    default N onPress(ScreenEventListener<KeyEvent> listener) {
-        return listener(ScreenEventType.KEY_PRESSED, listener);
+    default N mouseScrolled(ScreenEventListener<MouseScrollEvent> listener) {
+        return with(n -> n.onMouseScroll(listener));
     }
 
-    default N onKeyRelease(ScreenEventListener<KeyEvent> listener) {
-        return listener(ScreenEventType.KEY_RELEASED, listener);
+    default N keyPressed(ScreenEventListener<KeyEvent> listener) {
+        return with(n -> n.onKeyPress(listener));
     }
 
-    default N onType(ScreenEventListener<TypeEvent> listener) {
-        return listener(ScreenEventType.CHAR_TYPED, listener);
+    default N keyReleased(ScreenEventListener<KeyEvent> listener) {
+        return with(n -> n.onKeyRelease(listener));
     }
 
-    default N onMove(ScreenEventListener<MouseEvent> listener) {
-        return listener(ScreenEventType.MOUSE_MOVED, listener);
+    default N charTyped(ScreenEventListener<TypeEvent> listener) {
+        return with(n -> n.onCharType(listener));
+    }
+
+    default N mouseMoved(ScreenEventListener<MouseEvent> listener) {
+        return with(n -> n.onMouseMove(listener));
+    }
+
+    default N action(ScreenEventListener<MouseButtonEvent> listener) {
+        return with(n -> n.onAction(listener));
+    }
+
+    default N mouseClicked(Runnable listener) {
+        return with(n -> n.onMouseClick(listener));
+    }
+
+    default N mouseReleased(Runnable listener) {
+        return with(n -> n.onMouseRelease(listener));
+    }
+
+    default N mouseDragged(Runnable listener) {
+        return with(n -> n.onMouseDrag(listener));
+    }
+
+    default N mouseScrolled(Runnable listener) {
+        return with(n -> n.onMouseScroll(listener));
+    }
+
+    default N keyPressed(Runnable listener) {
+        return with(n -> n.onKeyPress(listener));
+    }
+
+    default N keyReleased(Runnable listener) {
+        return with(n -> n.onKeyRelease(listener));
+    }
+
+    default N charTyped(Runnable listener) {
+        return with(n -> n.onCharType(listener));
+    }
+
+    default N mouseMoved(Runnable listener) {
+        return with(n -> n.onMouseMove(listener));
+    }
+
+    default N action(Runnable listener) {
+        return with(n -> n.onAction(listener));
     }
 }

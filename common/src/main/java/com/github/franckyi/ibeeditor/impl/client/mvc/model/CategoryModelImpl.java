@@ -6,14 +6,17 @@ import com.github.franckyi.databindings.api.BooleanProperty;
 import com.github.franckyi.databindings.api.ObservableList;
 import com.github.franckyi.databindings.api.StringProperty;
 import com.github.franckyi.ibeeditor.api.client.mvc.model.CategoryModel;
+import com.github.franckyi.ibeeditor.api.client.mvc.model.EditorModel;
 import com.github.franckyi.ibeeditor.api.client.mvc.model.EntryModel;
 
 public class CategoryModelImpl implements CategoryModel {
     private final StringProperty nameProperty = PropertyFactory.ofString("");
     private final BooleanProperty selectedProperty = PropertyFactory.ofBoolean(false);
     private final ObservableList<EntryModel> entries = ObservableListFactory.arrayList();
+    private final EditorModel editor;
 
-    public CategoryModelImpl(String name) {
+    public CategoryModelImpl(String name, EditorModel editor) {
+        this.editor = editor;
         setName(name);
     }
 
@@ -25,6 +28,11 @@ public class CategoryModelImpl implements CategoryModel {
     @Override
     public BooleanProperty selectedProperty() {
         return selectedProperty;
+    }
+
+    @Override
+    public EditorModel getEditor() {
+        return editor;
     }
 
     @Override

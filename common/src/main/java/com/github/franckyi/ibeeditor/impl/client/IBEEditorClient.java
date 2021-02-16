@@ -8,14 +8,11 @@ import com.github.franckyi.gamehooks.api.common.Entity;
 import com.github.franckyi.gamehooks.api.common.Item;
 import com.github.franckyi.gamehooks.api.common.Slot;
 import com.github.franckyi.guapi.GUAPI;
-import com.github.franckyi.guapi.GUAPIMVC;
-import com.github.franckyi.ibeeditor.api.client.mvc.model.EditorModel;
+import com.github.franckyi.ibeeditor.api.client.mvc.view.EditorView;
 import com.github.franckyi.ibeeditor.impl.client.mvc.model.EditorModelImpl;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
 import org.lwjgl.glfw.GLFW;
-
-import java.util.Collections;
 
 import static com.github.franckyi.guapi.GUAPIFactory.*;
 
@@ -71,7 +68,7 @@ public final class IBEEditorClient {
     }
 
     public static void openClipboard() {
-        GUAPI.getScreenHandler().show(scene(GUAPIMVC.load(EditorModel.class, new EditorModelImpl()), true, true));
+        GUAPI.getScreenHandler().show(scene(mvc(EditorView.class, new EditorModelImpl()), true, true));
     }
 
     public static void handleScreenEvent(Screen screen, int keyCode) {
@@ -93,7 +90,7 @@ public final class IBEEditorClient {
     }
 
     public static void openItemEditor(Item item) {
-
+        ItemEditor.build(item);
     }
 
     public static void openItemEditorFromPlayerInventory(int slotId, Item item) {

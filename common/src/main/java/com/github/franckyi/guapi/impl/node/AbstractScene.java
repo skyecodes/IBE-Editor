@@ -4,12 +4,12 @@ import com.github.franckyi.databindings.PropertyFactory;
 import com.github.franckyi.databindings.api.*;
 import com.github.franckyi.gamehooks.GameHooks;
 import com.github.franckyi.guapi.GUAPI;
+import com.github.franckyi.guapi.api.event.MouseButtonEvent;
 import com.github.franckyi.guapi.api.event.ScreenEvent;
 import com.github.franckyi.guapi.api.event.ScreenEventListener;
 import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.api.node.Scene;
 import com.github.franckyi.guapi.api.node.ScreenEventHandler;
-import com.github.franckyi.guapi.impl.event.MouseButtonEventImpl;
 import com.github.franckyi.guapi.impl.event.ScreenEventHandlerDelegate;
 import com.github.franckyi.guapi.util.Insets;
 import com.github.franckyi.guapi.util.ScreenEventType;
@@ -172,10 +172,11 @@ public abstract class AbstractScene implements Scene {
         if (getRoot() != null) {
             type.ifMouseEvent(event, (t, e) -> {
                 getRoot().handleEvent(type, event);
-                if (e instanceof MouseButtonEventImpl) {
-                    MouseButtonEventImpl be = (MouseButtonEventImpl) e;
-                    if (type == ScreenEventType.MOUSE_CLICKED && be.getButton() == MouseButtonEventImpl.LEFT_BUTTON) {
+                if (e instanceof MouseButtonEvent) {
+                    MouseButtonEvent be = (MouseButtonEvent) e;
+                    if (type == ScreenEventType.MOUSE_CLICKED && be.getButton() == MouseButtonEvent.LEFT_BUTTON) {
                         setFocused(e.getTarget());
+                        e.getTarget().handleEvent(ScreenEventType.ACTION, be);
                     }
                 } else if (type == ScreenEventType.MOUSE_MOVED) {
                     setHovered(e.getTarget());
