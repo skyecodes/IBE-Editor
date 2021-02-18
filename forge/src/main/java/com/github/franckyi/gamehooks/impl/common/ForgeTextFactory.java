@@ -1,8 +1,8 @@
 package com.github.franckyi.gamehooks.impl.common;
 
 import com.github.franckyi.gamehooks.api.common.TextFactory;
-import com.github.franckyi.gamehooks.util.common.Text;
-import com.github.franckyi.gamehooks.util.common.TextStyle;
+import com.github.franckyi.gamehooks.util.common.text.Text;
+import com.github.franckyi.gamehooks.util.common.text.TextStyle;
 import net.minecraft.util.text.*;
 
 import java.util.stream.Stream;
@@ -22,7 +22,7 @@ public class ForgeTextFactory implements TextFactory<ITextComponent> {
         } else {
             t = new StringTextComponent(text.getText());
         }
-        com.github.franckyi.gamehooks.util.common.TextFormatting[] formatting = text.getFormatting();
+        com.github.franckyi.gamehooks.util.common.text.TextFormatting[] formatting = text.getFormatting();
         if (formatting != null && formatting.length > 0) {
             TextFormatting[] f = Stream.of(formatting)
                     .map(item -> {
@@ -92,5 +92,23 @@ public class ForgeTextFactory implements TextFactory<ITextComponent> {
             }
         }
         return t;
+    }
+
+    @Override
+    public ITextComponent create(Text root, Text... siblings) {
+        IFormattableTextComponent t = (IFormattableTextComponent) create(root);
+        for (Text text1 : siblings) {
+            t.append(create(text1));
+        }
+        return t;
+    }
+
+    @Override
+    public Text from(ITextComponent text) {
+        String s = text.getString();
+        boolean translated = text instanceof TranslationTextComponent;
+        TextStyle style = new TextStyle(text.getStyle().getColor() == null ? null : text.getStyle().getColor().getColor(),
+                text.getStyle().getBold(), text.getStyle().getItalic(), text.getStyle().getUnderlined());
+        return new Text(s, translated, style, null);
     }
 }

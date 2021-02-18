@@ -1,9 +1,9 @@
 package com.github.franckyi.gamehooks.impl.common;
 
 import com.github.franckyi.gamehooks.api.common.TextFactory;
-import com.github.franckyi.gamehooks.util.common.Text;
-import com.github.franckyi.gamehooks.util.common.TextFormatting;
-import com.github.franckyi.gamehooks.util.common.TextStyle;
+import com.github.franckyi.gamehooks.util.common.text.Text;
+import com.github.franckyi.gamehooks.util.common.text.TextFormatting;
+import com.github.franckyi.gamehooks.util.common.text.TextStyle;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.TextColor;
@@ -97,5 +97,23 @@ public class FabricTextFactory implements TextFactory<net.minecraft.text.Text> {
             }
         }
         return t;
+    }
+
+    @Override
+    public net.minecraft.text.MutableText create(Text root, Text... siblings) {
+        MutableText t = (MutableText) create(root);
+        for (Text text1 : siblings) {
+            t.append(create(text1));
+        }
+        return t;
+    }
+
+    @Override
+    public Text from(net.minecraft.text.Text text) {
+        String s = text.getString();
+        boolean translated = text instanceof TranslatableText;
+        TextStyle style = new TextStyle(text.getStyle().getColor() == null ? null : text.getStyle().getColor().getRgb(),
+                text.getStyle().isBold(), text.getStyle().isItalic(), text.getStyle().isUnderlined());
+        return new Text(s, translated, style, null);
     }
 }

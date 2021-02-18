@@ -1,6 +1,6 @@
 package com.github.franckyi.guapi.impl.node;
 
-import com.github.franckyi.gamehooks.util.common.Text;
+import com.github.franckyi.gamehooks.util.common.text.Text;
 import com.github.franckyi.guapi.api.node.Button;
 
 public abstract class AbstractButton extends AbstractLabeled implements Button {

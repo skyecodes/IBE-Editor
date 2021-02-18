@@ -1,7 +1,9 @@
 package com.github.franckyi.gamehooks.impl;
 
 import com.github.franckyi.gamehooks.api.CommonHooks;
+import com.github.franckyi.gamehooks.api.common.TagFactory;
 import com.github.franckyi.gamehooks.api.common.TextFactory;
+import com.github.franckyi.gamehooks.impl.common.FabricTagFactory;
 import com.github.franckyi.gamehooks.impl.common.FabricTextFactory;
 
 public final class FabricCommonHooks implements CommonHooks {
@@ -14,5 +16,11 @@ public final class FabricCommonHooks implements CommonHooks {
     @SuppressWarnings("unchecked")
     public TextFactory<?> text() {
         return FabricTextFactory.INSTANCE;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public TagFactory<?> tag() {
+        return FabricTagFactory.INSTANCE;
     }
 }

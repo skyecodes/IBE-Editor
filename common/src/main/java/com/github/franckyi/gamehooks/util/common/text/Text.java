@@ -1,4 +1,4 @@
-package com.github.franckyi.gamehooks.util.common;
+package com.github.franckyi.gamehooks.util.common.text;
 
 public final class Text {
     public static final Text EMPTY = literal("");

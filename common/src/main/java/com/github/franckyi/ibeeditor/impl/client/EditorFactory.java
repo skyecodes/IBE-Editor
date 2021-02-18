@@ -1,6 +1,6 @@
 package com.github.franckyi.ibeeditor.impl.client;
 
-import com.github.franckyi.gamehooks.util.common.Text;
+import com.github.franckyi.gamehooks.util.common.text.Text;
 import com.github.franckyi.ibeeditor.api.client.mvc.model.EditorModel;
 import com.github.franckyi.ibeeditor.api.client.mvc.model.EntryModel;
 import com.github.franckyi.ibeeditor.api.client.mvc.model.IntegerEntryModel;

@@ -3,7 +3,7 @@ package com.github.franckyi.gamehooks.impl.common;
 import com.github.franckyi.gamehooks.api.common.Entity;
 import com.github.franckyi.gamehooks.api.common.Item;
 import com.github.franckyi.gamehooks.api.common.Player;
-import com.github.franckyi.gamehooks.util.common.Text;
+import com.github.franckyi.gamehooks.util.common.text.Text;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 
