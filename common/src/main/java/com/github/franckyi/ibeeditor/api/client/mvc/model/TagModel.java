@@ -25,9 +25,7 @@ public interface TagModel extends TreeView.TreeItem<TagModel> {
         valueProperty().setValue(value);
     }
 
-    boolean shouldRenderName();
-
-    boolean shouldRenderValue();
+    Tag<?> getTag();
 
     Tag<?> build();
 }

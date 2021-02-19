@@ -3,6 +3,8 @@ package com.github.franckyi.gamehooks.api.client;
 public interface ShapeRenderer<M> {
     void fillRectangle(M matrices, int x0, int y0, int x1, int y1, int color);
 
+    void drawTexture(M matrices, String id, int x, int y, int width, int height, int imageX, int imageY, int imageWidth, int imageHeight);
+
     default void drawVLine(M matrices, int x, int y0, int y1, int color) {
         fillRectangle(matrices, x, y0, x + 1, y1, color);
     }

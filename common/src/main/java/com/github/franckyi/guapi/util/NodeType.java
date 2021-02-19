@@ -11,6 +11,7 @@ public final class NodeType<N extends Node> {
     public static final NodeType<CheckBox> CHECKBOX = new NodeType<>("CheckBox");
     public static final NodeType<ListView<?>> LISTVIEW = new NodeType<>("ListView");
     public static final NodeType<TreeView<?>> TREEVIEW = new NodeType<>("TreeView");
+    public static final NodeType<ImageView> IMAGEVIEW = new NodeType<>("ImageView");
     private final String s;
 
     private NodeType(String s) {

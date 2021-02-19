@@ -19,7 +19,7 @@ public class NBTEditorViewImpl implements NBTEditorView {
             root.spacing(5).align(CENTER).padding(5).fillWidth();
             root.add(headerLabel = label(translated("ibeeditor.gui.nbt_editor", AQUA, BOLD), true).textAlign(CENTER).prefHeight(20));
             root.add(hBox(main -> {
-                main.add(tagTree = treeView(TagModel.class, left -> left.itemHeight(25).padding(5).renderer(item -> mvc(TagView.class, item))), 1);
+                main.add(tagTree = treeView(TagModel.class, left -> left.itemHeight(20).padding(5).renderer(item -> mvc(TagView.class, item))), 1);
                 main.spacing(10).fillHeight();
             }), 1);
             root.add(hBox(footer -> {

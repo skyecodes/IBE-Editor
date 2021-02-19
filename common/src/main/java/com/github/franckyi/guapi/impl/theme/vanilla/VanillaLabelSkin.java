@@ -7,8 +7,8 @@ import com.github.franckyi.guapi.api.theme.Skin;
 import com.github.franckyi.guapi.impl.theme.AbstractSkin;
 import com.github.franckyi.guapi.util.Align;
 
-public class VanillaLabelSkin<M> extends AbstractSkin<Label> {
-    public static final Skin<Label> INSTANCE = new VanillaLabelSkin<>();
+public class VanillaLabelSkin extends AbstractSkin<Label> {
+    public static final Skin<Label> INSTANCE = new VanillaLabelSkin();
 
     private VanillaLabelSkin() {
     }

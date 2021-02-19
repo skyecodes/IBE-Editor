@@ -16,8 +16,9 @@ public class TagControllerImpl implements TagController {
         view.getValueField().setText(model.getValue());
         view.getNameField().textProperty().bindBidirectional(model.nameProperty());
         view.getValueField().textProperty().bindBidirectional(model.valueProperty());
-        view.getSeparator().setVisible(model.shouldRenderValue() && model.shouldRenderName());
-        view.getNameField().setVisible(model.shouldRenderName());
-        view.getValueField().setVisible(model.shouldRenderValue());
+        view.getSeparator().setVisible(model.getName() != null);
+        view.getNameField().setVisible(model.getName() != null);
+        view.getValueField().setVisible(model.getValue() != null);
+        view.updateIconFromTag(model.getTag());
     }
 }

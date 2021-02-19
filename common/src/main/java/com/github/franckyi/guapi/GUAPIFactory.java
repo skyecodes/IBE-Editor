@@ -96,6 +96,18 @@ public final class GUAPIFactory {
         return hBox().with(with);
     }
 
+    public static ImageViewBuilder imageView(String id) {
+        return new ImageViewImpl(id);
+    }
+
+    public static ImageViewBuilder imageView(String id, int imageWidth, int imageHeight) {
+        return new ImageViewImpl(id, imageWidth, imageHeight);
+    }
+
+    public static ImageViewBuilder imageView(String id, Consumer<ImageViewBuilder> with) {
+        return imageView(id).with(with);
+    }
+
     public static LabelBuilder label() {
         return new LabelImpl();
     }

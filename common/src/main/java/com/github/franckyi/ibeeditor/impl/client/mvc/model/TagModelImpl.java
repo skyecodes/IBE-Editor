@@ -98,13 +98,54 @@ public class TagModelImpl implements TagModel {
     }
 
     @Override
-    public boolean shouldRenderName() {
-        return shouldRenderName;
+    public Tag<?> getTag() {
+        return tag;
     }
 
-    @Override
-    public boolean shouldRenderValue() {
-        return shouldRenderValue;
+    public String getIconId() {
+        if (tag != null) {
+            String id = "ibeeditor:textures/gui/";
+            switch (tag.getType()) {
+                case Tag.BYTE_ID:
+                    id += "byte_tag";
+                    break;
+                case Tag.SHORT_ID:
+                    id += "short_tag";
+                    break;
+                case Tag.INT_ID:
+                    id += "int_tag";
+                    break;
+                case Tag.LONG_ID:
+                    id += "long_tag";
+                    break;
+                case Tag.FLOAT_ID:
+                    id += "float_tag";
+                    break;
+                case Tag.DOUBLE_ID:
+                    id += "double_tag";
+                    break;
+                case Tag.BYTE_ARRAY_ID:
+                    id += "byte_array_tag";
+                    break;
+                case Tag.STRING_ID:
+                    id += "string_tag";
+                    break;
+                case Tag.LIST_ID:
+                    id += "list_tag";
+                    break;
+                case Tag.COMPOUND_ID:
+                    id += "object_tag";
+                    break;
+                case Tag.INT_ARRAY_ID:
+                    id += "int_array_tag";
+                    break;
+                case Tag.LONG_ARRAY_ID:
+                    id += "long_array_tag";
+                    break;
+            }
+            return id + ".png";
+        }
+        return null;
     }
 
     @Override
