@@ -13,4 +13,9 @@ public class FloatTag extends AbstractTag<Float> {
     public byte getType() {
         return 5;
     }
+
+    @Override
+    public String toString() {
+        return Float.toString(getValue());
+    }
 }

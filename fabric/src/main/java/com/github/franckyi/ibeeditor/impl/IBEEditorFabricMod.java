@@ -7,7 +7,6 @@ import com.github.franckyi.gamehooks.impl.client.FabricScreen;
 import com.github.franckyi.guapi.impl.FabricScreenHandler;
 import com.github.franckyi.guapi.impl.theme.vanilla.*;
 import com.github.franckyi.guapi.util.NodeType;
-import com.github.franckyi.ibeeditor.impl.IBEEditor;
 import com.github.franckyi.ibeeditor.impl.client.IBEEditorClient;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.DedicatedServerModInitializer;
@@ -32,6 +31,7 @@ public final class IBEEditorFabricMod implements ModInitializer, ClientModInitia
         VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(NodeType.TEXTFIELD, FabricVanillaTextFieldRenderer::new);
         VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(NodeType.CHECKBOX, FabricVanillaCheckBoxRenderer::new);
         VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(NodeType.LISTVIEW, FabricVanillaListViewRenderer::new);
+        VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(NodeType.TREEVIEW, FabricVanillaTreeViewRenderer::new);
         ClientTickEvents.END_CLIENT_TICK.register(mc -> IBEEditorClient.tick());
         ScreenEvents.AFTER_INIT.register(this::afterScreenInit);
     }

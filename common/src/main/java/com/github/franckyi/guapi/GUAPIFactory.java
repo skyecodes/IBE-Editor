@@ -7,6 +7,7 @@ import com.github.franckyi.guapi.api.mvc.Controller;
 import com.github.franckyi.guapi.api.mvc.MVC;
 import com.github.franckyi.guapi.api.mvc.View;
 import com.github.franckyi.guapi.api.node.Node;
+import com.github.franckyi.guapi.api.node.TreeView;
 import com.github.franckyi.guapi.api.node.builder.*;
 import com.github.franckyi.guapi.impl.node.*;
 import com.github.franckyi.guapi.util.Align;
@@ -166,6 +167,22 @@ public final class GUAPIFactory {
 
     public static TextFieldBuilder textField(Consumer<TextFieldBuilder> with) {
         return textField().with(with);
+    }
+
+    public static <E extends TreeView.TreeItem<E>> TreeViewBuilder<E> treeView(Class<E> eClass) {
+        return new TreeViewImpl<>();
+    }
+
+    public static <E extends TreeView.TreeItem<E>> TreeViewBuilder<E> treeView(Class<E> eClass, int itemHeight) {
+        return new TreeViewImpl<>(itemHeight);
+    }
+
+    public static <E extends TreeView.TreeItem<E>> TreeViewBuilder<E> treeView(int itemHeight, E root) {
+        return new TreeViewImpl<>(itemHeight, root);
+    }
+
+    public static <E extends TreeView.TreeItem<E>> TreeViewBuilder<E> treeView(Class<E> eClass, Consumer<TreeViewBuilder<E>> with) {
+        return treeView(eClass).with(with);
     }
 
     public static VBoxBuilder vBox() {

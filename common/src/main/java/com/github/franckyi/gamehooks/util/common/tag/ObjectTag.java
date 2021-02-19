@@ -14,6 +14,6 @@ public class ObjectTag extends AbstractTag<Map<String, Tag<?>>> {
 
     @Override
     public byte getType() {
-        return 8;
+        return 10;
     }
 }

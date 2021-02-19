@@ -6,7 +6,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 
 public class ForgeTagFactory implements TagFactory<CompoundNBT> {
-    public static final TagFactory<?> INSTANCE = new ForgeTagFactory();
+    public static final TagFactory<CompoundNBT> INSTANCE = new ForgeTagFactory();
 
     @Override
     public CompoundNBT parseObject(ObjectTag obj) {
@@ -22,34 +22,34 @@ public class ForgeTagFactory implements TagFactory<CompoundNBT> {
             net.minecraft.nbt.INBT tag1 = c.get(key);
             tag.getValue().put(key, parseTag(tag1));
         }
-        return null;
+        return tag;
     }
 
     private Tag<?> parseTag(net.minecraft.nbt.INBT tag) {
         switch (tag.getType().getTagName()) {
-            case BYTE_NAME:
+            case Tag.BYTE_NAME:
                 return new ByteTag(((net.minecraft.nbt.ByteNBT) tag).getByte());
-            case SHORT_NAME:
+            case Tag.SHORT_NAME:
                 return new ShortTag(((net.minecraft.nbt.ShortNBT) tag).getShort());
-            case INT_NAME:
+            case Tag.INT_NAME:
                 return new IntTag(((net.minecraft.nbt.IntNBT) tag).getInt());
-            case LONG_NAME:
+            case Tag.LONG_NAME:
                 return new LongTag(((net.minecraft.nbt.LongNBT) tag).getLong());
-            case FLOAT_NAME:
+            case Tag.FLOAT_NAME:
                 return new FloatTag(((net.minecraft.nbt.FloatNBT) tag).getFloat());
-            case DOUBLE_NAME:
+            case Tag.DOUBLE_NAME:
                 return new DoubleTag(((net.minecraft.nbt.DoubleNBT) tag).getDouble());
-            case BYTE_ARRAY_NAME:
+            case Tag.BYTE_ARRAY_NAME:
                 return new ByteArrayTag(((net.minecraft.nbt.ByteArrayNBT) tag).getByteArray());
-            case STRING_NAME:
+            case Tag.STRING_NAME:
                 return new StringTag(tag.getString());
-            case LIST_NAME:
+            case Tag.LIST_NAME:
                 return parseList((ListNBT) tag);
-            case COMPOUND_NAME:
+            case Tag.COMPOUND_NAME:
                 return parseCompound((CompoundNBT) tag);
-            case INT_ARRAY_NAME:
+            case Tag.INT_ARRAY_NAME:
                 return new IntArrayTag(((net.minecraft.nbt.IntArrayNBT) tag).getIntArray());
-            case LONG_ARRAY_NAME:
+            case Tag.LONG_ARRAY_NAME:
                 return new LongArrayTag(((net.minecraft.nbt.LongArrayNBT) tag).getAsLongArray());
         }
         return null;
@@ -57,29 +57,29 @@ public class ForgeTagFactory implements TagFactory<CompoundNBT> {
 
     private net.minecraft.nbt.INBT parseTag(Tag<?> tag) {
         switch (tag.getType()) {
-            case BYTE_ID:
+            case Tag.BYTE_ID:
                 return net.minecraft.nbt.ByteNBT.valueOf(((ByteTag) tag).getValue());
-            case SHORT_ID:
+            case Tag.SHORT_ID:
                 return net.minecraft.nbt.ShortNBT.valueOf(((ShortTag) tag).getValue());
-            case INT_ID:
+            case Tag.INT_ID:
                 return net.minecraft.nbt.IntNBT.valueOf(((IntTag) tag).getValue());
-            case LONG_ID:
+            case Tag.LONG_ID:
                 return net.minecraft.nbt.LongNBT.valueOf(((LongTag) tag).getValue());
-            case FLOAT_ID:
+            case Tag.FLOAT_ID:
                 return net.minecraft.nbt.FloatNBT.valueOf(((FloatTag) tag).getValue());
-            case DOUBLE_ID:
+            case Tag.DOUBLE_ID:
                 return net.minecraft.nbt.DoubleNBT.valueOf(((DoubleTag) tag).getValue());
-            case BYTE_ARRAY_ID:
+            case Tag.BYTE_ARRAY_ID:
                 return new net.minecraft.nbt.ByteArrayNBT(((ByteArrayTag) tag).getValue());
-            case STRING_ID:
+            case Tag.STRING_ID:
                 return net.minecraft.nbt.StringNBT.valueOf(((StringTag) tag).getValue());
-            case LIST_ID:
+            case Tag.LIST_ID:
                 return parseArray((ArrayTag) tag);
-            case COMPOUND_ID:
+            case Tag.COMPOUND_ID:
                 return parseObject((ObjectTag) tag);
-            case INT_ARRAY_ID:
+            case Tag.INT_ARRAY_ID:
                 return new net.minecraft.nbt.IntArrayNBT(((IntArrayTag) tag).getValue());
-            case LONG_ARRAY_ID:
+            case Tag.LONG_ARRAY_ID:
                 return new net.minecraft.nbt.LongArrayNBT(((LongArrayTag) tag).getValue());
         }
         return null;

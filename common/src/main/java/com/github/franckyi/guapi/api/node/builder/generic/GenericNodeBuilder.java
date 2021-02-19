@@ -55,6 +55,14 @@ public interface GenericNodeBuilder<N extends Node> extends Node, Builder<N> {
         return padding(new Insets(top, right, bottom, left));
     }
 
+    default N visible(boolean value) {
+        return with(n -> n.setVisible(value));
+    }
+
+    default N invisible() {
+        return visible(false);
+    }
+
     default N disable(boolean value) {
         return with(n -> n.setDisable(value));
     }

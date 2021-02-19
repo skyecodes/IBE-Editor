@@ -7,15 +7,9 @@ import com.github.franckyi.gamehooks.api.ServerHooks;
 import com.github.franckyi.guapi.GUAPI;
 import com.github.franckyi.guapi.GUAPIFactory;
 import com.github.franckyi.guapi.api.ScreenHandler;
-import com.github.franckyi.ibeeditor.api.client.mvc.view.CategoryView;
-import com.github.franckyi.ibeeditor.api.client.mvc.view.EditorView;
-import com.github.franckyi.ibeeditor.api.client.mvc.view.IntegerEntryView;
-import com.github.franckyi.ibeeditor.api.client.mvc.view.StringEntryView;
+import com.github.franckyi.ibeeditor.api.client.mvc.view.*;
 import com.github.franckyi.ibeeditor.impl.client.IBEEditorClient;
-import com.github.franckyi.ibeeditor.impl.client.mvc.CategoryMVCImpl;
-import com.github.franckyi.ibeeditor.impl.client.mvc.EditorMVCImpl;
-import com.github.franckyi.ibeeditor.impl.client.mvc.IntegerEntryMVCImpl;
-import com.github.franckyi.ibeeditor.impl.client.mvc.StringEntryMVCImpl;
+import com.github.franckyi.ibeeditor.impl.client.mvc.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.Marker;
@@ -38,6 +32,9 @@ public final class IBEEditor {
         GUAPIFactory.registerMVC(CategoryView.class, CategoryMVCImpl.INSTANCE);
         GUAPIFactory.registerMVC(StringEntryView.class, StringEntryMVCImpl.INSTANCE);
         GUAPIFactory.registerMVC(IntegerEntryView.class, IntegerEntryMVCImpl.INSTANCE);
+
+        GUAPIFactory.registerMVC(NBTEditorView.class, NBTEditorMVCImpl.INSTANCE);
+        GUAPIFactory.registerMVC(TagView.class, TagMVCImpl.INSTANCE);
         IBEEditorClient.init();
     }
 

@@ -13,4 +13,9 @@ public class StringTag extends AbstractTag<String> {
     public byte getType() {
         return 8;
     }
+
+    @Override
+    public String toString() {
+        return getValue();
+    }
 }

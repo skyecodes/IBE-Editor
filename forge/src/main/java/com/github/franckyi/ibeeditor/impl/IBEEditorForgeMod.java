@@ -7,7 +7,6 @@ import com.github.franckyi.gamehooks.impl.client.ForgeScreen;
 import com.github.franckyi.guapi.impl.ForgeScreenHandler;
 import com.github.franckyi.guapi.impl.theme.vanilla.*;
 import com.github.franckyi.guapi.util.NodeType;
-import com.github.franckyi.ibeeditor.impl.IBEEditor;
 import com.github.franckyi.ibeeditor.impl.client.IBEEditorClient;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
@@ -38,6 +37,7 @@ public final class IBEEditorForgeMod {
         VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(NodeType.TEXTFIELD, ForgeVanillaTextFieldRenderer::new);
         VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(NodeType.CHECKBOX, ForgeVanillaCheckBoxRenderer::new);
         VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(NodeType.LISTVIEW, ForgeVanillaListViewRenderer::new);
+        VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(NodeType.TREEVIEW, ForgeVanillaTreeViewRenderer::new);
         MinecraftForge.EVENT_BUS.addListener(this::onClientTick);
         MinecraftForge.EVENT_BUS.addListener(this::onKeyPressed);
     }

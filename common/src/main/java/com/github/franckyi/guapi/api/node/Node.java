@@ -182,6 +182,16 @@ public interface Node extends ScreenEventHandler, Renderable<Object>, EventTarge
 
     ObservableObjectValue<Scene> sceneProperty();
 
+    default boolean isVisible() {
+        return visibleProperty().getValue();
+    }
+
+    BooleanProperty visibleProperty();
+
+    default void setVisible(boolean value) {
+        visibleProperty().setValue(value);
+    }
+
     default boolean isDisable() {
         return disableProperty().getValue();
     }

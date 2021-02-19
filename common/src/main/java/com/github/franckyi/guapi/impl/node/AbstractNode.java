@@ -4,11 +4,11 @@ import com.github.franckyi.databindings.PropertyFactory;
 import com.github.franckyi.databindings.api.*;
 import com.github.franckyi.guapi.GUAPI;
 import com.github.franckyi.guapi.api.event.ScreenEvent;
-import com.github.franckyi.guapi.api.node.ScreenEventHandler;
 import com.github.franckyi.guapi.api.event.ScreenEventListener;
 import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.api.node.Parent;
 import com.github.franckyi.guapi.api.node.Scene;
+import com.github.franckyi.guapi.api.node.ScreenEventHandler;
 import com.github.franckyi.guapi.api.theme.Skin;
 import com.github.franckyi.guapi.impl.event.ScreenEventHandlerDelegate;
 import com.github.franckyi.guapi.util.Insets;
@@ -42,6 +42,7 @@ public abstract class AbstractNode implements Node {
     protected final ObjectProperty<Scene> sceneProperty = PropertyFactory.ofObject();
     private final ObservableObjectValue<Scene> scenePropertyReadOnly = PropertyFactory.readOnly(sceneProperty);
 
+    private final BooleanProperty visibleProperty = PropertyFactory.ofBoolean(true);
     private final BooleanProperty disableProperty = PropertyFactory.ofBoolean();
     private final ObservableBooleanValue disabledProperty = disableProperty()
             .or(parentProperty().bindMapToBoolean(Parent::disabledProperty, false));
@@ -177,6 +178,11 @@ public abstract class AbstractNode implements Node {
     }
 
     @Override
+    public BooleanProperty visibleProperty() {
+        return visibleProperty;
+    }
+
+    @Override
     public BooleanProperty disableProperty() {
         return disableProperty;
     }
@@ -238,17 +244,24 @@ public abstract class AbstractNode implements Node {
     @Override
     public boolean preRender(Object matrices, int mouseX, int mouseY, float delta) {
         boolean res = checkRender();
-        return getSkin().preRender(this, matrices, mouseX, mouseY, delta) || res;
+        if (isVisible()) {
+            res |= getSkin().preRender(this, matrices, mouseX, mouseY, delta);
+        }
+        return res;
     }
 
     @Override
     public void render(Object matrices, int mouseX, int mouseY, float delta) {
-        getSkin().render(this, matrices, mouseX, mouseY, delta);
+        if (isVisible()) {
+            getSkin().render(this, matrices, mouseX, mouseY, delta);
+        }
     }
 
     @Override
     public void postRender(Object matrices, int mouseX, int mouseY, float delta) {
-        getSkin().postRender(this, matrices, mouseX, mouseY, delta);
+        if (isVisible()) {
+            getSkin().postRender(this, matrices, mouseX, mouseY, delta);
+        }
     }
 
     @Override

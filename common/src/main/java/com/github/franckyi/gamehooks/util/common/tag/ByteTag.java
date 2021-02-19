@@ -13,4 +13,9 @@ public class ByteTag extends AbstractTag<Byte> {
     public byte getType() {
         return 1;
     }
+
+    @Override
+    public String toString() {
+        return Byte.toString(getValue());
+    }
 }

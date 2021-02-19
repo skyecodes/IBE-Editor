@@ -9,7 +9,7 @@ import static com.github.franckyi.ibeeditor.impl.client.EditorFactory.editor;
 import static com.github.franckyi.ibeeditor.impl.client.EditorFactory.stringEntry;
 
 public final class ItemEditor {
-    public static void build(Item item) {
+    public static void show(Item item) {
         GUAPI.getScreenHandler().show(scene(mvc(EditorView.class, editor(editor -> {
             editor.category(
                     "ibeeditor.gui.category.main",

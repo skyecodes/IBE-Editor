@@ -14,5 +14,6 @@ public class VanillaTheme extends AbstractTheme {
         delegateSkinRenderer(NodeType.TEXTFIELD, VanillaTextFieldSkin::new);
         delegateSkinRenderer(NodeType.CHECKBOX, VanillaCheckBoxSkin::new);
         delegateSkinRenderer(NodeType.LISTVIEW, VanillaListViewSkin::new);
+        delegateSkinRenderer(NodeType.TREEVIEW, VanillaTreeViewSkin::new);
     }
 }

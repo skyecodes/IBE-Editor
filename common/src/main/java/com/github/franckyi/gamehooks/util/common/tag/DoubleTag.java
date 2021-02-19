@@ -13,4 +13,9 @@ public class DoubleTag extends AbstractTag<Double> {
     public byte getType() {
         return 6;
     }
+
+    @Override
+    public String toString() {
+        return Double.toString(getValue());
+    }
 }

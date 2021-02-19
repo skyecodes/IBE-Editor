@@ -13,4 +13,9 @@ public class IntTag extends AbstractTag<Integer> {
     public byte getType() {
         return 3;
     }
+
+    @Override
+    public String toString() {
+        return Integer.toString(getValue());
+    }
 }

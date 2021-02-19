@@ -13,4 +13,9 @@ public class LongTag extends AbstractTag<Long> {
     public byte getType() {
         return 4;
     }
+
+    @Override
+    public String toString() {
+        return Long.toString(getValue());
+    }
 }

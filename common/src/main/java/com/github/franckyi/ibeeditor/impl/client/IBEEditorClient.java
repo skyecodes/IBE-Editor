@@ -18,50 +18,55 @@ import static com.github.franckyi.guapi.GUAPIFactory.*;
 
 public final class IBEEditorClient {
     public static KeyBinding editorKey;
+    public static KeyBinding nbtEditorKey;
     public static KeyBinding clipboardKey;
     public static final Marker MARKER = MarkerManager.getMarker("Client");
 
     public static void init() {
         editorKey = GameHooks.client().registerKeyBinding("ibeeditor.key.editor", GLFW.GLFW_KEY_I, "ibeeditor.category");
+        nbtEditorKey = GameHooks.client().registerKeyBinding("ibeeditor.key.nbt_editor", GLFW.GLFW_KEY_N, "ibeeditor.category");
         clipboardKey = GameHooks.client().registerKeyBinding("ibeeditor.key.clipboard", GLFW.GLFW_KEY_J, "ibeeditor.category");
     }
 
     public static void tick() {
         if (editorKey.isPressed()) {
-            openWorldEditor();
+            openWorldEditor(false);
+        } else if (nbtEditorKey.isPressed()) {
+            openWorldEditor(true);
         } else if (clipboardKey.isPressed()) {
             openClipboard();
         }
     }
 
-    public static void openWorldEditor() {
-        if (!(tryOpenEntityEditor() || tryOpenBlockEditor() || tryOpenItemEditor())) {
-            openSelfEditor();
+    public static void openWorldEditor(boolean nbt) {
+        GameHooks.client().unlockCursor();
+        if (!(tryOpenEntityEditor(nbt) || tryOpenBlockEditor(nbt) || tryOpenItemEditor(nbt))) {
+            openSelfEditor(nbt);
         }
     }
 
-    public static boolean tryOpenEntityEditor() {
+    public static boolean tryOpenEntityEditor(boolean nbt) {
         Entity entity = GameHooks.client().entityMouseOver();
         if (entity != null) {
-            openEntityEditor(entity);
+            openEntityEditor(entity, nbt);
             return true;
         }
         return false;
     }
 
-    public static boolean tryOpenBlockEditor() {
+    public static boolean tryOpenBlockEditor(boolean nbt) {
         Block block = GameHooks.client().blockMouseOver();
         if (block != null) {
-            openBlockEditor(block);
+            openBlockEditor(block, nbt);
             return true;
         }
         return false;
     }
 
-    public static boolean tryOpenItemEditor() {
+    public static boolean tryOpenItemEditor(boolean nbt) {
         Item item = GameHooks.client().player().getItemMainHand();
         if (item != null) {
-            openItemEditor(item);
+            openItemEditor(item, nbt);
             return true;
         }
         return false;
@@ -72,42 +77,46 @@ public final class IBEEditorClient {
     }
 
     public static void handleScreenEvent(Screen screen, int keyCode) {
-        if (keyCode == editorKey.getKeyCode()) {
+        if (keyCode == editorKey.getKeyCode() || keyCode == nbtEditorKey.getKeyCode()) {
             Slot slot = screen.getInventoryFocusedSlot();
             if (slot.hasStack()) {
                 if (screen.isPlayerInventoryScreen()) {
                     if (slot.isInPlayerInventory()) {
-                        openItemEditorFromPlayerInventory(slot.getId(), slot.getStack());
+                        openItemEditorFromPlayerInventory(slot.getId(), slot.getStack(), keyCode == nbtEditorKey.getKeyCode());
                     }
                 } else {
                     Block block = GameHooks.client().blockMouseOver();
                     if (block != null) {
-                        openItemEditorFromBlockInventory(slot.getId(), slot.getStack(), block);
+                        openItemEditorFromBlockInventory(slot.getId(), slot.getStack(), block, keyCode == nbtEditorKey.getKeyCode());
                     }
                 }
             }
         }
     }
 
-    public static void openItemEditor(Item item) {
-        ItemEditor.build(item);
+    public static void openItemEditor(Item item, boolean nbt) {
+        if (nbt) {
+            NBTEditor.show(item.getTag());
+        } else {
+            ItemEditor.show(item);
+        }
     }
 
-    public static void openItemEditorFromPlayerInventory(int slotId, Item item) {
+    public static void openItemEditorFromPlayerInventory(int slotId, Item item, boolean nbt) {
         GameHooks.logger().info(IBEEditorClient.MARKER, "PlayerItem " + item);
     }
 
-    public static void openItemEditorFromBlockInventory(int slotId, Item item, Block block) {
+    public static void openItemEditorFromBlockInventory(int slotId, Item item, Block block, boolean nbt) {
         GameHooks.logger().info(IBEEditorClient.MARKER, "BlockItem " + item);
     }
 
-    public static void openBlockEditor(Block block) {
+    public static void openBlockEditor(Block block, boolean nbt) {
     }
 
-    public static void openEntityEditor(Entity entity) {
+    public static void openEntityEditor(Entity entity, boolean nbt) {
     }
 
-    public static void openSelfEditor() {
-        openEntityEditor(GameHooks.client().player().getPlayerEntity());
+    public static void openSelfEditor(boolean nbt) {
+        openEntityEditor(GameHooks.client().player().getPlayerEntity(), nbt);
     }
 }
