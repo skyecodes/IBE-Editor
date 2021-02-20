@@ -16,29 +16,32 @@ public class TagModelImpl implements TagModel {
     private final StringProperty nameProperty;
     private final StringProperty valueProperty;
     protected final Tag<?> tag;
-    protected boolean shouldRenderName;
-    protected boolean shouldRenderValue;
+    protected byte forcedTagType;
 
     public TagModelImpl(Tag<?> tag) {
-        this(tag, "<root element>", null, true);
+        this(tag, "<root element>", null);
         setExpanded(true);
     }
 
-    protected TagModelImpl(Tag<?> tag, boolean shouldRenderName) {
-        this(tag, null, null, shouldRenderName);
+    protected TagModelImpl(Tag<?> tag, boolean flag) {
+        this(tag, null, null);
     }
 
-    protected TagModelImpl(Tag<?> tag, String name, String value, boolean shouldRenderName) {
+    protected TagModelImpl(byte forcedTagType, String value) {
+        this(null, null, value);
+        this.forcedTagType = forcedTagType;
+    }
+
+    protected TagModelImpl(Tag<?> tag, String name, String value) {
         this.tag = tag;
         nameProperty = PropertyFactory.ofString(name);
         valueProperty = PropertyFactory.ofString(value);
-        this.shouldRenderName = shouldRenderName;
         if (tag != null) {
             switch (tag.getType()) {
                 case Tag.COMPOUND_ID:
                     children.setAll(((ObjectTag) tag).getValue().entrySet()
                             .stream()
-                            .map(entry -> new TagModelImpl(entry.getValue(), entry.getKey(), null, true))
+                            .map(entry -> new TagModelImpl(entry.getValue(), entry.getKey(), null))
                             .collect(Collectors.toList())
                     );
                     break;
@@ -52,27 +55,26 @@ public class TagModelImpl implements TagModel {
                 case Tag.BYTE_ARRAY_ID:
                     children.setAll(((ByteArrayTag) tag).getValue()
                             .stream()
-                            .map(b -> new TagModelImpl(null, null, Byte.toString(b), false))
+                            .map(b -> new TagModelImpl(Tag.BYTE_ID, Byte.toString(b)))
                             .collect(Collectors.toList())
                     );
                     break;
                 case Tag.INT_ARRAY_ID:
                     children.setAll(((IntArrayTag) tag).getValue()
                             .stream()
-                            .map(i -> new TagModelImpl(null, null, Integer.toString(i), false))
+                            .map(i -> new TagModelImpl(Tag.INT_ID, Integer.toString(i)))
                             .collect(Collectors.toList())
                     );
                     break;
                 case Tag.LONG_ARRAY_ID:
                     children.setAll(((LongArrayTag) tag).getValue()
                             .stream()
-                            .map(l -> new TagModelImpl(null, null, Long.toString(l), false))
+                            .map(l -> new TagModelImpl(Tag.LONG_ID, Long.toString(l)))
                             .collect(Collectors.toList())
                     );
                     break;
                 default:
                     setValue(tag.getValue().toString());
-                    shouldRenderValue = true;
             }
         }
     }
@@ -98,54 +100,8 @@ public class TagModelImpl implements TagModel {
     }
 
     @Override
-    public Tag<?> getTag() {
-        return tag;
-    }
-
-    public String getIconId() {
-        if (tag != null) {
-            String id = "ibeeditor:textures/gui/";
-            switch (tag.getType()) {
-                case Tag.BYTE_ID:
-                    id += "byte_tag";
-                    break;
-                case Tag.SHORT_ID:
-                    id += "short_tag";
-                    break;
-                case Tag.INT_ID:
-                    id += "int_tag";
-                    break;
-                case Tag.LONG_ID:
-                    id += "long_tag";
-                    break;
-                case Tag.FLOAT_ID:
-                    id += "float_tag";
-                    break;
-                case Tag.DOUBLE_ID:
-                    id += "double_tag";
-                    break;
-                case Tag.BYTE_ARRAY_ID:
-                    id += "byte_array_tag";
-                    break;
-                case Tag.STRING_ID:
-                    id += "string_tag";
-                    break;
-                case Tag.LIST_ID:
-                    id += "list_tag";
-                    break;
-                case Tag.COMPOUND_ID:
-                    id += "object_tag";
-                    break;
-                case Tag.INT_ARRAY_ID:
-                    id += "int_array_tag";
-                    break;
-                case Tag.LONG_ARRAY_ID:
-                    id += "long_array_tag";
-                    break;
-            }
-            return id + ".png";
-        }
-        return null;
+    public byte getTagType() {
+        return tag != null ? tag.getType() : forcedTagType;
     }
 
     @Override

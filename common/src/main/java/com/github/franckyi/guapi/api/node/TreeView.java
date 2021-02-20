@@ -1,6 +1,7 @@
 package com.github.franckyi.guapi.api.node;
 
 import com.github.franckyi.databindings.api.BooleanProperty;
+import com.github.franckyi.databindings.api.IntegerProperty;
 import com.github.franckyi.databindings.api.ObjectProperty;
 import com.github.franckyi.databindings.api.ObservableList;
 
@@ -23,6 +24,16 @@ public interface TreeView<E extends TreeView.TreeItem<E>> extends ListNode<E> {
 
     default void setShowRoot(boolean value) {
         showRootProperty().setValue(value);
+    }
+
+    default int getChildrenIncrement() {
+        return childrenIncrementProperty().getValue();
+    }
+
+    IntegerProperty childrenIncrementProperty();
+
+    default void setChildrenIncrement(int value) {
+        childrenIncrementProperty().setValue(value);
     }
 
     interface TreeItem<E extends TreeItem<E>> {

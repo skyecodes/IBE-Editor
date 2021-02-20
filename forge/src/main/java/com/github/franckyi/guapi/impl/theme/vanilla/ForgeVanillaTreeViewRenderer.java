@@ -74,7 +74,7 @@ public class ForgeVanillaTreeViewRenderer<E extends TreeView.TreeItem<E>> extend
 
         @Override
         public void render(MatrixStack matrices, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
-            int incr = increment * 25;
+            int incr = increment * list.node.getChildrenIncrement();
             entryWidth = entryWidth - incr;
             node.setX(x + incr);
             node.setY(y);

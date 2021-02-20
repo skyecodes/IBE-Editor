@@ -2,6 +2,7 @@ package com.github.franckyi.guapi.impl.node;
 
 import com.github.franckyi.databindings.PropertyFactory;
 import com.github.franckyi.databindings.api.*;
+import com.github.franckyi.gamehooks.util.common.text.Text;
 import com.github.franckyi.guapi.GUAPI;
 import com.github.franckyi.guapi.api.event.ScreenEvent;
 import com.github.franckyi.guapi.api.event.ScreenEventListener;
@@ -37,6 +38,7 @@ public abstract class AbstractNode implements Node {
 
     private final IntegerProperty backgroundColorProperty = PropertyFactory.ofInteger(DEFAULT_BACKGROUND_COLOR);
     private final ObjectProperty<Insets> paddingProperty = PropertyFactory.ofObject(Insets.NONE);
+    private final ObjectProperty<Text> tooltipProperty = PropertyFactory.ofObject();
 
     protected final ObjectProperty<Parent> parentProperty = PropertyFactory.ofObject();
     protected final ObjectProperty<Scene> sceneProperty = PropertyFactory.ofObject();
@@ -165,6 +167,11 @@ public abstract class AbstractNode implements Node {
     @Override
     public ObjectProperty<Insets> paddingProperty() {
         return paddingProperty;
+    }
+
+    @Override
+    public ObjectProperty<Text> tooltipProperty() {
+        return tooltipProperty;
     }
 
     @Override

@@ -14,4 +14,8 @@ public interface GenericTreeViewBuilder<E extends TreeView.TreeItem<E>, N extend
     default N showRoot() {
         return showRoot(true);
     }
+
+    default N childrenIncrement(int value) {
+        return with(n -> n.setChildrenIncrement(value));
+    }
 }

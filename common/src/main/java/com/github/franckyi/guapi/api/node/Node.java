@@ -1,6 +1,7 @@
 package com.github.franckyi.guapi.api.node;
 
 import com.github.franckyi.databindings.api.*;
+import com.github.franckyi.gamehooks.util.common.text.Text;
 import com.github.franckyi.guapi.api.EventTarget;
 import com.github.franckyi.guapi.api.Renderable;
 import com.github.franckyi.guapi.api.event.MouseEvent;
@@ -164,6 +165,16 @@ public interface Node extends ScreenEventHandler, Renderable<Object>, EventTarge
 
     default void setPadding(Insets value) {
         paddingProperty().setValue(value);
+    }
+
+    default Text getTooltip() {
+        return tooltipProperty().getValue();
+    }
+
+    ObjectProperty<Text> tooltipProperty();
+
+    default void setTooltip(Text value) {
+        tooltipProperty().setValue(value);
     }
 
     default Parent getParent() {

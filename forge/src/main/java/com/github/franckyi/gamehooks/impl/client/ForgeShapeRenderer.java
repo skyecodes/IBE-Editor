@@ -1,6 +1,8 @@
 package com.github.franckyi.gamehooks.impl.client;
 
 import com.github.franckyi.gamehooks.api.client.ShapeRenderer;
+import com.github.franckyi.gamehooks.impl.common.ForgeTextFactory;
+import com.github.franckyi.gamehooks.util.common.text.Text;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
@@ -21,5 +23,10 @@ public class ForgeShapeRenderer implements ShapeRenderer<MatrixStack> {
     public void drawTexture(MatrixStack matrices, String id, int x, int y, int width, int height, int imageX, int imageY, int imageWidth, int imageHeight) {
         Minecraft.getInstance().getTextureManager().bindTexture(new ResourceLocation(id));
         AbstractGui.blit(matrices, x, y, 0, imageX, imageY, width, height, imageHeight, imageWidth);
+    }
+
+    @Override
+    public void drawTooltip(MatrixStack matrices, Text text, int x, int y) {
+        Minecraft.getInstance().currentScreen.renderTooltip(matrices, ForgeTextFactory.INSTANCE.create(text), x, y);
     }
 }

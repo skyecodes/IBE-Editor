@@ -1,5 +1,6 @@
 package com.github.franckyi.guapi.api.theme;
 
+import com.github.franckyi.gamehooks.GameHooks;
 import com.github.franckyi.guapi.api.EventTarget;
 import com.github.franckyi.guapi.api.event.ScreenEvent;
 import com.github.franckyi.guapi.api.node.Node;
@@ -13,6 +14,9 @@ public interface Skin<N extends Node> extends EventTarget {
     void render(N node, Object matrices, int mouseX, int mouseY, float delta);
 
     default void postRender(N node, Object matrices, int mouseX, int mouseY, float delta) {
+        if (node.tooltipProperty().hasValue() && node.inBounds(mouseX, mouseY)) {
+            GameHooks.client().shapeRenderer().drawTooltip(matrices, node.getTooltip(), mouseX, mouseY);
+        }
     }
 
     int computeWidth(N node);

@@ -1,5 +1,6 @@
 package com.github.franckyi.guapi.api.node.builder.generic;
 
+import com.github.franckyi.gamehooks.util.common.text.Text;
 import com.github.franckyi.guapi.api.event.*;
 import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.api.node.builder.Builder;
@@ -53,6 +54,10 @@ public interface GenericNodeBuilder<N extends Node> extends Node, Builder<N> {
 
     default N padding(int top, int right, int bottom, int left) {
         return padding(new Insets(top, right, bottom, left));
+    }
+
+    default N tooltip(Text value) {
+        return with(n -> n.setTooltip(value));
     }
 
     default N visible(boolean value) {

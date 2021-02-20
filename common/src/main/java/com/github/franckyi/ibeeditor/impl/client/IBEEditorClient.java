@@ -114,6 +114,11 @@ public final class IBEEditorClient {
     }
 
     public static void openEntityEditor(Entity entity, boolean nbt) {
+        if (nbt) {
+            NBTEditor.show(entity.getTag());
+        } else {
+            //EntityEditor.show(entity);
+        }
     }
 
     public static void openSelfEditor(boolean nbt) {

@@ -1,7 +1,11 @@
 package com.github.franckyi.ibeeditor.impl.client.mvc.view;
 
 import com.github.franckyi.gamehooks.util.common.tag.Tag;
-import com.github.franckyi.guapi.api.node.*;
+import com.github.franckyi.gamehooks.util.common.text.Text;
+import com.github.franckyi.guapi.api.node.HBox;
+import com.github.franckyi.guapi.api.node.ImageView;
+import com.github.franckyi.guapi.api.node.Label;
+import com.github.franckyi.guapi.api.node.TextField;
 import com.github.franckyi.ibeeditor.api.client.mvc.view.TagView;
 
 import static com.github.franckyi.guapi.GUAPIFactory.*;
@@ -16,15 +20,15 @@ public class TagViewImpl implements TagView {
     public TagViewImpl() {
         root = hBox(root -> {
             root.add(icon = imageView("", 16, 16));
-            root.add(nameField = textField().prefHeight(14).prefWidth(80));
-            root.add(separator = label("="));
+            root.add(nameField = textField().prefHeight(14).prefWidth(100));
+            root.add(separator = label(":"));
             root.add(valueField = textField().prefHeight(14));
             root.spacing(5).align(CENTER_LEFT);
         });
     }
 
     @Override
-    public Node getRoot() {
+    public HBox getRoot() {
         return root;
     }
 
@@ -49,52 +53,61 @@ public class TagViewImpl implements TagView {
     }
 
     @Override
-    public void updateIconFromTag(Tag<?> tag) {
-        if (tag != null) {
-            String id = "ibeeditor:textures/gui/";
-            switch (tag.getType()) {
-                case Tag.BYTE_ID:
-                    id += "byte_tag";
-                    break;
-                case Tag.SHORT_ID:
-                    id += "short_tag";
-                    break;
-                case Tag.INT_ID:
-                    id += "int_tag";
-                    break;
-                case Tag.LONG_ID:
-                    id += "long_tag";
-                    break;
-                case Tag.FLOAT_ID:
-                    id += "float_tag";
-                    break;
-                case Tag.DOUBLE_ID:
-                    id += "double_tag";
-                    break;
-                case Tag.BYTE_ARRAY_ID:
-                    id += "byte_array_tag";
-                    break;
-                case Tag.STRING_ID:
-                    id += "string_tag";
-                    break;
-                case Tag.LIST_ID:
-                    id += "list_tag";
-                    break;
-                case Tag.COMPOUND_ID:
-                    id += "object_tag";
-                    break;
-                case Tag.INT_ARRAY_ID:
-                    id += "int_array_tag";
-                    break;
-                case Tag.LONG_ARRAY_ID:
-                    id += "long_array_tag";
-                    break;
-            }
-            id += ".png";
-            icon.setTextureId(id);
-        } else {
-            icon.setVisible(false);
-            icon.setPrefWidth(0);
+    public void updateIconFromTagType(byte tagType) {
+        String id = "ibeeditor:textures/gui/";
+        Text tooltip = null;
+        switch (tagType) {
+            case Tag.BYTE_ID:
+                id += "byte_tag";
+                tooltip = text("Byte", DARK_BLUE);
+                break;
+            case Tag.SHORT_ID:
+                id += "short_tag";
+                tooltip = text("Short", DARK_GREEN);
+                break;
+            case Tag.INT_ID:
+                id += "int_tag";
+                tooltip = text("Int", DARK_AQUA);
+                break;
+            case Tag.LONG_ID:
+                id += "long_tag";
+                tooltip = text("Long", DARK_RED);
+                break;
+            case Tag.FLOAT_ID:
+                id += "float_tag";
+                tooltip = text("Float", DARK_PURPLE);
+                break;
+            case Tag.DOUBLE_ID:
+                id += "double_tag";
+                tooltip = text("Double", GOLD);
+                break;
+            case Tag.BYTE_ARRAY_ID:
+                id += "byte_array_tag";
+                tooltip = text("Byte Array", BLUE);
+                break;
+            case Tag.STRING_ID:
+                id += "string_tag";
+                tooltip = text("String", GRAY);
+                break;
+            case Tag.LIST_ID:
+                id += "list_tag";
+                tooltip = text("List", GREEN);
+                break;
+            case Tag.COMPOUND_ID:
+                id += "object_tag";
+                tooltip = text("Compound", LIGHT_PURPLE);
+                break;
+            case Tag.INT_ARRAY_ID:
+                id += "int_array_tag";
+                tooltip = text("Int Array", AQUA);
+                break;
+            case Tag.LONG_ARRAY_ID:
+                id += "long_array_tag";
+                tooltip = text("Long Array", RED);
+                break;
         }
+        id += ".png";
+        icon.setTextureId(id);
+        icon.setTooltip(tooltip);
     }
 }
