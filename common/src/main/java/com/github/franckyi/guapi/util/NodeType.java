@@ -7,11 +7,12 @@ public final class NodeType<N extends Node> {
     public static final NodeType<HBox> HBOX = new NodeType<>("HBox");
     public static final NodeType<VBox> VBOX = new NodeType<>("VBox");
     public static final NodeType<Button> BUTTON = new NodeType<>("Button");
-    public static final NodeType<TextField> TEXTFIELD = new NodeType<>("TextField");
-    public static final NodeType<CheckBox> CHECKBOX = new NodeType<>("CheckBox");
-    public static final NodeType<ListView<?>> LISTVIEW = new NodeType<>("ListView");
-    public static final NodeType<TreeView<?>> TREEVIEW = new NodeType<>("TreeView");
-    public static final NodeType<ImageView> IMAGEVIEW = new NodeType<>("ImageView");
+    public static final NodeType<TextField> TEXT_FIELD = new NodeType<>("TextField");
+    public static final NodeType<CheckBox> CHECK_BOX = new NodeType<>("CheckBox");
+    public static final NodeType<ListView<?>> LIST_VIEW = new NodeType<>("ListView");
+    public static final NodeType<TreeView<?>> TREE_VIEW = new NodeType<>("TreeView");
+    public static final NodeType<ImageView> IMAGE_VIEW = new NodeType<>("ImageView");
+    public static final NodeType<TexturedButton> TEXTURED_BUTTON = new NodeType<>("TexturedButton");
     private final String s;
 
     private NodeType(String s) {

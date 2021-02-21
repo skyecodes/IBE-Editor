@@ -6,11 +6,8 @@ import net.minecraft.client.gui.widget.button.CheckboxButton;
 import net.minecraft.util.text.ITextComponent;
 
 public class ForgeVanillaCheckBoxRenderer extends CheckboxButton implements ForgeVanillaDelegateRenderer {
-    private final CheckBox node;
-
     public ForgeVanillaCheckBoxRenderer(CheckBox node) {
         super(node.getX(), node.getY(), node.getWidth(), node.getHeight(), node.getLabelComponent(), node.isChecked());
-        this.node = node;
         active = !node.isDisabled();
         node.xProperty().addListener(newVal -> x = newVal);
         node.yProperty().addListener(newVal -> y = newVal);

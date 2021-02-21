@@ -1,8 +1,6 @@
 package com.github.franckyi.guapi.api.node;
 
-import com.github.franckyi.databindings.api.IntegerProperty;
-import com.github.franckyi.databindings.api.ObjectProperty;
-import com.github.franckyi.databindings.api.StringProperty;
+import com.github.franckyi.databindings.api.*;
 
 import java.util.function.Predicate;
 
@@ -25,6 +23,16 @@ public interface TextField extends Labeled {
 
     default void setMaxLength(int value) {
         maxLengthProperty().setValue(value);
+    }
+
+    default boolean isAllowFormattingChar() {
+        return allowFormattingCharProperty().getValue();
+    }
+
+    BooleanProperty allowFormattingCharProperty();
+
+    default void setAllowFormattingChar(boolean value) {
+        allowFormattingCharProperty().setValue(value);
     }
 
     default Predicate<String> getValidator() {

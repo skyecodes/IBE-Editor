@@ -5,12 +5,9 @@ import com.github.franckyi.guapi.api.theme.vanilla.ForgeVanillaDelegateRenderer;
 import net.minecraft.util.text.ITextComponent;
 
 public class ForgeVanillaButtonRenderer extends net.minecraft.client.gui.widget.button.Button implements ForgeVanillaDelegateRenderer {
-    private final Button node;
-
     public ForgeVanillaButtonRenderer(Button node) {
         super(node.getX(), node.getY(), node.getWidth(), node.getHeight(), node.getLabelComponent(), button -> {
         });
-        this.node = node;
         active = !node.isDisabled();
         node.xProperty().addListener(newVal -> x = newVal);
         node.yProperty().addListener(newVal -> y = newVal);

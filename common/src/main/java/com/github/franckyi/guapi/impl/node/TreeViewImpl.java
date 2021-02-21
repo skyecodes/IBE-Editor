@@ -19,6 +19,6 @@ public class TreeViewImpl<E extends TreeView.TreeItem<E>> extends AbstractTreeVi
     @Override
     @SuppressWarnings("unchecked")
     protected NodeType<?> getType() {
-        return NodeType.TREEVIEW;
+        return NodeType.TREE_VIEW;
     }
 }

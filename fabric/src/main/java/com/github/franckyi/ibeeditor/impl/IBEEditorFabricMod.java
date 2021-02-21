@@ -28,10 +28,11 @@ public final class IBEEditorFabricMod implements ModInitializer, ClientModInitia
     public void onInitializeClient() {
         IBEEditor.initClient(FabricClientHooks.INSTANCE, FabricScreenHandler.INSTANCE);
         VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(NodeType.BUTTON, FabricVanillaButtonRenderer::new);
-        VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(NodeType.TEXTFIELD, FabricVanillaTextFieldRenderer::new);
-        VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(NodeType.CHECKBOX, FabricVanillaCheckBoxRenderer::new);
-        VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(NodeType.LISTVIEW, FabricVanillaListViewRenderer::new);
-        VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(NodeType.TREEVIEW, FabricVanillaTreeViewRenderer::new);
+        VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(NodeType.TEXTURED_BUTTON, FabricVanillaTexturedButtonRenderer::new);
+        VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(NodeType.TEXT_FIELD, FabricVanillaTextFieldRenderer::new);
+        VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(NodeType.CHECK_BOX, FabricVanillaCheckBoxRenderer::new);
+        VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(NodeType.LIST_VIEW, FabricVanillaListViewRenderer::new);
+        VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(NodeType.TREE_VIEW, FabricVanillaTreeViewRenderer::new);
         ClientTickEvents.END_CLIENT_TICK.register(mc -> IBEEditorClient.tick());
         ScreenEvents.AFTER_INIT.register(this::afterScreenInit);
     }

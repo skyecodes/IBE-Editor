@@ -9,7 +9,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 
 public class FabricShapeRenderer implements ShapeRenderer<MatrixStack> {
-    public static final ShapeRenderer<?> INSTANCE = new FabricShapeRenderer();
+    public static final ShapeRenderer<MatrixStack> INSTANCE = new FabricShapeRenderer();
 
     private FabricShapeRenderer() {
     }

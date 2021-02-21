@@ -1,6 +1,7 @@
 package com.github.franckyi.guapi.impl.node;
 
 import com.github.franckyi.databindings.PropertyFactory;
+import com.github.franckyi.databindings.api.BooleanProperty;
 import com.github.franckyi.databindings.api.IntegerProperty;
 import com.github.franckyi.databindings.api.ObjectProperty;
 import com.github.franckyi.databindings.api.StringProperty;
@@ -12,6 +13,7 @@ import java.util.function.Predicate;
 public abstract class AbstractTextField extends AbstractLabeled implements TextField {
     private final StringProperty textProperty = PropertyFactory.ofString("");
     private final IntegerProperty maxLengthProperty = PropertyFactory.ofInteger(Integer.MAX_VALUE);
+    private final BooleanProperty allowFormattingCharProperty = PropertyFactory.ofBoolean(true);
     private final ObjectProperty<Predicate<String>> validatorProperty = PropertyFactory.ofObject(s -> true);
 
     protected AbstractTextField() {
@@ -39,6 +41,11 @@ public abstract class AbstractTextField extends AbstractLabeled implements TextF
     @Override
     public IntegerProperty maxLengthProperty() {
         return maxLengthProperty;
+    }
+
+    @Override
+    public BooleanProperty allowFormattingCharProperty() {
+        return allowFormattingCharProperty;
     }
 
     @Override

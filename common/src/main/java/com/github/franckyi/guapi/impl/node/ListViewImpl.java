@@ -26,7 +26,7 @@ public class ListViewImpl<E> extends AbstractListView<E> implements ListViewBuil
     @Override
     @SuppressWarnings("unchecked")
     protected NodeType<?> getType() {
-        return NodeType.LISTVIEW;
+        return NodeType.LIST_VIEW;
     }
 
     @Override

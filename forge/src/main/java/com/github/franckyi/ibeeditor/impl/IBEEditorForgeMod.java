@@ -34,10 +34,11 @@ public final class IBEEditorForgeMod {
     private void onClientInit(FMLClientSetupEvent event) {
         IBEEditor.initClient(ForgeClientHooks.INSTANCE, ForgeScreenHandler.INSTANCE);
         VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(NodeType.BUTTON, ForgeVanillaButtonRenderer::new);
-        VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(NodeType.TEXTFIELD, ForgeVanillaTextFieldRenderer::new);
-        VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(NodeType.CHECKBOX, ForgeVanillaCheckBoxRenderer::new);
-        VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(NodeType.LISTVIEW, ForgeVanillaListViewRenderer::new);
-        VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(NodeType.TREEVIEW, ForgeVanillaTreeViewRenderer::new);
+        VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(NodeType.TEXTURED_BUTTON, ForgeVanillaTexturedButtonRenderer::new);
+        VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(NodeType.TEXT_FIELD, ForgeVanillaTextFieldRenderer::new);
+        VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(NodeType.CHECK_BOX, ForgeVanillaCheckBoxRenderer::new);
+        VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(NodeType.LIST_VIEW, ForgeVanillaListViewRenderer::new);
+        VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(NodeType.TREE_VIEW, ForgeVanillaTreeViewRenderer::new);
         MinecraftForge.EVENT_BUS.addListener(this::onClientTick);
         MinecraftForge.EVENT_BUS.addListener(this::onKeyPressed);
     }

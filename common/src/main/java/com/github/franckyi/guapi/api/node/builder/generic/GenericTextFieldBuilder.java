@@ -13,6 +13,14 @@ public interface GenericTextFieldBuilder<N extends TextField> extends TextField,
         return with(n -> n.setMaxLength(value));
     }
 
+    default N allowFormattingChar(boolean value) {
+        return with(n -> n.setAllowFormattingChar(value));
+    }
+
+    default N denyFormattingChar() {
+        return allowFormattingChar(false);
+    }
+
     default N validator(Predicate<String> value) {
         return with(n -> n.setValidator(value));
     }

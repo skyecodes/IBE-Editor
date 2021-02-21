@@ -1,6 +1,5 @@
 package com.github.franckyi.guapi.impl.node;
 
-import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.api.node.builder.ImageViewBuilder;
 import com.github.franckyi.guapi.util.NodeType;
 
@@ -16,7 +15,7 @@ public class ImageViewImpl extends AbstractImageView implements ImageViewBuilder
     @Override
     @SuppressWarnings("unchecked")
     protected NodeType<?> getType() {
-        return NodeType.IMAGEVIEW;
+        return NodeType.IMAGE_VIEW;
     }
 
     @Override

@@ -9,7 +9,7 @@ import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.util.ResourceLocation;
 
 public class ForgeShapeRenderer implements ShapeRenderer<MatrixStack> {
-    public static final ShapeRenderer<?> INSTANCE = new ForgeShapeRenderer();
+    public static final ShapeRenderer<MatrixStack> INSTANCE = new ForgeShapeRenderer();
 
     private ForgeShapeRenderer() {
     }

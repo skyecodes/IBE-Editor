@@ -19,7 +19,7 @@ public class CheckBoxImpl extends AbstractCheckBox implements CheckBoxBuilder {
     @Override
     @SuppressWarnings("unchecked")
     protected NodeType<?> getType() {
-        return NodeType.CHECKBOX;
+        return NodeType.CHECK_BOX;
     }
 
     @Override

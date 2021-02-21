@@ -10,11 +10,12 @@ public class VanillaTheme extends AbstractTheme {
         registerSkinInstance(NodeType.LABEL, VanillaLabelSkin.INSTANCE);
         registerSkinInstance(NodeType.HBOX, VanillaHBoxSkin.INSTANCE);
         registerSkinInstance(NodeType.VBOX, VanillaVBoxSkin.INSTANCE);
-        registerSkinInstance(NodeType.IMAGEVIEW, VanillaImageViewSkin.INSTANCE);
+        registerSkinInstance(NodeType.IMAGE_VIEW, VanillaImageViewSkin.INSTANCE);
         delegateSkinRenderer(NodeType.BUTTON, VanillaButtonSkin::new);
-        delegateSkinRenderer(NodeType.TEXTFIELD, VanillaTextFieldSkin::new);
-        delegateSkinRenderer(NodeType.CHECKBOX, VanillaCheckBoxSkin::new);
-        delegateSkinRenderer(NodeType.LISTVIEW, VanillaListViewSkin::new);
-        delegateSkinRenderer(NodeType.TREEVIEW, VanillaTreeViewSkin::new);
+        delegateSkinRenderer(NodeType.TEXTURED_BUTTON, VanillaTexturedButtonSkin::new);
+        delegateSkinRenderer(NodeType.TEXT_FIELD, VanillaTextFieldSkin::new);
+        delegateSkinRenderer(NodeType.CHECK_BOX, VanillaCheckBoxSkin::new);
+        delegateSkinRenderer(NodeType.LIST_VIEW, VanillaListViewSkin::new);
+        delegateSkinRenderer(NodeType.TREE_VIEW, VanillaTreeViewSkin::new);
     }
 }

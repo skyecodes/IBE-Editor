@@ -23,7 +23,7 @@ public class TextFieldImpl extends AbstractTextField implements TextFieldBuilder
     @Override
     @SuppressWarnings("unchecked")
     protected NodeType<?> getType() {
-        return NodeType.TEXTFIELD;
+        return NodeType.TEXT_FIELD;
     }
 
     @Override
