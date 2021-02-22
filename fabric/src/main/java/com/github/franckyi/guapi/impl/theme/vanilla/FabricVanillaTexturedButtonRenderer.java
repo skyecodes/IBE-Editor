@@ -29,6 +29,9 @@ public class FabricVanillaTexturedButtonRenderer extends ButtonWidget implements
         int y = node.getY() + (node.getHeight() - 16) / 2;
         FabricShapeRenderer.INSTANCE.drawTexture(matrices, node.getTextureId(), x, y, node.getWidth(), node.getHeight(),
                 node.getImageX(), node.getImageY(), node.getImageWidth(), node.getImageHeight());
+        if (!node.isDrawButton() && node.isDisabled()) {
+            FabricShapeRenderer.INSTANCE.fillRectangle(matrices, x, y, x + node.getWidth(), y + node.getHeight(), 0xbf000000);
+        }
     }
 
     @Override

@@ -58,5 +58,23 @@ public interface TreeView<E extends TreeView.TreeItem<E>> extends ListNode<E> {
         default void setParent(E value) {
             parentProperty().setValue(value);
         }
+
+        default boolean isChildrenChanged() {
+            return childrenChangedProperty().getValue();
+        }
+
+        BooleanProperty childrenChangedProperty();
+
+        default void setChildrenChanged(boolean value) {
+            childrenChangedProperty().setValue(value);
+        }
+
+        default void notifyChange() {
+            if (getParent() != null) {
+                getParent().notifyChange();
+            } else {
+                setChildrenChanged(true);
+            }
+        }
     }
 }

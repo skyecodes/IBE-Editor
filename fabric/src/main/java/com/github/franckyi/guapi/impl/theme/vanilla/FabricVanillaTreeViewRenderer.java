@@ -1,22 +1,23 @@
 package com.github.franckyi.guapi.impl.theme.vanilla;
 
-import com.github.franckyi.gamehooks.impl.client.FabricShapeRenderer;
-import com.github.franckyi.guapi.api.node.HBox;
 import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.api.node.TexturedButton;
 import com.github.franckyi.guapi.api.node.TreeView;
-import com.github.franckyi.guapi.api.theme.vanilla.FabricVanillaDelegateRenderer;
-import net.minecraft.client.gui.Element;
 import net.minecraft.client.util.math.MatrixStack;
-import org.jetbrains.annotations.Nullable;
 
 import static com.github.franckyi.guapi.GUAPIFactory.*;
 
-public class FabricVanillaTreeViewRenderer<E extends TreeView.TreeItem<E>> extends AbstractFabricVanillaListNodeRenderer<TreeView<E>, E> implements FabricVanillaDelegateRenderer {
+public class FabricVanillaTreeViewRenderer<E extends TreeView.TreeItem<E>> extends AbstractFabricVanillaListNodeRenderer<TreeView<E>, E, FabricVanillaTreeViewRenderer.NodeEntry<E>> {
     public FabricVanillaTreeViewRenderer(TreeView<E> node) {
         super(node);
-        node.rootProperty().addListener(this::shouldRefreshList);
+        node.rootItemProperty().addListener(this::shouldRefreshList);
         node.showRootProperty().addListener(this::shouldRefreshList);
+        node.rootItemProperty().bindMapToBoolean(TreeView.TreeItem::childrenChangedProperty, false).addListener(newVal -> {
+            if (newVal) {
+                shouldRefreshList();
+                node.getRoot().setChildrenChanged(false);
+            }
+        });
     }
 
     @Override
@@ -48,36 +49,13 @@ public class FabricVanillaTreeViewRenderer<E extends TreeView.TreeItem<E>> exten
         }
     }
 
-    @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        if (this.getEntryAtPosition(mouseX, mouseY) == null) {
-            setFocused(null);
-        }
-        return super.mouseClicked(mouseX, mouseY, button);
-    }
-
-    @Override
-    @SuppressWarnings("unchecked")
-    public void setFocused(@Nullable Element focused) {
-        super.setFocused(focused);
-        if (focused == null) {
-            node.setFocusedElement(null);
-        } else {
-            node.setFocusedElement(((NodeEntry<E>) focused).item);
-        }
-    }
-
-    protected static class NodeEntry<E extends TreeView.TreeItem<E>> extends AbstractFabricVanillaListNodeRenderer.NodeEntry {
-        private final FabricVanillaTreeViewRenderer<E> list;
-        private final E item;
-        private final HBox node;
+    protected static class NodeEntry<E extends TreeView.TreeItem<E>> extends AbstractFabricVanillaListNodeRenderer.NodeEntry<TreeView<E>, E, NodeEntry<E>> {
         private TexturedButton button;
         private final int increment;
 
         public NodeEntry(FabricVanillaTreeViewRenderer<E> list, E item, Node node, int increment) {
-            this.list = list;
-            this.item = item;
-            this.node = hBox(root -> {
+            super(list, item);
+            setNode(hBox(root -> {
                 if (item.getChildren().isEmpty()) {
                     root.add(hBox().prefSize(16, 16));
                 } else {
@@ -95,7 +73,7 @@ public class FabricVanillaTreeViewRenderer<E extends TreeView.TreeItem<E>> exten
                     item.expandedProperty().addListener(newVal -> button.setImageX(newVal ? 16 : 0));
                 }
                 root.add(node).align(CENTER_LEFT).spacing(5).setParent(list.node);
-            });
+            }));
             this.increment = increment;
         }
 
@@ -108,31 +86,18 @@ public class FabricVanillaTreeViewRenderer<E extends TreeView.TreeItem<E>> exten
 
         @Override
         public void render(MatrixStack matrices, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
-            int incr = increment * list.node.getChildrenIncrement();
-            entryWidth = list.getMaxScroll() == 0 ? entryWidth + 6 : entryWidth;
-            node.setX(x + incr);
-            node.setY(y);
-            node.setParentPrefWidth(entryWidth - incr);
-            node.setParentPrefHeight(entryHeight);
+            int incr = increment * getList().node.getChildrenIncrement();
+            entryWidth = getList().getMaxScroll() == 0 ? entryWidth + 6 : entryWidth;
+            getNode().setX(x + incr);
+            getNode().setY(y);
+            getNode().setParentPrefWidth(entryWidth - incr);
+            getNode().setParentPrefHeight(entryHeight);
             if (button != null) {
                 button.setImageY(button.inBounds(mouseX, mouseY) ? 16 : 0);
             }
-            if (list.getFocused() == this) {
-                FabricShapeRenderer.INSTANCE.fillRectangle(matrices, x - 2, y - 2,
-                        x + entryWidth + 3, y + entryHeight + 2, 0x4fffffff);
-            }
-            while (node.preRender(matrices, mouseX, mouseY, tickDelta)) ;
-            node.render(matrices, mouseX, mouseY, tickDelta);
-        }
-
-        @Override
-        public boolean mouseClicked(double mouseX, double mouseY, int button) {
-            return list.node.isChildrenFocusable();
-        }
-
-        @Override
-        protected Node getNode() {
-            return node;
+            renderBackground(matrices, x, y, entryWidth, entryHeight);
+            while (getNode().preRender(matrices, mouseX, mouseY, tickDelta)) ;
+            getNode().render(matrices, mouseX, mouseY, tickDelta);
         }
     }
 }

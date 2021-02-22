@@ -13,6 +13,7 @@ import com.github.franckyi.guapi.util.ScreenEventType;
 public abstract class AbstractListNode<E> extends AbstractNode implements ListNode<E> {
     private final BooleanProperty childrenFocusableProperty = PropertyFactory.ofBoolean(false);
     private final ObjectProperty<E> focusedElementProperty = PropertyFactory.ofObject();
+    private final ObjectProperty<E> scrollToProperty = PropertyFactory.ofObject();
     private final IntegerProperty itemHeightProperty = PropertyFactory.ofInteger();
     private final IntegerProperty fullWidthProperty = PropertyFactory.ofInteger();
     private final IntegerProperty fullHeightProperty = PropertyFactory.ofInteger();
@@ -49,6 +50,11 @@ public abstract class AbstractListNode<E> extends AbstractNode implements ListNo
     @Override
     public ObjectProperty<E> focusedElementProperty() {
         return focusedElementProperty;
+    }
+
+    @Override
+    public ObjectProperty<E> scrollToProperty() {
+        return scrollToProperty;
     }
 
     @Override

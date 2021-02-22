@@ -25,6 +25,16 @@ public interface ListNode<E> extends Node, Parent {
         focusedElementProperty().setValue(value);
     }
 
+    default E getScrollTo() {
+        return scrollToProperty().getValue();
+    }
+
+    ObjectProperty<E> scrollToProperty();
+
+    default void setScrollTo(E value) {
+        scrollToProperty().setValue(value);
+    }
+
     default int getItemHeight() {
         return itemHeightProperty().getValue();
     }

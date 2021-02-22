@@ -1,5 +1,6 @@
 package com.github.franckyi.guapi.impl.theme.vanilla;
 
+import com.github.franckyi.gamehooks.impl.client.FabricShapeRenderer;
 import com.github.franckyi.guapi.api.event.MouseButtonEvent;
 import com.github.franckyi.guapi.api.event.MouseDragEvent;
 import com.github.franckyi.guapi.api.event.MouseEvent;
@@ -9,13 +10,17 @@ import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.api.theme.vanilla.FabricVanillaDelegateRenderer;
 import com.github.franckyi.guapi.util.ScreenEventType;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.widget.EntryListWidget;
 import net.minecraft.client.util.math.MatrixStack;
+import org.jetbrains.annotations.Nullable;
 
-public abstract class AbstractFabricVanillaListNodeRenderer<N extends ListNode<E>, E> extends EntryListWidget<AbstractFabricVanillaListNodeRenderer.NodeEntry> implements FabricVanillaDelegateRenderer {
+public abstract class AbstractFabricVanillaListNodeRenderer<N extends ListNode<E>, E, T extends AbstractFabricVanillaListNodeRenderer.NodeEntry<N, E, T>> extends EntryListWidget<T> implements FabricVanillaDelegateRenderer {
     protected final N node;
     protected boolean shouldRefreshSize = true;
     protected boolean shouldRefreshList = true;
+    protected boolean shouldScrollTo = false;
+    protected boolean shouldChangeFocus = false;
 
     public AbstractFabricVanillaListNodeRenderer(N node) {
         super(MinecraftClient.getInstance(), 0, 0, 0, 0, node.getItemHeight());
@@ -30,6 +35,8 @@ public abstract class AbstractFabricVanillaListNodeRenderer<N extends ListNode<E
         node.fullWidthProperty().addListener(rs);
         node.fullHeightProperty().addListener(rs);
         node.rootProperty().addListener(this::shouldRefreshList);
+        node.scrollToProperty().addListener(this::shouldScrollTo);
+        node.focusedElementProperty().addListener(this::shouldChangeFocus);
     }
 
     @Override
@@ -48,6 +55,25 @@ public abstract class AbstractFabricVanillaListNodeRenderer<N extends ListNode<E
     }
 
     @Override
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        if (getEntryAtPosition(mouseX, mouseY) == null) {
+            setFocused(null);
+        }
+        return super.mouseClicked(mouseX, mouseY, button);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public void setFocused(@Nullable Element focused) {
+        super.setFocused(focused);
+        if (focused == null) {
+            node.setFocusedElement(null);
+        } else {
+            node.setFocusedElement(((NodeEntry<?, E, ?>) focused).item);
+        }
+    }
+
+    @Override
     public boolean preRender(MatrixStack matrices, int mouseX, int mouseY, float delta) {
         boolean res = false;
         if (shouldRefreshSize) {
@@ -58,23 +84,39 @@ public abstract class AbstractFabricVanillaListNodeRenderer<N extends ListNode<E
             refreshList();
             res = true;
         }
+        if (shouldScrollTo) {
+            scrollTo();
+            res = true;
+        }
+        if (shouldChangeFocus) {
+            changeFocus();
+            res = true;
+        }
         super.render(matrices, mouseX, mouseY, delta); // doing the actual rendering here to not hide the other elements
         return res;
     }
 
     @Override
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        for (NodeEntry entry : children()) {
+        for (T entry : children()) {
             entry.getNode().postRender(matrices, mouseX, mouseY, delta);
         }
     }
 
     protected void shouldRefreshSize() {
-        this.shouldRefreshSize = true;
+        shouldRefreshSize = true;
     }
 
     protected void shouldRefreshList() {
-        this.shouldRefreshList = true;
+        shouldRefreshList = true;
+    }
+
+    protected void shouldScrollTo() {
+        shouldScrollTo = true;
+    }
+
+    protected void shouldChangeFocus() {
+        shouldChangeFocus = true;
     }
 
     protected void refreshSize() {
@@ -89,9 +131,29 @@ public abstract class AbstractFabricVanillaListNodeRenderer<N extends ListNode<E
 
     protected abstract void refreshList();
 
+    protected void scrollTo() {
+        for (T e : children()) {
+            if (e.getItem() == node.getScrollTo()) {
+                centerScrollOn(e);
+                break;
+            }
+        }
+        shouldScrollTo = false;
+    }
+
+    protected void changeFocus() {
+        for (T e : children()) {
+            if (e.getItem() == node.getFocusedElement()) {
+                super.setFocused(e);
+                break;
+            }
+        }
+        shouldChangeFocus = false;
+    }
+
     @Override
     public void tick() {
-        for (NodeEntry child : children()) {
+        for (T child : children()) {
             child.getNode().tick();
         }
     }
@@ -127,13 +189,53 @@ public abstract class AbstractFabricVanillaListNodeRenderer<N extends ListNode<E
     }
 
     protected <EE extends MouseEvent> void handleMouseEvent(ScreenEventType<EE> type, EE event) {
-        for (NodeEntry child : children()) {
+        for (T child : children()) {
             child.getNode().handleEvent(type, event);
             if (event.getTarget() != null) return;
         }
     }
 
-    protected abstract static class NodeEntry extends EntryListWidget.Entry<NodeEntry> {
-        protected abstract Node getNode();
+    protected abstract static class NodeEntry<N extends ListNode<E>, E, T extends NodeEntry<N, E, T>> extends EntryListWidget.Entry<T> {
+        private final AbstractFabricVanillaListNodeRenderer<N, E, T> list;
+        private final E item;
+        private Node node;
+
+        public NodeEntry(AbstractFabricVanillaListNodeRenderer<N, E, T> list, E item) {
+            this(list, item, null);
+        }
+
+        public NodeEntry(AbstractFabricVanillaListNodeRenderer<N, E, T> list, E item, Node node) {
+            this.list = list;
+            this.item = item;
+            this.node = node;
+        }
+
+        public AbstractFabricVanillaListNodeRenderer<N, E, T> getList() {
+            return list;
+        }
+
+        public E getItem() {
+            return item;
+        }
+
+        public Node getNode() {
+            return node;
+        }
+
+        public void setNode(Node node) {
+            this.node = node;
+        }
+
+        protected void renderBackground(MatrixStack matrices, int x, int y, int entryWidth, int entryHeight) {
+            if (getList().getFocused() == this) {
+                FabricShapeRenderer.INSTANCE.fillRectangle(matrices, x - 2, y - 2,
+                        x + entryWidth + 3, y + entryHeight + 2, 0x4fffffff);
+            }
+        }
+
+        @Override
+        public boolean mouseClicked(double mouseX, double mouseY, int button) {
+            return list.node.isChildrenFocusable();
+        }
     }
 }

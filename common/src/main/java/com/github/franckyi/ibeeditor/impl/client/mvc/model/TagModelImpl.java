@@ -15,6 +15,7 @@ public class TagModelImpl implements TagModel {
     private final ObservableList<TagModel> children = ObservableListFactory.arrayList();
     private final BooleanProperty expandedProperty = PropertyFactory.ofBoolean();
     private final ObjectProperty<TagModel> parentProperty;
+    private final BooleanProperty childrenChangedProperty = PropertyFactory.ofBoolean();
     private final StringProperty nameProperty;
     private final StringProperty valueProperty;
     protected final Tag<?> tag;
@@ -25,12 +26,12 @@ public class TagModelImpl implements TagModel {
         setExpanded(true);
     }
 
-    protected TagModelImpl(byte forcedTagType, TagModel parent, String value) {
+    public TagModelImpl(byte forcedTagType, TagModel parent, String value) {
         this(null, parent, null, value);
         this.forcedTagType = forcedTagType;
     }
 
-    protected TagModelImpl(Tag<?> tag, TagModel parent, String name, String value) {
+    public TagModelImpl(Tag<?> tag, TagModel parent, String name, String value) {
         this.tag = tag;
         parentProperty = PropertyFactory.ofObject(parent);
         nameProperty = PropertyFactory.ofString(name);
@@ -76,6 +77,7 @@ public class TagModelImpl implements TagModel {
                     setValue(tag.getValue().toString());
             }
         }
+        getChildren().addListener(this::notifyChange);
     }
 
     @Override
@@ -91,6 +93,11 @@ public class TagModelImpl implements TagModel {
     @Override
     public ObjectProperty<TagModel> parentProperty() {
         return parentProperty;
+    }
+
+    @Override
+    public BooleanProperty childrenChangedProperty() {
+        return childrenChangedProperty;
     }
 
     @Override

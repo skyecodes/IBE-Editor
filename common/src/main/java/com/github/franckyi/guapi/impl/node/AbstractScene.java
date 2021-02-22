@@ -176,7 +176,9 @@ public abstract class AbstractScene implements Scene {
                     MouseButtonEvent be = (MouseButtonEvent) e;
                     if (type == ScreenEventType.MOUSE_CLICKED && be.getButton() == MouseButtonEvent.LEFT_BUTTON) {
                         setFocused(e.getTarget());
-                        e.getTarget().handleEvent(ScreenEventType.ACTION, be);
+                        if (!e.getTarget().isDisabled()) {
+                            e.getTarget().handleEvent(ScreenEventType.ACTION, be);
+                        }
                     }
                 } else if (type == ScreenEventType.MOUSE_MOVED) {
                     setHovered(e.getTarget());

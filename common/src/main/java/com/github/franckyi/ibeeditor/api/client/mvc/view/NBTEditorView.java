@@ -21,7 +21,7 @@ public interface NBTEditorView extends View {
 
     Button getCancelButton();
 
-    ObservableList<ButtonType> getVisibleButtons();
+    ObservableList<ButtonType> getEnabledButtons();
 
     void setOnButtonClick(Consumer<ButtonType> action);
 
