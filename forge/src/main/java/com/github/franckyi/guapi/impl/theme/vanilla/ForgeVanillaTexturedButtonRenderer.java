@@ -25,8 +25,9 @@ public class ForgeVanillaTexturedButtonRenderer extends Button implements ForgeV
     @Override
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
         super.render(matrices, mouseX, mouseY, delta);
-        ForgeShapeRenderer.INSTANCE.drawTexture(matrices, node.getTextureId(),
-                node.getX() + 2, node.getY() + 2, node.getWidth(), node.getHeight(),
+        int x = node.getX() + (node.getWidth() - 16) / 2;
+        int y = node.getY() + (node.getHeight() - 16) / 2;
+        ForgeShapeRenderer.INSTANCE.drawTexture(matrices, node.getTextureId(), x, y, node.getWidth(), node.getHeight(),
                 node.getImageX(), node.getImageY(), node.getImageWidth(), node.getImageHeight());
     }
 

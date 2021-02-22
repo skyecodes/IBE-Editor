@@ -1,6 +1,7 @@
 package com.github.franckyi.guapi.impl.node;
 
 import com.github.franckyi.databindings.PropertyFactory;
+import com.github.franckyi.databindings.api.BooleanProperty;
 import com.github.franckyi.databindings.api.IntegerProperty;
 import com.github.franckyi.databindings.api.ObjectProperty;
 import com.github.franckyi.guapi.api.event.MouseEvent;
@@ -10,6 +11,8 @@ import com.github.franckyi.guapi.api.node.Scene;
 import com.github.franckyi.guapi.util.ScreenEventType;
 
 public abstract class AbstractListNode<E> extends AbstractNode implements ListNode<E> {
+    private final BooleanProperty childrenFocusableProperty = PropertyFactory.ofBoolean(false);
+    private final ObjectProperty<E> focusedElementProperty = PropertyFactory.ofObject();
     private final IntegerProperty itemHeightProperty = PropertyFactory.ofInteger();
     private final IntegerProperty fullWidthProperty = PropertyFactory.ofInteger();
     private final IntegerProperty fullHeightProperty = PropertyFactory.ofInteger();
@@ -36,6 +39,16 @@ public abstract class AbstractListNode<E> extends AbstractNode implements ListNo
                 event.setTarget(this);
             }
         }
+    }
+
+    @Override
+    public BooleanProperty childrenFocusableProperty() {
+        return childrenFocusableProperty;
+    }
+
+    @Override
+    public ObjectProperty<E> focusedElementProperty() {
+        return focusedElementProperty;
     }
 
     @Override

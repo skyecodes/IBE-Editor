@@ -48,5 +48,15 @@ public interface TreeView<E extends TreeView.TreeItem<E>> extends ListNode<E> {
         default void setExpanded(boolean value) {
             expandedProperty().setValue(value);
         }
+
+        default E getParent() {
+            return parentProperty().getValue();
+        }
+
+        ObjectProperty<E> parentProperty();
+
+        default void setParent(E value) {
+            parentProperty().setValue(value);
+        }
     }
 }

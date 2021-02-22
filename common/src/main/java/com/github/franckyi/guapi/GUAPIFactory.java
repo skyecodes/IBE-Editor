@@ -181,6 +181,18 @@ public final class GUAPIFactory {
         return textField().with(with);
     }
 
+    public static TexturedButtonBuilder texturedButton(String id, boolean drawButton) {
+        return new TexturedButtonImpl(id, drawButton);
+    }
+
+    public static TexturedButtonBuilder texturedButton(String id, int imageWidth, int imageHeight, boolean drawButton) {
+        return new TexturedButtonImpl(id, imageWidth, imageHeight, drawButton);
+    }
+
+    public static TexturedButtonBuilder texturedButton(String id, boolean drawButton, Consumer<TexturedButtonBuilder> with) {
+        return texturedButton(id, drawButton).with(with);
+    }
+
     public static <E extends TreeView.TreeItem<E>> TreeViewBuilder<E> treeView(Class<E> eClass) {
         return new TreeViewImpl<>();
     }

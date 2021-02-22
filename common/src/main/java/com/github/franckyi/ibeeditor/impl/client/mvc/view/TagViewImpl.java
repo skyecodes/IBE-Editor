@@ -20,7 +20,7 @@ public class TagViewImpl implements TagView {
     public TagViewImpl() {
         root = hBox(root -> {
             root.add(icon = imageView("", 16, 16));
-            root.add(nameField = textField().prefHeight(14).prefWidth(100));
+            root.add(nameField = textField().prefHeight(14).prefWidth(120));
             root.add(separator = label(":"));
             root.add(valueField = textField().prefHeight(14));
             root.spacing(5).align(CENTER_LEFT);

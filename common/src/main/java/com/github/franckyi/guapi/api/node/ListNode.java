@@ -1,9 +1,30 @@
 package com.github.franckyi.guapi.api.node;
 
+import com.github.franckyi.databindings.api.BooleanProperty;
 import com.github.franckyi.databindings.api.IntegerProperty;
 import com.github.franckyi.databindings.api.ObjectProperty;
 
 public interface ListNode<E> extends Node, Parent {
+    default boolean isChildrenFocusable() {
+        return childrenFocusableProperty().getValue();
+    }
+
+    BooleanProperty childrenFocusableProperty();
+
+    default void setChildrenFocusable(boolean value) {
+        childrenFocusableProperty().setValue(value);
+    }
+
+    default E getFocusedElement() {
+        return focusedElementProperty().getValue();
+    }
+
+    ObjectProperty<E> focusedElementProperty();
+
+    default void setFocusedElement(E value) {
+        focusedElementProperty().setValue(value);
+    }
+
     default int getItemHeight() {
         return itemHeightProperty().getValue();
     }

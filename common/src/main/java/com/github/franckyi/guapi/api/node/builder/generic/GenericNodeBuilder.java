@@ -1,6 +1,7 @@
 package com.github.franckyi.guapi.api.node.builder.generic;
 
 import com.github.franckyi.gamehooks.util.common.text.Text;
+import com.github.franckyi.gamehooks.util.common.text.TextFormatting;
 import com.github.franckyi.guapi.api.event.*;
 import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.api.node.builder.Builder;
@@ -16,6 +17,11 @@ public interface GenericNodeBuilder<N extends Node> extends Node, Builder<N> {
         return with(n -> n.setMinHeight(value));
     }
 
+    default N minSize(int width, int height) {
+        minWidth(width);
+        return minHeight(height);
+    }
+
     default N prefWidth(int value) {
         return with(n -> n.setPrefWidth(value));
     }
@@ -24,12 +30,22 @@ public interface GenericNodeBuilder<N extends Node> extends Node, Builder<N> {
         return with(n -> n.setPrefHeight(value));
     }
 
+    default N prefSize(int width, int height) {
+        prefWidth(width);
+        return prefHeight(height);
+    }
+
     default N maxWidth(int value) {
         return with(n -> n.setMaxWidth(value));
     }
 
     default N maxHeight(int value) {
         return with(n -> n.setMaxHeight(value));
+    }
+
+    default N maxSize(int width, int height) {
+        maxWidth(width);
+        return maxHeight(height);
     }
 
     default N backgroundColor(int value) {
@@ -58,6 +74,10 @@ public interface GenericNodeBuilder<N extends Node> extends Node, Builder<N> {
 
     default N tooltip(Text value) {
         return with(n -> n.setTooltip(value));
+    }
+
+    default N tooltip(String text, TextFormatting... formatting) {
+        return tooltip(Text.literal(text, formatting));
     }
 
     default N visible(boolean value) {

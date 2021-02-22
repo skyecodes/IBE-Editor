@@ -3,6 +3,18 @@ package com.github.franckyi.guapi.api.node.builder.generic;
 import com.github.franckyi.guapi.api.node.ListNode;
 
 public interface GenericListNodeBuilder<E, N extends ListNode<E>> extends ListNode<E>, GenericNodeBuilder<N> {
+    default N childrenFocusable(boolean value) {
+        return with(n -> n.setChildrenFocusable(value));
+    }
+
+    default N childrenFocusable() {
+        return childrenFocusable(true);
+    }
+
+    default N focusedElement(E value) {
+        return with(n -> n.setFocusedElement(value));
+    }
+
     default N itemHeight(int value) {
         return with(n -> n.setItemHeight(value));
     }

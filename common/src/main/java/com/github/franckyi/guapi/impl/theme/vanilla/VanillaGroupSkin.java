@@ -4,9 +4,6 @@ import com.github.franckyi.guapi.api.node.Group;
 import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.impl.theme.AbstractSkin;
 
-import java.util.Comparator;
-import java.util.stream.Collectors;
-
 public abstract class VanillaGroupSkin<N extends Group> extends AbstractSkin<N> {
     @Override
     public boolean preRender(N node, Object matrices, int mouseX, int mouseY, float delta) {
@@ -27,6 +24,7 @@ public abstract class VanillaGroupSkin<N extends Group> extends AbstractSkin<N> 
 
     @Override
     public void postRender(N node, Object matrices, int mouseX, int mouseY, float delta) {
+        super.postRender(node, matrices, mouseX, mouseY, delta);
         for (Node child : node.getChildren()) {
             child.postRender(matrices, mouseX, mouseY, delta);
         }

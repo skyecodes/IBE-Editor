@@ -3,6 +3,7 @@ package com.github.franckyi.ibeeditor.impl.client.mvc.model;
 import com.github.franckyi.databindings.ObservableListFactory;
 import com.github.franckyi.databindings.PropertyFactory;
 import com.github.franckyi.databindings.api.BooleanProperty;
+import com.github.franckyi.databindings.api.ObjectProperty;
 import com.github.franckyi.databindings.api.ObservableList;
 import com.github.franckyi.databindings.api.StringProperty;
 import com.github.franckyi.gamehooks.util.common.tag.*;
@@ -13,27 +14,25 @@ import java.util.stream.Collectors;
 public class TagModelImpl implements TagModel {
     private final ObservableList<TagModel> children = ObservableListFactory.arrayList();
     private final BooleanProperty expandedProperty = PropertyFactory.ofBoolean();
+    private final ObjectProperty<TagModel> parentProperty;
     private final StringProperty nameProperty;
     private final StringProperty valueProperty;
     protected final Tag<?> tag;
     protected byte forcedTagType;
 
     public TagModelImpl(Tag<?> tag) {
-        this(tag, "<root element>", null);
+        this(tag, null, null, null);
         setExpanded(true);
     }
 
-    protected TagModelImpl(Tag<?> tag, boolean flag) {
-        this(tag, null, null);
-    }
-
-    protected TagModelImpl(byte forcedTagType, String value) {
-        this(null, null, value);
+    protected TagModelImpl(byte forcedTagType, TagModel parent, String value) {
+        this(null, parent, null, value);
         this.forcedTagType = forcedTagType;
     }
 
-    protected TagModelImpl(Tag<?> tag, String name, String value) {
+    protected TagModelImpl(Tag<?> tag, TagModel parent, String name, String value) {
         this.tag = tag;
+        parentProperty = PropertyFactory.ofObject(parent);
         nameProperty = PropertyFactory.ofString(name);
         valueProperty = PropertyFactory.ofString(value);
         if (tag != null) {
@@ -41,35 +40,35 @@ public class TagModelImpl implements TagModel {
                 case Tag.COMPOUND_ID:
                     children.setAll(((ObjectTag) tag).getValue().entrySet()
                             .stream()
-                            .map(entry -> new TagModelImpl(entry.getValue(), entry.getKey(), null))
+                            .map(entry -> new TagModelImpl(entry.getValue(), this, entry.getKey(), null))
                             .collect(Collectors.toList())
                     );
                     break;
                 case Tag.LIST_ID:
                     children.setAll(((ArrayTag) tag).getValue()
                             .stream()
-                            .map(tag1 -> new TagModelImpl(tag1, false))
+                            .map(tag1 -> new TagModelImpl(tag1, this, null, null))
                             .collect(Collectors.toList())
                     );
                     break;
                 case Tag.BYTE_ARRAY_ID:
                     children.setAll(((ByteArrayTag) tag).getValue()
                             .stream()
-                            .map(b -> new TagModelImpl(Tag.BYTE_ID, Byte.toString(b)))
+                            .map(b -> new TagModelImpl(Tag.BYTE_ID, this, Byte.toString(b)))
                             .collect(Collectors.toList())
                     );
                     break;
                 case Tag.INT_ARRAY_ID:
                     children.setAll(((IntArrayTag) tag).getValue()
                             .stream()
-                            .map(i -> new TagModelImpl(Tag.INT_ID, Integer.toString(i)))
+                            .map(i -> new TagModelImpl(Tag.INT_ID, this, Integer.toString(i)))
                             .collect(Collectors.toList())
                     );
                     break;
                 case Tag.LONG_ARRAY_ID:
                     children.setAll(((LongArrayTag) tag).getValue()
                             .stream()
-                            .map(l -> new TagModelImpl(Tag.LONG_ID, Long.toString(l)))
+                            .map(l -> new TagModelImpl(Tag.LONG_ID, this, Long.toString(l)))
                             .collect(Collectors.toList())
                     );
                     break;
@@ -87,6 +86,11 @@ public class TagModelImpl implements TagModel {
     @Override
     public BooleanProperty expandedProperty() {
         return expandedProperty;
+    }
+
+    @Override
+    public ObjectProperty<TagModel> parentProperty() {
+        return parentProperty;
     }
 
     @Override
