@@ -3,9 +3,9 @@ package com.github.franckyi.guapi.api;
 import com.github.franckyi.guapi.api.node.Scene;
 
 public interface ScreenHandler {
-    void show(Scene scene);
+    void showScene(Scene scene);
 
-    void hide();
+    void hideScene();
 
     boolean mouseClicked(double mouseX, double mouseY, int button);
 

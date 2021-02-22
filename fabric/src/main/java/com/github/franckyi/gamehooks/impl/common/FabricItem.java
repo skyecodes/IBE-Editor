@@ -20,4 +20,10 @@ public class FabricItem implements Item {
         }
         return tag;
     }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public ItemStack getStack() {
+        return item;
+    }
 }

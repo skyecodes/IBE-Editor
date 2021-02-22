@@ -1,4 +1,5 @@
 package com.github.franckyi.gamehooks.api.common;
 
-public interface World {
+public interface Pos {
+    <P> P getPos();
 }

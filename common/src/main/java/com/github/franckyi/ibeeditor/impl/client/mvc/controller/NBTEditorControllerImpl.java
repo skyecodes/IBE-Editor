@@ -21,8 +21,8 @@ public class NBTEditorControllerImpl implements NBTEditorController {
     @Override
     public void init(NBTEditorModel model, NBTEditorView view) {
         view.getTagTree().rootItemProperty().bind(model.tagProperty());
-        view.getDoneButton().onAction(event -> GUAPI.getScreenHandler().hide());
-        view.getCancelButton().onAction(event -> GUAPI.setDebugMode(!GUAPI.isDebugMode()));
+        view.getDoneButton().onAction(event -> model.apply());
+        view.getCancelButton().onAction(event -> GUAPI.getScreenHandler().hideScene());
         view.getTagTree().focusedElementProperty().addListener(newVal -> updateButtons(newVal, view));
         view.setOnButtonClick(type -> {
             TagModel tag = view.getTagTree().getFocusedElement();

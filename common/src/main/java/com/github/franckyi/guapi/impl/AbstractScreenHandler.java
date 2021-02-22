@@ -13,27 +13,23 @@ import com.github.franckyi.guapi.util.ScreenEventType;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.function.Consumer;
 
 public abstract class AbstractScreenHandler<T> implements ScreenHandler {
     private final Deque<Scene> scenes = new ArrayDeque<>();
     private final ObjectProperty<Scene> currentSceneProperty = PropertyFactory.ofObject();
     private final IntegerProperty widthProperty = PropertyFactory.ofInteger();
     private final IntegerProperty heightProperty = PropertyFactory.ofInteger();
-    private T screen;
 
     public AbstractScreenHandler() {
         currentSceneProperty().addListener((oldVal, newVal) -> {
             if (newVal == null) {
-                close();
+                closeScreen();
             } else {
                 newVal.widthProperty().bind(widthProperty);
                 newVal.heightProperty().bind(heightProperty);
                 newVal.show();
                 if (oldVal == null) {
-                    open();
+                    openScreen();
                 } else {
                     oldVal.widthProperty().unbind();
                     oldVal.heightProperty().unbind();
@@ -43,20 +39,18 @@ public abstract class AbstractScreenHandler<T> implements ScreenHandler {
         });
     }
 
-    protected void initScreen(T screen) {
-        this.screen = screen;
-    }
-
     @Override
-    public void show(Scene scene) {
+    public void showScene(Scene scene) {
         scenes.push(scene);
         setCurrentScene(scene);
     }
 
     @Override
-    public void hide() {
-        scenes.pop();
-        setCurrentScene(scenes.peek());
+    public void hideScene() {
+        if (!scenes.isEmpty()) {
+            scenes.pop();
+            setCurrentScene(scenes.peek());
+        }
     }
 
     public Scene getCurrentScene() {
@@ -71,22 +65,16 @@ public abstract class AbstractScreenHandler<T> implements ScreenHandler {
         currentSceneProperty().setValue(value);
     }
 
-    protected void open() {
-        getMinecraftScreenHandler().accept(screen);
-    }
+    protected abstract void openScreen();
 
-    protected void close() {
-        getMinecraftScreenHandler().accept(null);
-    }
-
-    protected abstract Consumer<T> getMinecraftScreenHandler();
+    protected abstract void closeScreen();
 
     public void render(Object matrices, int mouseX, int mouseY, float delta) {
         try {
             getCurrentScene().render(matrices, mouseX, mouseY, delta);
         } catch (Exception e) {
             GameHooks.logger().error(GUAPI.MARKER, "Error while rendering GUAPI Scene", e);
-            hide();
+            hideScene();
         }
     }
 
@@ -96,7 +84,7 @@ public abstract class AbstractScreenHandler<T> implements ScreenHandler {
                 getCurrentScene().tick();
             } catch (Exception e) {
                 GameHooks.logger().error(GUAPI.MARKER, "Error while ticking GUAPI Scene", e);
-                hide();
+                hideScene();
             }
         }
     }
@@ -152,7 +140,7 @@ public abstract class AbstractScreenHandler<T> implements ScreenHandler {
             getCurrentScene().handleEvent(type, event);
         } catch (Exception e) {
             GameHooks.logger().error(GUAPI.MARKER, "Error while handling " + type.getName() + " event on GUAPI Scene", e);
-            hide();
+            hideScene();
         }
         return event.isConsumed();
     }

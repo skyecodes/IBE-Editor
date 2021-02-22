@@ -17,7 +17,7 @@ public class EditorControllerImpl implements EditorController {
         updateEntryList(model, view);
         model.getCategories().addListener(() -> this.updateCategoryList(model, view));
         model.selectedCategoryProperty().addListener(() -> this.updateEntryList(model, view));
-        view.getDoneButton().onAction(event -> GUAPI.getScreenHandler().hide());
+        view.getDoneButton().onAction(event -> GUAPI.getScreenHandler().hideScene());
         view.getCancelButton().onAction(event -> GUAPI.setDebugMode(!GUAPI.isDebugMode()));
     }
 

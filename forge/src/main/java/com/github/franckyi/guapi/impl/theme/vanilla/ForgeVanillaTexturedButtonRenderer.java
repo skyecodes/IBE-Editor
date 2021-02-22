@@ -30,7 +30,7 @@ public class ForgeVanillaTexturedButtonRenderer extends Button implements ForgeV
         ForgeShapeRenderer.INSTANCE.drawTexture(matrices, node.getTextureId(), x, y, node.getWidth(), node.getHeight(),
                 node.getImageX(), node.getImageY(), node.getImageWidth(), node.getImageHeight());
         if (!node.isDrawButton() && node.isDisabled()) {
-            ForgeShapeRenderer.INSTANCE.fillRectangle(matrices, x, y, x + node.getWidth(), y + node.getHeight(), 0x4f000000);
+            ForgeShapeRenderer.INSTANCE.fillRectangle(matrices, x, y, x + node.getWidth(), y + node.getHeight(), 0xbf000000);
         }
     }
 

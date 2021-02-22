@@ -2,6 +2,7 @@ package com.github.franckyi.gamehooks.impl.common;
 
 import com.github.franckyi.gamehooks.api.common.Item;
 import com.github.franckyi.gamehooks.api.common.Slot;
+import com.github.franckyi.ibeeditor.impl.mixin.SlotMixin;
 import net.minecraft.entity.player.PlayerInventory;
 
 public class FabricSlot implements Slot {
@@ -23,8 +24,8 @@ public class FabricSlot implements Slot {
     }
 
     @Override
-    public int getId() {
-        return slot.id;
+    public int getIndex() {
+        return ((SlotMixin) slot).getIndex();
     }
 
     @Override

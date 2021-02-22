@@ -20,4 +20,10 @@ public class ForgeItem implements Item {
         }
         return tag;
     }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public ItemStack getStack() {
+        return item;
+    }
 }

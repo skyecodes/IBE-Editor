@@ -8,25 +8,29 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 
 public class FabricPlayer implements Player {
-    private final PlayerEntity player;
+    private final PlayerEntity entity;
+    private Entity playerEntity;
 
-    public FabricPlayer(PlayerEntity player) {
-        this.player = player;
+    public FabricPlayer(PlayerEntity entity) {
+        this.entity = entity;
     }
 
     @Override
     public Item getItemMainHand() {
-        ItemStack item = player.inventory.getMainHandStack();
+        ItemStack item = entity.inventory.getMainHandStack();
         return item.isEmpty() ? null : new FabricItem(item);
     }
 
     @Override
     public void sendMessage(Text message, boolean actionBar) {
-        player.sendMessage(FabricTextFactory.INSTANCE.create(message), actionBar);
+        entity.sendMessage(FabricTextFactory.INSTANCE.create(message), actionBar);
     }
 
     @Override
     public Entity getPlayerEntity() {
-        return null;
+        if (playerEntity == null) {
+            playerEntity = new FabricEntity(entity);
+        }
+        return playerEntity;
     }
 }

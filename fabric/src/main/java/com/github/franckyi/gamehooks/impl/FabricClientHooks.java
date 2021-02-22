@@ -7,13 +7,12 @@ import com.github.franckyi.gamehooks.api.client.KeyBinding;
 import com.github.franckyi.gamehooks.api.client.ShapeRenderer;
 import com.github.franckyi.gamehooks.api.common.Block;
 import com.github.franckyi.gamehooks.api.common.Entity;
-import com.github.franckyi.gamehooks.api.common.World;
 import com.github.franckyi.gamehooks.impl.client.FabricClientPlayer;
 import com.github.franckyi.gamehooks.impl.client.FabricFontRenderer;
 import com.github.franckyi.gamehooks.impl.client.FabricShapeRenderer;
 import com.github.franckyi.gamehooks.impl.common.FabricBlock;
 import com.github.franckyi.gamehooks.impl.common.FabricEntity;
-import com.github.franckyi.gamehooks.impl.common.FabricWorld;
+import com.github.franckyi.gamehooks.impl.common.FabricPos;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.hit.BlockHitResult;
@@ -79,15 +78,10 @@ public final class FabricClientHooks implements ClientHooks {
         if (result instanceof BlockHitResult) {
             BlockHitResult res = (BlockHitResult) result;
             if (!mc().world.isAir(res.getBlockPos())) {
-                return new FabricBlock(res.getBlockPos());
+                return new FabricBlock(new FabricPos(res.getBlockPos()));
             }
         }
         return null;
-    }
-
-    @Override
-    public World world() {
-        return FabricWorld.INSTANCE;
     }
 
     @Override

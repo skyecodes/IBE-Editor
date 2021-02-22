@@ -5,7 +5,7 @@ public interface Slot {
 
     boolean isInPlayerInventory();
 
-    int getId();
+    int getIndex();
 
     Item getStack();
 }

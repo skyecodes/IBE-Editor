@@ -6,18 +6,23 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.util.text.StringTextComponent;
 
-import java.util.function.Consumer;
-
 public final class ForgeScreenHandler extends AbstractScreenHandler<Screen> {
     public static final ScreenHandler INSTANCE = new ForgeScreenHandler();
+    private final Screen screen = new ScreenImpl();
+    private Screen oldScreen;
 
     private ForgeScreenHandler() {
-        initScreen(new ScreenImpl());
     }
 
     @Override
-    protected Consumer<Screen> getMinecraftScreenHandler() {
-        return Minecraft.getInstance()::displayGuiScreen;
+    protected void openScreen() {
+        oldScreen = Minecraft.getInstance().currentScreen;
+        Minecraft.getInstance().displayGuiScreen(screen);
+    }
+
+    @Override
+    protected void closeScreen() {
+        Minecraft.getInstance().displayGuiScreen(oldScreen);
     }
 
     private final class ScreenImpl extends Screen {

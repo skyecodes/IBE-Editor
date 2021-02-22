@@ -8,25 +8,29 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 
 public class ForgePlayer implements Player {
-    private final PlayerEntity player;
+    private final PlayerEntity entity;
+    private Entity playerEntity;
 
-    public ForgePlayer(PlayerEntity player) {
-        this.player = player;
+    public ForgePlayer(PlayerEntity entity) {
+        this.entity = entity;
     }
 
     @Override
     public Item getItemMainHand() {
-        ItemStack item = player.inventory.getCurrentItem();
+        ItemStack item = entity.inventory.getCurrentItem();
         return item.isEmpty() ? null : new ForgeItem(item);
     }
 
     @Override
     public void sendMessage(Text message, boolean actionBar) {
-        player.sendStatusMessage(ForgeTextFactory.INSTANCE.create(message), actionBar);
+        entity.sendStatusMessage(ForgeTextFactory.INSTANCE.create(message), actionBar);
     }
 
     @Override
     public Entity getPlayerEntity() {
-        return null;
+        if (playerEntity == null) {
+            playerEntity = new ForgeEntity(entity);
+        }
+        return playerEntity;
     }
 }

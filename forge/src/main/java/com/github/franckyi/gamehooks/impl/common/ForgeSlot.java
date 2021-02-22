@@ -23,8 +23,8 @@ public class ForgeSlot implements Slot {
     }
 
     @Override
-    public int getId() {
-        return slot.slotNumber;
+    public int getIndex() {
+        return slot.getSlotIndex();
     }
 
     @Override

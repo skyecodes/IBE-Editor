@@ -12,4 +12,6 @@ public interface NBTEditorModel {
     default void setTag(TagModel value) {
         tagProperty().setValue(value);
     }
+
+    void apply();
 }

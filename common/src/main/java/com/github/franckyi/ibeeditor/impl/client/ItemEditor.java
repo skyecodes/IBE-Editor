@@ -10,7 +10,7 @@ import static com.github.franckyi.ibeeditor.impl.client.EditorFactory.stringEntr
 
 public final class ItemEditor {
     public static void show(Item item) {
-        GUAPI.getScreenHandler().show(scene(mvc(EditorView.class, editor(editor -> {
+        GUAPI.getScreenHandler().showScene(scene(mvc(EditorView.class, editor(editor -> {
             editor.category(
                     "ibeeditor.gui.category.main",
                     stringEntry("ibeeditor.gui.entry.test", "Hmm", s -> {

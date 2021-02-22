@@ -3,6 +3,9 @@
   "minVersion": "0.8",
   "package": "com.github.franckyi.ibeeditor.impl.mixin",
   "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "SlotMixin"
+  ],
   "client": [
     "HandledScreenMixin"
   ],

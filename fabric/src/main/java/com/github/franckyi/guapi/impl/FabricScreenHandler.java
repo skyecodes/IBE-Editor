@@ -6,18 +6,23 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.LiteralText;
 
-import java.util.function.Consumer;
-
 public final class FabricScreenHandler extends AbstractScreenHandler<Screen> {
     public static final ScreenHandler INSTANCE = new FabricScreenHandler();
+    private final Screen screen = new ScreenImpl();
+    private Screen oldScreen;
 
     private FabricScreenHandler() {
-        initScreen(new ScreenImpl());
     }
 
     @Override
-    protected Consumer<Screen> getMinecraftScreenHandler() {
-        return MinecraftClient.getInstance()::openScreen;
+    protected void openScreen() {
+        oldScreen = MinecraftClient.getInstance().currentScreen;
+        MinecraftClient.getInstance().openScreen(screen);
+    }
+
+    @Override
+    protected void closeScreen() {
+        MinecraftClient.getInstance().openScreen(oldScreen);
     }
 
     private final class ScreenImpl extends Screen {

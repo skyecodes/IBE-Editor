@@ -22,6 +22,7 @@ public final class IBEEditor {
     public static void initCommon(CommonHooks commonHooks) {
         LOGGER.info(marker, "Initializing IBE Editor - common");
         GameHooks.initCommon(commonHooks, LOGGER);
+        IBEEditorNetwork.init();
     }
 
     public static void initClient(ClientHooks clientHooks, ScreenHandler screenHandler) {
