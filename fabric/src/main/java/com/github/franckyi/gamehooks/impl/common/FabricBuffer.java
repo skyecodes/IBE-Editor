@@ -6,7 +6,7 @@ import com.github.franckyi.gamehooks.util.common.tag.ObjectTag;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.network.PacketByteBuf;
 
-public class FabricBuffer implements Buffer<PacketByteBuf> {
+public class FabricBuffer implements Buffer {
     private final PacketByteBuf buf;
 
     public FabricBuffer() {
@@ -18,6 +18,7 @@ public class FabricBuffer implements Buffer<PacketByteBuf> {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public PacketByteBuf getBuffer() {
         return buf;
     }
@@ -43,12 +44,22 @@ public class FabricBuffer implements Buffer<PacketByteBuf> {
     }
 
     @Override
-    public Pos readBlockPos() {
+    public Pos readPos() {
         return new FabricPos(buf.readBlockPos());
     }
 
     @Override
-    public void writeBlockPos(Pos pos) {
+    public void writePos(Pos pos) {
         buf.writeBlockPos(pos.getPos());
+    }
+
+    @Override
+    public boolean readBoolean() {
+        return buf.readBoolean();
+    }
+
+    @Override
+    public void writeBoolean(boolean bl) {
+        buf.writeBoolean(bl);
     }
 }

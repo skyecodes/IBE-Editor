@@ -6,4 +6,6 @@ public interface ServerPlayer extends Player {
     void setInventoryItem(int slotId, Item item);
 
     ServerWorld getWorld();
+
+    <E> E getServerEntity();
 }

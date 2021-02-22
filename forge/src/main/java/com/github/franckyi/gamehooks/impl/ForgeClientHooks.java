@@ -5,12 +5,11 @@ import com.github.franckyi.gamehooks.api.client.ClientPlayer;
 import com.github.franckyi.gamehooks.api.client.FontRenderer;
 import com.github.franckyi.gamehooks.api.client.KeyBinding;
 import com.github.franckyi.gamehooks.api.client.ShapeRenderer;
-import com.github.franckyi.gamehooks.api.common.Block;
 import com.github.franckyi.gamehooks.api.common.Entity;
+import com.github.franckyi.gamehooks.api.common.Pos;
 import com.github.franckyi.gamehooks.impl.client.ForgeClientPlayer;
 import com.github.franckyi.gamehooks.impl.client.ForgeFontRenderer;
 import com.github.franckyi.gamehooks.impl.client.ForgeShapeRenderer;
-import com.github.franckyi.gamehooks.impl.common.ForgeBlock;
 import com.github.franckyi.gamehooks.impl.common.ForgeEntity;
 import com.github.franckyi.gamehooks.impl.common.ForgePos;
 import net.minecraft.client.Minecraft;
@@ -73,12 +72,12 @@ public final class ForgeClientHooks implements ClientHooks {
     }
 
     @Override
-    public Block blockMouseOver() {
+    public Pos blockMouseOver() {
         RayTraceResult result = mc().objectMouseOver;
         if (result instanceof BlockRayTraceResult) {
             BlockRayTraceResult res = (BlockRayTraceResult) result;
             if (!mc().world.isAirBlock(res.getPos())) {
-                return new ForgeBlock(new ForgePos(res.getPos()));
+                return new ForgePos(res.getPos());
             }
         }
         return null;

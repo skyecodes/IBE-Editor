@@ -1,5 +1,6 @@
 package com.github.franckyi.gamehooks.api;
 
+import com.github.franckyi.gamehooks.api.common.BlockFactory;
 import com.github.franckyi.gamehooks.api.common.ItemFactory;
 import com.github.franckyi.gamehooks.api.common.TagFactory;
 import com.github.franckyi.gamehooks.api.common.TextFactory;
@@ -12,5 +13,7 @@ public interface CommonHooks {
 
     ItemFactory item();
 
-    Network network();
+    BlockFactory block();
+
+    Network<?> network();
 }

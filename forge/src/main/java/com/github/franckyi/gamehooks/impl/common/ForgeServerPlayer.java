@@ -32,4 +32,10 @@ public class ForgeServerPlayer extends ForgePlayer implements ServerPlayer {
         }
         return world;
     }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public ServerPlayerEntity getServerEntity() {
+        return entity;
+    }
 }

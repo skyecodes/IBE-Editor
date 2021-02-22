@@ -4,6 +4,7 @@ import com.github.franckyi.gamehooks.GameHooks;
 import com.github.franckyi.gamehooks.api.client.KeyBinding;
 import com.github.franckyi.gamehooks.api.client.Screen;
 import com.github.franckyi.gamehooks.api.common.*;
+import com.github.franckyi.gamehooks.util.common.tag.ObjectTag;
 import com.github.franckyi.guapi.GUAPI;
 import com.github.franckyi.ibeeditor.api.client.mvc.view.EditorView;
 import com.github.franckyi.ibeeditor.impl.client.mvc.model.EditorModelImpl;
@@ -55,9 +56,9 @@ public final class IBEEditorClient {
     }
 
     public static boolean tryOpenBlockEditor(boolean nbt) {
-        Block block = GameHooks.client().blockMouseOver();
-        if (block != null) {
-            openBlockEditor(block, nbt);
+        Pos blockPos = GameHooks.client().blockMouseOver();
+        if (blockPos != null) {
+            requestOpenBlockEditor(blockPos, nbt);
             return true;
         }
         return false;
@@ -83,9 +84,9 @@ public final class IBEEditorClient {
                 if (slot.isInPlayerInventory()) {
                     openItemEditor(slot.getStack(), keyCode == nbtEditorKey.getKeyCode(), item -> updatePlayerInventoryItem(item, slot.getIndex()));
                 } else {
-                    Block block = GameHooks.client().blockMouseOver();
-                    if (block != null) {
-                        openItemEditor(slot.getStack(), keyCode == nbtEditorKey.getKeyCode(), item -> updateBlockInventoryItem(item, slot.getIndex(), block.getPos()));
+                    Pos blockPos = GameHooks.client().blockMouseOver();
+                    if (blockPos != null) {
+                        openItemEditor(slot.getStack(), keyCode == nbtEditorKey.getKeyCode(), item -> updateBlockInventoryItem(item, slot.getIndex(), blockPos));
                     }
                 }
             }
@@ -100,13 +101,21 @@ public final class IBEEditorClient {
         }
     }
 
-    public static void openBlockEditor(Block block, boolean nbt) {
+    public static void requestOpenBlockEditor(Pos block, boolean nbt) {
+        ClientNetwork.requestOpenBlockEditor(block, nbt);
+    }
+
+    public static void openBlockEditor(Block block, Pos pos, boolean nbt) {
+        if (nbt) {
+            NBTEditor.show(block.getTag(), tag -> updateBlock(pos, tag));
+        } else {
+            //BlockEditor.show(block);
+        }
     }
 
     public static void openEntityEditor(Entity entity, boolean nbt) {
         if (nbt) {
-            NBTEditor.show(entity.getTag(), tag -> {
-            });
+            NBTEditor.show(entity.getTag(), tag -> updateEntity(entity.getId(), tag));
         } else {
             //EntityEditor.show(entity);
         }
@@ -118,16 +127,31 @@ public final class IBEEditorClient {
 
     private static void updatePlayerMainHandItem(Item item) {
         ClientNetwork.updatePlayerMainHandItem(item);
+        GameHooks.client().player().sendMessage(text("Item updated!", GREEN), false);
         GUAPI.getScreenHandler().hideScene();
     }
 
     private static void updatePlayerInventoryItem(Item item, int slotId) {
         ClientNetwork.updatePlayerInventoryItem(item, slotId);
+        GameHooks.client().player().sendMessage(text("Item updated!", GREEN), false);
         GUAPI.getScreenHandler().hideScene();
     }
 
     private static void updateBlockInventoryItem(Item item, int slotId, Pos pos) {
         ClientNetwork.updateBlockInventoryItem(item, slotId, pos);
+        GameHooks.client().player().sendMessage(text("Item updated!", GREEN), false);
+        GUAPI.getScreenHandler().hideScene();
+    }
+
+    private static void updateBlock(Pos pos, ObjectTag tag) {
+        ClientNetwork.updateBlock(pos, tag);
+        GameHooks.client().player().sendMessage(text("Block updated!", GREEN), false);
+        GUAPI.getScreenHandler().hideScene();
+    }
+
+    private static void updateEntity(int entityId, ObjectTag tag) {
+        ClientNetwork.updateEntity(entityId, tag);
+        GameHooks.client().player().sendMessage(text("Entity updated!", GREEN), false);
         GUAPI.getScreenHandler().hideScene();
     }
 }

@@ -10,6 +10,7 @@ public class FabricTagFactory implements TagFactory<CompoundTag> {
 
     @Override
     public CompoundTag parseObject(ObjectTag obj) {
+        if (obj == null) return null;
         CompoundTag c = new CompoundTag();
         obj.getValue().forEach((s, tag) -> c.put(s, parseTag(tag)));
         return c;
@@ -17,6 +18,7 @@ public class FabricTagFactory implements TagFactory<CompoundTag> {
 
     @Override
     public ObjectTag parseCompound(CompoundTag c) {
+        if (c == null) return null;
         ObjectTag tag = new ObjectTag();
         for (String key : c.getKeys()) {
             net.minecraft.nbt.Tag tag1 = c.get(key);

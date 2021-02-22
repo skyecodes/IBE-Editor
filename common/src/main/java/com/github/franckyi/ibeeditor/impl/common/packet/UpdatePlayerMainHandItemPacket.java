@@ -12,12 +12,12 @@ public class UpdatePlayerMainHandItemPacket implements Packet {
         this.item = item;
     }
 
-    public UpdatePlayerMainHandItemPacket(Buffer<?> buffer) {
+    public UpdatePlayerMainHandItemPacket(Buffer buffer) {
         this(GameHooks.common().item().fromTag(buffer.readTag()));
     }
 
     @Override
-    public void write(Buffer<?> buffer) {
+    public void write(Buffer buffer) {
         buffer.writeTag(item.getTag());
     }
 

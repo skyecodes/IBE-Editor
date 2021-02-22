@@ -21,4 +21,9 @@ public class ForgeEntity implements Entity {
         }
         return tag;
     }
+
+    @Override
+    public int getId() {
+        return tag.getType();
+    }
 }

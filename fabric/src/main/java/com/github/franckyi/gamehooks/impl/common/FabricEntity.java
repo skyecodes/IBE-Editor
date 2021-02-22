@@ -21,4 +21,9 @@ public class FabricEntity implements Entity {
         }
         return tag;
     }
+
+    @Override
+    public int getId() {
+        return entity.getEntityId();
+    }
 }

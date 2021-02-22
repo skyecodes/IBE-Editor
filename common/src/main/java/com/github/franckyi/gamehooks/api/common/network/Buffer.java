@@ -3,8 +3,8 @@ package com.github.franckyi.gamehooks.api.common.network;
 import com.github.franckyi.gamehooks.api.common.Pos;
 import com.github.franckyi.gamehooks.util.common.tag.ObjectTag;
 
-public interface Buffer<B> {
-    B getBuffer();
+public interface Buffer {
+    <B> B getBuffer();
 
     ObjectTag readTag();
 
@@ -14,7 +14,11 @@ public interface Buffer<B> {
 
     void writeInt(int i);
 
-    Pos readBlockPos();
+    Pos readPos();
 
-    void writeBlockPos(Pos pos);
+    void writePos(Pos pos);
+
+    boolean readBoolean();
+
+    void writeBoolean(boolean nbt);
 }

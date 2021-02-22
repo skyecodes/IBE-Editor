@@ -5,7 +5,7 @@ import com.github.franckyi.gamehooks.util.common.tag.*;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 
-public class ForgeTagFactory implements TagFactory<CompoundNBT> {
+public final class ForgeTagFactory implements TagFactory<CompoundNBT> {
     public static final TagFactory<CompoundNBT> INSTANCE = new ForgeTagFactory();
 
     @Override

@@ -12,15 +12,15 @@ public class UpdateBlockInventoryItemPacket extends UpdatePlayerInventoryItemPac
         this.pos = pos;
     }
 
-    public UpdateBlockInventoryItemPacket(Buffer<?> buffer) {
+    public UpdateBlockInventoryItemPacket(Buffer buffer) {
         super(buffer);
-        pos = buffer.readBlockPos();
+        pos = buffer.readPos();
     }
 
     @Override
-    public void write(Buffer<?> buffer) {
+    public void write(Buffer buffer) {
         super.write(buffer);
-        buffer.writeBlockPos(pos);
+        buffer.writePos(pos);
     }
 
     public Pos getPos() {

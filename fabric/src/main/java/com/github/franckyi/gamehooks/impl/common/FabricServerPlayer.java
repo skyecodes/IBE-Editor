@@ -32,4 +32,10 @@ public class FabricServerPlayer extends FabricPlayer implements ServerPlayer {
         }
         return world;
     }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public ServerPlayerEntity getServerEntity() {
+        return entity;
+    }
 }

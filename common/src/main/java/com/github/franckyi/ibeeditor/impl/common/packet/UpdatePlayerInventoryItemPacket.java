@@ -11,13 +11,13 @@ public class UpdatePlayerInventoryItemPacket extends UpdatePlayerMainHandItemPac
         this.slotId = slotId;
     }
 
-    public UpdatePlayerInventoryItemPacket(Buffer<?> buffer) {
+    public UpdatePlayerInventoryItemPacket(Buffer buffer) {
         super(buffer);
         this.slotId = buffer.readInt();
     }
 
     @Override
-    public void write(Buffer<?> buffer) {
+    public void write(Buffer buffer) {
         super.write(buffer);
         buffer.writeInt(slotId);
     }

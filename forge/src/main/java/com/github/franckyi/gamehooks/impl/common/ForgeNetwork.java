@@ -41,7 +41,7 @@ public final class ForgeNetwork implements Network<ServerPlayerEntity> {
     }
 
     @Override
-    public <P extends Packet> void registerServerHandler(String id, int id1, Class<P> msgClass, Function<Buffer<?>, P> reader, ServerPacketHandler<P> handler) {
+    public <P extends Packet> void registerServerHandler(String id, int id1, Class<P> msgClass, Function<Buffer, P> reader, ServerPacketHandler<P> handler) {
         channel.messageBuilder(msgClass, id1)
                 .decoder(buffer -> reader.apply(new ForgeBuffer(buffer)))
                 .encoder((p, buffer) -> p.write(new ForgeBuffer(buffer)))
@@ -50,7 +50,7 @@ public final class ForgeNetwork implements Network<ServerPlayerEntity> {
     }
 
     @Override
-    public <P extends Packet> void registerClientHandler(String id, int id1, Class<P> msgClass, Function<Buffer<?>, P> reader, ClientPacketHandler<P> handler) {
+    public <P extends Packet> void registerClientHandler(String id, int id1, Class<P> msgClass, Function<Buffer, P> reader, ClientPacketHandler<P> handler) {
         channel.messageBuilder(msgClass, id1)
                 .decoder(buffer -> reader.apply(new ForgeBuffer(buffer)))
                 .encoder((p, buffer) -> p.write(new ForgeBuffer(buffer)))

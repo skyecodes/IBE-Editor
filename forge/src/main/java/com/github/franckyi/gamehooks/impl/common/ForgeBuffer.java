@@ -6,7 +6,7 @@ import com.github.franckyi.gamehooks.util.common.tag.ObjectTag;
 import io.netty.buffer.Unpooled;
 import net.minecraft.network.PacketBuffer;
 
-public class ForgeBuffer implements Buffer<PacketBuffer> {
+public class ForgeBuffer implements Buffer {
     private final PacketBuffer buf;
 
     public ForgeBuffer() {
@@ -18,6 +18,7 @@ public class ForgeBuffer implements Buffer<PacketBuffer> {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public PacketBuffer getBuffer() {
         return buf;
     }
@@ -43,12 +44,22 @@ public class ForgeBuffer implements Buffer<PacketBuffer> {
     }
 
     @Override
-    public Pos readBlockPos() {
+    public Pos readPos() {
         return new ForgePos(buf.readBlockPos());
     }
 
     @Override
-    public void writeBlockPos(Pos pos) {
+    public void writePos(Pos pos) {
         buf.writeBlockPos(pos.getPos());
+    }
+
+    @Override
+    public boolean readBoolean() {
+        return buf.readBoolean();
+    }
+
+    @Override
+    public void writeBoolean(boolean bl) {
+        buf.writeBoolean(bl);
     }
 }

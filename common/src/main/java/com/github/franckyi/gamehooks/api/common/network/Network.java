@@ -10,7 +10,7 @@ public interface Network<E> {
 
     void sendToClient(String id, E entity, Packet packet);
 
-    <P extends Packet> void registerServerHandler(String id, int id1, Class<P> msgClass, Function<Buffer<?>, P> reader, ServerPacketHandler<P> handler);
+    <P extends Packet> void registerServerHandler(String id, int id1, Class<P> msgClass, Function<Buffer, P> reader, ServerPacketHandler<P> handler);
 
-    <P extends Packet> void registerClientHandler(String id, int id1, Class<P> msgClass, Function<Buffer<?>, P> reader, ClientPacketHandler<P> handler);
+    <P extends Packet> void registerClientHandler(String id, int id1, Class<P> msgClass, Function<Buffer, P> reader, ClientPacketHandler<P> handler);
 }

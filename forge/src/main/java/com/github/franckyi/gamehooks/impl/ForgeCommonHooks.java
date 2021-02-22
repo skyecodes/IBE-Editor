@@ -1,14 +1,12 @@
 package com.github.franckyi.gamehooks.impl;
 
 import com.github.franckyi.gamehooks.api.CommonHooks;
+import com.github.franckyi.gamehooks.api.common.BlockFactory;
 import com.github.franckyi.gamehooks.api.common.ItemFactory;
 import com.github.franckyi.gamehooks.api.common.TagFactory;
 import com.github.franckyi.gamehooks.api.common.TextFactory;
 import com.github.franckyi.gamehooks.api.common.network.Network;
-import com.github.franckyi.gamehooks.impl.common.ForgeItemFactory;
-import com.github.franckyi.gamehooks.impl.common.ForgeNetwork;
-import com.github.franckyi.gamehooks.impl.common.ForgeTagFactory;
-import com.github.franckyi.gamehooks.impl.common.ForgeTextFactory;
+import com.github.franckyi.gamehooks.impl.common.*;
 
 public final class ForgeCommonHooks implements CommonHooks {
     public static final CommonHooks INSTANCE = new ForgeCommonHooks();
@@ -34,7 +32,12 @@ public final class ForgeCommonHooks implements CommonHooks {
     }
 
     @Override
-    public Network network() {
+    public BlockFactory block() {
+        return ForgeBlockFactory.INSTANCE;
+    }
+
+    @Override
+    public Network<?> network() {
         return ForgeNetwork.INSTANCE;
     }
 }

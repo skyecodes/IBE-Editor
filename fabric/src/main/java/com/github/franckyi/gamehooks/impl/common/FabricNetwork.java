@@ -33,7 +33,7 @@ public final class FabricNetwork implements Network<ServerPlayerEntity> {
     }
 
     @Override
-    public <P extends Packet> void registerServerHandler(String id, int id1, Class<P> msgClass, Function<Buffer<?>, P> reader, ServerPacketHandler<P> handler) {
+    public <P extends Packet> void registerServerHandler(String id, int id1, Class<P> msgClass, Function<Buffer, P> reader, ServerPacketHandler<P> handler) {
         ServerPlayNetworking.registerGlobalReceiver(new Identifier(id), (server, entity, networkHandler, buf, sender) -> {
             P packet = reader.apply(new FabricBuffer(buf));
             server.execute(() -> handler.accept(packet, new FabricServerPlayer(entity)));
@@ -41,7 +41,7 @@ public final class FabricNetwork implements Network<ServerPlayerEntity> {
     }
 
     @Override
-    public <P extends Packet> void registerClientHandler(String id, int id1, Class<P> msgClass, Function<Buffer<?>, P> reader, ClientPacketHandler<P> handler) {
+    public <P extends Packet> void registerClientHandler(String id, int id1, Class<P> msgClass, Function<Buffer, P> reader, ClientPacketHandler<P> handler) {
         ClientPlayNetworking.registerGlobalReceiver(new Identifier(id), (client, networkHandler, buf, sender) -> {
             P packet = reader.apply(new FabricBuffer(buf));
             client.execute(() -> handler.accept(packet));

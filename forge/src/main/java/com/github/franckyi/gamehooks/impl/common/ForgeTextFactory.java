@@ -7,7 +7,7 @@ import net.minecraft.util.text.*;
 
 import java.util.stream.Stream;
 
-public class ForgeTextFactory implements TextFactory<ITextComponent> {
+public final class ForgeTextFactory implements TextFactory<ITextComponent> {
     public static final TextFactory<ITextComponent> INSTANCE = new ForgeTextFactory();
 
     private ForgeTextFactory() {
