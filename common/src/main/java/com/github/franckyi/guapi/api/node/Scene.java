@@ -7,6 +7,8 @@ import com.github.franckyi.databindings.api.ObservableObjectValue;
 import com.github.franckyi.guapi.api.Renderable;
 import com.github.franckyi.guapi.util.Insets;
 
+import java.util.function.Consumer;
+
 public interface Scene extends ScreenEventHandler, Parent, Renderable<Object> {
     default Node getRoot() {
         return rootProperty().getValue();
@@ -86,9 +88,9 @@ public interface Scene extends ScreenEventHandler, Parent, Renderable<Object> {
 
     void show();
 
-    void onShow(Runnable listener);
+    void onShow(Consumer<Scene> listener);
 
     void hide();
 
-    void onHide(Runnable listener);
+    void onHide(Consumer<Scene> listener);
 }

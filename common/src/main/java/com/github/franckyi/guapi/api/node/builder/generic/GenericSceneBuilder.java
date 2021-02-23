@@ -5,6 +5,8 @@ import com.github.franckyi.guapi.api.node.Scene;
 import com.github.franckyi.guapi.api.node.builder.Builder;
 import com.github.franckyi.guapi.util.Insets;
 
+import java.util.function.Consumer;
+
 public interface GenericSceneBuilder<S extends Scene> extends Scene, Builder<S> {
     default S root(Node value) {
         return with(s -> s.setRoot(value));
@@ -38,11 +40,11 @@ public interface GenericSceneBuilder<S extends Scene> extends Scene, Builder<S> 
         return with(s -> s.setCloseOnEsc(value));
     }
 
-    default S show(Runnable listener) {
+    default S show(Consumer<Scene> listener) {
         return with(s -> s.onShow(listener));
     }
 
-    default S hide(Runnable listener) {
+    default S hide(Consumer<Scene> listener) {
         return with(s -> s.onHide(listener));
     }
 }

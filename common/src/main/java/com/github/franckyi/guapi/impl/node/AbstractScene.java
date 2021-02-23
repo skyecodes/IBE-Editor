@@ -17,6 +17,7 @@ import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 public abstract class AbstractScene implements Scene {
     protected final ObjectProperty<Node> focusedProperty = PropertyFactory.ofObject();
@@ -34,8 +35,8 @@ public abstract class AbstractScene implements Scene {
     private final ObservableValue<Scene> sceneProperty = ObservableValue.of(this);
     private final ObservableValue<Boolean> disabledProperty = ObservableValue.of(false);
     protected boolean shouldUpdateChildrenPos;
-    protected final List<Runnable> onShowListeners = new ArrayList<>();
-    protected final List<Runnable> onHideListeners = new ArrayList<>();
+    protected final List<Consumer<Scene>> onShowListeners = new ArrayList<>();
+    protected final List<Consumer<Scene>> onHideListeners = new ArrayList<>();
 
     protected AbstractScene() {
         this(null);
@@ -166,21 +167,21 @@ public abstract class AbstractScene implements Scene {
 
     @Override
     public void show() {
-        onShowListeners.forEach(Runnable::run);
+        onShowListeners.forEach(listener -> listener.accept(this));
     }
 
     @Override
-    public void onShow(Runnable listener) {
+    public void onShow(Consumer<Scene> listener) {
         onShowListeners.add(listener);
     }
 
     @Override
     public void hide() {
-        onHideListeners.forEach(Runnable::run);
+        onHideListeners.forEach(listener -> listener.accept(this));
     }
 
     @Override
-    public void onHide(Runnable listener) {
+    public void onHide(Consumer<Scene> listener) {
         onHideListeners.add(listener);
     }
 
@@ -193,7 +194,7 @@ public abstract class AbstractScene implements Scene {
                     MouseButtonEvent be = (MouseButtonEvent) e;
                     if (type == ScreenEventType.MOUSE_CLICKED && be.getButton() == MouseButtonEvent.LEFT_BUTTON) {
                         setFocused(e.getTarget());
-                        if (!e.getTarget().isDisabled()) {
+                        if (e.getTarget() != null && !e.getTarget().isDisabled()) {
                             e.getTarget().handleEvent(ScreenEventType.ACTION, be);
                         }
                     }

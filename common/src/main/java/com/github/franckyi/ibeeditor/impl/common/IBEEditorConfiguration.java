@@ -11,7 +11,7 @@ import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class IBEEditorConfiguration {
+public final class IBEEditorConfiguration {
     public static IBEEditorConfiguration INSTANCE;
     private static final Path CONFIG_FILE = GameHooks.common().gameDir().resolve("config").resolve("ibeeditor.json");
     private static final Marker MARKER = MarkerManager.getMarker("Config");

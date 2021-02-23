@@ -1,7 +1,5 @@
 package com.github.franckyi.ibeeditor.impl.client;
 
-import com.github.franckyi.databindings.PropertyFactory;
-import com.github.franckyi.databindings.api.IntegerProperty;
 import com.github.franckyi.gamehooks.GameHooks;
 import com.github.franckyi.gamehooks.api.common.Item;
 import com.github.franckyi.gamehooks.util.common.tag.ObjectTag;
@@ -20,8 +18,6 @@ import static com.github.franckyi.ibeeditor.impl.client.EditorFactory.editor;
 import static com.github.franckyi.ibeeditor.impl.client.EditorFactory.stringEntry;
 
 public final class Editor {
-    private static final IntegerProperty initialScale = PropertyFactory.ofInteger();
-
     public static void showItemEditor(Item item) {
         GUAPI.getScreenHandler().showScene(editorScene(mvc(EditorView.class, editor(editor -> {
             editor.category(
@@ -42,17 +38,13 @@ public final class Editor {
     }
 
     private static SceneBuilder editorScene(Node root) {
-        return scene(root, true, true)
-                .show(() -> {
-                    initialScale.setValue(GameHooks.client().screen().getScale());
-                    if (IBEEditorConfiguration.INSTANCE.getEditorScale() != -1) {
-                        GameHooks.client().screen().setScale(IBEEditorConfiguration.INSTANCE.getEditorScale());
-                    }
-                })
-                .hide(() -> {
-                    IBEEditorConfiguration.INSTANCE.setEditorScale(GameHooks.client().screen().getScale());
-                    IBEEditorConfiguration.save();
-                    GameHooks.client().screen().setScale(initialScale.getValue());
-                });
+        return scene(root, true, true).show(scene -> {
+            GameHooks.client().screen().setBaseScale(IBEEditorConfiguration.INSTANCE.getEditorScale());
+            scene.widthProperty().addListener(GameHooks.client().screen()::refresh);
+            scene.heightProperty().addListener(GameHooks.client().screen()::refresh);
+        }).hide(scene -> {
+            IBEEditorConfiguration.INSTANCE.setEditorScale(GameHooks.client().screen().getScaleAndReset());
+            IBEEditorConfiguration.save();
+        });
     }
 }

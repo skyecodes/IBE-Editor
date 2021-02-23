@@ -29,11 +29,9 @@ public abstract class AbstractScreenHandler implements ScreenHandler {
                     oldVal.heightProperty().unbind();
                     oldVal.hide();
                 }
-                //GameHooks.client().screen().setScale(initialScale);
                 closeScreen();
             } else {
                 if (oldVal == null) {
-                    //initialScale = GameHooks.client().screen().getScale();
                     openScreen();
                 }
                 newVal.widthProperty().bind(widthProperty);

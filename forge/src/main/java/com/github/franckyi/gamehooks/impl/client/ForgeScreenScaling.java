@@ -1,16 +1,12 @@
 package com.github.franckyi.gamehooks.impl.client;
 
-import com.github.franckyi.databindings.PropertyFactory;
-import com.github.franckyi.databindings.api.IntegerProperty;
 import com.github.franckyi.gamehooks.api.client.ScreenScaling;
 import net.minecraft.client.Minecraft;
 
-public final class ForgeScreenScaling implements ScreenScaling {
+public final class ForgeScreenScaling extends AbstractScreenScaling {
     public static final ScreenScaling INSTANCE = new ForgeScreenScaling();
-    private final IntegerProperty scaleProperty = PropertyFactory.ofInteger(mc().gameSettings.guiScale);
 
     private ForgeScreenScaling() {
-        scaleProperty().addListener(newVal -> mc().gameSettings.guiScale = newVal);
     }
 
     private Minecraft mc() {
@@ -18,14 +14,19 @@ public final class ForgeScreenScaling implements ScreenScaling {
     }
 
     @Override
-    public void setScale(int scale) {
-        ScreenScaling.super.setScale(scale);
+    protected void resetScale() {
         mc().updateWindowSize();
     }
 
     @Override
-    public IntegerProperty scaleProperty() {
-        return scaleProperty;
+    protected void setScreenScale(int value) {
+        mc().getMainWindow().setGuiScale(mc().getMainWindow().calcGuiScale(value, mc().getForceUnicodeFont()));
+        mc().currentScreen.resize(mc(), mc().getMainWindow().getScaledWidth(), mc().getMainWindow().getScaledHeight());
+    }
+
+    @Override
+    protected int getDefaultScale() {
+        return mc().gameSettings.guiScale;
     }
 
     @Override
