@@ -1,10 +1,7 @@
 package com.github.franckyi.gamehooks.impl;
 
 import com.github.franckyi.gamehooks.api.CommonHooks;
-import com.github.franckyi.gamehooks.api.common.BlockFactory;
-import com.github.franckyi.gamehooks.api.common.ItemFactory;
-import com.github.franckyi.gamehooks.api.common.TagFactory;
-import com.github.franckyi.gamehooks.api.common.TextFactory;
+import com.github.franckyi.gamehooks.api.common.*;
 import com.github.franckyi.gamehooks.api.common.network.Network;
 import com.github.franckyi.gamehooks.impl.common.*;
 
@@ -28,12 +25,17 @@ public final class ForgeCommonHooks implements CommonHooks {
 
     @Override
     public ItemFactory item() {
-        return ForgeItemFactory.INSTANCE;
+        return ForgeItem::new;
     }
 
     @Override
     public BlockFactory block() {
-        return ForgeBlockFactory.INSTANCE;
+        return ForgeBlock::new;
+    }
+
+    @Override
+    public EntityFactory entity() {
+        return ForgeEntity::new;
     }
 
     @Override

@@ -36,4 +36,8 @@ public final class ClientNetwork {
     public static void requestOpenBlockEditor(Pos pos, boolean nbt) {
         network().sendToServer(IBEEditorNetwork.OPEN_BLOCK_EDITOR_REQUEST, new OpenBlockEditorRequestPacket(pos, nbt));
     }
+
+    public static void requestOpenEntityEditor(int entityId, boolean nbt) {
+        network().sendToServer(IBEEditorNetwork.OPEN_ENTITY_EDITOR_REQUEST, new OpenEntityEditorRequestPacket(entityId, nbt));
+    }
 }

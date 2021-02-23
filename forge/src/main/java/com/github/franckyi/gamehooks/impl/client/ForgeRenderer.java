@@ -1,17 +1,41 @@
 package com.github.franckyi.gamehooks.impl.client;
 
-import com.github.franckyi.gamehooks.api.client.ShapeRenderer;
+import com.github.franckyi.gamehooks.api.client.Renderer;
 import com.github.franckyi.gamehooks.impl.common.ForgeTextFactory;
 import com.github.franckyi.gamehooks.util.common.text.Text;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
 
-public class ForgeShapeRenderer implements ShapeRenderer<MatrixStack> {
-    public static final ShapeRenderer<MatrixStack> INSTANCE = new ForgeShapeRenderer();
+public class ForgeRenderer implements Renderer<MatrixStack, ITextComponent> {
+    public static final Renderer<MatrixStack, ITextComponent> INSTANCE = new ForgeRenderer();
 
-    private ForgeShapeRenderer() {
+    private ForgeRenderer() {
+    }
+
+    private net.minecraft.client.gui.FontRenderer font() {
+        return Minecraft.getInstance().fontRenderer;
+    }
+
+    @Override
+    public int getFontHeight(ITextComponent text) {
+        return font().FONT_HEIGHT;
+    }
+
+    @Override
+    public int getFontWidth(ITextComponent text) {
+        return font().getStringPropertyWidth(text);
+    }
+
+    @Override
+    public void drawString(MatrixStack matrixStack, ITextComponent text, float x, float y, int color, boolean shadow) {
+        if (shadow) {
+            font().func_243246_a(matrixStack, text, x, y, color);
+        } else {
+            font().func_243248_b(matrixStack, text, x, y, color);
+        }
     }
 
     @Override

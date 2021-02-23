@@ -10,12 +10,12 @@ public abstract class ProvidedSkin<N extends AbstractNode> extends AbstractSkin<
     }
 
     @Override
-    public void render(N node, Object matrices, int mouseX, int mouseY, float delta) {
+    public <M> void render(N node, M matrices, int mouseX, int mouseY, float delta) {
         super.render(node, matrices, mouseX, mouseY, delta);
         renderNode(matrices, mouseX, mouseY, delta);
     }
 
-    protected abstract void renderNode(Object matrices, int mouseX, int mouseY, float delta);
+    protected abstract <M> void renderNode(M matrices, int mouseX, int mouseY, float delta);
 
     public N getNode() {
         return node;

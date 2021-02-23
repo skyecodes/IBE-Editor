@@ -1,6 +1,6 @@
 package com.github.franckyi.guapi.impl.theme.vanilla;
 
-import com.github.franckyi.gamehooks.impl.client.ForgeShapeRenderer;
+import com.github.franckyi.gamehooks.impl.client.ForgeRenderer;
 import com.github.franckyi.guapi.api.node.TexturedButton;
 import com.github.franckyi.guapi.api.theme.vanilla.ForgeVanillaDelegateRenderer;
 import com.mojang.blaze3d.matrix.MatrixStack;
@@ -27,10 +27,10 @@ public class ForgeVanillaTexturedButtonRenderer extends Button implements ForgeV
         super.render(matrices, mouseX, mouseY, delta);
         int x = node.getX() + (node.getWidth() - 16) / 2;
         int y = node.getY() + (node.getHeight() - 16) / 2;
-        ForgeShapeRenderer.INSTANCE.drawTexture(matrices, node.getTextureId(), x, y, node.getWidth(), node.getHeight(),
+        ForgeRenderer.INSTANCE.drawTexture(matrices, node.getTextureId(), x, y, node.getWidth(), node.getHeight(),
                 node.getImageX(), node.getImageY(), node.getImageWidth(), node.getImageHeight());
         if (!node.isDrawButton() && node.isDisabled()) {
-            ForgeShapeRenderer.INSTANCE.fillRectangle(matrices, x, y, x + node.getWidth(), y + node.getHeight(), 0xbf000000);
+            ForgeRenderer.INSTANCE.fillRectangle(matrices, x, y, x + node.getWidth(), y + node.getHeight(), 0xbf000000);
         }
     }
 

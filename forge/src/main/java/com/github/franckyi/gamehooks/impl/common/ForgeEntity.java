@@ -5,11 +5,15 @@ import com.github.franckyi.gamehooks.util.common.tag.ObjectTag;
 import net.minecraft.nbt.CompoundNBT;
 
 public class ForgeEntity implements Entity {
-    private final net.minecraft.entity.Entity entity;
+    private net.minecraft.entity.Entity entity;
     private ObjectTag tag;
 
     public ForgeEntity(net.minecraft.entity.Entity entity) {
         this.entity = entity;
+    }
+
+    public ForgeEntity(ObjectTag tag) {
+        this.tag = tag;
     }
 
     @Override
@@ -20,10 +24,5 @@ public class ForgeEntity implements Entity {
             tag = ForgeTagFactory.INSTANCE.parseCompound(compound);
         }
         return tag;
-    }
-
-    @Override
-    public int getId() {
-        return tag.getType();
     }
 }

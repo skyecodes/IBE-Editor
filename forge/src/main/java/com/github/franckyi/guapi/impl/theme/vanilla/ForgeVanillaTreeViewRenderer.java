@@ -21,8 +21,7 @@ public class ForgeVanillaTreeViewRenderer<E extends TreeView.TreeItem<E>> extend
     }
 
     @Override
-    protected void refreshList() {
-        clearEntries();
+    protected void createList() {
         if (node.rootItemProperty().hasValue()) {
             if (node.isShowRoot()) {
                 addChild(node.getRoot(), 0);
@@ -32,7 +31,6 @@ public class ForgeVanillaTreeViewRenderer<E extends TreeView.TreeItem<E>> extend
                 }
             }
         }
-        shouldRefreshList = false;
     }
 
     private void addChild(E item, int increment) {

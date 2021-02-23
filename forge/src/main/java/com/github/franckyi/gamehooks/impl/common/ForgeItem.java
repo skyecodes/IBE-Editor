@@ -6,11 +6,15 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 
 public class ForgeItem implements Item {
-    private final ItemStack item;
+    private ItemStack item;
     private ObjectTag tag;
 
     public ForgeItem(ItemStack item) {
         this.item = item;
+    }
+
+    public ForgeItem(ObjectTag tag) {
+        this.tag = tag;
     }
 
     @Override
@@ -24,6 +28,9 @@ public class ForgeItem implements Item {
     @Override
     @SuppressWarnings("unchecked")
     public ItemStack getStack() {
+        if (item == null) {
+            item = ItemStack.read(ForgeTagFactory.INSTANCE.parseObject(tag));
+        }
         return item;
     }
 }

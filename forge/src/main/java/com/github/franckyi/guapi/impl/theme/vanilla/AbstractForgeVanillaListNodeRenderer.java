@@ -1,6 +1,6 @@
 package com.github.franckyi.guapi.impl.theme.vanilla;
 
-import com.github.franckyi.gamehooks.impl.client.ForgeShapeRenderer;
+import com.github.franckyi.gamehooks.impl.client.ForgeRenderer;
 import com.github.franckyi.guapi.api.event.MouseButtonEvent;
 import com.github.franckyi.guapi.api.event.MouseDragEvent;
 import com.github.franckyi.guapi.api.event.MouseEvent;
@@ -130,7 +130,14 @@ public abstract class AbstractForgeVanillaListNodeRenderer<N extends ListNode<E>
         shouldRefreshSize = false;
     }
 
-    protected abstract void refreshList();
+    protected void refreshList() {
+        clearEntries();
+        createList();
+        setScrollAmount(getScrollAmount());
+        shouldRefreshList = false;
+    }
+
+    protected abstract void createList();
 
     protected void scrollTo() {
         for (T e : getEventListeners()) {
@@ -229,7 +236,7 @@ public abstract class AbstractForgeVanillaListNodeRenderer<N extends ListNode<E>
 
         protected void renderBackground(MatrixStack matrices, int x, int y, int entryWidth, int entryHeight) {
             if (getList().getListener() == this) {
-                ForgeShapeRenderer.INSTANCE.fillRectangle(matrices, x - 2, y - 2,
+                ForgeRenderer.INSTANCE.fillRectangle(matrices, x - 2, y - 2,
                         x + entryWidth + 3, y + entryHeight + 2, 0x4fffffff);
             }
         }

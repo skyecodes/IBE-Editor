@@ -19,16 +19,19 @@ public abstract class AbstractScreenHandler<T> implements ScreenHandler {
     private final ObjectProperty<Scene> currentSceneProperty = PropertyFactory.ofObject();
     private final IntegerProperty widthProperty = PropertyFactory.ofInteger();
     private final IntegerProperty heightProperty = PropertyFactory.ofInteger();
+    private int initialScale;
 
     public AbstractScreenHandler() {
         currentSceneProperty().addListener((oldVal, newVal) -> {
             if (newVal == null) {
+                GameHooks.client().screen().setScaleOption(initialScale);
                 closeScreen();
             } else {
                 newVal.widthProperty().bind(widthProperty);
                 newVal.heightProperty().bind(heightProperty);
                 newVal.show();
                 if (oldVal == null) {
+                    initialScale = GameHooks.client().screen().getScaleOption();
                     openScreen();
                 } else {
                     oldVal.widthProperty().unbind();

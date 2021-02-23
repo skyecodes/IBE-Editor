@@ -4,6 +4,4 @@ import com.github.franckyi.gamehooks.util.common.tag.ObjectTag;
 
 public interface Entity {
     ObjectTag getTag();
-
-    int getId();
 }

@@ -2,6 +2,7 @@ package com.github.franckyi.ibeeditor.impl.common;
 
 import com.github.franckyi.gamehooks.GameHooks;
 import com.github.franckyi.gamehooks.api.common.Block;
+import com.github.franckyi.gamehooks.api.common.Entity;
 import com.github.franckyi.gamehooks.api.common.ServerPlayer;
 import com.github.franckyi.gamehooks.util.common.text.Text;
 import com.github.franckyi.gamehooks.util.common.text.TextFormatting;
@@ -39,7 +40,20 @@ public final class PacketHandler {
         if (packet.getBlock().getTag() != null) {
             IBEEditorClient.openBlockEditor(packet.getBlock(), packet.getPos(), packet.isNBT());
         } else {
-            GameHooks.client().player().sendMessage(Text.literal("No Block Entity found", TextFormatting.RED), false);
+            GameHooks.client().player().sendMessage(Text.literal("No Block Entity found", TextFormatting.RED));
+        }
+    }
+
+    public static void requestOpenEntityEditor(OpenEntityEditorRequestPacket packet, ServerPlayer sender) {
+        Entity entity = sender.getWorld().getEntity(packet.getEntityId());
+        GameHooks.common().network().sendToClient(IBEEditorNetwork.OPEN_ENTITY_EDITOR_RESPONSE, sender.getServerEntity(), new OpenEntityEditorResponsePacket(packet, entity));
+    }
+
+    public static void openEntityEditor(OpenEntityEditorResponsePacket packet) {
+        if (packet.getEntity().getTag() != null) {
+            IBEEditorClient.openEntityEditor(packet.getEntity(), packet.getEntityId(), packet.isNBT());
+        } else {
+            GameHooks.client().player().sendMessage(Text.literal("No Entity found", TextFormatting.RED));
         }
     }
 }

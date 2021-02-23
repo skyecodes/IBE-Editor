@@ -1,16 +1,14 @@
 package com.github.franckyi.gamehooks.impl;
 
 import com.github.franckyi.gamehooks.api.ClientHooks;
-import com.github.franckyi.gamehooks.api.client.ClientPlayer;
-import com.github.franckyi.gamehooks.api.client.FontRenderer;
 import com.github.franckyi.gamehooks.api.client.KeyBinding;
-import com.github.franckyi.gamehooks.api.client.ShapeRenderer;
-import com.github.franckyi.gamehooks.api.common.Entity;
+import com.github.franckyi.gamehooks.api.client.Renderer;
+import com.github.franckyi.gamehooks.api.client.ScreenScaling;
+import com.github.franckyi.gamehooks.api.common.Player;
 import com.github.franckyi.gamehooks.api.common.Pos;
-import com.github.franckyi.gamehooks.impl.client.FabricClientPlayer;
-import com.github.franckyi.gamehooks.impl.client.FabricFontRenderer;
-import com.github.franckyi.gamehooks.impl.client.FabricShapeRenderer;
-import com.github.franckyi.gamehooks.impl.common.FabricEntity;
+import com.github.franckyi.gamehooks.impl.client.FabricRenderer;
+import com.github.franckyi.gamehooks.impl.client.FabricScreenScaling;
+import com.github.franckyi.gamehooks.impl.common.FabricPlayer;
 import com.github.franckyi.gamehooks.impl.common.FabricPos;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.MinecraftClient;
@@ -20,6 +18,7 @@ import net.minecraft.util.hit.HitResult;
 
 public final class FabricClientHooks implements ClientHooks {
     public static final ClientHooks INSTANCE = new FabricClientHooks();
+    private Player playerInstance;
 
     private FabricClientHooks() {
     }
@@ -30,14 +29,13 @@ public final class FabricClientHooks implements ClientHooks {
 
     @Override
     @SuppressWarnings("unchecked")
-    public FontRenderer<?, ?> fontRenderer() {
-        return FabricFontRenderer.INSTANCE;
+    public Renderer<?, ?> renderer() {
+        return FabricRenderer.INSTANCE;
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public ShapeRenderer<?> shapeRenderer() {
-        return FabricShapeRenderer.INSTANCE;
+    public ScreenScaling screen() {
+        return FabricScreenScaling.INSTANCE;
     }
 
     @Override
@@ -58,21 +56,24 @@ public final class FabricClientHooks implements ClientHooks {
     }
 
     @Override
-    public ClientPlayer player() {
-        return FabricClientPlayer.INSTANCE;
+    public Player player() {
+        if (playerInstance == null) {
+            playerInstance = new FabricPlayer(mc().player);
+        }
+        return playerInstance;
     }
 
     @Override
-    public Entity entityMouseOver() {
+    public int entityIdMouseOver() {
         HitResult result = mc().crosshairTarget;
         if (result instanceof EntityHitResult) {
-            return new FabricEntity(((EntityHitResult) result).getEntity());
+            return ((EntityHitResult) result).getEntity().getEntityId();
         }
-        return null;
+        return -1;
     }
 
     @Override
-    public Pos blockMouseOver() {
+    public Pos blockPosMouseOver() {
         HitResult result = mc().crosshairTarget;
         if (result instanceof BlockHitResult) {
             BlockHitResult res = (BlockHitResult) result;

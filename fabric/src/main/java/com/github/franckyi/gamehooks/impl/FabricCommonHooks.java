@@ -1,10 +1,7 @@
 package com.github.franckyi.gamehooks.impl;
 
 import com.github.franckyi.gamehooks.api.CommonHooks;
-import com.github.franckyi.gamehooks.api.common.BlockFactory;
-import com.github.franckyi.gamehooks.api.common.ItemFactory;
-import com.github.franckyi.gamehooks.api.common.TagFactory;
-import com.github.franckyi.gamehooks.api.common.TextFactory;
+import com.github.franckyi.gamehooks.api.common.*;
 import com.github.franckyi.gamehooks.api.common.network.Network;
 import com.github.franckyi.gamehooks.impl.common.*;
 
@@ -28,12 +25,17 @@ public final class FabricCommonHooks implements CommonHooks {
 
     @Override
     public ItemFactory item() {
-        return FabricItemFactory.INSTANCE;
+        return FabricItem::new;
     }
 
     @Override
     public BlockFactory block() {
-        return FabricBlockFactory.INSTANCE;
+        return FabricBlock::new;
+    }
+
+    @Override
+    public EntityFactory entity() {
+        return FabricEntity::new;
     }
 
     @Override

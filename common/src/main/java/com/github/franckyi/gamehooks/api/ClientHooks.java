@@ -1,24 +1,23 @@
 package com.github.franckyi.gamehooks.api;
 
-import com.github.franckyi.gamehooks.api.client.ClientPlayer;
-import com.github.franckyi.gamehooks.api.client.FontRenderer;
 import com.github.franckyi.gamehooks.api.client.KeyBinding;
-import com.github.franckyi.gamehooks.api.client.ShapeRenderer;
-import com.github.franckyi.gamehooks.api.common.Entity;
+import com.github.franckyi.gamehooks.api.client.Renderer;
+import com.github.franckyi.gamehooks.api.client.ScreenScaling;
+import com.github.franckyi.gamehooks.api.common.Player;
 import com.github.franckyi.gamehooks.api.common.Pos;
 
 public interface ClientHooks {
-    <M, T> FontRenderer<M, T> fontRenderer();
+    <M, T> Renderer<M, T> renderer();
 
-    <M> ShapeRenderer<M> shapeRenderer();
+    ScreenScaling screen();
 
     KeyBinding registerKeyBinding(String name, int keyCode, String category);
 
-    ClientPlayer player();
+    Player player();
 
-    Entity entityMouseOver();
+    int entityIdMouseOver();
 
-    Pos blockMouseOver();
+    Pos blockPosMouseOver();
 
     @Deprecated
     void unlockCursor();

@@ -1,17 +1,41 @@
 package com.github.franckyi.gamehooks.impl.client;
 
-import com.github.franckyi.gamehooks.api.client.ShapeRenderer;
+import com.github.franckyi.gamehooks.api.client.Renderer;
 import com.github.franckyi.gamehooks.impl.common.FabricTextFactory;
 import com.github.franckyi.gamehooks.util.common.text.Text;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 
-public class FabricShapeRenderer implements ShapeRenderer<MatrixStack> {
-    public static final ShapeRenderer<MatrixStack> INSTANCE = new FabricShapeRenderer();
+public class FabricRenderer implements Renderer<MatrixStack, net.minecraft.text.Text> {
+    public static final Renderer<MatrixStack, net.minecraft.text.Text> INSTANCE = new FabricRenderer();
 
-    private FabricShapeRenderer() {
+    private FabricRenderer() {
+    }
+
+    private TextRenderer font() {
+        return MinecraftClient.getInstance().textRenderer;
+    }
+
+    @Override
+    public int getFontHeight(net.minecraft.text.Text text) {
+        return font().fontHeight;
+    }
+
+    @Override
+    public int getFontWidth(net.minecraft.text.Text text) {
+        return font().getWidth(text);
+    }
+
+    @Override
+    public void drawString(MatrixStack matrices, net.minecraft.text.Text text, float x, float y, int color, boolean shadow) {
+        if (shadow) {
+            font().drawWithShadow(matrices, text, x, y, color);
+        } else {
+            font().draw(matrices, text, x, y, color);
+        }
     }
 
     @Override

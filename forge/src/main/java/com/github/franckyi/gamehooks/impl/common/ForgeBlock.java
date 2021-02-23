@@ -6,11 +6,10 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
 
 public class ForgeBlock implements Block {
-    private TileEntity tileEntity;
-    private ObjectTag tag;
+    private final ObjectTag tag;
 
     public ForgeBlock(TileEntity tileEntity) {
-        this.tileEntity = tileEntity;
+        this(tileEntity == null ? null : ForgeTagFactory.INSTANCE.parseCompound(tileEntity.write(new CompoundNBT())));
     }
 
     public ForgeBlock(ObjectTag tag) {
@@ -19,9 +18,6 @@ public class ForgeBlock implements Block {
 
     @Override
     public ObjectTag getTag() {
-        if (tag == null && tileEntity != null) {
-            tag = ForgeTagFactory.INSTANCE.parseCompound(tileEntity.write(new CompoundNBT()));
-        }
         return tag;
     }
 }

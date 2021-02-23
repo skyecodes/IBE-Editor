@@ -11,14 +11,12 @@ public class FabricVanillaListViewRenderer<E> extends AbstractFabricVanillaListN
     }
 
     @Override
-    protected void refreshList() {
-        clearEntries();
+    protected void createList() {
         for (E item : node.getItems()) {
             Node view = node.getRenderer().getView(item);
             view.setParent(node);
             addEntry(new NodeEntry<>(this, item, view));
         }
-        shouldRefreshList = false;
     }
 
     protected static class NodeEntry<E> extends AbstractFabricVanillaListNodeRenderer.NodeEntry<ListView<E>, E, NodeEntry<E>> {

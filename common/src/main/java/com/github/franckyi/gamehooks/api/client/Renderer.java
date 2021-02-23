@@ -2,7 +2,13 @@ package com.github.franckyi.gamehooks.api.client;
 
 import com.github.franckyi.gamehooks.util.common.text.Text;
 
-public interface ShapeRenderer<M> {
+public interface Renderer<M, T> {
+    int getFontHeight(T text);
+
+    int getFontWidth(T text);
+
+    void drawString(M matrices, T text, float x, float y, int color, boolean shadow);
+
     void fillRectangle(M matrices, int x0, int y0, int x1, int y1, int color);
 
     void drawTexture(M matrices, String id, int x, int y, int width, int height, int imageX, int imageY, int imageWidth, int imageHeight);

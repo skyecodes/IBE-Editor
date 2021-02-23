@@ -6,11 +6,15 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 
 public class FabricItem implements Item {
-    private final ItemStack item;
+    private ItemStack item;
     private ObjectTag tag;
 
     public FabricItem(ItemStack item) {
         this.item = item;
+    }
+
+    public FabricItem(ObjectTag tag) {
+        this.tag = tag;
     }
 
     @Override
@@ -24,6 +28,9 @@ public class FabricItem implements Item {
     @Override
     @SuppressWarnings("unchecked")
     public ItemStack getStack() {
+        if (item == null) {
+            item = ItemStack.fromTag(FabricTagFactory.INSTANCE.parseObject(tag));
+        }
         return item;
     }
 }

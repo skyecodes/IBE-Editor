@@ -7,5 +7,9 @@ public interface Player {
 
     void sendMessage(Text message, boolean actionBar);
 
+    default void sendMessage(Text message) {
+        sendMessage(message, false);
+    }
+
     Entity getPlayerEntity();
 }

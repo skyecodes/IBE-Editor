@@ -17,7 +17,7 @@ public abstract class AbstractSkin<N extends Node> implements Skin<N> {
     }
 
     @Override
-    public void render(N node, Object matrices, int mouseX, int mouseY, float delta) {
+    public <M> void render(N node, M matrices, int mouseX, int mouseY, float delta) {
         renderBackground(node, matrices);
         if (GUAPI.isDebugMode()) {
             renderDebug(node, matrices);
@@ -30,12 +30,12 @@ public abstract class AbstractSkin<N extends Node> implements Skin<N> {
     }
 
     protected void renderDebug(N node, Object matrices) {
-        GameHooks.client().shapeRenderer().drawRectangle(matrices, node.getLeft(), node.getTop(),
+        GameHooks.client().renderer().drawRectangle(matrices, node.getLeft(), node.getTop(),
                 node.getRight(), node.getBottom(), debugColor);
     }
 
     protected void renderBackground(N node, Object matrices) {
-        GameHooks.client().shapeRenderer().fillRectangle(matrices, node.getLeft(), node.getTop(),
+        GameHooks.client().renderer().fillRectangle(matrices, node.getLeft(), node.getTop(),
                 node.getRight(), node.getBottom(), node.getBackgroundColor());
     }
 }

@@ -7,15 +7,15 @@ import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.util.ScreenEventType;
 
 public interface Skin<N extends Node> extends EventTarget {
-    default boolean preRender(N node, Object matrices, int mouseX, int mouseY, float delta) {
+    default <M> boolean preRender(N node, M matrices, int mouseX, int mouseY, float delta) {
         return false;
     }
 
-    void render(N node, Object matrices, int mouseX, int mouseY, float delta);
+    <M> void render(N node, M matrices, int mouseX, int mouseY, float delta);
 
-    default void postRender(N node, Object matrices, int mouseX, int mouseY, float delta) {
+    default <M> void postRender(N node, M matrices, int mouseX, int mouseY, float delta) {
         if (node.tooltipProperty().hasValue() && node.isHovered() && !node.isDisabled()) {
-            GameHooks.client().shapeRenderer().drawTooltip(matrices, node.getTooltip(), mouseX, mouseY);
+            GameHooks.client().renderer().drawTooltip(matrices, node.getTooltip(), mouseX, mouseY);
         }
     }
 

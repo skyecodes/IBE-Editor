@@ -21,8 +21,7 @@ public class FabricVanillaTreeViewRenderer<E extends TreeView.TreeItem<E>> exten
     }
 
     @Override
-    protected void refreshList() {
-        clearEntries();
+    protected void createList() {
         if (node.rootItemProperty().hasValue()) {
             if (node.isShowRoot()) {
                 addChild(node.getRoot(), 0);
@@ -32,7 +31,6 @@ public class FabricVanillaTreeViewRenderer<E extends TreeView.TreeItem<E>> exten
                 }
             }
         }
-        shouldRefreshList = false;
     }
 
     private void addChild(E item, int increment) {

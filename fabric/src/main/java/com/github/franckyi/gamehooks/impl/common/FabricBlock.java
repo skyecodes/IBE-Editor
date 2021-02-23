@@ -6,11 +6,10 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.nbt.CompoundTag;
 
 public class FabricBlock implements Block {
-    private BlockEntity blockEntity;
-    private ObjectTag tag;
+    private final ObjectTag tag;
 
     public FabricBlock(BlockEntity blockEntity) {
-        this.blockEntity = blockEntity;
+        this(blockEntity == null ? null : FabricTagFactory.INSTANCE.parseCompound(blockEntity.toTag(new CompoundTag())));
     }
 
     public FabricBlock(ObjectTag tag) {
@@ -19,9 +18,6 @@ public class FabricBlock implements Block {
 
     @Override
     public ObjectTag getTag() {
-        if (tag == null && blockEntity != null) {
-            tag = FabricTagFactory.INSTANCE.parseCompound(blockEntity.toTag(new CompoundTag()));
-        }
         return tag;
     }
 }

@@ -14,7 +14,7 @@ public class OpenBlockEditorResponsePacket extends OpenBlockEditorRequestPacket 
 
     public OpenBlockEditorResponsePacket(Buffer buffer) {
         super(buffer);
-        block = GameHooks.common().block().from(buffer.readTag());
+        block = GameHooks.common().block().fromTag(buffer.readTag());
     }
 
     @Override

@@ -1,7 +1,7 @@
 package com.github.franckyi.guapi.impl.theme.vanilla;
 
 import com.github.franckyi.gamehooks.GameHooks;
-import com.github.franckyi.gamehooks.api.client.FontRenderer;
+import com.github.franckyi.gamehooks.api.client.Renderer;
 import com.github.franckyi.guapi.api.node.Label;
 import com.github.franckyi.guapi.api.theme.Skin;
 import com.github.franckyi.guapi.impl.theme.AbstractSkin;
@@ -14,22 +14,26 @@ public class VanillaLabelSkin extends AbstractSkin<Label> {
     }
 
     @Override
-    public void render(Label node, Object matrices, int mouseX, int mouseY, float delta) {
+    public <M> void render(Label node, M matrices, int mouseX, int mouseY, float delta) {
         super.render(node, matrices, mouseX, mouseY, delta);
-        FontRenderer<Object, Object> fontRenderer = GameHooks.client().fontRenderer();
-        Object text = node.getLabelComponent();
-        int x = Align.getAlignedX(node.getTextAlign().getHorizontalAlign(), node, fontRenderer.getFontWidth(text));
-        int y = Align.getAlignedY(node.getTextAlign().getVerticalAlign(), node, fontRenderer.getFontHeight(text));
-        fontRenderer.drawString(matrices, text, x, y, 0xffffff, node.hasShadow());
+        renderText(node, matrices, mouseX, mouseY, delta);
+    }
+
+    protected <M, T> void renderText(Label node, M matrices, int mouseX, int mouseY, float delta) {
+        Renderer<M, T> renderer = GameHooks.client().renderer();
+        T text = node.getLabelComponent();
+        int x = Align.getAlignedX(node.getTextAlign().getHorizontalAlign(), node, renderer.getFontWidth(text));
+        int y = Align.getAlignedY(node.getTextAlign().getVerticalAlign(), node, renderer.getFontHeight(text));
+        renderer.drawString(matrices, text, x, y, 0xffffff, node.hasShadow());
     }
 
     @Override
     public int computeWidth(Label node) {
-        return GameHooks.client().fontRenderer().getFontWidth(node.getLabelComponent());
+        return GameHooks.client().renderer().getFontWidth(node.getLabelComponent());
     }
 
     @Override
     public int computeHeight(Label node) {
-        return GameHooks.client().fontRenderer().getFontHeight(node.getLabelComponent());
+        return GameHooks.client().renderer().getFontHeight(node.getLabelComponent());
     }
 }

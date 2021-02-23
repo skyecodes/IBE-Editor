@@ -12,7 +12,7 @@ public class VanillaCheckBoxSkin extends DelegatedSkin<CheckBox> {
 
     @Override
     public int computeWidth(CheckBox node) {
-        return GameHooks.client().fontRenderer().getFontWidth(node.getLabel()) + 24;
+        return GameHooks.client().renderer().getFontWidth(node.getLabel()) + 24;
     }
 
     @Override
