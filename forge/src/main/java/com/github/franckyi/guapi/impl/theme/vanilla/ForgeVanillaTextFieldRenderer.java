@@ -1,11 +1,15 @@
 package com.github.franckyi.guapi.impl.theme.vanilla;
 
+import com.github.franckyi.gamehooks.impl.client.ForgeRenderer;
 import com.github.franckyi.guapi.api.node.TextField;
 import com.github.franckyi.guapi.api.theme.vanilla.ForgeVanillaDelegateRenderer;
+import com.github.franckyi.guapi.util.Color;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.util.SharedConstants;
 import net.minecraft.util.text.ITextComponent;
+
+import java.util.Objects;
 
 public class ForgeVanillaTextFieldRenderer extends TextFieldWidget implements ForgeVanillaDelegateRenderer {
     private final TextField node;
@@ -32,21 +36,26 @@ public class ForgeVanillaTextFieldRenderer extends TextFieldWidget implements Fo
             setText(newVal);
             setCursorPosition(cursor);
         });
-        node.focusedProperty().addListener(this::setFocused);
-        node.validatorProperty().addListener(this::setValidator);
+        node.validatorProperty().addListener(this::updateValidator);
+        node.validationForcedProperty().addListener(this::updateValidator);
+        updateValidator();
+    }
+
+    private void updateValidator() {
+        if (node.isValidationForced()) {
+            if (node.getValidator() == null) {
+                setValidator(Objects::nonNull);
+            } else {
+                setValidator(node.getValidator());
+            }
+        }
     }
 
     @Override
-    public boolean charTyped(char codePoint, int modifiers) {
-        if (!this.canWrite()) {
-            return false;
-        } else if ((node.isAllowFormattingChar() || codePoint != 167) && codePoint >= ' ' && codePoint != 127) {
-            if (!node.isDisabled()) {
-                this.writeText(Character.toString(codePoint));
-            }
-            return true;
-        } else {
-            return false;
+    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+        super.render(matrixStack, mouseX, mouseY, partialTicks);
+        if (!(node.isValidationForced() || node.getValidator().test(getText()))) {
+            ForgeRenderer.INSTANCE.drawRectangle(matrixStack, x, y, x + width, y + height, Color.rgba(1, 0, 0, 0.5));
         }
     }
 }

@@ -18,6 +18,7 @@ public class TagModelImpl implements TagModel {
     private final BooleanProperty childrenChangedProperty = PropertyFactory.ofBoolean();
     private final StringProperty nameProperty;
     private final StringProperty valueProperty;
+    private final BooleanProperty validProperty = PropertyFactory.ofBoolean();
     protected final Tag<?> tag;
     protected byte forcedTagType;
 
@@ -77,7 +78,8 @@ public class TagModelImpl implements TagModel {
                     setValue(tag.getValue().toString());
             }
         }
-        getChildren().addListener(this::notifyChange);
+        getChildren().addListener(() -> this.getRoot().setChildrenChanged(true));
+        validProperty().addListener(() -> this.getRoot().updateValidity());
     }
 
     @Override
@@ -108,6 +110,11 @@ public class TagModelImpl implements TagModel {
     @Override
     public StringProperty valueProperty() {
         return valueProperty;
+    }
+
+    @Override
+    public BooleanProperty validProperty() {
+        return validProperty;
     }
 
     @Override
@@ -164,5 +171,11 @@ public class TagModelImpl implements TagModel {
             }
         }
         return null;
+    }
+
+    @Override
+    public void updateValidity() {
+        validProperty.unbind();
+        validProperty.setValue(getChildren().stream().allMatch(TagModel::isValid));
     }
 }

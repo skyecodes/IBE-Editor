@@ -1,5 +1,6 @@
 package com.github.franckyi.ibeeditor.api.client.mvc.model;
 
+import com.github.franckyi.databindings.api.BooleanProperty;
 import com.github.franckyi.databindings.api.StringProperty;
 import com.github.franckyi.gamehooks.util.common.tag.Tag;
 import com.github.franckyi.guapi.api.node.TreeView;
@@ -25,7 +26,19 @@ public interface TagModel extends TreeView.TreeItem<TagModel> {
         valueProperty().setValue(value);
     }
 
+    default boolean isValid() {
+        return validProperty().getValue();
+    }
+
+    BooleanProperty validProperty();
+
+    default void setValid(boolean value) {
+        validProperty().setValue(value);
+    }
+
     byte getTagType();
 
     Tag<?> build();
+
+    void updateValidity();
 }

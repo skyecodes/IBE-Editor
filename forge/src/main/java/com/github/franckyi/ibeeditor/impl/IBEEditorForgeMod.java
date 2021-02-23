@@ -8,6 +8,7 @@ import com.github.franckyi.guapi.impl.ForgeScreenHandler;
 import com.github.franckyi.guapi.impl.theme.vanilla.*;
 import com.github.franckyi.guapi.util.NodeType;
 import com.github.franckyi.ibeeditor.impl.client.IBEEditorClient;
+import com.github.franckyi.ibeeditor.impl.common.IBEEditor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraftforge.client.event.GuiScreenEvent;

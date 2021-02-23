@@ -1,11 +1,15 @@
 package com.github.franckyi.guapi.impl.theme.vanilla;
 
+import com.github.franckyi.gamehooks.impl.client.FabricRenderer;
 import com.github.franckyi.guapi.api.node.TextField;
 import com.github.franckyi.guapi.api.theme.vanilla.FabricVanillaDelegateRenderer;
-import net.minecraft.SharedConstants;
+import com.github.franckyi.guapi.util.Color;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
+
+import java.util.Objects;
 
 public class FabricVanillaTextFieldRenderer extends TextFieldWidget implements FabricVanillaDelegateRenderer {
     private final TextField node;
@@ -19,7 +23,6 @@ public class FabricVanillaTextFieldRenderer extends TextFieldWidget implements F
         setCursorToStart(); // fix in order to render text
         setFocused(node.isFocused());
         setChangedListener(node::setText);
-        setTextPredicate(node.getValidator());
         node.xProperty().addListener(newVal -> x = newVal);
         node.yProperty().addListener(newVal -> y = newVal);
         node.widthProperty().addListener(newVal -> width = newVal);
@@ -33,24 +36,26 @@ public class FabricVanillaTextFieldRenderer extends TextFieldWidget implements F
             setCursor(cursor);
         });
         node.focusedProperty().addListener(this::setFocused);
-        node.validatorProperty().addListener(this::setTextPredicate);
+        node.validatorProperty().addListener(this::updateValidator);
+        node.validationForcedProperty().addListener(this::updateValidator);
+        updateValidator();
     }
 
-    @Override
-    public boolean charTyped(char chr, int modifiers) {
-        if (!this.isActive()) {
-            return false;
-        } else if (isValidChar(chr)) {
-            if (!node.isDisabled()) {
-                this.write(Character.toString(chr));
+    private void updateValidator() {
+        if (node.isValidationForced()) {
+            if (node.getValidator() == null) {
+                setTextPredicate(Objects::nonNull);
+            } else {
+                setTextPredicate(node.getValidator());
             }
-            return true;
-        } else {
-            return false;
         }
     }
 
-    protected boolean isValidChar(char chr) {
-        return (node.isAllowFormattingChar() || chr != 167) && chr >= ' ' && chr != 127;
+    @Override
+    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+        super.render(matrixStack, mouseX, mouseY, partialTicks);
+        if (!(node.isValidationForced() || node.getValidator().test(getText()))) {
+            FabricRenderer.INSTANCE.drawRectangle(matrixStack, x - 1, y - 1, x + width + 1, y + height + 1, Color.rgba(1, 0, 0, 0.8));
+        }
     }
 }

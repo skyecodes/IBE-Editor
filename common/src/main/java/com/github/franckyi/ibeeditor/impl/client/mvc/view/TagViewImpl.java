@@ -6,6 +6,7 @@ import com.github.franckyi.guapi.api.node.HBox;
 import com.github.franckyi.guapi.api.node.ImageView;
 import com.github.franckyi.guapi.api.node.Label;
 import com.github.franckyi.guapi.api.node.TextField;
+import com.github.franckyi.guapi.util.Predicates;
 import com.github.franckyi.ibeeditor.api.client.mvc.view.TagView;
 
 import static com.github.franckyi.guapi.GUAPIFactory.*;
@@ -53,33 +54,39 @@ public class TagViewImpl implements TagView {
     }
 
     @Override
-    public void updateIconFromTagType(byte tagType) {
+    public void updateFromTagType(byte tagType) {
         String id = "ibeeditor:textures/gui/";
         Text tooltip = null;
         switch (tagType) {
             case Tag.BYTE_ID:
                 id += "byte_tag";
                 tooltip = text("Byte", DARK_BLUE);
+                valueField.setValidator(Predicates.IS_BYTE);
                 break;
             case Tag.SHORT_ID:
                 id += "short_tag";
                 tooltip = text("Short", DARK_GREEN);
+                valueField.setValidator(Predicates.IS_SHORT);
                 break;
             case Tag.INT_ID:
                 id += "int_tag";
                 tooltip = text("Int", DARK_AQUA);
+                valueField.setValidator(Predicates.IS_INT);
                 break;
             case Tag.LONG_ID:
                 id += "long_tag";
                 tooltip = text("Long", DARK_RED);
+                valueField.setValidator(Predicates.IS_LONG);
                 break;
             case Tag.FLOAT_ID:
                 id += "float_tag";
                 tooltip = text("Float", DARK_PURPLE);
+                valueField.setValidator(Predicates.IS_FLOAT);
                 break;
             case Tag.DOUBLE_ID:
                 id += "double_tag";
                 tooltip = text("Double", GOLD);
+                valueField.setValidator(Predicates.IS_DOUBLE);
                 break;
             case Tag.BYTE_ARRAY_ID:
                 id += "byte_array_tag";

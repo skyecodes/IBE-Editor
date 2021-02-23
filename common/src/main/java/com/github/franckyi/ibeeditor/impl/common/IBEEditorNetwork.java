@@ -1,8 +1,7 @@
-package com.github.franckyi.ibeeditor.impl;
+package com.github.franckyi.ibeeditor.impl.common;
 
 import com.github.franckyi.gamehooks.GameHooks;
 import com.github.franckyi.gamehooks.api.common.network.Network;
-import com.github.franckyi.ibeeditor.impl.common.PacketHandler;
 import com.github.franckyi.ibeeditor.impl.common.packet.*;
 
 public final class IBEEditorNetwork {

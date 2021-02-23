@@ -6,7 +6,6 @@ import com.github.franckyi.gamehooks.api.common.Entity;
 import com.github.franckyi.gamehooks.api.common.ServerPlayer;
 import com.github.franckyi.gamehooks.util.common.text.Text;
 import com.github.franckyi.gamehooks.util.common.text.TextFormatting;
-import com.github.franckyi.ibeeditor.impl.IBEEditorNetwork;
 import com.github.franckyi.ibeeditor.impl.client.IBEEditorClient;
 import com.github.franckyi.ibeeditor.impl.common.packet.*;
 

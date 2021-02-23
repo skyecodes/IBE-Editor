@@ -5,7 +5,7 @@ import com.github.franckyi.gamehooks.api.common.Item;
 import com.github.franckyi.gamehooks.api.common.Pos;
 import com.github.franckyi.gamehooks.api.common.network.Network;
 import com.github.franckyi.gamehooks.util.common.tag.ObjectTag;
-import com.github.franckyi.ibeeditor.impl.IBEEditorNetwork;
+import com.github.franckyi.ibeeditor.impl.common.IBEEditorNetwork;
 import com.github.franckyi.ibeeditor.impl.common.packet.*;
 
 public final class ClientNetwork {

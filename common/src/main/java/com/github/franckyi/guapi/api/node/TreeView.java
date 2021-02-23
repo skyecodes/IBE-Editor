@@ -69,11 +69,12 @@ public interface TreeView<E extends TreeView.TreeItem<E>> extends ListNode<E> {
             childrenChangedProperty().setValue(value);
         }
 
-        default void notifyChange() {
-            if (getParent() != null) {
-                getParent().notifyChange();
+        @SuppressWarnings("unchecked")
+        default E getRoot() {
+            if (getParent() == null) {
+                return (E) this;
             } else {
-                setChildrenChanged(true);
+                return getParent().getRoot();
             }
         }
     }

@@ -1,4 +1,4 @@
-package com.github.franckyi.ibeeditor.impl;
+package com.github.franckyi.ibeeditor.impl.common;
 
 import com.github.franckyi.gamehooks.GameHooks;
 import com.github.franckyi.gamehooks.api.ClientHooks;

@@ -133,6 +133,7 @@ public class NBTEditorControllerImpl implements NBTEditorController {
                     break;
             }
         });
+        view.getDoneButton().disableProperty().bind(model.tagProperty().bindMapToBoolean(TagModel::validProperty).not());
     }
 
     private void updateButtons(TagModel newVal, NBTEditorView view) {

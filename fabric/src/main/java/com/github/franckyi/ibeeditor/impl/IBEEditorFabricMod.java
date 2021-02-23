@@ -8,6 +8,7 @@ import com.github.franckyi.guapi.impl.FabricScreenHandler;
 import com.github.franckyi.guapi.impl.theme.vanilla.*;
 import com.github.franckyi.guapi.util.NodeType;
 import com.github.franckyi.ibeeditor.impl.client.IBEEditorClient;
+import com.github.franckyi.ibeeditor.impl.common.IBEEditor;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.DedicatedServerModInitializer;
 import net.fabricmc.api.ModInitializer;

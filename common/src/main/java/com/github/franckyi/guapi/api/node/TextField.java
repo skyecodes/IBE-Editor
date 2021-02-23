@@ -25,16 +25,6 @@ public interface TextField extends Labeled {
         maxLengthProperty().setValue(value);
     }
 
-    default boolean isAllowFormattingChar() {
-        return allowFormattingCharProperty().getValue();
-    }
-
-    BooleanProperty allowFormattingCharProperty();
-
-    default void setAllowFormattingChar(boolean value) {
-        allowFormattingCharProperty().setValue(value);
-    }
-
     default Predicate<String> getValidator() {
         return validatorProperty().getValue();
     }
@@ -44,4 +34,20 @@ public interface TextField extends Labeled {
     default void setValidator(Predicate<String> value) {
         validatorProperty().setValue(value);
     }
+
+    default boolean isValidationForced() {
+        return validationForcedProperty().getValue();
+    }
+
+    BooleanProperty validationForcedProperty();
+
+    default void setValidationForced(boolean value) {
+        validationForcedProperty().setValue(value);
+    }
+
+    default boolean isValid() {
+        return validProperty().getValue();
+    }
+
+    ObservableBooleanValue validProperty();
 }

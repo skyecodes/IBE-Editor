@@ -1,6 +1,5 @@
 package com.github.franckyi.ibeeditor.api.client.mvc.view;
 
-import com.github.franckyi.gamehooks.util.common.tag.Tag;
 import com.github.franckyi.guapi.api.mvc.View;
 import com.github.franckyi.guapi.api.node.HBox;
 import com.github.franckyi.guapi.api.node.ImageView;
@@ -19,5 +18,5 @@ public interface TagView extends View {
 
     TextField getValueField();
 
-    void updateIconFromTagType(byte tagType);
+    void updateFromTagType(byte tagType);
 }

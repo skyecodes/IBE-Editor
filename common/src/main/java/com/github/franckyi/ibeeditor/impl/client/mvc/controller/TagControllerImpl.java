@@ -14,14 +14,15 @@ public class TagControllerImpl implements TagController {
     public void init(TagModel model, TagView view) {
         view.getNameField().setText(model.getName());
         view.getValueField().setText(model.getValue());
-        view.getNameField().textProperty().bindBidirectional(model.nameProperty());
-        view.getValueField().textProperty().bindBidirectional(model.valueProperty());
+        model.nameProperty().bindBidirectional(view.getNameField().textProperty());
+        model.valueProperty().bindBidirectional(view.getValueField().textProperty());
+        model.validProperty().bind(view.getValueField().validProperty());
         if (model.getName() == null) {
             view.getRoot().getChildren().removeAll(view.getNameField(), view.getSeparator());
         }
         if (model.getValue() == null) {
             view.getRoot().getChildren().remove(view.getValueField());
         }
-        view.updateIconFromTagType(model.getTagType());
+        view.updateFromTagType(model.getTagType());
     }
 }

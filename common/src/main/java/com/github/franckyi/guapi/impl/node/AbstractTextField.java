@@ -1,10 +1,7 @@
 package com.github.franckyi.guapi.impl.node;
 
 import com.github.franckyi.databindings.PropertyFactory;
-import com.github.franckyi.databindings.api.BooleanProperty;
-import com.github.franckyi.databindings.api.IntegerProperty;
-import com.github.franckyi.databindings.api.ObjectProperty;
-import com.github.franckyi.databindings.api.StringProperty;
+import com.github.franckyi.databindings.api.*;
 import com.github.franckyi.gamehooks.util.common.text.Text;
 import com.github.franckyi.guapi.api.node.TextField;
 
@@ -13,8 +10,10 @@ import java.util.function.Predicate;
 public abstract class AbstractTextField extends AbstractLabeled implements TextField {
     private final StringProperty textProperty = PropertyFactory.ofString("");
     private final IntegerProperty maxLengthProperty = PropertyFactory.ofInteger(Integer.MAX_VALUE);
-    private final BooleanProperty allowFormattingCharProperty = PropertyFactory.ofBoolean(true);
     private final ObjectProperty<Predicate<String>> validatorProperty = PropertyFactory.ofObject(s -> true);
+    private final BooleanProperty validationForcedProperty = PropertyFactory.ofBoolean();
+    protected final BooleanProperty validProperty = PropertyFactory.ofBoolean();
+    private final ObservableBooleanValue validPropertyReadOnly = PropertyFactory.readOnly(validProperty);
 
     protected AbstractTextField() {
         this("");
@@ -31,6 +30,8 @@ public abstract class AbstractTextField extends AbstractLabeled implements TextF
     protected AbstractTextField(Text label, String value) {
         super(label);
         setText(value);
+        textProperty().addListener(this::updateValid);
+        validatorProperty().addListener(this::updateValid);
     }
 
     @Override
@@ -44,12 +45,21 @@ public abstract class AbstractTextField extends AbstractLabeled implements TextF
     }
 
     @Override
-    public BooleanProperty allowFormattingCharProperty() {
-        return allowFormattingCharProperty;
+    public ObjectProperty<Predicate<String>> validatorProperty() {
+        return validatorProperty;
     }
 
     @Override
-    public ObjectProperty<Predicate<String>> validatorProperty() {
-        return validatorProperty;
+    public BooleanProperty validationForcedProperty() {
+        return validationForcedProperty;
+    }
+
+    @Override
+    public ObservableBooleanValue validProperty() {
+        return validPropertyReadOnly;
+    }
+
+    private void updateValid() {
+        validProperty.setValue(getValidator().test(getText()));
     }
 }
