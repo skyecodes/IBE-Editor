@@ -95,9 +95,9 @@ public final class IBEEditorClient {
 
     public static void openItemEditor(Item item, boolean nbt, Consumer<Item> action) {
         if (nbt) {
-            NBTEditor.show(item.getTag(), tag -> action.accept(GameHooks.common().item().fromTag(tag)));
+            Editor.showNBTEditor(item.getTag(), tag -> action.accept(GameHooks.common().item().fromTag(tag)));
         } else {
-            ItemEditor.show(item);
+            Editor.showItemEditor(item);
         }
     }
 
@@ -107,7 +107,7 @@ public final class IBEEditorClient {
 
     public static void openBlockEditor(Block block, Pos pos, boolean nbt) {
         if (nbt) {
-            NBTEditor.show(block.getTag(), tag -> updateBlock(pos, tag));
+            Editor.showNBTEditor(block.getTag(), tag -> updateBlock(pos, tag));
         } else {
             //BlockEditor.show(block);
         }
@@ -119,7 +119,7 @@ public final class IBEEditorClient {
 
     public static void openEntityEditor(Entity entity, int entityId, boolean nbt) {
         if (nbt) {
-            NBTEditor.show(entity.getTag(), tag -> updateEntity(entityId, tag));
+            Editor.showNBTEditor(entity.getTag(), tag -> updateEntity(entityId, tag));
         } else {
             //EntityEditor.show(entity);
         }

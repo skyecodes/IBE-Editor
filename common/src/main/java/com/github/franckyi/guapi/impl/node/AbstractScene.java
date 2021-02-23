@@ -15,6 +15,9 @@ import com.github.franckyi.guapi.util.Insets;
 import com.github.franckyi.guapi.util.ScreenEventType;
 import org.lwjgl.glfw.GLFW;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class AbstractScene implements Scene {
     protected final ObjectProperty<Node> focusedProperty = PropertyFactory.ofObject();
     protected final ObjectProperty<Node> hoveredProperty = PropertyFactory.ofObject();
@@ -31,6 +34,8 @@ public abstract class AbstractScene implements Scene {
     private final ObservableValue<Scene> sceneProperty = ObservableValue.of(this);
     private final ObservableValue<Boolean> disabledProperty = ObservableValue.of(false);
     protected boolean shouldUpdateChildrenPos;
+    protected final List<Runnable> onShowListeners = new ArrayList<>();
+    protected final List<Runnable> onHideListeners = new ArrayList<>();
 
     protected AbstractScene() {
         this(null);
@@ -161,10 +166,22 @@ public abstract class AbstractScene implements Scene {
 
     @Override
     public void show() {
+        onShowListeners.forEach(Runnable::run);
+    }
+
+    @Override
+    public void onShow(Runnable listener) {
+        onShowListeners.add(listener);
     }
 
     @Override
     public void hide() {
+        onHideListeners.forEach(Runnable::run);
+    }
+
+    @Override
+    public void onHide(Runnable listener) {
+        onHideListeners.add(listener);
     }
 
     @Override

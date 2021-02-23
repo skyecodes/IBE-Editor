@@ -4,6 +4,9 @@ import com.github.franckyi.gamehooks.api.CommonHooks;
 import com.github.franckyi.gamehooks.api.common.*;
 import com.github.franckyi.gamehooks.api.common.network.Network;
 import com.github.franckyi.gamehooks.impl.common.*;
+import net.minecraftforge.fml.loading.FMLPaths;
+
+import java.nio.file.Path;
 
 public final class ForgeCommonHooks implements CommonHooks {
     public static final CommonHooks INSTANCE = new ForgeCommonHooks();
@@ -41,5 +44,10 @@ public final class ForgeCommonHooks implements CommonHooks {
     @Override
     public Network<?> network() {
         return ForgeNetwork.INSTANCE;
+    }
+
+    @Override
+    public Path gameDir() {
+        return FMLPaths.GAMEDIR.get();
     }
 }

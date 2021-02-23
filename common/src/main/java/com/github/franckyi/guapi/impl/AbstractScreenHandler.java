@@ -14,7 +14,7 @@ import com.github.franckyi.guapi.util.ScreenEventType;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
-public abstract class AbstractScreenHandler<T> implements ScreenHandler {
+public abstract class AbstractScreenHandler implements ScreenHandler {
     private final Deque<Scene> scenes = new ArrayDeque<>();
     private final ObjectProperty<Scene> currentSceneProperty = PropertyFactory.ofObject();
     private final IntegerProperty widthProperty = PropertyFactory.ofInteger();
@@ -24,20 +24,21 @@ public abstract class AbstractScreenHandler<T> implements ScreenHandler {
     public AbstractScreenHandler() {
         currentSceneProperty().addListener((oldVal, newVal) -> {
             if (newVal == null) {
-                GameHooks.client().screen().setScaleOption(initialScale);
-                closeScreen();
-            } else {
-                newVal.widthProperty().bind(widthProperty);
-                newVal.heightProperty().bind(heightProperty);
-                newVal.show();
-                if (oldVal == null) {
-                    initialScale = GameHooks.client().screen().getScaleOption();
-                    openScreen();
-                } else {
+                if (oldVal != null) {
                     oldVal.widthProperty().unbind();
                     oldVal.heightProperty().unbind();
                     oldVal.hide();
                 }
+                //GameHooks.client().screen().setScale(initialScale);
+                closeScreen();
+            } else {
+                if (oldVal == null) {
+                    //initialScale = GameHooks.client().screen().getScale();
+                    openScreen();
+                }
+                newVal.widthProperty().bind(widthProperty);
+                newVal.heightProperty().bind(heightProperty);
+                newVal.show();
             }
         });
     }

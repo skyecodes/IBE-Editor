@@ -34,6 +34,6 @@ public class VanillaLabelSkin extends AbstractSkin<Label> {
 
     @Override
     public int computeHeight(Label node) {
-        return GameHooks.client().renderer().getFontHeight(node.getLabelComponent());
+        return GameHooks.client().renderer().getFontHeight(node.getLabelComponent()) - 1;
     }
 }

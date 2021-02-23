@@ -37,4 +37,12 @@ public interface GenericSceneBuilder<S extends Scene> extends Scene, Builder<S> 
     default S closeOnEsc(boolean value) {
         return with(s -> s.setCloseOnEsc(value));
     }
+
+    default S show(Runnable listener) {
+        return with(s -> s.onShow(listener));
+    }
+
+    default S hide(Runnable listener) {
+        return with(s -> s.onHide(listener));
+    }
 }

@@ -8,6 +8,7 @@ dependencies {
     compile 'org.lwjgl:lwjgl-glfw:3.2.2'
     compile 'com.google.guava:guava:21.0'
     compile 'org.apache.commons:commons-lang3:3.5'
+    compile 'com.google.code.gson:gson:2.8.0'
 }
 
 test {

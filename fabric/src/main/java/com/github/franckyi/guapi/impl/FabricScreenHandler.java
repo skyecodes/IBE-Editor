@@ -6,7 +6,7 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.LiteralText;
 
-public final class FabricScreenHandler extends AbstractScreenHandler<Screen> {
+public final class FabricScreenHandler extends AbstractScreenHandler {
     public static final ScreenHandler INSTANCE = new FabricScreenHandler();
     private final Screen screen = new ScreenImpl();
     private Screen oldScreen;

@@ -1,12 +1,16 @@
 package com.github.franckyi.gamehooks.impl.client;
 
+import com.github.franckyi.databindings.PropertyFactory;
+import com.github.franckyi.databindings.api.IntegerProperty;
 import com.github.franckyi.gamehooks.api.client.ScreenScaling;
 import net.minecraft.client.MinecraftClient;
 
 public final class FabricScreenScaling implements ScreenScaling {
     public static final ScreenScaling INSTANCE = new FabricScreenScaling();
+    private final IntegerProperty scaleProperty = PropertyFactory.ofInteger(mc().options.guiScale);
 
     private FabricScreenScaling() {
+        scaleProperty().addListener(newVal -> mc().options.guiScale = newVal);
     }
 
     private MinecraftClient mc() {
@@ -14,14 +18,14 @@ public final class FabricScreenScaling implements ScreenScaling {
     }
 
     @Override
-    public int getScaleOption() {
-        return mc().options.guiScale;
+    public void setScale(int scale) {
+        ScreenScaling.super.setScale(scale);
+        mc().onResolutionChanged();
     }
 
     @Override
-    public void setScaleOption(int scale) {
-        mc().options.guiScale = scale;
-        mc().onResolutionChanged();
+    public IntegerProperty scaleProperty() {
+        return scaleProperty;
     }
 
     @Override

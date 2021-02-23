@@ -23,7 +23,8 @@ public class NBTEditorViewImpl implements NBTEditorView {
     private TexturedButton addByteButton, addShortButton, addIntButton, addLongButton, addFloatButton,
             addDoubleButton, addByteArrayButton, addStringButton, addListButton, addObjectButton,
             addIntArrayButton, addLongArrayButton, moveUpButton, moveDownButton, addButton, deleteButton;
-    private TexturedButton zoomInButton, zoomOutButton;
+    private Label zoomLabel;
+    private TexturedButton zoomOutButton, zoomInButton;
     private final ObservableList<ButtonType> visibleButtons = ObservableListFactory.arrayList();
     private Consumer<ButtonType> onButtonClick;
 
@@ -56,15 +57,10 @@ public class NBTEditorViewImpl implements NBTEditorView {
                         center.spacing(2);
                     }), 1);
                     buttons.add(hBox(left -> {
-                        left.add(zoomInButton = createButton("ibeeditor:textures/gui/zoom_in.png", "Zoom In", YELLOW).action(() -> {
-                            GameHooks.client().screen().scaleUp();
-                            updateZoomButtons();
-                        }));
-                        left.add(zoomOutButton = createButton("ibeeditor:textures/gui/zoom_out.png", "Zoom Out", YELLOW).action(() -> {
-                            GameHooks.client().screen().scaleDown();
-                            updateZoomButtons();
-                        }));
-                        left.spacing(2);
+                        left.add(zoomOutButton = createButton("ibeeditor:textures/gui/zoom_out.png", "Zoom Out", YELLOW).action(() -> GameHooks.client().screen().scaleDown()));
+                        left.add(zoomLabel = label().prefWidth(25).textAlign(CENTER));
+                        left.add(zoomInButton = createButton("ibeeditor:textures/gui/zoom_in.png", "Zoom In", YELLOW).action(() -> GameHooks.client().screen().scaleUp()));
+                        left.spacing(5).align(CENTER);
                     }));
                     buttons.spacing(10).prefHeight(16);
                 }));
@@ -78,7 +74,8 @@ public class NBTEditorViewImpl implements NBTEditorView {
             }));
         });
         getEnabledButtons().addListener(this::updateButtons);
-        updateZoomButtons();
+        GameHooks.client().screen().scaleProperty().addListener(this::onZoomUpdated);
+        onZoomUpdated();
     }
 
     @Override
@@ -176,8 +173,9 @@ public class NBTEditorViewImpl implements NBTEditorView {
         return null;
     }
 
-    private void updateZoomButtons() {
-        zoomInButton.setDisable(!GameHooks.client().screen().canScaleUp());
+    private void onZoomUpdated() {
         zoomOutButton.setDisable(!GameHooks.client().screen().canScaleDown());
+        zoomLabel.setLabel(text(GameHooks.client().screen().getScale() == 0 ? "Auto" : Integer.toString(GameHooks.client().screen().getScale())));
+        zoomInButton.setDisable(!GameHooks.client().screen().canScaleUp());
     }
 }

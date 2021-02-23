@@ -1,29 +1,41 @@
 package com.github.franckyi.gamehooks.api.client;
 
+import com.github.franckyi.databindings.api.IntegerProperty;
+
 public interface ScreenScaling {
-    int getScaleOption();
-
-    void setScaleOption(int scale);
-
-    int getMaxScale();
-
     default int getScale() {
-        return getScaleOption() == 0 ? getMaxScale() : getScaleOption();
+        return scaleProperty().getValue();
+    }
+
+    IntegerProperty scaleProperty();
+
+    default void setScale(int value) {
+        scaleProperty().setValue(value);
     }
 
     default void scaleUp() {
-        setScaleOption(getScale() + 1);
+        if (getScale() >= getMaxScale()) {
+            setScale(0);
+        } else {
+            setScale(getScale() + 1);
+        }
     }
 
     default void scaleDown() {
-        setScaleOption(getScale() - 1);
+        if (getScale() == 0) {
+            setScale(getMaxScale());
+        } else {
+            setScale(getScale() - 1);
+        }
     }
 
     default boolean canScaleUp() {
-        return getScale() < getMaxScale();
+        return getScale() != 0;
     }
 
     default boolean canScaleDown() {
-        return getScale() > 1;
+        return getScale() != 1;
     }
+
+    int getMaxScale();
 }

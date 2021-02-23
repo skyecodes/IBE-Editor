@@ -86,5 +86,9 @@ public interface Scene extends ScreenEventHandler, Parent, Renderable<Object> {
 
     void show();
 
+    void onShow(Runnable listener);
+
     void hide();
+
+    void onHide(Runnable listener);
 }

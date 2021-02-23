@@ -17,30 +17,30 @@ import org.apache.logging.log4j.MarkerManager;
 
 public final class IBEEditor {
     public static final Logger LOGGER = LogManager.getLogger();
-    private static final Marker marker = MarkerManager.getMarker("ModInit");
+    private static final Marker MARKER = MarkerManager.getMarker("ModInit");
 
     public static void initCommon(CommonHooks commonHooks) {
-        LOGGER.info(marker, "Initializing IBE Editor - common");
+        LOGGER.info(MARKER, "Initializing IBE Editor - common");
         GameHooks.initCommon(commonHooks, LOGGER);
         IBEEditorNetwork.init();
+        IBEEditorConfiguration.load();
     }
 
     public static void initClient(ClientHooks clientHooks, ScreenHandler screenHandler) {
-        LOGGER.info(marker, "Initializing IBE Editor - client");
+        LOGGER.info(MARKER, "Initializing IBE Editor - client");
         GameHooks.initClient(clientHooks);
         GUAPI.init(screenHandler);
         GUAPIFactory.registerMVC(EditorView.class, EditorMVCImpl.INSTANCE);
         GUAPIFactory.registerMVC(CategoryView.class, CategoryMVCImpl.INSTANCE);
         GUAPIFactory.registerMVC(StringEntryView.class, StringEntryMVCImpl.INSTANCE);
         GUAPIFactory.registerMVC(IntegerEntryView.class, IntegerEntryMVCImpl.INSTANCE);
-
         GUAPIFactory.registerMVC(NBTEditorView.class, NBTEditorMVCImpl.INSTANCE);
         GUAPIFactory.registerMVC(TagView.class, TagMVCImpl.INSTANCE);
         IBEEditorClient.init();
     }
 
     public static void initServer(ServerHooks serverHooks) {
-        LOGGER.info(marker, "Initializing IBE Editor - server");
+        LOGGER.info(MARKER, "Initializing IBE Editor - server");
         GameHooks.initServer(serverHooks);
     }
 }

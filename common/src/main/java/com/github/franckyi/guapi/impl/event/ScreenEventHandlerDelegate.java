@@ -4,18 +4,11 @@ import com.github.franckyi.guapi.api.event.ScreenEvent;
 import com.github.franckyi.guapi.api.event.ScreenEventListener;
 import com.github.franckyi.guapi.api.node.ScreenEventHandler;
 import com.github.franckyi.guapi.util.ScreenEventType;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 
 public class ScreenEventHandlerDelegate implements ScreenEventHandler {
-    private final Map<ScreenEventType<?>, List<ScreenEventListener<?>>> eventListenerMap = new HashMap<>();
-
-    public ScreenEventHandlerDelegate() {
-        ScreenEventType.VALUES.forEach(type -> eventListenerMap.put(type, new ArrayList<>()));
-    }
+    private final Multimap<ScreenEventType<?>, ScreenEventListener<?>> eventListenerMap = HashMultimap.create();
 
     @Override
     @SuppressWarnings("unchecked")

@@ -4,6 +4,9 @@ import com.github.franckyi.gamehooks.api.CommonHooks;
 import com.github.franckyi.gamehooks.api.common.*;
 import com.github.franckyi.gamehooks.api.common.network.Network;
 import com.github.franckyi.gamehooks.impl.common.*;
+import net.fabricmc.loader.api.FabricLoader;
+
+import java.nio.file.Path;
 
 public final class FabricCommonHooks implements CommonHooks {
     public static final CommonHooks INSTANCE = new FabricCommonHooks();
@@ -41,5 +44,10 @@ public final class FabricCommonHooks implements CommonHooks {
     @Override
     public Network<?> network() {
         return FabricNetwork.INSTANCE;
+    }
+
+    @Override
+    public Path gameDir() {
+        return FabricLoader.getInstance().getGameDir();
     }
 }
