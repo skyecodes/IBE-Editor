@@ -4,6 +4,7 @@ import com.github.franckyi.gamehooks.api.client.Renderer;
 import com.github.franckyi.gamehooks.impl.common.ForgeTextFactory;
 import com.github.franckyi.gamehooks.util.common.text.Text;
 import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.util.ResourceLocation;
@@ -46,6 +47,9 @@ public class ForgeRenderer implements Renderer<MatrixStack, ITextComponent> {
     @Override
     public void drawTexture(MatrixStack matrices, String id, int x, int y, int width, int height, int imageX, int imageY, int imageWidth, int imageHeight) {
         Minecraft.getInstance().getTextureManager().bindTexture(new ResourceLocation(id));
+        RenderSystem.enableBlend();
+        RenderSystem.defaultBlendFunc();
+        RenderSystem.enableDepthTest();
         AbstractGui.blit(matrices, x, y, 0, imageX, imageY, width, height, imageHeight, imageWidth);
     }
 

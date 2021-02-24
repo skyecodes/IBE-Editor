@@ -86,45 +86,51 @@ public class NBTEditorControllerImpl implements NBTEditorController {
                             addChildTag(view, tag, Tag.LONG_ID, "0");
                             break;
                         case Tag.LIST_ID:
-                            switch (tag.getChildren().get(0).getTagType()) {
-                                case Tag.BYTE_ID:
-                                    addChildTag(view, tag, new ByteTag());
-                                    break;
-                                case Tag.SHORT_ID:
-                                    addChildTag(view, tag, new ShortTag());
-                                    break;
-                                case Tag.INT_ID:
-                                    addChildTag(view, tag, new IntTag());
-                                    break;
-                                case Tag.LONG_ID:
-                                    addChildTag(view, tag, new LongTag());
-                                    break;
-                                case Tag.FLOAT_ID:
-                                    addChildTag(view, tag, new FloatTag());
-                                    break;
-                                case Tag.DOUBLE_ID:
-                                    addChildTag(view, tag, new DoubleTag());
-                                    break;
-                                case Tag.BYTE_ARRAY_ID:
-                                    addChildTag(view, tag, new ByteArrayTag());
-                                    break;
-                                case Tag.STRING_ID:
-                                    addChildTag(view, tag, new StringTag());
-                                    break;
-                                case Tag.LIST_ID:
-                                    addChildTag(view, tag, new ArrayTag());
-                                    break;
-                                case Tag.COMPOUND_ID:
-                                    addChildTag(view, tag, new ObjectTag());
-                                    break;
-                                case Tag.INT_ARRAY_ID:
-                                    addChildTag(view, tag, new IntArrayTag());
-                                    break;
-                                case Tag.LONG_ARRAY_ID:
-                                    addChildTag(view, tag, new LongArrayTag());
-                                    break;
+                            if (tag.getChildren().isEmpty()) {
+                                view.setShowAddButtons(!view.isShowAddButtons());
+                            } else {
+                                switch (tag.getChildren().get(0).getTagType()) {
+                                    case Tag.BYTE_ID:
+                                        addChildTag(view, tag, new ByteTag());
+                                        break;
+                                    case Tag.SHORT_ID:
+                                        addChildTag(view, tag, new ShortTag());
+                                        break;
+                                    case Tag.INT_ID:
+                                        addChildTag(view, tag, new IntTag());
+                                        break;
+                                    case Tag.LONG_ID:
+                                        addChildTag(view, tag, new LongTag());
+                                        break;
+                                    case Tag.FLOAT_ID:
+                                        addChildTag(view, tag, new FloatTag());
+                                        break;
+                                    case Tag.DOUBLE_ID:
+                                        addChildTag(view, tag, new DoubleTag());
+                                        break;
+                                    case Tag.BYTE_ARRAY_ID:
+                                        addChildTag(view, tag, new ByteArrayTag());
+                                        break;
+                                    case Tag.STRING_ID:
+                                        addChildTag(view, tag, new StringTag());
+                                        break;
+                                    case Tag.LIST_ID:
+                                        addChildTag(view, tag, new ArrayTag());
+                                        break;
+                                    case Tag.COMPOUND_ID:
+                                        addChildTag(view, tag, new ObjectTag());
+                                        break;
+                                    case Tag.INT_ARRAY_ID:
+                                        addChildTag(view, tag, new IntArrayTag());
+                                        break;
+                                    case Tag.LONG_ARRAY_ID:
+                                        addChildTag(view, tag, new LongArrayTag());
+                                        break;
+                                }
                             }
                             break;
+                        case Tag.COMPOUND_ID:
+                            view.setShowAddButtons(!view.isShowAddButtons());
                     }
                     break;
                 case CUT:
@@ -151,12 +157,13 @@ public class NBTEditorControllerImpl implements NBTEditorController {
     }
 
     private void updateButtons(TagModel newVal, NBTEditorModel model, NBTEditorView view) {
+        view.setShowAddButtons(false);
         List<NBTEditorView.ButtonType> buttons = new ArrayList<>();
         TagModel clipboardTag = model.getClipboardTag();
         if (newVal != null) {
             switch (newVal.getTagType()) {
                 case Tag.COMPOUND_ID:
-                    buttons.addAll(NBTEditorView.ButtonType.ALL_ADD_TAG);
+                    buttons.add(NBTEditorView.ButtonType.ADD);
                     if (clipboardTag != null && clipboardTag.canBuild()) {
                         buttons.add(NBTEditorView.ButtonType.PASTE);
                     }
@@ -181,7 +188,7 @@ public class NBTEditorControllerImpl implements NBTEditorController {
                     break;
                 case Tag.LIST_ID:
                     if (newVal.getChildren().isEmpty()) {
-                        buttons.addAll(NBTEditorView.ButtonType.ALL_ADD_TAG);
+                        buttons.add(NBTEditorView.ButtonType.ADD);
                         if (clipboardTag != null && clipboardTag.canBuild()) {
                             buttons.add(NBTEditorView.ButtonType.PASTE);
                         }
@@ -223,6 +230,7 @@ public class NBTEditorControllerImpl implements NBTEditorController {
     private void addChildTag(NBTEditorView view, TagModel parent, TagModel tag) {
         parent.getChildren().add(tag);
         parent.setExpanded(true);
+        view.getTagTree().setScrollTo(tag);
         view.getTagTree().setFocusedElement(tag);
     }
 }

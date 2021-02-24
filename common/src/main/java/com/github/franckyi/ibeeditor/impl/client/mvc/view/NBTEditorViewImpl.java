@@ -1,6 +1,8 @@
 package com.github.franckyi.ibeeditor.impl.client.mvc.view;
 
 import com.github.franckyi.databindings.ObservableListFactory;
+import com.github.franckyi.databindings.PropertyFactory;
+import com.github.franckyi.databindings.api.BooleanProperty;
 import com.github.franckyi.databindings.api.ObservableList;
 import com.github.franckyi.gamehooks.GameHooks;
 import com.github.franckyi.gamehooks.util.common.text.TextFormatting;
@@ -16,52 +18,44 @@ import static com.github.franckyi.guapi.GUAPIFactory.*;
 
 public class NBTEditorViewImpl implements NBTEditorView {
     private final VBox root;
+    private VBox main;
     private TreeView<TagModel> tagTree;
     private Button doneButton;
     private Button cancelButton;
+    private final HBox addButtons;
     private TexturedButton addByteButton, addShortButton, addIntButton, addLongButton, addFloatButton,
             addDoubleButton, addByteArrayButton, addStringButton, addListButton, addObjectButton,
-            addIntArrayButton, addLongArrayButton, moveUpButton, moveDownButton, addButton, deleteButton;
-    private TexturedButton cutButton, copyButton, pasteButton;
+            addIntArrayButton, addLongArrayButton, moveUpButton, moveDownButton, addButton, deleteButton,
+            cutButton, copyButton, pasteButton, zoomResetButton, zoomOutButton, zoomInButton;
     private Label zoomLabel;
-    private TexturedButton zoomResetButton, zoomOutButton, zoomInButton;
     private final ObservableList<ButtonType> visibleButtons = ObservableListFactory.arrayList();
     private Consumer<ButtonType> onButtonClick;
+    private final BooleanProperty showAddButtonsProperty = PropertyFactory.ofBoolean();
 
     public NBTEditorViewImpl() {
         root = vBox(root -> {
             root.spacing(5).align(CENTER).padding(5).fillWidth();
             root.add(label(translated("ibeeditor.gui.nbt_editor", AQUA, BOLD), true).textAlign(CENTER).prefHeight(15));
-            root.add(vBox(main -> {
+            root.add(main = vBox(main -> {
                 main.add(hBox(buttons -> {
                     buttons.add(hBox(base -> {
-                        base.add(moveUpButton = createButton(ButtonType.MOVE_UP, "ibeeditor:textures/gui/move_up.png", "Move Up"));
-                        base.add(moveDownButton = createButton(ButtonType.MOVE_DOWN, "ibeeditor:textures/gui/move_down.png", "Move Down"));
-                        base.add(addButton = createButton(ButtonType.ADD, "ibeeditor:textures/gui/add.png", "Add", GREEN));
-                        base.add(deleteButton = createButton(ButtonType.DELETE, "ibeeditor:textures/gui/delete.png", "Delete", RED));
+                        base.add(moveUpButton = createButton(ButtonType.MOVE_UP, "ibeeditor:textures/gui/move_up.png", "Move Up").disable());
+                        base.add(moveDownButton = createButton(ButtonType.MOVE_DOWN, "ibeeditor:textures/gui/move_down.png", "Move Down").disable());
+                        base.add(addButton = createButton(ButtonType.ADD, "ibeeditor:textures/gui/add.png", "Add", GREEN).imageHeight(32).disable());
+                        base.add(deleteButton = createButton(ButtonType.DELETE, "ibeeditor:textures/gui/delete.png", "Delete", RED).disable());
                         base.spacing(2);
                     }));
-                    buttons.add(hBox(addBox -> {
-                        addBox.add(addByteButton = createButton(ButtonType.BYTE, "ibeeditor:textures/gui/byte_tag_add.png", "Add Byte Tag", BLUE));
-                        addBox.add(addShortButton = createButton(ButtonType.SHORT, "ibeeditor:textures/gui/short_tag_add.png", "Add Short Tag", GREEN));
-                        addBox.add(addIntButton = createButton(ButtonType.INT, "ibeeditor:textures/gui/int_tag_add.png", "Add Int Tag", AQUA));
-                        addBox.add(addLongButton = createButton(ButtonType.LONG, "ibeeditor:textures/gui/long_tag_add.png", "Add Long Tag", RED));
-                        addBox.add(addFloatButton = createButton(ButtonType.FLOAT, "ibeeditor:textures/gui/float_tag_add.png", "Add Float Tag", LIGHT_PURPLE));
-                        addBox.add(addDoubleButton = createButton(ButtonType.DOUBLE, "ibeeditor:textures/gui/double_tag_add.png", "Add Double Tag", YELLOW));
-                        addBox.add(addByteArrayButton = createButton(ButtonType.BYTE_ARRAY, "ibeeditor:textures/gui/byte_array_tag_add.png", "Add Byte Array Tag", BLUE));
-                        addBox.add(addStringButton = createButton(ButtonType.STRING, "ibeeditor:textures/gui/string_tag_add.png", "Add String Tag", GRAY));
-                        addBox.add(addListButton = createButton(ButtonType.LIST, "ibeeditor:textures/gui/list_tag_add.png", "Add List Tag", GREEN));
-                        addBox.add(addObjectButton = createButton(ButtonType.OBJECT, "ibeeditor:textures/gui/object_tag_add.png", "Add Compound Tag", LIGHT_PURPLE));
-                        addBox.add(addIntArrayButton = createButton(ButtonType.INT_ARRAY, "ibeeditor:textures/gui/int_array_tag_add.png", "Add Int Array Tag", AQUA));
-                        addBox.add(addLongArrayButton = createButton(ButtonType.LONG_ARRAY, "ibeeditor:textures/gui/long_array_tag_add.png", "Add Long Array Tag", RED));
-                        addBox.spacing(2);
-                    }));
                     buttons.add(hBox(copyBox -> {
-                        copyBox.add(cutButton = createButton(ButtonType.CUT, "ibeeditor:textures/gui/cut.png", "Cut"));
-                        copyBox.add(copyButton = createButton(ButtonType.COPY, "ibeeditor:textures/gui/copy.png", "Copy"));
-                        copyBox.add(pasteButton = createButton(ButtonType.PASTE, "ibeeditor:textures/gui/paste.png", "Paste"));
+                        copyBox.add(cutButton = createButton(ButtonType.CUT, "ibeeditor:textures/gui/cut.png", "Cut").disable());
+                        copyBox.add(copyButton = createButton(ButtonType.COPY, "ibeeditor:textures/gui/copy.png", "Copy").disable());
+                        copyBox.add(pasteButton = createButton(ButtonType.PASTE, "ibeeditor:textures/gui/paste.png", "Paste").disable());
                         copyBox.spacing(2);
                     }), 1);
+                    buttons.add(hBox(expand -> {
+                        expand.add(createButton("ibeeditor:textures/gui/collapse_all.png", "Collapse all").action(this::collapseAll));
+                        expand.add(createButton("ibeeditor:textures/gui/expand_all.png", "Expand all").action(this::expandAll));
+                        expand.spacing(2);
+                    }));
                     buttons.add(createButton("ibeeditor:textures/gui/scroll_focused.png", "Scroll to focused").action(() -> tagTree.setScrollTo(getTagTree().getFocusedElement())));
                     buttons.add(hBox(zoomBox -> {
                         zoomBox.add(zoomResetButton = createButton("ibeeditor:textures/gui/zoom_reset.png", "Reset Zoom").action(GameHooks.client().screen()::restoreScale));
@@ -70,7 +64,7 @@ public class NBTEditorViewImpl implements NBTEditorView {
                         zoomBox.add(zoomInButton = createButton("ibeeditor:textures/gui/zoom_in.png", "Zoom In").action(GameHooks.client().screen()::scaleUp));
                         zoomBox.fillHeight().spacing(2);
                     }));
-                    buttons.spacing(10).prefHeight(16);
+                    buttons.spacing(20).prefHeight(16);
                 }));
                 main.add(tagTree = treeView(TagModel.class).showRoot().itemHeight(20).childrenFocusable().padding(5).renderer(item -> mvc(TagView.class, item)), 1);
                 main.spacing(2).fillWidth();
@@ -81,10 +75,44 @@ public class NBTEditorViewImpl implements NBTEditorView {
                 footer.add(cancelButton = button(translated("gui.cancel", RED)).prefWidth(90));
             }));
         });
+        addButtons = hBox(addBox -> {
+            addBox.add(addByteButton = createButton(ButtonType.BYTE, "ibeeditor:textures/gui/byte_tag_add.png", "Add Byte Tag", BLUE));
+            addBox.add(addShortButton = createButton(ButtonType.SHORT, "ibeeditor:textures/gui/short_tag_add.png", "Add Short Tag", GREEN));
+            addBox.add(addIntButton = createButton(ButtonType.INT, "ibeeditor:textures/gui/int_tag_add.png", "Add Int Tag", AQUA));
+            addBox.add(addLongButton = createButton(ButtonType.LONG, "ibeeditor:textures/gui/long_tag_add.png", "Add Long Tag", RED));
+            addBox.add(addFloatButton = createButton(ButtonType.FLOAT, "ibeeditor:textures/gui/float_tag_add.png", "Add Float Tag", LIGHT_PURPLE));
+            addBox.add(addDoubleButton = createButton(ButtonType.DOUBLE, "ibeeditor:textures/gui/double_tag_add.png", "Add Double Tag", YELLOW));
+            addBox.add(addByteArrayButton = createButton(ButtonType.BYTE_ARRAY, "ibeeditor:textures/gui/byte_array_tag_add.png", "Add Byte Array Tag", BLUE));
+            addBox.add(addStringButton = createButton(ButtonType.STRING, "ibeeditor:textures/gui/string_tag_add.png", "Add String Tag", GRAY));
+            addBox.add(addListButton = createButton(ButtonType.LIST, "ibeeditor:textures/gui/list_tag_add.png", "Add List Tag", GREEN));
+            addBox.add(addObjectButton = createButton(ButtonType.OBJECT, "ibeeditor:textures/gui/object_tag_add.png", "Add Compound Tag", LIGHT_PURPLE));
+            addBox.add(addIntArrayButton = createButton(ButtonType.INT_ARRAY, "ibeeditor:textures/gui/int_array_tag_add.png", "Add Int Array Tag", AQUA));
+            addBox.add(addLongArrayButton = createButton(ButtonType.LONG_ARRAY, "ibeeditor:textures/gui/long_array_tag_add.png", "Add Long Array Tag", RED));
+            addBox.spacing(2);
+        });
         getEnabledButtons().addListener(this::updateButtons);
+        showAddButtonsProperty().addListener(newVal -> {
+            if (newVal) {
+                main.getChildren().add(1, addButtons);
+                addButton.setImageY(16);
+            } else {
+                main.getChildren().remove(addButtons);
+                addButton.setImageY(0);
+            }
+        });
         GameHooks.client().screen().scaleProperty().addListener(this::onZoomUpdated);
         zoomResetButton.disableProperty().bind(GameHooks.client().screen().canScaleBeResetProperty().not());
         onZoomUpdated();
+    }
+
+    private void expandAll() {
+        getTagTree().getRoot().flattened().forEach(tagModel -> tagModel.setExpanded(true));
+        getTagTree().getRoot().setChildrenChanged(true);
+    }
+
+    private void collapseAll() {
+        getTagTree().getRoot().flattened().forEach(tagModel -> tagModel.setExpanded(false));
+        getTagTree().getRoot().setChildrenChanged(true);
     }
 
     @Override
@@ -113,6 +141,11 @@ public class NBTEditorViewImpl implements NBTEditorView {
     }
 
     @Override
+    public BooleanProperty showAddButtonsProperty() {
+        return showAddButtonsProperty;
+    }
+
+    @Override
     public Node getRoot() {
         return root;
     }
@@ -125,7 +158,6 @@ public class NBTEditorViewImpl implements NBTEditorView {
 
     private TexturedButtonBuilder createButton(ButtonType type, String id, String tooltipText, TextFormatting... tooltipFormatting) {
         return createButton(id, tooltipText, tooltipFormatting)
-                .disable()
                 .action(() -> {
                     if (onButtonClick != null) {
                         onButtonClick.accept(type);
@@ -134,7 +166,7 @@ public class NBTEditorViewImpl implements NBTEditorView {
     }
 
     private void updateButtons() {
-        for (ButtonType type : ButtonType.values()) {
+        for (ButtonType type : ButtonType.CAN_DISABLE) {
             getButton(type).setDisable(!getEnabledButtons().contains(type));
         }
     }

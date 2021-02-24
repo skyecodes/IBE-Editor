@@ -5,6 +5,8 @@ import com.github.franckyi.databindings.api.IntegerProperty;
 import com.github.franckyi.databindings.api.ObjectProperty;
 import com.github.franckyi.databindings.api.ObservableList;
 
+import java.util.stream.Stream;
+
 public interface TreeView<E extends TreeView.TreeItem<E>> extends ListNode<E> {
     default E getRoot() {
         return rootItemProperty().getValue();
@@ -67,6 +69,10 @@ public interface TreeView<E extends TreeView.TreeItem<E>> extends ListNode<E> {
 
         default void setChildrenChanged(boolean value) {
             childrenChangedProperty().setValue(value);
+        }
+
+        default Stream<TreeItem<E>> flattened() {
+            return Stream.concat(Stream.of(this), getChildren().stream().flatMap(TreeItem::flattened));
         }
 
         @SuppressWarnings("unchecked")

@@ -3,6 +3,7 @@ package com.github.franckyi.gamehooks.impl.client;
 import com.github.franckyi.gamehooks.api.client.Renderer;
 import com.github.franckyi.gamehooks.impl.common.FabricTextFactory;
 import com.github.franckyi.gamehooks.util.common.text.Text;
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawableHelper;
@@ -46,6 +47,9 @@ public class FabricRenderer implements Renderer<MatrixStack, net.minecraft.text.
     @Override
     public void drawTexture(MatrixStack matrices, String id, int x, int y, int width, int height, int imageX, int imageY, int imageWidth, int imageHeight) {
         MinecraftClient.getInstance().getTextureManager().bindTexture(new Identifier(id));
+        RenderSystem.enableBlend();
+        RenderSystem.defaultBlendFunc();
+        RenderSystem.enableDepthTest();
         DrawableHelper.drawTexture(matrices, x, y, 0, imageX, imageY, width, height, imageHeight, imageWidth);
     }
 
