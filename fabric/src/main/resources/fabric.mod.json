@@ -20,9 +20,6 @@
     ],
     "client": [
       "com.github.franckyi.ibeeditor.impl.IBEEditorFabricMod"
-    ],
-    "server": [
-      "com.github.franckyi.ibeeditor.impl.IBEEditorFabricMod"
     ]
   },
   "mixins": [

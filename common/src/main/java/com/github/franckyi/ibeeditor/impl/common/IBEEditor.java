@@ -3,7 +3,6 @@ package com.github.franckyi.ibeeditor.impl.common;
 import com.github.franckyi.gamehooks.GameHooks;
 import com.github.franckyi.gamehooks.api.ClientHooks;
 import com.github.franckyi.gamehooks.api.CommonHooks;
-import com.github.franckyi.gamehooks.api.ServerHooks;
 import com.github.franckyi.guapi.GUAPI;
 import com.github.franckyi.guapi.GUAPIFactory;
 import com.github.franckyi.guapi.api.ScreenHandler;
@@ -37,10 +36,5 @@ public final class IBEEditor {
         GUAPIFactory.registerMVC(NBTEditorView.class, NBTEditorMVCImpl.INSTANCE);
         GUAPIFactory.registerMVC(TagView.class, TagMVCImpl.INSTANCE);
         IBEEditorClient.init();
-    }
-
-    public static void initServer(ServerHooks serverHooks) {
-        LOGGER.info(MARKER, "Initializing IBE Editor - server");
-        GameHooks.initServer(serverHooks);
     }
 }

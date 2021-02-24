@@ -2,7 +2,6 @@ package com.github.franckyi.ibeeditor.impl;
 
 import com.github.franckyi.gamehooks.impl.ForgeClientHooks;
 import com.github.franckyi.gamehooks.impl.ForgeCommonHooks;
-import com.github.franckyi.gamehooks.impl.ForgeServerHooks;
 import com.github.franckyi.gamehooks.impl.client.ForgeScreen;
 import com.github.franckyi.guapi.impl.ForgeScreenHandler;
 import com.github.franckyi.guapi.impl.theme.vanilla.*;
@@ -17,7 +16,6 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLDedicatedServerSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 @Mod("ibeeditor")
@@ -25,7 +23,6 @@ public final class IBEEditorForgeMod {
     public IBEEditorForgeMod() {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onCommonInit);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onClientInit);
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onServerInit);
     }
 
     private void onCommonInit(FMLCommonSetupEvent event) {
@@ -42,10 +39,6 @@ public final class IBEEditorForgeMod {
         VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(NodeType.TREE_VIEW, ForgeVanillaTreeViewRenderer::new);
         MinecraftForge.EVENT_BUS.addListener(this::onClientTick);
         MinecraftForge.EVENT_BUS.addListener(this::onKeyPressed);
-    }
-
-    private void onServerInit(FMLDedicatedServerSetupEvent event) {
-        IBEEditor.initServer(ForgeServerHooks.INSTANCE);
     }
 
     private void onClientTick(TickEvent.ClientTickEvent e) {

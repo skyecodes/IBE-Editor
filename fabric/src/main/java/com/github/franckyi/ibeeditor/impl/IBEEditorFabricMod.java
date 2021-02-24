@@ -2,7 +2,6 @@ package com.github.franckyi.ibeeditor.impl;
 
 import com.github.franckyi.gamehooks.impl.FabricClientHooks;
 import com.github.franckyi.gamehooks.impl.FabricCommonHooks;
-import com.github.franckyi.gamehooks.impl.FabricServerHooks;
 import com.github.franckyi.gamehooks.impl.client.FabricScreen;
 import com.github.franckyi.guapi.impl.FabricScreenHandler;
 import com.github.franckyi.guapi.impl.theme.vanilla.*;
@@ -10,7 +9,6 @@ import com.github.franckyi.guapi.util.NodeType;
 import com.github.franckyi.ibeeditor.impl.client.IBEEditorClient;
 import com.github.franckyi.ibeeditor.impl.common.IBEEditor;
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.api.DedicatedServerModInitializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
@@ -19,7 +17,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 
-public final class IBEEditorFabricMod implements ModInitializer, ClientModInitializer, DedicatedServerModInitializer {
+public final class IBEEditorFabricMod implements ModInitializer, ClientModInitializer {
     @Override
     public void onInitialize() {
         IBEEditor.initCommon(FabricCommonHooks.INSTANCE);
@@ -46,10 +44,5 @@ public final class IBEEditorFabricMod implements ModInitializer, ClientModInitia
 
     private void handledScreenKeyPressed(Screen screen0, int key, int scancode, int modifiers) {
         IBEEditorClient.handleScreenEvent(new FabricScreen(screen0), key);
-    }
-
-    @Override
-    public void onInitializeServer() {
-        IBEEditor.initServer(FabricServerHooks.INSTANCE);
     }
 }
