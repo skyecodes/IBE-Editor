@@ -36,7 +36,7 @@ public final class FabricNetwork implements Network<ServerPlayerEntity> {
     public <P extends Packet> void registerServerHandler(String id, int id1, Class<P> msgClass, Function<Buffer, P> reader, ServerPacketHandler<P> handler) {
         ServerPlayNetworking.registerGlobalReceiver(new Identifier(id), (server, entity, networkHandler, buf, sender) -> {
             P packet = reader.apply(new FabricBuffer(buf));
-            server.execute(() -> handler.accept(packet, new FabricServerPlayer(entity)));
+            server.execute(() -> handler.accept(packet, new FabricPlayer(entity)));
         });
     }
 

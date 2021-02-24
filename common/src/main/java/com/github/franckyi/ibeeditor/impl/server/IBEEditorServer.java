@@ -1,7 +1,7 @@
 package com.github.franckyi.ibeeditor.impl.server;
 
 import com.github.franckyi.gamehooks.GameHooks;
-import com.github.franckyi.gamehooks.api.common.ServerPlayer;
+import com.github.franckyi.gamehooks.api.common.Player;
 import com.github.franckyi.gamehooks.util.common.text.Text;
 import com.github.franckyi.gamehooks.util.common.text.TextFormatting;
 import com.mojang.brigadier.Command;
@@ -38,43 +38,43 @@ public final class IBEEditorServer {
         );
     }
 
-    public static void notifyClient(ServerPlayer player) {
+    public static void notifyClient(Player player) {
         ServerNetwork.notifyClient(player);
     }
 
-    public static void removeAllowedPlayer(ServerPlayer player) {
+    public static void removeAllowedPlayer(Player player) {
         allowedPlayers.remove(player.getProfileId());
     }
 
-    public static void addAllowedPlayer(ServerPlayer player) {
+    public static void addAllowedPlayer(Player player) {
         allowedPlayers.add(player.getProfileId());
     }
 
-    public static boolean isPlayerAllowed(ServerPlayer player) {
+    public static boolean isPlayerAllowed(Player player) {
         return allowedPlayers.contains(player.getProfileId());
     }
 
-    private static int triggerOpenWorldEditor(ServerPlayer player, boolean nbt) {
+    private static int triggerOpenWorldEditor(Player player, boolean nbt) {
         return triggerOpenEditor(player, nbt, ServerNetwork::triggerOpenWorldEditor);
     }
 
-    private static int triggerOpenItemEditor(ServerPlayer player, boolean nbt) {
+    private static int triggerOpenItemEditor(Player player, boolean nbt) {
         return triggerOpenEditor(player, nbt, ServerNetwork::triggerOpenItemEditor);
     }
 
-    private static int triggerOpenBlockEditor(ServerPlayer player, boolean nbt) {
+    private static int triggerOpenBlockEditor(Player player, boolean nbt) {
         return triggerOpenEditor(player, nbt, ServerNetwork::triggerOpenBlockEditor);
     }
 
-    private static int triggerOpenEntityEditor(ServerPlayer player, boolean nbt) {
+    private static int triggerOpenEntityEditor(Player player, boolean nbt) {
         return triggerOpenEditor(player, nbt, ServerNetwork::triggerOpenEntityEditor);
     }
 
-    private static int triggerOpenSelfEditor(ServerPlayer player, boolean nbt) {
+    private static int triggerOpenSelfEditor(Player player, boolean nbt) {
         return triggerOpenEditor(player, nbt, ServerNetwork::triggerOpenSelfEditor);
     }
 
-    private static int triggerOpenEditor(ServerPlayer player, boolean nbt, BiConsumer<ServerPlayer, Boolean> action) {
+    private static int triggerOpenEditor(Player player, boolean nbt, BiConsumer<Player, Boolean> action) {
         if (isPlayerAllowed(player)) {
             action.accept(player, nbt);
             return 0;
@@ -85,7 +85,7 @@ public final class IBEEditorServer {
     }
 
     @SuppressWarnings("unchecked")
-    private static <S> Command<S> command(Function<ServerPlayer, Integer> command) {
+    private static <S> Command<S> command(Function<Player, Integer> command) {
         return (Command<S>) GameHooks.common().command(command);
     }
 }

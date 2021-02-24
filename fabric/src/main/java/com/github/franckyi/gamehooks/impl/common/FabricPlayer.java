@@ -1,17 +1,20 @@
 package com.github.franckyi.gamehooks.impl.common;
 
-import com.github.franckyi.gamehooks.api.common.Entity;
 import com.github.franckyi.gamehooks.api.common.Item;
 import com.github.franckyi.gamehooks.api.common.Player;
+import com.github.franckyi.gamehooks.api.common.World;
 import com.github.franckyi.gamehooks.util.common.text.Text;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Hand;
 
-public class FabricPlayer implements Player {
+import java.util.UUID;
+
+public class FabricPlayer extends FabricWorldEntity implements Player {
     private final PlayerEntity entity;
-    private Entity playerEntity;
 
     public FabricPlayer(PlayerEntity entity) {
+        super(entity);
         this.entity = entity;
     }
 
@@ -22,8 +25,23 @@ public class FabricPlayer implements Player {
     }
 
     @Override
-    public int getEntityId() {
-        return entity.getEntityId();
+    public void setItemMainHand(Item item) {
+        entity.setStackInHand(Hand.MAIN_HAND, item.getStack());
+    }
+
+    @Override
+    public void setInventoryItem(int slotId, Item item) {
+        entity.inventory.setStack(slotId, item.getStack());
+    }
+
+    @Override
+    public World getWorld() {
+        return new FabricWorld(entity.getEntityWorld());
+    }
+
+    @Override
+    public UUID getProfileId() {
+        return entity.getGameProfile().getId();
     }
 
     @Override
@@ -32,10 +50,8 @@ public class FabricPlayer implements Player {
     }
 
     @Override
-    public Entity getPlayerEntity() {
-        if (playerEntity == null) {
-            playerEntity = new FabricEntity(entity);
-        }
-        return playerEntity;
+    @SuppressWarnings("unchecked")
+    public PlayerEntity getPlayerEntity() {
+        return entity;
     }
 }

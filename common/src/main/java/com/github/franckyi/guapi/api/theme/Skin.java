@@ -15,7 +15,7 @@ public interface Skin<N extends Node> extends EventTarget {
 
     default <M> void postRender(N node, M matrices, int mouseX, int mouseY, float delta) {
         if (node.tooltipProperty().hasValue() && node.isHovered() && !node.isDisabled()) {
-            GameHooks.client().renderer().drawTooltip(matrices, node.getTooltip(), mouseX, mouseY);
+            GameHooks.client().getRenderer().drawTooltip(matrices, node.getTooltip(), mouseX, mouseY);
         }
     }
 

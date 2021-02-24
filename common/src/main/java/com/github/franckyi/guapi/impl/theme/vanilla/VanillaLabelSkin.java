@@ -20,7 +20,7 @@ public class VanillaLabelSkin extends AbstractSkin<Label> {
     }
 
     protected <M, T> void renderText(Label node, M matrices, int mouseX, int mouseY, float delta) {
-        Renderer<M, T> renderer = GameHooks.client().renderer();
+        Renderer<M, T> renderer = GameHooks.client().getRenderer();
         T text = node.getLabelComponent();
         int x = Align.getAlignedX(node.getTextAlign().getHorizontalAlign(), node, renderer.getFontWidth(text));
         int y = Align.getAlignedY(node.getTextAlign().getVerticalAlign(), node, renderer.getFontHeight(text));
@@ -29,11 +29,11 @@ public class VanillaLabelSkin extends AbstractSkin<Label> {
 
     @Override
     public int computeWidth(Label node) {
-        return GameHooks.client().renderer().getFontWidth(node.getLabelComponent());
+        return GameHooks.client().getRenderer().getFontWidth(node.getLabelComponent());
     }
 
     @Override
     public int computeHeight(Label node) {
-        return GameHooks.client().renderer().getFontHeight(node.getLabelComponent()) - 1;
+        return GameHooks.client().getRenderer().getFontHeight(node.getLabelComponent()) - 1;
     }
 }

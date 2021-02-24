@@ -55,7 +55,7 @@ public final class ForgeCommonHooks implements CommonHooks {
     }
 
     @Override
-    public Command<CommandSource> command(Function<ServerPlayer, Integer> command) {
-        return ctx -> command.apply(new ForgeServerPlayer(ctx.getSource().asPlayer()));
+    public Command<CommandSource> command(Function<Player, Integer> command) {
+        return ctx -> command.apply(new ForgePlayer(ctx.getSource().asPlayer()));
     }
 }

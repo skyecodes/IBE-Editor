@@ -22,5 +22,5 @@ public interface CommonHooks {
 
     Path gameDir();
 
-    Command<?> command(Function<ServerPlayer, Integer> command);
+    Command<?> command(Function<Player, Integer> command);
 }

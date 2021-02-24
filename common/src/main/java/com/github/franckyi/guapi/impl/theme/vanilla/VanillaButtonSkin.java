@@ -12,7 +12,7 @@ public class VanillaButtonSkin extends DelegatedSkin<Button> {
 
     @Override
     public int computeWidth(Button node) {
-        return Math.max(90, GameHooks.client().renderer().getFontWidth(node.getLabelComponent()) + 20);
+        return Math.max(90, GameHooks.client().getRenderer().getFontWidth(node.getLabelComponent()) + 20);
     }
 
     @Override

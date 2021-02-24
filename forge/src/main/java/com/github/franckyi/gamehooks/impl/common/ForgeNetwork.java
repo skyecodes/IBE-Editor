@@ -45,7 +45,7 @@ public final class ForgeNetwork implements Network<ServerPlayerEntity> {
         channel.messageBuilder(msgClass, id1)
                 .decoder(buffer -> reader.apply(new ForgeBuffer(buffer)))
                 .encoder((p, buffer) -> p.write(new ForgeBuffer(buffer)))
-                .consumer((BiConsumer<P, Supplier<NetworkEvent.Context>>) (msg, ctx) -> ctx.get().enqueueWork(() -> handler.accept(msg, new ForgeServerPlayer(ctx.get().getSender()))))
+                .consumer((BiConsumer<P, Supplier<NetworkEvent.Context>>) (msg, ctx) -> ctx.get().enqueueWork(() -> handler.accept(msg, new ForgePlayer(ctx.get().getSender()))))
                 .add();
     }
 

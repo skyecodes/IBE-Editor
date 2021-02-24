@@ -5,10 +5,10 @@ import com.github.franckyi.gamehooks.util.common.tag.ObjectTag;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.tileentity.TileEntity;
 
-public class ForgeServerWorld implements ServerWorld {
-    private final net.minecraft.world.server.ServerWorld world;
+public class ForgeWorld implements World {
+    private final net.minecraft.world.World world;
 
-    public ForgeServerWorld(net.minecraft.world.server.ServerWorld world) {
+    public ForgeWorld(net.minecraft.world.World world) {
         this.world = world;
     }
 
@@ -21,8 +21,8 @@ public class ForgeServerWorld implements ServerWorld {
     }
 
     @Override
-    public Block getBlock(Pos pos) {
-        return new ForgeBlock(world.getTileEntity(pos.getPos()));
+    public WorldBlock getBlock(Pos pos) {
+        return new ForgeWorldBlock(pos, world.getTileEntity(pos.getPos()));
     }
 
     @Override
@@ -34,8 +34,8 @@ public class ForgeServerWorld implements ServerWorld {
     }
 
     @Override
-    public Entity getEntity(int entityId) {
-        return new ForgeEntity(world.getEntityByID(entityId));
+    public WorldEntity getEntity(int entityId) {
+        return new ForgeWorldEntity(world.getEntityByID(entityId));
     }
 
     @Override

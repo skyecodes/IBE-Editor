@@ -5,11 +5,15 @@ import com.github.franckyi.gamehooks.api.client.KeyBinding;
 import com.github.franckyi.gamehooks.api.client.Renderer;
 import com.github.franckyi.gamehooks.api.client.ScreenScaling;
 import com.github.franckyi.gamehooks.api.common.Player;
-import com.github.franckyi.gamehooks.api.common.Pos;
+import com.github.franckyi.gamehooks.api.common.World;
+import com.github.franckyi.gamehooks.api.common.WorldBlock;
+import com.github.franckyi.gamehooks.api.common.WorldEntity;
 import com.github.franckyi.gamehooks.impl.client.FabricRenderer;
 import com.github.franckyi.gamehooks.impl.client.FabricScreenScaling;
 import com.github.franckyi.gamehooks.impl.common.FabricPlayer;
 import com.github.franckyi.gamehooks.impl.common.FabricPos;
+import com.github.franckyi.gamehooks.impl.common.FabricWorld;
+import com.github.franckyi.gamehooks.impl.common.FabricWorldEntity;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.hit.BlockHitResult;
@@ -18,7 +22,6 @@ import net.minecraft.util.hit.HitResult;
 
 public final class FabricClientHooks implements ClientHooks {
     public static final ClientHooks INSTANCE = new FabricClientHooks();
-    private Player playerInstance;
 
     private FabricClientHooks() {
     }
@@ -29,12 +32,12 @@ public final class FabricClientHooks implements ClientHooks {
 
     @Override
     @SuppressWarnings("unchecked")
-    public Renderer<?, ?> renderer() {
+    public Renderer<?, ?> getRenderer() {
         return FabricRenderer.INSTANCE;
     }
 
     @Override
-    public ScreenScaling screen() {
+    public ScreenScaling getScreenScaling() {
         return FabricScreenScaling.INSTANCE;
     }
 
@@ -56,29 +59,31 @@ public final class FabricClientHooks implements ClientHooks {
     }
 
     @Override
-    public Player player() {
-        if (playerInstance == null) {
-            playerInstance = new FabricPlayer(mc().player);
-        }
-        return playerInstance;
+    public Player getPlayer() {
+        return new FabricPlayer(mc().player);
     }
 
     @Override
-    public int entityIdMouseOver() {
+    public World getWorld() {
+        return new FabricWorld(mc().world);
+    }
+
+    @Override
+    public WorldEntity getEntityMouseOver() {
         HitResult result = mc().crosshairTarget;
         if (result instanceof EntityHitResult) {
-            return ((EntityHitResult) result).getEntity().getEntityId();
+            return new FabricWorldEntity(((EntityHitResult) result).getEntity());
         }
-        return -1;
+        return null;
     }
 
     @Override
-    public Pos blockPosMouseOver() {
+    public WorldBlock getBlockMouseOver() {
         HitResult result = mc().crosshairTarget;
         if (result instanceof BlockHitResult) {
             BlockHitResult res = (BlockHitResult) result;
             if (!mc().world.isAir(res.getBlockPos())) {
-                return new FabricPos(res.getBlockPos());
+                return getWorld().getBlock(new FabricPos(res.getBlockPos()));
             }
         }
         return null;

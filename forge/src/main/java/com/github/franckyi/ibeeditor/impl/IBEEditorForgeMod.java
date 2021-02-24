@@ -3,7 +3,7 @@ package com.github.franckyi.ibeeditor.impl;
 import com.github.franckyi.gamehooks.impl.ForgeClientHooks;
 import com.github.franckyi.gamehooks.impl.ForgeCommonHooks;
 import com.github.franckyi.gamehooks.impl.client.ForgeScreen;
-import com.github.franckyi.gamehooks.impl.common.ForgeServerPlayer;
+import com.github.franckyi.gamehooks.impl.common.ForgePlayer;
 import com.github.franckyi.guapi.impl.ForgeScreenHandler;
 import com.github.franckyi.guapi.impl.theme.vanilla.*;
 import com.github.franckyi.guapi.util.NodeType;
@@ -12,7 +12,6 @@ import com.github.franckyi.ibeeditor.impl.common.IBEEditorCommon;
 import com.github.franckyi.ibeeditor.impl.server.IBEEditorServer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
-import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
@@ -68,11 +67,11 @@ public final class IBEEditorForgeMod {
     }
 
     private void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
-        IBEEditorServer.notifyClient(new ForgeServerPlayer((ServerPlayerEntity) event.getPlayer()));
+        IBEEditorServer.notifyClient(new ForgePlayer(event.getPlayer()));
     }
 
     private void onPlayerLoggedOut(PlayerEvent.PlayerLoggedOutEvent event) {
-        IBEEditorServer.removeAllowedPlayer(new ForgeServerPlayer((ServerPlayerEntity) event.getPlayer()));
+        IBEEditorServer.removeAllowedPlayer(new ForgePlayer(event.getPlayer()));
     }
 
     private void onWorldUnload(WorldEvent.Unload event) {

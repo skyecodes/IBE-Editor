@@ -55,7 +55,7 @@ public final class FabricCommonHooks implements CommonHooks {
     }
 
     @Override
-    public Command<ServerCommandSource> command(Function<ServerPlayer, Integer> command) {
-        return ctx -> command.apply(new FabricServerPlayer(ctx.getSource().getPlayer()));
+    public Command<ServerCommandSource> command(Function<Player, Integer> command) {
+        return ctx -> command.apply(new FabricPlayer(ctx.getSource().getPlayer()));
     }
 }

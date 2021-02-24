@@ -25,20 +25,20 @@ public final class ClientNetwork {
         network().sendToServer(IBEEditorNetwork.UPDATE_PLAYER_INVENTORY_ITEM, new UpdatePlayerInventoryItemPacket(item, slotId));
     }
 
-    public static void updateBlockInventoryItem(Item item, int slotId, Pos pos) {
-        network().sendToServer(IBEEditorNetwork.UPDATE_BLOCK_INVENTORY_ITEM, new UpdateBlockInventoryItemPacket(item, slotId, pos));
+    public static void updateBlockInventoryItem(Item item, int slotId, Pos blockPos) {
+        network().sendToServer(IBEEditorNetwork.UPDATE_BLOCK_INVENTORY_ITEM, new UpdateBlockInventoryItemPacket(item, slotId, blockPos));
     }
 
-    public static void updateBlock(Pos pos, ObjectTag tag) {
-        network().sendToServer(IBEEditorNetwork.UPDATE_BLOCK, new UpdateBlockPacket(pos, tag));
+    public static void updateBlock(Pos blockPos, ObjectTag tag) {
+        network().sendToServer(IBEEditorNetwork.UPDATE_BLOCK, new UpdateBlockPacket(blockPos, tag));
     }
 
     public static void updateEntity(int entityId, ObjectTag tag) {
         network().sendToServer(IBEEditorNetwork.UPDATE_ENTITY, new UpdateEntityPacket(entityId, tag));
     }
 
-    public static void requestOpenBlockEditor(Pos pos, boolean nbt) {
-        network().sendToServer(IBEEditorNetwork.OPEN_BLOCK_EDITOR_REQUEST, new OpenBlockEditorRequestPacket(pos, nbt));
+    public static void requestOpenBlockEditor(Pos blockPos, boolean nbt) {
+        network().sendToServer(IBEEditorNetwork.OPEN_BLOCK_EDITOR_REQUEST, new OpenBlockEditorRequestPacket(blockPos, nbt));
     }
 
     public static void requestOpenEntityEditor(int entityId, boolean nbt) {

@@ -5,10 +5,10 @@ import com.github.franckyi.gamehooks.util.common.tag.ObjectTag;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.inventory.Inventory;
 
-public class FabricServerWorld implements ServerWorld {
-    private final net.minecraft.server.world.ServerWorld world;
+public class FabricWorld implements World {
+    private final net.minecraft.world.World world;
 
-    public FabricServerWorld(net.minecraft.server.world.ServerWorld world) {
+    public FabricWorld(net.minecraft.world.World world) {
         this.world = world;
     }
 
@@ -21,8 +21,8 @@ public class FabricServerWorld implements ServerWorld {
     }
 
     @Override
-    public Block getBlock(Pos pos) {
-        return new FabricBlock(world.getBlockEntity(pos.getPos()));
+    public WorldBlock getBlock(Pos pos) {
+        return new FabricWorldBlock(pos, world.getBlockEntity(pos.getPos()));
     }
 
     @Override
@@ -34,8 +34,8 @@ public class FabricServerWorld implements ServerWorld {
     }
 
     @Override
-    public Entity getEntity(int entityId) {
-        return new FabricEntity(world.getEntityById(entityId));
+    public WorldEntity getEntity(int entityId) {
+        return new FabricWorldEntity(world.getEntityById(entityId));
     }
 
     @Override

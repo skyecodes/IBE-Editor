@@ -30,12 +30,12 @@ public abstract class AbstractSkin<N extends Node> implements Skin<N> {
     }
 
     protected void renderDebug(N node, Object matrices) {
-        GameHooks.client().renderer().drawRectangle(matrices, node.getLeft(), node.getTop(),
+        GameHooks.client().getRenderer().drawRectangle(matrices, node.getLeft(), node.getTop(),
                 node.getRight(), node.getBottom(), debugColor);
     }
 
     protected void renderBackground(N node, Object matrices) {
-        GameHooks.client().renderer().fillRectangle(matrices, node.getLeft(), node.getTop(),
+        GameHooks.client().getRenderer().fillRectangle(matrices, node.getLeft(), node.getTop(),
                 node.getRight(), node.getBottom(), node.getBackgroundColor());
     }
 }

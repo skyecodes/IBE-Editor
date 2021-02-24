@@ -39,11 +39,11 @@ public final class EditorHandler {
 
     private static SceneBuilder editorScene(Node root) {
         return scene(root, true, true).show(scene -> {
-            GameHooks.client().screen().setBaseScale(IBEEditorConfiguration.INSTANCE.getEditorScale());
-            scene.widthProperty().addListener(GameHooks.client().screen()::refresh);
-            scene.heightProperty().addListener(GameHooks.client().screen()::refresh);
+            GameHooks.client().getScreenScaling().setBaseScale(IBEEditorConfiguration.INSTANCE.getEditorScale());
+            scene.widthProperty().addListener(GameHooks.client().getScreenScaling()::refresh);
+            scene.heightProperty().addListener(GameHooks.client().getScreenScaling()::refresh);
         }).hide(scene -> {
-            IBEEditorConfiguration.INSTANCE.setEditorScale(GameHooks.client().screen().getScaleAndReset());
+            IBEEditorConfiguration.INSTANCE.setEditorScale(GameHooks.client().getScreenScaling().getScaleAndReset());
             IBEEditorConfiguration.save();
         });
     }

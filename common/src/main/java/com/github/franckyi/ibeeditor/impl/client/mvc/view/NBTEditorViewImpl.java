@@ -58,10 +58,10 @@ public class NBTEditorViewImpl implements NBTEditorView {
                     }));
                     buttons.add(createButton("ibeeditor:textures/gui/scroll_focused.png", "Scroll to focused").action(() -> tagTree.setScrollTo(getTagTree().getFocusedElement())));
                     buttons.add(hBox(zoomBox -> {
-                        zoomBox.add(zoomResetButton = createButton("ibeeditor:textures/gui/zoom_reset.png", "Reset Zoom").action(GameHooks.client().screen()::restoreScale));
-                        zoomBox.add(zoomOutButton = createButton("ibeeditor:textures/gui/zoom_out.png", "Zoom Out").action(GameHooks.client().screen()::scaleDown));
+                        zoomBox.add(zoomResetButton = createButton("ibeeditor:textures/gui/zoom_reset.png", "Reset Zoom").action(GameHooks.client().getScreenScaling()::restoreScale));
+                        zoomBox.add(zoomOutButton = createButton("ibeeditor:textures/gui/zoom_out.png", "Zoom Out").action(GameHooks.client().getScreenScaling()::scaleDown));
                         zoomBox.add(zoomLabel = label().prefWidth(25).textAlign(CENTER).padding(0, 3));
-                        zoomBox.add(zoomInButton = createButton("ibeeditor:textures/gui/zoom_in.png", "Zoom In").action(GameHooks.client().screen()::scaleUp));
+                        zoomBox.add(zoomInButton = createButton("ibeeditor:textures/gui/zoom_in.png", "Zoom In").action(GameHooks.client().getScreenScaling()::scaleUp));
                         zoomBox.fillHeight().spacing(2);
                     }));
                     buttons.spacing(20).prefHeight(16);
@@ -100,8 +100,8 @@ public class NBTEditorViewImpl implements NBTEditorView {
                 addButton.setImageY(0);
             }
         });
-        GameHooks.client().screen().scaleProperty().addListener(this::onZoomUpdated);
-        zoomResetButton.disableProperty().bind(GameHooks.client().screen().canScaleBeResetProperty().not());
+        GameHooks.client().getScreenScaling().scaleProperty().addListener(this::onZoomUpdated);
+        zoomResetButton.disableProperty().bind(GameHooks.client().getScreenScaling().canScaleBeResetProperty().not());
         onZoomUpdated();
     }
 
@@ -216,8 +216,8 @@ public class NBTEditorViewImpl implements NBTEditorView {
     }
 
     private void onZoomUpdated() {
-        zoomOutButton.setDisable(!GameHooks.client().screen().canScaleDown());
-        zoomLabel.setLabel(text(GameHooks.client().screen().getScale() == 0 ? "Auto" : Integer.toString(GameHooks.client().screen().getScale())));
-        zoomInButton.setDisable(!GameHooks.client().screen().canScaleUp());
+        zoomOutButton.setDisable(!GameHooks.client().getScreenScaling().canScaleDown());
+        zoomLabel.setLabel(text(GameHooks.client().getScreenScaling().getScale() == 0 ? "Auto" : Integer.toString(GameHooks.client().getScreenScaling().getScale())));
+        zoomInButton.setDisable(!GameHooks.client().getScreenScaling().canScaleUp());
     }
 }

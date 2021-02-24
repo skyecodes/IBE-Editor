@@ -2,14 +2,14 @@ package com.github.franckyi.gamehooks.api.common;
 
 import com.github.franckyi.gamehooks.util.common.tag.ObjectTag;
 
-public interface ServerWorld {
+public interface World {
     void setBlockInventoryItem(Pos pos, int slotId, Item item);
 
-    Block getBlock(Pos pos);
+    WorldBlock getBlock(Pos pos);
 
     void setBlockData(Pos pos, ObjectTag tag);
 
-    Entity getEntity(int entityId);
+    WorldEntity getEntity(int entityId);
 
     void setEntityData(int entityId, ObjectTag tag);
 }

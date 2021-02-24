@@ -67,25 +67,25 @@ public final class IBEEditorClient {
     }
 
     public static boolean tryOpenEntityEditor(boolean nbt) {
-        int entityId = GameHooks.client().entityIdMouseOver();
-        if (entityId != -1) {
-            requestOpenEntityEditor(entityId, nbt);
+        WorldEntity entity = GameHooks.client().getEntityMouseOver();
+        if (entity != null) {
+            requestOpenEntityEditor(entity.getEntityId(), nbt);
             return true;
         }
         return false;
     }
 
     public static boolean tryOpenBlockEditor(boolean nbt) {
-        Pos blockPos = GameHooks.client().blockPosMouseOver();
-        if (blockPos != null) {
-            requestOpenBlockEditor(blockPos, nbt);
+        WorldBlock block = GameHooks.client().getBlockMouseOver();
+        if (block != null) {
+            requestOpenBlockEditor(block.getPos(), nbt);
             return true;
         }
         return false;
     }
 
     public static boolean tryOpenItemEditor(boolean nbt) {
-        Item item = GameHooks.client().player().getItemMainHand();
+        Item item = GameHooks.client().getPlayer().getItemMainHand();
         if (item != null) {
             openItemEditor(item, nbt, IBEEditorClient::updatePlayerMainHandItem);
             return true;
@@ -104,9 +104,9 @@ public final class IBEEditorClient {
                 if (slot.isInPlayerInventory()) {
                     openItemEditor(slot.getStack(), keyCode == nbtEditorKey.getKeyCode(), item -> updatePlayerInventoryItem(item, slot.getIndex()));
                 } else {
-                    Pos blockPos = GameHooks.client().blockPosMouseOver();
-                    if (blockPos != null) {
-                        openItemEditor(slot.getStack(), keyCode == nbtEditorKey.getKeyCode(), item -> updateBlockInventoryItem(item, slot.getIndex(), blockPos));
+                    WorldBlock block = GameHooks.client().getBlockMouseOver();
+                    if (block != null) {
+                        openItemEditor(slot.getStack(), keyCode == nbtEditorKey.getKeyCode(), item -> updateBlockInventoryItem(item, slot.getIndex(), block.getPos()));
                     }
                 }
             }
@@ -121,13 +121,13 @@ public final class IBEEditorClient {
         }
     }
 
-    public static void requestOpenBlockEditor(Pos block, boolean nbt) {
-        ClientNetwork.requestOpenBlockEditor(block, nbt);
+    public static void requestOpenBlockEditor(Pos blockPos, boolean nbt) {
+        ClientNetwork.requestOpenBlockEditor(blockPos, nbt);
     }
 
-    public static void openBlockEditor(Block block, Pos pos, boolean nbt) {
+    public static void openBlockEditor(Block block, Pos blockPos, boolean nbt) {
         if (nbt) {
-            EditorHandler.showNBTEditor(block.getTag(), tag -> updateBlock(pos, tag));
+            EditorHandler.showNBTEditor(block.getTag(), tag -> updateBlock(blockPos, tag));
         } else {
             //EditorHandler.showBlockEditor(block);
         }
@@ -146,36 +146,36 @@ public final class IBEEditorClient {
     }
 
     public static void requestOpenSelfEditor(boolean nbt) {
-        requestOpenEntityEditor(GameHooks.client().player().getEntityId(), nbt);
+        requestOpenEntityEditor(GameHooks.client().getPlayer().getEntityId(), nbt);
     }
 
     private static void updatePlayerMainHandItem(Item item) {
         ClientNetwork.updatePlayerMainHandItem(item);
-        GameHooks.client().player().sendMessage(text("Item updated!", GREEN));
+        GameHooks.client().getPlayer().sendMessage(text("Item updated!", GREEN));
         GUAPI.getScreenHandler().hideScene();
     }
 
     private static void updatePlayerInventoryItem(Item item, int slotId) {
         ClientNetwork.updatePlayerInventoryItem(item, slotId);
-        GameHooks.client().player().sendMessage(text("Item updated!", GREEN));
+        GameHooks.client().getPlayer().sendMessage(text("Item updated!", GREEN));
         GUAPI.getScreenHandler().hideScene();
     }
 
-    private static void updateBlockInventoryItem(Item item, int slotId, Pos pos) {
-        ClientNetwork.updateBlockInventoryItem(item, slotId, pos);
-        GameHooks.client().player().sendMessage(text("Item updated!", GREEN));
+    private static void updateBlockInventoryItem(Item item, int slotId, Pos blockPos) {
+        ClientNetwork.updateBlockInventoryItem(item, slotId, blockPos);
+        GameHooks.client().getPlayer().sendMessage(text("Item updated!", GREEN));
         GUAPI.getScreenHandler().hideScene();
     }
 
-    private static void updateBlock(Pos pos, ObjectTag tag) {
-        ClientNetwork.updateBlock(pos, tag);
-        GameHooks.client().player().sendMessage(text("Block updated!", GREEN));
+    private static void updateBlock(Pos blockPos, ObjectTag tag) {
+        ClientNetwork.updateBlock(blockPos, tag);
+        GameHooks.client().getPlayer().sendMessage(text("Block updated!", GREEN));
         GUAPI.getScreenHandler().hideScene();
     }
 
     private static void updateEntity(int entityId, ObjectTag tag) {
         ClientNetwork.updateEntity(entityId, tag);
-        GameHooks.client().player().sendMessage(text("Entity updated!", GREEN));
+        GameHooks.client().getPlayer().sendMessage(text("Entity updated!", GREEN));
         GUAPI.getScreenHandler().hideScene();
     }
 }

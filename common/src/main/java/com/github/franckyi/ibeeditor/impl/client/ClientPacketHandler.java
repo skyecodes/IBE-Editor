@@ -13,7 +13,7 @@ public final class ClientPacketHandler {
         if (packet.getBlock().getTag() != null) {
             IBEEditorClient.openBlockEditor(packet.getBlock(), packet.getPos(), packet.isNBT());
         } else {
-            GameHooks.client().player().sendMessage(Text.literal("No Block data found", TextFormatting.RED));
+            GameHooks.client().getPlayer().sendMessage(Text.literal("No Block data found", TextFormatting.RED));
         }
     }
 
@@ -21,7 +21,7 @@ public final class ClientPacketHandler {
         if (packet.getEntity().getTag() != null) {
             IBEEditorClient.openEntityEditor(packet.getEntity(), packet.getEntityId(), packet.isNBT());
         } else {
-            GameHooks.client().player().sendMessage(Text.literal("No Entity found", TextFormatting.RED));
+            GameHooks.client().getPlayer().sendMessage(Text.literal("No Entity found", TextFormatting.RED));
         }
     }
 
@@ -37,17 +37,17 @@ public final class ClientPacketHandler {
                 break;
             case TriggerOpenEditorPacket.ITEM:
                 if (!IBEEditorClient.tryOpenItemEditor(packet.isNBT())) {
-                    GameHooks.client().player().sendMessage(Text.literal("No Item found", TextFormatting.RED));
+                    GameHooks.client().getPlayer().sendMessage(Text.literal("No Item found", TextFormatting.RED));
                 }
                 break;
             case TriggerOpenEditorPacket.BLOCK:
                 if (!IBEEditorClient.tryOpenBlockEditor(packet.isNBT())) {
-                    GameHooks.client().player().sendMessage(Text.literal("No Block data found", TextFormatting.RED));
+                    GameHooks.client().getPlayer().sendMessage(Text.literal("No Block data found", TextFormatting.RED));
                 }
                 break;
             case TriggerOpenEditorPacket.ENTITY:
                 if (!IBEEditorClient.tryOpenEntityEditor(packet.isNBT())) {
-                    GameHooks.client().player().sendMessage(Text.literal("No Entity found", TextFormatting.RED));
+                    GameHooks.client().getPlayer().sendMessage(Text.literal("No Entity found", TextFormatting.RED));
                 }
                 break;
             case TriggerOpenEditorPacket.SELF:

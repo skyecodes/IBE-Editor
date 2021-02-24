@@ -5,11 +5,15 @@ import com.github.franckyi.gamehooks.api.client.KeyBinding;
 import com.github.franckyi.gamehooks.api.client.Renderer;
 import com.github.franckyi.gamehooks.api.client.ScreenScaling;
 import com.github.franckyi.gamehooks.api.common.Player;
-import com.github.franckyi.gamehooks.api.common.Pos;
+import com.github.franckyi.gamehooks.api.common.World;
+import com.github.franckyi.gamehooks.api.common.WorldBlock;
+import com.github.franckyi.gamehooks.api.common.WorldEntity;
 import com.github.franckyi.gamehooks.impl.client.ForgeRenderer;
 import com.github.franckyi.gamehooks.impl.client.ForgeScreenScaling;
 import com.github.franckyi.gamehooks.impl.common.ForgePlayer;
 import com.github.franckyi.gamehooks.impl.common.ForgePos;
+import com.github.franckyi.gamehooks.impl.common.ForgeWorld;
+import com.github.franckyi.gamehooks.impl.common.ForgeWorldEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.EntityRayTraceResult;
@@ -18,7 +22,6 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
 
 public final class ForgeClientHooks implements ClientHooks {
     public static final ClientHooks INSTANCE = new ForgeClientHooks();
-    private Player playerInstance;
 
     private ForgeClientHooks() {
     }
@@ -29,12 +32,12 @@ public final class ForgeClientHooks implements ClientHooks {
 
     @Override
     @SuppressWarnings("unchecked")
-    public Renderer<?, ?> renderer() {
+    public Renderer<?, ?> getRenderer() {
         return ForgeRenderer.INSTANCE;
     }
 
     @Override
-    public ScreenScaling screen() {
+    public ScreenScaling getScreenScaling() {
         return ForgeScreenScaling.INSTANCE;
     }
 
@@ -56,29 +59,31 @@ public final class ForgeClientHooks implements ClientHooks {
     }
 
     @Override
-    public Player player() {
-        if (playerInstance == null) {
-            playerInstance = new ForgePlayer(mc().player);
-        }
-        return playerInstance;
+    public Player getPlayer() {
+        return new ForgePlayer(mc().player);
     }
 
     @Override
-    public int entityIdMouseOver() {
+    public World getWorld() {
+        return new ForgeWorld(mc().world);
+    }
+
+    @Override
+    public WorldEntity getEntityMouseOver() {
         RayTraceResult result = mc().objectMouseOver;
         if (result instanceof EntityRayTraceResult) {
-            return ((EntityRayTraceResult) result).getEntity().getEntityId();
+            return new ForgeWorldEntity(((EntityRayTraceResult) result).getEntity());
         }
-        return -1;
+        return null;
     }
 
     @Override
-    public Pos blockPosMouseOver() {
+    public WorldBlock getBlockMouseOver() {
         RayTraceResult result = mc().objectMouseOver;
         if (result instanceof BlockRayTraceResult) {
             BlockRayTraceResult res = (BlockRayTraceResult) result;
             if (!mc().world.isAirBlock(res.getPos())) {
-                return new ForgePos(res.getPos());
+                return getWorld().getBlock(new ForgePos(res.getPos()));
             }
         }
         return null;

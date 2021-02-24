@@ -4,20 +4,24 @@ import com.github.franckyi.gamehooks.api.client.KeyBinding;
 import com.github.franckyi.gamehooks.api.client.Renderer;
 import com.github.franckyi.gamehooks.api.client.ScreenScaling;
 import com.github.franckyi.gamehooks.api.common.Player;
-import com.github.franckyi.gamehooks.api.common.Pos;
+import com.github.franckyi.gamehooks.api.common.World;
+import com.github.franckyi.gamehooks.api.common.WorldBlock;
+import com.github.franckyi.gamehooks.api.common.WorldEntity;
 
 public interface ClientHooks {
-    <M, T> Renderer<M, T> renderer();
+    <M, T> Renderer<M, T> getRenderer();
 
-    ScreenScaling screen();
+    ScreenScaling getScreenScaling();
 
     KeyBinding registerKeyBinding(String name, int keyCode, String category);
 
-    Player player();
+    Player getPlayer();
 
-    int entityIdMouseOver();
+    World getWorld();
 
-    Pos blockPosMouseOver();
+    WorldEntity getEntityMouseOver();
+
+    WorldBlock getBlockMouseOver();
 
     @Deprecated
     void unlockCursor();
