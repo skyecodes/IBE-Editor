@@ -9,21 +9,27 @@ import com.github.franckyi.ibeeditor.api.client.mvc.model.TagModel;
 import java.util.function.Consumer;
 
 public class NBTEditorModelImpl implements NBTEditorModel {
-    private final ObjectProperty<TagModel> tagProperty;
+    private final ObjectProperty<TagModel> rootTagProperty;
+    private final ObjectProperty<TagModel> clipboardTagProperty = PropertyFactory.ofObject();
     private final Consumer<ObjectTag> action;
 
     public NBTEditorModelImpl(ObjectTag tag, Consumer<ObjectTag> action) {
-        tagProperty = PropertyFactory.ofObject(new TagModelImpl(tag));
+        rootTagProperty = PropertyFactory.ofObject(new TagModelImpl(tag));
         this.action = action;
     }
 
     @Override
-    public ObjectProperty<TagModel> tagProperty() {
-        return tagProperty;
+    public ObjectProperty<TagModel> rootTagProperty() {
+        return rootTagProperty;
+    }
+
+    @Override
+    public ObjectProperty<TagModel> clipboardTagProperty() {
+        return clipboardTagProperty;
     }
 
     @Override
     public void apply() {
-        action.accept((ObjectTag) getTag().build());
+        action.accept((ObjectTag) getRootTag().build());
     }
 }

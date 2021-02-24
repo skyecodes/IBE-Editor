@@ -123,8 +123,13 @@ public class TagModelImpl implements TagModel {
     }
 
     @Override
+    public boolean canBuild() {
+        return tag != null;
+    }
+
+    @Override
     public Tag<?> build() {
-        if (tag != null) {
+        if (canBuild()) {
             switch (tag.getType()) {
                 case Tag.BYTE_ID:
                     return new ByteTag(Byte.parseByte(getValue()));
@@ -177,5 +182,12 @@ public class TagModelImpl implements TagModel {
     public void updateValidity() {
         validProperty.unbind();
         validProperty.setValue(getChildren().stream().allMatch(TagModel::isValid));
+    }
+
+    @Override
+    public TagModel createClipboardTag() {
+        return canBuild()
+                ? new TagModelImpl(build(), null, getName(), getValue())
+                : new TagModelImpl(getTagType(), null, getValue());
     }
 }

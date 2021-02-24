@@ -20,10 +20,10 @@ public class NBTEditorControllerImpl implements NBTEditorController {
 
     @Override
     public void init(NBTEditorModel model, NBTEditorView view) {
-        view.getTagTree().rootItemProperty().bind(model.tagProperty());
+        view.getTagTree().rootItemProperty().bind(model.rootTagProperty());
         view.getDoneButton().onAction(event -> model.apply());
         view.getCancelButton().onAction(event -> GUAPI.getScreenHandler().hideScene());
-        view.getTagTree().focusedElementProperty().addListener(newVal -> updateButtons(newVal, view));
+        view.getTagTree().focusedElementProperty().addListener(newVal -> updateButtons(newVal, model, view));
         view.setOnButtonClick(type -> {
             TagModel tag = view.getTagTree().getFocusedElement();
             TagModel parent = tag.getParent();
@@ -67,12 +67,12 @@ public class NBTEditorControllerImpl implements NBTEditorController {
                 case MOVE_UP:
                     int index0 = parent.getChildren().indexOf(tag);
                     Collections.swap(parent.getChildren(), index0, index0 - 1);
-                    updateButtons(tag, view);
+                    updateButtons(tag, model, view);
                     break;
                 case MOVE_DOWN:
                     int index1 = parent.getChildren().indexOf(tag);
                     Collections.swap(parent.getChildren(), index1, index1 + 1);
-                    updateButtons(tag, view);
+                    updateButtons(tag, model, view);
                     break;
                 case ADD:
                     switch (tag.getTagType()) {
@@ -127,32 +127,69 @@ public class NBTEditorControllerImpl implements NBTEditorController {
                             break;
                     }
                     break;
+                case CUT:
+                    model.setClipboardTag(tag);
                 case DELETE:
                     parent.getChildren().remove(tag);
                     view.getTagTree().setFocusedElement(null);
                     break;
+                case COPY:
+                    model.setClipboardTag(tag.createClipboardTag());
+                    updateButtons(tag, model, view);
+                    break;
+                case PASTE:
+                    TagModel clipboardTag = model.getClipboardTag();
+                    if (clipboardTag.canBuild()) {
+                        addChildTag(view, tag, clipboardTag.build(), clipboardTag.getName());
+                    } else {
+                        addChildTag(view, tag, clipboardTag.getTagType(), clipboardTag.getValue());
+                    }
+                    break;
             }
         });
-        view.getDoneButton().disableProperty().bind(model.tagProperty().bindMapToBoolean(TagModel::validProperty).not());
+        view.getDoneButton().disableProperty().bind(model.rootTagProperty().bindMapToBoolean(TagModel::validProperty).not());
     }
 
-    private void updateButtons(TagModel newVal, NBTEditorView view) {
+    private void updateButtons(TagModel newVal, NBTEditorModel model, NBTEditorView view) {
         List<NBTEditorView.ButtonType> buttons = new ArrayList<>();
+        TagModel clipboardTag = model.getClipboardTag();
         if (newVal != null) {
             switch (newVal.getTagType()) {
                 case Tag.COMPOUND_ID:
                     buttons.addAll(NBTEditorView.ButtonType.ALL_ADD_TAG);
+                    if (clipboardTag != null && clipboardTag.canBuild()) {
+                        buttons.add(NBTEditorView.ButtonType.PASTE);
+                    }
                     break;
                 case Tag.BYTE_ARRAY_ID:
+                    if (clipboardTag != null && !clipboardTag.canBuild() && clipboardTag.getTagType() == Tag.BYTE_ID) {
+                        buttons.add(NBTEditorView.ButtonType.PASTE);
+                    }
+                    buttons.add(NBTEditorView.ButtonType.ADD);
+                    break;
                 case Tag.INT_ARRAY_ID:
+                    if (clipboardTag != null && !clipboardTag.canBuild() && clipboardTag.getTagType() == Tag.INT_ID) {
+                        buttons.add(NBTEditorView.ButtonType.PASTE);
+                    }
+                    buttons.add(NBTEditorView.ButtonType.ADD);
+                    break;
                 case Tag.LONG_ARRAY_ID:
+                    if (clipboardTag != null && !clipboardTag.canBuild() && clipboardTag.getTagType() == Tag.LONG_ID) {
+                        buttons.add(NBTEditorView.ButtonType.PASTE);
+                    }
                     buttons.add(NBTEditorView.ButtonType.ADD);
                     break;
                 case Tag.LIST_ID:
                     if (newVal.getChildren().isEmpty()) {
                         buttons.addAll(NBTEditorView.ButtonType.ALL_ADD_TAG);
+                        if (clipboardTag != null && clipboardTag.canBuild()) {
+                            buttons.add(NBTEditorView.ButtonType.PASTE);
+                        }
                     } else {
                         buttons.add(NBTEditorView.ButtonType.ADD);
+                        if (clipboardTag != null && clipboardTag.canBuild() && clipboardTag.getTagType() == newVal.getChildren().get(0).getTagType()) {
+                            buttons.add(NBTEditorView.ButtonType.PASTE);
+                        }
                     }
             }
             if (newVal.getParent() != null) {
@@ -164,13 +201,19 @@ public class NBTEditorControllerImpl implements NBTEditorController {
                     buttons.add(NBTEditorView.ButtonType.MOVE_DOWN);
                 }
                 buttons.add(NBTEditorView.ButtonType.DELETE);
+                buttons.add(NBTEditorView.ButtonType.CUT);
             }
+            buttons.add(NBTEditorView.ButtonType.COPY);
         }
         view.getEnabledButtons().setAll(buttons);
     }
 
     private void addChildTag(NBTEditorView view, TagModel parent, Tag<?> newTag) {
-        addChildTag(view, parent, new TagModelImpl(newTag, parent, parent.getTagType() != Tag.LIST_ID ? "" : null, null));
+        addChildTag(view, parent, newTag, "");
+    }
+
+    private void addChildTag(NBTEditorView view, TagModel parent, Tag<?> newTag, String name) {
+        addChildTag(view, parent, new TagModelImpl(newTag, parent, parent.getTagType() != Tag.LIST_ID ? name : null, null));
     }
 
     private void addChildTag(NBTEditorView view, TagModel parent, byte type, String value) {
@@ -180,7 +223,6 @@ public class NBTEditorControllerImpl implements NBTEditorController {
     private void addChildTag(NBTEditorView view, TagModel parent, TagModel tag) {
         parent.getChildren().add(tag);
         parent.setExpanded(true);
-        view.getTagTree().setScrollTo(tag);
         view.getTagTree().setFocusedElement(tag);
     }
 }

@@ -3,14 +3,24 @@ package com.github.franckyi.ibeeditor.api.client.mvc.model;
 import com.github.franckyi.databindings.api.ObjectProperty;
 
 public interface NBTEditorModel {
-    default TagModel getTag() {
-        return tagProperty().getValue();
+    default TagModel getRootTag() {
+        return rootTagProperty().getValue();
     }
 
-    ObjectProperty<TagModel> tagProperty();
+    ObjectProperty<TagModel> rootTagProperty();
 
-    default void setTag(TagModel value) {
-        tagProperty().setValue(value);
+    default void setRootTag(TagModel value) {
+        rootTagProperty().setValue(value);
+    }
+
+    default TagModel getClipboardTag() {
+        return clipboardTagProperty().getValue();
+    }
+
+    ObjectProperty<TagModel> clipboardTagProperty();
+
+    default void setClipboardTag(TagModel value) {
+        clipboardTagProperty().setValue(value);
     }
 
     void apply();

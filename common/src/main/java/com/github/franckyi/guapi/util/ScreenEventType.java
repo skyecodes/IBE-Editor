@@ -9,7 +9,7 @@ import java.util.function.BiConsumer;
 public final class ScreenEventType<E extends ScreenEvent> {
     public static final ScreenEventType<MouseButtonEvent> MOUSE_CLICKED = new ScreenEventType<>("MOUSE_CLICKED", true, EventTarget::mouseClicked);
     public static final ScreenEventType<MouseButtonEvent> MOUSE_RELEASED = new ScreenEventType<>("MOUSE_RELEASED", true, EventTarget::mouseReleased);
-    public static final ScreenEventType<MouseDragEvent> MOUSE_DRAGGED = new ScreenEventType<>("MOUSE_DRAGGED", true, EventTarget::mouseDragged);
+    public static final ScreenEventType<MouseDragEvent> MOUSE_DRAGGED = new ScreenEventType<>("MOUSE_DRAGGED", false, EventTarget::mouseDragged);
     public static final ScreenEventType<MouseScrollEvent> MOUSE_SCOLLED = new ScreenEventType<>("MOUSE_SCOLLED", true, EventTarget::mouseScrolled);
     public static final ScreenEventType<KeyEvent> KEY_PRESSED = new ScreenEventType<>("KEY_PRESSED", false, EventTarget::keyPressed);
     public static final ScreenEventType<KeyEvent> KEY_RELEASED = new ScreenEventType<>("KEY_RELEASED", false, EventTarget::keyReleased);

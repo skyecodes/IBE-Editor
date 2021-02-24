@@ -38,7 +38,11 @@ public interface TagModel extends TreeView.TreeItem<TagModel> {
 
     byte getTagType();
 
+    boolean canBuild();
+
     Tag<?> build();
 
     void updateValidity();
+
+    TagModel createClipboardTag();
 }
