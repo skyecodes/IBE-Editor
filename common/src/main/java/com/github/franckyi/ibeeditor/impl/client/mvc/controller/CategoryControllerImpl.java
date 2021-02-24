@@ -23,7 +23,7 @@ public class CategoryControllerImpl implements CategoryController {
     }
 
     private void updateLabel(CategoryModel model, CategoryView view) {
-        TextFormatting[] format = model.isSelected() ? new TextFormatting[] {TextFormatting.YELLOW, TextFormatting.BOLD} : new TextFormatting[] {};
+        TextFormatting[] format = model.isSelected() ? new TextFormatting[]{TextFormatting.YELLOW, TextFormatting.BOLD} : new TextFormatting[]{};
         view.getLabel().setLabel(Text.translated(model.getName(), format));
     }
 }

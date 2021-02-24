@@ -6,6 +6,7 @@ import com.github.franckyi.guapi.api.node.TexturedButton;
 
 public abstract class AbstractTexturedButton extends AbstractImageView implements TexturedButton {
     private final BooleanProperty drawButtonProperty = PropertyFactory.ofBoolean(true);
+
     public AbstractTexturedButton(String textureId, boolean drawButton) {
         super(textureId);
         setDrawButton(drawButton);

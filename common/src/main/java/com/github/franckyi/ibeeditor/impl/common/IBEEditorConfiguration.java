@@ -11,6 +11,8 @@ import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import static com.github.franckyi.ibeeditor.impl.common.IBEEditorCommon.LOGGER;
+
 public final class IBEEditorConfiguration {
     public static IBEEditorConfiguration INSTANCE;
     private static final Path CONFIG_FILE = GameHooks.common().gameDir().resolve("config").resolve("ibeeditor.json");
@@ -28,12 +30,12 @@ public final class IBEEditorConfiguration {
         if (Files.exists(CONFIG_FILE)) {
             try (Reader r = Files.newBufferedReader(CONFIG_FILE)) {
                 INSTANCE = GSON.fromJson(r, IBEEditorConfiguration.class);
-                IBEEditor.LOGGER.info(MARKER, "Configuration loaded");
+                LOGGER.info(MARKER, "Configuration loaded");
             } catch (IOException e) {
-                IBEEditor.LOGGER.error(MARKER, "Error while loading configuration", e);
+                LOGGER.error(MARKER, "Error while loading configuration", e);
             }
         } else {
-            IBEEditor.LOGGER.info(MARKER, "Generating default configuration");
+            LOGGER.info(MARKER, "Generating default configuration");
             INSTANCE = DEFAULT_CONFIG;
             changed = true;
             save();
@@ -45,9 +47,9 @@ public final class IBEEditorConfiguration {
             try (Writer w = Files.newBufferedWriter(CONFIG_FILE)) {
                 GSON.toJson(INSTANCE, w);
                 changed = false;
-                IBEEditor.LOGGER.info(MARKER, "Configuration saved");
+                LOGGER.info(MARKER, "Configuration saved");
             } catch (IOException e) {
-                IBEEditor.LOGGER.error(MARKER, "Error while saving configuration", e);
+                LOGGER.error(MARKER, "Error while saving configuration", e);
             }
         }
     }

@@ -10,18 +10,18 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '4.0.13'
+        classpath group: "net.minecraftforge.gradle", name: "ForgeGradle", version: "4.0.13"
     }
 }
 
-apply plugin: 'net.minecraftforge.gradle'
+apply plugin: "net.minecraftforge.gradle"
 
 minecraft {
     mappings channel: "$mappings_channel", version: "$mappings_version"
     runs {
         client {
-            workingDirectory project.file('../run')
-            property 'forge.logging.console.level', 'debug'
+            workingDirectory project.file("../run")
+            property "forge.logging.console.level", "debug"
             mods {
                 ibeeditor {
                     source sourceSets.main
@@ -31,7 +31,7 @@ minecraft {
 
         server {
             workingDirectory project.file('../run')
-            property 'forge.logging.console.level', 'debug'
+            property "forge.logging.console.level", "debug"
             mods {
                 ibeeditor {
                     source sourceSets.main
@@ -43,7 +43,7 @@ minecraft {
 
 dependencies {
     minecraft "net.minecraftforge:forge:$forge_version"
-    implementation project(':common')
+    implementation project(":common")
 }
 
 processResources {
@@ -52,7 +52,7 @@ processResources {
 
 task signJar(type: SignJar, dependsOn: rootProject.buildJar) {
     onlyIf {
-        project.hasProperty('keyStore')
+        project.hasProperty("keyStore")
     }
 
     keyStore = project.keyStore

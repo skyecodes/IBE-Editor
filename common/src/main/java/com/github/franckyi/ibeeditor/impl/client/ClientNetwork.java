@@ -13,6 +13,10 @@ public final class ClientNetwork {
         return GameHooks.common().network();
     }
 
+    public static void notifyServer() {
+        network().sendToServer(IBEEditorNetwork.NOTIFY_SERVER, new NotifyServerPacket());
+    }
+
     public static void updatePlayerMainHandItem(Item item) {
         network().sendToServer(IBEEditorNetwork.UPDATE_PLAYER_MAIN_HAND_ITEM, new UpdatePlayerMainHandItemPacket(item));
     }

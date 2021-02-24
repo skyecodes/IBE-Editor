@@ -22,6 +22,11 @@ public class FabricPlayer implements Player {
     }
 
     @Override
+    public int getEntityId() {
+        return entity.getEntityId();
+    }
+
+    @Override
     public void sendMessage(Text message, boolean actionBar) {
         entity.sendMessage(FabricTextFactory.INSTANCE.create(message), actionBar);
     }

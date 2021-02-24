@@ -1,13 +1,18 @@
 package com.github.franckyi.ibeeditor.impl.client;
 
 import com.github.franckyi.gamehooks.GameHooks;
+import com.github.franckyi.gamehooks.api.ClientHooks;
 import com.github.franckyi.gamehooks.api.client.KeyBinding;
 import com.github.franckyi.gamehooks.api.client.Screen;
 import com.github.franckyi.gamehooks.api.common.*;
 import com.github.franckyi.gamehooks.util.common.tag.ObjectTag;
 import com.github.franckyi.guapi.GUAPI;
-import com.github.franckyi.ibeeditor.api.client.mvc.view.EditorView;
+import com.github.franckyi.guapi.GUAPIFactory;
+import com.github.franckyi.guapi.api.ScreenHandler;
+import com.github.franckyi.ibeeditor.api.client.mvc.view.*;
+import com.github.franckyi.ibeeditor.impl.client.mvc.*;
 import com.github.franckyi.ibeeditor.impl.client.mvc.model.EditorModelImpl;
+import com.github.franckyi.ibeeditor.impl.common.IBEEditorNetwork;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
 import org.lwjgl.glfw.GLFW;
@@ -15,6 +20,7 @@ import org.lwjgl.glfw.GLFW;
 import java.util.function.Consumer;
 
 import static com.github.franckyi.guapi.GUAPIFactory.*;
+import static com.github.franckyi.ibeeditor.impl.common.IBEEditorCommon.LOGGER;
 
 public final class IBEEditorClient {
     public static KeyBinding editorKey;
@@ -23,10 +29,24 @@ public final class IBEEditorClient {
     public static final Marker MARKER = MarkerManager.getMarker("Client");
     public static boolean serverModInstalled;
 
-    public static void init() {
+    public static void init(ClientHooks clientHooks, ScreenHandler screenHandler) {
+        LOGGER.info(MARKER, "Initializing IBE Editor - client");
+        GameHooks.initClient(clientHooks);
+        initGUAPI(screenHandler);
+        IBEEditorNetwork.initClient();
         editorKey = GameHooks.client().registerKeyBinding("ibeeditor.key.editor", GLFW.GLFW_KEY_I, "ibeeditor.category");
         nbtEditorKey = GameHooks.client().registerKeyBinding("ibeeditor.key.nbt_editor", GLFW.GLFW_KEY_N, "ibeeditor.category");
         clipboardKey = GameHooks.client().registerKeyBinding("ibeeditor.key.clipboard", GLFW.GLFW_KEY_J, "ibeeditor.category");
+    }
+
+    private static void initGUAPI(ScreenHandler screenHandler) {
+        GUAPI.init(screenHandler);
+        GUAPIFactory.registerMVC(EditorView.class, EditorMVCImpl.INSTANCE);
+        GUAPIFactory.registerMVC(CategoryView.class, CategoryMVCImpl.INSTANCE);
+        GUAPIFactory.registerMVC(StringEntryView.class, StringEntryMVCImpl.INSTANCE);
+        GUAPIFactory.registerMVC(IntegerEntryView.class, IntegerEntryMVCImpl.INSTANCE);
+        GUAPIFactory.registerMVC(NBTEditorView.class, NBTEditorMVCImpl.INSTANCE);
+        GUAPIFactory.registerMVC(TagView.class, TagMVCImpl.INSTANCE);
     }
 
     public static void tick() {
@@ -42,7 +62,7 @@ public final class IBEEditorClient {
     public static void openWorldEditor(boolean nbt) {
         GameHooks.client().unlockCursor();
         if (!(tryOpenEntityEditor(nbt) || tryOpenBlockEditor(nbt) || tryOpenItemEditor(nbt))) {
-            openSelfEditor(nbt);
+            requestOpenSelfEditor(nbt);
         }
     }
 
@@ -95,9 +115,9 @@ public final class IBEEditorClient {
 
     public static void openItemEditor(Item item, boolean nbt, Consumer<Item> action) {
         if (nbt) {
-            Editor.showNBTEditor(item.getTag(), tag -> action.accept(GameHooks.common().item().fromTag(tag)));
+            EditorHandler.showNBTEditor(item.getTag(), tag -> action.accept(GameHooks.common().item().fromTag(tag)));
         } else {
-            Editor.showItemEditor(item);
+            EditorHandler.showItemEditor(item);
         }
     }
 
@@ -107,9 +127,9 @@ public final class IBEEditorClient {
 
     public static void openBlockEditor(Block block, Pos pos, boolean nbt) {
         if (nbt) {
-            Editor.showNBTEditor(block.getTag(), tag -> updateBlock(pos, tag));
+            EditorHandler.showNBTEditor(block.getTag(), tag -> updateBlock(pos, tag));
         } else {
-            //BlockEditor.show(block);
+            //EditorHandler.showBlockEditor(block);
         }
     }
 
@@ -119,14 +139,14 @@ public final class IBEEditorClient {
 
     public static void openEntityEditor(Entity entity, int entityId, boolean nbt) {
         if (nbt) {
-            Editor.showNBTEditor(entity.getTag(), tag -> updateEntity(entityId, tag));
+            EditorHandler.showNBTEditor(entity.getTag(), tag -> updateEntity(entityId, tag));
         } else {
-            //EntityEditor.show(entity);
+            //EditorHandler.showEntityEditor(entity);
         }
     }
 
-    public static void openSelfEditor(boolean nbt) {
-        //openEntityEditor(GameHooks.client().player().getPlayerEntity(), nbt);
+    public static void requestOpenSelfEditor(boolean nbt) {
+        requestOpenEntityEditor(GameHooks.client().player().getEntityId(), nbt);
     }
 
     private static void updatePlayerMainHandItem(Item item) {

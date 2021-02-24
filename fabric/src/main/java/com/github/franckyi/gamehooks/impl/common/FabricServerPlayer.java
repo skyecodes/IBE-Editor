@@ -6,6 +6,8 @@ import com.github.franckyi.gamehooks.api.common.ServerWorld;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Hand;
 
+import java.util.UUID;
+
 public class FabricServerPlayer extends FabricPlayer implements ServerPlayer {
     private final ServerPlayerEntity entity;
     private ServerWorld world;
@@ -31,6 +33,11 @@ public class FabricServerPlayer extends FabricPlayer implements ServerPlayer {
             world = new FabricServerWorld(entity.getServerWorld());
         }
         return world;
+    }
+
+    @Override
+    public UUID getProfileId() {
+        return entity.getGameProfile().getId();
     }
 
     @Override

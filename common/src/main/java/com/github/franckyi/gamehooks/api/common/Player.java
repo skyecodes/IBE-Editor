@@ -5,6 +5,8 @@ import com.github.franckyi.gamehooks.util.common.text.Text;
 public interface Player {
     Item getItemMainHand();
 
+    int getEntityId();
+
     void sendMessage(Text message, boolean actionBar);
 
     default void sendMessage(Text message) {

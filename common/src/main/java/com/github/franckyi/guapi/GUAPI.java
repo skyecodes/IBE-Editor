@@ -2,7 +2,6 @@ package com.github.franckyi.guapi;
 
 import com.github.franckyi.databindings.PropertyFactory;
 import com.github.franckyi.databindings.api.ObjectProperty;
-import com.github.franckyi.gamehooks.GameHooks;
 import com.github.franckyi.guapi.api.ScreenHandler;
 import com.github.franckyi.guapi.api.theme.Theme;
 import com.github.franckyi.guapi.impl.theme.vanilla.VanillaTheme;
@@ -30,7 +29,6 @@ public final class GUAPI {
         if (theme != null) {
             setTheme(theme);
         }
-        GameHooks.logger().info(MARKER, "GUAPI initialized");
     }
 
     public static Theme getTheme() {

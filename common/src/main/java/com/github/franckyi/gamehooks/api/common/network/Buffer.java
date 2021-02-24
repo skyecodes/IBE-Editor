@@ -20,5 +20,9 @@ public interface Buffer {
 
     boolean readBoolean();
 
-    void writeBoolean(boolean nbt);
+    void writeBoolean(boolean bl);
+
+    byte readByte();
+
+    void writeByte(byte b);
 }

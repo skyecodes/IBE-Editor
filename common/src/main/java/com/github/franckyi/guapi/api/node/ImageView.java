@@ -7,9 +7,9 @@ public interface ImageView extends Control {
     default String getTextureId() {
         return textureIdProperty().getValue();
     }
-    
+
     StringProperty textureIdProperty();
-    
+
     default void setTextureId(String value) {
         textureIdProperty().setValue(value);
     }

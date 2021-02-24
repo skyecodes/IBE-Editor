@@ -4,6 +4,7 @@ import com.github.franckyi.gamehooks.api.common.TextFactory;
 import com.github.franckyi.gamehooks.util.common.text.Text;
 import com.github.franckyi.gamehooks.util.common.text.TextStyle;
 import net.minecraft.util.text.*;
+import net.minecraft.util.text.event.ClickEvent;
 
 import java.util.stream.Stream;
 
@@ -91,24 +92,9 @@ public final class ForgeTextFactory implements TextFactory<ITextComponent> {
                 t.modifyStyle(s -> s.setUnderlined(textStyle.getUnderline()));
             }
         }
-        return t;
-    }
-
-    @Override
-    public ITextComponent create(Text root, Text... siblings) {
-        IFormattableTextComponent t = (IFormattableTextComponent) create(root);
-        for (Text text1 : siblings) {
-            t.append(create(text1));
+        if (text.getLink() != null) {
+            t.modifyStyle(s -> s.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, text.getLink())));
         }
         return t;
-    }
-
-    @Override
-    public Text from(ITextComponent text) {
-        String s = text.getString();
-        boolean translated = text instanceof TranslationTextComponent;
-        TextStyle style = new TextStyle(text.getStyle().getColor() == null ? null : text.getStyle().getColor().getColor(),
-                text.getStyle().getBold(), text.getStyle().getItalic(), text.getStyle().getUnderlined());
-        return new Text(s, translated, style, null);
     }
 }

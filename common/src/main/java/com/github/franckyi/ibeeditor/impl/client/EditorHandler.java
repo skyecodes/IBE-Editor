@@ -17,7 +17,7 @@ import static com.github.franckyi.guapi.GUAPIFactory.*;
 import static com.github.franckyi.ibeeditor.impl.client.EditorFactory.editor;
 import static com.github.franckyi.ibeeditor.impl.client.EditorFactory.stringEntry;
 
-public final class Editor {
+public final class EditorHandler {
     public static void showItemEditor(Item item) {
         GUAPI.getScreenHandler().showScene(editorScene(mvc(EditorView.class, editor(editor -> {
             editor.category(

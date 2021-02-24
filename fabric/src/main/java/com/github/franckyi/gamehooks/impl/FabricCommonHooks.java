@@ -4,9 +4,12 @@ import com.github.franckyi.gamehooks.api.CommonHooks;
 import com.github.franckyi.gamehooks.api.common.*;
 import com.github.franckyi.gamehooks.api.common.network.Network;
 import com.github.franckyi.gamehooks.impl.common.*;
+import com.mojang.brigadier.Command;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.server.command.ServerCommandSource;
 
 import java.nio.file.Path;
+import java.util.function.Function;
 
 public final class FabricCommonHooks implements CommonHooks {
     public static final CommonHooks INSTANCE = new FabricCommonHooks();
@@ -49,5 +52,10 @@ public final class FabricCommonHooks implements CommonHooks {
     @Override
     public Path gameDir() {
         return FabricLoader.getInstance().getGameDir();
+    }
+
+    @Override
+    public Command<ServerCommandSource> command(Function<ServerPlayer, Integer> command) {
+        return ctx -> command.apply(new FabricServerPlayer(ctx.getSource().getPlayer()));
     }
 }

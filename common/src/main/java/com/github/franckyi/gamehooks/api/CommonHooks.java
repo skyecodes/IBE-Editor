@@ -2,8 +2,10 @@ package com.github.franckyi.gamehooks.api;
 
 import com.github.franckyi.gamehooks.api.common.*;
 import com.github.franckyi.gamehooks.api.common.network.Network;
+import com.mojang.brigadier.Command;
 
 import java.nio.file.Path;
+import java.util.function.Function;
 
 public interface CommonHooks {
     <T> TextFactory<T> text();
@@ -19,4 +21,6 @@ public interface CommonHooks {
     Network<?> network();
 
     Path gameDir();
+
+    Command<?> command(Function<ServerPlayer, Integer> command);
 }

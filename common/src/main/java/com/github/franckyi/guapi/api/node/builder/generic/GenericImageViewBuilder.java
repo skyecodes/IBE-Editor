@@ -1,7 +1,6 @@
 package com.github.franckyi.guapi.api.node.builder.generic;
 
 import com.github.franckyi.guapi.api.node.ImageView;
-import com.github.franckyi.guapi.api.node.builder.generic.GenericControlBuilder;
 
 public interface GenericImageViewBuilder<N extends ImageView> extends ImageView, GenericControlBuilder<N> {
     default N textureId(String value) {

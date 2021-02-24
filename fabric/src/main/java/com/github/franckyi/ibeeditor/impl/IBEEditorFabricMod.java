@@ -7,12 +7,14 @@ import com.github.franckyi.guapi.impl.FabricScreenHandler;
 import com.github.franckyi.guapi.impl.theme.vanilla.*;
 import com.github.franckyi.guapi.util.NodeType;
 import com.github.franckyi.ibeeditor.impl.client.IBEEditorClient;
-import com.github.franckyi.ibeeditor.impl.common.IBEEditor;
+import com.github.franckyi.ibeeditor.impl.common.IBEEditorCommon;
+import com.github.franckyi.ibeeditor.impl.server.IBEEditorServer;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenKeyboardEvents;
+import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
@@ -20,12 +22,13 @@ import net.minecraft.client.gui.screen.ingame.HandledScreen;
 public final class IBEEditorFabricMod implements ModInitializer, ClientModInitializer {
     @Override
     public void onInitialize() {
-        IBEEditor.initCommon(FabricCommonHooks.INSTANCE);
+        IBEEditorCommon.init(FabricCommonHooks.INSTANCE);
+        CommandRegistrationCallback.EVENT.register((dispatcher, dedicated) -> IBEEditorServer.registerCommand(dispatcher));
     }
 
     @Override
     public void onInitializeClient() {
-        IBEEditor.initClient(FabricClientHooks.INSTANCE, FabricScreenHandler.INSTANCE);
+        IBEEditorClient.init(FabricClientHooks.INSTANCE, FabricScreenHandler.INSTANCE);
         VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(NodeType.BUTTON, FabricVanillaButtonRenderer::new);
         VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(NodeType.TEXTURED_BUTTON, FabricVanillaTexturedButtonRenderer::new);
         VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(NodeType.TEXT_FIELD, FabricVanillaTextFieldRenderer::new);
@@ -42,7 +45,7 @@ public final class IBEEditorFabricMod implements ModInitializer, ClientModInitia
         }
     }
 
-    private void handledScreenKeyPressed(Screen screen0, int key, int scancode, int modifiers) {
-        IBEEditorClient.handleScreenEvent(new FabricScreen(screen0), key);
+    private void handledScreenKeyPressed(Screen screen, int key, int scancode, int modifiers) {
+        IBEEditorClient.handleScreenEvent(new FabricScreen(screen), key);
     }
 }

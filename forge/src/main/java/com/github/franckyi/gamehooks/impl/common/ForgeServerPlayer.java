@@ -6,6 +6,8 @@ import com.github.franckyi.gamehooks.api.common.ServerWorld;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.Hand;
 
+import java.util.UUID;
+
 public class ForgeServerPlayer extends ForgePlayer implements ServerPlayer {
     private final ServerPlayerEntity entity;
     private ServerWorld world;
@@ -31,6 +33,11 @@ public class ForgeServerPlayer extends ForgePlayer implements ServerPlayer {
             world = new ForgeServerWorld(entity.getServerWorld());
         }
         return world;
+    }
+
+    @Override
+    public UUID getProfileId() {
+        return entity.getGameProfile().getId();
     }
 
     @Override

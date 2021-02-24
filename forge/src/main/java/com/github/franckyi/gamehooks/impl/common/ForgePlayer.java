@@ -22,6 +22,11 @@ public class ForgePlayer implements Player {
     }
 
     @Override
+    public int getEntityId() {
+        return entity.getEntityId();
+    }
+
+    @Override
     public void sendMessage(Text message, boolean actionBar) {
         entity.sendStatusMessage(ForgeTextFactory.INSTANCE.create(message), actionBar);
     }

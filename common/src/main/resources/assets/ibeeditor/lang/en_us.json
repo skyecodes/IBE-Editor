@@ -6,5 +6,7 @@
   "ibeeditor.gui.editor": "Editor",
   "ibeeditor.gui.nbt_editor": "NBT Editor",
   "ibeeditor.gui.category.main": "Main",
-  "ibeeditor.gui.entry.test": "Test"
+  "ibeeditor.gui.entry.test": "Test",
+  "ibeeditor.message.must_install": "You must install IBE Editor in order to use this command.",
+  "ibeeditor.message.must_install_2": "Click here to download the mod!"
 }

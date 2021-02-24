@@ -62,4 +62,14 @@ public class ForgeBuffer implements Buffer {
     public void writeBoolean(boolean bl) {
         buf.writeBoolean(bl);
     }
+
+    @Override
+    public byte readByte() {
+        return buf.readByte();
+    }
+
+    @Override
+    public void writeByte(byte b) {
+        buf.writeByte(b);
+    }
 }
