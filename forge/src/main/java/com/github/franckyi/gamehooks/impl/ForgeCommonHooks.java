@@ -19,7 +19,7 @@ public final class ForgeCommonHooks implements CommonHooks {
     }
 
     @Override
-    public TextFactory text() {
+    public TextFactory textFactory() {
         return ForgeTextFactory.INSTANCE;
     }
 

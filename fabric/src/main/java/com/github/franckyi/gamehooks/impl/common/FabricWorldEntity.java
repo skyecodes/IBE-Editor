@@ -22,6 +22,6 @@ public class FabricWorldEntity implements WorldEntity {
         if (!entity.saveSelfToTag(compound)) {
             entity.toTag(compound);
         }
-        return FabricTagFactory.INSTANCE.parseCompound(compound);
+        return FabricTagFactory.parseCompound(compound);
     }
 }

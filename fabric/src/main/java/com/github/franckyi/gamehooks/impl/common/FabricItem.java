@@ -20,7 +20,7 @@ public class FabricItem implements Item {
     @Override
     public ObjectTag getTag() {
         if (tag == null) {
-            tag = FabricTagFactory.INSTANCE.parseCompound(item.toTag(new CompoundTag()));
+            tag = FabricTagFactory.parseCompound(item.toTag(new CompoundTag()));
         }
         return tag;
     }
@@ -29,7 +29,7 @@ public class FabricItem implements Item {
     @SuppressWarnings("unchecked")
     public ItemStack getStack() {
         if (item == null) {
-            item = ItemStack.fromTag(FabricTagFactory.INSTANCE.parseObject(tag));
+            item = ItemStack.fromTag(FabricTagFactory.parseObject(tag));
         }
         return item;
     }

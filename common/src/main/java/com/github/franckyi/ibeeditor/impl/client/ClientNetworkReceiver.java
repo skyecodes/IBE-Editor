@@ -1,7 +1,7 @@
 package com.github.franckyi.ibeeditor.impl.client;
 
 import com.github.franckyi.gamehooks.GameHooks;
-import com.github.franckyi.gamehooks.util.common.text.TextFormatting;
+import com.github.franckyi.gamehooks.util.common.TextFormatting;
 import com.github.franckyi.ibeeditor.impl.common.packet.NotifyClientPacket;
 import com.github.franckyi.ibeeditor.impl.common.packet.OpenBlockEditorResponsePacket;
 import com.github.franckyi.ibeeditor.impl.common.packet.OpenEntityEditorResponsePacket;

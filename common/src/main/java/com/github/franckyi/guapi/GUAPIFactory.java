@@ -3,8 +3,8 @@ package com.github.franckyi.guapi;
 import com.github.franckyi.gamehooks.GameHooks;
 import com.github.franckyi.gamehooks.api.common.Text;
 import com.github.franckyi.gamehooks.api.common.TextFactory;
-import com.github.franckyi.gamehooks.util.common.text.TextFormatting;
-import com.github.franckyi.gamehooks.util.common.text.TextStyle;
+import com.github.franckyi.gamehooks.util.common.TextFormatting;
+import com.github.franckyi.gamehooks.util.common.TextStyle;
 import com.github.franckyi.guapi.api.mvc.Controller;
 import com.github.franckyi.guapi.api.mvc.MVC;
 import com.github.franckyi.guapi.api.mvc.View;
@@ -335,7 +335,7 @@ public final class GUAPIFactory {
     }
 
     private static TextFactory text() {
-        return GameHooks.common().text();
+        return GameHooks.common().textFactory();
     }
 
     public static final Align TOP_LEFT = Align.TOP_LEFT;

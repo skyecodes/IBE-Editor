@@ -20,12 +20,12 @@ public class ForgeBuffer implements Buffer {
 
     @Override
     public ObjectTag readTag() {
-        return ForgeTagFactory.INSTANCE.parseCompound(buf.readCompoundTag());
+        return ForgeTagFactory.parseCompound(buf.readCompoundTag());
     }
 
     @Override
     public void writeTag(ObjectTag tag) {
-        buf.writeCompoundTag(ForgeTagFactory.INSTANCE.parseObject(tag));
+        buf.writeCompoundTag(ForgeTagFactory.parseObject(tag));
     }
 
     @Override

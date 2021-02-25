@@ -1,4 +1,4 @@
-package com.github.franckyi.gamehooks.util.common.network;
+package com.github.franckyi.gamehooks.util.common;
 
 @FunctionalInterface
 public interface ClientPacketHandler<P> {

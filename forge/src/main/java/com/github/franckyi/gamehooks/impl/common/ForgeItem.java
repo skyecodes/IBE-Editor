@@ -20,7 +20,7 @@ public class ForgeItem implements Item {
     @Override
     public ObjectTag getTag() {
         if (tag == null) {
-            tag = ForgeTagFactory.INSTANCE.parseCompound(item.write(new CompoundNBT()));
+            tag = ForgeTagFactory.parseCompound(item.write(new CompoundNBT()));
         }
         return tag;
     }
@@ -29,7 +29,7 @@ public class ForgeItem implements Item {
     @SuppressWarnings("unchecked")
     public ItemStack getStack() {
         if (item == null) {
-            item = ItemStack.read(ForgeTagFactory.INSTANCE.parseObject(tag));
+            item = ItemStack.read(ForgeTagFactory.parseObject(tag));
         }
         return item;
     }

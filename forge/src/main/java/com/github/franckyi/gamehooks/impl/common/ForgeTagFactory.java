@@ -1,23 +1,18 @@
 package com.github.franckyi.gamehooks.impl.common;
 
-import com.github.franckyi.gamehooks.api.common.TagFactory;
 import com.github.franckyi.gamehooks.util.common.tag.*;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 
-public final class ForgeTagFactory implements TagFactory<CompoundNBT> {
-    public static final TagFactory<CompoundNBT> INSTANCE = new ForgeTagFactory();
-
-    @Override
-    public CompoundNBT parseObject(ObjectTag obj) {
+public final class ForgeTagFactory {
+    public static CompoundNBT parseObject(ObjectTag obj) {
         if (obj == null) return null;
         CompoundNBT c = new CompoundNBT();
         obj.getValue().forEach((s, tag) -> c.put(s, parseTag(tag)));
         return c;
     }
 
-    @Override
-    public ObjectTag parseCompound(CompoundNBT c) {
+    public static ObjectTag parseCompound(CompoundNBT c) {
         if (c == null) return null;
         ObjectTag tag = new ObjectTag();
         for (String key : c.keySet()) {
@@ -27,7 +22,7 @@ public final class ForgeTagFactory implements TagFactory<CompoundNBT> {
         return tag;
     }
 
-    private Tag<?> parseTag(net.minecraft.nbt.INBT tag) {
+    private static Tag<?> parseTag(net.minecraft.nbt.INBT tag) {
         switch (tag.getType().getTagName()) {
             case Tag.BYTE_NAME:
                 return new ByteTag(((net.minecraft.nbt.ByteNBT) tag).getByte());
@@ -57,7 +52,7 @@ public final class ForgeTagFactory implements TagFactory<CompoundNBT> {
         return null;
     }
 
-    private net.minecraft.nbt.INBT parseTag(Tag<?> tag) {
+    private static net.minecraft.nbt.INBT parseTag(Tag<?> tag) {
         switch (tag.getType()) {
             case Tag.BYTE_ID:
                 return net.minecraft.nbt.ByteNBT.valueOf(((ByteTag) tag).getValue());
@@ -87,7 +82,7 @@ public final class ForgeTagFactory implements TagFactory<CompoundNBT> {
         return null;
     }
 
-    private ListNBT parseArray(ArrayTag tag) {
+    private static ListNBT parseArray(ArrayTag tag) {
         ListNBT listTag = new ListNBT();
         for (Tag<?> e : tag.getValue()) {
             listTag.add(parseTag(e));
@@ -95,7 +90,7 @@ public final class ForgeTagFactory implements TagFactory<CompoundNBT> {
         return listTag;
     }
 
-    private ArrayTag parseList(ListNBT tag) {
+    private static ArrayTag parseList(ListNBT tag) {
         ArrayTag arrayTag = new ArrayTag();
         for (net.minecraft.nbt.INBT e : tag) {
             arrayTag.getValue().add(parseTag(e));

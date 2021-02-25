@@ -19,7 +19,7 @@ public final class FabricCommonHooks implements CommonHooks {
     }
 
     @Override
-    public TextFactory text() {
+    public TextFactory textFactory() {
         return FabricTextFactory.INSTANCE;
     }
 

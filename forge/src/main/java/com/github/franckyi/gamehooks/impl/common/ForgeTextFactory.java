@@ -2,7 +2,7 @@ package com.github.franckyi.gamehooks.impl.common;
 
 import com.github.franckyi.gamehooks.api.common.Text;
 import com.github.franckyi.gamehooks.api.common.TextFactory;
-import com.github.franckyi.gamehooks.util.common.text.TextStyle;
+import com.github.franckyi.gamehooks.util.common.TextStyle;
 import net.minecraft.util.text.*;
 import net.minecraft.util.text.event.ClickEvent;
 
@@ -15,7 +15,7 @@ public final class ForgeTextFactory implements TextFactory {
     }
 
     @Override
-    public Text create(String text, String url, boolean translated, TextStyle style, com.github.franckyi.gamehooks.util.common.text.TextFormatting[] formatting) {
+    public Text create(String text, String url, boolean translated, TextStyle style, com.github.franckyi.gamehooks.util.common.TextFormatting[] formatting) {
         if (text == null) return empty();
         IFormattableTextComponent t;
         if (translated) {

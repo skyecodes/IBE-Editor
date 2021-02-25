@@ -1,7 +1,7 @@
 package com.github.franckyi.gamehooks.api.common;
 
-import com.github.franckyi.gamehooks.util.common.text.TextFormatting;
-import com.github.franckyi.gamehooks.util.common.text.TextStyle;
+import com.github.franckyi.gamehooks.util.common.TextFormatting;
+import com.github.franckyi.gamehooks.util.common.TextStyle;
 
 public interface TextFactory {
     default Text text(String text) {

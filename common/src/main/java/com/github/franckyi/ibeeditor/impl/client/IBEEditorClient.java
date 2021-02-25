@@ -5,7 +5,6 @@ import com.github.franckyi.gamehooks.api.ClientHooks;
 import com.github.franckyi.gamehooks.api.client.KeyBinding;
 import com.github.franckyi.gamehooks.api.client.Screen;
 import com.github.franckyi.gamehooks.api.common.*;
-import com.github.franckyi.gamehooks.util.common.tag.ObjectTag;
 import com.github.franckyi.guapi.GUAPI;
 import com.github.franckyi.guapi.GUAPIFactory;
 import com.github.franckyi.guapi.api.ScreenHandler;
@@ -130,7 +129,7 @@ public final class IBEEditorClient {
     public static void openBlockEditor(Block block, Pos blockPos, boolean nbt) {
         GameHooks.logger().debug(MARKER, "Opening Block Editor (pos={};nbt={})", blockPos.getPos(), nbt);
         if (nbt) {
-            EditorHandler.showNBTEditor(block.getTag(), tag -> updateBlock(blockPos, tag));
+            EditorHandler.showNBTEditor(block.getTag(), tag -> updateBlock(blockPos, GameHooks.common().createBlockFromTag(tag)));
         } else {
             //EditorHandler.showBlockEditor(block);
         }
@@ -144,7 +143,7 @@ public final class IBEEditorClient {
     public static void openEntityEditor(Entity entity, int entityId, boolean nbt) {
         GameHooks.logger().debug(MARKER, "Opening Entity Editor (id={};nbt={})", entityId, nbt);
         if (nbt) {
-            EditorHandler.showNBTEditor(entity.getTag(), tag -> updateEntity(entityId, tag));
+            EditorHandler.showNBTEditor(entity.getTag(), tag -> updateEntity(entityId, GameHooks.common().createEntityFromTag(tag)));
         } else {
             //EditorHandler.showEntityEditor(entity);
         }
@@ -178,13 +177,13 @@ public final class IBEEditorClient {
         GUAPI.getScreenHandler().hideScene();
     }
 
-    private static void updateBlock(Pos blockPos, ObjectTag tag) {
-        ClientNetworkEmitter.updateBlock(blockPos, tag);
+    private static void updateBlock(Pos blockPos, Block block) {
+        ClientNetworkEmitter.updateBlock(blockPos, block);
         GUAPI.getScreenHandler().hideScene();
     }
 
-    private static void updateEntity(int entityId, ObjectTag tag) {
-        ClientNetworkEmitter.updateEntity(entityId, tag);
+    private static void updateEntity(int entityId, Entity entity) {
+        ClientNetworkEmitter.updateEntity(entityId, entity);
         GUAPI.getScreenHandler().hideScene();
     }
 }

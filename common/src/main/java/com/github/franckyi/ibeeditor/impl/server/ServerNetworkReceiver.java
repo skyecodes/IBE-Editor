@@ -3,36 +3,29 @@ package com.github.franckyi.ibeeditor.impl.server;
 import com.github.franckyi.gamehooks.api.common.Player;
 import com.github.franckyi.ibeeditor.impl.common.packet.*;
 
-import static com.github.franckyi.guapi.GUAPIFactory.*;
-
 public final class ServerNetworkReceiver {
     public static void clientModInstalled(NotifyServerPacket packet, Player sender) {
         IBEEditorServer.addAllowedPlayer(sender);
     }
 
     public static void updatePlayerMainHandItem(UpdatePlayerMainHandItemPacket packet, Player sender) {
-        sender.setItemMainHand(packet.getItem());
-        sender.sendMessage(text("Item updated!", GREEN));
+        IBEEditorServer.updatePlayerMainHandItem(sender, packet.getItem());
     }
 
     public static void updatePlayerInventoryItem(UpdatePlayerInventoryItemPacket packet, Player sender) {
-        sender.setInventoryItem(packet.getSlotId(), packet.getItem());
-        sender.sendMessage(text("Item updated!", GREEN));
+        IBEEditorServer.updatePlayerInventoryItem(sender, packet.getItem(), packet.getSlotId());
     }
 
     public static void updateBlockInventoryItem(UpdateBlockInventoryItemPacket packet, Player sender) {
-        sender.getWorld().setBlockInventoryItem(packet.getPos(), packet.getSlotId(), packet.getItem());
-        sender.sendMessage(text("Item updated!", GREEN));
+        IBEEditorServer.updateBlockInventoryItem(sender, packet.getItem(), packet.getSlotId(), packet.getPos());
     }
 
     public static void updateBlock(UpdateBlockPacket packet, Player sender) {
-        sender.getWorld().setBlockData(packet.getPos(), packet.getTag());
-        sender.sendMessage(text("Block updated!", GREEN));
+        IBEEditorServer.updateBlock(sender, packet.getBlock(), packet.getPos());
     }
 
     public static void updateEntity(UpdateEntityPacket packet, Player sender) {
-        sender.getWorld().setEntityData(packet.getEntityId(), packet.getTag());
-        sender.sendMessage(text("Entity updated!", GREEN));
+        IBEEditorServer.updateEntity(sender, packet.getEntity(), packet.getEntityId());
     }
 
     public static void requestOpenBlockEditor(OpenBlockEditorRequestPacket packet, Player sender) {

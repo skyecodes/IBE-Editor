@@ -5,7 +5,7 @@ import com.github.franckyi.databindings.PropertyFactory;
 import com.github.franckyi.databindings.api.BooleanProperty;
 import com.github.franckyi.databindings.api.ObservableList;
 import com.github.franckyi.gamehooks.GameHooks;
-import com.github.franckyi.gamehooks.util.common.text.TextFormatting;
+import com.github.franckyi.gamehooks.util.common.TextFormatting;
 import com.github.franckyi.guapi.api.node.*;
 import com.github.franckyi.guapi.api.node.builder.TexturedButtonBuilder;
 import com.github.franckyi.ibeeditor.api.client.mvc.model.TagModel;

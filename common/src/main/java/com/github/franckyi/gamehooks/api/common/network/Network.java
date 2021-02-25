@@ -1,8 +1,8 @@
 package com.github.franckyi.gamehooks.api.common.network;
 
 import com.github.franckyi.gamehooks.api.common.Player;
-import com.github.franckyi.gamehooks.util.common.network.ClientPacketHandler;
-import com.github.franckyi.gamehooks.util.common.network.ServerPacketHandler;
+import com.github.franckyi.gamehooks.util.common.ClientPacketHandler;
+import com.github.franckyi.gamehooks.util.common.ServerPacketHandler;
 
 import java.util.function.Function;
 

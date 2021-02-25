@@ -4,13 +4,12 @@ import com.github.franckyi.gamehooks.api.common.Player;
 import com.github.franckyi.gamehooks.api.common.network.Buffer;
 import com.github.franckyi.gamehooks.api.common.network.Network;
 import com.github.franckyi.gamehooks.api.common.network.Packet;
-import com.github.franckyi.gamehooks.util.common.network.ClientPacketHandler;
-import com.github.franckyi.gamehooks.util.common.network.ServerPacketHandler;
-import net.minecraft.entity.player.ServerPlayerEntity;
+import com.github.franckyi.gamehooks.util.common.ClientPacketHandler;
+import com.github.franckyi.gamehooks.util.common.ServerPacketHandler;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.network.NetworkDirection;
 import net.minecraftforge.fml.network.NetworkEvent;
 import net.minecraftforge.fml.network.NetworkRegistry;
+import net.minecraftforge.fml.network.PacketDistributor;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
 
 import java.util.function.BiConsumer;
@@ -38,7 +37,7 @@ public final class ForgeNetwork implements Network {
 
     @Override
     public void sendToClient(String id, Player player, Packet packet) {
-        channel.sendTo(packet, ((ServerPlayerEntity) player.getPlayerEntity()).connection.netManager, NetworkDirection.PLAY_TO_CLIENT);
+        channel.send(PacketDistributor.PLAYER.with(player::getPlayerEntity), packet);
     }
 
     @Override
@@ -55,7 +54,9 @@ public final class ForgeNetwork implements Network {
         channel.messageBuilder(msgClass, id)
                 .decoder(buffer -> reader.apply(new ForgeBuffer(buffer)))
                 .encoder((p, buffer) -> p.write(new ForgeBuffer(buffer)))
-                .consumer((BiConsumer<P, Supplier<NetworkEvent.Context>>) (msg, ctx) -> ctx.get().enqueueWork(() -> handler.accept(msg, ctx)))
-                .add();
+                .consumer((msg, ctx) -> {
+                    ctx.get().enqueueWork(() -> handler.accept(msg, ctx));
+                    ctx.get().setPacketHandled(true);
+                }).add();
     }
 }

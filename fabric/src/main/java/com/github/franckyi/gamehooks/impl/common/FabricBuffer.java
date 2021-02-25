@@ -25,12 +25,12 @@ public class FabricBuffer implements Buffer {
 
     @Override
     public ObjectTag readTag() {
-        return FabricTagFactory.INSTANCE.parseCompound(buf.readCompoundTag());
+        return FabricTagFactory.parseCompound(buf.readCompoundTag());
     }
 
     @Override
     public void writeTag(ObjectTag tag) {
-        buf.writeCompoundTag(FabricTagFactory.INSTANCE.parseObject(tag));
+        buf.writeCompoundTag(FabricTagFactory.parseObject(tag));
     }
 
     @Override

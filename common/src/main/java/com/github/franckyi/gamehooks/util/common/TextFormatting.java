@@ -1,4 +1,4 @@
-package com.github.franckyi.gamehooks.util.common.text;
+package com.github.franckyi.gamehooks.util.common;
 
 public enum TextFormatting {
     BLACK,

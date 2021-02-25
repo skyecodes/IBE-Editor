@@ -22,6 +22,6 @@ public class ForgeWorldEntity implements WorldEntity {
         if (!entity.writeUnlessRemoved(compound)) {
             entity.writeWithoutTypeId(compound);
         }
-        return ForgeTagFactory.INSTANCE.parseCompound(compound);
+        return ForgeTagFactory.parseCompound(compound);
     }
 }

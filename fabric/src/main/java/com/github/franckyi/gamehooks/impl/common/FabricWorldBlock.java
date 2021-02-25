@@ -22,6 +22,6 @@ public class FabricWorldBlock implements WorldBlock {
 
     @Override
     public ObjectTag getTag() {
-        return blockEntity == null ? null : FabricTagFactory.INSTANCE.parseCompound(blockEntity.toTag(new CompoundTag()));
+        return blockEntity == null ? null : FabricTagFactory.parseCompound(blockEntity.toTag(new CompoundTag()));
     }
 }

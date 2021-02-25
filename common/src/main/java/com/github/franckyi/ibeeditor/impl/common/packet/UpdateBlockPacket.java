@@ -1,34 +1,35 @@
 package com.github.franckyi.ibeeditor.impl.common.packet;
 
+import com.github.franckyi.gamehooks.GameHooks;
+import com.github.franckyi.gamehooks.api.common.Block;
 import com.github.franckyi.gamehooks.api.common.Pos;
 import com.github.franckyi.gamehooks.api.common.network.Buffer;
 import com.github.franckyi.gamehooks.api.common.network.Packet;
-import com.github.franckyi.gamehooks.util.common.tag.ObjectTag;
 
 public class UpdateBlockPacket implements Packet {
     private final Pos pos;
-    private final ObjectTag tag;
+    private final Block block;
 
-    public UpdateBlockPacket(Pos pos, ObjectTag tag) {
+    public UpdateBlockPacket(Pos pos, Block block) {
         this.pos = pos;
-        this.tag = tag;
+        this.block = block;
     }
 
     public UpdateBlockPacket(Buffer buffer) {
-        this(buffer.readPos(), buffer.readTag());
+        this(buffer.readPos(), GameHooks.common().createBlockFromTag(buffer.readTag()));
     }
 
     @Override
     public void write(Buffer buffer) {
         buffer.writePos(pos);
-        buffer.writeTag(tag);
+        buffer.writeTag(block.getTag());
     }
 
     public Pos getPos() {
         return pos;
     }
 
-    public ObjectTag getTag() {
-        return tag;
+    public Block getBlock() {
+        return block;
     }
 }

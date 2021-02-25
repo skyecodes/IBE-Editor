@@ -1,7 +1,7 @@
 package com.github.franckyi.guapi.api.node.builder.generic;
 
 import com.github.franckyi.gamehooks.api.common.Text;
-import com.github.franckyi.gamehooks.util.common.text.TextFormatting;
+import com.github.franckyi.gamehooks.util.common.TextFormatting;
 import com.github.franckyi.guapi.api.event.*;
 import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.api.node.builder.Builder;

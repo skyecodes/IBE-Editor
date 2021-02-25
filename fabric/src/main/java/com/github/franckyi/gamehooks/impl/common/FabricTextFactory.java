@@ -2,8 +2,8 @@ package com.github.franckyi.gamehooks.impl.common;
 
 import com.github.franckyi.gamehooks.api.common.Text;
 import com.github.franckyi.gamehooks.api.common.TextFactory;
-import com.github.franckyi.gamehooks.util.common.text.TextFormatting;
-import com.github.franckyi.gamehooks.util.common.text.TextStyle;
+import com.github.franckyi.gamehooks.util.common.TextFormatting;
+import com.github.franckyi.gamehooks.util.common.TextStyle;
 import net.minecraft.text.*;
 import net.minecraft.util.Formatting;
 

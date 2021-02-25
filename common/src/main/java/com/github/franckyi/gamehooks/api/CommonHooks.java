@@ -9,7 +9,7 @@ import java.nio.file.Path;
 import java.util.function.Function;
 
 public interface CommonHooks {
-    TextFactory text();
+    TextFactory textFactory();
 
     Item createItemFromTag(ObjectTag tag);
 

@@ -1,6 +1,6 @@
 package com.github.franckyi.ibeeditor.impl.client.mvc.controller;
 
-import com.github.franckyi.gamehooks.util.common.text.TextFormatting;
+import com.github.franckyi.gamehooks.util.common.TextFormatting;
 import com.github.franckyi.guapi.api.event.MouseButtonEvent;
 import com.github.franckyi.ibeeditor.api.client.mvc.controller.CategoryController;
 import com.github.franckyi.ibeeditor.api.client.mvc.model.CategoryModel;

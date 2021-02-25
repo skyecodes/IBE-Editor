@@ -1,7 +1,6 @@
 package com.github.franckyi.gamehooks.impl.common;
 
 import com.github.franckyi.gamehooks.api.common.*;
-import com.github.franckyi.gamehooks.util.common.tag.ObjectTag;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.inventory.Inventory;
 
@@ -26,10 +25,10 @@ public class FabricWorld implements World {
     }
 
     @Override
-    public void setBlockData(Pos pos, ObjectTag tag) {
+    public void setBlockData(Pos pos, Block block) {
         BlockEntity blockEntity = world.getBlockEntity(pos.getPos());
         if (blockEntity != null) {
-            blockEntity.fromTag(world.getBlockState(pos.getPos()), FabricTagFactory.INSTANCE.parseObject(tag));
+            blockEntity.fromTag(world.getBlockState(pos.getPos()), FabricTagFactory.parseObject(block.getTag()));
         }
     }
 
@@ -39,10 +38,10 @@ public class FabricWorld implements World {
     }
 
     @Override
-    public void setEntityData(int entityId, ObjectTag tag) {
-        net.minecraft.entity.Entity entity = world.getEntityById(entityId);
-        if (entity != null) {
-            entity.fromTag(FabricTagFactory.INSTANCE.parseObject(tag));
+    public void setEntityData(int entityId, Entity entity) {
+        net.minecraft.entity.Entity worldEntity = world.getEntityById(entityId);
+        if (worldEntity != null) {
+            worldEntity.fromTag(FabricTagFactory.parseObject(entity.getTag()));
         }
     }
 }

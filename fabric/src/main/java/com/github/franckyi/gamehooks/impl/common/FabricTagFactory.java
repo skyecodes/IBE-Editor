@@ -1,23 +1,18 @@
 package com.github.franckyi.gamehooks.impl.common;
 
-import com.github.franckyi.gamehooks.api.common.TagFactory;
 import com.github.franckyi.gamehooks.util.common.tag.*;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 
-public class FabricTagFactory implements TagFactory<CompoundTag> {
-    public static final TagFactory<CompoundTag> INSTANCE = new FabricTagFactory();
-
-    @Override
-    public CompoundTag parseObject(ObjectTag obj) {
+public class FabricTagFactory {
+    public static CompoundTag parseObject(ObjectTag obj) {
         if (obj == null) return null;
         CompoundTag c = new CompoundTag();
         obj.getValue().forEach((s, tag) -> c.put(s, parseTag(tag)));
         return c;
     }
 
-    @Override
-    public ObjectTag parseCompound(CompoundTag c) {
+    public static ObjectTag parseCompound(CompoundTag c) {
         if (c == null) return null;
         ObjectTag tag = new ObjectTag();
         for (String key : c.getKeys()) {
@@ -27,7 +22,7 @@ public class FabricTagFactory implements TagFactory<CompoundTag> {
         return tag;
     }
 
-    private Tag<?> parseTag(net.minecraft.nbt.Tag tag) {
+    private static Tag<?> parseTag(net.minecraft.nbt.Tag tag) {
         switch (tag.getType()) {
             case Tag.BYTE_ID:
                 return new ByteTag(((net.minecraft.nbt.ByteTag) tag).getByte());
@@ -57,7 +52,7 @@ public class FabricTagFactory implements TagFactory<CompoundTag> {
         return null;
     }
 
-    private net.minecraft.nbt.Tag parseTag(Tag<?> tag) {
+    private static net.minecraft.nbt.Tag parseTag(Tag<?> tag) {
         switch (tag.getType()) {
             case Tag.BYTE_ID:
                 return net.minecraft.nbt.ByteTag.of(((ByteTag) tag).getValue());
@@ -87,7 +82,7 @@ public class FabricTagFactory implements TagFactory<CompoundTag> {
         return null;
     }
 
-    private ListTag parseArray(ArrayTag tag) {
+    private static ListTag parseArray(ArrayTag tag) {
         ListTag listTag = new ListTag();
         for (Tag<?> e : tag.getValue()) {
             listTag.add(parseTag(e));
@@ -95,7 +90,7 @@ public class FabricTagFactory implements TagFactory<CompoundTag> {
         return listTag;
     }
 
-    private ArrayTag parseList(ListTag tag) {
+    private static ArrayTag parseList(ListTag tag) {
         ArrayTag arrayTag = new ArrayTag();
         for (net.minecraft.nbt.Tag e : tag) {
             arrayTag.getValue().add(parseTag(e));

@@ -1,7 +1,6 @@
 package com.github.franckyi.gamehooks.impl.common;
 
 import com.github.franckyi.gamehooks.api.common.*;
-import com.github.franckyi.gamehooks.util.common.tag.ObjectTag;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.tileentity.TileEntity;
 
@@ -26,10 +25,10 @@ public class ForgeWorld implements World {
     }
 
     @Override
-    public void setBlockData(Pos pos, ObjectTag tag) {
+    public void setBlockData(Pos pos, Block block) {
         TileEntity tileEntity = world.getTileEntity(pos.getPos());
         if (tileEntity != null) {
-            tileEntity.read(world.getBlockState(pos.getPos()), ForgeTagFactory.INSTANCE.parseObject(tag));
+            tileEntity.read(world.getBlockState(pos.getPos()), ForgeTagFactory.parseObject(block.getTag()));
         }
     }
 
@@ -39,10 +38,10 @@ public class ForgeWorld implements World {
     }
 
     @Override
-    public void setEntityData(int entityId, ObjectTag tag) {
-        net.minecraft.entity.Entity entity = world.getEntityByID(entityId);
-        if (entity != null) {
-            entity.read(ForgeTagFactory.INSTANCE.parseObject(tag));
+    public void setEntityData(int entityId, Entity entity) {
+        net.minecraft.entity.Entity worldEntity = world.getEntityByID(entityId);
+        if (worldEntity != null) {
+            worldEntity.read(ForgeTagFactory.parseObject(entity.getTag()));
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.github.franckyi.gamehooks.util.common.text;
+package com.github.franckyi.gamehooks.util.common;
 
 public final class TextStyle {
     public static final TextStyle EMPTY = new TextStyle(null, null, null, null);
