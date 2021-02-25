@@ -19,7 +19,9 @@ public class ForgeWorldEntity implements WorldEntity {
     @Override
     public ObjectTag getTag() {
         CompoundNBT compound = new CompoundNBT();
-        entity.writeUnlessPassenger(compound);
+        if (!entity.writeUnlessRemoved(compound)) {
+            entity.writeWithoutTypeId(compound);
+        }
         return ForgeTagFactory.INSTANCE.parseCompound(compound);
     }
 }

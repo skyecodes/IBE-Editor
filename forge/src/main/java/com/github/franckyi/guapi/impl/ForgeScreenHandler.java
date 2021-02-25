@@ -1,5 +1,6 @@
 package com.github.franckyi.guapi.impl;
 
+import com.github.franckyi.gamehooks.impl.client.ForgeMatrices;
 import com.github.franckyi.guapi.api.ScreenHandler;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
@@ -38,7 +39,7 @@ public final class ForgeScreenHandler extends AbstractScreenHandler {
             } else {
                 renderBackground(matrices);
             }
-            ForgeScreenHandler.this.render(matrices, mouseX, mouseY, partialTicks);
+            ForgeScreenHandler.this.render(ForgeMatrices.of(matrices), mouseX, mouseY, partialTicks);
         }
 
         @Override

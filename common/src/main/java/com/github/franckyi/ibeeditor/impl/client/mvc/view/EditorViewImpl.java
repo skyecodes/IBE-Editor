@@ -19,7 +19,7 @@ public class EditorViewImpl implements EditorView {
     public EditorViewImpl() {
         root = vBox(root -> {
             root.spacing(5).align(CENTER).padding(5).fillWidth();
-            root.add(headerLabel = label(translated("ibeeditor.gui.editor", AQUA, BOLD), true).textAlign(CENTER).prefHeight(20));
+            root.add(headerLabel = label(translatedText("ibeeditor.gui.editor", AQUA, BOLD), true).textAlign(CENTER).prefHeight(20));
             root.add(hBox(main -> {
                 main.add(categoryList = listView(CategoryModel.class, left -> left.itemHeight(25).padding(5).renderer(item -> mvc(CategoryView.class, item))), 1);
                 main.add(entryList = listView(EntryModel.class, right -> right.itemHeight(25).padding(5).renderer(item -> mvc(item.getDefaultViewType(), item))), 2);
@@ -27,8 +27,8 @@ public class EditorViewImpl implements EditorView {
             }), 1);
             root.add(hBox(footer -> {
                 footer.spacing(20).align(CENTER);
-                footer.add(doneButton = button(translated("gui.done", GREEN)).prefWidth(90));
-                footer.add(cancelButton = button(translated("gui.cancel", RED)).prefWidth(90));
+                footer.add(doneButton = button(translatedText("gui.done", GREEN)).prefWidth(90));
+                footer.add(cancelButton = button(translatedText("gui.cancel", RED)).prefWidth(90));
             }));
         });
     }

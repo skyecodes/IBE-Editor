@@ -75,6 +75,6 @@ public final class IBEEditorForgeMod {
     }
 
     private void onWorldUnload(WorldEvent.Unload event) {
-        IBEEditorClient.serverModInstalled = false;
+        IBEEditorClient.setServerModInstalled(false);
     }
 }

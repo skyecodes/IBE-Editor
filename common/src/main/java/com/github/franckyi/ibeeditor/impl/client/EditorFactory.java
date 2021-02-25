@@ -1,6 +1,6 @@
 package com.github.franckyi.ibeeditor.impl.client;
 
-import com.github.franckyi.gamehooks.util.common.text.Text;
+import com.github.franckyi.gamehooks.api.common.Text;
 import com.github.franckyi.ibeeditor.api.client.mvc.model.EditorModel;
 import com.github.franckyi.ibeeditor.api.client.mvc.model.EntryModel;
 import com.github.franckyi.ibeeditor.api.client.mvc.model.IntegerEntryModel;
@@ -11,6 +11,8 @@ import com.github.franckyi.ibeeditor.impl.client.mvc.model.IntegerEntryModelImpl
 import com.github.franckyi.ibeeditor.impl.client.mvc.model.StringEntryModelImpl;
 
 import java.util.function.Consumer;
+
+import static com.github.franckyi.guapi.GUAPIFactory.*;
 
 public final class EditorFactory {
     public static EditorModel editor(Consumer<EditorBuilder> builder) {
@@ -24,7 +26,7 @@ public final class EditorFactory {
     }
 
     public static StringEntryModel stringEntry(String name, String value, Consumer<String> apply) {
-        return new StringEntryModelImpl(Text.translated(name), value, apply);
+        return new StringEntryModelImpl(translatedText(name), value, apply);
     }
 
     public static IntegerEntryModel integerEntry(Text name, int value, Consumer<Integer> apply) {
@@ -32,7 +34,7 @@ public final class EditorFactory {
     }
 
     public static IntegerEntryModel integerEntry(String name, int value, Consumer<Integer> apply) {
-        return new IntegerEntryModelImpl(Text.translated(name), value, apply);
+        return new IntegerEntryModelImpl(translatedText(name), value, apply);
     }
 
     public static class EditorBuilder {

@@ -1,5 +1,6 @@
 package com.github.franckyi.guapi.impl.theme.vanilla;
 
+import com.github.franckyi.gamehooks.api.client.Matrices;
 import com.github.franckyi.gamehooks.impl.client.ForgeRenderer;
 import com.github.franckyi.guapi.api.event.MouseButtonEvent;
 import com.github.franckyi.guapi.api.event.MouseDragEvent;
@@ -9,7 +10,6 @@ import com.github.franckyi.guapi.api.node.ListNode;
 import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.api.theme.vanilla.ForgeVanillaDelegateRenderer;
 import com.github.franckyi.guapi.util.ScreenEventType;
-import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.IGuiEventListener;
 import net.minecraft.client.gui.widget.list.AbstractList;
@@ -75,7 +75,7 @@ public abstract class AbstractForgeVanillaListNodeRenderer<N extends ListNode<E>
     }
 
     @Override
-    public boolean preRender(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+    public boolean preRender(Matrices matrices, int mouseX, int mouseY, float delta) {
         boolean res = false;
         if (shouldRefreshSize) {
             refreshSize();
@@ -93,12 +93,12 @@ public abstract class AbstractForgeVanillaListNodeRenderer<N extends ListNode<E>
             changeFocus();
             res = true;
         }
-        super.render(matrices, mouseX, mouseY, delta); // doing the actual rendering here to not hide the other elements
+        super.render(matrices.getMatrixStack(), mouseX, mouseY, delta); // doing the actual rendering here to not hide the other elements
         return res;
     }
 
     @Override
-    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+    public void render(Matrices matrices, int mouseX, int mouseY, float delta) {
         for (T entry : getEventListeners()) {
             entry.getNode().postRender(matrices, mouseX, mouseY, delta);
         }
@@ -234,7 +234,7 @@ public abstract class AbstractForgeVanillaListNodeRenderer<N extends ListNode<E>
             this.node = node;
         }
 
-        protected void renderBackground(MatrixStack matrices, int x, int y, int entryWidth, int entryHeight) {
+        protected void renderBackground(Matrices matrices, int x, int y, int entryWidth, int entryHeight) {
             if (getList().getListener() == this) {
                 ForgeRenderer.INSTANCE.fillRectangle(matrices, x - 2, y - 2,
                         x + entryWidth + 3, y + entryHeight + 2, 0x4fffffff);

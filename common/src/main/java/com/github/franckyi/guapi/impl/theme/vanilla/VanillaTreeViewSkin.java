@@ -6,7 +6,7 @@ import com.github.franckyi.guapi.impl.theme.DelegatedSkin;
 
 @SuppressWarnings("rawtypes")
 public class VanillaTreeViewSkin extends DelegatedSkin<TreeView> {
-    public VanillaTreeViewSkin(DelegatedRenderer<?> delegatedRenderer) {
+    public VanillaTreeViewSkin(DelegatedRenderer delegatedRenderer) {
         super(delegatedRenderer);
     }
 

@@ -1,11 +1,12 @@
 package com.github.franckyi.ibeeditor.impl.client.mvc.controller;
 
-import com.github.franckyi.gamehooks.util.common.text.Text;
 import com.github.franckyi.gamehooks.util.common.text.TextFormatting;
 import com.github.franckyi.guapi.api.event.MouseButtonEvent;
 import com.github.franckyi.ibeeditor.api.client.mvc.controller.CategoryController;
 import com.github.franckyi.ibeeditor.api.client.mvc.model.CategoryModel;
 import com.github.franckyi.ibeeditor.api.client.mvc.view.CategoryView;
+
+import static com.github.franckyi.guapi.GUAPIFactory.*;
 
 public class CategoryControllerImpl implements CategoryController {
     public static final CategoryController INSTANCE = new CategoryControllerImpl();
@@ -24,6 +25,6 @@ public class CategoryControllerImpl implements CategoryController {
 
     private void updateLabel(CategoryModel model, CategoryView view) {
         TextFormatting[] format = model.isSelected() ? new TextFormatting[]{TextFormatting.YELLOW, TextFormatting.BOLD} : new TextFormatting[]{};
-        view.getLabel().setLabel(Text.translated(model.getName(), format));
+        view.getLabel().setLabel(translatedText(model.getName(), format));
     }
 }

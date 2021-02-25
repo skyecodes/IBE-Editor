@@ -1,5 +1,7 @@
 package com.github.franckyi.guapi.impl.theme.vanilla;
 
+import com.github.franckyi.gamehooks.api.client.Matrices;
+import com.github.franckyi.gamehooks.impl.client.FabricMatrices;
 import com.github.franckyi.guapi.api.node.ListView;
 import com.github.franckyi.guapi.api.node.Node;
 import net.minecraft.client.util.math.MatrixStack;
@@ -25,7 +27,8 @@ public class FabricVanillaListViewRenderer<E> extends AbstractFabricVanillaListN
         }
 
         @Override
-        public void render(MatrixStack matrices, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
+        public void render(MatrixStack matrixStack, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
+            Matrices matrices = FabricMatrices.of(matrixStack);
             entryWidth = getList().getMaxScroll() == 0 ? entryWidth + 6 : entryWidth;
             getNode().setX(x);
             getNode().setY(y);

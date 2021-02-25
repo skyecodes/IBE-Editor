@@ -1,5 +1,6 @@
 package com.github.franckyi.guapi.impl.theme.vanilla;
 
+import com.github.franckyi.gamehooks.api.client.Matrices;
 import com.github.franckyi.gamehooks.impl.client.ForgeRenderer;
 import com.github.franckyi.guapi.api.node.TexturedButton;
 import com.github.franckyi.guapi.api.theme.vanilla.ForgeVanillaDelegateRenderer;
@@ -11,7 +12,7 @@ public class ForgeVanillaTexturedButtonRenderer extends Button implements ForgeV
     private final TexturedButton node;
 
     public ForgeVanillaTexturedButtonRenderer(TexturedButton node) {
-        super(node.getX(), node.getY(), node.getWidth(), node.getHeight(), new StringTextComponent(""), button -> {
+        super(node.getX(), node.getY(), node.getWidth(), node.getHeight(), node.tooltipProperty().hasValue() ? node.getTooltip().getText() : StringTextComponent.EMPTY, button -> {
         });
         this.node = node;
         active = !node.isDisabled();
@@ -20,11 +21,12 @@ public class ForgeVanillaTexturedButtonRenderer extends Button implements ForgeV
         node.widthProperty().addListener(newVal -> width = newVal);
         node.heightProperty().addListener(newVal -> height = newVal);
         node.disabledProperty().addListener(newVal -> active = !newVal);
+        node.tooltipProperty().addListener(tooltip -> setMessage(tooltip.getText()));
     }
 
     @Override
-    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        super.render(matrices, mouseX, mouseY, delta);
+    public void render(Matrices matrices, int mouseX, int mouseY, float delta) {
+        ForgeVanillaDelegateRenderer.super.render(matrices, mouseX, mouseY, delta);
         int x = node.getX() + (node.getWidth() - 16) / 2;
         int y = node.getY() + (node.getHeight() - 16) / 2;
         ForgeRenderer.INSTANCE.drawTexture(matrices, node.getTextureId(), x, y, node.getWidth(), node.getHeight(),

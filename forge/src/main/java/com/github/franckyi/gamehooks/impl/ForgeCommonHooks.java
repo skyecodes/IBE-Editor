@@ -4,6 +4,7 @@ import com.github.franckyi.gamehooks.api.CommonHooks;
 import com.github.franckyi.gamehooks.api.common.*;
 import com.github.franckyi.gamehooks.api.common.network.Network;
 import com.github.franckyi.gamehooks.impl.common.*;
+import com.github.franckyi.gamehooks.util.common.tag.ObjectTag;
 import com.mojang.brigadier.Command;
 import net.minecraft.command.CommandSource;
 import net.minecraftforge.fml.loading.FMLPaths;
@@ -18,39 +19,32 @@ public final class ForgeCommonHooks implements CommonHooks {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public TextFactory<?> text() {
+    public TextFactory text() {
         return ForgeTextFactory.INSTANCE;
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public TagFactory<?> tag() {
-        return ForgeTagFactory.INSTANCE;
+    public Item createItemFromTag(ObjectTag tag) {
+        return new ForgeItem(tag);
     }
 
     @Override
-    public ItemFactory item() {
-        return ForgeItem::new;
+    public Block createBlockFromTag(ObjectTag tag) {
+        return new ForgeBlock(tag);
     }
 
     @Override
-    public BlockFactory block() {
-        return ForgeBlock::new;
+    public Entity createEntityFromTag(ObjectTag tag) {
+        return new ForgeEntity(tag);
     }
 
     @Override
-    public EntityFactory entity() {
-        return ForgeEntity::new;
-    }
-
-    @Override
-    public Network<?> network() {
+    public Network getNetwork() {
         return ForgeNetwork.INSTANCE;
     }
 
     @Override
-    public Path gameDir() {
+    public Path getGameDir() {
         return FMLPaths.GAMEDIR.get();
     }
 

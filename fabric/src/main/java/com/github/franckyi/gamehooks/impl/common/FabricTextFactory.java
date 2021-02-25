@@ -1,7 +1,7 @@
 package com.github.franckyi.gamehooks.impl.common;
 
+import com.github.franckyi.gamehooks.api.common.Text;
 import com.github.franckyi.gamehooks.api.common.TextFactory;
-import com.github.franckyi.gamehooks.util.common.text.Text;
 import com.github.franckyi.gamehooks.util.common.text.TextFormatting;
 import com.github.franckyi.gamehooks.util.common.text.TextStyle;
 import net.minecraft.text.*;
@@ -9,22 +9,21 @@ import net.minecraft.util.Formatting;
 
 import java.util.stream.Stream;
 
-public class FabricTextFactory implements TextFactory<net.minecraft.text.Text> {
-    public static final TextFactory<net.minecraft.text.Text> INSTANCE = new FabricTextFactory();
+public class FabricTextFactory implements TextFactory {
+    public static final TextFactory INSTANCE = new FabricTextFactory();
 
     private FabricTextFactory() {
     }
 
     @Override
-    public net.minecraft.text.Text create(Text text) {
-        if (text == null) return LiteralText.EMPTY;
+    public Text create(String text, String url, boolean translated, TextStyle style, TextFormatting[] formatting) {
+        if (text == null) return empty();
         MutableText t;
-        if (text.isTranslated()) {
-            t = new TranslatableText(text.getText());
+        if (translated) {
+            t = new TranslatableText(text);
         } else {
-            t = new LiteralText(text.getText());
+            t = new LiteralText(text);
         }
-        TextFormatting[] formatting = text.getFormatting();
         if (formatting != null && formatting.length > 0) {
             Formatting[] f = Stream.of(formatting)
                     .map(item -> {
@@ -78,24 +77,28 @@ public class FabricTextFactory implements TextFactory<net.minecraft.text.Text> {
                     }).toArray(Formatting[]::new);
             t.styled(s -> s.withFormatting(f));
         }
-        TextStyle textStyle = text.getStyle();
-        if (textStyle != null) {
-            if (textStyle.getColor() != null) {
-                t.styled(s -> s.withColor(TextColor.fromRgb(textStyle.getColor())));
+        if (style != null) {
+            if (style.getColor() != null) {
+                t.styled(s -> s.withColor(TextColor.fromRgb(style.getColor())));
             }
-            if (textStyle.getBold() != null) {
-                t.styled(s -> s.withBold(textStyle.getBold()));
+            if (style.getBold() != null) {
+                t.styled(s -> s.withBold(style.getBold()));
             }
-            if (textStyle.getItalic() != null) {
-                t.styled(s -> s.withItalic(textStyle.getItalic()));
+            if (style.getItalic() != null) {
+                t.styled(s -> s.withItalic(style.getItalic()));
             }
-            if (textStyle.getUnderline() != null) {
-                t.styled(s -> s.withUnderline(textStyle.getUnderline()));
+            if (style.getUnderline() != null) {
+                t.styled(s -> s.withUnderline(style.getUnderline()));
             }
         }
-        if (text.getLink() != null) {
-            t.styled(s -> s.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, text.getLink())));
+        if (url != null) {
+            t.styled(s -> s.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, url)));
         }
-        return t;
+        return new FabricText(t);
+    }
+
+    @Override
+    public Text empty() {
+        return FabricText.EMPTY;
     }
 }

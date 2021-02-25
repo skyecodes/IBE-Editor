@@ -1,11 +1,13 @@
 package com.github.franckyi.guapi.api.theme.vanilla;
 
+import com.github.franckyi.gamehooks.api.client.Matrices;
 import com.github.franckyi.guapi.api.event.*;
 import com.github.franckyi.guapi.api.theme.DelegatedRenderer;
+import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.util.math.MatrixStack;
 
-public interface FabricVanillaDelegateRenderer extends DelegatedRenderer<MatrixStack>, Element {
+public interface FabricVanillaDelegateRenderer extends DelegatedRenderer, Element, Drawable {
     @Override
     default void mouseClicked(MouseButtonEvent event) {
         mouseClicked(event.getMouseX(), event.getMouseY(), event.getButton());
@@ -44,5 +46,10 @@ public interface FabricVanillaDelegateRenderer extends DelegatedRenderer<MatrixS
     @Override
     default void mouseMoved(MouseEvent event) {
         mouseMoved(event.getMouseX(), event.getMouseY());
+    }
+
+    @Override
+    default void render(Matrices matrices, int mouseX, int mouseY, float delta) {
+        render((MatrixStack) matrices.getMatrixStack(), mouseX, mouseY, delta);
     }
 }

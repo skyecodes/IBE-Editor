@@ -4,6 +4,7 @@ import com.github.franckyi.databindings.PropertyFactory;
 import com.github.franckyi.databindings.api.IntegerProperty;
 import com.github.franckyi.databindings.api.ObjectProperty;
 import com.github.franckyi.gamehooks.GameHooks;
+import com.github.franckyi.gamehooks.api.client.Matrices;
 import com.github.franckyi.guapi.GUAPI;
 import com.github.franckyi.guapi.api.ScreenHandler;
 import com.github.franckyi.guapi.api.event.ScreenEvent;
@@ -71,7 +72,7 @@ public abstract class AbstractScreenHandler implements ScreenHandler {
 
     protected abstract void closeScreen();
 
-    public void render(Object matrices, int mouseX, int mouseY, float delta) {
+    public void render(Matrices matrices, int mouseX, int mouseY, float delta) {
         try {
             getCurrentScene().render(matrices, mouseX, mouseY, delta);
         } catch (Exception e) {

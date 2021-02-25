@@ -1,7 +1,7 @@
 package com.github.franckyi.ibeeditor.impl.client.mvc.view;
 
+import com.github.franckyi.gamehooks.api.common.Text;
 import com.github.franckyi.gamehooks.util.common.tag.Tag;
-import com.github.franckyi.gamehooks.util.common.text.Text;
 import com.github.franckyi.guapi.api.node.HBox;
 import com.github.franckyi.guapi.api.node.ImageView;
 import com.github.franckyi.guapi.api.node.Label;

@@ -1,5 +1,7 @@
 package com.github.franckyi.guapi.impl.theme.vanilla;
 
+import com.github.franckyi.gamehooks.api.client.Matrices;
+import com.github.franckyi.gamehooks.impl.client.ForgeMatrices;
 import com.github.franckyi.guapi.api.node.ListView;
 import com.github.franckyi.guapi.api.node.Node;
 import com.mojang.blaze3d.matrix.MatrixStack;
@@ -25,7 +27,8 @@ public class ForgeVanillaListViewRenderer<E> extends AbstractForgeVanillaListNod
         }
 
         @Override
-        public void render(MatrixStack matrices, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
+        public void render(MatrixStack matrixStack, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
+            Matrices matrices = ForgeMatrices.of(matrixStack);
             entryWidth = getList().getMaxScroll() == 0 ? entryWidth + 6 : entryWidth;
             getNode().setX(x);
             getNode().setY(y);

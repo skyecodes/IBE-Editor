@@ -1,6 +1,8 @@
 package com.github.franckyi.guapi;
 
-import com.github.franckyi.gamehooks.util.common.text.Text;
+import com.github.franckyi.gamehooks.GameHooks;
+import com.github.franckyi.gamehooks.api.common.Text;
+import com.github.franckyi.gamehooks.api.common.TextFactory;
 import com.github.franckyi.gamehooks.util.common.text.TextFormatting;
 import com.github.franckyi.gamehooks.util.common.text.TextStyle;
 import com.github.franckyi.guapi.api.mvc.Controller;
@@ -280,28 +282,60 @@ public final class GUAPIFactory {
     public static final TextFormatting ITALIC = TextFormatting.ITALIC;
     public static final TextFormatting RESET = TextFormatting.RESET;
 
+    public static Text emptyText() {
+        return text().empty();
+    }
+
     public static Text text(String text) {
-        return Text.literal(text);
+        return text().text(text);
     }
 
     public static Text text(String text, TextStyle style) {
-        return Text.literal(text, style);
+        return text().text(text, style);
     }
 
     public static Text text(String text, TextFormatting... formatting) {
-        return Text.literal(text, formatting);
+        return text().text(text, formatting);
     }
 
-    public static Text translated(String text) {
-        return Text.translated(text);
+    public static Text link(String text, String url) {
+        return text().link(text, url);
     }
 
-    public static Text translated(String text, TextStyle style) {
-        return Text.translated(text, style);
+    public static Text link(String text, String url, TextStyle style) {
+        return text().link(text, url, style);
     }
 
-    public static Text translated(String text, TextFormatting... formatting) {
-        return Text.translated(text, formatting);
+    public static Text link(String text, String url, TextFormatting... formatting) {
+        return text().link(text, url, formatting);
+    }
+
+    public static Text translatedText(String text) {
+        return text().translatedText(text);
+    }
+
+    public static Text translatedText(String text, TextStyle style) {
+        return text().translatedText(text, style);
+    }
+
+    public static Text translatedText(String text, TextFormatting... formatting) {
+        return text().translatedText(text, formatting);
+    }
+
+    public static Text translatedLink(String text, String url) {
+        return text().translatedLink(text, url);
+    }
+
+    public static Text translatedLink(String text, String url, TextStyle style) {
+        return text().translatedLink(text, url, style);
+    }
+
+    public static Text translatedLink(String text, String url, TextFormatting... formatting) {
+        return text().translatedLink(text, url, formatting);
+    }
+
+    private static TextFactory text() {
+        return GameHooks.common().text();
     }
 
     public static final Align TOP_LEFT = Align.TOP_LEFT;

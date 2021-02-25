@@ -4,25 +4,21 @@ import com.github.franckyi.gamehooks.GameHooks;
 import com.github.franckyi.gamehooks.api.common.Block;
 import com.github.franckyi.gamehooks.api.common.Entity;
 import com.github.franckyi.gamehooks.api.common.Player;
-import com.github.franckyi.gamehooks.api.common.network.Network;
+import com.github.franckyi.gamehooks.api.common.network.Packet;
 import com.github.franckyi.ibeeditor.impl.common.IBEEditorNetwork;
 import com.github.franckyi.ibeeditor.impl.common.packet.*;
 
-public final class ServerNetwork {
-    private static Network<?> network() {
-        return GameHooks.common().network();
-    }
-
+public final class ServerNetworkEmitter {
     public static void notifyClient(Player sender) {
-        network().sendToClient(IBEEditorNetwork.NOTIFY_CLIENT, sender.getPlayerEntity(), new NotifyClientPacket());
+        send(IBEEditorNetwork.NOTIFY_CLIENT, sender, new NotifyClientPacket());
     }
 
     public static void openBlockEditorResponse(Player sender, OpenBlockEditorRequestPacket packet, Block block) {
-        network().sendToClient(IBEEditorNetwork.OPEN_BLOCK_EDITOR_RESPONSE, sender.getPlayerEntity(), new OpenBlockEditorResponsePacket(packet, block));
+        send(IBEEditorNetwork.OPEN_BLOCK_EDITOR_RESPONSE, sender, new OpenBlockEditorResponsePacket(packet, block));
     }
 
     public static void openEntityEditorResponse(Player sender, OpenEntityEditorRequestPacket packet, Entity entity) {
-        network().sendToClient(IBEEditorNetwork.OPEN_ENTITY_EDITOR_RESPONSE, sender.getPlayerEntity(), new OpenEntityEditorResponsePacket(packet, entity));
+        send(IBEEditorNetwork.OPEN_ENTITY_EDITOR_RESPONSE, sender, new OpenEntityEditorResponsePacket(packet, entity));
     }
 
     public static void triggerOpenWorldEditor(Player sender, boolean nbt) {
@@ -46,6 +42,10 @@ public final class ServerNetwork {
     }
 
     private static void triggerOpenEditor(Player sender, byte type, boolean nbt) {
-        network().sendToClient(IBEEditorNetwork.TRIGGER_OPEN_EDITOR, sender.getPlayerEntity(), new TriggerOpenEditorPacket(type, nbt));
+        send(IBEEditorNetwork.TRIGGER_OPEN_EDITOR, sender, new TriggerOpenEditorPacket(type, nbt));
+    }
+
+    private static void send(String id, Player player, Packet packet) {
+        GameHooks.common().getNetwork().sendToClient(id, player, packet);
     }
 }

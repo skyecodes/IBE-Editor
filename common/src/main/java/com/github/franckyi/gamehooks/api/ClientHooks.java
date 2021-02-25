@@ -9,7 +9,7 @@ import com.github.franckyi.gamehooks.api.common.WorldBlock;
 import com.github.franckyi.gamehooks.api.common.WorldEntity;
 
 public interface ClientHooks {
-    <M, T> Renderer<M, T> getRenderer();
+    <M, T> Renderer getRenderer();
 
     ScreenScaling getScreenScaling();
 

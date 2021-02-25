@@ -9,7 +9,7 @@ import com.github.franckyi.guapi.util.Insets;
 
 import java.util.function.Consumer;
 
-public interface Scene extends ScreenEventHandler, Parent, Renderable<Object> {
+public interface Scene extends ScreenEventHandler, Parent, Renderable {
     default Node getRoot() {
         return rootProperty().getValue();
     }

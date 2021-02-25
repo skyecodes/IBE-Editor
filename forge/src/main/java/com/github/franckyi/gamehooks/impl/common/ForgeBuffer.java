@@ -3,15 +3,10 @@ package com.github.franckyi.gamehooks.impl.common;
 import com.github.franckyi.gamehooks.api.common.Pos;
 import com.github.franckyi.gamehooks.api.common.network.Buffer;
 import com.github.franckyi.gamehooks.util.common.tag.ObjectTag;
-import io.netty.buffer.Unpooled;
 import net.minecraft.network.PacketBuffer;
 
 public class ForgeBuffer implements Buffer {
     private final PacketBuffer buf;
-
-    public ForgeBuffer() {
-        this(new PacketBuffer(Unpooled.buffer()));
-    }
 
     public ForgeBuffer(PacketBuffer buf) {
         this.buf = buf;

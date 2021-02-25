@@ -1,13 +1,12 @@
 package com.github.franckyi.guapi.impl.theme.vanilla;
 
+import com.github.franckyi.gamehooks.api.client.Matrices;
 import com.github.franckyi.gamehooks.impl.client.FabricRenderer;
 import com.github.franckyi.guapi.api.node.TextField;
 import com.github.franckyi.guapi.api.theme.vanilla.FabricVanillaDelegateRenderer;
 import com.github.franckyi.guapi.util.Color;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.Text;
 
 import java.util.Objects;
 
@@ -15,7 +14,7 @@ public class FabricVanillaTextFieldRenderer extends TextFieldWidget implements F
     private final TextField node;
 
     public FabricVanillaTextFieldRenderer(TextField node) {
-        super(MinecraftClient.getInstance().textRenderer, node.getX(), node.getY(), node.getWidth(), node.getHeight(), node.getLabelComponent());
+        super(MinecraftClient.getInstance().textRenderer, node.getX(), node.getY(), node.getWidth(), node.getHeight(), node.getLabel().getText());
         this.node = node;
         setEditable(!node.isDisabled());
         setMaxLength(node.getMaxLength());
@@ -28,7 +27,7 @@ public class FabricVanillaTextFieldRenderer extends TextFieldWidget implements F
         node.widthProperty().addListener(newVal -> width = newVal);
         node.heightProperty().addListener(newVal -> height = newVal);
         node.disabledProperty().addListener(newVal -> setEditable(!newVal));
-        node.<Text>labelComponentProperty().addListener(this::setMessage);
+        node.labelProperty().addListener(label -> setMessage(label.getText()));
         node.maxLengthProperty().addListener(this::setMaxLength);
         node.textProperty().addListener(newVal -> {
             int cursor = getCursor();
@@ -52,10 +51,10 @@ public class FabricVanillaTextFieldRenderer extends TextFieldWidget implements F
     }
 
     @Override
-    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-        super.render(matrixStack, mouseX, mouseY, partialTicks);
+    public void render(Matrices matrices, int mouseX, int mouseY, float delta) {
+        FabricVanillaDelegateRenderer.super.render(matrices, mouseX, mouseY, delta);
         if (!(node.isValidationForced() || node.getValidator().test(getText()))) {
-            FabricRenderer.INSTANCE.drawRectangle(matrixStack, x - 1, y - 1, x + width + 1, y + height + 1, Color.rgba(1, 0, 0, 0.8));
+            FabricRenderer.INSTANCE.drawRectangle(matrices, x - 1, y - 1, x + width + 1, y + height + 1, Color.rgba(1, 0, 0, 0.8));
         }
     }
 }

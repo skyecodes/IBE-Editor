@@ -1,5 +1,7 @@
 package com.github.franckyi.guapi.impl.theme.vanilla;
 
+import com.github.franckyi.gamehooks.api.client.Matrices;
+import com.github.franckyi.gamehooks.impl.client.FabricMatrices;
 import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.api.node.TexturedButton;
 import com.github.franckyi.guapi.api.node.TreeView;
@@ -83,7 +85,8 @@ public class FabricVanillaTreeViewRenderer<E extends TreeView.TreeItem<E>> exten
         }
 
         @Override
-        public void render(MatrixStack matrices, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
+        public void render(MatrixStack matrixStack, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
+            Matrices matrices = FabricMatrices.of(matrixStack);
             int incr = increment * getList().node.getChildrenIncrement();
             entryWidth = getList().getMaxScroll() == 0 ? entryWidth + 6 : entryWidth;
             getNode().setX(x + incr);

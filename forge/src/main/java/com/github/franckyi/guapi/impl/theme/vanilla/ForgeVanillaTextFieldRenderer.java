@@ -1,13 +1,12 @@
 package com.github.franckyi.guapi.impl.theme.vanilla;
 
+import com.github.franckyi.gamehooks.api.client.Matrices;
 import com.github.franckyi.gamehooks.impl.client.ForgeRenderer;
 import com.github.franckyi.guapi.api.node.TextField;
 import com.github.franckyi.guapi.api.theme.vanilla.ForgeVanillaDelegateRenderer;
 import com.github.franckyi.guapi.util.Color;
-import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.util.text.ITextComponent;
 
 import java.util.Objects;
 
@@ -15,7 +14,7 @@ public class ForgeVanillaTextFieldRenderer extends TextFieldWidget implements Fo
     private final TextField node;
 
     public ForgeVanillaTextFieldRenderer(TextField node) {
-        super(Minecraft.getInstance().fontRenderer, node.getX(), node.getY(), node.getWidth(), node.getHeight(), node.getLabelComponent());
+        super(Minecraft.getInstance().fontRenderer, node.getX(), node.getY(), node.getWidth(), node.getHeight(), node.getLabel().getText());
         this.node = node;
         setEnabled(!node.isDisabled());
         setMaxStringLength(node.getMaxLength());
@@ -29,7 +28,7 @@ public class ForgeVanillaTextFieldRenderer extends TextFieldWidget implements Fo
         node.widthProperty().addListener(newVal -> width = newVal);
         node.heightProperty().addListener(newVal -> height = newVal);
         node.disabledProperty().addListener(newVal -> setEnabled(!newVal));
-        node.<ITextComponent>labelComponentProperty().addListener(this::setMessage);
+        node.labelProperty().addListener(label -> setMessage(label.getText()));
         node.maxLengthProperty().addListener(this::setMaxStringLength);
         node.textProperty().addListener(newVal -> {
             int cursor = getCursorPosition();
@@ -52,10 +51,10 @@ public class ForgeVanillaTextFieldRenderer extends TextFieldWidget implements Fo
     }
 
     @Override
-    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-        super.render(matrixStack, mouseX, mouseY, partialTicks);
+    public void render(Matrices matrices, int mouseX, int mouseY, float partialTicks) {
+        ForgeVanillaDelegateRenderer.super.render(matrices, mouseX, mouseY, partialTicks);
         if (!(node.isValidationForced() || node.getValidator().test(getText()))) {
-            ForgeRenderer.INSTANCE.drawRectangle(matrixStack, x, y, x + width, y + height, Color.rgba(1, 0, 0, 0.5));
+            ForgeRenderer.INSTANCE.drawRectangle(matrices, x, y, x + width, y + height, Color.rgba(1, 0, 0, 0.5));
         }
     }
 }

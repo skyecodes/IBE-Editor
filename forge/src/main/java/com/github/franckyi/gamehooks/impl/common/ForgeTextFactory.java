@@ -1,31 +1,30 @@
 package com.github.franckyi.gamehooks.impl.common;
 
+import com.github.franckyi.gamehooks.api.common.Text;
 import com.github.franckyi.gamehooks.api.common.TextFactory;
-import com.github.franckyi.gamehooks.util.common.text.Text;
 import com.github.franckyi.gamehooks.util.common.text.TextStyle;
 import net.minecraft.util.text.*;
 import net.minecraft.util.text.event.ClickEvent;
 
 import java.util.stream.Stream;
 
-public final class ForgeTextFactory implements TextFactory<ITextComponent> {
-    public static final TextFactory<ITextComponent> INSTANCE = new ForgeTextFactory();
+public final class ForgeTextFactory implements TextFactory {
+    public static final TextFactory INSTANCE = new ForgeTextFactory();
 
     private ForgeTextFactory() {
     }
 
     @Override
-    public ITextComponent create(Text text) {
-        if (text == null) return StringTextComponent.EMPTY;
+    public Text create(String text, String url, boolean translated, TextStyle style, com.github.franckyi.gamehooks.util.common.text.TextFormatting[] formatting) {
+        if (text == null) return empty();
         IFormattableTextComponent t;
-        if (text.isTranslated()) {
-            t = new TranslationTextComponent(text.getText());
+        if (translated) {
+            t = new TranslationTextComponent(text);
         } else {
-            t = new StringTextComponent(text.getText());
+            t = new StringTextComponent(text);
         }
-        com.github.franckyi.gamehooks.util.common.text.TextFormatting[] formatting = text.getFormatting();
         if (formatting != null && formatting.length > 0) {
-            TextFormatting[] f = Stream.of(formatting)
+            net.minecraft.util.text.TextFormatting[] f = Stream.of(formatting)
                     .map(item -> {
                         switch (item) {
                             case BLACK:
@@ -77,24 +76,28 @@ public final class ForgeTextFactory implements TextFactory<ITextComponent> {
                     }).toArray(TextFormatting[]::new);
             t.modifyStyle(s -> s.createStyleFromFormattings(f));
         }
-        TextStyle textStyle = text.getStyle();
-        if (textStyle != null) {
-            if (textStyle.getColor() != null) {
-                t.modifyStyle(s -> s.setColor(Color.fromInt(textStyle.getColor())));
+        if (style != null) {
+            if (style.getColor() != null) {
+                t.modifyStyle(s -> s.setColor(Color.fromInt(style.getColor())));
             }
-            if (textStyle.getBold() != null) {
-                t.modifyStyle(s -> s.setBold(textStyle.getBold()));
+            if (style.getBold() != null) {
+                t.modifyStyle(s -> s.setBold(style.getBold()));
             }
-            if (textStyle.getItalic() != null) {
-                t.modifyStyle(s -> s.setItalic(textStyle.getItalic()));
+            if (style.getItalic() != null) {
+                t.modifyStyle(s -> s.setItalic(style.getItalic()));
             }
-            if (textStyle.getUnderline() != null) {
-                t.modifyStyle(s -> s.setUnderlined(textStyle.getUnderline()));
+            if (style.getUnderline() != null) {
+                t.modifyStyle(s -> s.setUnderlined(style.getUnderline()));
             }
         }
-        if (text.getLink() != null) {
-            t.modifyStyle(s -> s.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, text.getLink())));
+        if (url != null) {
+            t.modifyStyle(s -> s.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, url)));
         }
-        return t;
+        return new ForgeText(t);
+    }
+
+    @Override
+    public Text empty() {
+        return ForgeText.EMPTY;
     }
 }

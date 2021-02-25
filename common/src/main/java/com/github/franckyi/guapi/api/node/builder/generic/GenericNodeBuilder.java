@@ -1,12 +1,14 @@
 package com.github.franckyi.guapi.api.node.builder.generic;
 
-import com.github.franckyi.gamehooks.util.common.text.Text;
+import com.github.franckyi.gamehooks.api.common.Text;
 import com.github.franckyi.gamehooks.util.common.text.TextFormatting;
 import com.github.franckyi.guapi.api.event.*;
 import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.api.node.builder.Builder;
 import com.github.franckyi.guapi.util.Insets;
 import com.github.franckyi.guapi.util.ScreenEventType;
+
+import static com.github.franckyi.guapi.GUAPIFactory.*;
 
 public interface GenericNodeBuilder<N extends Node> extends Node, Builder<N> {
     default N minWidth(int value) {
@@ -77,7 +79,7 @@ public interface GenericNodeBuilder<N extends Node> extends Node, Builder<N> {
     }
 
     default N tooltip(String text, TextFormatting... formatting) {
-        return tooltip(Text.literal(text, formatting));
+        return tooltip(text(text, formatting));
     }
 
     default N visible(boolean value) {

@@ -1,5 +1,6 @@
 package com.github.franckyi.gamehooks.impl.common;
 
+import com.github.franckyi.gamehooks.api.common.Player;
 import com.github.franckyi.gamehooks.api.common.network.Buffer;
 import com.github.franckyi.gamehooks.api.common.network.Network;
 import com.github.franckyi.gamehooks.api.common.network.Packet;
@@ -16,12 +17,12 @@ import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-public final class ForgeNetwork implements Network<ServerPlayerEntity> {
-    public static final Network<ServerPlayerEntity> INSTANCE = new ForgeNetwork();
+public final class ForgeNetwork implements Network {
+    public static final Network INSTANCE = new ForgeNetwork();
 
     private final String VERSION = "1";
     private final SimpleChannel channel = NetworkRegistry.newSimpleChannel(
-            new ResourceLocation("ibeeditor:channel"),
+            new ResourceLocation("ibeeditor:network"),
             () -> VERSION,
             VERSION::equals,
             VERSION::equals
@@ -36,25 +37,25 @@ public final class ForgeNetwork implements Network<ServerPlayerEntity> {
     }
 
     @Override
-    public void sendToClient(String id, ServerPlayerEntity entity, Packet packet) {
-        channel.sendTo(packet, entity.connection.netManager, NetworkDirection.PLAY_TO_CLIENT);
+    public void sendToClient(String id, Player player, Packet packet) {
+        channel.sendTo(packet, ((ServerPlayerEntity) player.getPlayerEntity()).connection.netManager, NetworkDirection.PLAY_TO_CLIENT);
     }
 
     @Override
     public <P extends Packet> void registerServerHandler(String id, int id1, Class<P> msgClass, Function<Buffer, P> reader, ServerPacketHandler<P> handler) {
-        channel.messageBuilder(msgClass, id1)
-                .decoder(buffer -> reader.apply(new ForgeBuffer(buffer)))
-                .encoder((p, buffer) -> p.write(new ForgeBuffer(buffer)))
-                .consumer((BiConsumer<P, Supplier<NetworkEvent.Context>>) (msg, ctx) -> ctx.get().enqueueWork(() -> handler.accept(msg, new ForgePlayer(ctx.get().getSender()))))
-                .add();
+        registerHandler(id1, msgClass, reader, (msg, ctx) -> handler.accept(msg, new ForgePlayer(ctx.get().getSender())));
     }
 
     @Override
     public <P extends Packet> void registerClientHandler(String id, int id1, Class<P> msgClass, Function<Buffer, P> reader, ClientPacketHandler<P> handler) {
-        channel.messageBuilder(msgClass, id1)
+        registerHandler(id1, msgClass, reader, (msg, ctx) -> handler.accept(msg));
+    }
+
+    private <P extends Packet> void registerHandler(int id, Class<P> msgClass, Function<Buffer, P> reader, BiConsumer<P, Supplier<NetworkEvent.Context>> handler) {
+        channel.messageBuilder(msgClass, id)
                 .decoder(buffer -> reader.apply(new ForgeBuffer(buffer)))
                 .encoder((p, buffer) -> p.write(new ForgeBuffer(buffer)))
-                .consumer((BiConsumer<P, Supplier<NetworkEvent.Context>>) (msg, ctx) -> ctx.get().enqueueWork(() -> handler.accept(msg)))
+                .consumer((BiConsumer<P, Supplier<NetworkEvent.Context>>) (msg, ctx) -> ctx.get().enqueueWork(() -> handler.accept(msg, ctx)))
                 .add();
     }
 }

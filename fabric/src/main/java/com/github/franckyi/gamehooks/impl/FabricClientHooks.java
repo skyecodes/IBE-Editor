@@ -32,7 +32,7 @@ public final class FabricClientHooks implements ClientHooks {
 
     @Override
     @SuppressWarnings("unchecked")
-    public Renderer<?, ?> getRenderer() {
+    public Renderer getRenderer() {
         return FabricRenderer.INSTANCE;
     }
 

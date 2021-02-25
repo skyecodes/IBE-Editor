@@ -1,6 +1,6 @@
 package com.github.franckyi.guapi.impl.node;
 
-import com.github.franckyi.gamehooks.util.common.text.Text;
+import com.github.franckyi.gamehooks.api.common.Text;
 import com.github.franckyi.guapi.api.node.builder.LabelBuilder;
 import com.github.franckyi.guapi.util.NodeType;
 

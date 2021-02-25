@@ -10,6 +10,7 @@ public final class ForgeTagFactory implements TagFactory<CompoundNBT> {
 
     @Override
     public CompoundNBT parseObject(ObjectTag obj) {
+        if (obj == null) return null;
         CompoundNBT c = new CompoundNBT();
         obj.getValue().forEach((s, tag) -> c.put(s, parseTag(tag)));
         return c;
@@ -17,6 +18,7 @@ public final class ForgeTagFactory implements TagFactory<CompoundNBT> {
 
     @Override
     public ObjectTag parseCompound(CompoundNBT c) {
+        if (c == null) return null;
         ObjectTag tag = new ObjectTag();
         for (String key : c.keySet()) {
             net.minecraft.nbt.INBT tag1 = c.get(key);

@@ -1,11 +1,13 @@
 package com.github.franckyi.guapi.api.theme.vanilla;
 
+import com.github.franckyi.gamehooks.api.client.Matrices;
 import com.github.franckyi.guapi.api.event.*;
 import com.github.franckyi.guapi.api.theme.DelegatedRenderer;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.gui.IGuiEventListener;
+import net.minecraft.client.gui.IRenderable;
 
-public interface ForgeVanillaDelegateRenderer extends DelegatedRenderer<MatrixStack>, IGuiEventListener {
+public interface ForgeVanillaDelegateRenderer extends DelegatedRenderer, IGuiEventListener, IRenderable {
     @Override
     default void mouseClicked(MouseButtonEvent event) {
         mouseClicked(event.getMouseX(), event.getMouseY(), event.getButton());
@@ -44,5 +46,10 @@ public interface ForgeVanillaDelegateRenderer extends DelegatedRenderer<MatrixSt
     @Override
     default void mouseMoved(MouseEvent event) {
         mouseMoved(event.getMouseX(), event.getMouseY());
+    }
+
+    @Override
+    default void render(Matrices matrices, int mouseX, int mouseY, float delta) {
+        render((MatrixStack) matrices.getMatrixStack(), mouseX, mouseY, delta);
     }
 }

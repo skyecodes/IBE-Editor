@@ -4,6 +4,7 @@ import com.github.franckyi.gamehooks.api.CommonHooks;
 import com.github.franckyi.gamehooks.api.common.*;
 import com.github.franckyi.gamehooks.api.common.network.Network;
 import com.github.franckyi.gamehooks.impl.common.*;
+import com.github.franckyi.gamehooks.util.common.tag.ObjectTag;
 import com.mojang.brigadier.Command;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.server.command.ServerCommandSource;
@@ -18,39 +19,32 @@ public final class FabricCommonHooks implements CommonHooks {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public TextFactory<?> text() {
+    public TextFactory text() {
         return FabricTextFactory.INSTANCE;
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public TagFactory<?> tag() {
-        return FabricTagFactory.INSTANCE;
+    public Item createItemFromTag(ObjectTag tag) {
+        return new FabricItem(tag);
     }
 
     @Override
-    public ItemFactory item() {
-        return FabricItem::new;
+    public Block createBlockFromTag(ObjectTag tag) {
+        return new FabricBlock(tag);
     }
 
     @Override
-    public BlockFactory block() {
-        return FabricBlock::new;
+    public Entity createEntityFromTag(ObjectTag tag) {
+        return new FabricEntity(tag);
     }
 
     @Override
-    public EntityFactory entity() {
-        return FabricEntity::new;
-    }
-
-    @Override
-    public Network<?> network() {
+    public Network getNetwork() {
         return FabricNetwork.INSTANCE;
     }
 
     @Override
-    public Path gameDir() {
+    public Path getGameDir() {
         return FabricLoader.getInstance().getGameDir();
     }
 

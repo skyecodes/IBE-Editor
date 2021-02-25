@@ -1,32 +1,33 @@
 package com.github.franckyi.guapi.impl.theme;
 
+import com.github.franckyi.gamehooks.api.client.Matrices;
 import com.github.franckyi.guapi.api.event.ScreenEvent;
 import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.api.theme.DelegatedRenderer;
 import com.github.franckyi.guapi.util.ScreenEventType;
 
 public abstract class DelegatedSkin<N extends Node> extends AbstractSkin<N> {
-    private final DelegatedRenderer<?> delegatedRenderer;
+    private final DelegatedRenderer delegatedRenderer;
 
-    public DelegatedSkin(DelegatedRenderer<?> delegatedRenderer) {
+    public DelegatedSkin(DelegatedRenderer delegatedRenderer) {
         this.delegatedRenderer = delegatedRenderer;
     }
 
     @Override
-    public <M> boolean preRender(N node, M matrices, int mouseX, int mouseY, float delta) {
-        return preRenderDelegate(matrices, mouseX, mouseY, delta);
+    public boolean preRender(N node, Matrices matrices, int mouseX, int mouseY, float delta) {
+        return getRendererDelegate().preRender(matrices, mouseX, mouseY, delta);
     }
 
     @Override
-    public <M> void render(N node, M matrices, int mouseX, int mouseY, float delta) {
+    public void render(N node, Matrices matrices, int mouseX, int mouseY, float delta) {
         super.render(node, matrices, mouseX, mouseY, delta);
-        renderDelegate(matrices, mouseX, mouseY, delta);
+        getRendererDelegate().render(matrices, mouseX, mouseY, delta);
     }
 
     @Override
-    public <M> void postRender(N node, M matrices, int mouseX, int mouseY, float delta) {
+    public void postRender(N node, Matrices matrices, int mouseX, int mouseY, float delta) {
         super.postRender(node, matrices, mouseX, mouseY, delta);
-        postRenderDelegate(matrices, mouseX, mouseY, delta);
+        getRendererDelegate().postRender(matrices, mouseX, mouseY, delta);
     }
 
     @Override
@@ -40,20 +41,7 @@ public abstract class DelegatedSkin<N extends Node> extends AbstractSkin<N> {
         type.onEvent(delegatedRenderer, event);
     }
 
-    protected <M> boolean preRenderDelegate(M matrices, int mouseX, int mouseY, float delta) {
-        return this.<M>getRendererDelegate().preRender(matrices, mouseX, mouseY, delta);
-    }
-
-    protected <M> void renderDelegate(M matrices, int mouseX, int mouseY, float delta) {
-        this.<M>getRendererDelegate().render(matrices, mouseX, mouseY, delta);
-    }
-
-    protected <M> void postRenderDelegate(M matrices, int mouseX, int mouseY, float delta) {
-        this.<M>getRendererDelegate().postRender(matrices, mouseX, mouseY, delta);
-    }
-
-    @SuppressWarnings("unchecked")
-    protected <M> DelegatedRenderer<M> getRendererDelegate() {
-        return (DelegatedRenderer<M>) delegatedRenderer;
+    protected DelegatedRenderer getRendererDelegate() {
+        return delegatedRenderer;
     }
 }

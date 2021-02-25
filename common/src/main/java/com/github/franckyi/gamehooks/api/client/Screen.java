@@ -5,6 +5,5 @@ import com.github.franckyi.gamehooks.api.common.Slot;
 public interface Screen {
     Slot getInventoryFocusedSlot();
 
-    @Deprecated
-    boolean isPlayerInventoryScreen();
+    boolean isCreativeInventoryScreen();
 }

@@ -2,11 +2,13 @@ package com.github.franckyi.ibeeditor.impl.server;
 
 import com.github.franckyi.gamehooks.GameHooks;
 import com.github.franckyi.gamehooks.api.common.Player;
-import com.github.franckyi.gamehooks.util.common.text.Text;
+import com.github.franckyi.gamehooks.api.common.Text;
 import com.github.franckyi.gamehooks.util.common.text.TextFormatting;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import org.apache.logging.log4j.Marker;
+import org.apache.logging.log4j.MarkerManager;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -14,10 +16,13 @@ import java.util.UUID;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
+import static com.github.franckyi.guapi.GUAPIFactory.*;
+
 public final class IBEEditorServer {
+    private static final Marker MARKER = MarkerManager.getMarker("Server");
     private static final Set<UUID> allowedPlayers = new HashSet<>();
-    private static final Text MUST_INSTALL = Text.literal("You must install IBE Editor in order to use this command.", TextFormatting.RED);
-    private static final Text DOWNLOAD = Text.literal("Click here to download the mod!", "https://www.curseforge.com/minecraft/mc-mods/ibe-editor", TextFormatting.AQUA, TextFormatting.UNDERLINE);
+    private static final Text MUST_INSTALL = text("You must install IBE Editor in order to use this command.", TextFormatting.RED);
+    private static final Text DOWNLOAD = link("Click here to download the mod!", "https://www.curseforge.com/minecraft/mc-mods/ibe-editor", TextFormatting.AQUA, TextFormatting.UNDERLINE);
 
     public static <S> void registerCommand(CommandDispatcher<S> dispatcher) {
         dispatcher.register(
@@ -39,14 +44,17 @@ public final class IBEEditorServer {
     }
 
     public static void notifyClient(Player player) {
-        ServerNetwork.notifyClient(player);
+        GameHooks.logger().debug(MARKER, "Notifying {} that this server has IBE Editor", player.getName());
+        ServerNetworkEmitter.notifyClient(player);
     }
 
     public static void removeAllowedPlayer(Player player) {
+        GameHooks.logger().debug(MARKER, "Removing {} from allowed players", player.getName());
         allowedPlayers.remove(player.getProfileId());
     }
 
     public static void addAllowedPlayer(Player player) {
+        GameHooks.logger().debug(MARKER, "Adding {} to allowed players", player.getName());
         allowedPlayers.add(player.getProfileId());
     }
 
@@ -55,23 +63,28 @@ public final class IBEEditorServer {
     }
 
     private static int triggerOpenWorldEditor(Player player, boolean nbt) {
-        return triggerOpenEditor(player, nbt, ServerNetwork::triggerOpenWorldEditor);
+        GameHooks.logger().debug(MARKER, "Triggering World Editor (nbt={}) for {}", player.getName(), nbt);
+        return triggerOpenEditor(player, nbt, ServerNetworkEmitter::triggerOpenWorldEditor);
     }
 
     private static int triggerOpenItemEditor(Player player, boolean nbt) {
-        return triggerOpenEditor(player, nbt, ServerNetwork::triggerOpenItemEditor);
+        GameHooks.logger().debug(MARKER, "Triggering Item Editor (nbt={}) for {}", player.getName(), nbt);
+        return triggerOpenEditor(player, nbt, ServerNetworkEmitter::triggerOpenItemEditor);
     }
 
     private static int triggerOpenBlockEditor(Player player, boolean nbt) {
-        return triggerOpenEditor(player, nbt, ServerNetwork::triggerOpenBlockEditor);
+        GameHooks.logger().debug(MARKER, "Triggering Block Editor (nbt={}) for {}", player.getName(), nbt);
+        return triggerOpenEditor(player, nbt, ServerNetworkEmitter::triggerOpenBlockEditor);
     }
 
     private static int triggerOpenEntityEditor(Player player, boolean nbt) {
-        return triggerOpenEditor(player, nbt, ServerNetwork::triggerOpenEntityEditor);
+        GameHooks.logger().debug(MARKER, "Triggering Entity Editor (nbt={}) for {}", player.getName(), nbt);
+        return triggerOpenEditor(player, nbt, ServerNetworkEmitter::triggerOpenEntityEditor);
     }
 
     private static int triggerOpenSelfEditor(Player player, boolean nbt) {
-        return triggerOpenEditor(player, nbt, ServerNetwork::triggerOpenSelfEditor);
+        GameHooks.logger().debug(MARKER, "Triggering Self Editor (nbt={}) for {}", player.getName(), nbt);
+        return triggerOpenEditor(player, nbt, ServerNetworkEmitter::triggerOpenSelfEditor);
     }
 
     private static int triggerOpenEditor(Player player, boolean nbt, BiConsumer<Player, Boolean> action) {

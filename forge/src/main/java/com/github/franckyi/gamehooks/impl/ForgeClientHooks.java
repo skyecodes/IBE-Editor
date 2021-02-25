@@ -32,7 +32,7 @@ public final class ForgeClientHooks implements ClientHooks {
 
     @Override
     @SuppressWarnings("unchecked")
-    public Renderer<?, ?> getRenderer() {
+    public Renderer getRenderer() {
         return ForgeRenderer.INSTANCE;
     }
 

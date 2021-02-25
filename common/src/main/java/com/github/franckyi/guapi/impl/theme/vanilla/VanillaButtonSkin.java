@@ -6,13 +6,13 @@ import com.github.franckyi.guapi.api.theme.DelegatedRenderer;
 import com.github.franckyi.guapi.impl.theme.DelegatedSkin;
 
 public class VanillaButtonSkin extends DelegatedSkin<Button> {
-    public VanillaButtonSkin(DelegatedRenderer<?> delegatedRenderer) {
+    public VanillaButtonSkin(DelegatedRenderer delegatedRenderer) {
         super(delegatedRenderer);
     }
 
     @Override
     public int computeWidth(Button node) {
-        return Math.max(90, GameHooks.client().getRenderer().getFontWidth(node.getLabelComponent()) + 20);
+        return Math.max(90, GameHooks.client().getRenderer().getFontWidth(node.getLabel()) + 20);
     }
 
     @Override

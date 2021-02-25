@@ -1,6 +1,7 @@
 package com.github.franckyi.guapi.impl.theme;
 
 import com.github.franckyi.gamehooks.GameHooks;
+import com.github.franckyi.gamehooks.api.client.Matrices;
 import com.github.franckyi.guapi.GUAPI;
 import com.github.franckyi.guapi.api.event.ScreenEvent;
 import com.github.franckyi.guapi.api.node.Node;
@@ -17,7 +18,7 @@ public abstract class AbstractSkin<N extends Node> implements Skin<N> {
     }
 
     @Override
-    public <M> void render(N node, M matrices, int mouseX, int mouseY, float delta) {
+    public void render(N node, Matrices matrices, int mouseX, int mouseY, float delta) {
         renderBackground(node, matrices);
         if (GUAPI.isDebugMode()) {
             renderDebug(node, matrices);
@@ -29,12 +30,12 @@ public abstract class AbstractSkin<N extends Node> implements Skin<N> {
         type.onEvent(this, event);
     }
 
-    protected void renderDebug(N node, Object matrices) {
+    protected void renderDebug(N node, Matrices matrices) {
         GameHooks.client().getRenderer().drawRectangle(matrices, node.getLeft(), node.getTop(),
                 node.getRight(), node.getBottom(), debugColor);
     }
 
-    protected void renderBackground(N node, Object matrices) {
+    protected void renderBackground(N node, Matrices matrices) {
         GameHooks.client().getRenderer().fillRectangle(matrices, node.getLeft(), node.getTop(),
                 node.getRight(), node.getBottom(), node.getBackgroundColor());
     }

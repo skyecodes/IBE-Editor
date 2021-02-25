@@ -5,7 +5,7 @@ import com.github.franckyi.guapi.api.theme.DelegatedRenderer;
 import com.github.franckyi.guapi.impl.theme.DelegatedSkin;
 
 public class VanillaTexturedButtonSkin extends DelegatedSkin<TexturedButton> {
-    public VanillaTexturedButtonSkin(DelegatedRenderer<?> delegatedRenderer) {
+    public VanillaTexturedButtonSkin(DelegatedRenderer delegatedRenderer) {
         super(delegatedRenderer);
     }
 

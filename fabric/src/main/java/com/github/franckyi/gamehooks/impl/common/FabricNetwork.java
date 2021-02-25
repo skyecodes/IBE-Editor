@@ -1,19 +1,21 @@
 package com.github.franckyi.gamehooks.impl.common;
 
+import com.github.franckyi.gamehooks.api.common.Player;
 import com.github.franckyi.gamehooks.api.common.network.Buffer;
 import com.github.franckyi.gamehooks.api.common.network.Network;
 import com.github.franckyi.gamehooks.api.common.network.Packet;
 import com.github.franckyi.gamehooks.util.common.network.ClientPacketHandler;
 import com.github.franckyi.gamehooks.util.common.network.ServerPacketHandler;
+import net.fabricmc.api.EnvType;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.server.network.ServerPlayerEntity;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.util.Identifier;
 
 import java.util.function.Function;
 
-public final class FabricNetwork implements Network<ServerPlayerEntity> {
-    public static final Network<ServerPlayerEntity> INSTANCE = new FabricNetwork();
+public final class FabricNetwork implements Network {
+    public static final Network INSTANCE = new FabricNetwork();
 
     private FabricNetwork() {
     }
@@ -26,10 +28,10 @@ public final class FabricNetwork implements Network<ServerPlayerEntity> {
     }
 
     @Override
-    public void sendToClient(String id, ServerPlayerEntity entity, Packet packet) {
+    public void sendToClient(String id, Player player, Packet packet) {
         FabricBuffer buf = new FabricBuffer();
         packet.write(buf);
-        ServerPlayNetworking.send(entity, new Identifier(id), buf.getBuffer());
+        ServerPlayNetworking.send(player.getPlayerEntity(), new Identifier(id), buf.getBuffer());
     }
 
     @Override
@@ -42,9 +44,11 @@ public final class FabricNetwork implements Network<ServerPlayerEntity> {
 
     @Override
     public <P extends Packet> void registerClientHandler(String id, int id1, Class<P> msgClass, Function<Buffer, P> reader, ClientPacketHandler<P> handler) {
-        ClientPlayNetworking.registerGlobalReceiver(new Identifier(id), (client, networkHandler, buf, sender) -> {
-            P packet = reader.apply(new FabricBuffer(buf));
-            client.execute(() -> handler.accept(packet));
-        });
+        if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
+            ClientPlayNetworking.registerGlobalReceiver(new Identifier(id), (client, networkHandler, buf, sender) -> {
+                P packet = reader.apply(new FabricBuffer(buf));
+                client.execute(() -> handler.accept(packet));
+            });
+        }
     }
 }

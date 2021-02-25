@@ -35,7 +35,7 @@ public class NBTEditorViewImpl implements NBTEditorView {
     public NBTEditorViewImpl() {
         root = vBox(root -> {
             root.spacing(5).align(CENTER).padding(5).fillWidth();
-            root.add(label(translated("ibeeditor.gui.nbt_editor", AQUA, BOLD), true).textAlign(CENTER).prefHeight(15));
+            root.add(label(translatedText("ibeeditor.gui.nbt_editor", AQUA, BOLD), true).textAlign(CENTER).prefHeight(15));
             root.add(main = vBox(main -> {
                 main.add(hBox(buttons -> {
                     buttons.add(hBox(base -> {
@@ -71,8 +71,8 @@ public class NBTEditorViewImpl implements NBTEditorView {
             }), 1);
             root.add(hBox(footer -> {
                 footer.spacing(20).align(CENTER);
-                footer.add(doneButton = button(translated("gui.done", GREEN)).prefWidth(90));
-                footer.add(cancelButton = button(translated("gui.cancel", RED)).prefWidth(90));
+                footer.add(doneButton = button(translatedText("gui.done", GREEN)).prefWidth(90));
+                footer.add(cancelButton = button(translatedText("gui.cancel", RED)).prefWidth(90));
             }));
         });
         addButtons = hBox(addBox -> {

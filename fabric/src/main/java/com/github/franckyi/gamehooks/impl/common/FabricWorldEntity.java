@@ -12,16 +12,16 @@ public class FabricWorldEntity implements WorldEntity {
     }
 
     @Override
+    public int getEntityId() {
+        return entity.getEntityId();
+    }
+
+    @Override
     public ObjectTag getTag() {
         CompoundTag compound = new CompoundTag();
         if (!entity.saveSelfToTag(compound)) {
             entity.toTag(compound);
         }
         return FabricTagFactory.INSTANCE.parseCompound(compound);
-    }
-
-    @Override
-    public int getEntityId() {
-        return entity.getEntityId();
     }
 }

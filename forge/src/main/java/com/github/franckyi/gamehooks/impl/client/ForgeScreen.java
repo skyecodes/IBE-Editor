@@ -3,8 +3,8 @@ package com.github.franckyi.gamehooks.impl.client;
 import com.github.franckyi.gamehooks.api.client.Screen;
 import com.github.franckyi.gamehooks.api.common.Slot;
 import com.github.franckyi.gamehooks.impl.common.ForgeSlot;
-import net.minecraft.client.gui.DisplayEffectsScreen;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
+import net.minecraft.client.gui.screen.inventory.CreativeScreen;
 
 public class ForgeScreen implements Screen {
     private final net.minecraft.client.gui.screen.Screen screen;
@@ -19,7 +19,7 @@ public class ForgeScreen implements Screen {
     }
 
     @Override
-    public boolean isPlayerInventoryScreen() {
-        return screen instanceof DisplayEffectsScreen;
+    public boolean isCreativeInventoryScreen() {
+        return screen instanceof CreativeScreen;
     }
 }

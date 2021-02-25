@@ -1,5 +1,6 @@
 package com.github.franckyi.guapi.impl.theme.vanilla;
 
+import com.github.franckyi.gamehooks.api.client.Matrices;
 import com.github.franckyi.gamehooks.impl.client.FabricRenderer;
 import com.github.franckyi.guapi.api.node.TexturedButton;
 import com.github.franckyi.guapi.api.theme.vanilla.FabricVanillaDelegateRenderer;
@@ -11,7 +12,7 @@ public class FabricVanillaTexturedButtonRenderer extends ButtonWidget implements
     private final TexturedButton node;
 
     public FabricVanillaTexturedButtonRenderer(TexturedButton node) {
-        super(node.getX(), node.getY(), node.getWidth(), node.getHeight(), new LiteralText(""), button -> {
+        super(node.getX(), node.getY(), node.getWidth(), node.getHeight(), node.tooltipProperty().hasValue() ? node.getTooltip().getText() : LiteralText.EMPTY, button -> {
         });
         this.node = node;
         active = !node.isDisabled();
@@ -20,11 +21,12 @@ public class FabricVanillaTexturedButtonRenderer extends ButtonWidget implements
         node.widthProperty().addListener(newVal -> width = newVal);
         node.heightProperty().addListener(newVal -> height = newVal);
         node.disabledProperty().addListener(newVal -> active = !newVal);
+        node.tooltipProperty().addListener(tooltip -> setMessage(tooltip.getText()));
     }
 
     @Override
-    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        super.render(matrices, mouseX, mouseY, delta);
+    public void render(Matrices matrices, int mouseX, int mouseY, float delta) {
+        FabricVanillaDelegateRenderer.super.render(matrices, mouseX, mouseY, delta);
         int x = node.getX() + (node.getWidth() - 16) / 2;
         int y = node.getY() + (node.getHeight() - 16) / 2;
         FabricRenderer.INSTANCE.drawTexture(matrices, node.getTextureId(), x, y, node.getWidth(), node.getHeight(),
@@ -35,9 +37,9 @@ public class FabricVanillaTexturedButtonRenderer extends ButtonWidget implements
     }
 
     @Override
-    public void renderButton(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+    public void renderButton(MatrixStack matrixStack, int mouseX, int mouseY, float delta) {
         if (node.isDrawButton()) {
-            super.renderButton(matrices, mouseX, mouseY, delta);
+            super.renderButton(matrixStack, mouseX, mouseY, delta);
         }
     }
 }

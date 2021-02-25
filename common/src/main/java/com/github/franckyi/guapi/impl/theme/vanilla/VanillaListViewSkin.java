@@ -6,7 +6,7 @@ import com.github.franckyi.guapi.impl.theme.DelegatedSkin;
 
 @SuppressWarnings("rawtypes")
 public class VanillaListViewSkin extends DelegatedSkin<ListView> {
-    public VanillaListViewSkin(DelegatedRenderer<?> delegatedRenderer) {
+    public VanillaListViewSkin(DelegatedRenderer delegatedRenderer) {
         super(delegatedRenderer);
     }
 

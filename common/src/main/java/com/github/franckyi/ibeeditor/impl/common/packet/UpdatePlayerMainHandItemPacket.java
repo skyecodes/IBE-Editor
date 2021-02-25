@@ -13,7 +13,7 @@ public class UpdatePlayerMainHandItemPacket implements Packet {
     }
 
     public UpdatePlayerMainHandItemPacket(Buffer buffer) {
-        this(GameHooks.common().item().fromTag(buffer.readTag()));
+        this(GameHooks.common().createItemFromTag(buffer.readTag()));
     }
 
     @Override

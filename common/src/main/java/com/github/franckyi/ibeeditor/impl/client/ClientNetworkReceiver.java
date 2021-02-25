@@ -1,19 +1,20 @@
 package com.github.franckyi.ibeeditor.impl.client;
 
 import com.github.franckyi.gamehooks.GameHooks;
-import com.github.franckyi.gamehooks.util.common.text.Text;
 import com.github.franckyi.gamehooks.util.common.text.TextFormatting;
 import com.github.franckyi.ibeeditor.impl.common.packet.NotifyClientPacket;
 import com.github.franckyi.ibeeditor.impl.common.packet.OpenBlockEditorResponsePacket;
 import com.github.franckyi.ibeeditor.impl.common.packet.OpenEntityEditorResponsePacket;
 import com.github.franckyi.ibeeditor.impl.common.packet.TriggerOpenEditorPacket;
 
-public final class ClientPacketHandler {
+import static com.github.franckyi.guapi.GUAPIFactory.*;
+
+public final class ClientNetworkReceiver {
     public static void openBlockEditor(OpenBlockEditorResponsePacket packet) {
         if (packet.getBlock().getTag() != null) {
             IBEEditorClient.openBlockEditor(packet.getBlock(), packet.getPos(), packet.isNBT());
         } else {
-            GameHooks.client().getPlayer().sendMessage(Text.literal("No Block data found", TextFormatting.RED));
+            GameHooks.client().getPlayer().sendMessage(text("No Block data found", TextFormatting.RED));
         }
     }
 
@@ -21,13 +22,13 @@ public final class ClientPacketHandler {
         if (packet.getEntity().getTag() != null) {
             IBEEditorClient.openEntityEditor(packet.getEntity(), packet.getEntityId(), packet.isNBT());
         } else {
-            GameHooks.client().getPlayer().sendMessage(Text.literal("No Entity found", TextFormatting.RED));
+            GameHooks.client().getPlayer().sendMessage(text("No Entity found", TextFormatting.RED));
         }
     }
 
     public static void serverModInstalled(NotifyClientPacket packet) {
-        IBEEditorClient.serverModInstalled = true;
-        ClientNetwork.notifyServer();
+        IBEEditorClient.setServerModInstalled(true);
+        ClientNetworkEmitter.notifyServer();
     }
 
     public static void openEditorTriggered(TriggerOpenEditorPacket packet) {
@@ -37,17 +38,17 @@ public final class ClientPacketHandler {
                 break;
             case TriggerOpenEditorPacket.ITEM:
                 if (!IBEEditorClient.tryOpenItemEditor(packet.isNBT())) {
-                    GameHooks.client().getPlayer().sendMessage(Text.literal("No Item found", TextFormatting.RED));
+                    GameHooks.client().getPlayer().sendMessage(text("No Item found", TextFormatting.RED));
                 }
                 break;
             case TriggerOpenEditorPacket.BLOCK:
                 if (!IBEEditorClient.tryOpenBlockEditor(packet.isNBT())) {
-                    GameHooks.client().getPlayer().sendMessage(Text.literal("No Block data found", TextFormatting.RED));
+                    GameHooks.client().getPlayer().sendMessage(text("No Block data found", TextFormatting.RED));
                 }
                 break;
             case TriggerOpenEditorPacket.ENTITY:
                 if (!IBEEditorClient.tryOpenEntityEditor(packet.isNBT())) {
-                    GameHooks.client().getPlayer().sendMessage(Text.literal("No Entity found", TextFormatting.RED));
+                    GameHooks.client().getPlayer().sendMessage(text("No Entity found", TextFormatting.RED));
                 }
                 break;
             case TriggerOpenEditorPacket.SELF:

@@ -15,7 +15,7 @@ import static com.github.franckyi.ibeeditor.impl.common.IBEEditorCommon.LOGGER;
 
 public final class IBEEditorConfiguration {
     public static IBEEditorConfiguration INSTANCE;
-    private static final Path CONFIG_FILE = GameHooks.common().gameDir().resolve("config").resolve("ibeeditor.json");
+    private static final Path CONFIG_FILE = GameHooks.common().getGameDir().resolve("config").resolve("ibeeditor.json");
     private static final Marker MARKER = MarkerManager.getMarker("Config");
     private static final Gson GSON = new Gson();
     private static final IBEEditorConfiguration DEFAULT_CONFIG = new IBEEditorConfiguration();

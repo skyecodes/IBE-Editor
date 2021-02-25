@@ -2,25 +2,24 @@ package com.github.franckyi.gamehooks.api;
 
 import com.github.franckyi.gamehooks.api.common.*;
 import com.github.franckyi.gamehooks.api.common.network.Network;
+import com.github.franckyi.gamehooks.util.common.tag.ObjectTag;
 import com.mojang.brigadier.Command;
 
 import java.nio.file.Path;
 import java.util.function.Function;
 
 public interface CommonHooks {
-    <T> TextFactory<T> text();
+    TextFactory text();
 
-    <T> TagFactory<T> tag();
+    Item createItemFromTag(ObjectTag tag);
 
-    ItemFactory item();
+    Block createBlockFromTag(ObjectTag tag);
 
-    BlockFactory block();
+    Entity createEntityFromTag(ObjectTag tag);
 
-    EntityFactory entity();
+    Network getNetwork();
 
-    Network<?> network();
-
-    Path gameDir();
+    Path getGameDir();
 
     Command<?> command(Function<Player, Integer> command);
 }

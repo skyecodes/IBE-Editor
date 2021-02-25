@@ -6,7 +6,7 @@ import com.github.franckyi.guapi.api.theme.DelegatedRenderer;
 import com.github.franckyi.guapi.impl.theme.DelegatedSkin;
 
 public class VanillaCheckBoxSkin extends DelegatedSkin<CheckBox> {
-    public VanillaCheckBoxSkin(DelegatedRenderer<?> delegatedRenderer) {
+    public VanillaCheckBoxSkin(DelegatedRenderer delegatedRenderer) {
         super(delegatedRenderer);
     }
 

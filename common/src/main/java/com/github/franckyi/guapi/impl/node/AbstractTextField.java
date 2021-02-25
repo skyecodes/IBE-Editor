@@ -2,10 +2,12 @@ package com.github.franckyi.guapi.impl.node;
 
 import com.github.franckyi.databindings.PropertyFactory;
 import com.github.franckyi.databindings.api.*;
-import com.github.franckyi.gamehooks.util.common.text.Text;
+import com.github.franckyi.gamehooks.api.common.Text;
 import com.github.franckyi.guapi.api.node.TextField;
 
 import java.util.function.Predicate;
+
+import static com.github.franckyi.guapi.GUAPIFactory.*;
 
 public abstract class AbstractTextField extends AbstractLabeled implements TextField {
     private final StringProperty textProperty = PropertyFactory.ofString("");
@@ -20,11 +22,11 @@ public abstract class AbstractTextField extends AbstractLabeled implements TextF
     }
 
     protected AbstractTextField(String value) {
-        this(Text.EMPTY, value);
+        this(emptyText(), value);
     }
 
     protected AbstractTextField(String label, String value) {
-        this(Text.literal(label), value);
+        this(text(label), value);
     }
 
     protected AbstractTextField(Text label, String value) {

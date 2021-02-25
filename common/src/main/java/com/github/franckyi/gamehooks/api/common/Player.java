@@ -1,7 +1,5 @@
 package com.github.franckyi.gamehooks.api.common;
 
-import com.github.franckyi.gamehooks.util.common.text.Text;
-
 import java.util.UUID;
 
 public interface Player extends WorldEntity {
@@ -14,6 +12,8 @@ public interface Player extends WorldEntity {
     World getWorld();
 
     UUID getProfileId();
+
+    String getName();
 
     void sendMessage(Text message, boolean actionBar);
 

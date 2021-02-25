@@ -5,7 +5,7 @@ import com.github.franckyi.guapi.api.theme.DelegatedRenderer;
 import com.github.franckyi.guapi.impl.theme.DelegatedSkin;
 
 public class VanillaTextFieldSkin extends DelegatedSkin<TextField> {
-    public VanillaTextFieldSkin(DelegatedRenderer<?> delegatedRenderer) {
+    public VanillaTextFieldSkin(DelegatedRenderer delegatedRenderer) {
         super(delegatedRenderer);
     }
 

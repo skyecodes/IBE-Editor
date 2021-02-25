@@ -2,8 +2,8 @@ package com.github.franckyi.gamehooks.impl.common;
 
 import com.github.franckyi.gamehooks.api.common.Item;
 import com.github.franckyi.gamehooks.api.common.Player;
+import com.github.franckyi.gamehooks.api.common.Text;
 import com.github.franckyi.gamehooks.api.common.World;
-import com.github.franckyi.gamehooks.util.common.text.Text;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
@@ -25,11 +25,6 @@ public class ForgePlayer extends ForgeWorldEntity implements Player {
     }
 
     @Override
-    public void sendMessage(Text message, boolean actionBar) {
-        entity.sendStatusMessage(ForgeTextFactory.INSTANCE.create(message), actionBar);
-    }
-
-    @Override
     public void setItemMainHand(Item item) {
         entity.setHeldItem(Hand.MAIN_HAND, item.getStack());
     }
@@ -47,6 +42,16 @@ public class ForgePlayer extends ForgeWorldEntity implements Player {
     @Override
     public UUID getProfileId() {
         return entity.getGameProfile().getId();
+    }
+
+    @Override
+    public String getName() {
+        return entity.getGameProfile().getName();
+    }
+
+    @Override
+    public void sendMessage(Text message, boolean actionBar) {
+        entity.sendStatusMessage(message.getText(), actionBar);
     }
 
     @Override

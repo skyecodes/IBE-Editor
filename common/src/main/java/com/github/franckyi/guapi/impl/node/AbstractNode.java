@@ -2,7 +2,8 @@ package com.github.franckyi.guapi.impl.node;
 
 import com.github.franckyi.databindings.PropertyFactory;
 import com.github.franckyi.databindings.api.*;
-import com.github.franckyi.gamehooks.util.common.text.Text;
+import com.github.franckyi.gamehooks.api.client.Matrices;
+import com.github.franckyi.gamehooks.api.common.Text;
 import com.github.franckyi.guapi.GUAPI;
 import com.github.franckyi.guapi.api.event.ScreenEvent;
 import com.github.franckyi.guapi.api.event.ScreenEventListener;
@@ -249,7 +250,7 @@ public abstract class AbstractNode implements Node {
     }
 
     @Override
-    public boolean preRender(Object matrices, int mouseX, int mouseY, float delta) {
+    public boolean preRender(Matrices matrices, int mouseX, int mouseY, float delta) {
         boolean res = checkRender();
         if (isVisible()) {
             res |= getSkin().preRender(this, matrices, mouseX, mouseY, delta);
@@ -258,14 +259,14 @@ public abstract class AbstractNode implements Node {
     }
 
     @Override
-    public void render(Object matrices, int mouseX, int mouseY, float delta) {
+    public void render(Matrices matrices, int mouseX, int mouseY, float delta) {
         if (isVisible()) {
             getSkin().render(this, matrices, mouseX, mouseY, delta);
         }
     }
 
     @Override
-    public void postRender(Object matrices, int mouseX, int mouseY, float delta) {
+    public void postRender(Matrices matrices, int mouseX, int mouseY, float delta) {
         if (isVisible()) {
             getSkin().postRender(this, matrices, mouseX, mouseY, delta);
         }

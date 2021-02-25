@@ -12,6 +12,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class MinecraftClientMixin {
     @Inject(at = @At("HEAD"), method = "disconnect(Lnet/minecraft/client/gui/screen/Screen;)V")
     private void disconnect(Screen screen, CallbackInfo info) {
-        IBEEditorClient.serverModInstalled = false;
+        IBEEditorClient.setServerModInstalled(false);
     }
 }
