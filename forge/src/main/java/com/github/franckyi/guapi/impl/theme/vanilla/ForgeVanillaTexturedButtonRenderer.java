@@ -12,7 +12,7 @@ public class ForgeVanillaTexturedButtonRenderer extends Button implements ForgeV
     private final TexturedButton node;
 
     public ForgeVanillaTexturedButtonRenderer(TexturedButton node) {
-        super(node.getX(), node.getY(), node.getWidth(), node.getHeight(), node.tooltipProperty().hasValue() ? node.getTooltip().getText() : StringTextComponent.EMPTY, button -> {
+        super(node.getX(), node.getY(), node.getWidth(), node.getHeight(), node.tooltipProperty().hasValue() ? node.getTooltip().get() : StringTextComponent.EMPTY, button -> {
         });
         this.node = node;
         active = !node.isDisabled();
@@ -21,7 +21,7 @@ public class ForgeVanillaTexturedButtonRenderer extends Button implements ForgeV
         node.widthProperty().addListener(newVal -> width = newVal);
         node.heightProperty().addListener(newVal -> height = newVal);
         node.disabledProperty().addListener(newVal -> active = !newVal);
-        node.tooltipProperty().addListener(tooltip -> setMessage(tooltip.getText()));
+        node.tooltipProperty().addListener(tooltip -> setMessage(tooltip.get()));
     }
 
     @Override

@@ -15,7 +15,7 @@ public class UpdateEntityPacket implements Packet {
     }
 
     public UpdateEntityPacket(Buffer buffer) {
-        this(buffer.readInt(), GameHooks.common().createEntityFromTag(buffer.readTag()));
+        this(buffer.readInt(), GameHooks.common().createEntity(buffer.readTag()));
     }
 
     @Override

@@ -26,12 +26,12 @@ public class ForgePlayer extends ForgeWorldEntity implements Player {
 
     @Override
     public void setItemMainHand(Item item) {
-        entity.setHeldItem(Hand.MAIN_HAND, item.getStack());
+        entity.setHeldItem(Hand.MAIN_HAND, item.get());
     }
 
     @Override
     public void setInventoryItem(int slotId, Item item) {
-        entity.inventory.setInventorySlotContents(slotId, item.getStack());
+        entity.inventory.setInventorySlotContents(slotId, item.get());
     }
 
     @Override
@@ -51,12 +51,12 @@ public class ForgePlayer extends ForgeWorldEntity implements Player {
 
     @Override
     public void sendMessage(Text message, boolean actionBar) {
-        entity.sendStatusMessage(message.getText(), actionBar);
+        entity.sendStatusMessage(message.get(), actionBar);
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public PlayerEntity getPlayerEntity() {
+    public PlayerEntity get() {
         return entity;
     }
 }

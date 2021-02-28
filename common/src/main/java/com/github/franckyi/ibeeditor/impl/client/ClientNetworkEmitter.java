@@ -4,7 +4,7 @@ import com.github.franckyi.gamehooks.GameHooks;
 import com.github.franckyi.gamehooks.api.common.Block;
 import com.github.franckyi.gamehooks.api.common.Entity;
 import com.github.franckyi.gamehooks.api.common.Item;
-import com.github.franckyi.gamehooks.api.common.Pos;
+import com.github.franckyi.gamehooks.api.common.BlockPos;
 import com.github.franckyi.gamehooks.api.common.network.Packet;
 import com.github.franckyi.ibeeditor.impl.common.IBEEditorNetwork;
 import com.github.franckyi.ibeeditor.impl.common.packet.*;
@@ -22,11 +22,11 @@ public final class ClientNetworkEmitter {
         send(IBEEditorNetwork.UPDATE_PLAYER_INVENTORY_ITEM, new UpdatePlayerInventoryItemPacket(item, slotId));
     }
 
-    public static void updateBlockInventoryItem(Item item, int slotId, Pos blockPos) {
+    public static void updateBlockInventoryItem(Item item, int slotId, BlockPos blockPos) {
         send(IBEEditorNetwork.UPDATE_BLOCK_INVENTORY_ITEM, new UpdateBlockInventoryItemPacket(item, slotId, blockPos));
     }
 
-    public static void updateBlock(Pos blockPos, Block block) {
+    public static void updateBlock(BlockPos blockPos, Block block) {
         send(IBEEditorNetwork.UPDATE_BLOCK, new UpdateBlockPacket(blockPos, block));
     }
 
@@ -34,7 +34,7 @@ public final class ClientNetworkEmitter {
         send(IBEEditorNetwork.UPDATE_ENTITY, new UpdateEntityPacket(entityId, entity));
     }
 
-    public static void requestOpenBlockEditor(Pos blockPos, boolean nbt) {
+    public static void requestOpenBlockEditor(BlockPos blockPos, boolean nbt) {
         send(IBEEditorNetwork.OPEN_BLOCK_EDITOR_REQUEST, new OpenBlockEditorRequestPacket(blockPos, nbt));
     }
 

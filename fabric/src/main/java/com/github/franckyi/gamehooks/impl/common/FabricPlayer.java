@@ -26,12 +26,12 @@ public class FabricPlayer extends FabricWorldEntity implements Player {
 
     @Override
     public void setItemMainHand(Item item) {
-        entity.setStackInHand(Hand.MAIN_HAND, item.getStack());
+        entity.setStackInHand(Hand.MAIN_HAND, item.get());
     }
 
     @Override
     public void setInventoryItem(int slotId, Item item) {
-        entity.inventory.setStack(slotId, item.getStack());
+        entity.inventory.setStack(slotId, item.get());
     }
 
     @Override
@@ -51,12 +51,12 @@ public class FabricPlayer extends FabricWorldEntity implements Player {
 
     @Override
     public void sendMessage(Text message, boolean actionBar) {
-        entity.sendMessage(message.getText(), actionBar);
+        entity.sendMessage(message.get(), actionBar);
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public PlayerEntity getPlayerEntity() {
+    public PlayerEntity get() {
         return entity;
     }
 }

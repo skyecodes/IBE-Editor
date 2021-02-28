@@ -3,6 +3,7 @@ package com.github.franckyi.gamehooks.impl;
 import com.github.franckyi.gamehooks.api.ClientHooks;
 import com.github.franckyi.gamehooks.api.client.KeyBinding;
 import com.github.franckyi.gamehooks.api.client.Renderer;
+import com.github.franckyi.gamehooks.api.client.ScreenHandler;
 import com.github.franckyi.gamehooks.api.client.ScreenScaling;
 import com.github.franckyi.gamehooks.api.common.Player;
 import com.github.franckyi.gamehooks.api.common.World;
@@ -11,9 +12,10 @@ import com.github.franckyi.gamehooks.api.common.WorldEntity;
 import com.github.franckyi.gamehooks.impl.client.ForgeRenderer;
 import com.github.franckyi.gamehooks.impl.client.ForgeScreenScaling;
 import com.github.franckyi.gamehooks.impl.common.ForgePlayer;
-import com.github.franckyi.gamehooks.impl.common.ForgePos;
+import com.github.franckyi.gamehooks.impl.common.ForgeBlockPos;
 import com.github.franckyi.gamehooks.impl.common.ForgeWorld;
 import com.github.franckyi.gamehooks.impl.common.ForgeWorldEntity;
+import com.github.franckyi.gamehooks.impl.client.ForgeScreenHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.EntityRayTraceResult;
@@ -31,9 +33,13 @@ public final class ForgeClientHooks implements ClientHooks {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public Renderer getRenderer() {
         return ForgeRenderer.INSTANCE;
+    }
+
+    @Override
+    public ScreenHandler getScreenHandler() {
+        return ForgeScreenHandler.INSTANCE;
     }
 
     @Override
@@ -83,7 +89,7 @@ public final class ForgeClientHooks implements ClientHooks {
         if (result instanceof BlockRayTraceResult) {
             BlockRayTraceResult res = (BlockRayTraceResult) result;
             if (!mc().world.isAirBlock(res.getPos())) {
-                return getWorld().getBlock(new ForgePos(res.getPos()));
+                return getWorld().getBlock(new ForgeBlockPos(res.getPos()));
             }
         }
         return null;

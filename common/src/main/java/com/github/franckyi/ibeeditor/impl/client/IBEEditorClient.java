@@ -7,10 +7,16 @@ import com.github.franckyi.gamehooks.api.client.Screen;
 import com.github.franckyi.gamehooks.api.common.*;
 import com.github.franckyi.guapi.GUAPI;
 import com.github.franckyi.guapi.GUAPIFactory;
-import com.github.franckyi.guapi.api.ScreenHandler;
-import com.github.franckyi.ibeeditor.api.client.mvc.view.*;
-import com.github.franckyi.ibeeditor.impl.client.mvc.*;
-import com.github.franckyi.ibeeditor.impl.client.mvc.model.EditorModelImpl;
+import com.github.franckyi.gamehooks.api.client.ScreenHandler;
+import com.github.franckyi.ibeeditor.api.client.mvc.editor.view.CategoryView;
+import com.github.franckyi.ibeeditor.api.client.mvc.editor.view.EditorView;
+import com.github.franckyi.ibeeditor.api.client.mvc.nbteditor.view.NBTEditorView;
+import com.github.franckyi.ibeeditor.api.client.mvc.nbteditor.view.TagView;
+import com.github.franckyi.ibeeditor.impl.client.mvc.editor.CategoryMVCImpl;
+import com.github.franckyi.ibeeditor.impl.client.mvc.editor.EditorMVCImpl;
+import com.github.franckyi.ibeeditor.impl.client.mvc.nbteditor.NBTEditorMVCImpl;
+import com.github.franckyi.ibeeditor.impl.client.mvc.nbteditor.TagMVCImpl;
+import com.github.franckyi.ibeeditor.impl.client.mvc.editor.model.EditorModelImpl;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
 import org.lwjgl.glfw.GLFW;
@@ -27,26 +33,24 @@ public final class IBEEditorClient {
     public static KeyBinding clipboardKey;
     private static boolean serverModInstalled;
 
-    public static void init(ClientHooks clientHooks, ScreenHandler screenHandler) {
+    public static void init(ClientHooks clientHooks) {
         LOGGER.info(MARKER, "Initializing IBE Editor - client");
         GameHooks.initClient(clientHooks);
-        initGUAPI(screenHandler);
+        initGUAPI();
         editorKey = GameHooks.client().registerKeyBinding("ibeeditor.key.editor", GLFW.GLFW_KEY_I, "ibeeditor.category");
         nbtEditorKey = GameHooks.client().registerKeyBinding("ibeeditor.key.nbt_editor", GLFW.GLFW_KEY_N, "ibeeditor.category");
         clipboardKey = GameHooks.client().registerKeyBinding("ibeeditor.key.clipboard", GLFW.GLFW_KEY_J, "ibeeditor.category");
     }
 
-    private static void initGUAPI(ScreenHandler screenHandler) {
-        GUAPI.init(screenHandler);
-        GUAPIFactory.registerMVC(EditorView.class, EditorMVCImpl.INSTANCE);
-        GUAPIFactory.registerMVC(CategoryView.class, CategoryMVCImpl.INSTANCE);
-        GUAPIFactory.registerMVC(StringEntryView.class, StringEntryMVCImpl.INSTANCE);
-        GUAPIFactory.registerMVC(IntegerEntryView.class, IntegerEntryMVCImpl.INSTANCE);
+    private static void initGUAPI() {
+        GUAPI.init();
         GUAPIFactory.registerMVC(NBTEditorView.class, NBTEditorMVCImpl.INSTANCE);
         GUAPIFactory.registerMVC(TagView.class, TagMVCImpl.INSTANCE);
+        GUAPIFactory.registerMVC(EditorView.class, EditorMVCImpl.INSTANCE);
+        GUAPIFactory.registerMVC(CategoryView.class, CategoryMVCImpl.INSTANCE);
     }
 
-    public static void tick() {
+    public static void onKeyInput() {
         if (editorKey.isPressed()) {
             GameHooks.client().unlockCursor();
             openWorldEditor(false);
@@ -77,7 +81,7 @@ public final class IBEEditorClient {
     public static boolean tryOpenBlockEditor(boolean nbt) {
         WorldBlock block = GameHooks.client().getBlockMouseOver();
         if (block != null) {
-            requestOpenBlockEditor(block.getPos(), nbt);
+            requestOpenBlockEditor(block.getBlockPos(), nbt);
             return true;
         }
         return false;
@@ -93,7 +97,7 @@ public final class IBEEditorClient {
     }
 
     public static void openClipboard() {
-        GUAPI.getScreenHandler().showScene(scene(mvc(EditorView.class, new EditorModelImpl()), true, true));
+        GameHooks.client().getScreenHandler().showScene(scene(mvc(EditorView.class, new EditorModelImpl()), true, true));
     }
 
     public static void handleScreenEvent(Screen screen, int keyCode) {
@@ -105,7 +109,7 @@ public final class IBEEditorClient {
                 } else {
                     WorldBlock block = GameHooks.client().getBlockMouseOver();
                     if (block != null) {
-                        openItemEditor(slot.getStack(), keyCode == nbtEditorKey.getKeyCode(), item -> updateBlockInventoryItem(item, slot.getIndex(), block.getPos()));
+                        openItemEditor(slot.getStack(), keyCode == nbtEditorKey.getKeyCode(), item -> updateBlockInventoryItem(item, slot.getIndex(), block.getBlockPos()));
                     }
                 }
             }
@@ -113,23 +117,23 @@ public final class IBEEditorClient {
     }
 
     public static void openItemEditor(Item item, boolean nbt, Consumer<Item> action) {
-        GameHooks.logger().debug(MARKER, "Opening Item Editor (item={};nbt={})", item.getStack(), nbt);
+        GameHooks.logger().debug(MARKER, "Opening Item Editor (item={};nbt={})", item.get(), nbt);
         if (nbt) {
-            EditorHandler.showNBTEditor(item.getTag(), tag -> action.accept(GameHooks.common().createItemFromTag(tag)));
+            EditorHandler.showNBTEditor(item.getTag(), tag -> action.accept(GameHooks.common().createItem(tag)));
         } else {
             EditorHandler.showItemEditor(item);
         }
     }
 
-    public static void requestOpenBlockEditor(Pos blockPos, boolean nbt) {
-        GameHooks.logger().debug(MARKER, "Requesting Block Editor (pos={};nbt={})", blockPos.getPos(), nbt);
+    public static void requestOpenBlockEditor(BlockPos blockPos, boolean nbt) {
+        GameHooks.logger().debug(MARKER, "Requesting Block Editor (pos={};nbt={})", blockPos.get(), nbt);
         ClientNetworkEmitter.requestOpenBlockEditor(blockPos, nbt);
     }
 
-    public static void openBlockEditor(Block block, Pos blockPos, boolean nbt) {
-        GameHooks.logger().debug(MARKER, "Opening Block Editor (pos={};nbt={})", blockPos.getPos(), nbt);
+    public static void openBlockEditor(Block block, BlockPos blockPos, boolean nbt) {
+        GameHooks.logger().debug(MARKER, "Opening Block Editor (pos={};nbt={})", blockPos.get(), nbt);
         if (nbt) {
-            EditorHandler.showNBTEditor(block.getTag(), tag -> updateBlock(blockPos, GameHooks.common().createBlockFromTag(tag)));
+            EditorHandler.showNBTEditor(block.getData(), tag -> updateBlock(blockPos, GameHooks.common().createBlock(block.getState(), tag)));
         } else {
             //EditorHandler.showBlockEditor(block);
         }
@@ -143,7 +147,7 @@ public final class IBEEditorClient {
     public static void openEntityEditor(Entity entity, int entityId, boolean nbt) {
         GameHooks.logger().debug(MARKER, "Opening Entity Editor (id={};nbt={})", entityId, nbt);
         if (nbt) {
-            EditorHandler.showNBTEditor(entity.getTag(), tag -> updateEntity(entityId, GameHooks.common().createEntityFromTag(tag)));
+            EditorHandler.showNBTEditor(entity.getTag(), tag -> updateEntity(entityId, GameHooks.common().createEntity(tag)));
         } else {
             //EditorHandler.showEntityEditor(entity);
         }
@@ -164,26 +168,26 @@ public final class IBEEditorClient {
 
     private static void updatePlayerMainHandItem(Item item) {
         ClientNetworkEmitter.updatePlayerMainHandItem(item);
-        GUAPI.getScreenHandler().hideScene();
+        GameHooks.client().getScreenHandler().hideScene();
     }
 
     private static void updatePlayerInventoryItem(Item item, int slotId) {
         ClientNetworkEmitter.updatePlayerInventoryItem(item, slotId);
-        GUAPI.getScreenHandler().hideScene();
+        GameHooks.client().getScreenHandler().hideScene();
     }
 
-    private static void updateBlockInventoryItem(Item item, int slotId, Pos blockPos) {
+    private static void updateBlockInventoryItem(Item item, int slotId, BlockPos blockPos) {
         ClientNetworkEmitter.updateBlockInventoryItem(item, slotId, blockPos);
-        GUAPI.getScreenHandler().hideScene();
+        GameHooks.client().getScreenHandler().hideScene();
     }
 
-    private static void updateBlock(Pos blockPos, Block block) {
+    private static void updateBlock(BlockPos blockPos, Block block) {
         ClientNetworkEmitter.updateBlock(blockPos, block);
-        GUAPI.getScreenHandler().hideScene();
+        GameHooks.client().getScreenHandler().hideScene();
     }
 
     private static void updateEntity(int entityId, Entity entity) {
         ClientNetworkEmitter.updateEntity(entityId, entity);
-        GUAPI.getScreenHandler().hideScene();
+        GameHooks.client().getScreenHandler().hideScene();
     }
 }

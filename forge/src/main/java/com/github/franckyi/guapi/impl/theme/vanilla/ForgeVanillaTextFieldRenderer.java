@@ -14,7 +14,7 @@ public class ForgeVanillaTextFieldRenderer extends TextFieldWidget implements Fo
     private final TextField node;
 
     public ForgeVanillaTextFieldRenderer(TextField node) {
-        super(Minecraft.getInstance().fontRenderer, node.getX(), node.getY(), node.getWidth(), node.getHeight(), node.getLabel().getText());
+        super(Minecraft.getInstance().fontRenderer, node.getX(), node.getY(), node.getWidth(), node.getHeight(), node.getLabel().get());
         this.node = node;
         setEnabled(!node.isDisabled());
         setMaxStringLength(node.getMaxLength());
@@ -28,7 +28,7 @@ public class ForgeVanillaTextFieldRenderer extends TextFieldWidget implements Fo
         node.widthProperty().addListener(newVal -> width = newVal);
         node.heightProperty().addListener(newVal -> height = newVal);
         node.disabledProperty().addListener(newVal -> setEnabled(!newVal));
-        node.labelProperty().addListener(label -> setMessage(label.getText()));
+        node.labelProperty().addListener(label -> setMessage(label.get()));
         node.maxLengthProperty().addListener(this::setMaxStringLength);
         node.textProperty().addListener(newVal -> {
             int cursor = getCursorPosition();

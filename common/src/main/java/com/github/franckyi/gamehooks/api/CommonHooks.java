@@ -2,7 +2,7 @@ package com.github.franckyi.gamehooks.api;
 
 import com.github.franckyi.gamehooks.api.common.*;
 import com.github.franckyi.gamehooks.api.common.network.Network;
-import com.github.franckyi.gamehooks.util.common.tag.ObjectTag;
+import com.github.franckyi.gamehooks.api.common.tag.CompoundTag;
 import com.mojang.brigadier.Command;
 
 import java.nio.file.Path;
@@ -11,11 +11,13 @@ import java.util.function.Function;
 public interface CommonHooks {
     TextFactory textFactory();
 
-    Item createItemFromTag(ObjectTag tag);
+    TagFactory tagFactory();
 
-    Block createBlockFromTag(ObjectTag tag);
+    Item createItem(CompoundTag tag);
 
-    Entity createEntityFromTag(ObjectTag tag);
+    Block createBlock(CompoundTag state, CompoundTag data);
+
+    Entity createEntity(CompoundTag tag);
 
     Network getNetwork();
 

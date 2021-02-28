@@ -1,9 +1,9 @@
 package com.github.franckyi.gamehooks.api.common;
 
-import com.github.franckyi.gamehooks.util.common.tag.ObjectTag;
+import com.github.franckyi.gamehooks.api.common.tag.CompoundTag;
 
 public interface Item {
-    ObjectTag getTag();
+    CompoundTag getTag();
 
-    <S> S getStack();
+    <S> S get();
 }

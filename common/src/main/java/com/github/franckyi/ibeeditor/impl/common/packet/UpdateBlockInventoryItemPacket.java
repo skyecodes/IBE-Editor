@@ -1,29 +1,29 @@
 package com.github.franckyi.ibeeditor.impl.common.packet;
 
 import com.github.franckyi.gamehooks.api.common.Item;
-import com.github.franckyi.gamehooks.api.common.Pos;
+import com.github.franckyi.gamehooks.api.common.BlockPos;
 import com.github.franckyi.gamehooks.api.common.network.Buffer;
 
 public class UpdateBlockInventoryItemPacket extends UpdatePlayerInventoryItemPacket {
-    private final Pos pos;
+    private final BlockPos blockPos;
 
-    public UpdateBlockInventoryItemPacket(Item item, int slotId, Pos pos) {
+    public UpdateBlockInventoryItemPacket(Item item, int slotId, BlockPos blockPos) {
         super(item, slotId);
-        this.pos = pos;
+        this.blockPos = blockPos;
     }
 
     public UpdateBlockInventoryItemPacket(Buffer buffer) {
         super(buffer);
-        pos = buffer.readPos();
+        blockPos = buffer.readPos();
     }
 
     @Override
     public void write(Buffer buffer) {
         super.write(buffer);
-        buffer.writePos(pos);
+        buffer.writePos(blockPos);
     }
 
-    public Pos getPos() {
-        return pos;
+    public BlockPos getPos() {
+        return blockPos;
     }
 }

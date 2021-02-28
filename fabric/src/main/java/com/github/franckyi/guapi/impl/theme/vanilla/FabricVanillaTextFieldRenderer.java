@@ -14,7 +14,7 @@ public class FabricVanillaTextFieldRenderer extends TextFieldWidget implements F
     private final TextField node;
 
     public FabricVanillaTextFieldRenderer(TextField node) {
-        super(MinecraftClient.getInstance().textRenderer, node.getX(), node.getY(), node.getWidth(), node.getHeight(), node.getLabel().getText());
+        super(MinecraftClient.getInstance().textRenderer, node.getX(), node.getY(), node.getWidth(), node.getHeight(), node.getLabel().get());
         this.node = node;
         setEditable(!node.isDisabled());
         setMaxLength(node.getMaxLength());
@@ -27,7 +27,7 @@ public class FabricVanillaTextFieldRenderer extends TextFieldWidget implements F
         node.widthProperty().addListener(newVal -> width = newVal);
         node.heightProperty().addListener(newVal -> height = newVal);
         node.disabledProperty().addListener(newVal -> setEditable(!newVal));
-        node.labelProperty().addListener(label -> setMessage(label.getText()));
+        node.labelProperty().addListener(label -> setMessage(label.get()));
         node.maxLengthProperty().addListener(this::setMaxLength);
         node.textProperty().addListener(newVal -> {
             int cursor = getCursor();

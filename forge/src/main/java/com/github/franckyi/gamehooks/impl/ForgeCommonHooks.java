@@ -3,6 +3,7 @@ package com.github.franckyi.gamehooks.impl;
 import com.github.franckyi.gamehooks.api.CommonHooks;
 import com.github.franckyi.gamehooks.api.common.*;
 import com.github.franckyi.gamehooks.api.common.network.Network;
+import com.github.franckyi.gamehooks.api.common.tag.CompoundTag;
 import com.github.franckyi.gamehooks.impl.common.*;
 import com.github.franckyi.gamehooks.util.common.tag.ObjectTag;
 import com.mojang.brigadier.Command;
@@ -24,17 +25,17 @@ public final class ForgeCommonHooks implements CommonHooks {
     }
 
     @Override
-    public Item createItemFromTag(ObjectTag tag) {
+    public Item createItem(CompoundTag tag) {
         return new ForgeItem(tag);
     }
 
     @Override
-    public Block createBlockFromTag(ObjectTag tag) {
-        return new ForgeBlock(tag);
+    public Block createBlock(CompoundTag state, CompoundTag data) {
+        return new ForgeBlock(state, data);
     }
 
     @Override
-    public Entity createEntityFromTag(ObjectTag tag) {
+    public Entity createEntity(CompoundTag tag) {
         return new ForgeEntity(tag);
     }
 

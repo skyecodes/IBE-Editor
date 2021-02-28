@@ -1,6 +1,6 @@
 package com.github.franckyi.gamehooks.api.common.network;
 
-import com.github.franckyi.gamehooks.api.common.Pos;
+import com.github.franckyi.gamehooks.api.common.BlockPos;
 import com.github.franckyi.gamehooks.util.common.tag.ObjectTag;
 
 public interface Buffer {
@@ -14,9 +14,9 @@ public interface Buffer {
 
     void writeInt(int i);
 
-    Pos readPos();
+    BlockPos readPos();
 
-    void writePos(Pos pos);
+    void writePos(BlockPos blockPos);
 
     boolean readBoolean();
 

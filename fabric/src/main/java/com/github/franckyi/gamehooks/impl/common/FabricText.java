@@ -13,7 +13,7 @@ public class FabricText implements Text {
 
     @Override
     @SuppressWarnings("unchecked")
-    public net.minecraft.text.Text getText() {
+    public net.minecraft.text.Text get() {
         return text;
     }
 }

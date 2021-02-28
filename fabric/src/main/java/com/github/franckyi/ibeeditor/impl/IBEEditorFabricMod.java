@@ -3,7 +3,6 @@ package com.github.franckyi.ibeeditor.impl;
 import com.github.franckyi.gamehooks.impl.FabricClientHooks;
 import com.github.franckyi.gamehooks.impl.FabricCommonHooks;
 import com.github.franckyi.gamehooks.impl.client.FabricScreen;
-import com.github.franckyi.guapi.impl.FabricScreenHandler;
 import com.github.franckyi.guapi.impl.theme.vanilla.*;
 import com.github.franckyi.guapi.util.NodeType;
 import com.github.franckyi.ibeeditor.impl.client.IBEEditorClient;
@@ -11,7 +10,6 @@ import com.github.franckyi.ibeeditor.impl.common.IBEEditorCommon;
 import com.github.franckyi.ibeeditor.impl.server.IBEEditorServer;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenKeyboardEvents;
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
@@ -28,14 +26,13 @@ public final class IBEEditorFabricMod implements ModInitializer, ClientModInitia
 
     @Override
     public void onInitializeClient() {
-        IBEEditorClient.init(FabricClientHooks.INSTANCE, FabricScreenHandler.INSTANCE);
+        IBEEditorClient.init(FabricClientHooks.INSTANCE);
         VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(NodeType.BUTTON, FabricVanillaButtonRenderer::new);
         VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(NodeType.TEXTURED_BUTTON, FabricVanillaTexturedButtonRenderer::new);
         VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(NodeType.TEXT_FIELD, FabricVanillaTextFieldRenderer::new);
         VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(NodeType.CHECK_BOX, FabricVanillaCheckBoxRenderer::new);
         VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(NodeType.LIST_VIEW, FabricVanillaListViewRenderer::new);
         VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(NodeType.TREE_VIEW, FabricVanillaTreeViewRenderer::new);
-        ClientTickEvents.END_CLIENT_TICK.register(mc -> IBEEditorClient.tick());
         ScreenEvents.AFTER_INIT.register(this::afterScreenInit);
     }
 

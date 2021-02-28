@@ -14,7 +14,7 @@ public class OpenEntityEditorResponsePacket extends OpenEntityEditorRequestPacke
 
     public OpenEntityEditorResponsePacket(Buffer buffer) {
         super(buffer);
-        entity = GameHooks.common().createEntityFromTag(buffer.readTag());
+        entity = GameHooks.common().createEntity(buffer.readTag());
     }
 
     @Override

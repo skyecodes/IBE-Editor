@@ -12,23 +12,23 @@ public class ForgeWorld implements World {
     }
 
     @Override
-    public void setBlockInventoryItem(Pos pos, int slotId, Item item) {
-        TileEntity tileEntity = world.getTileEntity(pos.getPos());
+    public void setBlockInventoryItem(BlockPos blockPos, int slotId, Item item) {
+        TileEntity tileEntity = world.getTileEntity(blockPos.get());
         if (tileEntity instanceof IInventory) {
-            ((IInventory) tileEntity).setInventorySlotContents(slotId, item.getStack());
+            ((IInventory) tileEntity).setInventorySlotContents(slotId, item.get());
         }
     }
 
     @Override
-    public WorldBlock getBlock(Pos pos) {
-        return new ForgeWorldBlock(pos, world.getTileEntity(pos.getPos()));
+    public WorldBlock getBlock(BlockPos blockPos) {
+        return new ForgeWorldBlock(blockPos, world.getBlockState(blockPos.get()), world.getTileEntity(blockPos.get()));
     }
 
     @Override
-    public void setBlockData(Pos pos, Block block) {
-        TileEntity tileEntity = world.getTileEntity(pos.getPos());
+    public void setBlockData(BlockPos blockPos, Block block) {
+        TileEntity tileEntity = world.getTileEntity(blockPos.get());
         if (tileEntity != null) {
-            tileEntity.read(world.getBlockState(pos.getPos()), ForgeTagFactory.parseObject(block.getTag()));
+            tileEntity.read(world.getBlockState(blockPos.get()), ForgeTagFactory.parseObject(block.getData()));
         }
     }
 

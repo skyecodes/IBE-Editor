@@ -1,46 +1,25 @@
 package com.github.franckyi.guapi;
 
-import com.github.franckyi.databindings.PropertyFactory;
-import com.github.franckyi.databindings.api.ObjectProperty;
-import com.github.franckyi.guapi.api.ScreenHandler;
 import com.github.franckyi.guapi.api.theme.Theme;
 import com.github.franckyi.guapi.impl.theme.vanilla.VanillaTheme;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
 
 public final class GUAPI {
-    private static final ObjectProperty<Theme> themeProperty = PropertyFactory.ofObject();
-    private static boolean debugMode = false;
-    private static ScreenHandler screenHandler;
     public static final Marker MARKER = MarkerManager.getMarker("GUAPI");
+    private static Theme theme;
+    private static boolean debugMode = false;
 
-    public static void init(ScreenHandler screenHandler) {
-        init(screenHandler, VanillaTheme.INSTANCE);
-    }
-
-    public static void init(ScreenHandler screenHandler, Theme theme) {
-        if (GUAPI.screenHandler != null) {
-            throw new IllegalStateException("GUAPI is already initialized");
-        }
-        if (screenHandler == null) {
-            throw new IllegalArgumentException("ScreenHandler can't be null");
-        }
-        GUAPI.screenHandler = screenHandler;
-        if (theme != null) {
-            setTheme(theme);
-        }
+    public static void init() {
+        setTheme(VanillaTheme.INSTANCE);
     }
 
     public static Theme getTheme() {
-        return themeProperty().getValue();
-    }
-
-    public static ObjectProperty<Theme> themeProperty() {
-        return themeProperty;
+        return theme;
     }
 
     public static void setTheme(Theme theme) {
-        themeProperty().setValue(theme);
+        GUAPI.theme = theme;
     }
 
     public static boolean isDebugMode() {
@@ -49,12 +28,5 @@ public final class GUAPI {
 
     public static void setDebugMode(boolean debugMode) {
         GUAPI.debugMode = debugMode;
-    }
-
-    public static ScreenHandler getScreenHandler() {
-        if (screenHandler == null) {
-            throw new IllegalStateException("GUAPI is not initialized");
-        }
-        return screenHandler;
     }
 }

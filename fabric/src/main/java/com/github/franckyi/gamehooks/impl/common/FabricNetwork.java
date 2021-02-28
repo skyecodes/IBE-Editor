@@ -31,7 +31,7 @@ public final class FabricNetwork implements Network {
     public void sendToClient(String id, Player player, Packet packet) {
         FabricBuffer buf = new FabricBuffer();
         packet.write(buf);
-        ServerPlayNetworking.send(player.getPlayerEntity(), new Identifier(id), buf.getBuffer());
+        ServerPlayNetworking.send(player.get(), new Identifier(id), buf.getBuffer());
     }
 
     @Override

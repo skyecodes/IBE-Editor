@@ -111,13 +111,13 @@ public final class IBEEditorServer {
         player.sendMessage(text("Item updated!", GREEN));
     }
 
-    public static void updateBlockInventoryItem(Player player, Item item, int slotId, Pos pos) {
-        player.getWorld().setBlockInventoryItem(pos, slotId, item);
+    public static void updateBlockInventoryItem(Player player, Item item, int slotId, BlockPos blockPos) {
+        player.getWorld().setBlockInventoryItem(blockPos, slotId, item);
         player.sendMessage(text("Item updated!", GREEN));
     }
 
-    public static void updateBlock(Player sender, Block block, Pos pos) {
-        sender.getWorld().setBlockData(pos, block);
+    public static void updateBlock(Player sender, Block block, BlockPos blockPos) {
+        sender.getWorld().setBlockData(blockPos, block);
         sender.sendMessage(text("Block updated!", GREEN));
     }
 

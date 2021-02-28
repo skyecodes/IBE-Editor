@@ -14,13 +14,14 @@ public class OpenBlockEditorResponsePacket extends OpenBlockEditorRequestPacket 
 
     public OpenBlockEditorResponsePacket(Buffer buffer) {
         super(buffer);
-        block = GameHooks.common().createBlockFromTag(buffer.readTag());
+        block = GameHooks.common().createBlock(buffer.readTag(), buffer.readTag());
     }
 
     @Override
     public void write(Buffer buffer) {
         super.write(buffer);
-        buffer.writeTag(block.getTag());
+        buffer.writeTag(block.getState());
+        buffer.writeTag(block.getData());
     }
 
     public Block getBlock() {

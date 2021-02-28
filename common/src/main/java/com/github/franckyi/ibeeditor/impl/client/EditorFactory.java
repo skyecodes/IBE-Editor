@@ -1,14 +1,14 @@
 package com.github.franckyi.ibeeditor.impl.client;
 
 import com.github.franckyi.gamehooks.api.common.Text;
-import com.github.franckyi.ibeeditor.api.client.mvc.model.EditorModel;
+import com.github.franckyi.ibeeditor.api.client.mvc.editor.model.EditorModel;
 import com.github.franckyi.ibeeditor.api.client.mvc.model.EntryModel;
 import com.github.franckyi.ibeeditor.api.client.mvc.model.IntegerEntryModel;
 import com.github.franckyi.ibeeditor.api.client.mvc.model.StringEntryModel;
-import com.github.franckyi.ibeeditor.impl.client.mvc.model.CategoryModelImpl;
-import com.github.franckyi.ibeeditor.impl.client.mvc.model.EditorModelImpl;
-import com.github.franckyi.ibeeditor.impl.client.mvc.model.IntegerEntryModelImpl;
-import com.github.franckyi.ibeeditor.impl.client.mvc.model.StringEntryModelImpl;
+import com.github.franckyi.ibeeditor.impl.client.mvc.editor.model.CategoryModelImpl;
+import com.github.franckyi.ibeeditor.impl.client.mvc.editor.model.EditorModelImpl;
+import com.github.franckyi.ibeeditor.impl.client.mvc.editor.model.IntegerEntryModelImpl;
+import com.github.franckyi.ibeeditor.impl.client.mvc.editor.model.StringEntryModelImpl;
 
 import java.util.function.Consumer;
 

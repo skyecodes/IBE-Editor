@@ -27,7 +27,7 @@ public class ForgeItem implements Item {
 
     @Override
     @SuppressWarnings("unchecked")
-    public ItemStack getStack() {
+    public ItemStack get() {
         if (item == null) {
             item = ItemStack.read(ForgeTagFactory.parseObject(tag));
         }

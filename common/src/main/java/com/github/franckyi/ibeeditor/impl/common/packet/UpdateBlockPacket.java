@@ -2,31 +2,32 @@ package com.github.franckyi.ibeeditor.impl.common.packet;
 
 import com.github.franckyi.gamehooks.GameHooks;
 import com.github.franckyi.gamehooks.api.common.Block;
-import com.github.franckyi.gamehooks.api.common.Pos;
+import com.github.franckyi.gamehooks.api.common.BlockPos;
 import com.github.franckyi.gamehooks.api.common.network.Buffer;
 import com.github.franckyi.gamehooks.api.common.network.Packet;
 
 public class UpdateBlockPacket implements Packet {
-    private final Pos pos;
+    private final BlockPos blockPos;
     private final Block block;
 
-    public UpdateBlockPacket(Pos pos, Block block) {
-        this.pos = pos;
+    public UpdateBlockPacket(BlockPos blockPos, Block block) {
+        this.blockPos = blockPos;
         this.block = block;
     }
 
     public UpdateBlockPacket(Buffer buffer) {
-        this(buffer.readPos(), GameHooks.common().createBlockFromTag(buffer.readTag()));
+        this(buffer.readPos(), GameHooks.common().createBlock(buffer.readTag(), buffer.readTag()));
     }
 
     @Override
     public void write(Buffer buffer) {
-        buffer.writePos(pos);
-        buffer.writeTag(block.getTag());
+        buffer.writePos(blockPos);
+        buffer.writeTag(block.getState());
+        buffer.writeTag(block.getData());
     }
 
-    public Pos getPos() {
-        return pos;
+    public BlockPos getPos() {
+        return blockPos;
     }
 
     public Block getBlock() {

@@ -3,15 +3,17 @@ package com.github.franckyi.gamehooks.impl;
 import com.github.franckyi.gamehooks.api.ClientHooks;
 import com.github.franckyi.gamehooks.api.client.KeyBinding;
 import com.github.franckyi.gamehooks.api.client.Renderer;
+import com.github.franckyi.gamehooks.api.client.ScreenHandler;
 import com.github.franckyi.gamehooks.api.client.ScreenScaling;
 import com.github.franckyi.gamehooks.api.common.Player;
 import com.github.franckyi.gamehooks.api.common.World;
 import com.github.franckyi.gamehooks.api.common.WorldBlock;
 import com.github.franckyi.gamehooks.api.common.WorldEntity;
 import com.github.franckyi.gamehooks.impl.client.FabricRenderer;
+import com.github.franckyi.gamehooks.impl.client.FabricScreenHandler;
 import com.github.franckyi.gamehooks.impl.client.FabricScreenScaling;
 import com.github.franckyi.gamehooks.impl.common.FabricPlayer;
-import com.github.franckyi.gamehooks.impl.common.FabricPos;
+import com.github.franckyi.gamehooks.impl.common.FabricBlockPos;
 import com.github.franckyi.gamehooks.impl.common.FabricWorld;
 import com.github.franckyi.gamehooks.impl.common.FabricWorldEntity;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
@@ -31,9 +33,13 @@ public final class FabricClientHooks implements ClientHooks {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public Renderer getRenderer() {
         return FabricRenderer.INSTANCE;
+    }
+
+    @Override
+    public ScreenHandler getScreenHandler() {
+        return FabricScreenHandler.INSTANCE;
     }
 
     @Override
@@ -83,7 +89,7 @@ public final class FabricClientHooks implements ClientHooks {
         if (result instanceof BlockHitResult) {
             BlockHitResult res = (BlockHitResult) result;
             if (!mc().world.isAir(res.getBlockPos())) {
-                return getWorld().getBlock(new FabricPos(res.getBlockPos()));
+                return getWorld().getBlock(new FabricBlockPos(res.getBlockPos()));
             }
         }
         return null;

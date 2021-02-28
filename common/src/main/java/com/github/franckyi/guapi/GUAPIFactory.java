@@ -389,9 +389,9 @@ public final class GUAPIFactory {
     @SuppressWarnings("unchecked")
     public static <M, V extends View, C extends Controller<M, V>> Node mvc(Class<V> viewClass, M model) {
         MVC<M, V, C> mvc = (MVC<M, V, C>) mvcMap.get(viewClass);
-        V view = mvc.createView();
-        C controller = mvc.getController();
-        controller.init(model, view);
+        V view = mvc.createView((Class<? extends M>) model.getClass());
+        C controller = mvc.createController(model, view);
+        controller.init();
         return view.getRoot();
     }
 }

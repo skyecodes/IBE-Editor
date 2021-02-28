@@ -2,7 +2,7 @@ package com.github.franckyi.gamehooks.impl.common;
 
 import com.github.franckyi.gamehooks.api.common.Item;
 import com.github.franckyi.gamehooks.api.common.Slot;
-import com.github.franckyi.ibeeditor.impl.mixin.SlotMixin;
+import com.github.franckyi.ibeeditor.mixin.SlotMixin;
 import net.minecraft.entity.player.PlayerInventory;
 
 public class FabricSlot implements Slot {

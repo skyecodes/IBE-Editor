@@ -1,15 +1,16 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "com.github.franckyi.ibeeditor.impl.mixin",
+  "package": "com.github.franckyi.ibeeditor.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "PlayerManagerMixin",
-    "SlotMixin"
+    "PlayerManagerMixin"
   ],
   "client": [
+    "KeyboardMixin",
     "HandledScreenMixin",
-    "MinecraftClientMixin"
+    "MinecraftClientMixin",
+    "SlotMixin"
   ],
   "injectors": {
     "defaultRequire": 1

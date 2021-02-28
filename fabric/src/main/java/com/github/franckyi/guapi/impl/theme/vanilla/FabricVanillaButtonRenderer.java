@@ -6,14 +6,14 @@ import net.minecraft.client.gui.widget.ButtonWidget;
 
 public class FabricVanillaButtonRenderer extends ButtonWidget implements FabricVanillaDelegateRenderer {
     public FabricVanillaButtonRenderer(Button node) {
-        super(node.getX(), node.getY(), node.getWidth(), node.getHeight(), node.getLabel().getText(), button -> {
+        super(node.getX(), node.getY(), node.getWidth(), node.getHeight(), node.getLabel().get(), button -> {
         });
         active = !node.isDisabled();
         node.xProperty().addListener(newVal -> x = newVal);
         node.yProperty().addListener(newVal -> y = newVal);
         node.widthProperty().addListener(newVal -> width = newVal);
         node.heightProperty().addListener(newVal -> height = newVal);
-        node.labelProperty().addListener(label -> setMessage(label.getText()));
+        node.labelProperty().addListener(label -> setMessage(label.get()));
         node.disabledProperty().addListener(newVal -> active = !newVal);
     }
 }

@@ -14,7 +14,7 @@ public class ForgeText implements Text {
 
     @Override
     @SuppressWarnings("unchecked")
-    public ITextComponent getText() {
+    public ITextComponent get() {
         return text;
     }
 }

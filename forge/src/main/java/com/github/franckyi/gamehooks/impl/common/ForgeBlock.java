@@ -4,14 +4,21 @@ import com.github.franckyi.gamehooks.api.common.Block;
 import com.github.franckyi.gamehooks.util.common.tag.ObjectTag;
 
 public class ForgeBlock implements Block {
-    private final ObjectTag tag;
+    private final ObjectTag state;
+    private final ObjectTag data;
 
-    public ForgeBlock(ObjectTag tag) {
-        this.tag = tag;
+    public ForgeBlock(ObjectTag state, ObjectTag data) {
+        this.state = state;
+        this.data = data;
     }
 
     @Override
-    public ObjectTag getTag() {
-        return tag;
+    public ObjectTag getState() {
+        return state;
+    }
+
+    @Override
+    public ObjectTag getData() {
+        return data;
     }
 }

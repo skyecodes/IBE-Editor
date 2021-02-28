@@ -6,7 +6,7 @@ import com.github.franckyi.databindings.api.ObjectProperty;
 import com.github.franckyi.gamehooks.GameHooks;
 import com.github.franckyi.gamehooks.api.client.Matrices;
 import com.github.franckyi.guapi.GUAPI;
-import com.github.franckyi.guapi.api.ScreenHandler;
+import com.github.franckyi.gamehooks.api.client.ScreenHandler;
 import com.github.franckyi.guapi.api.event.ScreenEvent;
 import com.github.franckyi.guapi.api.node.Scene;
 import com.github.franckyi.guapi.impl.event.*;

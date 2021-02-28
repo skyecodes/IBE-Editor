@@ -21,5 +21,5 @@ public interface Player extends WorldEntity {
         sendMessage(message, false);
     }
 
-    <E> E getPlayerEntity();
+    <E> E get();
 }

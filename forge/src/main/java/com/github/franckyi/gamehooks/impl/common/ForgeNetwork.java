@@ -37,7 +37,7 @@ public final class ForgeNetwork implements Network {
 
     @Override
     public void sendToClient(String id, Player player, Packet packet) {
-        channel.send(PacketDistributor.PLAYER.with(player::getPlayerEntity), packet);
+        channel.send(PacketDistributor.PLAYER.with(player::get), packet);
     }
 
     @Override

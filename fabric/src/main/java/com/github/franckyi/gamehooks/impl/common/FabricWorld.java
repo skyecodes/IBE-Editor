@@ -12,23 +12,23 @@ public class FabricWorld implements World {
     }
 
     @Override
-    public void setBlockInventoryItem(Pos pos, int slotId, Item item) {
-        BlockEntity blockEntity = world.getBlockEntity(pos.getPos());
+    public void setBlockInventoryItem(BlockPos blockPos, int slotId, Item item) {
+        BlockEntity blockEntity = world.getBlockEntity(blockPos.get());
         if (blockEntity instanceof Inventory) {
-            ((Inventory) blockEntity).setStack(slotId, item.getStack());
+            ((Inventory) blockEntity).setStack(slotId, item.get());
         }
     }
 
     @Override
-    public WorldBlock getBlock(Pos pos) {
-        return new FabricWorldBlock(pos, world.getBlockEntity(pos.getPos()));
+    public WorldBlock getBlock(BlockPos blockPos) {
+        return new FabricWorldBlock(blockPos, world.getBlockState(blockPos.get()), world.getBlockEntity(blockPos.get()));
     }
 
     @Override
-    public void setBlockData(Pos pos, Block block) {
-        BlockEntity blockEntity = world.getBlockEntity(pos.getPos());
+    public void setBlockData(BlockPos blockPos, Block block) {
+        BlockEntity blockEntity = world.getBlockEntity(blockPos.get());
         if (blockEntity != null) {
-            blockEntity.fromTag(world.getBlockState(pos.getPos()), FabricTagFactory.parseObject(block.getTag()));
+            blockEntity.fromTag(world.getBlockState(blockPos.get()), FabricTagFactory.parseObject(block.getData()));
         }
     }
 

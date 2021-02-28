@@ -1,6 +1,6 @@
 package com.github.franckyi.gamehooks.impl.common;
 
-import com.github.franckyi.gamehooks.api.common.Pos;
+import com.github.franckyi.gamehooks.api.common.BlockPos;
 import com.github.franckyi.gamehooks.api.common.network.Buffer;
 import com.github.franckyi.gamehooks.util.common.tag.ObjectTag;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
@@ -44,13 +44,13 @@ public class FabricBuffer implements Buffer {
     }
 
     @Override
-    public Pos readPos() {
-        return new FabricPos(buf.readBlockPos());
+    public BlockPos readPos() {
+        return new FabricBlockPos(buf.readBlockPos());
     }
 
     @Override
-    public void writePos(Pos pos) {
-        buf.writeBlockPos(pos.getPos());
+    public void writePos(BlockPos blockPos) {
+        buf.writeBlockPos(blockPos.get());
     }
 
     @Override
