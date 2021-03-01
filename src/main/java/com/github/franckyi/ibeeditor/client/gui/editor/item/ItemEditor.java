@@ -77,7 +77,6 @@ public class ItemEditor extends CapabilityProviderEditor implements BlockStateCa
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     private void initBlock(BlockItem item) {
-        mc.mouseHelper.ungrabMouse();
         blockState = item.getBlock().getDefaultState();
         CompoundNBT tag = itemStack.getChildTag("BlockStateTag");
         if (tag != null) {
@@ -90,7 +89,7 @@ public class ItemEditor extends CapabilityProviderEditor implements BlockStateCa
                         blockState = blockState.with((BooleanProperty) property, tag.getString(name).equalsIgnoreCase("true"));
                     } else if (property instanceof EnumProperty<?>) {
                         EnumProperty property1 = (EnumProperty) property;
-                        blockState = blockState.with(property1, (Comparable) property1.parseValue(tag.getString(name)).orElse(null));
+                        blockState = blockState.with(property1, (Comparable) property1.parseValue(tag.getString(name)).orElse(property1.getAllowedValues().stream().findFirst().get()));
                     }
                 }
             });
