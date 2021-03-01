@@ -1,5 +1,6 @@
 package com.github.franckyi.ibeeditor.client.gui.editor.entity;
 
+import com.github.franckyi.ibeeditor.client.ClientUtils;
 import com.github.franckyi.ibeeditor.client.gui.editor.base.AbstractCategory;
 import com.github.franckyi.ibeeditor.client.gui.editor.base.property.PropertyBoolean;
 import com.github.franckyi.ibeeditor.client.gui.editor.base.property.PropertyFloat;
@@ -18,7 +19,7 @@ public class GeneralEntityCategory extends AbstractCategory {
         this.entity = entity;
         this.addAll(
                 new PropertyFormattedText("Name", entity.hasCustomName() ?
-                        entity.getCustomName().getString() : "", this::setName),
+                        ClientUtils.readTextComponent(entity.getCustomName()) : "", this::setName),
                 new PropertyBoolean("Show name", entity.isCustomNameVisible(), entity::setCustomNameVisible),
                 new PropertyBoolean("Invisible", entity.isInvisible(), entity::setInvisible),
                 new PropertyBoolean("Invulnerable", entity.isInvulnerable(), entity::setInvulnerable),

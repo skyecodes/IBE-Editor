@@ -168,4 +168,35 @@ public final class ClientUtils {
     public static void sendCommand(String command) {
         mc.player.sendChatMessage(command);
     }
+
+    public static String readTextComponent(ITextComponent component) {
+        return readTextComponent(component, new StringBuilder());
+    }
+
+    private static String readTextComponent(ITextComponent component, StringBuilder builder) {
+        for (TextFormatting value : TextFormatting.values()) {
+            if (value.isColor()) {
+                if (component.getStyle().getColor() != null && value.getColor() == component.getStyle().getColor().getColor()) {
+                    builder.append(value.toString());
+                }
+            } else {
+                if (value == TextFormatting.OBFUSCATED && component.getStyle().getObfuscated()) {
+                    builder.append(value.toString());
+                } else if (value == TextFormatting.BOLD && component.getStyle().getBold()) {
+                    builder.append(value.toString());
+                } else if (value == TextFormatting.STRIKETHROUGH && component.getStyle().getStrikethrough()) {
+                    builder.append(value.toString());
+                } else if (value == TextFormatting.UNDERLINE && component.getStyle().getUnderlined()) {
+                    builder.append(value.toString());
+                } else if (value == TextFormatting.ITALIC && component.getStyle().getItalic()) {
+                    builder.append(value.toString());
+                }
+            }
+        }
+        builder.append(component.getUnformattedComponentText());
+        for (ITextComponent sibling : component.getSiblings()) {
+            readTextComponent(sibling, builder);
+        }
+        return builder.toString();
+    }
 }

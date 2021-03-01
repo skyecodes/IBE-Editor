@@ -1,5 +1,7 @@
 package com.github.franckyi.ibeeditor.client.gui.editor.item;
 
+import com.github.franckyi.ibeeditor.client.ClientUtils;
+import com.github.franckyi.ibeeditor.client.EditorHelper;
 import com.github.franckyi.ibeeditor.client.gui.editor.base.AbstractProperty;
 import com.github.franckyi.ibeeditor.client.gui.editor.base.category.EditableCategory;
 import com.github.franckyi.ibeeditor.client.gui.editor.base.property.IOrderableEditableCategoryProperty;
@@ -26,8 +28,12 @@ public class GeneralItemCategory extends EditableCategory<String> {
     public GeneralItemCategory(ItemStack itemStack) {
         super(4);
         this.itemStack = itemStack;
+        String name = ClientUtils.readTextComponent(itemStack.getDisplayName());
+        if (name.isEmpty()) {
+            name = itemStack.getDisplayName().getString();
+        }
         this.addAll(
-                new PropertyFormattedText("Name", itemStack.getDisplayName().getString(), this::setName),
+                new PropertyFormattedText("Name", name, this::setName),
                 new PropertyBoolean("Unbreakable", this.hasUnbreakable(), this::setUnbreakable),
                 new PropertyInteger("Count", itemStack.getCount(), itemStack::setCount, 1, 127),
                 new PropertyInteger("Damage", itemStack.getDamage(), this::setDamage),
@@ -40,8 +46,7 @@ public class GeneralItemCategory extends EditableCategory<String> {
                 if (display.contains("Lore", Constants.NBT.TAG_LIST)) {
                     ListNBT loreTag = display.getList("Lore", Constants.NBT.TAG_STRING);
                     for (int i = 0; i < loreTag.size(); i++) {
-                        JsonObject obj = JSONUtils.fromJson(loreTag.getString(i));
-                        this.addProperty(obj.getAsJsonPrimitive("text").getAsString());
+                        this.addProperty(ClientUtils.readTextComponent(ITextComponent.Serializer.getComponentFromJson(loreTag.getString(i))));
                     }
                     for (int i = 0; i < this.getPropertyCount(); i++) {
                         this.getProperty(i).update(i);
