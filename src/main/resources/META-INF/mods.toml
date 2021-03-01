@@ -1,12 +1,12 @@
 modLoader = "javafml"
-loaderVersion = "[36,)"
+loaderVersion = "[32,)"
 license = "MIT License"
 issueTrackerURL = "https://github.com/Franckyi/IBE-Editor/issues"
 logoFile = "logo.png"
 
 [[mods]]
 modId = "ibeeditor"
-version = "1.2.3"
+version = "1.2.4"
 displayName = "IBE Editor"
 displayURL = "https://www.curseforge.com/minecraft/mc-mods/ibe-editor"
 credits = "Thanks to Emex for the logo !"
@@ -20,7 +20,7 @@ Simple GUIs system makes it very easy to use!
 [[dependencies.ibeeditor]]
 modId = "forge"
 mandatory = true
-versionRange = "[36,)"
+versionRange = "[32,)"
 ordering = "NONE"
 side = "BOTH"
 
