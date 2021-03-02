@@ -11,7 +11,7 @@ import static com.github.franckyi.guapi.GUAPIFactory.*;
 
 public final class ClientNetworkReceiver {
     public static void openBlockEditor(OpenBlockEditorResponsePacket packet) {
-        if (packet.getBlock().getData() != null) {
+        if (packet.getBlock().getData().get() != null || (!packet.isNBT() && packet.getBlock().getState().get() != null)) {
             IBEEditorClient.openBlockEditor(packet.getBlock(), packet.getPos(), packet.isNBT());
         } else {
             GameHooks.client().getPlayer().sendMessage(text("No Block data found", TextFormatting.RED));

@@ -28,7 +28,7 @@ public class FabricWorld implements World {
     public void setBlockData(BlockPos blockPos, Block block) {
         BlockEntity blockEntity = world.getBlockEntity(blockPos.get());
         if (blockEntity != null) {
-            blockEntity.fromTag(world.getBlockState(blockPos.get()), FabricTagFactory.parseObject(block.getData()));
+            blockEntity.fromTag(world.getBlockState(blockPos.get()), block.getData().get());
         }
     }
 
@@ -41,7 +41,7 @@ public class FabricWorld implements World {
     public void setEntityData(int entityId, Entity entity) {
         net.minecraft.entity.Entity worldEntity = world.getEntityById(entityId);
         if (worldEntity != null) {
-            worldEntity.fromTag(FabricTagFactory.parseObject(entity.getTag()));
+            worldEntity.fromTag(entity.getTag().get());
         }
     }
 }

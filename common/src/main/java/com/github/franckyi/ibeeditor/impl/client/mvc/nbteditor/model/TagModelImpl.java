@@ -6,6 +6,7 @@ import com.github.franckyi.databindings.api.BooleanProperty;
 import com.github.franckyi.databindings.api.ObjectProperty;
 import com.github.franckyi.databindings.api.ObservableList;
 import com.github.franckyi.databindings.api.StringProperty;
+import com.github.franckyi.gamehooks.GameHooks;
 import com.github.franckyi.gamehooks.api.common.tag.*;
 import com.github.franckyi.ibeeditor.api.client.mvc.nbteditor.model.TagModel;
 import org.apache.commons.lang3.ArrayUtils;
@@ -131,42 +132,46 @@ public class TagModelImpl implements TagModel {
         if (canBuild()) {
             switch (tag.getType()) {
                 case Tag.BYTE_ID:
-                    return new ByteTag(Byte.parseByte(getValue()));
+                    return GameHooks.common().tagFactory().createByteTag(Byte.parseByte(getValue()));
                 case Tag.SHORT_ID:
-                    return new ShortTag(Short.parseShort(getValue()));
+                    return GameHooks.common().tagFactory().createShortTag(Short.parseShort(getValue()));
                 case Tag.INT_ID:
-                    return new IntTag(Integer.parseInt(getValue()));
+                    return GameHooks.common().tagFactory().createIntTag(Integer.parseInt(getValue()));
                 case Tag.LONG_ID:
-                    return new LongTag(Long.parseLong(getValue()));
+                    return GameHooks.common().tagFactory().createLongTag(Long.parseLong(getValue()));
                 case Tag.FLOAT_ID:
-                    return new FloatTag(Float.parseFloat(getValue()));
+                    return GameHooks.common().tagFactory().createFloatTag(Float.parseFloat(getValue()));
                 case Tag.DOUBLE_ID:
-                    return new DoubleTag(Double.parseDouble(getValue()));
+                    return GameHooks.common().tagFactory().createDoubleTag(Double.parseDouble(getValue()));
                 case Tag.BYTE_ARRAY_ID:
-                    return new ByteArrayTag(getChildren()
+                    return GameHooks.common().tagFactory().createByteArrayTag(getChildren()
                             .stream()
                             .map(TagModel::getValue)
                             .map(Byte::parseByte)
                             .collect(Collectors.toList())
                     );
                 case Tag.STRING_ID:
-                    return new StringTag(getValue());
+                    return GameHooks.common().tagFactory().createStringTag(getValue());
                 case Tag.LIST_ID:
-                    return new ArrayTag(getChildren().stream().map(TagModel::build).collect(Collectors.toList()));
+                    return GameHooks.common().tagFactory().createListTag(getChildren()
+                            .stream()
+                            .map(TagModel::build)
+                            .collect(Collectors.toList())
+                    );
                 case Tag.COMPOUND_ID:
-                    return new ObjectTag(getChildren()
+                    return GameHooks.common().tagFactory().createCompoundTag(getChildren()
                             .stream()
                             .collect(Collectors.toMap(TagModel::getName, TagModel::build))
                     );
                 case Tag.INT_ARRAY_ID:
-                    return new IntArrayTag(getChildren()
+                    return GameHooks.common().tagFactory().createIntArrayTag(getChildren()
                             .stream()
                             .map(TagModel::getValue)
                             .map(Integer::parseInt)
                             .collect(Collectors.toList())
                     );
                 case Tag.LONG_ARRAY_ID:
-                    return new LongArrayTag(getChildren()
+                    return GameHooks.common().tagFactory().createLongArrayTag(getChildren()
                             .stream()
                             .map(TagModel::getValue)
                             .map(Long::parseLong)

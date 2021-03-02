@@ -1,8 +1,12 @@
 package com.github.franckyi.gamehooks.impl.common.tag;
 
 import com.github.franckyi.gamehooks.api.common.TagFactory;
-import com.github.franckyi.gamehooks.api.common.tag.Tag;
+import com.github.franckyi.gamehooks.api.common.tag.*;
 import net.minecraft.nbt.*;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 public final class ForgeTagFactory implements TagFactory {
     public static final TagFactory INSTANCE = new ForgeTagFactory();
@@ -41,8 +45,12 @@ public final class ForgeTagFactory implements TagFactory {
         }
     }
 
+    public static CompoundTag parseCompound(CompoundNBT compound) {
+        return new ForgeCompoundTag(compound);
+    }
+
     @Override
-    public Tag create(byte type) {
+    public Tag createEmptyTag(byte type) {
         switch (type) {
             case Tag.BYTE_ID:
                 return new ForgeByteTag();
@@ -71,5 +79,65 @@ public final class ForgeTagFactory implements TagFactory {
             default:
                 return null;
         }
+    }
+
+    @Override
+    public ByteTag createByteTag(byte value) {
+        return new ForgeByteTag(value);
+    }
+
+    @Override
+    public ShortTag createShortTag(short value) {
+        return new ForgeShortTag(value);
+    }
+
+    @Override
+    public IntTag createIntTag(int value) {
+        return new ForgeIntTag(value);
+    }
+
+    @Override
+    public LongTag createLongTag(long value) {
+        return new ForgeLongTag(value);
+    }
+
+    @Override
+    public FloatTag createFloatTag(float value) {
+        return new ForgeFloatTag(value);
+    }
+
+    @Override
+    public DoubleTag createDoubleTag(double value) {
+        return new ForgeDoubleTag(value);
+    }
+
+    @Override
+    public ByteArrayTag createByteArrayTag(List<Byte> value) {
+        return new ForgeByteArrayTag(value);
+    }
+
+    @Override
+    public StringTag createStringTag(String value) {
+        return new ForgeStringTag(value);
+    }
+
+    @Override
+    public ListTag createListTag(Collection<Tag> value) {
+        return new ForgeListTag(value);
+    }
+
+    @Override
+    public CompoundTag createCompoundTag(Map<String, Tag> value) {
+        return new ForgeCompoundTag(value);
+    }
+
+    @Override
+    public IntArrayTag createIntArrayTag(List<Integer> value) {
+        return new ForgeIntArrayTag(value);
+    }
+
+    @Override
+    public LongArrayTag createLongArrayTag(List<Long> value) {
+        return new ForgeLongArrayTag(value);
     }
 }

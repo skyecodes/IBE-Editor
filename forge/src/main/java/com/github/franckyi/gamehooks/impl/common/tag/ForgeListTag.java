@@ -5,6 +5,7 @@ import com.github.franckyi.gamehooks.api.common.tag.ListTag;
 import com.github.franckyi.gamehooks.api.common.tag.Tag;
 import net.minecraft.nbt.ListNBT;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,6 +18,11 @@ public class ForgeListTag implements ListTag {
 
     public ForgeListTag(ListNBT tag) {
         this.tag = tag;
+    }
+
+    public ForgeListTag(Collection<Tag> value) {
+        this();
+        value.forEach(tag1 -> tag.add(tag1.get()));
     }
 
     @Override

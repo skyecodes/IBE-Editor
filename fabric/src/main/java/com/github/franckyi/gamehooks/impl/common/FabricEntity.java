@@ -1,17 +1,17 @@
 package com.github.franckyi.gamehooks.impl.common;
 
 import com.github.franckyi.gamehooks.api.common.Entity;
-import com.github.franckyi.gamehooks.util.common.tag.ObjectTag;
+import com.github.franckyi.gamehooks.api.common.tag.CompoundTag;
 
 public class FabricEntity implements Entity {
-    private final ObjectTag tag;
+    private final CompoundTag tag;
 
-    public FabricEntity(ObjectTag tag) {
+    public FabricEntity(CompoundTag tag) {
         this.tag = tag;
     }
 
     @Override
-    public ObjectTag getTag() {
+    public CompoundTag getTag() {
         return tag;
     }
 }

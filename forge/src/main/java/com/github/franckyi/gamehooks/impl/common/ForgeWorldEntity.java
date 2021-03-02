@@ -1,7 +1,8 @@
 package com.github.franckyi.gamehooks.impl.common;
 
 import com.github.franckyi.gamehooks.api.common.WorldEntity;
-import com.github.franckyi.gamehooks.util.common.tag.ObjectTag;
+import com.github.franckyi.gamehooks.api.common.tag.CompoundTag;
+import com.github.franckyi.gamehooks.impl.common.tag.ForgeTagFactory;
 import net.minecraft.nbt.CompoundNBT;
 
 public class ForgeWorldEntity implements WorldEntity {
@@ -17,7 +18,7 @@ public class ForgeWorldEntity implements WorldEntity {
     }
 
     @Override
-    public ObjectTag getTag() {
+    public CompoundTag getTag() {
         CompoundNBT compound = new CompoundNBT();
         if (!entity.writeUnlessRemoved(compound)) {
             entity.writeWithoutTypeId(compound);

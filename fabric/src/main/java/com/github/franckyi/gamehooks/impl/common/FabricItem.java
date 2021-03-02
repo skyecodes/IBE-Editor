@@ -10,7 +10,7 @@ public class FabricItem implements Item {
     private final CompoundTag tag;
 
     public FabricItem(ItemStack item) {
-        this(item, new FabricCompoundTag(item.getTag()));
+        this(item, new FabricCompoundTag(item.toTag(new net.minecraft.nbt.CompoundTag())));
     }
 
     public FabricItem(CompoundTag tag) {

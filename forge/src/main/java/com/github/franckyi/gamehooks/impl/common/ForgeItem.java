@@ -1,36 +1,36 @@
 package com.github.franckyi.gamehooks.impl.common;
 
 import com.github.franckyi.gamehooks.api.common.Item;
-import com.github.franckyi.gamehooks.util.common.tag.ObjectTag;
+import com.github.franckyi.gamehooks.api.common.tag.CompoundTag;
+import com.github.franckyi.gamehooks.impl.common.tag.ForgeCompoundTag;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 
 public class ForgeItem implements Item {
-    private ItemStack item;
-    private ObjectTag tag;
+    private final ItemStack item;
+    private final CompoundTag tag;
 
     public ForgeItem(ItemStack item) {
-        this.item = item;
+        this(item, new ForgeCompoundTag(item.write(new CompoundNBT())));
     }
 
-    public ForgeItem(ObjectTag tag) {
+    public ForgeItem(CompoundTag tag) {
+        this(ItemStack.read(tag.get()), tag);
+    }
+
+    public ForgeItem(ItemStack item, CompoundTag tag) {
+        this.item = item;
         this.tag = tag;
     }
 
     @Override
-    public ObjectTag getTag() {
-        if (tag == null) {
-            tag = ForgeTagFactory.parseCompound(item.write(new CompoundNBT()));
-        }
+    public CompoundTag getTag() {
         return tag;
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public ItemStack get() {
-        if (item == null) {
-            item = ItemStack.read(ForgeTagFactory.parseObject(tag));
-        }
         return item;
     }
 }

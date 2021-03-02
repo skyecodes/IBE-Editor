@@ -4,6 +4,10 @@ import com.github.franckyi.gamehooks.api.common.TagFactory;
 import com.github.franckyi.gamehooks.api.common.tag.Tag;
 import net.minecraft.nbt.*;
 
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+
 public final class FabricTagFactory implements TagFactory {
     public static final TagFactory INSTANCE = new FabricTagFactory();
 
@@ -41,8 +45,12 @@ public final class FabricTagFactory implements TagFactory {
         }
     }
 
+    public static com.github.franckyi.gamehooks.api.common.tag.CompoundTag parseCompound(CompoundTag tag) {
+        return new FabricCompoundTag(tag);
+    }
+
     @Override
-    public Tag create(byte type) {
+    public Tag createEmptyTag(byte type) {
         switch (type) {
             case Tag.BYTE_ID:
                 return new FabricByteTag();
@@ -71,5 +79,65 @@ public final class FabricTagFactory implements TagFactory {
             default:
                 return null;
         }
+    }
+
+    @Override
+    public com.github.franckyi.gamehooks.api.common.tag.ByteTag createByteTag(byte value) {
+        return new FabricByteTag(value);
+    }
+
+    @Override
+    public com.github.franckyi.gamehooks.api.common.tag.ShortTag createShortTag(short value) {
+        return new FabricShortTag(value);
+    }
+
+    @Override
+    public com.github.franckyi.gamehooks.api.common.tag.IntTag createIntTag(int value) {
+        return new FabricIntTag(value);
+    }
+
+    @Override
+    public com.github.franckyi.gamehooks.api.common.tag.LongTag createLongTag(long value) {
+        return new FabricLongTag(value);
+    }
+
+    @Override
+    public com.github.franckyi.gamehooks.api.common.tag.FloatTag createFloatTag(float value) {
+        return new FabricFloatTag(value);
+    }
+
+    @Override
+    public com.github.franckyi.gamehooks.api.common.tag.DoubleTag createDoubleTag(double value) {
+        return new FabricDoubleTag(value);
+    }
+
+    @Override
+    public com.github.franckyi.gamehooks.api.common.tag.ByteArrayTag createByteArrayTag(List<Byte> value) {
+        return new FabricByteArrayTag(value);
+    }
+
+    @Override
+    public com.github.franckyi.gamehooks.api.common.tag.StringTag createStringTag(String value) {
+        return new FabricStringTag(value);
+    }
+
+    @Override
+    public com.github.franckyi.gamehooks.api.common.tag.ListTag createListTag(Collection<Tag> value) {
+        return new FabricListTag(value);
+    }
+
+    @Override
+    public com.github.franckyi.gamehooks.api.common.tag.CompoundTag createCompoundTag(Map<String, Tag> value) {
+        return new FabricCompoundTag(value);
+    }
+
+    @Override
+    public com.github.franckyi.gamehooks.api.common.tag.IntArrayTag createIntArrayTag(List<Integer> value) {
+        return new FabricIntArrayTag(value);
+    }
+
+    @Override
+    public com.github.franckyi.gamehooks.api.common.tag.LongArrayTag createLongArrayTag(List<Long> value) {
+        return new FabricLongArrayTag(value);
     }
 }

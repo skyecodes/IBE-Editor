@@ -2,7 +2,8 @@ package com.github.franckyi.gamehooks.impl.common;
 
 import com.github.franckyi.gamehooks.api.common.BlockPos;
 import com.github.franckyi.gamehooks.api.common.network.Buffer;
-import com.github.franckyi.gamehooks.util.common.tag.ObjectTag;
+import com.github.franckyi.gamehooks.api.common.tag.CompoundTag;
+import com.github.franckyi.gamehooks.impl.common.tag.ForgeTagFactory;
 import net.minecraft.network.PacketBuffer;
 
 public class ForgeBuffer implements Buffer {
@@ -19,13 +20,13 @@ public class ForgeBuffer implements Buffer {
     }
 
     @Override
-    public ObjectTag readTag() {
+    public CompoundTag readTag() {
         return ForgeTagFactory.parseCompound(buf.readCompoundTag());
     }
 
     @Override
-    public void writeTag(ObjectTag tag) {
-        buf.writeCompoundTag(ForgeTagFactory.parseObject(tag));
+    public void writeTag(CompoundTag tag) {
+        buf.writeCompoundTag(tag.get());
     }
 
     @Override

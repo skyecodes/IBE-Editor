@@ -5,6 +5,7 @@ import com.github.franckyi.gamehooks.api.common.*;
 import com.github.franckyi.gamehooks.api.common.network.Network;
 import com.github.franckyi.gamehooks.api.common.tag.CompoundTag;
 import com.github.franckyi.gamehooks.impl.common.*;
+import com.github.franckyi.gamehooks.impl.common.tag.FabricTagFactory;
 import com.mojang.brigadier.Command;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.server.command.ServerCommandSource;
@@ -21,6 +22,11 @@ public final class FabricCommonHooks implements CommonHooks {
     @Override
     public TextFactory textFactory() {
         return FabricTextFactory.INSTANCE;
+    }
+
+    @Override
+    public TagFactory tagFactory() {
+        return FabricTagFactory.INSTANCE;
     }
 
     @Override

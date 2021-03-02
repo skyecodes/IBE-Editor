@@ -4,6 +4,7 @@ import com.github.franckyi.gamehooks.api.common.tag.CompoundTag;
 import com.github.franckyi.gamehooks.api.common.tag.ListTag;
 import com.github.franckyi.gamehooks.api.common.tag.Tag;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,6 +17,11 @@ public class FabricListTag implements ListTag {
 
     public FabricListTag(net.minecraft.nbt.ListTag tag) {
         this.tag = tag;
+    }
+
+    public FabricListTag(Collection<Tag> value) {
+        this();
+        value.forEach(tag1 -> tag.add(tag1.get()));
     }
 
     @Override

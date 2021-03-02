@@ -7,7 +7,7 @@ import com.github.franckyi.databindings.api.ObservableList;
 import com.github.franckyi.databindings.api.StringProperty;
 import com.github.franckyi.ibeeditor.api.client.mvc.editor.model.CategoryModel;
 import com.github.franckyi.ibeeditor.api.client.mvc.editor.model.EditorModel;
-import com.github.franckyi.ibeeditor.api.client.mvc.model.EntryModel;
+import com.github.franckyi.ibeeditor.api.client.mvc.editor.model.EntryModel;
 
 public class CategoryModelImpl implements CategoryModel {
     private final StringProperty nameProperty = PropertyFactory.ofString("");

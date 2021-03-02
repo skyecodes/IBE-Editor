@@ -14,7 +14,7 @@ public class NBTEditorMVCImpl implements NBTEditorMVC {
     }
 
     @Override
-    public NBTEditorView createView(Class<? extends NBTEditorModel> aClass) {
+    public NBTEditorView createView() {
         return new NBTEditorViewImpl();
     }
 

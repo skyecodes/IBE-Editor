@@ -5,7 +5,7 @@ import com.github.franckyi.guapi.api.node.Button;
 import com.github.franckyi.guapi.api.node.Label;
 import com.github.franckyi.guapi.api.node.ListView;
 import com.github.franckyi.ibeeditor.api.client.mvc.editor.model.CategoryModel;
-import com.github.franckyi.ibeeditor.api.client.mvc.model.EntryModel;
+import com.github.franckyi.ibeeditor.api.client.mvc.editor.model.EntryModel;
 
 public interface EditorView extends View {
     Label getHeaderLabel();

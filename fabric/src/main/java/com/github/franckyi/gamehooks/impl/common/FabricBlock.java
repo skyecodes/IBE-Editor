@@ -1,24 +1,24 @@
 package com.github.franckyi.gamehooks.impl.common;
 
 import com.github.franckyi.gamehooks.api.common.Block;
-import com.github.franckyi.gamehooks.util.common.tag.ObjectTag;
+import com.github.franckyi.gamehooks.api.common.tag.CompoundTag;
 
 public class FabricBlock implements Block {
-    private final ObjectTag state;
-    private final ObjectTag data;
+    private final CompoundTag state;
+    private final CompoundTag data;
 
-    public FabricBlock(ObjectTag state, ObjectTag data) {
+    public FabricBlock(CompoundTag state, CompoundTag data) {
         this.state = state;
         this.data = data;
     }
 
     @Override
-    public ObjectTag getState() {
+    public CompoundTag getState() {
         return state;
     }
 
     @Override
-    public ObjectTag getData() {
+    public CompoundTag getData() {
         return data;
     }
 }

@@ -2,7 +2,8 @@ package com.github.franckyi.gamehooks.impl.common;
 
 import com.github.franckyi.gamehooks.api.common.BlockPos;
 import com.github.franckyi.gamehooks.api.common.network.Buffer;
-import com.github.franckyi.gamehooks.util.common.tag.ObjectTag;
+import com.github.franckyi.gamehooks.api.common.tag.CompoundTag;
+import com.github.franckyi.gamehooks.impl.common.tag.FabricTagFactory;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.network.PacketByteBuf;
 
@@ -24,13 +25,17 @@ public class FabricBuffer implements Buffer {
     }
 
     @Override
-    public ObjectTag readTag() {
+    public CompoundTag readTag() {
         return FabricTagFactory.parseCompound(buf.readCompoundTag());
     }
 
     @Override
-    public void writeTag(ObjectTag tag) {
-        buf.writeCompoundTag(FabricTagFactory.parseObject(tag));
+    public void writeTag(CompoundTag tag) {
+        if (tag != null) {
+            buf.writeCompoundTag(tag.get());
+        } else {
+            buf.writeByte(0);
+        }
     }
 
     @Override
@@ -50,7 +55,9 @@ public class FabricBuffer implements Buffer {
 
     @Override
     public void writePos(BlockPos blockPos) {
-        buf.writeBlockPos(blockPos.get());
+        if (blockPos != null) {
+            buf.writeBlockPos(blockPos.get());
+        }
     }
 
     @Override

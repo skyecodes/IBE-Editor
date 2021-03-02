@@ -28,7 +28,7 @@ public class ForgeWorld implements World {
     public void setBlockData(BlockPos blockPos, Block block) {
         TileEntity tileEntity = world.getTileEntity(blockPos.get());
         if (tileEntity != null) {
-            tileEntity.read(world.getBlockState(blockPos.get()), ForgeTagFactory.parseObject(block.getData()));
+            tileEntity.read(world.getBlockState(blockPos.get()), block.getData().get());
         }
     }
 
@@ -41,7 +41,7 @@ public class ForgeWorld implements World {
     public void setEntityData(int entityId, Entity entity) {
         net.minecraft.entity.Entity worldEntity = world.getEntityByID(entityId);
         if (worldEntity != null) {
-            worldEntity.read(ForgeTagFactory.parseObject(entity.getTag()));
+            worldEntity.read(entity.getTag().get());
         }
     }
 }

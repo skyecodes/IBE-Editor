@@ -31,18 +31,18 @@ public interface NBTEditorView extends View {
     }
 
     enum ButtonType {
-        BYTE,
-        SHORT,
-        INT,
-        LONG,
-        FLOAT,
-        DOUBLE,
-        BYTE_ARRAY,
-        STRING,
-        LIST,
-        OBJECT,
-        INT_ARRAY,
-        LONG_ARRAY,
+        BYTE(1),
+        SHORT(2),
+        INT(3),
+        LONG(4),
+        FLOAT(5),
+        DOUBLE(6),
+        BYTE_ARRAY(7),
+        STRING(8),
+        LIST(9),
+        OBJECT(10),
+        INT_ARRAY(11),
+        LONG_ARRAY(12),
         MOVE_UP,
         MOVE_DOWN,
         ADD,
@@ -60,5 +60,18 @@ public interface NBTEditorView extends View {
                 COPY,
                 PASTE
         };
+        private final byte type;
+
+        ButtonType(int type) {
+            this.type = (byte) type;
+        }
+
+        ButtonType() {
+            this(-1);
+        }
+
+        public byte getType() {
+            return type;
+        }
     }
 }

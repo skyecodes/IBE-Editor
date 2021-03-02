@@ -2,9 +2,9 @@ package com.github.franckyi.ibeeditor.impl.client.mvc.editor.view;
 
 import com.github.franckyi.guapi.api.node.*;
 import com.github.franckyi.ibeeditor.api.client.mvc.editor.model.CategoryModel;
-import com.github.franckyi.ibeeditor.api.client.mvc.model.EntryModel;
-import com.github.franckyi.ibeeditor.api.client.mvc.editor.view.CategoryView;
+import com.github.franckyi.ibeeditor.api.client.mvc.editor.model.EntryModel;
 import com.github.franckyi.ibeeditor.api.client.mvc.editor.view.EditorView;
+import com.github.franckyi.ibeeditor.impl.client.mvc.IBEEditorMVC;
 
 import static com.github.franckyi.guapi.GUAPIFactory.*;
 
@@ -21,8 +21,8 @@ public class EditorViewImpl implements EditorView {
             root.spacing(5).align(CENTER).padding(5).fillWidth();
             root.add(headerLabel = label(translatedText("ibeeditor.gui.editor", AQUA, BOLD), true).textAlign(CENTER).prefHeight(20));
             root.add(hBox(main -> {
-                main.add(categoryList = listView(CategoryModel.class, left -> left.itemHeight(25).padding(5).renderer(item -> mvc(CategoryView.class, item))), 1);
-                main.add(entryList = listView(EntryModel.class, right -> right.itemHeight(25).padding(5).renderer(item -> mvc(item.getDefaultViewType(), item))), 2);
+                main.add(categoryList = listView(CategoryModel.class, left -> left.itemHeight(25).padding(5).renderer(item -> mvc(IBEEditorMVC.EDITOR_CATEGORY, item))), 1);
+                main.add(entryList = listView(EntryModel.class, right -> right.itemHeight(25).padding(5).renderer(item -> mvc(IBEEditorMVC.EDITOR_ENTRY, item))), 2);
                 main.spacing(10).fillHeight();
             }), 1);
             root.add(hBox(footer -> {

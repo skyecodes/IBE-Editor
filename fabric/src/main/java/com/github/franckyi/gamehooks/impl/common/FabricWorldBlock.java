@@ -2,10 +2,10 @@ package com.github.franckyi.gamehooks.impl.common;
 
 import com.github.franckyi.gamehooks.api.common.BlockPos;
 import com.github.franckyi.gamehooks.api.common.WorldBlock;
-import com.github.franckyi.gamehooks.util.common.tag.ObjectTag;
+import com.github.franckyi.gamehooks.api.common.tag.CompoundTag;
+import com.github.franckyi.gamehooks.impl.common.tag.FabricTagFactory;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtHelper;
 
 public class FabricWorldBlock implements WorldBlock {
@@ -25,12 +25,12 @@ public class FabricWorldBlock implements WorldBlock {
     }
 
     @Override
-    public ObjectTag getState() {
+    public CompoundTag getState() {
         return state == null ? null : FabricTagFactory.parseCompound(NbtHelper.fromBlockState(state));
     }
 
     @Override
-    public ObjectTag getData() {
-        return blockEntity == null ? null : FabricTagFactory.parseCompound(blockEntity.toTag(new CompoundTag()));
+    public CompoundTag getData() {
+        return blockEntity == null ? null : FabricTagFactory.parseCompound(blockEntity.toTag(new net.minecraft.nbt.CompoundTag()));
     }
 }

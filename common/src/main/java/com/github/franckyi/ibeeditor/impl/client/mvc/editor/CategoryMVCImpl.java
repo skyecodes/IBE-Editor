@@ -14,12 +14,12 @@ public class CategoryMVCImpl implements CategoryMVC {
     }
 
     @Override
-    public CategoryView createView(Class<? extends CategoryModel> aClass) {
+    public CategoryView createView() {
         return new CategoryViewImpl();
     }
 
     @Override
-    public CategoryController createController() {
-        return CategoryControllerImpl.INSTANCE;
+    public CategoryController createController(CategoryModel model, CategoryView view) {
+        return new CategoryControllerImpl(model, view);
     }
 }

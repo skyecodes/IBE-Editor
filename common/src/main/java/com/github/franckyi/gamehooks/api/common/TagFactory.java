@@ -1,7 +1,35 @@
 package com.github.franckyi.gamehooks.api.common;
 
-import com.github.franckyi.gamehooks.api.common.tag.Tag;
+import com.github.franckyi.gamehooks.api.common.tag.*;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 public interface TagFactory {
-    Tag create(byte type);
+    Tag createEmptyTag(byte type);
+
+    ByteTag createByteTag(byte value);
+
+    ShortTag createShortTag(short value);
+
+    IntTag createIntTag(int value);
+
+    LongTag createLongTag(long value);
+
+    FloatTag createFloatTag(float value);
+
+    DoubleTag createDoubleTag(double value);
+
+    ByteArrayTag createByteArrayTag(List<Byte> value);
+
+    StringTag createStringTag(String value);
+
+    ListTag createListTag(Collection<Tag> value);
+
+    CompoundTag createCompoundTag(Map<String, Tag> value);
+
+    IntArrayTag createIntArrayTag(List<Integer> value);
+
+    LongArrayTag createLongArrayTag(List<Long> value);
 }

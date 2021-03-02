@@ -2,7 +2,8 @@ package com.github.franckyi.gamehooks.impl.common;
 
 import com.github.franckyi.gamehooks.api.common.BlockPos;
 import com.github.franckyi.gamehooks.api.common.WorldBlock;
-import com.github.franckyi.gamehooks.util.common.tag.ObjectTag;
+import com.github.franckyi.gamehooks.api.common.tag.CompoundTag;
+import com.github.franckyi.gamehooks.impl.common.tag.ForgeTagFactory;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.NBTUtil;
@@ -25,12 +26,12 @@ public class ForgeWorldBlock implements WorldBlock {
     }
 
     @Override
-    public ObjectTag getState() {
+    public CompoundTag getState() {
         return state == null ? null : ForgeTagFactory.parseCompound(NBTUtil.writeBlockState(state));
     }
 
     @Override
-    public ObjectTag getData() {
+    public CompoundTag getData() {
         return tileEntity == null ? null : ForgeTagFactory.parseCompound(tileEntity.write(new CompoundNBT()));
     }
 }

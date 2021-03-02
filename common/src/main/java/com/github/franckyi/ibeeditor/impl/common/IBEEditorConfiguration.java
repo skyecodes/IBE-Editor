@@ -14,54 +14,53 @@ import java.nio.file.Path;
 import static com.github.franckyi.ibeeditor.impl.common.IBEEditorCommon.LOGGER;
 
 public final class IBEEditorConfiguration {
-    public static IBEEditorConfiguration INSTANCE;
-    private static final Path CONFIG_FILE = GameHooks.common().getGameDir().resolve("config").resolve("ibeeditor.json");
+    public static Client CLIENT;
+    private static final Path CLIENT_CONFIG_FILE = GameHooks.common().getGameDir().resolve("config").resolve("ibeeditor-client.json");
     private static final Marker MARKER = MarkerManager.getMarker("Config");
     private static final Gson GSON = new Gson();
-    private static final IBEEditorConfiguration DEFAULT_CONFIG = new IBEEditorConfiguration();
-    private static boolean changed;
+    private static final Client DEFAULT_CLIENT_CONFIG = new Client();
 
-    private int editorScale = -1;
-
-    public IBEEditorConfiguration() {
+    private IBEEditorConfiguration() {
     }
 
-    public static void load() {
-        if (Files.exists(CONFIG_FILE)) {
-            try (Reader r = Files.newBufferedReader(CONFIG_FILE)) {
-                INSTANCE = GSON.fromJson(r, IBEEditorConfiguration.class);
-                LOGGER.info(MARKER, "Configuration loaded");
+    public static void loadClient() {
+        if (Files.exists(CLIENT_CONFIG_FILE)) {
+            try (Reader r = Files.newBufferedReader(CLIENT_CONFIG_FILE)) {
+                CLIENT = GSON.fromJson(r, Client.class);
+                LOGGER.info(MARKER, "Client configuration loaded");
             } catch (IOException e) {
-                LOGGER.error(MARKER, "Error while loading configuration", e);
+                LOGGER.error(MARKER, "Error while loading client configuration", e);
             }
         } else {
-            LOGGER.info(MARKER, "Generating default configuration");
-            INSTANCE = DEFAULT_CONFIG;
-            changed = true;
-            save();
+            LOGGER.info(MARKER, "Generating default client configuration");
+            CLIENT = DEFAULT_CLIENT_CONFIG;
+            Client.changed = true;
+            saveClient();
         }
     }
 
-    public static void save() {
-        if (changed) {
-            try (Writer w = Files.newBufferedWriter(CONFIG_FILE)) {
-                GSON.toJson(INSTANCE, w);
-                changed = false;
-                LOGGER.info(MARKER, "Configuration saved");
+    public static void saveClient() {
+        if (Client.changed) {
+            try (Writer w = Files.newBufferedWriter(CLIENT_CONFIG_FILE)) {
+                GSON.toJson(CLIENT, w);
+                Client.changed = false;
+                LOGGER.info(MARKER, "Client configuration saved");
             } catch (IOException e) {
-                LOGGER.error(MARKER, "Error while saving configuration", e);
+                LOGGER.error(MARKER, "Error while saving client configuration", e);
             }
         }
     }
 
-    public int getEditorScale() {
-        return editorScale;
-    }
+    public static class Client {
+        private static boolean changed;
+        private int editorScale;
 
-    public void setEditorScale(int editorScale) {
-        if (this.editorScale != editorScale) {
+        public int getEditorScale() {
+            return editorScale;
+        }
+
+        public void setEditorScale(int editorScale) {
             this.editorScale = editorScale;
-            changed = true;
         }
     }
 }

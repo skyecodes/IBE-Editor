@@ -1,14 +1,14 @@
 package com.github.franckyi.gamehooks.api.common.network;
 
 import com.github.franckyi.gamehooks.api.common.BlockPos;
-import com.github.franckyi.gamehooks.util.common.tag.ObjectTag;
+import com.github.franckyi.gamehooks.api.common.tag.CompoundTag;
 
 public interface Buffer {
     <B> B getBuffer();
 
-    ObjectTag readTag();
+    CompoundTag readTag();
 
-    void writeTag(ObjectTag tag);
+    void writeTag(CompoundTag tag);
 
     int readInt();
 

@@ -18,6 +18,11 @@ public class FabricCompoundTag implements CompoundTag {
         this.tag = tag;
     }
 
+    public FabricCompoundTag(Map<String, Tag> value) {
+        this();
+        value.forEach((s, tag1) -> tag.put(s, tag1.get()));
+    }
+
     @Override
     public Map<String, Tag> getValue() {
         Map<String, Tag> value = new HashMap<>();

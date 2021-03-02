@@ -10,7 +10,7 @@ import com.github.franckyi.guapi.api.node.*;
 import com.github.franckyi.guapi.api.node.builder.TexturedButtonBuilder;
 import com.github.franckyi.ibeeditor.api.client.mvc.nbteditor.model.TagModel;
 import com.github.franckyi.ibeeditor.api.client.mvc.nbteditor.view.NBTEditorView;
-import com.github.franckyi.ibeeditor.api.client.mvc.nbteditor.view.TagView;
+import com.github.franckyi.ibeeditor.impl.client.mvc.IBEEditorMVC;
 
 import java.util.function.Consumer;
 
@@ -66,7 +66,7 @@ public class NBTEditorViewImpl implements NBTEditorView {
                     }));
                     buttons.spacing(20).prefHeight(16);
                 }));
-                main.add(tagTree = treeView(TagModel.class).showRoot().itemHeight(20).childrenFocusable().padding(5).renderer(item -> mvc(TagView.class, item)), 1);
+                main.add(tagTree = treeView(TagModel.class).showRoot().itemHeight(20).childrenFocusable().padding(5).renderer(item -> mvc(IBEEditorMVC.NBT_TAG, item)), 1);
                 main.spacing(2).fillWidth();
             }), 1);
             root.add(hBox(footer -> {

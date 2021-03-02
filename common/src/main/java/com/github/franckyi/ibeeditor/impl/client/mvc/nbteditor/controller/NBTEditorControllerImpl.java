@@ -19,7 +19,7 @@ public class NBTEditorControllerImpl extends AbstractController<NBTEditorModel, 
     }
 
     @Override
-    public void init() {
+    public void bind() {
         view.getTagTree().rootItemProperty().bind(model.rootTagProperty());
         view.getDoneButton().onAction(event -> model.apply());
         view.getCancelButton().onAction(event -> GameHooks.client().getScreenHandler().hideScene());
@@ -29,40 +29,18 @@ public class NBTEditorControllerImpl extends AbstractController<NBTEditorModel, 
             TagModel parent = tag.getParent();
             switch (type) {
                 case BYTE:
-                    addChildTag(tag, new ByteTag());
-                    break;
                 case SHORT:
-                    addChildTag(tag, new ShortTag());
-                    break;
                 case INT:
-                    addChildTag(tag, new IntTag());
-                    break;
                 case LONG:
-                    addChildTag(tag, new LongTag());
-                    break;
                 case FLOAT:
-                    addChildTag(tag, new FloatTag());
-                    break;
                 case DOUBLE:
-                    addChildTag(tag, new DoubleTag());
-                    break;
                 case BYTE_ARRAY:
-                    addChildTag(tag, new ByteArrayTag());
-                    break;
                 case STRING:
-                    addChildTag(tag, new StringTag());
-                    break;
                 case LIST:
-                    addChildTag(tag, new ArrayTag());
-                    break;
                 case OBJECT:
-                    addChildTag(tag, new ObjectTag());
-                    break;
                 case INT_ARRAY:
-                    addChildTag(tag, new IntArrayTag());
-                    break;
                 case LONG_ARRAY:
-                    addChildTag(tag, new LongArrayTag());
+                    addChildTag(tag, GameHooks.common().tagFactory().createEmptyTag(type.getType()));
                     break;
                 case MOVE_UP:
                     int index0 = parent.getChildren().indexOf(tag);
@@ -89,7 +67,7 @@ public class NBTEditorControllerImpl extends AbstractController<NBTEditorModel, 
                             if (tag.getChildren().isEmpty()) {
                                 view.setShowAddButtons(!view.isShowAddButtons());
                             } else {
-                                addChildTag(tag, GameHooks.common().tagFactory().create(tag.getChildren().get(0).getTagType()));
+                                addChildTag(tag, GameHooks.common().tagFactory().createEmptyTag(tag.getChildren().get(0).getTagType()));
                             }
                             break;
                         case Tag.COMPOUND_ID:

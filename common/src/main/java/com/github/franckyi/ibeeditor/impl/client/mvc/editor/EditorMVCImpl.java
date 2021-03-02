@@ -14,12 +14,12 @@ public class EditorMVCImpl implements EditorMVC {
     }
 
     @Override
-    public EditorView createView(Class<? extends EditorModel> aClass) {
+    public EditorView createView() {
         return new EditorViewImpl();
     }
 
     @Override
-    public EditorController createController() {
-        return EditorControllerImpl.INSTANCE;
+    public EditorController createController(EditorModel model, EditorView view) {
+        return new EditorControllerImpl(model, view);
     }
 }

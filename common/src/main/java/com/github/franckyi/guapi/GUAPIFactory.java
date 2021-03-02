@@ -17,8 +17,6 @@ import com.github.franckyi.guapi.util.Color;
 import com.github.franckyi.guapi.util.Insets;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.function.Consumer;
 
 public final class GUAPIFactory {
@@ -380,18 +378,7 @@ public final class GUAPIFactory {
         return new Insets(0, 0, 0, left);
     }
 
-    private static final Map<Class<?>, MVC<?, ?, ?>> mvcMap = new HashMap<>();
-
-    public static <M, V extends View, C extends Controller<M, V>> void registerMVC(Class<V> viewClass, MVC<M, V, C> mvc) {
-        mvcMap.put(viewClass, mvc);
-    }
-
-    @SuppressWarnings("unchecked")
-    public static <M, V extends View, C extends Controller<M, V>> Node mvc(Class<V> viewClass, M model) {
-        MVC<M, V, C> mvc = (MVC<M, V, C>) mvcMap.get(viewClass);
-        V view = mvc.createView((Class<? extends M>) model.getClass());
-        C controller = mvc.createController(model, view);
-        controller.init();
-        return view.getRoot();
+    public static <M, V extends View, C extends Controller<M, V>> Node mvc(MVC<M, V, C> mvc, M model) {
+        return mvc.createViewAndBind(model).getRoot();
     }
 }

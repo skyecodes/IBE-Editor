@@ -5,5 +5,5 @@ public interface Controller<M, V extends View> {
 
     V getView();
 
-    void init();
+    void bind();
 }
