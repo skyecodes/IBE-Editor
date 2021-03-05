@@ -15,6 +15,6 @@ public final class IBEEditorCommon {
         LOGGER.info(MARKER, "Initializing IBE Editor - common");
         GameHooks.initCommon(commonHooks, LOGGER);
         IBEEditorNetwork.init();
-        IBEEditorConfiguration.loadClient();
+        IBEEditorConfiguration.loadCommon();
     }
 }

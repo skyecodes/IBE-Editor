@@ -12,10 +12,12 @@ import com.github.franckyi.ibeeditor.impl.common.IBEEditorConfiguration;
 import java.util.function.Consumer;
 
 import static com.github.franckyi.guapi.GUAPIFactory.*;
+import static com.github.franckyi.ibeeditor.impl.client.EditorFactory.editor;
 
 public final class EditorHandler {
     public static void openItemEditor(Item item) {
-        /*GameHooks.client().getScreenHandler().showScene(editorScene(mvc(EditorView.class, editor(editor -> {
+        GameHooks.client().getScreenHandler().showScene(editorScene(mvc(IBEEditorMVC.EDITOR, editor(editor -> {
+            /*
             editor.category(
                     "ibeeditor.gui.category.main",
                     stringEntry("ibeeditor.gui.entry.item_id", "Hmm", s -> {
@@ -26,7 +28,8 @@ public final class EditorHandler {
                     stringEntry("Idk", "AAAAAAA", s -> {
                     })
             );
-        }))));*/
+            */
+        }))));
     }
 
     public static void openNBTEditor(CompoundTag tag, Consumer<CompoundTag> action) {

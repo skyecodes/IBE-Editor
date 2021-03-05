@@ -6,6 +6,7 @@ import com.github.franckyi.gamehooks.api.client.KeyBinding;
 import com.github.franckyi.gamehooks.api.client.Screen;
 import com.github.franckyi.gamehooks.api.common.*;
 import com.github.franckyi.guapi.GUAPI;
+import com.github.franckyi.ibeeditor.impl.common.IBEEditorConfiguration;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
 import org.lwjgl.glfw.GLFW;
@@ -25,6 +26,7 @@ public final class IBEEditorClient {
         LOGGER.info(MARKER, "Initializing IBE Editor - client");
         GameHooks.initClient(clientHooks);
         GUAPI.init();
+        IBEEditorConfiguration.loadClient();
         editorKey = GameHooks.client().registerKeyBinding("ibeeditor.key.editor", GLFW.GLFW_KEY_I, "ibeeditor.category");
         nbtEditorKey = GameHooks.client().registerKeyBinding("ibeeditor.key.nbt_editor", GLFW.GLFW_KEY_N, "ibeeditor.category");
         clipboardKey = GameHooks.client().registerKeyBinding("ibeeditor.key.clipboard", GLFW.GLFW_KEY_J, "ibeeditor.category");

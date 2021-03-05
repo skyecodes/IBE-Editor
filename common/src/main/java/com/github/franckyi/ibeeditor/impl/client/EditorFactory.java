@@ -1,13 +1,20 @@
 package com.github.franckyi.ibeeditor.impl.client;
 
+import com.github.franckyi.ibeeditor.api.client.mvc.editor.model.EditorModel;
+import com.github.franckyi.ibeeditor.api.client.mvc.editor.model.EntryModel;
+import com.github.franckyi.ibeeditor.impl.client.mvc.editor.model.CategoryModelImpl;
+import com.github.franckyi.ibeeditor.impl.client.mvc.editor.model.EditorModelImpl;
+
+import java.util.function.Consumer;
+
 public final class EditorFactory {
-    /*public static EditorModel editor(Consumer<EditorBuilder> builder) {
+    public static EditorModel editor(Consumer<EditorBuilder> builder) {
         EditorBuilder editor = new EditorBuilder();
         builder.accept(editor);
         return editor.build();
     }
 
-    public static StringEntryModel stringEntry(Text name, String value, Consumer<String> apply) {
+    /*public static StringEntryModel stringEntry(Text name, String value, Consumer<String> apply) {
         return new StringEntryModelImpl(name, value, apply);
     }
 
@@ -21,7 +28,7 @@ public final class EditorFactory {
 
     public static IntegerEntryModel integerEntry(String name, int value, Consumer<Integer> apply) {
         return new IntegerEntryModelImpl(translatedText(name), value, apply);
-    }
+    }*/
 
     public static class EditorBuilder {
         private final EditorModel editor = new EditorModelImpl();
@@ -35,5 +42,5 @@ public final class EditorFactory {
         private EditorModel build() {
             return editor;
         }
-    }*/
+    }
 }
