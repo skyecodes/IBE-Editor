@@ -38,3 +38,14 @@ tasks.withType(JavaCompile).configureEach {
         it.options.release = targetVersion
     }
 }
+
+loom {
+    runs {
+        client {
+            vmArg "-Dfabric.log.level=debug"
+        }
+        server {
+            vmArg "-Dfabric.log.level=debug"
+        }
+    }
+}

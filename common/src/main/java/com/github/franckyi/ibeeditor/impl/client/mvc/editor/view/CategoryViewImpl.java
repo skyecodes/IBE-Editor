@@ -4,7 +4,7 @@ import com.github.franckyi.guapi.api.node.Label;
 import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.ibeeditor.api.client.mvc.editor.view.CategoryView;
 
-import static com.github.franckyi.guapi.GUAPIFactory.*;
+import static com.github.franckyi.guapi.GUAPIHelper.*;
 
 public class CategoryViewImpl implements CategoryView {
     private final Label root;

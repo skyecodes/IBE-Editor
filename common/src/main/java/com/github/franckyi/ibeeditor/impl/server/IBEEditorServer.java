@@ -1,8 +1,13 @@
 package com.github.franckyi.ibeeditor.impl.server;
 
-import com.github.franckyi.gamehooks.GameHooks;
-import com.github.franckyi.gamehooks.api.common.*;
-import com.github.franckyi.gamehooks.util.common.TextFormatting;
+import com.github.franckyi.minecraft.Minecraft;
+import com.github.franckyi.minecraft.api.common.BlockPos;
+import com.github.franckyi.minecraft.api.common.text.Text;
+import com.github.franckyi.minecraft.api.common.world.Block;
+import com.github.franckyi.minecraft.api.common.world.Entity;
+import com.github.franckyi.minecraft.api.common.world.Item;
+import com.github.franckyi.minecraft.api.common.world.Player;
+import com.github.franckyi.minecraft.util.common.TextFormatting;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
@@ -15,7 +20,7 @@ import java.util.UUID;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
-import static com.github.franckyi.guapi.GUAPIFactory.*;
+import static com.github.franckyi.guapi.GUAPIHelper.*;
 
 public final class IBEEditorServer {
     private static final Marker MARKER = MarkerManager.getMarker("Server");
@@ -24,17 +29,17 @@ public final class IBEEditorServer {
     private static final Text DOWNLOAD = link("Click here to download the mod!", "https://www.curseforge.com/minecraft/mc-mods/ibe-editor", TextFormatting.AQUA, TextFormatting.UNDERLINE);
 
     public static void notifyClient(Player player) {
-        GameHooks.logger().debug(MARKER, "Notifying {} that this server has IBE Editor", player.getName());
+        Minecraft.getLogger().debug(MARKER, "Notifying {} that this server has IBE Editor", player.getName());
         ServerNetworkEmitter.notifyClient(player);
     }
 
     public static void removeAllowedPlayer(Player player) {
-        GameHooks.logger().debug(MARKER, "Removing {} from allowed players", player.getName());
+        Minecraft.getLogger().debug(MARKER, "Removing {} from allowed players", player.getName());
         allowedPlayers.remove(player.getProfileId());
     }
 
     public static void addAllowedPlayer(Player player) {
-        GameHooks.logger().debug(MARKER, "Adding {} to allowed players", player.getName());
+        Minecraft.getLogger().debug(MARKER, "Adding {} to allowed players", player.getName());
         allowedPlayers.add(player.getProfileId());
     }
 
@@ -44,50 +49,50 @@ public final class IBEEditorServer {
 
     public static <S> void registerCommand(CommandDispatcher<S> dispatcher) {
         dispatcher.register(
-                LiteralArgumentBuilder.<S>literal("ibe").executes(command(p -> triggerOpenWorldEditor(p, false)))
-                        .then(LiteralArgumentBuilder.<S>literal("nbt").executes(command(p -> triggerOpenWorldEditor(p, true)))
-                                .then(LiteralArgumentBuilder.<S>literal("item").executes(command(p -> triggerOpenItemEditor(p, true))))
-                                .then(LiteralArgumentBuilder.<S>literal("block").executes(command(p -> triggerOpenBlockEditor(p, true))))
-                                .then(LiteralArgumentBuilder.<S>literal("entity").executes(command(p -> triggerOpenEntityEditor(p, true))))
-                                .then(LiteralArgumentBuilder.<S>literal("self").executes(command(p -> triggerOpenSelfEditor(p, true)))))
-                        .then(LiteralArgumentBuilder.<S>literal("item").executes(command(p -> triggerOpenItemEditor(p, false)))
-                                .then(LiteralArgumentBuilder.<S>literal("nbt").executes(command(p -> triggerOpenItemEditor(p, true)))))
-                        .then(LiteralArgumentBuilder.<S>literal("block").executes(command(p -> triggerOpenBlockEditor(p, false)))
-                                .then(LiteralArgumentBuilder.<S>literal("nbt").executes(command(p -> triggerOpenBlockEditor(p, true)))))
-                        .then(LiteralArgumentBuilder.<S>literal("entity").executes(command(p -> triggerOpenEntityEditor(p, false)))
-                                .then(LiteralArgumentBuilder.<S>literal("nbt").executes(command(p -> triggerOpenEntityEditor(p, true)))))
-                        .then(LiteralArgumentBuilder.<S>literal("self").executes(command(p -> triggerOpenSelfEditor(p, false)))
-                                .then(LiteralArgumentBuilder.<S>literal("nbt").executes(command(p -> triggerOpenSelfEditor(p, true)))))
+                LiteralArgumentBuilder.<S>literal("ibe").executes(createCommand(p -> triggerOpenWorldEditor(p, false)))
+                        .then(LiteralArgumentBuilder.<S>literal("nbt").executes(createCommand(p -> triggerOpenWorldEditor(p, true)))
+                                .then(LiteralArgumentBuilder.<S>literal("item").executes(createCommand(p -> triggerOpenItemEditor(p, true))))
+                                .then(LiteralArgumentBuilder.<S>literal("block").executes(createCommand(p -> triggerOpenBlockEditor(p, true))))
+                                .then(LiteralArgumentBuilder.<S>literal("entity").executes(createCommand(p -> triggerOpenEntityEditor(p, true))))
+                                .then(LiteralArgumentBuilder.<S>literal("self").executes(createCommand(p -> triggerOpenSelfEditor(p, true)))))
+                        .then(LiteralArgumentBuilder.<S>literal("item").executes(createCommand(p -> triggerOpenItemEditor(p, false)))
+                                .then(LiteralArgumentBuilder.<S>literal("nbt").executes(createCommand(p -> triggerOpenItemEditor(p, true)))))
+                        .then(LiteralArgumentBuilder.<S>literal("block").executes(createCommand(p -> triggerOpenBlockEditor(p, false)))
+                                .then(LiteralArgumentBuilder.<S>literal("nbt").executes(createCommand(p -> triggerOpenBlockEditor(p, true)))))
+                        .then(LiteralArgumentBuilder.<S>literal("entity").executes(createCommand(p -> triggerOpenEntityEditor(p, false)))
+                                .then(LiteralArgumentBuilder.<S>literal("nbt").executes(createCommand(p -> triggerOpenEntityEditor(p, true)))))
+                        .then(LiteralArgumentBuilder.<S>literal("self").executes(createCommand(p -> triggerOpenSelfEditor(p, false)))
+                                .then(LiteralArgumentBuilder.<S>literal("nbt").executes(createCommand(p -> triggerOpenSelfEditor(p, true)))))
         );
     }
 
     @SuppressWarnings("unchecked")
-    private static <S> Command<S> command(Function<Player, Integer> command) {
-        return (Command<S>) GameHooks.common().command(command);
+    private static <S> Command<S> createCommand(Function<Player, Integer> command) {
+        return (Command<S>) Minecraft.getCommon().createCommand(command);
     }
 
     private static int triggerOpenWorldEditor(Player player, boolean nbt) {
-        GameHooks.logger().debug(MARKER, "Triggering World Editor (nbt={}) for {}", nbt, player.getName());
+        Minecraft.getLogger().debug(MARKER, "Triggering World Editor (nbt={}) for {}", nbt, player.getName());
         return triggerOpenEditor(player, nbt, ServerNetworkEmitter::triggerOpenWorldEditor);
     }
 
     private static int triggerOpenItemEditor(Player player, boolean nbt) {
-        GameHooks.logger().debug(MARKER, "Triggering Item Editor (nbt={}) for {}", nbt, player.getName());
+        Minecraft.getLogger().debug(MARKER, "Triggering Item Editor (nbt={}) for {}", nbt, player.getName());
         return triggerOpenEditor(player, nbt, ServerNetworkEmitter::triggerOpenItemEditor);
     }
 
     private static int triggerOpenBlockEditor(Player player, boolean nbt) {
-        GameHooks.logger().debug(MARKER, "Triggering Block Editor (nbt={}) for {}", nbt, player.getName());
+        Minecraft.getLogger().debug(MARKER, "Triggering Block Editor (nbt={}) for {}", nbt, player.getName());
         return triggerOpenEditor(player, nbt, ServerNetworkEmitter::triggerOpenBlockEditor);
     }
 
     private static int triggerOpenEntityEditor(Player player, boolean nbt) {
-        GameHooks.logger().debug(MARKER, "Triggering Entity Editor (nbt={}) for {}", nbt, player.getName());
+        Minecraft.getLogger().debug(MARKER, "Triggering Entity Editor (nbt={}) for {}", nbt, player.getName());
         return triggerOpenEditor(player, nbt, ServerNetworkEmitter::triggerOpenEntityEditor);
     }
 
     private static int triggerOpenSelfEditor(Player player, boolean nbt) {
-        GameHooks.logger().debug(MARKER, "Triggering Self Editor (nbt={}) for {}", nbt, player.getName());
+        Minecraft.getLogger().debug(MARKER, "Triggering Self Editor (nbt={}) for {}", nbt, player.getName());
         return triggerOpenEditor(player, nbt, ServerNetworkEmitter::triggerOpenSelfEditor);
     }
 

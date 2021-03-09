@@ -1,6 +1,6 @@
 package com.github.franckyi.databindings.impl;
 
-import com.github.franckyi.databindings.PropertyFactory;
+import com.github.franckyi.databindings.Bindings;
 import com.github.franckyi.databindings.api.ObservableValue;
 import com.github.franckyi.databindings.api.Property;
 import com.github.franckyi.databindings.api.event.PropertyChangeListener;
@@ -12,7 +12,7 @@ public abstract class AbstractMappedObservableValue<T, X> implements ObservableV
     protected final Function<T, X> mapper;
     protected final boolean nullSafe;
     protected final X orIfNull;
-    protected final Property<X> property = PropertyFactory.ofObject();
+    protected final Property<X> property = Bindings.getPropertyFactory().ofObject();
 
     protected AbstractMappedObservableValue(ObservableValue<T> source, Function<T, X> mapper, boolean nullSafe, X orIfNull) {
         this.source = source;

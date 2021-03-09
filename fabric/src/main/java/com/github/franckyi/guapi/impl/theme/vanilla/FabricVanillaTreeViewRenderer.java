@@ -1,13 +1,13 @@
 package com.github.franckyi.guapi.impl.theme.vanilla;
 
-import com.github.franckyi.gamehooks.api.client.Matrices;
-import com.github.franckyi.gamehooks.impl.client.FabricMatrices;
 import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.api.node.TexturedButton;
 import com.github.franckyi.guapi.api.node.TreeView;
+import com.github.franckyi.minecraft.api.client.render.Matrices;
+import com.github.franckyi.minecraft.impl.client.render.FabricMatrices;
 import net.minecraft.client.util.math.MatrixStack;
 
-import static com.github.franckyi.guapi.GUAPIFactory.*;
+import static com.github.franckyi.guapi.GUAPIHelper.*;
 
 public class FabricVanillaTreeViewRenderer<E extends TreeView.TreeItem<E>> extends AbstractFabricVanillaListNodeRenderer<TreeView<E>, E, FabricVanillaTreeViewRenderer.NodeEntry<E>> {
     public FabricVanillaTreeViewRenderer(TreeView<E> node) {

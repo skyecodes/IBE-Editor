@@ -1,13 +1,13 @@
 package com.github.franckyi.ibeeditor.impl.client.mvc.nbteditor.controller;
 
-import com.github.franckyi.gamehooks.GameHooks;
-import com.github.franckyi.gamehooks.api.common.tag.Tag;
 import com.github.franckyi.guapi.api.mvc.AbstractController;
 import com.github.franckyi.ibeeditor.api.client.mvc.nbteditor.controller.NBTEditorController;
 import com.github.franckyi.ibeeditor.api.client.mvc.nbteditor.model.NBTEditorModel;
 import com.github.franckyi.ibeeditor.api.client.mvc.nbteditor.model.TagModel;
 import com.github.franckyi.ibeeditor.api.client.mvc.nbteditor.view.NBTEditorView;
 import com.github.franckyi.ibeeditor.impl.client.mvc.nbteditor.model.TagModelImpl;
+import com.github.franckyi.minecraft.Minecraft;
+import com.github.franckyi.minecraft.api.common.tag.Tag;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,7 +22,7 @@ public class NBTEditorControllerImpl extends AbstractController<NBTEditorModel, 
     public void bind() {
         view.getTagTree().rootItemProperty().bind(model.rootTagProperty());
         view.getDoneButton().onAction(event -> model.apply());
-        view.getCancelButton().onAction(event -> GameHooks.client().getScreenHandler().hideScene());
+        view.getCancelButton().onAction(event -> Minecraft.getClient().getScreenHandler().hideScene());
         view.getTagTree().focusedElementProperty().addListener(this::updateButtons);
         view.setOnButtonClick(type -> {
             TagModel tag = view.getTagTree().getFocusedElement();
@@ -40,7 +40,7 @@ public class NBTEditorControllerImpl extends AbstractController<NBTEditorModel, 
                 case OBJECT:
                 case INT_ARRAY:
                 case LONG_ARRAY:
-                    addChildTag(tag, GameHooks.common().tagFactory().createEmptyTag(type.getType()));
+                    addChildTag(tag, Minecraft.getCommon().getTagFactory().createEmptyTag(type.getType()));
                     break;
                 case MOVE_UP:
                     int index0 = parent.getChildren().indexOf(tag);
@@ -67,7 +67,7 @@ public class NBTEditorControllerImpl extends AbstractController<NBTEditorModel, 
                             if (tag.getChildren().isEmpty()) {
                                 view.setShowAddButtons(!view.isShowAddButtons());
                             } else {
-                                addChildTag(tag, GameHooks.common().tagFactory().createEmptyTag(tag.getChildren().get(0).getTagType()));
+                                addChildTag(tag, Minecraft.getCommon().getTagFactory().createEmptyTag(tag.getChildren().get(0).getTagType()));
                             }
                             break;
                         case Tag.COMPOUND_ID:

@@ -1,9 +1,9 @@
 package com.github.franckyi.guapi.impl.theme.vanilla;
 
-import com.github.franckyi.gamehooks.api.client.Matrices;
-import com.github.franckyi.gamehooks.impl.client.FabricRenderer;
 import com.github.franckyi.guapi.api.node.TexturedButton;
 import com.github.franckyi.guapi.api.theme.vanilla.FabricVanillaDelegateRenderer;
+import com.github.franckyi.minecraft.api.client.render.Matrices;
+import com.github.franckyi.minecraft.impl.client.render.FabricRenderer;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.LiteralText;

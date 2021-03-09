@@ -1,8 +1,8 @@
 package com.github.franckyi.guapi.impl.node;
 
-import com.github.franckyi.gamehooks.api.common.Text;
 import com.github.franckyi.guapi.api.node.builder.LabelBuilder;
 import com.github.franckyi.guapi.util.NodeType;
+import com.github.franckyi.minecraft.api.common.text.Text;
 
 public class LabelImpl extends AbstractLabel implements LabelBuilder {
     public LabelImpl() {

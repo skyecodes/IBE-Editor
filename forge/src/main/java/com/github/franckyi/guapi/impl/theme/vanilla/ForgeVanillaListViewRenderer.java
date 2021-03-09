@@ -1,9 +1,9 @@
 package com.github.franckyi.guapi.impl.theme.vanilla;
 
-import com.github.franckyi.gamehooks.api.client.Matrices;
-import com.github.franckyi.gamehooks.impl.client.ForgeMatrices;
 import com.github.franckyi.guapi.api.node.ListView;
 import com.github.franckyi.guapi.api.node.Node;
+import com.github.franckyi.minecraft.api.client.render.Matrices;
+import com.github.franckyi.minecraft.impl.client.render.ForgeMatrices;
 import com.mojang.blaze3d.matrix.MatrixStack;
 
 public class ForgeVanillaListViewRenderer<E> extends AbstractForgeVanillaListNodeRenderer<ListView<E>, E, ForgeVanillaListViewRenderer.NodeEntry<E>> {

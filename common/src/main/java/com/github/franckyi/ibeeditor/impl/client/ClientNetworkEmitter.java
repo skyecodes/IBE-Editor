@@ -1,13 +1,13 @@
 package com.github.franckyi.ibeeditor.impl.client;
 
-import com.github.franckyi.gamehooks.GameHooks;
-import com.github.franckyi.gamehooks.api.common.Block;
-import com.github.franckyi.gamehooks.api.common.Entity;
-import com.github.franckyi.gamehooks.api.common.Item;
-import com.github.franckyi.gamehooks.api.common.BlockPos;
-import com.github.franckyi.gamehooks.api.common.network.Packet;
 import com.github.franckyi.ibeeditor.impl.common.IBEEditorNetwork;
 import com.github.franckyi.ibeeditor.impl.common.packet.*;
+import com.github.franckyi.minecraft.Minecraft;
+import com.github.franckyi.minecraft.api.common.BlockPos;
+import com.github.franckyi.minecraft.api.common.network.Packet;
+import com.github.franckyi.minecraft.api.common.world.Block;
+import com.github.franckyi.minecraft.api.common.world.Entity;
+import com.github.franckyi.minecraft.api.common.world.Item;
 
 public final class ClientNetworkEmitter {
     public static void notifyServer() {
@@ -43,6 +43,6 @@ public final class ClientNetworkEmitter {
     }
 
     private static void send(String id, Packet packet) {
-        GameHooks.common().getNetwork().sendToServer(id, packet);
+        Minecraft.getCommon().getNetwork().sendToServer(id, packet);
     }
 }

@@ -1,8 +1,8 @@
 package com.github.franckyi.ibeeditor.impl.common.packet;
 
-import com.github.franckyi.gamehooks.GameHooks;
-import com.github.franckyi.gamehooks.api.common.Entity;
-import com.github.franckyi.gamehooks.api.common.network.Buffer;
+import com.github.franckyi.minecraft.Minecraft;
+import com.github.franckyi.minecraft.api.common.network.Buffer;
+import com.github.franckyi.minecraft.api.common.world.Entity;
 
 public class OpenEntityEditorResponsePacket extends OpenEntityEditorRequestPacket {
     private final Entity entity;
@@ -14,7 +14,7 @@ public class OpenEntityEditorResponsePacket extends OpenEntityEditorRequestPacke
 
     public OpenEntityEditorResponsePacket(Buffer buffer) {
         super(buffer);
-        entity = GameHooks.common().createEntity(buffer.readTag());
+        entity = Minecraft.getCommon().createEntity(buffer.readTag());
     }
 
     @Override

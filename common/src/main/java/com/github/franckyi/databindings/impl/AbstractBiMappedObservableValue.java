@@ -1,6 +1,6 @@
 package com.github.franckyi.databindings.impl;
 
-import com.github.franckyi.databindings.PropertyFactory;
+import com.github.franckyi.databindings.Bindings;
 import com.github.franckyi.databindings.api.ObservableValue;
 import com.github.franckyi.databindings.api.Property;
 import com.github.franckyi.databindings.api.event.PropertyChangeListener;
@@ -10,7 +10,7 @@ import java.util.function.BiFunction;
 public abstract class AbstractBiMappedObservableValue<T, X> implements ObservableValue<X>, PropertyChangeListener<T> {
     private final ObservableValue<T> a, b;
     private final BiFunction<T, T, X> function;
-    private final Property<X> res = PropertyFactory.ofObject();
+    private final Property<X> res = Bindings.getPropertyFactory().ofObject();
 
     public AbstractBiMappedObservableValue(ObservableValue<T> a, ObservableValue<T> b, BiFunction<T, T, X> function) {
         this.a = a;

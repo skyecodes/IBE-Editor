@@ -1,13 +1,13 @@
 package com.github.franckyi.ibeeditor.impl.client.mvc.editor.controller;
 
-import com.github.franckyi.gamehooks.util.common.TextFormatting;
 import com.github.franckyi.guapi.api.event.MouseButtonEvent;
 import com.github.franckyi.guapi.api.mvc.AbstractController;
 import com.github.franckyi.ibeeditor.api.client.mvc.editor.controller.CategoryController;
 import com.github.franckyi.ibeeditor.api.client.mvc.editor.model.CategoryModel;
 import com.github.franckyi.ibeeditor.api.client.mvc.editor.view.CategoryView;
+import com.github.franckyi.minecraft.util.common.TextFormatting;
 
-import static com.github.franckyi.guapi.GUAPIFactory.*;
+import static com.github.franckyi.guapi.GUAPIHelper.*;
 
 public class CategoryControllerImpl extends AbstractController<CategoryModel, CategoryView> implements CategoryController {
     public CategoryControllerImpl(CategoryModel model, CategoryView view) {
@@ -15,7 +15,7 @@ public class CategoryControllerImpl extends AbstractController<CategoryModel, Ca
     }
 
     private void updateLabel() {
-        TextFormatting[] format = model.isSelected() ? new TextFormatting[]{TextFormatting.YELLOW, TextFormatting.BOLD} : new TextFormatting[]{};
+        TextFormatting[] format = model.isSelected() ? new TextFormatting[]{YELLOW, BOLD} : new TextFormatting[]{};
         view.getLabel().setLabel(translatedText(model.getName(), format));
     }
 

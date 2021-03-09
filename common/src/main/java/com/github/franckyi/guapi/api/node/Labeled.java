@@ -1,7 +1,7 @@
 package com.github.franckyi.guapi.api.node;
 
 import com.github.franckyi.databindings.api.ObjectProperty;
-import com.github.franckyi.gamehooks.api.common.Text;
+import com.github.franckyi.minecraft.api.common.text.Text;
 
 public interface Labeled extends Control {
     default Text getLabel() {

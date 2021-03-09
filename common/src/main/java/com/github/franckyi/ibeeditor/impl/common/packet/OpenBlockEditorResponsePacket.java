@@ -1,8 +1,8 @@
 package com.github.franckyi.ibeeditor.impl.common.packet;
 
-import com.github.franckyi.gamehooks.GameHooks;
-import com.github.franckyi.gamehooks.api.common.Block;
-import com.github.franckyi.gamehooks.api.common.network.Buffer;
+import com.github.franckyi.minecraft.Minecraft;
+import com.github.franckyi.minecraft.api.common.network.Buffer;
+import com.github.franckyi.minecraft.api.common.world.Block;
 
 public class OpenBlockEditorResponsePacket extends OpenBlockEditorRequestPacket {
     private final Block block;
@@ -14,7 +14,7 @@ public class OpenBlockEditorResponsePacket extends OpenBlockEditorRequestPacket 
 
     public OpenBlockEditorResponsePacket(Buffer buffer) {
         super(buffer);
-        block = GameHooks.common().createBlock(buffer.readTag(), buffer.readTag());
+        block = Minecraft.getCommon().createBlock(buffer.readTag(), buffer.readTag());
     }
 
     @Override

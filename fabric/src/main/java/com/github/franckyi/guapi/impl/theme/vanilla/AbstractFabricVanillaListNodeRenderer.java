@@ -1,7 +1,5 @@
 package com.github.franckyi.guapi.impl.theme.vanilla;
 
-import com.github.franckyi.gamehooks.api.client.Matrices;
-import com.github.franckyi.gamehooks.impl.client.FabricRenderer;
 import com.github.franckyi.guapi.api.event.MouseButtonEvent;
 import com.github.franckyi.guapi.api.event.MouseDragEvent;
 import com.github.franckyi.guapi.api.event.MouseEvent;
@@ -10,6 +8,8 @@ import com.github.franckyi.guapi.api.node.ListNode;
 import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.api.theme.vanilla.FabricVanillaDelegateRenderer;
 import com.github.franckyi.guapi.util.ScreenEventType;
+import com.github.franckyi.minecraft.api.client.render.Matrices;
+import com.github.franckyi.minecraft.impl.client.render.FabricRenderer;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.widget.EntryListWidget;

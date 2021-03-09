@@ -1,6 +1,6 @@
 package com.github.franckyi.guapi.impl.node;
 
-import com.github.franckyi.databindings.PropertyFactory;
+import com.github.franckyi.databindings.Bindings;
 import com.github.franckyi.databindings.api.BooleanProperty;
 import com.github.franckyi.databindings.api.IntegerProperty;
 import com.github.franckyi.databindings.api.ObjectProperty;
@@ -11,15 +11,15 @@ import com.github.franckyi.guapi.api.node.Scene;
 import com.github.franckyi.guapi.util.ScreenEventType;
 
 public abstract class AbstractListNode<E> extends AbstractNode implements ListNode<E> {
-    private final BooleanProperty childrenFocusableProperty = PropertyFactory.ofBoolean(false);
-    private final ObjectProperty<E> focusedElementProperty = PropertyFactory.ofObject();
-    private final ObjectProperty<E> scrollToProperty = PropertyFactory.ofObject();
-    private final IntegerProperty itemHeightProperty = PropertyFactory.ofInteger();
-    private final IntegerProperty fullWidthProperty = PropertyFactory.ofInteger();
-    private final IntegerProperty fullHeightProperty = PropertyFactory.ofInteger();
-    private final IntegerProperty baseXProperty = PropertyFactory.ofInteger();
-    private final IntegerProperty baseYProperty = PropertyFactory.ofInteger();
-    private final ObjectProperty<Renderer<E>> rendererProperty = PropertyFactory.ofObject();
+    private final BooleanProperty childrenFocusableProperty = Bindings.getPropertyFactory().ofBoolean(false);
+    private final ObjectProperty<E> focusedElementProperty = Bindings.getPropertyFactory().ofObject();
+    private final ObjectProperty<E> scrollToProperty = Bindings.getPropertyFactory().ofObject();
+    private final IntegerProperty itemHeightProperty = Bindings.getPropertyFactory().ofInteger();
+    private final IntegerProperty fullWidthProperty = Bindings.getPropertyFactory().ofInteger();
+    private final IntegerProperty fullHeightProperty = Bindings.getPropertyFactory().ofInteger();
+    private final IntegerProperty baseXProperty = Bindings.getPropertyFactory().ofInteger();
+    private final IntegerProperty baseYProperty = Bindings.getPropertyFactory().ofInteger();
+    private final ObjectProperty<Renderer<E>> rendererProperty = Bindings.getPropertyFactory().ofObject();
 
     protected AbstractListNode(int itemHeight) {
         setItemHeight(itemHeight);

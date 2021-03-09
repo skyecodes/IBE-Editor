@@ -3,12 +3,12 @@ package com.github.franckyi.guapi.impl.node;
 import com.github.franckyi.databindings.api.ObservableList;
 import com.github.franckyi.databindings.api.event.ListChangeEvent;
 import com.github.franckyi.databindings.impl.ObservableArrayList;
-import com.github.franckyi.gamehooks.GameHooks;
 import com.github.franckyi.guapi.GUAPI;
 import com.github.franckyi.guapi.api.event.MouseEvent;
 import com.github.franckyi.guapi.api.node.Group;
 import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.util.ScreenEventType;
+import com.github.franckyi.minecraft.Minecraft;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
@@ -118,7 +118,7 @@ public abstract class AbstractGroup extends AbstractNode implements Group {
         @Override
         protected boolean canAdd(Node element) {
             if (element.getParent() != null) {
-                GameHooks.logger().error(GUAPI.MARKER, "Can't add Node \"" + element + "\" to Group: already present in Parent \"" + element.getParent() + "\"");
+                Minecraft.getLogger().error(GUAPI.MARKER, "Can't add Node \"" + element + "\" to Group: already present in Parent \"" + element.getParent() + "\"");
                 return false;
             }
             return true;

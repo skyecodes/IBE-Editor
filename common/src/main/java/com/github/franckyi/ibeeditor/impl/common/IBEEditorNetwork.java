@@ -1,10 +1,10 @@
 package com.github.franckyi.ibeeditor.impl.common;
 
-import com.github.franckyi.gamehooks.GameHooks;
-import com.github.franckyi.gamehooks.api.common.network.Network;
 import com.github.franckyi.ibeeditor.impl.client.ClientNetworkReceiver;
 import com.github.franckyi.ibeeditor.impl.common.packet.*;
 import com.github.franckyi.ibeeditor.impl.server.ServerNetworkReceiver;
+import com.github.franckyi.minecraft.Minecraft;
+import com.github.franckyi.minecraft.api.common.network.Network;
 
 public final class IBEEditorNetwork {
     private static int i = 0;
@@ -25,7 +25,7 @@ public final class IBEEditorNetwork {
     public static final String TRIGGER_OPEN_EDITOR = "ibeeditor:network/trigger_open_editor";
 
     private static Network network() {
-        return GameHooks.common().getNetwork();
+        return Minecraft.getCommon().getNetwork();
     }
 
     public static void init() {

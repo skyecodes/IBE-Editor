@@ -1,7 +1,7 @@
 package com.github.franckyi.ibeeditor.mixin;
 
-import com.github.franckyi.gamehooks.impl.common.FabricPlayer;
 import com.github.franckyi.ibeeditor.impl.server.IBEEditorServer;
+import com.github.franckyi.minecraft.impl.common.world.FabricPlayer;
 import net.minecraft.network.ClientConnection;
 import net.minecraft.server.PlayerManager;
 import net.minecraft.server.network.ServerPlayerEntity;

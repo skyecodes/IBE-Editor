@@ -1,6 +1,5 @@
 package com.github.franckyi.ibeeditor.impl.client.mvc.nbteditor;
 
-import com.github.franckyi.gamehooks.api.common.tag.Tag;
 import com.github.franckyi.guapi.util.Predicates;
 import com.github.franckyi.ibeeditor.api.client.mvc.nbteditor.TagMVC;
 import com.github.franckyi.ibeeditor.api.client.mvc.nbteditor.controller.TagController;
@@ -8,8 +7,9 @@ import com.github.franckyi.ibeeditor.api.client.mvc.nbteditor.model.TagModel;
 import com.github.franckyi.ibeeditor.api.client.mvc.nbteditor.view.TagView;
 import com.github.franckyi.ibeeditor.impl.client.mvc.nbteditor.controller.TagControllerImpl;
 import com.github.franckyi.ibeeditor.impl.client.mvc.nbteditor.view.TagViewImpl;
+import com.github.franckyi.minecraft.api.common.tag.Tag;
 
-import static com.github.franckyi.guapi.GUAPIFactory.*;
+import static com.github.franckyi.guapi.GUAPIHelper.*;
 
 public final class TagMVCImpl implements TagMVC {
     public static final TagMVC INSTANCE = new TagMVCImpl();

@@ -1,26 +1,25 @@
 package com.github.franckyi.guapi.impl;
 
-import com.github.franckyi.databindings.PropertyFactory;
+import com.github.franckyi.databindings.Bindings;
 import com.github.franckyi.databindings.api.IntegerProperty;
 import com.github.franckyi.databindings.api.ObjectProperty;
-import com.github.franckyi.gamehooks.GameHooks;
-import com.github.franckyi.gamehooks.api.client.Matrices;
 import com.github.franckyi.guapi.GUAPI;
-import com.github.franckyi.gamehooks.api.client.ScreenHandler;
 import com.github.franckyi.guapi.api.event.ScreenEvent;
 import com.github.franckyi.guapi.api.node.Scene;
 import com.github.franckyi.guapi.impl.event.*;
 import com.github.franckyi.guapi.util.ScreenEventType;
+import com.github.franckyi.minecraft.Minecraft;
+import com.github.franckyi.minecraft.api.client.render.Matrices;
+import com.github.franckyi.minecraft.api.client.screen.ScreenHandler;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
 
 public abstract class AbstractScreenHandler implements ScreenHandler {
     private final Deque<Scene> scenes = new ArrayDeque<>();
-    private final ObjectProperty<Scene> currentSceneProperty = PropertyFactory.ofObject();
-    private final IntegerProperty widthProperty = PropertyFactory.ofInteger();
-    private final IntegerProperty heightProperty = PropertyFactory.ofInteger();
-    private int initialScale;
+    private final ObjectProperty<Scene> currentSceneProperty = Bindings.getPropertyFactory().ofObject();
+    private final IntegerProperty widthProperty = Bindings.getPropertyFactory().ofInteger();
+    private final IntegerProperty heightProperty = Bindings.getPropertyFactory().ofInteger();
 
     public AbstractScreenHandler() {
         currentSceneProperty().addListener((oldVal, newVal) -> {
@@ -76,7 +75,7 @@ public abstract class AbstractScreenHandler implements ScreenHandler {
         try {
             getCurrentScene().render(matrices, mouseX, mouseY, delta);
         } catch (Exception e) {
-            GameHooks.logger().error(GUAPI.MARKER, "Error while rendering GUAPI Scene", e);
+            Minecraft.getLogger().error(GUAPI.MARKER, "Error while rendering GUAPI Scene", e);
             hideScene();
         }
     }
@@ -86,7 +85,7 @@ public abstract class AbstractScreenHandler implements ScreenHandler {
             try {
                 getCurrentScene().tick();
             } catch (Exception e) {
-                GameHooks.logger().error(GUAPI.MARKER, "Error while ticking GUAPI Scene", e);
+                Minecraft.getLogger().error(GUAPI.MARKER, "Error while ticking GUAPI Scene", e);
                 hideScene();
             }
         }
@@ -142,7 +141,7 @@ public abstract class AbstractScreenHandler implements ScreenHandler {
         try {
             getCurrentScene().handleEvent(type, event);
         } catch (Exception e) {
-            GameHooks.logger().error(GUAPI.MARKER, "Error while handling " + type.getName() + " event on GUAPI Scene", e);
+            Minecraft.getLogger().error(GUAPI.MARKER, "Error while handling " + type.getName() + " event on GUAPI Scene", e);
             hideScene();
         }
         return event.isConsumed();

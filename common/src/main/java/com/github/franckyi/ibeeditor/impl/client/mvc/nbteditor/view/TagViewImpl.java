@@ -1,14 +1,14 @@
 package com.github.franckyi.ibeeditor.impl.client.mvc.nbteditor.view;
 
-import com.github.franckyi.gamehooks.api.common.Text;
 import com.github.franckyi.guapi.api.node.HBox;
 import com.github.franckyi.guapi.api.node.Label;
 import com.github.franckyi.guapi.api.node.TextField;
 import com.github.franckyi.ibeeditor.api.client.mvc.nbteditor.view.TagView;
+import com.github.franckyi.minecraft.api.common.text.Text;
 
 import java.util.function.Predicate;
 
-import static com.github.franckyi.guapi.GUAPIFactory.*;
+import static com.github.franckyi.guapi.GUAPIHelper.*;
 
 public class TagViewImpl implements TagView {
     private final HBox root;

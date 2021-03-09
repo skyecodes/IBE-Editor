@@ -1,11 +1,11 @@
 package com.github.franckyi.ibeeditor.impl.client.mvc.editor.controller;
 
-import com.github.franckyi.gamehooks.GameHooks;
 import com.github.franckyi.guapi.GUAPI;
 import com.github.franckyi.guapi.api.mvc.AbstractController;
 import com.github.franckyi.ibeeditor.api.client.mvc.editor.controller.EditorController;
 import com.github.franckyi.ibeeditor.api.client.mvc.editor.model.EditorModel;
 import com.github.franckyi.ibeeditor.api.client.mvc.editor.view.EditorView;
+import com.github.franckyi.minecraft.Minecraft;
 
 public class EditorControllerImpl extends AbstractController<EditorModel, EditorView> implements EditorController {
     public EditorControllerImpl(EditorModel model, EditorView view) {
@@ -18,7 +18,7 @@ public class EditorControllerImpl extends AbstractController<EditorModel, Editor
         updateEntryList();
         model.getCategories().addListener(this::updateCategoryList);
         model.selectedCategoryProperty().addListener(this::updateEntryList);
-        view.getDoneButton().onAction(event -> GameHooks.client().getScreenHandler().hideScene());
+        view.getDoneButton().onAction(event -> Minecraft.getClient().getScreenHandler().hideScene());
         view.getCancelButton().onAction(event -> GUAPI.setDebugMode(!GUAPI.isDebugMode()));
     }
 

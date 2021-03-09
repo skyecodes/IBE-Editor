@@ -1,12 +1,13 @@
 package com.github.franckyi.ibeeditor.impl.client;
 
-import com.github.franckyi.gamehooks.GameHooks;
-import com.github.franckyi.gamehooks.api.ClientHooks;
-import com.github.franckyi.gamehooks.api.client.KeyBinding;
-import com.github.franckyi.gamehooks.api.client.Screen;
-import com.github.franckyi.gamehooks.api.common.*;
-import com.github.franckyi.guapi.GUAPI;
 import com.github.franckyi.ibeeditor.impl.common.IBEEditorConfiguration;
+import com.github.franckyi.minecraft.Minecraft;
+import com.github.franckyi.minecraft.api.MinecraftClient;
+import com.github.franckyi.minecraft.api.client.KeyBinding;
+import com.github.franckyi.minecraft.api.client.screen.Screen;
+import com.github.franckyi.minecraft.api.common.BlockPos;
+import com.github.franckyi.minecraft.api.common.Slot;
+import com.github.franckyi.minecraft.api.common.world.*;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
 import org.lwjgl.glfw.GLFW;
@@ -22,25 +23,24 @@ public final class IBEEditorClient {
     public static KeyBinding clipboardKey;
     private static boolean serverModInstalled;
 
-    public static void init(ClientHooks clientHooks) {
-        LOGGER.info(MARKER, "Initializing IBE Editor - client");
-        GameHooks.initClient(clientHooks);
-        GUAPI.init();
+    public static void init(MinecraftClient client) {
+        LOGGER.debug(MARKER, "Initializing IBE Editor - client");
+        Minecraft.setClient(client);
         IBEEditorConfiguration.loadClient();
-        editorKey = GameHooks.client().registerKeyBinding("ibeeditor.key.editor", GLFW.GLFW_KEY_I, "ibeeditor.category");
-        nbtEditorKey = GameHooks.client().registerKeyBinding("ibeeditor.key.nbt_editor", GLFW.GLFW_KEY_N, "ibeeditor.category");
-        clipboardKey = GameHooks.client().registerKeyBinding("ibeeditor.key.clipboard", GLFW.GLFW_KEY_J, "ibeeditor.category");
+        editorKey = Minecraft.getClient().registerKeyBinding("ibeeditor.key.editor", GLFW.GLFW_KEY_I, "ibeeditor.category");
+        nbtEditorKey = Minecraft.getClient().registerKeyBinding("ibeeditor.key.nbt_editor", GLFW.GLFW_KEY_N, "ibeeditor.category");
+        clipboardKey = Minecraft.getClient().registerKeyBinding("ibeeditor.key.clipboard", GLFW.GLFW_KEY_J, "ibeeditor.category");
     }
 
     public static void onKeyInput() {
         if (editorKey.isPressed()) {
-            GameHooks.client().unlockCursor();
+            Minecraft.getClient().unlockCursor();
             openWorldEditor(false);
         } else if (nbtEditorKey.isPressed()) {
-            GameHooks.client().unlockCursor();
+            Minecraft.getClient().unlockCursor();
             openWorldEditor(true);
         } else if (clipboardKey.isPressed()) {
-            GameHooks.client().unlockCursor();
+            Minecraft.getClient().unlockCursor();
             openClipboard();
         }
     }
@@ -52,7 +52,7 @@ public final class IBEEditorClient {
     }
 
     public static boolean tryOpenEntityEditor(boolean nbt) {
-        WorldEntity entity = GameHooks.client().getEntityMouseOver();
+        WorldEntity entity = Minecraft.getClient().getEntityMouseOver();
         if (entity != null) {
             requestOpenEntityEditor(entity.getEntityId(), nbt);
             return true;
@@ -61,7 +61,7 @@ public final class IBEEditorClient {
     }
 
     public static boolean tryOpenBlockEditor(boolean nbt) {
-        WorldBlock block = GameHooks.client().getBlockMouseOver();
+        WorldBlock block = Minecraft.getClient().getBlockMouseOver();
         if (block != null) {
             requestOpenBlockEditor(block.getBlockPos(), nbt);
             return true;
@@ -70,7 +70,7 @@ public final class IBEEditorClient {
     }
 
     public static boolean tryOpenItemEditor(boolean nbt) {
-        Item item = GameHooks.client().getPlayer().getItemMainHand();
+        Item item = Minecraft.getClient().getPlayer().getItemMainHand();
         if (item != null) {
             openItemEditor(item, nbt, IBEEditorClient::updatePlayerMainHandItem);
             return true;
@@ -89,7 +89,7 @@ public final class IBEEditorClient {
                 if (slot.isInPlayerInventory()) {
                     openItemEditor(slot.getStack(), keyCode == nbtEditorKey.getKeyCode(), item -> updatePlayerInventoryItem(item, slot.getIndex()));
                 } else {
-                    WorldBlock block = GameHooks.client().getBlockMouseOver();
+                    WorldBlock block = Minecraft.getClient().getBlockMouseOver();
                     if (block != null) {
                         openItemEditor(slot.getStack(), keyCode == nbtEditorKey.getKeyCode(), item -> updateBlockInventoryItem(item, slot.getIndex(), block.getBlockPos()));
                     }
@@ -101,9 +101,9 @@ public final class IBEEditorClient {
     public static void openItemEditor(Item item, boolean nbt, Consumer<Item> action) {
         LOGGER.debug(MARKER, "Opening Item Editor (item={};nbt={})", item.get(), nbt);
         if (nbt) {
-            EditorHandler.openNBTEditor(item.getTag(), tag -> action.accept(GameHooks.common().createItem(tag)));
+            EditorHandler.openNBTEditor(item.getTag(), tag -> action.accept(Minecraft.getCommon().createItem(tag)));
         } else {
-            EditorHandler.openItemEditor(item);
+            EditorHandler.openItemEditor(item, action);
         }
     }
 
@@ -115,9 +115,9 @@ public final class IBEEditorClient {
     public static void openBlockEditor(Block block, BlockPos blockPos, boolean nbt) {
         LOGGER.debug(MARKER, "Opening Block Editor (pos={};nbt={})", blockPos.get(), nbt);
         if (nbt) {
-            EditorHandler.openNBTEditor(block.getData(), tag -> updateBlock(blockPos, GameHooks.common().createBlock(block.getState(), tag)));
+            EditorHandler.openNBTEditor(block.getData(), tag -> updateBlock(blockPos, Minecraft.getCommon().createBlock(block.getState(), tag)));
         } else {
-            //EditorHandler.showBlockEditor(block);
+            EditorHandler.openBlockEditor(block, newBlock -> updateBlock(blockPos, newBlock));
         }
     }
 
@@ -129,14 +129,14 @@ public final class IBEEditorClient {
     public static void openEntityEditor(Entity entity, int entityId, boolean nbt) {
         LOGGER.debug(MARKER, "Opening Entity Editor (id={};nbt={})", entityId, nbt);
         if (nbt) {
-            EditorHandler.openNBTEditor(entity.getTag(), tag -> updateEntity(entityId, GameHooks.common().createEntity(tag)));
+            EditorHandler.openNBTEditor(entity.getTag(), tag -> updateEntity(entityId, Minecraft.getCommon().createEntity(tag)));
         } else {
-            //EditorHandler.showEntityEditor(entity);
+            EditorHandler.openEntityEditor(entity, entity1 -> updateEntity(entityId, entity1));
         }
     }
 
     public static void requestOpenSelfEditor(boolean nbt) {
-        requestOpenEntityEditor(GameHooks.client().getPlayer().getEntityId(), nbt);
+        requestOpenEntityEditor(Minecraft.getClient().getPlayer().getEntityId(), nbt);
     }
 
     public static boolean isServerModInstalled() {
@@ -150,26 +150,26 @@ public final class IBEEditorClient {
 
     private static void updatePlayerMainHandItem(Item item) {
         ClientNetworkEmitter.updatePlayerMainHandItem(item);
-        GameHooks.client().getScreenHandler().hideScene();
+        Minecraft.getClient().getScreenHandler().hideScene();
     }
 
     private static void updatePlayerInventoryItem(Item item, int slotId) {
         ClientNetworkEmitter.updatePlayerInventoryItem(item, slotId);
-        GameHooks.client().getScreenHandler().hideScene();
+        Minecraft.getClient().getScreenHandler().hideScene();
     }
 
     private static void updateBlockInventoryItem(Item item, int slotId, BlockPos blockPos) {
         ClientNetworkEmitter.updateBlockInventoryItem(item, slotId, blockPos);
-        GameHooks.client().getScreenHandler().hideScene();
+        Minecraft.getClient().getScreenHandler().hideScene();
     }
 
     private static void updateBlock(BlockPos blockPos, Block block) {
         ClientNetworkEmitter.updateBlock(blockPos, block);
-        GameHooks.client().getScreenHandler().hideScene();
+        Minecraft.getClient().getScreenHandler().hideScene();
     }
 
     private static void updateEntity(int entityId, Entity entity) {
         ClientNetworkEmitter.updateEntity(entityId, entity);
-        GameHooks.client().getScreenHandler().hideScene();
+        Minecraft.getClient().getScreenHandler().hideScene();
     }
 }

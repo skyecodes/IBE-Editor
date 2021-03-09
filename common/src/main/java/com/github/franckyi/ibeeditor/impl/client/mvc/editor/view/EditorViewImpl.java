@@ -6,7 +6,7 @@ import com.github.franckyi.ibeeditor.api.client.mvc.editor.model.EntryModel;
 import com.github.franckyi.ibeeditor.api.client.mvc.editor.view.EditorView;
 import com.github.franckyi.ibeeditor.impl.client.mvc.IBEEditorMVC;
 
-import static com.github.franckyi.guapi.GUAPIFactory.*;
+import static com.github.franckyi.guapi.GUAPIHelper.*;
 
 public class EditorViewImpl implements EditorView {
     private final VBox root;

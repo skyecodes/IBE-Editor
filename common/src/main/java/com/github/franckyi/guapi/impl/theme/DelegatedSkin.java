@@ -1,10 +1,10 @@
 package com.github.franckyi.guapi.impl.theme;
 
-import com.github.franckyi.gamehooks.api.client.Matrices;
 import com.github.franckyi.guapi.api.event.ScreenEvent;
 import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.api.theme.DelegatedRenderer;
 import com.github.franckyi.guapi.util.ScreenEventType;
+import com.github.franckyi.minecraft.api.client.render.Matrices;
 
 public abstract class DelegatedSkin<N extends Node> extends AbstractSkin<N> {
     private final DelegatedRenderer delegatedRenderer;

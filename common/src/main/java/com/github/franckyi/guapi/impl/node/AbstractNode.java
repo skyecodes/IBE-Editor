@@ -1,9 +1,7 @@
 package com.github.franckyi.guapi.impl.node;
 
-import com.github.franckyi.databindings.PropertyFactory;
+import com.github.franckyi.databindings.Bindings;
 import com.github.franckyi.databindings.api.*;
-import com.github.franckyi.gamehooks.api.client.Matrices;
-import com.github.franckyi.gamehooks.api.common.Text;
 import com.github.franckyi.guapi.GUAPI;
 import com.github.franckyi.guapi.api.event.ScreenEvent;
 import com.github.franckyi.guapi.api.event.ScreenEventListener;
@@ -16,37 +14,39 @@ import com.github.franckyi.guapi.impl.event.ScreenEventHandlerDelegate;
 import com.github.franckyi.guapi.util.Insets;
 import com.github.franckyi.guapi.util.NodeType;
 import com.github.franckyi.guapi.util.ScreenEventType;
+import com.github.franckyi.minecraft.api.client.render.Matrices;
+import com.github.franckyi.minecraft.api.common.text.Text;
 
 public abstract class AbstractNode implements Node {
-    protected final IntegerProperty xProperty = PropertyFactory.ofInteger();
-    protected final IntegerProperty yProperty = PropertyFactory.ofInteger();
-    protected final IntegerProperty widthProperty = PropertyFactory.ofInteger();
-    protected final IntegerProperty heightProperty = PropertyFactory.ofInteger();
+    protected final IntegerProperty xProperty = Bindings.getPropertyFactory().ofInteger();
+    protected final IntegerProperty yProperty = Bindings.getPropertyFactory().ofInteger();
+    protected final IntegerProperty widthProperty = Bindings.getPropertyFactory().ofInteger();
+    protected final IntegerProperty heightProperty = Bindings.getPropertyFactory().ofInteger();
 
-    private final IntegerProperty minWidthProperty = PropertyFactory.ofInteger();
-    private final IntegerProperty minHeightProperty = PropertyFactory.ofInteger();
-    private final IntegerProperty prefWidthProperty = PropertyFactory.ofInteger(COMPUTED_SIZE);
-    private final IntegerProperty prefHeightProperty = PropertyFactory.ofInteger(COMPUTED_SIZE);
-    private final IntegerProperty maxWidthProperty = PropertyFactory.ofInteger(INFINITE_SIZE);
-    private final IntegerProperty maxHeightProperty = PropertyFactory.ofInteger(INFINITE_SIZE);
-    private final IntegerProperty parentPrefWidthProperty = PropertyFactory.ofInteger(NONE);
-    private final IntegerProperty parentPrefHeightProperty = PropertyFactory.ofInteger(NONE);
+    private final IntegerProperty minWidthProperty = Bindings.getPropertyFactory().ofInteger();
+    private final IntegerProperty minHeightProperty = Bindings.getPropertyFactory().ofInteger();
+    private final IntegerProperty prefWidthProperty = Bindings.getPropertyFactory().ofInteger(COMPUTED_SIZE);
+    private final IntegerProperty prefHeightProperty = Bindings.getPropertyFactory().ofInteger(COMPUTED_SIZE);
+    private final IntegerProperty maxWidthProperty = Bindings.getPropertyFactory().ofInteger(INFINITE_SIZE);
+    private final IntegerProperty maxHeightProperty = Bindings.getPropertyFactory().ofInteger(INFINITE_SIZE);
+    private final IntegerProperty parentPrefWidthProperty = Bindings.getPropertyFactory().ofInteger(NONE);
+    private final IntegerProperty parentPrefHeightProperty = Bindings.getPropertyFactory().ofInteger(NONE);
 
-    protected final IntegerProperty computedWidthProperty = PropertyFactory.ofInteger();
-    private final ObservableIntegerValue computedWidthPropertyReadOnly = PropertyFactory.readOnly(computedWidthProperty);
-    protected final IntegerProperty computedHeightProperty = PropertyFactory.ofInteger();
-    private final ObservableIntegerValue computedHeightPropertyReadOnly = PropertyFactory.readOnly(computedHeightProperty);
+    protected final IntegerProperty computedWidthProperty = Bindings.getPropertyFactory().ofInteger();
+    private final ObservableIntegerValue computedWidthPropertyReadOnly = Bindings.getPropertyFactory().readOnly(computedWidthProperty);
+    protected final IntegerProperty computedHeightProperty = Bindings.getPropertyFactory().ofInteger();
+    private final ObservableIntegerValue computedHeightPropertyReadOnly = Bindings.getPropertyFactory().readOnly(computedHeightProperty);
 
-    private final IntegerProperty backgroundColorProperty = PropertyFactory.ofInteger(DEFAULT_BACKGROUND_COLOR);
-    private final ObjectProperty<Insets> paddingProperty = PropertyFactory.ofObject(Insets.NONE);
-    private final ObjectProperty<Text> tooltipProperty = PropertyFactory.ofObject();
+    private final IntegerProperty backgroundColorProperty = Bindings.getPropertyFactory().ofInteger(DEFAULT_BACKGROUND_COLOR);
+    private final ObjectProperty<Insets> paddingProperty = Bindings.getPropertyFactory().ofObject(Insets.NONE);
+    private final ObjectProperty<Text> tooltipProperty = Bindings.getPropertyFactory().ofObject();
 
-    protected final ObjectProperty<Parent> parentProperty = PropertyFactory.ofObject();
-    protected final ObjectProperty<Scene> sceneProperty = PropertyFactory.ofObject();
-    private final ObservableObjectValue<Scene> scenePropertyReadOnly = PropertyFactory.readOnly(sceneProperty);
+    protected final ObjectProperty<Parent> parentProperty = Bindings.getPropertyFactory().ofObject();
+    protected final ObjectProperty<Scene> sceneProperty = Bindings.getPropertyFactory().ofObject();
+    private final ObservableObjectValue<Scene> scenePropertyReadOnly = Bindings.getPropertyFactory().readOnly(sceneProperty);
 
-    private final BooleanProperty visibleProperty = PropertyFactory.ofBoolean(true);
-    private final BooleanProperty disableProperty = PropertyFactory.ofBoolean();
+    private final BooleanProperty visibleProperty = Bindings.getPropertyFactory().ofBoolean(true);
+    private final BooleanProperty disableProperty = Bindings.getPropertyFactory().ofBoolean();
     private final ObservableBooleanValue disabledProperty = disableProperty()
             .or(parentProperty().bindMapToBoolean(Parent::disabledProperty, false));
 

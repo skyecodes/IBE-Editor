@@ -1,8 +1,8 @@
 package com.github.franckyi.guapi.impl.node;
 
-import com.github.franckyi.gamehooks.api.common.Text;
 import com.github.franckyi.guapi.api.node.builder.ButtonBuilder;
 import com.github.franckyi.guapi.util.NodeType;
+import com.github.franckyi.minecraft.api.common.text.Text;
 
 public class ButtonImpl extends AbstractButton implements ButtonBuilder {
     public ButtonImpl() {

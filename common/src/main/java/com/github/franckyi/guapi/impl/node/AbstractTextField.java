@@ -1,21 +1,21 @@
 package com.github.franckyi.guapi.impl.node;
 
-import com.github.franckyi.databindings.PropertyFactory;
+import com.github.franckyi.databindings.Bindings;
 import com.github.franckyi.databindings.api.*;
-import com.github.franckyi.gamehooks.api.common.Text;
 import com.github.franckyi.guapi.api.node.TextField;
+import com.github.franckyi.minecraft.api.common.text.Text;
 
 import java.util.function.Predicate;
 
-import static com.github.franckyi.guapi.GUAPIFactory.*;
+import static com.github.franckyi.guapi.GUAPIHelper.*;
 
 public abstract class AbstractTextField extends AbstractLabeled implements TextField {
-    private final StringProperty textProperty = PropertyFactory.ofString("");
-    private final IntegerProperty maxLengthProperty = PropertyFactory.ofInteger(Integer.MAX_VALUE);
-    private final ObjectProperty<Predicate<String>> validatorProperty = PropertyFactory.ofObject(s -> true);
-    private final BooleanProperty validationForcedProperty = PropertyFactory.ofBoolean();
-    protected final BooleanProperty validProperty = PropertyFactory.ofBoolean();
-    private final ObservableBooleanValue validPropertyReadOnly = PropertyFactory.readOnly(validProperty);
+    private final StringProperty textProperty = Bindings.getPropertyFactory().ofString("");
+    private final IntegerProperty maxLengthProperty = Bindings.getPropertyFactory().ofInteger(Integer.MAX_VALUE);
+    private final ObjectProperty<Predicate<String>> validatorProperty = Bindings.getPropertyFactory().ofObject(s -> true);
+    private final BooleanProperty validationForcedProperty = Bindings.getPropertyFactory().ofBoolean();
+    protected final BooleanProperty validProperty = Bindings.getPropertyFactory().ofBoolean();
+    private final ObservableBooleanValue validPropertyReadOnly = Bindings.getPropertyFactory().readOnly(validProperty);
 
     protected AbstractTextField() {
         this("");

@@ -1,12 +1,12 @@
 package com.github.franckyi.guapi.impl.theme;
 
-import com.github.franckyi.gamehooks.GameHooks;
-import com.github.franckyi.gamehooks.api.client.Matrices;
 import com.github.franckyi.guapi.GUAPI;
 import com.github.franckyi.guapi.api.event.ScreenEvent;
 import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.api.theme.Skin;
 import com.github.franckyi.guapi.util.ScreenEventType;
+import com.github.franckyi.minecraft.Minecraft;
+import com.github.franckyi.minecraft.api.client.render.Matrices;
 
 import java.util.Random;
 
@@ -31,12 +31,12 @@ public abstract class AbstractSkin<N extends Node> implements Skin<N> {
     }
 
     protected void renderDebug(N node, Matrices matrices) {
-        GameHooks.client().getRenderer().drawRectangle(matrices, node.getLeft(), node.getTop(),
+        Minecraft.getClient().getRenderer().drawRectangle(matrices, node.getLeft(), node.getTop(),
                 node.getRight(), node.getBottom(), debugColor);
     }
 
     protected void renderBackground(N node, Matrices matrices) {
-        GameHooks.client().getRenderer().fillRectangle(matrices, node.getLeft(), node.getTop(),
+        Minecraft.getClient().getRenderer().fillRectangle(matrices, node.getLeft(), node.getTop(),
                 node.getRight(), node.getBottom(), node.getBackgroundColor());
     }
 }

@@ -1,18 +1,17 @@
 package com.github.franckyi.guapi;
 
+import com.github.franckyi.guapi.api.NodeFactory;
 import com.github.franckyi.guapi.api.theme.Theme;
+import com.github.franckyi.guapi.impl.NodeFactoryImpl;
 import com.github.franckyi.guapi.impl.theme.vanilla.VanillaTheme;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
 
 public final class GUAPI {
     public static final Marker MARKER = MarkerManager.getMarker("GUAPI");
-    private static Theme theme;
+    private static Theme theme = VanillaTheme.INSTANCE;
+    private static NodeFactory nodeFactory = NodeFactoryImpl.INSTANCE;
     private static boolean debugMode = false;
-
-    public static void init() {
-        setTheme(VanillaTheme.INSTANCE);
-    }
 
     public static Theme getTheme() {
         return theme;
@@ -20,6 +19,14 @@ public final class GUAPI {
 
     public static void setTheme(Theme theme) {
         GUAPI.theme = theme;
+    }
+
+    public static NodeFactory getNodeFactory() {
+        return nodeFactory;
+    }
+
+    public static void setNodeFactory(NodeFactory nodeFactory) {
+        GUAPI.nodeFactory = nodeFactory;
     }
 
     public static boolean isDebugMode() {

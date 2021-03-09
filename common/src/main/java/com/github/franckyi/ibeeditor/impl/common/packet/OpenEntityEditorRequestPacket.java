@@ -1,7 +1,7 @@
 package com.github.franckyi.ibeeditor.impl.common.packet;
 
-import com.github.franckyi.gamehooks.api.common.network.Buffer;
-import com.github.franckyi.gamehooks.api.common.network.Packet;
+import com.github.franckyi.minecraft.api.common.network.Buffer;
+import com.github.franckyi.minecraft.api.common.network.Packet;
 
 public class OpenEntityEditorRequestPacket implements Packet {
     private final int entityId;

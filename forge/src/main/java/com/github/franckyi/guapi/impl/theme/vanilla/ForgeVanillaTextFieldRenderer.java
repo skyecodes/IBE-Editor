@@ -1,10 +1,10 @@
 package com.github.franckyi.guapi.impl.theme.vanilla;
 
-import com.github.franckyi.gamehooks.api.client.Matrices;
-import com.github.franckyi.gamehooks.impl.client.ForgeRenderer;
 import com.github.franckyi.guapi.api.node.TextField;
 import com.github.franckyi.guapi.api.theme.vanilla.ForgeVanillaDelegateRenderer;
 import com.github.franckyi.guapi.util.Color;
+import com.github.franckyi.minecraft.api.client.render.Matrices;
+import com.github.franckyi.minecraft.impl.client.render.ForgeRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 
@@ -22,7 +22,6 @@ public class ForgeVanillaTextFieldRenderer extends TextFieldWidget implements Fo
         setCursorPositionZero(); // fix in order to render text
         setFocused(node.isFocused());
         setResponder(node::setText);
-        setValidator(node.getValidator());
         node.xProperty().addListener(newVal -> x = newVal);
         node.yProperty().addListener(newVal -> y = newVal);
         node.widthProperty().addListener(newVal -> width = newVal);
@@ -35,6 +34,7 @@ public class ForgeVanillaTextFieldRenderer extends TextFieldWidget implements Fo
             setText(newVal);
             setCursorPosition(cursor);
         });
+        node.focusedProperty().addListener(this::setFocused);
         node.validatorProperty().addListener(this::updateValidator);
         node.validationForcedProperty().addListener(this::updateValidator);
         updateValidator();

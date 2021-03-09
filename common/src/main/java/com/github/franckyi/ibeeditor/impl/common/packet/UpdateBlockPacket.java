@@ -1,10 +1,10 @@
 package com.github.franckyi.ibeeditor.impl.common.packet;
 
-import com.github.franckyi.gamehooks.GameHooks;
-import com.github.franckyi.gamehooks.api.common.Block;
-import com.github.franckyi.gamehooks.api.common.BlockPos;
-import com.github.franckyi.gamehooks.api.common.network.Buffer;
-import com.github.franckyi.gamehooks.api.common.network.Packet;
+import com.github.franckyi.minecraft.Minecraft;
+import com.github.franckyi.minecraft.api.common.BlockPos;
+import com.github.franckyi.minecraft.api.common.network.Buffer;
+import com.github.franckyi.minecraft.api.common.network.Packet;
+import com.github.franckyi.minecraft.api.common.world.Block;
 
 public class UpdateBlockPacket implements Packet {
     private final BlockPos blockPos;
@@ -16,7 +16,7 @@ public class UpdateBlockPacket implements Packet {
     }
 
     public UpdateBlockPacket(Buffer buffer) {
-        this(buffer.readPos(), GameHooks.common().createBlock(buffer.readTag(), buffer.readTag()));
+        this(buffer.readPos(), Minecraft.getCommon().createBlock(buffer.readTag(), buffer.readTag()));
     }
 
     @Override

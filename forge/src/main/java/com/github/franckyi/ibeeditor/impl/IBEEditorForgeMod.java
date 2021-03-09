@@ -1,14 +1,14 @@
 package com.github.franckyi.ibeeditor.impl;
 
-import com.github.franckyi.gamehooks.impl.ForgeClientHooks;
-import com.github.franckyi.gamehooks.impl.ForgeCommonHooks;
-import com.github.franckyi.gamehooks.impl.client.ForgeScreen;
-import com.github.franckyi.gamehooks.impl.common.ForgePlayer;
 import com.github.franckyi.guapi.impl.theme.vanilla.*;
 import com.github.franckyi.guapi.util.NodeType;
 import com.github.franckyi.ibeeditor.impl.client.IBEEditorClient;
 import com.github.franckyi.ibeeditor.impl.common.IBEEditorCommon;
 import com.github.franckyi.ibeeditor.impl.server.IBEEditorServer;
+import com.github.franckyi.minecraft.impl.ForgeMinecraftClient;
+import com.github.franckyi.minecraft.impl.ForgeMinecraftCommon;
+import com.github.franckyi.minecraft.impl.client.screen.ForgeScreen;
+import com.github.franckyi.minecraft.impl.common.world.ForgePlayer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraftforge.client.event.GuiScreenEvent;
@@ -30,14 +30,14 @@ public final class IBEEditorForgeMod {
     }
 
     private void onCommonInit(FMLCommonSetupEvent event) {
-        IBEEditorCommon.init(ForgeCommonHooks.INSTANCE);
+        IBEEditorCommon.init(ForgeMinecraftCommon.INSTANCE);
         MinecraftForge.EVENT_BUS.addListener(this::onServerStarting);
         MinecraftForge.EVENT_BUS.addListener(this::onPlayerLoggedIn);
         MinecraftForge.EVENT_BUS.addListener(this::onPlayerLoggedOut);
     }
 
     private void onClientInit(FMLClientSetupEvent event) {
-        IBEEditorClient.init(ForgeClientHooks.INSTANCE);
+        IBEEditorClient.init(ForgeMinecraftClient.INSTANCE);
         VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(NodeType.BUTTON, ForgeVanillaButtonRenderer::new);
         VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(NodeType.TEXTURED_BUTTON, ForgeVanillaTexturedButtonRenderer::new);
         VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(NodeType.TEXT_FIELD, ForgeVanillaTextFieldRenderer::new);

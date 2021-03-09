@@ -1,6 +1,6 @@
 package com.github.franckyi.guapi.impl.node;
 
-import com.github.franckyi.databindings.PropertyFactory;
+import com.github.franckyi.databindings.Bindings;
 import com.github.franckyi.databindings.api.IntegerProperty;
 import com.github.franckyi.databindings.api.ObjectProperty;
 import com.github.franckyi.guapi.api.node.Box;
@@ -12,8 +12,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public abstract class AbstractBox extends AbstractGroup implements Box {
-    private final IntegerProperty spacingProperty = PropertyFactory.ofInteger();
-    private final ObjectProperty<Align> alignmentProperty = PropertyFactory.ofObject(Align.TOP_LEFT);
+    private final IntegerProperty spacingProperty = Bindings.getPropertyFactory().ofInteger();
+    private final ObjectProperty<Align> alignmentProperty = Bindings.getPropertyFactory().ofObject(Align.TOP_LEFT);
     protected final Map<Node, Integer> weightMap = new HashMap<>();
 
     protected AbstractBox(int spacing, Collection<? extends Node> children) {

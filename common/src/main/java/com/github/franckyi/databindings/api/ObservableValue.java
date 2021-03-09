@@ -1,6 +1,6 @@
 package com.github.franckyi.databindings.api;
 
-import com.github.franckyi.databindings.MappingFactory;
+import com.github.franckyi.databindings.Bindings;
 import com.github.franckyi.databindings.api.event.PropertyChangeListener;
 
 import java.util.Objects;
@@ -45,75 +45,75 @@ public interface ObservableValue<T> {
     }
 
     default <X> ObservableObjectValue<X> map(Function<T, X> mapper) {
-        return MappingFactory.map(this, mapper);
+        return Bindings.getMappingFactory().map(this, mapper);
     }
 
     default <X> ObservableObjectValue<X> map(Function<T, X> mapper, X orIfNull) {
-        return MappingFactory.map(this, mapper, orIfNull);
+        return Bindings.getMappingFactory().map(this, mapper, orIfNull);
     }
 
     default ObservableStringValue mapToString(Function<T, String> mapper) {
-        return MappingFactory.mapToString(this, mapper);
+        return Bindings.getMappingFactory().mapToString(this, mapper);
     }
 
     default ObservableStringValue mapToString(Function<T, String> mapper, String orIfNull) {
-        return MappingFactory.mapToString(this, mapper, orIfNull);
+        return Bindings.getMappingFactory().mapToString(this, mapper, orIfNull);
     }
 
     default ObservableBooleanValue mapToBoolean(Function<T, Boolean> mapper) {
-        return MappingFactory.mapToBoolean(this, mapper);
+        return Bindings.getMappingFactory().mapToBoolean(this, mapper);
     }
 
     default ObservableBooleanValue mapToBoolean(Function<T, Boolean> mapper, boolean orIfNull) {
-        return MappingFactory.mapToBoolean(this, mapper, orIfNull);
+        return Bindings.getMappingFactory().mapToBoolean(this, mapper, orIfNull);
     }
 
     default ObservableIntegerValue mapToInt(Function<T, Integer> mapper) {
-        return MappingFactory.mapToInt(this, mapper);
+        return Bindings.getMappingFactory().mapToInt(this, mapper);
     }
 
     default ObservableIntegerValue mapToInt(Function<T, Integer> mapper, int orIfNull) {
-        return MappingFactory.mapToInt(this, mapper, orIfNull);
+        return Bindings.getMappingFactory().mapToInt(this, mapper, orIfNull);
     }
 
     default <X> ObservableObjectValue<X> bindMap(Function<T, ObservableValue<X>> mapper) {
-        return MappingFactory.bindMap(this, mapper);
+        return Bindings.getMappingFactory().bindMap(this, mapper);
     }
 
     default <X> ObservableObjectValue<X> bindMap(Function<T, ObservableValue<X>> mapper, X orIfNull) {
-        return MappingFactory.bindMap(this, mapper, orIfNull);
+        return Bindings.getMappingFactory().bindMap(this, mapper, orIfNull);
     }
 
     default ObservableStringValue bindMapToString(Function<T, ObservableValue<String>> mapper) {
-        return MappingFactory.bindMapToString(this, mapper);
+        return Bindings.getMappingFactory().bindMapToString(this, mapper);
     }
 
     default ObservableStringValue bindMapToString(Function<T, ObservableValue<String>> mapper, String orIfNull) {
-        return MappingFactory.bindMapToString(this, mapper, orIfNull);
+        return Bindings.getMappingFactory().bindMapToString(this, mapper, orIfNull);
     }
 
     default ObservableBooleanValue bindMapToBoolean(Function<T, ObservableValue<Boolean>> mapper) {
-        return MappingFactory.bindMapToBoolean(this, mapper);
+        return Bindings.getMappingFactory().bindMapToBoolean(this, mapper);
     }
 
     default ObservableBooleanValue bindMapToBoolean(Function<T, ObservableValue<Boolean>> mapper, boolean orIfNull) {
-        return MappingFactory.bindMapToBoolean(this, mapper, orIfNull);
+        return Bindings.getMappingFactory().bindMapToBoolean(this, mapper, orIfNull);
     }
 
     default ObservableIntegerValue bindMapToInt(Function<T, ObservableValue<Integer>> mapper) {
-        return MappingFactory.bindMapToInt(this, mapper);
+        return Bindings.getMappingFactory().bindMapToInt(this, mapper);
     }
 
     default ObservableIntegerValue bindMapToInt(Function<T, ObservableValue<Integer>> mapper, int orIfNull) {
-        return MappingFactory.bindMapToInt(this, mapper, orIfNull);
+        return Bindings.getMappingFactory().bindMapToInt(this, mapper, orIfNull);
     }
 
     default ObservableBooleanValue mapToBoolean(ObservableValue<T> other, BiFunction<T, T, Boolean> mapper) {
-        return MappingFactory.mapToBoolean(this, other, mapper);
+        return Bindings.getMappingFactory().mapToBoolean(this, other, mapper);
     }
 
     default ObservableIntegerValue mapToInt(ObservableValue<T> other, BiFunction<T, T, Integer> mapper) {
-        return MappingFactory.mapToInt(this, other, mapper);
+        return Bindings.getMappingFactory().mapToInt(this, other, mapper);
     }
 
     default ObservableBooleanValue isNull() {

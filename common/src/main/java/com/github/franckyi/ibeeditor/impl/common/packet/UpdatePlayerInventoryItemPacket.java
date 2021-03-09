@@ -1,7 +1,7 @@
 package com.github.franckyi.ibeeditor.impl.common.packet;
 
-import com.github.franckyi.gamehooks.api.common.Item;
-import com.github.franckyi.gamehooks.api.common.network.Buffer;
+import com.github.franckyi.minecraft.api.common.network.Buffer;
+import com.github.franckyi.minecraft.api.common.world.Item;
 
 public class UpdatePlayerInventoryItemPacket extends UpdatePlayerMainHandItemPacket {
     private final int slotId;

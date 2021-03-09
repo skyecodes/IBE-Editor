@@ -1,9 +1,9 @@
 package com.github.franckyi.ibeeditor.impl.common.packet;
 
-import com.github.franckyi.gamehooks.GameHooks;
-import com.github.franckyi.gamehooks.api.common.Item;
-import com.github.franckyi.gamehooks.api.common.network.Buffer;
-import com.github.franckyi.gamehooks.api.common.network.Packet;
+import com.github.franckyi.minecraft.Minecraft;
+import com.github.franckyi.minecraft.api.common.network.Buffer;
+import com.github.franckyi.minecraft.api.common.network.Packet;
+import com.github.franckyi.minecraft.api.common.world.Item;
 
 public class UpdatePlayerMainHandItemPacket implements Packet {
     private final Item item;
@@ -13,7 +13,7 @@ public class UpdatePlayerMainHandItemPacket implements Packet {
     }
 
     public UpdatePlayerMainHandItemPacket(Buffer buffer) {
-        this(GameHooks.common().createItem(buffer.readTag()));
+        this(Minecraft.getCommon().createItem(buffer.readTag()));
     }
 
     @Override

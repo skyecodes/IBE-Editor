@@ -1,6 +1,6 @@
 package com.github.franckyi.ibeeditor.impl.common;
 
-import com.github.franckyi.gamehooks.GameHooks;
+import com.github.franckyi.minecraft.Minecraft;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.apache.logging.log4j.Marker;
@@ -11,23 +11,16 @@ import java.io.Reader;
 import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.function.Supplier;
 
 import static com.github.franckyi.ibeeditor.impl.common.IBEEditorCommon.LOGGER;
 
 public final class IBEEditorConfiguration {
     private static final Marker MARKER = MarkerManager.getMarker("Config");
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
-
-    private static final Path CLIENT_CONFIG_FILE = GameHooks.common().getGameDir().resolve("config").resolve("ibeeditor-client.json");
-    private static final Supplier<Client> DEFAULT_CLIENT_CONFIG = Client::new;
-
-    private static final Path COMMON_CONFIG_FILE = GameHooks.common().getGameDir().resolve("config").resolve("ibeeditor-common.json");
-    private static final Supplier<Common> DEFAULT_COMMON_CONFIG = Common::new;
-
+    private static final Path CLIENT_CONFIG_FILE = Minecraft.getCommon().getGameDir().resolve("config").resolve("ibeeditor-client.json");
+    private static final Path COMMON_CONFIG_FILE = Minecraft.getCommon().getGameDir().resolve("config").resolve("ibeeditor-common.json");
     public static Client CLIENT;
     private static boolean clientChanged;
-
     public static Common COMMON;
     private static boolean commonChanged;
 
@@ -43,8 +36,8 @@ public final class IBEEditorConfiguration {
                 LOGGER.error(MARKER, "Error while loading client configuration", e);
             }
         } else {
-            LOGGER.info(MARKER, "Generating default client configuration");
-            CLIENT = DEFAULT_CLIENT_CONFIG.get();
+            LOGGER.debug(MARKER, "Generating default client configuration");
+            CLIENT = new Client();
             clientChanged = true;
             saveClient();
         }
@@ -72,7 +65,7 @@ public final class IBEEditorConfiguration {
             }
         } else {
             LOGGER.debug(MARKER, "Generating default common configuration");
-            COMMON = DEFAULT_COMMON_CONFIG.get();
+            COMMON = new Common();
             commonChanged = true;
             saveCommon();
         }

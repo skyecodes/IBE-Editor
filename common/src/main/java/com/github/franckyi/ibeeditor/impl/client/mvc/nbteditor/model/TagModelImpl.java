@@ -1,27 +1,26 @@
 package com.github.franckyi.ibeeditor.impl.client.mvc.nbteditor.model;
 
-import com.github.franckyi.databindings.ObservableListFactory;
-import com.github.franckyi.databindings.PropertyFactory;
+import com.github.franckyi.databindings.Bindings;
 import com.github.franckyi.databindings.api.BooleanProperty;
 import com.github.franckyi.databindings.api.ObjectProperty;
 import com.github.franckyi.databindings.api.ObservableList;
 import com.github.franckyi.databindings.api.StringProperty;
-import com.github.franckyi.gamehooks.GameHooks;
-import com.github.franckyi.gamehooks.api.common.tag.*;
 import com.github.franckyi.ibeeditor.api.client.mvc.nbteditor.model.TagModel;
+import com.github.franckyi.minecraft.Minecraft;
+import com.github.franckyi.minecraft.api.common.tag.*;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class TagModelImpl implements TagModel {
-    private final ObservableList<TagModel> children = ObservableListFactory.arrayList();
-    private final BooleanProperty expandedProperty = PropertyFactory.ofBoolean();
+    private final ObservableList<TagModel> children = Bindings.getObservableListFactory().arrayList();
+    private final BooleanProperty expandedProperty = Bindings.getPropertyFactory().ofBoolean();
     private final ObjectProperty<TagModel> parentProperty;
-    private final BooleanProperty childrenChangedProperty = PropertyFactory.ofBoolean();
+    private final BooleanProperty childrenChangedProperty = Bindings.getPropertyFactory().ofBoolean();
     private final StringProperty nameProperty;
     private final StringProperty valueProperty;
-    private final BooleanProperty validProperty = PropertyFactory.ofBoolean();
+    private final BooleanProperty validProperty = Bindings.getPropertyFactory().ofBoolean();
     protected final Tag tag;
     protected byte forcedTagType;
 
@@ -37,9 +36,9 @@ public class TagModelImpl implements TagModel {
 
     public TagModelImpl(Tag tag, TagModel parent, String name, String value) {
         this.tag = tag;
-        parentProperty = PropertyFactory.ofObject(parent);
-        nameProperty = PropertyFactory.ofString(name);
-        valueProperty = PropertyFactory.ofString(value);
+        parentProperty = Bindings.getPropertyFactory().ofObject(parent);
+        nameProperty = Bindings.getPropertyFactory().ofString(name);
+        valueProperty = Bindings.getPropertyFactory().ofString(value);
         if (tag != null) {
             switch (tag.getType()) {
                 case Tag.COMPOUND_ID:
@@ -132,46 +131,46 @@ public class TagModelImpl implements TagModel {
         if (canBuild()) {
             switch (tag.getType()) {
                 case Tag.BYTE_ID:
-                    return GameHooks.common().tagFactory().createByteTag(Byte.parseByte(getValue()));
+                    return Minecraft.getCommon().getTagFactory().createByteTag(Byte.parseByte(getValue()));
                 case Tag.SHORT_ID:
-                    return GameHooks.common().tagFactory().createShortTag(Short.parseShort(getValue()));
+                    return Minecraft.getCommon().getTagFactory().createShortTag(Short.parseShort(getValue()));
                 case Tag.INT_ID:
-                    return GameHooks.common().tagFactory().createIntTag(Integer.parseInt(getValue()));
+                    return Minecraft.getCommon().getTagFactory().createIntTag(Integer.parseInt(getValue()));
                 case Tag.LONG_ID:
-                    return GameHooks.common().tagFactory().createLongTag(Long.parseLong(getValue()));
+                    return Minecraft.getCommon().getTagFactory().createLongTag(Long.parseLong(getValue()));
                 case Tag.FLOAT_ID:
-                    return GameHooks.common().tagFactory().createFloatTag(Float.parseFloat(getValue()));
+                    return Minecraft.getCommon().getTagFactory().createFloatTag(Float.parseFloat(getValue()));
                 case Tag.DOUBLE_ID:
-                    return GameHooks.common().tagFactory().createDoubleTag(Double.parseDouble(getValue()));
+                    return Minecraft.getCommon().getTagFactory().createDoubleTag(Double.parseDouble(getValue()));
                 case Tag.BYTE_ARRAY_ID:
-                    return GameHooks.common().tagFactory().createByteArrayTag(getChildren()
+                    return Minecraft.getCommon().getTagFactory().createByteArrayTag(getChildren()
                             .stream()
                             .map(TagModel::getValue)
                             .map(Byte::parseByte)
                             .collect(Collectors.toList())
                     );
                 case Tag.STRING_ID:
-                    return GameHooks.common().tagFactory().createStringTag(getValue());
+                    return Minecraft.getCommon().getTagFactory().createStringTag(getValue());
                 case Tag.LIST_ID:
-                    return GameHooks.common().tagFactory().createListTag(getChildren()
+                    return Minecraft.getCommon().getTagFactory().createListTag(getChildren()
                             .stream()
                             .map(TagModel::build)
                             .collect(Collectors.toList())
                     );
                 case Tag.COMPOUND_ID:
-                    return GameHooks.common().tagFactory().createCompoundTag(getChildren()
+                    return Minecraft.getCommon().getTagFactory().createCompoundTag(getChildren()
                             .stream()
                             .collect(Collectors.toMap(TagModel::getName, TagModel::build))
                     );
                 case Tag.INT_ARRAY_ID:
-                    return GameHooks.common().tagFactory().createIntArrayTag(getChildren()
+                    return Minecraft.getCommon().getTagFactory().createIntArrayTag(getChildren()
                             .stream()
                             .map(TagModel::getValue)
                             .map(Integer::parseInt)
                             .collect(Collectors.toList())
                     );
                 case Tag.LONG_ARRAY_ID:
-                    return GameHooks.common().tagFactory().createLongArrayTag(getChildren()
+                    return Minecraft.getCommon().getTagFactory().createLongArrayTag(getChildren()
                             .stream()
                             .map(TagModel::getValue)
                             .map(Long::parseLong)
@@ -184,8 +183,8 @@ public class TagModelImpl implements TagModel {
 
     @Override
     public void updateValidity() {
-        validProperty.unbind();
-        validProperty.setValue(getChildren().stream().allMatch(TagModel::isValid));
+        validProperty().unbind();
+        setValid(getChildren().stream().allMatch(TagModel::isValid));
     }
 
     @Override

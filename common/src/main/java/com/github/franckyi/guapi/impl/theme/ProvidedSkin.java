@@ -1,7 +1,7 @@
 package com.github.franckyi.guapi.impl.theme;
 
-import com.github.franckyi.gamehooks.api.client.Matrices;
 import com.github.franckyi.guapi.impl.node.AbstractNode;
+import com.github.franckyi.minecraft.api.client.render.Matrices;
 
 public abstract class ProvidedSkin<N extends AbstractNode> extends AbstractSkin<N> {
     private final N node;

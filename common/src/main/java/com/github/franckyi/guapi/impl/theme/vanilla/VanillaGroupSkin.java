@@ -1,9 +1,9 @@
 package com.github.franckyi.guapi.impl.theme.vanilla;
 
-import com.github.franckyi.gamehooks.api.client.Matrices;
 import com.github.franckyi.guapi.api.node.Group;
 import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.impl.theme.AbstractSkin;
+import com.github.franckyi.minecraft.api.client.render.Matrices;
 
 public abstract class VanillaGroupSkin<N extends Group> extends AbstractSkin<N> {
     @Override

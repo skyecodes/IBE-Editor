@@ -1,7 +1,7 @@
 package com.github.franckyi.ibeeditor.impl.server;
 
-import com.github.franckyi.gamehooks.api.common.Player;
 import com.github.franckyi.ibeeditor.impl.common.packet.*;
+import com.github.franckyi.minecraft.api.common.world.Player;
 
 public final class ServerNetworkReceiver {
     public static void clientModInstalled(NotifyServerPacket packet, Player sender) {

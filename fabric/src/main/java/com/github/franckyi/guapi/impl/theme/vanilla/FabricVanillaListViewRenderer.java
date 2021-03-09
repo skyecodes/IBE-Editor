@@ -1,9 +1,9 @@
 package com.github.franckyi.guapi.impl.theme.vanilla;
 
-import com.github.franckyi.gamehooks.api.client.Matrices;
-import com.github.franckyi.gamehooks.impl.client.FabricMatrices;
 import com.github.franckyi.guapi.api.node.ListView;
 import com.github.franckyi.guapi.api.node.Node;
+import com.github.franckyi.minecraft.api.client.render.Matrices;
+import com.github.franckyi.minecraft.impl.client.render.FabricMatrices;
 import net.minecraft.client.util.math.MatrixStack;
 
 public class FabricVanillaListViewRenderer<E> extends AbstractFabricVanillaListNodeRenderer<ListView<E>, E, FabricVanillaListViewRenderer.NodeEntry<E>> {

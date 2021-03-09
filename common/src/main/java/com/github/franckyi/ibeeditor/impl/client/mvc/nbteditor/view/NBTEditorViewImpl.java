@@ -1,20 +1,19 @@
 package com.github.franckyi.ibeeditor.impl.client.mvc.nbteditor.view;
 
-import com.github.franckyi.databindings.ObservableListFactory;
-import com.github.franckyi.databindings.PropertyFactory;
+import com.github.franckyi.databindings.Bindings;
 import com.github.franckyi.databindings.api.BooleanProperty;
 import com.github.franckyi.databindings.api.ObservableList;
-import com.github.franckyi.gamehooks.GameHooks;
-import com.github.franckyi.gamehooks.util.common.TextFormatting;
 import com.github.franckyi.guapi.api.node.*;
 import com.github.franckyi.guapi.api.node.builder.TexturedButtonBuilder;
 import com.github.franckyi.ibeeditor.api.client.mvc.nbteditor.model.TagModel;
 import com.github.franckyi.ibeeditor.api.client.mvc.nbteditor.view.NBTEditorView;
 import com.github.franckyi.ibeeditor.impl.client.mvc.IBEEditorMVC;
+import com.github.franckyi.minecraft.Minecraft;
+import com.github.franckyi.minecraft.util.common.TextFormatting;
 
 import java.util.function.Consumer;
 
-import static com.github.franckyi.guapi.GUAPIFactory.*;
+import static com.github.franckyi.guapi.GUAPIHelper.*;
 
 public class NBTEditorViewImpl implements NBTEditorView {
     private final VBox root;
@@ -28,9 +27,9 @@ public class NBTEditorViewImpl implements NBTEditorView {
             addIntArrayButton, addLongArrayButton, moveUpButton, moveDownButton, addButton, deleteButton,
             cutButton, copyButton, pasteButton, zoomResetButton, zoomOutButton, zoomInButton;
     private Label zoomLabel;
-    private final ObservableList<ButtonType> visibleButtons = ObservableListFactory.arrayList();
+    private final ObservableList<ButtonType> visibleButtons = Bindings.getObservableListFactory().arrayList();
     private Consumer<ButtonType> onButtonClick;
-    private final BooleanProperty showAddButtonsProperty = PropertyFactory.ofBoolean();
+    private final BooleanProperty showAddButtonsProperty = Bindings.getPropertyFactory().ofBoolean();
 
     public NBTEditorViewImpl() {
         root = vBox(root -> {
@@ -58,10 +57,10 @@ public class NBTEditorViewImpl implements NBTEditorView {
                     }));
                     buttons.add(createButton("ibeeditor:textures/gui/scroll_focused.png", "Scroll to focused").action(() -> tagTree.setScrollTo(getTagTree().getFocusedElement())));
                     buttons.add(hBox(zoomBox -> {
-                        zoomBox.add(zoomResetButton = createButton("ibeeditor:textures/gui/zoom_reset.png", "Reset Zoom").action(GameHooks.client().getScreenScaling()::restoreScale));
-                        zoomBox.add(zoomOutButton = createButton("ibeeditor:textures/gui/zoom_out.png", "Zoom Out").action(GameHooks.client().getScreenScaling()::scaleDown));
+                        zoomBox.add(zoomResetButton = createButton("ibeeditor:textures/gui/zoom_reset.png", "Reset Zoom").action(Minecraft.getClient().getScreenScaling()::restoreScale));
+                        zoomBox.add(zoomOutButton = createButton("ibeeditor:textures/gui/zoom_out.png", "Zoom Out").action(Minecraft.getClient().getScreenScaling()::scaleDown));
                         zoomBox.add(zoomLabel = label().prefWidth(25).textAlign(CENTER).padding(0, 3));
-                        zoomBox.add(zoomInButton = createButton("ibeeditor:textures/gui/zoom_in.png", "Zoom In").action(GameHooks.client().getScreenScaling()::scaleUp));
+                        zoomBox.add(zoomInButton = createButton("ibeeditor:textures/gui/zoom_in.png", "Zoom In").action(Minecraft.getClient().getScreenScaling()::scaleUp));
                         zoomBox.fillHeight().spacing(2);
                     }));
                     buttons.spacing(20).prefHeight(16);
@@ -100,8 +99,8 @@ public class NBTEditorViewImpl implements NBTEditorView {
                 addButton.setImageY(0);
             }
         });
-        GameHooks.client().getScreenScaling().scaleProperty().addListener(this::onZoomUpdated);
-        zoomResetButton.disableProperty().bind(GameHooks.client().getScreenScaling().canScaleBeResetProperty().not());
+        Minecraft.getClient().getScreenScaling().scaleProperty().addListener(this::onZoomUpdated);
+        zoomResetButton.disableProperty().bind(Minecraft.getClient().getScreenScaling().canScaleBeResetProperty().not());
         onZoomUpdated();
     }
 
@@ -216,8 +215,8 @@ public class NBTEditorViewImpl implements NBTEditorView {
     }
 
     private void onZoomUpdated() {
-        zoomOutButton.setDisable(!GameHooks.client().getScreenScaling().canScaleDown());
-        zoomLabel.setLabel(text(GameHooks.client().getScreenScaling().getScale() == 0 ? "Auto" : Integer.toString(GameHooks.client().getScreenScaling().getScale())));
-        zoomInButton.setDisable(!GameHooks.client().getScreenScaling().canScaleUp());
+        zoomOutButton.setDisable(!Minecraft.getClient().getScreenScaling().canScaleDown());
+        zoomLabel.setLabel(text(Minecraft.getClient().getScreenScaling().getScale() == 0 ? "Auto" : Integer.toString(Minecraft.getClient().getScreenScaling().getScale())));
+        zoomInButton.setDisable(!Minecraft.getClient().getScreenScaling().canScaleUp());
     }
 }

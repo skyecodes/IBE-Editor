@@ -1,9 +1,7 @@
 package com.github.franckyi.guapi.impl.node;
 
-import com.github.franckyi.databindings.PropertyFactory;
+import com.github.franckyi.databindings.Bindings;
 import com.github.franckyi.databindings.api.*;
-import com.github.franckyi.gamehooks.GameHooks;
-import com.github.franckyi.gamehooks.api.client.Matrices;
 import com.github.franckyi.guapi.GUAPI;
 import com.github.franckyi.guapi.api.event.MouseButtonEvent;
 import com.github.franckyi.guapi.api.event.ScreenEvent;
@@ -14,6 +12,8 @@ import com.github.franckyi.guapi.api.node.ScreenEventHandler;
 import com.github.franckyi.guapi.impl.event.ScreenEventHandlerDelegate;
 import com.github.franckyi.guapi.util.Insets;
 import com.github.franckyi.guapi.util.ScreenEventType;
+import com.github.franckyi.minecraft.Minecraft;
+import com.github.franckyi.minecraft.api.client.render.Matrices;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
@@ -21,18 +21,18 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public abstract class AbstractScene implements Scene {
-    protected final ObjectProperty<Node> focusedProperty = PropertyFactory.ofObject();
-    protected final ObjectProperty<Node> hoveredProperty = PropertyFactory.ofObject();
+    protected final ObjectProperty<Node> focusedProperty = Bindings.getPropertyFactory().ofObject();
+    protected final ObjectProperty<Node> hoveredProperty = Bindings.getPropertyFactory().ofObject();
     protected final ScreenEventHandler eventHandlerDelegate = new ScreenEventHandlerDelegate();
-    private final ObjectProperty<Node> rootProperty = PropertyFactory.ofObject();
-    private final BooleanProperty fullScreenProperty = PropertyFactory.ofBoolean();
-    private final IntegerProperty widthProperty = PropertyFactory.ofInteger(Integer.MAX_VALUE);
-    private final IntegerProperty heightProperty = PropertyFactory.ofInteger(Integer.MAX_VALUE);
-    private final ObjectProperty<Insets> paddingProperty = PropertyFactory.ofObject(Insets.NONE);
-    private final BooleanProperty texturedBackgroundProperty = PropertyFactory.ofBoolean();
-    private final BooleanProperty closeOnEscProperty = PropertyFactory.ofBoolean(true);
-    private final ObservableObjectValue<Node> focusedPropertyReadOnly = PropertyFactory.readOnly(focusedProperty);
-    private final ObservableObjectValue<Node> hoveredPropertyReadOnly = PropertyFactory.readOnly(hoveredProperty);
+    private final ObjectProperty<Node> rootProperty = Bindings.getPropertyFactory().ofObject();
+    private final BooleanProperty fullScreenProperty = Bindings.getPropertyFactory().ofBoolean();
+    private final IntegerProperty widthProperty = Bindings.getPropertyFactory().ofInteger(Integer.MAX_VALUE);
+    private final IntegerProperty heightProperty = Bindings.getPropertyFactory().ofInteger(Integer.MAX_VALUE);
+    private final ObjectProperty<Insets> paddingProperty = Bindings.getPropertyFactory().ofObject(Insets.NONE);
+    private final BooleanProperty texturedBackgroundProperty = Bindings.getPropertyFactory().ofBoolean();
+    private final BooleanProperty closeOnEscProperty = Bindings.getPropertyFactory().ofBoolean(true);
+    private final ObservableObjectValue<Node> focusedPropertyReadOnly = Bindings.getPropertyFactory().readOnly(focusedProperty);
+    private final ObservableObjectValue<Node> hoveredPropertyReadOnly = Bindings.getPropertyFactory().readOnly(hoveredProperty);
     private final ObservableValue<Scene> sceneProperty = ObservableValue.of(this);
     private final ObservableValue<Boolean> disabledProperty = ObservableValue.of(false);
     protected boolean shouldUpdateChildrenPos;
@@ -59,7 +59,7 @@ public abstract class AbstractScene implements Scene {
             }
             if (newVal != null) {
                 if (newVal.getParent() != null) {
-                    GameHooks.logger().error(GUAPI.MARKER, "Can't set Node \"" + newVal +
+                    Minecraft.getLogger().error(GUAPI.MARKER, "Can't set Node \"" + newVal +
                             "\" as Scene root: node already has a Parent \"" + newVal.getParent() + "\"");
                     return;
                 }
@@ -74,7 +74,7 @@ public abstract class AbstractScene implements Scene {
         });
         addListener(ScreenEventType.KEY_PRESSED, e -> {
             if (e.getKeyCode() == GLFW.GLFW_KEY_ESCAPE && isCloseOnEsc()) {
-                GameHooks.client().getScreenHandler().hideScene();
+                Minecraft.getClient().getScreenHandler().hideScene();
                 e.consume();
             }
         });
