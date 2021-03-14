@@ -1,19 +1,19 @@
 package com.github.franckyi.databindings.impl.event;
 
-import com.github.franckyi.databindings.api.event.ListChangeEvent;
+import com.github.franckyi.databindings.api.event.ObservableListChangeEvent;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ListChangeEventImpl<E> implements ListChangeEvent<E> {
+public class ObservableListChangeEventImpl<E> implements ObservableListChangeEvent<E> {
     private final List<ChangeEntry<E>> allChanged;
     private List<SimpleChangeEntry<E>> added;
     private List<SimpleChangeEntry<E>> removed;
     private List<ChangeEntry<E>> replaced;
 
-    private ListChangeEventImpl(List<ChangeEntry<E>> changes) {
+    private ObservableListChangeEventImpl(List<ChangeEntry<E>> changes) {
         this.allChanged = changes;
     }
 
@@ -26,7 +26,7 @@ public class ListChangeEventImpl<E> implements ListChangeEvent<E> {
     public List<SimpleChangeEntry<E>> getAdded(boolean andReplaced) {
         if (added == null) {
             added = allChanged.stream()
-                    .filter(andReplaced ? ChangeEntry::isAddOrReplace : ChangeEntry::isAdd)
+                    .filter(andReplaced ? ChangeEntry::wasAddedOrReplaced : ChangeEntry::wasAdded)
                     .map(e -> new SimpleChangeEntryImpl<>(e.getIndex(), e.getNewValue()))
                     .collect(Collectors.toList());
         }
@@ -37,7 +37,7 @@ public class ListChangeEventImpl<E> implements ListChangeEvent<E> {
     public List<SimpleChangeEntry<E>> getRemoved(boolean andReplaced) {
         if (removed == null) {
             removed = allChanged.stream()
-                    .filter(andReplaced ? ChangeEntry::isRemoveOrReplace : ChangeEntry::isRemove)
+                    .filter(andReplaced ? ChangeEntry::wasRemovedOrReplaced : ChangeEntry::wasRemoved)
                     .map(e -> new SimpleChangeEntryImpl<>(e.getIndex(), e.getOldValue()))
                     .collect(Collectors.toList());
         }
@@ -48,7 +48,7 @@ public class ListChangeEventImpl<E> implements ListChangeEvent<E> {
     public List<ChangeEntry<E>> getReplaced() {
         if (replaced == null) {
             replaced = allChanged.stream()
-                    .filter(ChangeEntry::isReplace)
+                    .filter(ChangeEntry::wasReplaced)
                     .collect(Collectors.toList());
         }
         return replaced;
@@ -135,8 +135,8 @@ public class ListChangeEventImpl<E> implements ListChangeEvent<E> {
             return this;
         }
 
-        public ListChangeEventImpl<E> build() {
-            return new ListChangeEventImpl<>(changes);
+        public ObservableListChangeEventImpl<E> build() {
+            return new ObservableListChangeEventImpl<>(changes);
         }
     }
 }

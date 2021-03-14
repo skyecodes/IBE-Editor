@@ -2,16 +2,16 @@ package com.github.franckyi.databindings.impl;
 
 import com.github.franckyi.databindings.api.ObservableValue;
 import com.github.franckyi.databindings.api.Property;
-import com.github.franckyi.databindings.api.event.PropertyChangeListener;
+import com.github.franckyi.databindings.api.event.ObservableValueChangeListener;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public abstract class AbstractProperty<T> implements Property<T> {
-    protected final List<PropertyChangeListener<? super T>> listeners = new CopyOnWriteArrayList<>();
+    protected final List<ObservableValueChangeListener<? super T>> listeners = new CopyOnWriteArrayList<>();
     protected T value;
-    protected final PropertyChangeListener<T> valueListener = (oldVal, newVal) -> doSet(newVal);
+    protected final ObservableValueChangeListener<T> valueListener = (oldVal, newVal) -> doSet(newVal);
     protected ObservableValue<? extends T> boundValue;
 
     protected AbstractProperty() {
@@ -39,17 +39,17 @@ public abstract class AbstractProperty<T> implements Property<T> {
         if (!Objects.equals(this.value, value)) {
             T old = this.value;
             this.value = value;
-            listeners.forEach(listener -> listener.onChange(old, value));
+            listeners.forEach(listener -> listener.onValueChange(old, value));
         }
     }
 
     @Override
-    public void addListener(PropertyChangeListener<? super T> listener) {
+    public void addListener(ObservableValueChangeListener<? super T> listener) {
         listeners.add(listener);
     }
 
     @Override
-    public void removeListener(PropertyChangeListener<? super T> listener) {
+    public void removeListener(ObservableValueChangeListener<? super T> listener) {
         listeners.remove(listener);
     }
 
@@ -59,11 +59,11 @@ public abstract class AbstractProperty<T> implements Property<T> {
     }
 
     @Override
-    public void bind(ObservableValue<? extends T> o) {
+    public void bind(ObservableValue<? extends T> value) {
         if (!isBound()) {
-            set(o.get());
-            o.addListener(valueListener);
-            this.boundValue = o;
+            set(value.get());
+            value.addListener(valueListener);
+            this.boundValue = value;
         }
     }
 
@@ -76,18 +76,18 @@ public abstract class AbstractProperty<T> implements Property<T> {
     }
 
     @Override
-    public void bindBidirectional(Property<T> property) {
-        if (!isBound() && !property.isBound()) {
-            this.bind(property);
-            property.bind(this);
+    public void bindBidirectional(Property<T> other) {
+        if (!isBound() && !other.isBound()) {
+            this.bind(other);
+            other.bind(this);
         }
     }
 
     @Override
-    public void unbindBidirectional(Property<T> property) {
-        if (isBound() && property.isBound() && boundValue == property) {
+    public void unbindBidirectional(Property<T> other) {
+        if (isBound() && other.isBound() && boundValue == other) {
             this.unbind();
-            property.unbind();
+            other.unbind();
         }
     }
 

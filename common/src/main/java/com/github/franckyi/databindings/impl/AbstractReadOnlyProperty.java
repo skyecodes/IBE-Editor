@@ -2,7 +2,7 @@ package com.github.franckyi.databindings.impl;
 
 import com.github.franckyi.databindings.api.ObservableValue;
 import com.github.franckyi.databindings.api.Property;
-import com.github.franckyi.databindings.api.event.PropertyChangeListener;
+import com.github.franckyi.databindings.api.event.ObservableValueChangeListener;
 
 public abstract class AbstractReadOnlyProperty<T> implements ObservableValue<T> {
     protected final Property<T> property;
@@ -17,12 +17,12 @@ public abstract class AbstractReadOnlyProperty<T> implements ObservableValue<T> 
     }
 
     @Override
-    public void addListener(PropertyChangeListener<? super T> listener) {
+    public void addListener(ObservableValueChangeListener<? super T> listener) {
         property.addListener(listener);
     }
 
     @Override
-    public void removeListener(PropertyChangeListener<? super T> listener) {
+    public void removeListener(ObservableValueChangeListener<? super T> listener) {
         property.removeListener(listener);
     }
 

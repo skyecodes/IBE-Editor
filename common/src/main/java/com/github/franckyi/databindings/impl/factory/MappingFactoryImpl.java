@@ -94,6 +94,11 @@ public class MappingFactoryImpl implements MappingFactory {
     }
 
     @Override
+    public <T> ObservableStringValue mapToString(ObservableValue<T> thisValue, ObservableValue<T> otherValue, BiFunction<T, T, String> mapper) {
+        return new BiMappedObservableStringValue<>(thisValue, otherValue, mapper);
+    }
+
+    @Override
     public <T> ObservableBooleanValue mapToBoolean(ObservableValue<T> thisValue, ObservableValue<T> otherValue, BiFunction<T, T, Boolean> mapper) {
         return new BiMappedObservableBooleanValue<>(thisValue, otherValue, mapper);
     }

@@ -1,18 +1,18 @@
 package com.github.franckyi.databindings.api;
 
-import com.github.franckyi.databindings.api.event.ListChangeListener;
+import com.github.franckyi.databindings.api.event.ObservableListChangeListener;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
 public interface ObservableList<E> extends List<E> {
-    void addListener(ListChangeListener<? super E> listener);
+    void addListener(ObservableListChangeListener<? super E> listener);
 
-    void removeListener(ListChangeListener<? super E> listener);
+    void removeListener(ObservableListChangeListener<? super E> listener);
 
-    default ListChangeListener<? super E> addListener(Runnable listener) {
-        ListChangeListener<? super E> realListener = event -> listener.run();
+    default ObservableListChangeListener<? super E> addListener(Runnable listener) {
+        ObservableListChangeListener<? super E> realListener = event -> listener.run();
         addListener(realListener);
         return realListener;
     }

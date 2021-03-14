@@ -3,11 +3,11 @@ package com.github.franckyi.databindings.impl;
 import com.github.franckyi.databindings.Bindings;
 import com.github.franckyi.databindings.api.ObservableValue;
 import com.github.franckyi.databindings.api.Property;
-import com.github.franckyi.databindings.api.event.PropertyChangeListener;
+import com.github.franckyi.databindings.api.event.ObservableValueChangeListener;
 
 import java.util.function.Function;
 
-public abstract class AbstractMappedObservableValue<T, X> implements ObservableValue<X>, PropertyChangeListener<T> {
+public abstract class AbstractMappedObservableValue<T, X> implements ObservableValue<X>, ObservableValueChangeListener<T> {
     protected final ObservableValue<T> source;
     protected final Function<T, X> mapper;
     protected final boolean nullSafe;
@@ -29,17 +29,17 @@ public abstract class AbstractMappedObservableValue<T, X> implements ObservableV
     }
 
     @Override
-    public void addListener(PropertyChangeListener<? super X> listener) {
+    public void addListener(ObservableValueChangeListener<? super X> listener) {
         property.addListener(listener);
     }
 
     @Override
-    public void removeListener(PropertyChangeListener<? super X> listener) {
+    public void removeListener(ObservableValueChangeListener<? super X> listener) {
         property.removeListener(listener);
     }
 
     @Override
-    public void onChange(T oldVal, T newVal) {
+    public void onValueChange(T oldVal, T newVal) {
         apply(newVal);
     }
 

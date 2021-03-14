@@ -33,8 +33,8 @@ public abstract class AbstractScene implements Scene {
     private final BooleanProperty closeOnEscProperty = Bindings.getPropertyFactory().ofBoolean(true);
     private final ObservableObjectValue<Node> focusedPropertyReadOnly = Bindings.getPropertyFactory().readOnly(focusedProperty);
     private final ObservableObjectValue<Node> hoveredPropertyReadOnly = Bindings.getPropertyFactory().readOnly(hoveredProperty);
-    private final ObservableValue<Scene> sceneProperty = ObservableValue.of(this);
-    private final ObservableValue<Boolean> disabledProperty = ObservableValue.of(false);
+    private final ObservableValue<Scene> sceneProperty = ObservableValue.unmodifiable(this);
+    private final ObservableValue<Boolean> disabledProperty = ObservableValue.unmodifiable(false);
     protected boolean shouldUpdateChildrenPos;
     protected final List<Consumer<Scene>> onShowListeners = new ArrayList<>();
     protected final List<Consumer<Scene>> onHideListeners = new ArrayList<>();

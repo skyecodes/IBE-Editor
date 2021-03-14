@@ -3,11 +3,11 @@ package com.github.franckyi.databindings.impl;
 import com.github.franckyi.databindings.Bindings;
 import com.github.franckyi.databindings.api.ObservableValue;
 import com.github.franckyi.databindings.api.Property;
-import com.github.franckyi.databindings.api.event.PropertyChangeListener;
+import com.github.franckyi.databindings.api.event.ObservableValueChangeListener;
 
 import java.util.function.BiFunction;
 
-public abstract class AbstractBiMappedObservableValue<T, X> implements ObservableValue<X>, PropertyChangeListener<T> {
+public abstract class AbstractBiMappedObservableValue<T, X> implements ObservableValue<X>, ObservableValueChangeListener<T> {
     private final ObservableValue<T> a, b;
     private final BiFunction<T, T, X> function;
     private final Property<X> res = Bindings.getPropertyFactory().ofObject();
@@ -27,17 +27,17 @@ public abstract class AbstractBiMappedObservableValue<T, X> implements Observabl
     }
 
     @Override
-    public void addListener(PropertyChangeListener<? super X> listener) {
+    public void addListener(ObservableValueChangeListener<? super X> listener) {
         res.addListener(listener);
     }
 
     @Override
-    public void removeListener(PropertyChangeListener<? super X> listener) {
+    public void removeListener(ObservableValueChangeListener<? super X> listener) {
         res.removeListener(listener);
     }
 
     @Override
-    public void onChange(T oldVal, T newVal) {
+    public void onValueChange(T oldVal, T newVal) {
         update();
     }
 

@@ -1,7 +1,12 @@
 package com.github.franckyi.databindings.api.factory;
 
+import com.github.franckyi.databindings.Bindings;
 import com.github.franckyi.databindings.api.*;
 
+/**
+ * Factory for {@link Property}s.
+ * @see Bindings#getPropertyFactory()
+ */
 public interface PropertyFactory {
     <T> ObjectProperty<T> ofObject();
 

@@ -1,7 +1,7 @@
 package com.github.franckyi.guapi.impl.node;
 
 import com.github.franckyi.databindings.api.ObservableList;
-import com.github.franckyi.databindings.api.event.ListChangeEvent;
+import com.github.franckyi.databindings.api.event.ObservableListChangeEvent;
 import com.github.franckyi.databindings.impl.ObservableArrayList;
 import com.github.franckyi.guapi.GUAPI;
 import com.github.franckyi.guapi.api.event.MouseEvent;
@@ -97,7 +97,7 @@ public abstract class AbstractGroup extends AbstractNode implements Group {
         return getParent().getMaxChildrenHeight() - getPadding().getVertical();
     }
 
-    private void onChildrenChange(ListChangeEvent<? extends Node> event) {
+    private void onChildrenChange(ObservableListChangeEvent<? extends Node> event) {
         event.getRemoved(true).forEach(entry -> {
             if (entry.getValue().getParent() == AbstractGroup.this) {
                 entry.getValue().setParent(null);

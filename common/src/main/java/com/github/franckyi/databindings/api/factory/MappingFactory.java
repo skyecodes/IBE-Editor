@@ -1,10 +1,15 @@
 package com.github.franckyi.databindings.api.factory;
 
+import com.github.franckyi.databindings.Bindings;
 import com.github.franckyi.databindings.api.*;
 
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
+/**
+ * Factory for {@link ObservableValue} mappings.
+ * @see Bindings#getMappingFactory()
+ */
 public interface MappingFactory {
     <T, X> ObservableObjectValue<X> map(ObservableValue<T> thisValue, Function<T, X> mapper);
 
@@ -37,6 +42,8 @@ public interface MappingFactory {
     <T> ObservableIntegerValue bindMapToInt(ObservableValue<T> thisValue, Function<T, ObservableValue<Integer>> mapper);
 
     <T> ObservableIntegerValue bindMapToInt(ObservableValue<T> thisValue, Function<T, ObservableValue<Integer>> mapper, Integer orIfNull);
+
+    <T> ObservableStringValue mapToString(ObservableValue<T> thisValue, ObservableValue<T> otherValue, BiFunction<T, T, String> mapper);
 
     <T> ObservableBooleanValue mapToBoolean(ObservableValue<T> thisValue, ObservableValue<T> otherValue, BiFunction<T, T, Boolean> mapper);
 
