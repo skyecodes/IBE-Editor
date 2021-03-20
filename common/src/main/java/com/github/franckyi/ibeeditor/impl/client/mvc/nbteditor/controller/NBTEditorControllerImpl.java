@@ -21,7 +21,13 @@ public class NBTEditorControllerImpl extends AbstractController<NBTEditorModel, 
     @Override
     public void bind() {
         view.getTagTree().rootItemProperty().bind(model.rootTagProperty());
-        view.getDoneButton().onAction(event -> model.apply());
+        if (model.canSave()) {
+            view.getDoneButton().disableProperty().bind(model.rootTagProperty().bindMapToBoolean(TagModel::validProperty).not());
+            view.getDoneButton().onAction(event -> model.apply());
+        } else {
+            view.getDoneButton().setDisable(true);
+            view.getDoneButton().setTooltip(model.getDisabledTooltip());
+        }
         view.getCancelButton().onAction(event -> Minecraft.getClient().getScreenHandler().hideScene());
         view.getTagTree().focusedElementProperty().addListener(this::updateButtons);
         view.setOnButtonClick(type -> {
@@ -94,7 +100,6 @@ public class NBTEditorControllerImpl extends AbstractController<NBTEditorModel, 
                     break;
             }
         });
-        view.getDoneButton().disableProperty().bind(model.rootTagProperty().bindMapToBoolean(TagModel::validProperty).not());
     }
 
     private void updateButtons(TagModel newVal) {

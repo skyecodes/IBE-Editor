@@ -7,6 +7,7 @@ import com.github.franckyi.minecraft.api.client.KeyBinding;
 import com.github.franckyi.minecraft.api.client.screen.Screen;
 import com.github.franckyi.minecraft.api.common.BlockPos;
 import com.github.franckyi.minecraft.api.common.Slot;
+import com.github.franckyi.minecraft.api.common.text.Text;
 import com.github.franckyi.minecraft.api.common.world.*;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
@@ -14,14 +15,20 @@ import org.lwjgl.glfw.GLFW;
 
 import java.util.function.Consumer;
 
+import static com.github.franckyi.guapi.GUAPIHelper.*;
 import static com.github.franckyi.ibeeditor.impl.common.IBEEditorCommon.LOGGER;
 
 public final class IBEEditorClient {
     private static final Marker MARKER = MarkerManager.getMarker("Client");
+    private static final Text ERROR_CREATIVE_ITEM = text("You must be in creative mode to update this item.", RED);
+    private static final Text ERROR_SERVERMOD_ITEM = text("IBE Editor must be installed on the server to update this item.", RED);
+    private static final Text ERROR_SERVERMOD_BLOCK = text("IBE Editor must be installed on the server to update this block.", RED);
+    private static final Text ERROR_SERVERMOD_ENTITY = text("IBE Editor must be installed on the server to update this entity.", RED);
+
     public static KeyBinding editorKey;
     public static KeyBinding nbtEditorKey;
     public static KeyBinding clipboardKey;
-    private static boolean serverModInstalled;
+    private static boolean modInstalledOnServer;
 
     public static void init(MinecraftClient client) {
         LOGGER.debug(MARKER, "Initializing IBE Editor - client");
@@ -54,7 +61,11 @@ public final class IBEEditorClient {
     public static boolean tryOpenEntityEditor(boolean nbt) {
         WorldEntity entity = Minecraft.getClient().getEntityMouseOver();
         if (entity != null) {
-            requestOpenEntityEditor(entity.getEntityId(), nbt);
+            if (isModInstalledOnServer()) {
+                requestOpenEntityEditor(entity.getEntityId(), nbt);
+            } else {
+                openEntityEditor(entity, entity.getEntityId(), nbt);
+            }
             return true;
         }
         return false;
@@ -63,16 +74,20 @@ public final class IBEEditorClient {
     public static boolean tryOpenBlockEditor(boolean nbt) {
         WorldBlock block = Minecraft.getClient().getBlockMouseOver();
         if (block != null) {
-            requestOpenBlockEditor(block.getBlockPos(), nbt);
+            if (isModInstalledOnServer()) {
+                requestOpenBlockEditor(block.getBlockPos(), nbt);
+            } else {
+                openBlockEditor(block, block.getBlockPos(), nbt);
+            }
             return true;
         }
         return false;
     }
 
     public static boolean tryOpenItemEditor(boolean nbt) {
-        Item item = Minecraft.getClient().getPlayer().getItemMainHand();
+        Item item = getClientPlayer().getItemMainHand();
         if (item != null) {
-            openItemEditor(item, nbt, IBEEditorClient::updatePlayerMainHandItem);
+            openItemEditor(item, nbt, IBEEditorClient::updatePlayerMainHandItem, isModInstalledOnServer() || getClientPlayer().isCreative() ? null : ERROR_CREATIVE_ITEM);
             return true;
         }
         return false;
@@ -87,23 +102,23 @@ public final class IBEEditorClient {
             Slot slot = screen.getInventoryFocusedSlot();
             if (slot.hasStack()) {
                 if (slot.isInPlayerInventory()) {
-                    openItemEditor(slot.getStack(), keyCode == nbtEditorKey.getKeyCode(), item -> updatePlayerInventoryItem(item, slot.getIndex()));
+                    openItemEditor(slot.getStack(), keyCode == nbtEditorKey.getKeyCode(), item -> updatePlayerInventoryItem(item, slot.getIndex(), screen.isCreativeInventoryScreen()), isModInstalledOnServer() || getClientPlayer().isCreative() ? null : ERROR_CREATIVE_ITEM);
                 } else {
                     WorldBlock block = Minecraft.getClient().getBlockMouseOver();
                     if (block != null) {
-                        openItemEditor(slot.getStack(), keyCode == nbtEditorKey.getKeyCode(), item -> updateBlockInventoryItem(item, slot.getIndex(), block.getBlockPos()));
+                        openItemEditor(slot.getStack(), keyCode == nbtEditorKey.getKeyCode(), item -> updateBlockInventoryItem(item, slot.getIndex(), block.getBlockPos()), isModInstalledOnServer() ? null : ERROR_SERVERMOD_ITEM);
                     }
                 }
             }
         }
     }
 
-    public static void openItemEditor(Item item, boolean nbt, Consumer<Item> action) {
+    public static void openItemEditor(Item item, boolean nbt, Consumer<Item> action, Text disabledTooltip) {
         LOGGER.debug(MARKER, "Opening Item Editor (item={};nbt={})", item.get(), nbt);
         if (nbt) {
-            EditorHandler.openNBTEditor(item.getTag(), tag -> action.accept(Minecraft.getCommon().createItem(tag)));
+            EditorHandler.openNBTEditor(item.getTag(), tag -> action.accept(Minecraft.getCommon().createItem(tag)), disabledTooltip);
         } else {
-            EditorHandler.openItemEditor(item, action);
+            EditorHandler.openItemEditor(item, action, disabledTooltip);
         }
     }
 
@@ -115,9 +130,9 @@ public final class IBEEditorClient {
     public static void openBlockEditor(Block block, BlockPos blockPos, boolean nbt) {
         LOGGER.debug(MARKER, "Opening Block Editor (pos={};nbt={})", blockPos.get(), nbt);
         if (nbt) {
-            EditorHandler.openNBTEditor(block.getData(), tag -> updateBlock(blockPos, Minecraft.getCommon().createBlock(block.getState(), tag)));
+            EditorHandler.openNBTEditor(block.getData(), tag -> updateBlock(blockPos, Minecraft.getCommon().createBlock(block.getState(), tag)), isModInstalledOnServer() ? null : ERROR_SERVERMOD_BLOCK);
         } else {
-            EditorHandler.openBlockEditor(block, newBlock -> updateBlock(blockPos, newBlock));
+            EditorHandler.openBlockEditor(block, newBlock -> updateBlock(blockPos, newBlock), isModInstalledOnServer() ? null : ERROR_SERVERMOD_BLOCK);
         }
     }
 
@@ -129,47 +144,87 @@ public final class IBEEditorClient {
     public static void openEntityEditor(Entity entity, int entityId, boolean nbt) {
         LOGGER.debug(MARKER, "Opening Entity Editor (id={};nbt={})", entityId, nbt);
         if (nbt) {
-            EditorHandler.openNBTEditor(entity.getTag(), tag -> updateEntity(entityId, Minecraft.getCommon().createEntity(tag)));
+            EditorHandler.openNBTEditor(entity.getTag(), tag -> updateEntity(entityId, Minecraft.getCommon().createEntity(tag)), isModInstalledOnServer() ? null : ERROR_SERVERMOD_ENTITY);
         } else {
-            EditorHandler.openEntityEditor(entity, entity1 -> updateEntity(entityId, entity1));
+            EditorHandler.openEntityEditor(entity, entity1 -> updateEntity(entityId, entity1), isModInstalledOnServer() ? null : ERROR_SERVERMOD_ENTITY);
         }
     }
 
     public static void requestOpenSelfEditor(boolean nbt) {
-        requestOpenEntityEditor(Minecraft.getClient().getPlayer().getEntityId(), nbt);
+        if (isModInstalledOnServer()) {
+            requestOpenEntityEditor(getClientPlayer().getEntityId(), nbt);
+        } else {
+            openEntityEditor(getClientPlayer(), getClientPlayer().getEntityId(), nbt);
+        }
     }
 
-    public static boolean isServerModInstalled() {
-        return serverModInstalled;
+    public static boolean isModInstalledOnServer() {
+        return modInstalledOnServer;
     }
 
-    public static void setServerModInstalled(boolean serverModInstalled) {
-        LOGGER.debug(MARKER, "Setting 'serverModInstalled' to {}", serverModInstalled);
-        IBEEditorClient.serverModInstalled = serverModInstalled;
+    public static void setModInstalledOnServer(boolean modInstalledOnServer) {
+        LOGGER.debug(MARKER, "Setting 'modInstalledOnServer' to {}", modInstalledOnServer);
+        IBEEditorClient.modInstalledOnServer = modInstalledOnServer;
     }
 
     private static void updatePlayerMainHandItem(Item item) {
-        ClientNetworkEmitter.updatePlayerMainHandItem(item);
+        if (isModInstalledOnServer()) {
+            ClientNetworkEmitter.updatePlayerMainHandItem(item);
+        } else {
+            if (getClientPlayer().isCreative()) {
+                getClientPlayer().updateMainHandItem(item);
+            } else {
+                getClientPlayer().sendMessage(ERROR_CREATIVE_ITEM);
+            }
+        }
         Minecraft.getClient().getScreenHandler().hideScene();
     }
 
-    private static void updatePlayerInventoryItem(Item item, int slotId) {
-        ClientNetworkEmitter.updatePlayerInventoryItem(item, slotId);
+    private static void updatePlayerInventoryItem(Item item, int slotId, boolean isCreativeInventoryScreen) {
+        if (isModInstalledOnServer())  {
+            ClientNetworkEmitter.updatePlayerInventoryItem(item, slotId);
+        } else {
+            if (getClientPlayer().isCreative()) {
+                if (isCreativeInventoryScreen) {
+                    getClientPlayer().updateCreativeInventoryItem(item, slotId);
+                } else {
+                    getClientPlayer().updateInventoryItem(item, slotId);
+                }
+            } else {
+                getClientPlayer().sendMessage(ERROR_CREATIVE_ITEM);
+            }
+        }
         Minecraft.getClient().getScreenHandler().hideScene();
     }
 
     private static void updateBlockInventoryItem(Item item, int slotId, BlockPos blockPos) {
-        ClientNetworkEmitter.updateBlockInventoryItem(item, slotId, blockPos);
+        if (isModInstalledOnServer()) {
+            ClientNetworkEmitter.updateBlockInventoryItem(item, slotId, blockPos);
+        } else {
+            getClientPlayer().sendMessage(ERROR_SERVERMOD_ITEM);
+        }
         Minecraft.getClient().getScreenHandler().hideScene();
     }
 
     private static void updateBlock(BlockPos blockPos, Block block) {
-        ClientNetworkEmitter.updateBlock(blockPos, block);
+        if (isModInstalledOnServer()) {
+            ClientNetworkEmitter.updateBlock(blockPos, block);
+        } else {
+            getClientPlayer().sendMessage(ERROR_SERVERMOD_BLOCK);
+        }
         Minecraft.getClient().getScreenHandler().hideScene();
     }
 
     private static void updateEntity(int entityId, Entity entity) {
-        ClientNetworkEmitter.updateEntity(entityId, entity);
+        if (isModInstalledOnServer()) {
+            ClientNetworkEmitter.updateEntity(entityId, entity);
+        } else {
+            getClientPlayer().sendMessage(ERROR_SERVERMOD_ENTITY);
+        }
         Minecraft.getClient().getScreenHandler().hideScene();
+    }
+
+    private static Player getClientPlayer() {
+        return Minecraft.getClient().getPlayer();
     }
 }

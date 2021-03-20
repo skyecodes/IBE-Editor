@@ -9,6 +9,7 @@ import com.github.franckyi.ibeeditor.impl.client.mvc.nbteditor.model.NBTEditor;
 import com.github.franckyi.ibeeditor.impl.common.IBEEditorConfiguration;
 import com.github.franckyi.minecraft.Minecraft;
 import com.github.franckyi.minecraft.api.common.tag.CompoundTag;
+import com.github.franckyi.minecraft.api.common.text.Text;
 import com.github.franckyi.minecraft.api.common.world.Block;
 import com.github.franckyi.minecraft.api.common.world.Entity;
 import com.github.franckyi.minecraft.api.common.world.Item;
@@ -18,20 +19,20 @@ import java.util.function.Consumer;
 import static com.github.franckyi.guapi.GUAPIHelper.*;
 
 public final class EditorHandler {
-    public static void openItemEditor(Item item, Consumer<Item> action) {
-        openEditor(mvc(IBEEditorMVC.EDITOR, new ItemEditorModel(item, action)));
+    public static void openItemEditor(Item item, Consumer<Item> action, Text disabledTooltip) {
+        openEditor(mvc(IBEEditorMVC.EDITOR, new ItemEditorModel(item, action, disabledTooltip)));
     }
 
-    public static void openBlockEditor(Block block, Consumer<Block> action) {
-        openEditor(mvc(IBEEditorMVC.EDITOR, new BlockEditorModel(block, action)));
+    public static void openBlockEditor(Block block, Consumer<Block> action, Text disabledTooltip) {
+        openEditor(mvc(IBEEditorMVC.EDITOR, new BlockEditorModel(block, action, disabledTooltip)));
     }
 
-    public static void openEntityEditor(Entity entity, Consumer<Entity> action) {
-        openEditor(mvc(IBEEditorMVC.EDITOR, new EntityEditorModel(entity, action)));
+    public static void openEntityEditor(Entity entity, Consumer<Entity> action, Text disabledTooltip) {
+        openEditor(mvc(IBEEditorMVC.EDITOR, new EntityEditorModel(entity, action, disabledTooltip)));
     }
 
-    public static void openNBTEditor(CompoundTag tag, Consumer<CompoundTag> action) {
-        openEditor(mvc(IBEEditorMVC.NBT_EDITOR, new NBTEditor(tag, action)));
+    public static void openNBTEditor(CompoundTag tag, Consumer<CompoundTag> action, Text disabledTooltip) {
+        openEditor(mvc(IBEEditorMVC.NBT_EDITOR, new NBTEditor(tag, action, disabledTooltip)));
     }
 
     private static void openEditor(Node root) {

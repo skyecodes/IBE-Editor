@@ -54,7 +54,7 @@ public class ForgeVanillaTextFieldRenderer extends TextFieldWidget implements Fo
     public void render(Matrices matrices, int mouseX, int mouseY, float partialTicks) {
         ForgeVanillaDelegateRenderer.super.render(matrices, mouseX, mouseY, partialTicks);
         if (!(node.isValidationForced() || node.getValidator().test(getText()))) {
-            ForgeRenderer.INSTANCE.drawRectangle(matrices, x, y, x + width, y + height, Color.rgba(1, 0, 0, 0.5));
+            ForgeRenderer.INSTANCE.drawRectangle(matrices, x - 1, y - 1, x + width + 1, y + height + 1, Color.rgba(1, 0, 0, 0.8));
         }
     }
 }

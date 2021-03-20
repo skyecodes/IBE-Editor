@@ -74,7 +74,7 @@ public final class ForgeTextFactory implements TextFactory {
                         }
                         return null;
                     }).toArray(TextFormatting[]::new);
-            t.modifyStyle(s -> s.createStyleFromFormattings(f));
+            t.modifyStyle(s -> s.mergeWithFormatting(f));
         }
         if (style != null) {
             if (style.getColor() != null) {

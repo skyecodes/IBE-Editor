@@ -4,6 +4,7 @@ import com.github.franckyi.minecraft.api.common.text.Text;
 import com.github.franckyi.minecraft.api.common.world.Item;
 import com.github.franckyi.minecraft.api.common.world.Player;
 import com.github.franckyi.minecraft.api.common.world.World;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
@@ -52,6 +53,26 @@ public class FabricPlayer extends FabricWorldEntity implements Player {
     @Override
     public void sendMessage(Text message, boolean actionBar) {
         entity.sendMessage(message.get(), actionBar);
+    }
+
+    @Override
+    public boolean isCreative() {
+        return entity.isCreative();
+    }
+
+    @Override
+    public void updateMainHandItem(Item item) {
+        updateInventoryItem(item.get(), entity.inventory.selectedSlot + entity.inventory.main.size());
+    }
+
+    @Override
+    public void updateCreativeInventoryItem(Item item, int slotId) {
+        entity.inventory.setStack(slotId, item.get());
+    }
+
+    @Override
+    public void updateInventoryItem(Item item, int slotId) {
+        MinecraftClient.getInstance().interactionManager.clickCreativeStack(item.get(), slotId);
     }
 
     @Override

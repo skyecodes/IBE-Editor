@@ -32,9 +32,9 @@ public class ForgeRenderer implements Renderer {
     @Override
     public void drawString(Matrices matrices, Text text, float x, float y, int color, boolean shadow) {
         if (shadow) {
-            font().func_243246_a(matrices.getMatrixStack(), text.get(), x, y, color);
+            font().drawText(matrices.getMatrixStack(), text.get(), x, y, color);
         } else {
-            font().func_243248_b(matrices.getMatrixStack(), text.get(), x, y, color);
+            font().drawTextWithShadow(matrices.getMatrixStack(), (ITextComponent) text.get(), x, y, color);
         }
     }
 

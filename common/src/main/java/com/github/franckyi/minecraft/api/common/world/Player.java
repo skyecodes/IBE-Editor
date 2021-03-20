@@ -23,5 +23,13 @@ public interface Player extends WorldEntity {
         sendMessage(message, false);
     }
 
+    boolean isCreative();
+
+    void updateMainHandItem(Item item);
+
+    void updateCreativeInventoryItem(Item item, int slotId);
+
+    void updateInventoryItem(Item item, int slotId);
+
     <E> E get();
 }

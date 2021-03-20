@@ -1,6 +1,7 @@
 package com.github.franckyi.ibeeditor.api.client.mvc.nbteditor.model;
 
 import com.github.franckyi.databindings.api.ObjectProperty;
+import com.github.franckyi.minecraft.api.common.text.Text;
 
 public interface NBTEditorModel {
     default TagModel getRootTag() {
@@ -21,6 +22,12 @@ public interface NBTEditorModel {
 
     default void setClipboardTag(TagModel value) {
         clipboardTagProperty().setValue(value);
+    }
+
+    Text getDisabledTooltip();
+
+    default boolean canSave() {
+        return getDisabledTooltip() == null;
     }
 
     void apply();

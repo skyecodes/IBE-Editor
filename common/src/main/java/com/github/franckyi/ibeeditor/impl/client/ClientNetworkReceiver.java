@@ -27,7 +27,7 @@ public final class ClientNetworkReceiver {
     }
 
     public static void serverModInstalled(NotifyClientPacket packet) {
-        IBEEditorClient.setServerModInstalled(true);
+        IBEEditorClient.setModInstalledOnServer(true);
         ClientNetworkEmitter.notifyServer();
     }
 

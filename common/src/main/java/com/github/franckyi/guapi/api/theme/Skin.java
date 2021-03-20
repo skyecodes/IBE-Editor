@@ -15,7 +15,7 @@ public interface Skin<N extends Node> extends EventTarget {
     void render(N node, Matrices matrices, int mouseX, int mouseY, float delta);
 
     default void postRender(N node, Matrices matrices, int mouseX, int mouseY, float delta) {
-        if (node.tooltipProperty().hasValue() && node.isHovered() && !node.isDisabled()) {
+        if (node.tooltipProperty().hasValue() && node.isHovered()) {
             Minecraft.getClient().getRenderer().drawTooltip(matrices, node.getTooltip(), mouseX, mouseY);
         }
     }

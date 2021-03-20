@@ -5,6 +5,7 @@ import com.github.franckyi.databindings.api.ObjectProperty;
 import com.github.franckyi.ibeeditor.api.client.mvc.nbteditor.model.NBTEditorModel;
 import com.github.franckyi.ibeeditor.api.client.mvc.nbteditor.model.TagModel;
 import com.github.franckyi.minecraft.api.common.tag.CompoundTag;
+import com.github.franckyi.minecraft.api.common.text.Text;
 
 import java.util.function.Consumer;
 
@@ -12,10 +13,12 @@ public class NBTEditor implements NBTEditorModel {
     private final ObjectProperty<TagModel> rootTagProperty;
     private final ObjectProperty<TagModel> clipboardTagProperty = Bindings.getPropertyFactory().ofObject();
     private final Consumer<CompoundTag> action;
+    private final Text disabledTooltip;
 
-    public NBTEditor(CompoundTag tag, Consumer<CompoundTag> action) {
+    public NBTEditor(CompoundTag tag, Consumer<CompoundTag> action, Text disabledTooltip) {
         rootTagProperty = Bindings.getPropertyFactory().ofObject(new TagModelImpl(tag));
         this.action = action;
+        this.disabledTooltip = disabledTooltip;
     }
 
     @Override
@@ -26,6 +29,11 @@ public class NBTEditor implements NBTEditorModel {
     @Override
     public ObjectProperty<TagModel> clipboardTagProperty() {
         return clipboardTagProperty;
+    }
+
+    @Override
+    public Text getDisabledTooltip() {
+        return disabledTooltip;
     }
 
     @Override

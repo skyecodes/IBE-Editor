@@ -37,9 +37,9 @@ public class ForgeVanillaTexturedButtonRenderer extends Button implements ForgeV
     }
 
     @Override
-    public void renderButton(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+    public void renderWidget(MatrixStack matrices, int mouseX, int mouseY, float delta) {
         if (node.isDrawButton()) {
-            super.renderButton(matrices, mouseX, mouseY, delta);
+            super.renderWidget(matrices, mouseX, mouseY, delta);
         }
     }
 }
