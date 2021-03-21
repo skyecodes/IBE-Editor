@@ -1,6 +1,6 @@
 package com.github.franckyi.ibeeditor.mixin;
 
-import com.github.franckyi.ibeeditor.impl.server.IBEEditorServer;
+import com.github.franckyi.ibeeditor.impl.server.ServerEventHandler;
 import com.github.franckyi.minecraft.impl.common.world.FabricPlayer;
 import net.minecraft.network.ClientConnection;
 import net.minecraft.server.PlayerManager;
@@ -14,11 +14,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class PlayerManagerMixin {
     @Inject(at = @At("TAIL"), method = "onPlayerConnect(Lnet/minecraft/network/ClientConnection;Lnet/minecraft/server/network/ServerPlayerEntity;)V")
     private void onPlayerConnect(ClientConnection connection, ServerPlayerEntity player, CallbackInfo info) {
-        IBEEditorServer.notifyClient(new FabricPlayer(player));
+        ServerEventHandler.onPlayerJoin(new FabricPlayer(player));
     }
 
     @Inject(at = @At("HEAD"), method = "remove(Lnet/minecraft/server/network/ServerPlayerEntity;)V")
     private void remove(ServerPlayerEntity player, CallbackInfo info) {
-        IBEEditorServer.removeAllowedPlayer(new FabricPlayer(player));
+        ServerEventHandler.onPlayerLeave(new FabricPlayer(player));
     }
 }

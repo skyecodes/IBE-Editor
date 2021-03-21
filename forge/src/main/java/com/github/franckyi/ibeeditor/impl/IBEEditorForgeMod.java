@@ -2,9 +2,12 @@ package com.github.franckyi.ibeeditor.impl;
 
 import com.github.franckyi.guapi.impl.theme.vanilla.*;
 import com.github.franckyi.guapi.util.NodeType;
-import com.github.franckyi.ibeeditor.impl.client.IBEEditorClient;
-import com.github.franckyi.ibeeditor.impl.common.IBEEditorCommon;
-import com.github.franckyi.ibeeditor.impl.server.IBEEditorServer;
+import com.github.franckyi.ibeeditor.impl.client.ClientEventHandler;
+import com.github.franckyi.ibeeditor.impl.client.ClientInit;
+import com.github.franckyi.ibeeditor.impl.client.ClientContext;
+import com.github.franckyi.ibeeditor.impl.common.CommonInit;
+import com.github.franckyi.ibeeditor.impl.server.ServerCommandHandler;
+import com.github.franckyi.ibeeditor.impl.server.ServerEventHandler;
 import com.github.franckyi.minecraft.impl.ForgeMinecraftClient;
 import com.github.franckyi.minecraft.impl.ForgeMinecraftCommon;
 import com.github.franckyi.minecraft.impl.client.screen.ForgeScreen;
@@ -30,14 +33,14 @@ public final class IBEEditorForgeMod {
     }
 
     private void onCommonInit(FMLCommonSetupEvent event) {
-        IBEEditorCommon.init(ForgeMinecraftCommon.INSTANCE);
+        CommonInit.init(ForgeMinecraftCommon.INSTANCE);
         MinecraftForge.EVENT_BUS.addListener(this::onServerStarting);
         MinecraftForge.EVENT_BUS.addListener(this::onPlayerLoggedIn);
         MinecraftForge.EVENT_BUS.addListener(this::onPlayerLoggedOut);
     }
 
     private void onClientInit(FMLClientSetupEvent event) {
-        IBEEditorClient.init(ForgeMinecraftClient.INSTANCE);
+        ClientInit.init(ForgeMinecraftClient.INSTANCE);
         VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(NodeType.BUTTON, ForgeVanillaButtonRenderer::new);
         VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(NodeType.TEXTURED_BUTTON, ForgeVanillaTexturedButtonRenderer::new);
         VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(NodeType.TEXT_FIELD, ForgeVanillaTextFieldRenderer::new);
@@ -51,29 +54,29 @@ public final class IBEEditorForgeMod {
 
     private void onKeyInput(InputEvent.KeyInputEvent e) {
         if (Minecraft.getInstance().currentScreen == null) {
-            IBEEditorClient.onKeyInput();
+            ClientEventHandler.onKeyInput();
         }
     }
 
     private void onKeyPressed(GuiScreenEvent.KeyboardKeyPressedEvent.Pre e) {
         if (e.getGui() instanceof ContainerScreen) {
-            IBEEditorClient.handleScreenEvent(new ForgeScreen(e.getGui()), e.getKeyCode());
+            ClientEventHandler.onScreenEvent(new ForgeScreen(e.getGui()), e.getKeyCode());
         }
     }
 
     private void onServerStarting(FMLServerStartingEvent event) {
-        IBEEditorServer.registerCommand(event.getServer().getCommandManager().getDispatcher());
+        ServerCommandHandler.registerCommand(event.getServer().getCommandManager().getDispatcher());
     }
 
     private void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
-        IBEEditorServer.notifyClient(new ForgePlayer(event.getPlayer()));
+        ServerEventHandler.onPlayerJoin(new ForgePlayer(event.getPlayer()));
     }
 
     private void onPlayerLoggedOut(PlayerEvent.PlayerLoggedOutEvent event) {
-        IBEEditorServer.removeAllowedPlayer(new ForgePlayer(event.getPlayer()));
+        ServerEventHandler.onPlayerLeave(new ForgePlayer(event.getPlayer()));
     }
 
     private void onWorldUnload(WorldEvent.Unload event) {
-        IBEEditorClient.setModInstalledOnServer(false);
+        ClientContext.setModInstalledOnServer(false);
     }
 }

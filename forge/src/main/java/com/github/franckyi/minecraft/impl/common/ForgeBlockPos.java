@@ -14,4 +14,9 @@ public class ForgeBlockPos implements BlockPos {
     public net.minecraft.util.math.BlockPos get() {
         return blockPos;
     }
+
+    @Override
+    public String toString() {
+        return String.format("[%s, %s, %s]", blockPos.getX(), blockPos.getY(), blockPos.getZ());
+    }
 }

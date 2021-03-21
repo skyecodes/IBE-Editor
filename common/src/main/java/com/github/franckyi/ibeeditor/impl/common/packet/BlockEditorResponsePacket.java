@@ -4,15 +4,15 @@ import com.github.franckyi.minecraft.Minecraft;
 import com.github.franckyi.minecraft.api.common.network.Buffer;
 import com.github.franckyi.minecraft.api.common.world.Block;
 
-public class OpenBlockEditorResponsePacket extends OpenBlockEditorRequestPacket {
+public class BlockEditorResponsePacket extends BlockEditorRequestPacket {
     private final Block block;
 
-    public OpenBlockEditorResponsePacket(OpenBlockEditorRequestPacket request, Block block) {
+    public BlockEditorResponsePacket(BlockEditorRequestPacket request, Block block) {
         super(request.getPos(), request.isNBT());
         this.block = block;
     }
 
-    public OpenBlockEditorResponsePacket(Buffer buffer) {
+    public BlockEditorResponsePacket(Buffer buffer) {
         super(buffer);
         block = Minecraft.getCommon().createBlock(buffer.readTag(), buffer.readTag());
     }

@@ -3,15 +3,15 @@ package com.github.franckyi.ibeeditor.impl.common.packet;
 import com.github.franckyi.minecraft.api.common.network.Buffer;
 import com.github.franckyi.minecraft.api.common.world.Item;
 
-public class UpdatePlayerInventoryItemPacket extends UpdatePlayerMainHandItemPacket {
+public class PlayerInventoryItemUpdatePacket extends PlayerMainHandItemUpdatePacket {
     private final int slotId;
 
-    public UpdatePlayerInventoryItemPacket(Item item, int slotId) {
+    public PlayerInventoryItemUpdatePacket(Item item, int slotId) {
         super(item);
         this.slotId = slotId;
     }
 
-    public UpdatePlayerInventoryItemPacket(Buffer buffer) {
+    public PlayerInventoryItemUpdatePacket(Buffer buffer) {
         super(buffer);
         this.slotId = buffer.readInt();
     }

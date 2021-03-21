@@ -1,51 +1,56 @@
 package com.github.franckyi.ibeeditor.impl.server;
 
-import com.github.franckyi.ibeeditor.impl.common.IBEEditorNetwork;
+import com.github.franckyi.ibeeditor.impl.common.Networking;
 import com.github.franckyi.ibeeditor.impl.common.packet.*;
 import com.github.franckyi.minecraft.Minecraft;
 import com.github.franckyi.minecraft.api.common.network.Packet;
 import com.github.franckyi.minecraft.api.common.world.Block;
 import com.github.franckyi.minecraft.api.common.world.Entity;
 import com.github.franckyi.minecraft.api.common.world.Player;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public final class ServerNetworkEmitter {
-    public static void notifyClient(Player sender) {
-        send(IBEEditorNetwork.NOTIFY_CLIENT, sender, new NotifyClientPacket());
+    private static final Logger LOGGER = LogManager.getLogger();
+
+    public static void sendServerNotification(Player sender) {
+        send(Networking.SERVER_NOTIFICATION, sender, new ServerNotificationPacket());
     }
 
-    public static void openBlockEditorResponse(Player sender, OpenBlockEditorRequestPacket packet, Block block) {
-        send(IBEEditorNetwork.OPEN_BLOCK_EDITOR_RESPONSE, sender, new OpenBlockEditorResponsePacket(packet, block));
+    public static void sendBlockEditorResponse(Player sender, BlockEditorRequestPacket packet, Block block) {
+        send(Networking.BLOCK_EDITOR_RESPONSE, sender, new BlockEditorResponsePacket(packet, block));
     }
 
-    public static void openEntityEditorResponse(Player sender, OpenEntityEditorRequestPacket packet, Entity entity) {
-        send(IBEEditorNetwork.OPEN_ENTITY_EDITOR_RESPONSE, sender, new OpenEntityEditorResponsePacket(packet, entity));
+    public static void sendEntityEditorResponse(Player sender, EntityEditorRequestPacket packet, Entity entity) {
+        send(Networking.ENTITY_EDITOR_RESPONSE, sender, new EntityEditorResponsePacket(packet, entity));
     }
 
-    public static void triggerOpenWorldEditor(Player sender, boolean nbt) {
-        triggerOpenEditor(sender, TriggerOpenEditorPacket.WORLD, nbt);
+    public static void sendWorldEditorCommand(Player sender, boolean nbt) {
+        sendEditorCommand(sender, EditorCommandPacket.WORLD, nbt);
     }
 
-    public static void triggerOpenItemEditor(Player sender, boolean nbt) {
-        triggerOpenEditor(sender, TriggerOpenEditorPacket.ITEM, nbt);
+    public static void sendItemEditorCommand(Player sender, boolean nbt) {
+        sendEditorCommand(sender, EditorCommandPacket.ITEM, nbt);
     }
 
-    public static void triggerOpenBlockEditor(Player sender, boolean nbt) {
-        triggerOpenEditor(sender, TriggerOpenEditorPacket.BLOCK, nbt);
+    public static void sendBlockEditorCommand(Player sender, boolean nbt) {
+        sendEditorCommand(sender, EditorCommandPacket.BLOCK, nbt);
     }
 
-    public static void triggerOpenEntityEditor(Player sender, boolean nbt) {
-        triggerOpenEditor(sender, TriggerOpenEditorPacket.ENTITY, nbt);
+    public static void sendEntityEditorCommand(Player sender, boolean nbt) {
+        sendEditorCommand(sender, EditorCommandPacket.ENTITY, nbt);
     }
 
-    public static void triggerOpenSelfEditor(Player sender, boolean nbt) {
-        triggerOpenEditor(sender, TriggerOpenEditorPacket.SELF, nbt);
+    public static void sendSelfEditorCommand(Player sender, boolean nbt) {
+        sendEditorCommand(sender, EditorCommandPacket.SELF, nbt);
     }
 
-    private static void triggerOpenEditor(Player sender, byte type, boolean nbt) {
-        send(IBEEditorNetwork.TRIGGER_OPEN_EDITOR, sender, new TriggerOpenEditorPacket(type, nbt));
+    private static void sendEditorCommand(Player sender, byte type, boolean nbt) {
+        send(Networking.EDITOR_COMMAND, sender, new EditorCommandPacket(type, nbt));
     }
 
     private static void send(String id, Player player, Packet packet) {
+        LOGGER.debug("Sending packet {} to player {}", id, player);
         Minecraft.getCommon().getNetwork().sendToClient(id, player, packet);
     }
 }

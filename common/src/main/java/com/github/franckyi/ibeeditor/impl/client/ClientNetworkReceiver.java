@@ -1,59 +1,72 @@
 package com.github.franckyi.ibeeditor.impl.client;
 
-import com.github.franckyi.ibeeditor.impl.common.packet.NotifyClientPacket;
-import com.github.franckyi.ibeeditor.impl.common.packet.OpenBlockEditorResponsePacket;
-import com.github.franckyi.ibeeditor.impl.common.packet.OpenEntityEditorResponsePacket;
-import com.github.franckyi.ibeeditor.impl.common.packet.TriggerOpenEditorPacket;
+import com.github.franckyi.ibeeditor.impl.common.Networking;
+import com.github.franckyi.ibeeditor.impl.common.packet.ServerNotificationPacket;
+import com.github.franckyi.ibeeditor.impl.common.packet.BlockEditorResponsePacket;
+import com.github.franckyi.ibeeditor.impl.common.packet.EntityEditorResponsePacket;
+import com.github.franckyi.ibeeditor.impl.common.packet.EditorCommandPacket;
 import com.github.franckyi.minecraft.Minecraft;
 import com.github.franckyi.minecraft.util.common.TextFormatting;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import static com.github.franckyi.guapi.GUAPIHelper.*;
 
 public final class ClientNetworkReceiver {
-    public static void openBlockEditor(OpenBlockEditorResponsePacket packet) {
+    private static final Logger LOGGER = LogManager.getLogger();
+
+    public static void onBlockEditorResponse(BlockEditorResponsePacket packet) {
+        log(Networking.BLOCK_EDITOR_RESPONSE);
         if (packet.getBlock().getData().get() != null || (!packet.isNBT() && packet.getBlock().getState().get() != null)) {
-            IBEEditorClient.openBlockEditor(packet.getBlock(), packet.getPos(), packet.isNBT());
+            ClientEditorLogic.openBlockEditor(packet.getBlock(), packet.getPos(), packet.isNBT());
         } else {
             Minecraft.getClient().getPlayer().sendMessage(text("No Block data found", TextFormatting.RED));
         }
     }
 
-    public static void openEntityEditor(OpenEntityEditorResponsePacket packet) {
+    public static void onEntityEditorResponse(EntityEditorResponsePacket packet) {
+        log(Networking.ENTITY_EDITOR_RESPONSE);
         if (packet.getEntity().getTag() != null) {
-            IBEEditorClient.openEntityEditor(packet.getEntity(), packet.getEntityId(), packet.isNBT());
+            ClientEditorLogic.openEntityEditor(packet.getEntity(), packet.getEntityId(), packet.isNBT());
         } else {
             Minecraft.getClient().getPlayer().sendMessage(text("No Entity found", TextFormatting.RED));
         }
     }
 
-    public static void serverModInstalled(NotifyClientPacket packet) {
-        IBEEditorClient.setModInstalledOnServer(true);
-        ClientNetworkEmitter.notifyServer();
+    public static void onServerNotification(ServerNotificationPacket packet) {
+        log(Networking.SERVER_NOTIFICATION);
+        ClientContext.setModInstalledOnServer(true);
+        ClientNetworkEmitter.sendClientNotification();
     }
 
-    public static void openEditorTriggered(TriggerOpenEditorPacket packet) {
+    public static void onEditorCommand(EditorCommandPacket packet) {
+        log(Networking.EDITOR_COMMAND);
         switch (packet.getType()) {
-            case TriggerOpenEditorPacket.WORLD:
-                IBEEditorClient.openWorldEditor(packet.isNBT());
+            case EditorCommandPacket.WORLD:
+                ClientEditorLogic.openWorldEditor(packet.isNBT());
                 break;
-            case TriggerOpenEditorPacket.ITEM:
-                if (!IBEEditorClient.tryOpenItemEditor(packet.isNBT())) {
+            case EditorCommandPacket.ITEM:
+                if (!ClientEditorLogic.tryOpenItemEditor(packet.isNBT())) {
                     Minecraft.getClient().getPlayer().sendMessage(text("No Item found", TextFormatting.RED));
                 }
                 break;
-            case TriggerOpenEditorPacket.BLOCK:
-                if (!IBEEditorClient.tryOpenBlockEditor(packet.isNBT())) {
+            case EditorCommandPacket.BLOCK:
+                if (!ClientEditorLogic.tryOpenBlockEditor(packet.isNBT())) {
                     Minecraft.getClient().getPlayer().sendMessage(text("No Block data found", TextFormatting.RED));
                 }
                 break;
-            case TriggerOpenEditorPacket.ENTITY:
-                if (!IBEEditorClient.tryOpenEntityEditor(packet.isNBT())) {
+            case EditorCommandPacket.ENTITY:
+                if (!ClientEditorLogic.tryOpenEntityEditor(packet.isNBT())) {
                     Minecraft.getClient().getPlayer().sendMessage(text("No Entity found", TextFormatting.RED));
                 }
                 break;
-            case TriggerOpenEditorPacket.SELF:
-                IBEEditorClient.requestOpenSelfEditor(packet.isNBT());
+            case EditorCommandPacket.SELF:
+                ClientEditorLogic.tryOpenSelfEditor(packet.isNBT());
                 break;
         }
+    }
+
+    private static void log(String id) {
+        LOGGER.debug("Receiving packet {}", id);
     }
 }

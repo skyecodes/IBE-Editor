@@ -4,15 +4,15 @@ import com.github.franckyi.minecraft.api.common.BlockPos;
 import com.github.franckyi.minecraft.api.common.network.Buffer;
 import com.github.franckyi.minecraft.api.common.world.Item;
 
-public class UpdateBlockInventoryItemPacket extends UpdatePlayerInventoryItemPacket {
+public class BlockInventoryItemUpdatePacket extends PlayerInventoryItemUpdatePacket {
     private final BlockPos blockPos;
 
-    public UpdateBlockInventoryItemPacket(Item item, int slotId, BlockPos blockPos) {
+    public BlockInventoryItemUpdatePacket(Item item, int slotId, BlockPos blockPos) {
         super(item, slotId);
         this.blockPos = blockPos;
     }
 
-    public UpdateBlockInventoryItemPacket(Buffer buffer) {
+    public BlockInventoryItemUpdatePacket(Buffer buffer) {
         super(buffer);
         blockPos = buffer.readPos();
     }

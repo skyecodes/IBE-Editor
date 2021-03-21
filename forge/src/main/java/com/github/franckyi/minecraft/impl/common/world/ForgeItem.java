@@ -33,4 +33,9 @@ public class ForgeItem implements Item {
     public ItemStack get() {
         return item;
     }
+
+    @Override
+    public String toString() {
+        return item.toString();
+    }
 }

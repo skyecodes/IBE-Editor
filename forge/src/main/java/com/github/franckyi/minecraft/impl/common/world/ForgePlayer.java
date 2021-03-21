@@ -46,7 +46,7 @@ public class ForgePlayer extends ForgeWorldEntity implements Player {
     }
 
     @Override
-    public String getName() {
+    public String toString() {
         return entity.getGameProfile().getName();
     }
 

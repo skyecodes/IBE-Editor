@@ -5,14 +5,14 @@ import com.github.franckyi.minecraft.api.common.network.Buffer;
 import com.github.franckyi.minecraft.api.common.network.Packet;
 import com.github.franckyi.minecraft.api.common.world.Item;
 
-public class UpdatePlayerMainHandItemPacket implements Packet {
+public class PlayerMainHandItemUpdatePacket implements Packet {
     private final Item item;
 
-    public UpdatePlayerMainHandItemPacket(Item item) {
+    public PlayerMainHandItemUpdatePacket(Item item) {
         this.item = item;
     }
 
-    public UpdatePlayerMainHandItemPacket(Buffer buffer) {
+    public PlayerMainHandItemUpdatePacket(Buffer buffer) {
         this(Minecraft.getCommon().createItem(buffer.readTag()));
     }
 

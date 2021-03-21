@@ -75,7 +75,7 @@ public abstract class AbstractScreenHandler implements ScreenHandler {
         try {
             getCurrentScene().render(matrices, mouseX, mouseY, delta);
         } catch (Exception e) {
-            Minecraft.getLogger().error(GUAPI.MARKER, "Error while rendering GUAPI Scene", e);
+            Minecraft.getDefaultLogger().error(GUAPI.LOG_MARKER, "Error while rendering GUAPI Scene", e);
             hideScene();
         }
     }
@@ -85,7 +85,7 @@ public abstract class AbstractScreenHandler implements ScreenHandler {
             try {
                 getCurrentScene().tick();
             } catch (Exception e) {
-                Minecraft.getLogger().error(GUAPI.MARKER, "Error while ticking GUAPI Scene", e);
+                Minecraft.getDefaultLogger().error(GUAPI.LOG_MARKER, "Error while ticking GUAPI Scene", e);
                 hideScene();
             }
         }
@@ -141,7 +141,7 @@ public abstract class AbstractScreenHandler implements ScreenHandler {
         try {
             getCurrentScene().handleEvent(type, event);
         } catch (Exception e) {
-            Minecraft.getLogger().error(GUAPI.MARKER, "Error while handling " + type.getName() + " event on GUAPI Scene", e);
+            Minecraft.getDefaultLogger().error(GUAPI.LOG_MARKER, "Error while handling " + type.getName() + " event on GUAPI Scene", e);
             hideScene();
         }
         return event.isConsumed();

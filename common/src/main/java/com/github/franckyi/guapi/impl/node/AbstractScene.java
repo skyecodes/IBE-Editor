@@ -59,7 +59,7 @@ public abstract class AbstractScene implements Scene {
             }
             if (newVal != null) {
                 if (newVal.getParent() != null) {
-                    Minecraft.getLogger().error(GUAPI.MARKER, "Can't set Node \"" + newVal +
+                    Minecraft.getDefaultLogger().error(GUAPI.LOG_MARKER, "Can't set Node \"" + newVal +
                             "\" as Scene root: node already has a Parent \"" + newVal.getParent() + "\"");
                     return;
                 }

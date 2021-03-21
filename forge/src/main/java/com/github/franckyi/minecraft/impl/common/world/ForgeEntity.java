@@ -14,4 +14,9 @@ public class ForgeEntity implements Entity {
     public CompoundTag getTag() {
         return tag;
     }
+
+    @Override
+    public String toString() {
+        return tag.getString("id");
+    }
 }

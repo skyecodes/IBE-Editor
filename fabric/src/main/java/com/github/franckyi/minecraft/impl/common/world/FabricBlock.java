@@ -21,4 +21,9 @@ public class FabricBlock implements Block {
     public CompoundTag getData() {
         return data;
     }
+
+    @Override
+    public String toString() {
+        return data.getString("id");
+    }
 }

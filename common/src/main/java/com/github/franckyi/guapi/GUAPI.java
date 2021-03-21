@@ -8,7 +8,7 @@ import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
 
 public final class GUAPI {
-    public static final Marker MARKER = MarkerManager.getMarker("GUAPI");
+    public static final Marker LOG_MARKER = MarkerManager.getMarker("GUAPI");
     private static Theme theme = VanillaTheme.INSTANCE;
     private static NodeFactory nodeFactory = NodeFactoryImpl.INSTANCE;
     private static boolean debugMode = false;

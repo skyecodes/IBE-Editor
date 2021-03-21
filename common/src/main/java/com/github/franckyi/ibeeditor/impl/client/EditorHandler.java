@@ -6,7 +6,6 @@ import com.github.franckyi.ibeeditor.impl.client.mvc.editor.model.BlockEditorMod
 import com.github.franckyi.ibeeditor.impl.client.mvc.editor.model.EntityEditorModel;
 import com.github.franckyi.ibeeditor.impl.client.mvc.editor.model.ItemEditorModel;
 import com.github.franckyi.ibeeditor.impl.client.mvc.nbteditor.model.NBTEditor;
-import com.github.franckyi.ibeeditor.impl.common.IBEEditorConfiguration;
 import com.github.franckyi.minecraft.Minecraft;
 import com.github.franckyi.minecraft.api.common.tag.CompoundTag;
 import com.github.franckyi.minecraft.api.common.text.Text;
@@ -37,12 +36,12 @@ public final class EditorHandler {
 
     private static void openEditor(Node root) {
         Minecraft.getClient().getScreenHandler().showScene(scene(root, true, true).show(scene -> {
-            Minecraft.getClient().getScreenScaling().setBaseScale(IBEEditorConfiguration.CLIENT.getEditorScale());
+            Minecraft.getClient().getScreenScaling().setBaseScale(ClientConfiguration.INSTANCE.getEditorScale());
             scene.widthProperty().addListener(Minecraft.getClient().getScreenScaling()::refresh);
             scene.heightProperty().addListener(Minecraft.getClient().getScreenScaling()::refresh);
         }).hide(scene -> {
-            IBEEditorConfiguration.CLIENT.setEditorScale(Minecraft.getClient().getScreenScaling().getScaleAndReset());
-            IBEEditorConfiguration.saveClient();
+            ClientConfiguration.INSTANCE.setEditorScale(Minecraft.getClient().getScreenScaling().getScaleAndReset());
+            ClientConfiguration.save();
         }));
     }
 }

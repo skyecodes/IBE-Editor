@@ -6,16 +6,16 @@ import com.github.franckyi.minecraft.api.common.network.Buffer;
 import com.github.franckyi.minecraft.api.common.network.Packet;
 import com.github.franckyi.minecraft.api.common.world.Block;
 
-public class UpdateBlockPacket implements Packet {
+public class BlockUpdatePacket implements Packet {
     private final BlockPos blockPos;
     private final Block block;
 
-    public UpdateBlockPacket(BlockPos blockPos, Block block) {
+    public BlockUpdatePacket(BlockPos blockPos, Block block) {
         this.blockPos = blockPos;
         this.block = block;
     }
 
-    public UpdateBlockPacket(Buffer buffer) {
+    public BlockUpdatePacket(Buffer buffer) {
         this(buffer.readPos(), Minecraft.getCommon().createBlock(buffer.readTag(), buffer.readTag()));
     }
 

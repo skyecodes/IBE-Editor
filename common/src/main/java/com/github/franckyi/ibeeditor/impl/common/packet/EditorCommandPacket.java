@@ -3,7 +3,7 @@ package com.github.franckyi.ibeeditor.impl.common.packet;
 import com.github.franckyi.minecraft.api.common.network.Buffer;
 import com.github.franckyi.minecraft.api.common.network.Packet;
 
-public class TriggerOpenEditorPacket implements Packet {
+public class EditorCommandPacket implements Packet {
     public static final byte WORLD = 0;
     public static final byte ITEM = 1;
     public static final byte BLOCK = 2;
@@ -12,12 +12,12 @@ public class TriggerOpenEditorPacket implements Packet {
     private final byte type;
     private final boolean nbt;
 
-    public TriggerOpenEditorPacket(byte type, boolean nbt) {
+    public EditorCommandPacket(byte type, boolean nbt) {
         this.type = type;
         this.nbt = nbt;
     }
 
-    public TriggerOpenEditorPacket(Buffer buffer) {
+    public EditorCommandPacket(Buffer buffer) {
         this(buffer.readByte(), buffer.readBoolean());
     }
 

@@ -15,8 +15,6 @@ public interface Player extends WorldEntity {
 
     UUID getProfileId();
 
-    String getName();
-
     void sendMessage(Text message, boolean actionBar);
 
     default void sendMessage(Text message) {

@@ -118,7 +118,7 @@ public abstract class AbstractGroup extends AbstractNode implements Group {
         @Override
         protected boolean canAdd(Node element) {
             if (element.getParent() != null) {
-                Minecraft.getLogger().error(GUAPI.MARKER, "Can't add Node \"" + element + "\" to Group: already present in Parent \"" + element.getParent() + "\"");
+                Minecraft.getDefaultLogger().error(GUAPI.LOG_MARKER, "Can't add Node \"" + element + "\" to Group: already present in Parent \"" + element.getParent() + "\"");
                 return false;
             }
             return true;

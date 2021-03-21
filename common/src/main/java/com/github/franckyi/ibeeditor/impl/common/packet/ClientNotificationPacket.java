@@ -3,11 +3,11 @@ package com.github.franckyi.ibeeditor.impl.common.packet;
 import com.github.franckyi.minecraft.api.common.network.Buffer;
 import com.github.franckyi.minecraft.api.common.network.Packet;
 
-public class NotifyClientPacket implements Packet {
-    public NotifyClientPacket() {
+public class ClientNotificationPacket implements Packet {
+    public ClientNotificationPacket() {
     }
 
-    public NotifyClientPacket(Buffer buffer) {
+    public ClientNotificationPacket(Buffer buffer) {
     }
 
     @Override
