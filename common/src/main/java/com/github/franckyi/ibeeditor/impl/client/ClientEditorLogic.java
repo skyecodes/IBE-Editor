@@ -90,9 +90,9 @@ public final class ClientEditorLogic {
     public static void openItemEditor(Item item, boolean nbt, Consumer<Item> action, Text disabledTooltip) {
         LOGGER.debug("Opening item editor for item {} with nbt={})", item, nbt);
         if (nbt) {
-            EditorHandler.openNBTEditor(item.getTag(), tag -> action.accept(Minecraft.getCommon().createItem(tag)), disabledTooltip);
+            EditorScreenHandler.openNBTEditor(item.getTag(), tag -> action.accept(Minecraft.getCommon().createItem(tag)), disabledTooltip);
         } else {
-            EditorHandler.openItemEditor(item, action, disabledTooltip);
+            EditorScreenHandler.openItemEditor(item, action, disabledTooltip);
         }
     }
 
@@ -104,9 +104,9 @@ public final class ClientEditorLogic {
     public static void openBlockEditor(Block block, BlockPos blockPos, boolean nbt) {
         LOGGER.debug("Opening block editor for block {} at pos {} with nbt={}", block, blockPos, nbt);
         if (nbt) {
-            EditorHandler.openNBTEditor(block.getData(), tag -> updateBlock(blockPos, Minecraft.getCommon().createBlock(block.getState(), tag)), ClientContext.isModInstalledOnServer() ? null : ERROR_SERVERMOD_BLOCK);
+            EditorScreenHandler.openNBTEditor(block.getData(), tag -> updateBlock(blockPos, Minecraft.getCommon().createBlock(block.getState(), tag)), ClientContext.isModInstalledOnServer() ? null : ERROR_SERVERMOD_BLOCK);
         } else {
-            EditorHandler.openBlockEditor(block, newBlock -> updateBlock(blockPos, newBlock), ClientContext.isModInstalledOnServer() ? null : ERROR_SERVERMOD_BLOCK);
+            EditorScreenHandler.openBlockEditor(block, newBlock -> updateBlock(blockPos, newBlock), ClientContext.isModInstalledOnServer() ? null : ERROR_SERVERMOD_BLOCK);
         }
     }
 
@@ -118,9 +118,9 @@ public final class ClientEditorLogic {
     public static void openEntityEditor(Entity entity, int entityId, boolean nbt) {
         LOGGER.debug("Opening entity editor for entity {} with id {} and nbt={}", entity, entityId, nbt);
         if (nbt) {
-            EditorHandler.openNBTEditor(entity.getTag(), tag -> updateEntity(entityId, Minecraft.getCommon().createEntity(tag)), ClientContext.isModInstalledOnServer() ? null : ERROR_SERVERMOD_ENTITY);
+            EditorScreenHandler.openNBTEditor(entity.getTag(), tag -> updateEntity(entityId, Minecraft.getCommon().createEntity(tag)), ClientContext.isModInstalledOnServer() ? null : ERROR_SERVERMOD_ENTITY);
         } else {
-            EditorHandler.openEntityEditor(entity, entity1 -> updateEntity(entityId, entity1), ClientContext.isModInstalledOnServer() ? null : ERROR_SERVERMOD_ENTITY);
+            EditorScreenHandler.openEntityEditor(entity, entity1 -> updateEntity(entityId, entity1), ClientContext.isModInstalledOnServer() ? null : ERROR_SERVERMOD_ENTITY);
         }
     }
 

@@ -17,7 +17,7 @@ import java.util.function.Consumer;
 
 import static com.github.franckyi.guapi.GUAPIHelper.*;
 
-public final class EditorHandler {
+public final class EditorScreenHandler {
     public static void openItemEditor(Item item, Consumer<Item> action, Text disabledTooltip) {
         openEditor(mvc(IBEEditorMVC.EDITOR, new ItemEditorModel(item, action, disabledTooltip)));
     }

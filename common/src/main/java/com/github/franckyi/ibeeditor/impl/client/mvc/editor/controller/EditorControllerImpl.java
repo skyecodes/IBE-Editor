@@ -18,7 +18,11 @@ public class EditorControllerImpl extends AbstractController<EditorModel, Editor
         updateEntryList();
         model.getCategories().addListener(this::updateCategoryList);
         model.selectedCategoryProperty().addListener(this::updateEntryList);
-        view.getDoneButton().onAction(event -> Minecraft.getClient().getScreenHandler().hideScene());
+        view.getDoneButton().onAction(event -> model.apply());
+        if (model.isDisabled()) {
+            view.getDoneButton().setDisable(true);
+            view.getDoneButton().setTooltip(model.getDisabledTooltip());
+        }
         view.getCancelButton().onAction(event -> GUAPI.setDebugMode(!GUAPI.isDebugMode()));
     }
 

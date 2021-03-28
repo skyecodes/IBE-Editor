@@ -33,4 +33,10 @@ public interface CompoundTag extends Tag {
     int[] getIntArray(String key);
 
     long[] getLongArray(String key);
+
+    void putString(String key, String value);
+
+    void putInt(String key, int value);
+
+    CompoundTag copy();
 }

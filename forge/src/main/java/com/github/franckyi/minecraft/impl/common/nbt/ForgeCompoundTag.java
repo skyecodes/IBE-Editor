@@ -94,6 +94,21 @@ public class ForgeCompoundTag implements CompoundTag {
     }
 
     @Override
+    public void putString(String key, String value) {
+        tag.putString(key, value);
+    }
+
+    @Override
+    public void putInt(String key, int value) {
+        tag.putInt(key, value);
+    }
+
+    @Override
+    public CompoundTag copy() {
+        return new ForgeCompoundTag(tag.copy());
+    }
+
+    @Override
     @SuppressWarnings("unchecked")
     public CompoundNBT get() {
         return tag;

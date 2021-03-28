@@ -3,8 +3,12 @@ package com.github.franckyi.databindings.api.factory;
 import com.github.franckyi.databindings.Bindings;
 import com.github.franckyi.databindings.api.*;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.function.BiFunction;
 import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 /**
  * Factory for {@link ObservableValue} mappings.
@@ -48,4 +52,6 @@ public interface MappingFactory {
     <T> ObservableBooleanValue mapToBoolean(ObservableValue<T> thisValue, ObservableValue<T> otherValue, BiFunction<T, T, Boolean> mapper);
 
     <T> ObservableIntegerValue mapToInt(ObservableValue<T> thisValue, ObservableValue<T> otherValue, BiFunction<T, T, Integer> mapper);
+
+    <T> ObservableBooleanValue reduceToBoolean(ObservableList<T> values, Predicate<Stream<T>> reducer);
 }

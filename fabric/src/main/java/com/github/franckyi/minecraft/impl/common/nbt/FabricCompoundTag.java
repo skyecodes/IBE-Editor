@@ -93,6 +93,21 @@ public class FabricCompoundTag implements CompoundTag {
     }
 
     @Override
+    public void putString(String key, String value) {
+        tag.putString(key, value);
+    }
+
+    @Override
+    public void putInt(String key, int value) {
+        tag.putInt(key, value);
+    }
+
+    @Override
+    public CompoundTag copy() {
+        return new FabricCompoundTag(tag.copy());
+    }
+
+    @Override
     @SuppressWarnings("unchecked")
     public net.minecraft.nbt.CompoundTag get() {
         return tag;

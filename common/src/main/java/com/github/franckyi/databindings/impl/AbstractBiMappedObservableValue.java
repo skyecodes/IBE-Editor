@@ -9,13 +9,13 @@ import java.util.function.BiFunction;
 
 public abstract class AbstractBiMappedObservableValue<T, X> implements ObservableValue<X>, ObservableValueChangeListener<T> {
     private final ObservableValue<T> a, b;
-    private final BiFunction<T, T, X> function;
+    private final BiFunction<T, T, X> mapper;
     private final Property<X> res = Bindings.getPropertyFactory().ofObject();
 
-    public AbstractBiMappedObservableValue(ObservableValue<T> a, ObservableValue<T> b, BiFunction<T, T, X> function) {
+    public AbstractBiMappedObservableValue(ObservableValue<T> a, ObservableValue<T> b, BiFunction<T, T, X> mapper) {
         this.a = a;
         this.b = b;
-        this.function = function;
+        this.mapper = mapper;
         update();
         a.addListener(this);
         b.addListener(this);
@@ -42,7 +42,7 @@ public abstract class AbstractBiMappedObservableValue<T, X> implements Observabl
     }
 
     private void update() {
-        res.set(function.apply(a.get(), b.get()));
+        res.set(mapper.apply(a.get(), b.get()));
     }
 
     @Override

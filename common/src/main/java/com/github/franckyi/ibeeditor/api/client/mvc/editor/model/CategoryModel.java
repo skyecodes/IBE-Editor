@@ -25,6 +25,16 @@ public interface CategoryModel {
         selectedProperty().setValue(value);
     }
 
+    default boolean isValid() {
+        return validProperty().getValue();
+    }
+
+    BooleanProperty validProperty();
+
+    default void setValid(boolean value) {
+        validProperty().setValue(value);
+    }
+
     EditorModel getEditor();
 
     ObservableList<EntryModel> getEntries();

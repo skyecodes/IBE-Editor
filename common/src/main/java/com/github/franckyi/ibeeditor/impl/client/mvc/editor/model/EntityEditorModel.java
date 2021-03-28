@@ -5,7 +5,13 @@ import com.github.franckyi.minecraft.api.common.world.Entity;
 
 import java.util.function.Consumer;
 
-public class EntityEditorModel extends AbstractEditorModel {
+public class EntityEditorModel extends AbstractEditorModel<Entity, AbstractEntityCategoryModel> {
     public EntityEditorModel(Entity entity, Consumer<Entity> action, Text disabledTooltip) {
+        super(entity, action, disabledTooltip);
+    }
+
+    @Override
+    public Entity applyChanges() {
+        return getTarget(); // TODO
     }
 }
