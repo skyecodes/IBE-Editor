@@ -18,6 +18,8 @@ public abstract class AbstractCategoryModel implements CategoryModel {
     public AbstractCategoryModel(String name, EditorModel editor) {
         nameProperty = Bindings.getPropertyFactory().ofString(name);
         this.editor = editor;
+        validProperty().addListener(() -> getEditor().updateValidity());
+        getEntries().addListener(this::updateValidity);
     }
 
     @Override
@@ -43,5 +45,10 @@ public abstract class AbstractCategoryModel implements CategoryModel {
     @Override
     public ObservableList<EntryModel> getEntries() {
         return entries;
+    }
+
+    @Override
+    public void updateValidity() {
+        setValid(getEntries().stream().allMatch(EntryModel::isValid));
     }
 }

@@ -24,6 +24,6 @@ public class FabricBlock implements Block {
 
     @Override
     public String toString() {
-        return data.getString("id");
+        return data == null ? "" : data.getString("id");
     }
 }

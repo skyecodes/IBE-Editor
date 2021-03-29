@@ -12,7 +12,7 @@ public abstract class AbstractBoundObservableValue<T, X> implements ObservableVa
     protected final Function<T, ObservableValue<X>> mapper;
     protected final boolean nullSafe;
     protected final ObservableValue<X> orIfNull;
-    protected final Property<X> property = Bindings.getPropertyFactory().ofObject();
+    protected final Property<X> value = Bindings.getPropertyFactory().ofObject();
 
     protected AbstractBoundObservableValue(ObservableValue<T> source, Function<T, ObservableValue<X>> mapper, boolean nullSafe, X orIfNull) {
         this.source = source;
@@ -25,17 +25,17 @@ public abstract class AbstractBoundObservableValue<T, X> implements ObservableVa
 
     @Override
     public X get() {
-        return property.get();
+        return value.get();
     }
 
     @Override
     public void addListener(ObservableValueChangeListener<? super X> listener) {
-        property.addListener(listener);
+        value.addListener(listener);
     }
 
     @Override
     public void removeListener(ObservableValueChangeListener<? super X> listener) {
-        property.removeListener(listener);
+        value.removeListener(listener);
     }
 
     @Override
@@ -44,8 +44,8 @@ public abstract class AbstractBoundObservableValue<T, X> implements ObservableVa
     }
 
     private void bind(T value) {
-        property.unbind();
-        property.bind((nullSafe && (value == null)) ? orIfNull : mapper.apply(value));
+        this.value.unbind();
+        this.value.bind((nullSafe && (value == null)) ? orIfNull : mapper.apply(value));
     }
 
     @Override
@@ -55,6 +55,6 @@ public abstract class AbstractBoundObservableValue<T, X> implements ObservableVa
 
     @Override
     public String toString() {
-        return property.toString();
+        return value.toString();
     }
 }

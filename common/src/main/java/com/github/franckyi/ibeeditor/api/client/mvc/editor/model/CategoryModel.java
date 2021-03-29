@@ -38,4 +38,6 @@ public interface CategoryModel {
     EditorModel getEditor();
 
     ObservableList<EntryModel> getEntries();
+
+    void updateValidity();
 }

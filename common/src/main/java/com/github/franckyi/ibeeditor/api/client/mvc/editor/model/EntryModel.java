@@ -13,6 +13,8 @@ public interface EntryModel {
         validProperty().setValue(value);
     }
 
+    CategoryModel getCategory();
+
     void apply();
 
     EntryType getType();

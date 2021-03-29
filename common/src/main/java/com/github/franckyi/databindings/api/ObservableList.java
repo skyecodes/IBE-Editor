@@ -1,13 +1,10 @@
 package com.github.franckyi.databindings.api;
 
-import com.github.franckyi.databindings.Bindings;
 import com.github.franckyi.databindings.api.event.ObservableListChangeListener;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import java.util.function.Predicate;
-import java.util.stream.Stream;
 
 public interface ObservableList<E> extends List<E> {
     void addListener(ObservableListChangeListener<? super E> listener);
@@ -43,9 +40,5 @@ public interface ObservableList<E> extends List<E> {
     default void setAll(Collection<? extends E> c) {
         clear();
         addAll(c);
-    }
-
-    default ObservableBooleanValue reduceToBoolean(Predicate<Stream<E>> reducer) {
-        return Bindings.getMappingFactory().reduceToBoolean(this, reducer);
     }
 }

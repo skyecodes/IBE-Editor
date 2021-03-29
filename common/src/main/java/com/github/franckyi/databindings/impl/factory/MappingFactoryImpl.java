@@ -6,8 +6,6 @@ import com.github.franckyi.databindings.impl.*;
 
 import java.util.function.BiFunction;
 import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.stream.Stream;
 
 public class MappingFactoryImpl implements MappingFactory {
     public static final MappingFactory INSTANCE = new MappingFactoryImpl();
@@ -108,10 +106,5 @@ public class MappingFactoryImpl implements MappingFactory {
     @Override
     public <T> ObservableIntegerValue mapToInt(ObservableValue<T> thisValue, ObservableValue<T> otherValue, BiFunction<T, T, Integer> mapper) {
         return new BiMappedObservableIntegerValue<>(thisValue, otherValue, mapper);
-    }
-
-    @Override
-    public <T> ObservableBooleanValue reduceToBoolean(ObservableList<T> values, Predicate<Stream<T>> reducer) {
-        return new ReducedObservableBooleanValue<>(values, reducer);
     }
 }

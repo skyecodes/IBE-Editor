@@ -16,8 +16,8 @@ public class ItemGeneralCategoryModel extends AbstractItemCategoryModel {
     public ItemGeneralCategoryModel(EditorModel editor, Item item) {
         super("General", editor);
         getEntries().addAll(
-                new StringEntryModel(text("Item ID"), item.getTag().getString("id"), value -> getTag().putString("id", value)),
-                new IntegerEntryModel(text("Count"), item.getTag().getInt("Count"), value -> getTag().putInt("Count", value))
+                new StringEntryModel(this, text("Item ID"), item.getTag().getString("id"), value -> getTag().putString("id", value)),
+                new IntegerEntryModel(this, text("Count"), item.getTag().getInt("Count"), value -> getTag().putInt("Count", value))
         );
     }
 
