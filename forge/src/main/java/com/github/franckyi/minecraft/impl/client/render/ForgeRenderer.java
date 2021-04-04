@@ -26,15 +26,15 @@ public class ForgeRenderer implements Renderer {
 
     @Override
     public int getFontWidth(Text text) {
-        return font().getStringPropertyWidth(text.get());
+        return font().getStringPropertyWidth(text.getComponent());
     }
 
     @Override
     public void drawString(Matrices matrices, Text text, float x, float y, int color, boolean shadow) {
         if (shadow) {
-            font().drawText(matrices.getMatrixStack(), text.get(), x, y, color);
+            font().drawText(matrices.getMatrixStack(), text.getComponent(), x, y, color);
         } else {
-            font().drawTextWithShadow(matrices.getMatrixStack(), (ITextComponent) text.get(), x, y, color);
+            font().drawTextWithShadow(matrices.getMatrixStack(), (ITextComponent) text.getComponent(), x, y, color);
         }
     }
 
@@ -54,6 +54,6 @@ public class ForgeRenderer implements Renderer {
 
     @Override
     public void drawTooltip(Matrices matrices, Text text, int x, int y) {
-        Minecraft.getInstance().currentScreen.renderTooltip(matrices.getMatrixStack(), (ITextComponent) text.get(), x, y);
+        Minecraft.getInstance().currentScreen.renderTooltip(matrices.getMatrixStack(), (ITextComponent) text.getComponent(), x, y);
     }
 }

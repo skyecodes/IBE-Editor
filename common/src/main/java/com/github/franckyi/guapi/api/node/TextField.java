@@ -1,6 +1,7 @@
 package com.github.franckyi.guapi.api.node;
 
 import com.github.franckyi.databindings.api.*;
+import com.github.franckyi.minecraft.api.common.text.Text;
 
 import java.util.function.Predicate;
 
@@ -50,4 +51,19 @@ public interface TextField extends Labeled {
     }
 
     ObservableBooleanValue validProperty();
+
+    default TextRenderer getTextRenderer() {
+        return textRendererProperty().getValue();
+    }
+
+    ObjectProperty<TextRenderer> textRendererProperty();
+
+    default void setTextRenderer(TextRenderer value) {
+        textRendererProperty().setValue(value);
+    }
+
+    @FunctionalInterface
+    interface TextRenderer {
+        Text render(String text, int firstCharacterIndex);
+    }
 }

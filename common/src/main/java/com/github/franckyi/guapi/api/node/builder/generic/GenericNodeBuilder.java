@@ -6,9 +6,6 @@ import com.github.franckyi.guapi.api.node.builder.Builder;
 import com.github.franckyi.guapi.util.Insets;
 import com.github.franckyi.guapi.util.ScreenEventType;
 import com.github.franckyi.minecraft.api.common.text.Text;
-import com.github.franckyi.minecraft.util.common.TextFormatting;
-
-import static com.github.franckyi.guapi.GUAPIHelper.*;
 
 public interface GenericNodeBuilder<N extends Node> extends Node, Builder<N> {
     default N minWidth(int value) {
@@ -76,10 +73,6 @@ public interface GenericNodeBuilder<N extends Node> extends Node, Builder<N> {
 
     default N tooltip(Text value) {
         return with(n -> n.setTooltip(value));
-    }
-
-    default N tooltip(String text, TextFormatting... formatting) {
-        return tooltip(text(text, formatting));
     }
 
     default N visible(boolean value) {

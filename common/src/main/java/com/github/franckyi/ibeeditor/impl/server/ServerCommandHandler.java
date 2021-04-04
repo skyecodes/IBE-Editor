@@ -1,9 +1,8 @@
 package com.github.franckyi.ibeeditor.impl.server;
 
 import com.github.franckyi.minecraft.Minecraft;
-import com.github.franckyi.minecraft.api.common.text.Text;
 import com.github.franckyi.minecraft.api.common.world.Player;
-import com.github.franckyi.minecraft.util.common.TextFormatting;
+import com.github.franckyi.minecraft.api.common.text.Text;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
@@ -18,8 +17,8 @@ import static com.github.franckyi.guapi.GUAPIHelper.*;
 public final class ServerCommandHandler {
     private static final Logger LOGGER = LogManager.getLogger();
 
-    private static final Text MUST_INSTALL = text("You must install IBE Editor in order to use this command.", TextFormatting.RED);
-    private static final Text DOWNLOAD = link("Click here to download the mod!", "https://www.curseforge.com/minecraft/mc-mods/ibe-editor", TextFormatting.AQUA, TextFormatting.UNDERLINE);
+    private static final Text MUST_INSTALL = text("You must install IBE Editor in order to use this command.").red();
+    private static final Text DOWNLOAD = text("Click here to download the mod!").click(link("https://www.curseforge.com/minecraft/mc-mods/ibe-editor")).aqua().underlined();
 
     public static <S> void registerCommand(CommandDispatcher<S> dispatcher) {
         LOGGER.debug("Registering /ibe command");

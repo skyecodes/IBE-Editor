@@ -12,7 +12,7 @@ public class FabricVanillaTexturedButtonRenderer extends ButtonWidget implements
     private final TexturedButton node;
 
     public FabricVanillaTexturedButtonRenderer(TexturedButton node) {
-        super(node.getX(), node.getY(), node.getWidth(), node.getHeight(), node.tooltipProperty().hasValue() ? node.getTooltip().get() : LiteralText.EMPTY, button -> {
+        super(node.getX(), node.getY(), node.getWidth(), node.getHeight(), node.tooltipProperty().hasValue() ? node.getTooltip().getComponent() : LiteralText.EMPTY, button -> {
         });
         this.node = node;
         active = !node.isDisabled();
@@ -21,14 +21,12 @@ public class FabricVanillaTexturedButtonRenderer extends ButtonWidget implements
         node.widthProperty().addListener(newVal -> width = newVal);
         node.heightProperty().addListener(newVal -> height = newVal);
         node.disabledProperty().addListener(newVal -> active = !newVal);
-        node.tooltipProperty().addListener(tooltip -> setMessage(tooltip.get()));
+        node.tooltipProperty().addListener(tooltip -> setMessage(tooltip.getComponent()));
     }
 
     @Override
     public void render(Matrices matrices, int mouseX, int mouseY, float delta) {
         FabricVanillaDelegateRenderer.super.render(matrices, mouseX, mouseY, delta);
-        int x = node.getX() + (node.getWidth() - 16) / 2;
-        int y = node.getY() + (node.getHeight() - 16) / 2;
         FabricRenderer.INSTANCE.drawTexture(matrices, node.getTextureId(), x, y, node.getWidth(), node.getHeight(),
                 node.getImageX(), node.getImageY(), node.getImageWidth(), node.getImageHeight());
         if (!node.isDrawButton() && node.isDisabled()) {

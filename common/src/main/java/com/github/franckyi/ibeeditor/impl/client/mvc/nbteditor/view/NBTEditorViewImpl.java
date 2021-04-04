@@ -9,7 +9,7 @@ import com.github.franckyi.ibeeditor.api.client.mvc.nbteditor.model.TagModel;
 import com.github.franckyi.ibeeditor.api.client.mvc.nbteditor.view.NBTEditorView;
 import com.github.franckyi.ibeeditor.impl.client.mvc.IBEEditorMVC;
 import com.github.franckyi.minecraft.Minecraft;
-import com.github.franckyi.minecraft.util.common.TextFormatting;
+import com.github.franckyi.minecraft.api.common.text.Text;
 
 import java.util.function.Consumer;
 
@@ -34,14 +34,14 @@ public class NBTEditorViewImpl implements NBTEditorView {
     public NBTEditorViewImpl() {
         root = vBox(root -> {
             root.spacing(5).align(CENTER).padding(5).fillWidth();
-            root.add(label(translatedText("ibeeditor.gui.nbt_editor", AQUA, BOLD), true).textAlign(CENTER).prefHeight(15));
+            root.add(label(translated("ibeeditor.gui.nbt_editor").aqua().bold(), true).textAlign(CENTER).prefHeight(15));
             root.add(main = vBox(main -> {
                 main.add(hBox(buttons -> {
                     buttons.add(hBox(base -> {
                         base.add(moveUpButton = createButton(ButtonType.MOVE_UP, "ibeeditor:textures/gui/move_up.png", "Move Up").disable());
                         base.add(moveDownButton = createButton(ButtonType.MOVE_DOWN, "ibeeditor:textures/gui/move_down.png", "Move Down").disable());
-                        base.add(addButton = createButton(ButtonType.ADD, "ibeeditor:textures/gui/add.png", "Add", GREEN).imageHeight(32).disable());
-                        base.add(deleteButton = createButton(ButtonType.DELETE, "ibeeditor:textures/gui/delete.png", "Delete", RED).disable());
+                        base.add(addButton = createButton(ButtonType.ADD, "ibeeditor:textures/gui/add.png", text("Add").green()).imageHeight(32).disable());
+                        base.add(deleteButton = createButton(ButtonType.DELETE, "ibeeditor:textures/gui/delete.png", text("Delete").red()).disable());
                         base.spacing(2);
                     }));
                     buttons.add(hBox(copyBox -> {
@@ -70,23 +70,23 @@ public class NBTEditorViewImpl implements NBTEditorView {
             }), 1);
             root.add(hBox(footer -> {
                 footer.spacing(20).align(CENTER);
-                footer.add(doneButton = button(translatedText("gui.done", GREEN)).prefWidth(90));
-                footer.add(cancelButton = button(translatedText("gui.cancel", RED)).prefWidth(90));
+                footer.add(doneButton = button(translated("gui.done").green()).prefWidth(90));
+                footer.add(cancelButton = button(translated("gui.cancel").red()).prefWidth(90));
             }));
         });
         addButtons = hBox(addBox -> {
-            addBox.add(addByteButton = createButton(ButtonType.BYTE, "ibeeditor:textures/gui/byte_tag_add.png", "Add Byte Tag", BLUE));
-            addBox.add(addShortButton = createButton(ButtonType.SHORT, "ibeeditor:textures/gui/short_tag_add.png", "Add Short Tag", GREEN));
-            addBox.add(addIntButton = createButton(ButtonType.INT, "ibeeditor:textures/gui/int_tag_add.png", "Add Int Tag", AQUA));
-            addBox.add(addLongButton = createButton(ButtonType.LONG, "ibeeditor:textures/gui/long_tag_add.png", "Add Long Tag", RED));
-            addBox.add(addFloatButton = createButton(ButtonType.FLOAT, "ibeeditor:textures/gui/float_tag_add.png", "Add Float Tag", LIGHT_PURPLE));
-            addBox.add(addDoubleButton = createButton(ButtonType.DOUBLE, "ibeeditor:textures/gui/double_tag_add.png", "Add Double Tag", YELLOW));
-            addBox.add(addByteArrayButton = createButton(ButtonType.BYTE_ARRAY, "ibeeditor:textures/gui/byte_array_tag_add.png", "Add Byte Array Tag", BLUE));
-            addBox.add(addStringButton = createButton(ButtonType.STRING, "ibeeditor:textures/gui/string_tag_add.png", "Add String Tag", GRAY));
-            addBox.add(addListButton = createButton(ButtonType.LIST, "ibeeditor:textures/gui/list_tag_add.png", "Add List Tag", GREEN));
-            addBox.add(addObjectButton = createButton(ButtonType.OBJECT, "ibeeditor:textures/gui/object_tag_add.png", "Add Compound Tag", LIGHT_PURPLE));
-            addBox.add(addIntArrayButton = createButton(ButtonType.INT_ARRAY, "ibeeditor:textures/gui/int_array_tag_add.png", "Add Int Array Tag", AQUA));
-            addBox.add(addLongArrayButton = createButton(ButtonType.LONG_ARRAY, "ibeeditor:textures/gui/long_array_tag_add.png", "Add Long Array Tag", RED));
+            addBox.add(addByteButton = createButton(ButtonType.BYTE, "ibeeditor:textures/gui/byte_tag_add.png", text("Add Byte Tag").blue()));
+            addBox.add(addShortButton = createButton(ButtonType.SHORT, "ibeeditor:textures/gui/short_tag_add.png", text("Add Short Tag").green()));
+            addBox.add(addIntButton = createButton(ButtonType.INT, "ibeeditor:textures/gui/int_tag_add.png", text("Add Int Tag").aqua()));
+            addBox.add(addLongButton = createButton(ButtonType.LONG, "ibeeditor:textures/gui/long_tag_add.png", text("Add Long Tag").red()));
+            addBox.add(addFloatButton = createButton(ButtonType.FLOAT, "ibeeditor:textures/gui/float_tag_add.png", text("Add Float Tag").lightPurple()));
+            addBox.add(addDoubleButton = createButton(ButtonType.DOUBLE, "ibeeditor:textures/gui/double_tag_add.png", text("Add Double Tag").yellow()));
+            addBox.add(addByteArrayButton = createButton(ButtonType.BYTE_ARRAY, "ibeeditor:textures/gui/byte_array_tag_add.png", text("Add Byte Array Tag").blue()));
+            addBox.add(addStringButton = createButton(ButtonType.STRING, "ibeeditor:textures/gui/string_tag_add.png", text("Add String Tag").gray()));
+            addBox.add(addListButton = createButton(ButtonType.LIST, "ibeeditor:textures/gui/list_tag_add.png", text("Add List Tag").green()));
+            addBox.add(addObjectButton = createButton(ButtonType.OBJECT, "ibeeditor:textures/gui/object_tag_add.png", text("Add Compound Tag").lightPurple()));
+            addBox.add(addIntArrayButton = createButton(ButtonType.INT_ARRAY, "ibeeditor:textures/gui/int_array_tag_add.png", text("Add Int Array Tag").aqua()));
+            addBox.add(addLongArrayButton = createButton(ButtonType.LONG_ARRAY, "ibeeditor:textures/gui/long_array_tag_add.png", text("Add Long Array Tag").red()));
             addBox.spacing(2);
         });
         getEnabledButtons().addListener(this::updateButtons);
@@ -149,14 +149,22 @@ public class NBTEditorViewImpl implements NBTEditorView {
         return root;
     }
 
-    private TexturedButtonBuilder createButton(String id, String tooltipText, TextFormatting... tooltipFormatting) {
-        return texturedButton(id, 16, 16, false)
-                .prefSize(16, 16)
-                .tooltip(tooltipText, tooltipFormatting);
+    private TexturedButtonBuilder createButton(String id, String tooltipText) {
+        return createButton(id, text(tooltipText));
     }
 
-    private TexturedButtonBuilder createButton(ButtonType type, String id, String tooltipText, TextFormatting... tooltipFormatting) {
-        return createButton(id, tooltipText, tooltipFormatting)
+    private TexturedButtonBuilder createButton(String id, Text tooltipText) {
+        return texturedButton(id, 16, 16, false)
+                .prefSize(16, 16)
+                .tooltip(tooltipText);
+    }
+
+    private TexturedButtonBuilder createButton(ButtonType type, String id, String tooltipText) {
+        return createButton(type, id, text(tooltipText));
+    }
+
+    private TexturedButtonBuilder createButton(ButtonType type, String id, Text tooltipText) {
+        return createButton(id, tooltipText)
                 .action(() -> {
                     if (onButtonClick != null) {
                         onButtonClick.accept(type);

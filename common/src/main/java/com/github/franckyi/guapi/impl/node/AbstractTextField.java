@@ -16,6 +16,7 @@ public abstract class AbstractTextField extends AbstractLabeled implements TextF
     private final BooleanProperty validationForcedProperty = Bindings.getPropertyFactory().ofBoolean();
     protected final BooleanProperty validProperty = Bindings.getPropertyFactory().ofBoolean();
     private final ObservableBooleanValue validPropertyReadOnly = Bindings.getPropertyFactory().readOnly(validProperty);
+    private final ObjectProperty<TextRenderer> textRendererProperty = Bindings.getPropertyFactory().ofObject();
 
     protected AbstractTextField() {
         this("");
@@ -59,6 +60,11 @@ public abstract class AbstractTextField extends AbstractLabeled implements TextF
     @Override
     public ObservableBooleanValue validProperty() {
         return validPropertyReadOnly;
+    }
+
+    @Override
+    public ObjectProperty<TextRenderer> textRendererProperty() {
+        return textRendererProperty;
     }
 
     private void updateValid() {

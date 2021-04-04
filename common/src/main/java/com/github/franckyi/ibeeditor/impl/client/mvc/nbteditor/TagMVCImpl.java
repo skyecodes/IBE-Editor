@@ -28,29 +28,29 @@ public final class TagMVCImpl implements TagMVC {
     private TagView createView(byte tagType) {
         switch (tagType) {
             case Tag.BYTE_ID:
-                return new TagViewImpl("byte_tag", text("Byte", BLUE), Predicates.IS_BYTE);
+                return new TagViewImpl("byte_tag", text("Byte").blue(), Predicates.IS_BYTE);
             case Tag.SHORT_ID:
-                return new TagViewImpl("short_tag", text("Short", GREEN), Predicates.IS_SHORT);
+                return new TagViewImpl("short_tag", text("Short").green(), Predicates.IS_SHORT);
             case Tag.INT_ID:
-                return new TagViewImpl("int_tag", text("Int", AQUA), Predicates.IS_INT);
+                return new TagViewImpl("int_tag", text("Int").aqua(), Predicates.IS_INT);
             case Tag.LONG_ID:
-                return new TagViewImpl("long_tag", text("Long", RED), Predicates.IS_LONG);
+                return new TagViewImpl("long_tag", text("Long").red(), Predicates.IS_LONG);
             case Tag.FLOAT_ID:
-                return new TagViewImpl("float_tag", text("Float", LIGHT_PURPLE), Predicates.IS_FLOAT);
+                return new TagViewImpl("float_tag", text("Float").lightPurple(), Predicates.IS_FLOAT);
             case Tag.DOUBLE_ID:
-                return new TagViewImpl("double_tag", text("Double", YELLOW), Predicates.IS_DOUBLE);
+                return new TagViewImpl("double_tag", text("Double").yellow(), Predicates.IS_DOUBLE);
             case Tag.BYTE_ARRAY_ID:
-                return new TagViewImpl("byte_array_tag", text("Byte Array", BLUE));
+                return new TagViewImpl("byte_array_tag", text("Byte Array").blue());
             case Tag.STRING_ID:
-                return new TagViewImpl("string_tag", text("String", GRAY));
+                return new TagViewImpl("string_tag", text("String").gray());
             case Tag.LIST_ID:
-                return new TagViewImpl("list_tag", text("List", GREEN));
+                return new TagViewImpl("list_tag", text("List").green());
             case Tag.COMPOUND_ID:
-                return new TagViewImpl("object_tag", text("Compound", LIGHT_PURPLE));
+                return new TagViewImpl("object_tag", text("Compound").lightPurple());
             case Tag.INT_ARRAY_ID:
-                return new TagViewImpl("int_array_tag", text("Int Array", AQUA));
+                return new TagViewImpl("int_array_tag", text("Int Array").aqua());
             case Tag.LONG_ARRAY_ID:
-                return new TagViewImpl("long_array_tag", text("Long Array", RED));
+                return new TagViewImpl("long_array_tag", text("Long Array").red());
             default:
                 return null;
         }

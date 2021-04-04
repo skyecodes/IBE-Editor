@@ -2,8 +2,8 @@ package com.github.franckyi.ibeeditor.impl.client;
 
 import com.github.franckyi.minecraft.Minecraft;
 import com.github.franckyi.minecraft.api.common.BlockPos;
-import com.github.franckyi.minecraft.api.common.text.Text;
 import com.github.franckyi.minecraft.api.common.world.*;
+import com.github.franckyi.minecraft.api.common.text.Text;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -13,10 +13,10 @@ import static com.github.franckyi.guapi.GUAPIHelper.*;
 
 public final class ClientEditorLogic {
     private static final Logger LOGGER = LogManager.getLogger();
-    private static final Text ERROR_CREATIVE_ITEM = text("You must be in creative mode to update this item.", RED);
-    private static final Text ERROR_SERVERMOD_ITEM = text("IBE Editor must be installed on the server to update this item.", RED);
-    private static final Text ERROR_SERVERMOD_BLOCK = text("IBE Editor must be installed on the server to update this block.", RED);
-    private static final Text ERROR_SERVERMOD_ENTITY = text("IBE Editor must be installed on the server to update this entity.", RED);
+    private static final Text ERROR_CREATIVE_ITEM = text("You must be in creative mode to update this item.").red();
+    private static final Text ERROR_SERVERMOD_ITEM = text("IBE Editor must be installed on the server to update this item.").red();
+    private static final Text ERROR_SERVERMOD_BLOCK = text("IBE Editor must be installed on the server to update this block.").red();
+    private static final Text ERROR_SERVERMOD_ENTITY = text("IBE Editor must be installed on the server to update this entity.").red();
 
     public static void openWorldEditor(boolean nbt) {
         LOGGER.debug("Opening world editor with nbt={}", nbt);

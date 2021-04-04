@@ -1,9 +1,9 @@
 package com.github.franckyi.minecraft.impl.common.world;
 
-import com.github.franckyi.minecraft.api.common.text.Text;
 import com.github.franckyi.minecraft.api.common.world.Item;
 import com.github.franckyi.minecraft.api.common.world.Player;
 import com.github.franckyi.minecraft.api.common.world.World;
+import com.github.franckyi.minecraft.api.common.text.Text;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -52,7 +52,7 @@ public class FabricPlayer extends FabricWorldEntity implements Player {
 
     @Override
     public void sendMessage(Text message, boolean actionBar) {
-        entity.sendMessage(message.get(), actionBar);
+        entity.sendMessage(message.getComponent(), actionBar);
     }
 
     @Override

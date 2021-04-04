@@ -1,5 +1,6 @@
 package com.github.franckyi.ibeeditor.impl.client;
 
+import com.github.franckyi.guapi.GUAPI;
 import com.github.franckyi.minecraft.Minecraft;
 import com.github.franckyi.minecraft.api.MinecraftClient;
 import org.apache.logging.log4j.LogManager;
@@ -12,6 +13,9 @@ public final class ClientInit {
         LOGGER.debug("Initializing IBE Editor - client");
         Minecraft.setClient(client);
         ClientConfiguration.load();
+        GUAPI.init();
+        GUAPI.setDebugMode(ClientConfiguration.INSTANCE.isGuapiDebugMode());
+        GUAPI.setTheme(ClientConfiguration.INSTANCE.getGuapiTheme());
         KeyBindings.init();
     }
 }

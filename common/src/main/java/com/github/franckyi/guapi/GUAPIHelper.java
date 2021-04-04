@@ -10,38 +10,18 @@ import com.github.franckyi.guapi.api.node.builder.*;
 import com.github.franckyi.guapi.util.Align;
 import com.github.franckyi.guapi.util.Color;
 import com.github.franckyi.guapi.util.Insets;
-import com.github.franckyi.minecraft.Minecraft;
+import com.github.franckyi.minecraft.impl.common.text.AbstractText;
+import com.github.franckyi.minecraft.impl.common.text.PlainTextImpl;
+import com.github.franckyi.minecraft.impl.common.text.TranslatedTextImpl;
 import com.github.franckyi.minecraft.api.common.text.Text;
-import com.github.franckyi.minecraft.api.common.text.TextFactory;
-import com.github.franckyi.minecraft.util.common.TextFormatting;
-import com.github.franckyi.minecraft.util.common.TextStyle;
+import com.github.franckyi.minecraft.api.common.text.builder.PlainTextBuilder;
+import com.github.franckyi.minecraft.api.common.text.builder.TranslatedTextBuilder;
 
 import java.util.Collection;
 import java.util.function.Consumer;
 
 public final class GUAPIHelper {
-    public static final TextFormatting BLACK = TextFormatting.BLACK;
-    public static final TextFormatting DARK_BLUE = TextFormatting.DARK_BLUE;
-    public static final TextFormatting DARK_GREEN = TextFormatting.DARK_GREEN;
-    public static final TextFormatting DARK_AQUA = TextFormatting.DARK_AQUA;
-    public static final TextFormatting DARK_RED = TextFormatting.DARK_RED;
-    public static final TextFormatting DARK_PURPLE = TextFormatting.DARK_PURPLE;
-    public static final TextFormatting GOLD = TextFormatting.GOLD;
-    public static final TextFormatting GRAY = TextFormatting.GRAY;
-    public static final TextFormatting DARK_GRAY = TextFormatting.DARK_GRAY;
-    public static final TextFormatting BLUE = TextFormatting.BLUE;
-    public static final TextFormatting GREEN = TextFormatting.GREEN;
-    public static final TextFormatting AQUA = TextFormatting.AQUA;
-    public static final TextFormatting RED = TextFormatting.RED;
-    public static final TextFormatting LIGHT_PURPLE = TextFormatting.LIGHT_PURPLE;
-    public static final TextFormatting YELLOW = TextFormatting.YELLOW;
-    public static final TextFormatting WHITE = TextFormatting.WHITE;
-    public static final TextFormatting OBFUSCATED = TextFormatting.OBFUSCATED;
-    public static final TextFormatting BOLD = TextFormatting.BOLD;
-    public static final TextFormatting STRIKETHROUGH = TextFormatting.STRIKETHROUGH;
-    public static final TextFormatting UNDERLINE = TextFormatting.UNDERLINE;
-    public static final TextFormatting ITALIC = TextFormatting.ITALIC;
-    public static final TextFormatting RESET = TextFormatting.RESET;
+    private static final Text EMPTY_TEXT = text("");
     public static final Align TOP_LEFT = Align.TOP_LEFT;
     public static final Align TOP_CENTER = Align.TOP_CENTER;
     public static final Align TOP_RIGHT = Align.TOP_RIGHT;
@@ -70,14 +50,6 @@ public final class GUAPIHelper {
         return node().button(text);
     }
 
-    public static ButtonBuilder button(String text, TextStyle style) {
-        return node().button(text, style);
-    }
-
-    public static ButtonBuilder button(String text, TextFormatting... formatting) {
-        return node().button(text, formatting);
-    }
-
     public static ButtonBuilder button(Text text) {
         return node().button(text);
     }
@@ -92,14 +64,6 @@ public final class GUAPIHelper {
 
     public static CheckBoxBuilder checkBox(String text) {
         return node().checkBox(text);
-    }
-
-    public static CheckBoxBuilder checkBox(String text, TextStyle style) {
-        return node().checkBox(text, style);
-    }
-
-    public static CheckBoxBuilder checkBox(String text, TextFormatting... formatting) {
-        return node().checkBox(text, formatting);
     }
 
     public static CheckBoxBuilder checkBox(Text text) {
@@ -156,14 +120,6 @@ public final class GUAPIHelper {
 
     public static LabelBuilder label(String text) {
         return node().label(text);
-    }
-
-    public static LabelBuilder label(String text, TextStyle style) {
-        return node().label(text, style);
-    }
-
-    public static LabelBuilder label(String text, TextFormatting... formatting) {
-        return node().label(text, formatting);
     }
 
     public static LabelBuilder label(Text text) {
@@ -298,60 +254,24 @@ public final class GUAPIHelper {
         return node().scene(with);
     }
 
-    private static TextFactory text() {
-        return Minecraft.getCommon().getTextFactory();
-    }
-
     public static Text emptyText() {
-        return text().empty();
+        return EMPTY_TEXT;
     }
 
-    public static Text text(String text) {
-        return text().text(text);
+    public static PlainTextBuilder text(String text) {
+        return new PlainTextImpl(text);
     }
 
-    public static Text text(String text, TextStyle style) {
-        return text().text(text, style);
+    public static TranslatedTextBuilder translated(String translate) {
+        return new TranslatedTextImpl(translate);
     }
 
-    public static Text text(String text, TextFormatting... formatting) {
-        return text().text(text, formatting);
+    public static Text.Event event(String action, String value) {
+        return new AbstractText.EventImpl(action, value);
     }
 
-    public static Text link(String text, String url) {
-        return text().link(text, url);
-    }
-
-    public static Text link(String text, String url, TextStyle style) {
-        return text().link(text, url, style);
-    }
-
-    public static Text link(String text, String url, TextFormatting... formatting) {
-        return text().link(text, url, formatting);
-    }
-
-    public static Text translatedText(String text) {
-        return text().translatedText(text);
-    }
-
-    public static Text translatedText(String text, TextStyle style) {
-        return text().translatedText(text, style);
-    }
-
-    public static Text translatedText(String text, TextFormatting... formatting) {
-        return text().translatedText(text, formatting);
-    }
-
-    public static Text translatedLink(String text, String url) {
-        return text().translatedLink(text, url);
-    }
-
-    public static Text translatedLink(String text, String url, TextStyle style) {
-        return text().translatedLink(text, url, style);
-    }
-
-    public static Text translatedLink(String text, String url, TextFormatting... formatting) {
-        return text().translatedLink(text, url, formatting);
+    public static Text.Event link(String url) {
+        return new AbstractText.EventImpl("open_url", url);
     }
 
     public static int rgb(int r, int g, int b) {

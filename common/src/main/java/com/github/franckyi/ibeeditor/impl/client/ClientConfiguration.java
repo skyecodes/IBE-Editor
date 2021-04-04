@@ -20,8 +20,13 @@ public final class ClientConfiguration {
     private static boolean changed;
 
     private int editorScale;
+    private String guapiTheme;
+    private boolean guapiDebugMode;
 
     private ClientConfiguration() {
+        editorScale = -1;
+        guapiTheme = "vanilla";
+        guapiDebugMode = false;
     }
 
     public int getEditorScale() {
@@ -31,6 +36,28 @@ public final class ClientConfiguration {
     public void setEditorScale(int editorScale) {
         if (this.editorScale != editorScale) {
             this.editorScale = editorScale;
+            changed = true;
+        }
+    }
+
+    public String getGuapiTheme() {
+        return guapiTheme;
+    }
+
+    public void setGuapiTheme(String guapiTheme) {
+        if (!this.guapiTheme.equals(guapiTheme)) {
+            this.guapiTheme = guapiTheme;
+            changed = true;
+        }
+    }
+
+    public boolean isGuapiDebugMode() {
+        return guapiDebugMode;
+    }
+
+    public void setGuapiDebugMode(boolean guapiDebugMode) {
+        if (this.guapiDebugMode != guapiDebugMode) {
+            this.guapiDebugMode = guapiDebugMode;
             changed = true;
         }
     }
@@ -62,5 +89,4 @@ public final class ClientConfiguration {
             }
         }
     }
-
 }

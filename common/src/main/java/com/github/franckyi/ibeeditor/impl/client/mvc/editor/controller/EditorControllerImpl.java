@@ -19,6 +19,8 @@ public class EditorControllerImpl extends AbstractController<EditorModel, Editor
         updateEntryList();
         model.getCategories().addListener(this::updateCategoryList);
         model.selectedCategoryProperty().addListener(this::updateEntryList);
+        model.focusedTextEntryProperty().addListener(value -> view.setShowTextButtons(value != null));
+        view.setOnTextButtonClick(this::onTextButtonClick);
         view.getDoneButton().onAction(event -> model.apply());
         if (model.isDisabled()) {
             view.getDoneButton().setDisable(true);
@@ -27,7 +29,7 @@ public class EditorControllerImpl extends AbstractController<EditorModel, Editor
             model.validProperty().addListener(newVal -> {
                 view.getDoneButton().setDisable(!newVal);
                 if (!newVal) {
-                    view.getDoneButton().setTooltip(text("You must fix errors before applying changes.", RED));
+                    view.getDoneButton().setTooltip(text("You must fix errors before applying changes.").red());
                 } else {
                     view.getDoneButton().setTooltip(null);
                 }
@@ -44,5 +46,9 @@ public class EditorControllerImpl extends AbstractController<EditorModel, Editor
         if (model.selectedCategoryProperty().hasValue()) {
             view.getEntryList().getItems().setAll(model.getSelectedCategory().getEntries());
         }
+    }
+
+    private void onTextButtonClick(EditorView.TextButtonType buttonType) {
+
     }
 }

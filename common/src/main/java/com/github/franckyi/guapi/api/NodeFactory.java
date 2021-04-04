@@ -4,8 +4,6 @@ import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.api.node.TreeView;
 import com.github.franckyi.guapi.api.node.builder.*;
 import com.github.franckyi.minecraft.api.common.text.Text;
-import com.github.franckyi.minecraft.util.common.TextFormatting;
-import com.github.franckyi.minecraft.util.common.TextStyle;
 
 import java.util.Collection;
 import java.util.function.Consumer;
@@ -15,10 +13,6 @@ public interface NodeFactory {
 
     ButtonBuilder button(String text);
 
-    ButtonBuilder button(String text, TextStyle style);
-
-    ButtonBuilder button(String text, TextFormatting... formatting);
-
     ButtonBuilder button(Text text);
 
     ButtonBuilder button(Consumer<ButtonBuilder> with);
@@ -26,10 +20,6 @@ public interface NodeFactory {
     CheckBoxBuilder checkBox();
 
     CheckBoxBuilder checkBox(String text);
-
-    CheckBoxBuilder checkBox(String text, TextStyle style);
-
-    CheckBoxBuilder checkBox(String text, TextFormatting... formatting);
 
     CheckBoxBuilder checkBox(Text text);
 
@@ -58,10 +48,6 @@ public interface NodeFactory {
     LabelBuilder label();
 
     LabelBuilder label(String text);
-
-    LabelBuilder label(String text, TextStyle style);
-
-    LabelBuilder label(String text, TextFormatting... formatting);
 
     LabelBuilder label(Text text);
 

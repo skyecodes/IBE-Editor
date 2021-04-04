@@ -5,11 +5,7 @@ import com.github.franckyi.guapi.api.mvc.AbstractController;
 import com.github.franckyi.ibeeditor.api.client.mvc.editor.controller.CategoryController;
 import com.github.franckyi.ibeeditor.api.client.mvc.editor.model.CategoryModel;
 import com.github.franckyi.ibeeditor.api.client.mvc.editor.view.CategoryView;
-import com.github.franckyi.minecraft.util.common.TextFormatting;
-
-import java.util.List;
-
-import static com.github.franckyi.guapi.GUAPIHelper.*;
+import com.github.franckyi.minecraft.api.common.text.Text;
 
 public class CategoryControllerImpl extends AbstractController<CategoryModel, CategoryView> implements CategoryController {
     public CategoryControllerImpl(CategoryModel model, CategoryView view) {
@@ -17,17 +13,19 @@ public class CategoryControllerImpl extends AbstractController<CategoryModel, Ca
     }
 
     private void updateLabel() {
-        TextFormatting[] format = null;
+        Text text = view.getLabel().getLabel();
         if (model.isSelected()) {
             if (model.isValid()) {
-                format = new TextFormatting[]{YELLOW, BOLD};
+                text.setColor("yellow");
+                text.setBold(true);
             } else {
-                format = new TextFormatting[]{RED, BOLD};
+                text.setColor("red");
+                text.setBold(true);
             }
         } else if (!model.isValid()) {
-            format = new TextFormatting[]{RED};
+            text.setColor("red");
+            text.setBold(false);
         }
-        view.getLabel().setLabel(translatedText(model.getName(), format));
     }
 
     @Override

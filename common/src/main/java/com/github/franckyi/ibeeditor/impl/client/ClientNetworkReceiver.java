@@ -6,7 +6,6 @@ import com.github.franckyi.ibeeditor.impl.common.packet.BlockEditorResponsePacke
 import com.github.franckyi.ibeeditor.impl.common.packet.EntityEditorResponsePacket;
 import com.github.franckyi.ibeeditor.impl.common.packet.EditorCommandPacket;
 import com.github.franckyi.minecraft.Minecraft;
-import com.github.franckyi.minecraft.util.common.TextFormatting;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -20,7 +19,7 @@ public final class ClientNetworkReceiver {
         if (packet.getBlock().getData().get() != null || (!packet.isNBT() && packet.getBlock().getState().get() != null)) {
             ClientEditorLogic.openBlockEditor(packet.getBlock(), packet.getPos(), packet.isNBT());
         } else {
-            Minecraft.getClient().getPlayer().sendMessage(text("No Block data found", TextFormatting.RED));
+            Minecraft.getClient().getPlayer().sendMessage(text("No Block data found").red());
         }
     }
 
@@ -29,7 +28,7 @@ public final class ClientNetworkReceiver {
         if (packet.getEntity().getTag() != null) {
             ClientEditorLogic.openEntityEditor(packet.getEntity(), packet.getEntityId(), packet.isNBT());
         } else {
-            Minecraft.getClient().getPlayer().sendMessage(text("No Entity found", TextFormatting.RED));
+            Minecraft.getClient().getPlayer().sendMessage(text("No Entity found").red());
         }
     }
 
@@ -47,17 +46,17 @@ public final class ClientNetworkReceiver {
                 break;
             case EditorCommandPacket.ITEM:
                 if (!ClientEditorLogic.tryOpenItemEditor(packet.isNBT())) {
-                    Minecraft.getClient().getPlayer().sendMessage(text("No Item found", TextFormatting.RED));
+                    Minecraft.getClient().getPlayer().sendMessage(text("No Item found").red());
                 }
                 break;
             case EditorCommandPacket.BLOCK:
                 if (!ClientEditorLogic.tryOpenBlockEditor(packet.isNBT())) {
-                    Minecraft.getClient().getPlayer().sendMessage(text("No Block data found", TextFormatting.RED));
+                    Minecraft.getClient().getPlayer().sendMessage(text("No Block data found").red());
                 }
                 break;
             case EditorCommandPacket.ENTITY:
                 if (!ClientEditorLogic.tryOpenEntityEditor(packet.isNBT())) {
-                    Minecraft.getClient().getPlayer().sendMessage(text("No Entity found", TextFormatting.RED));
+                    Minecraft.getClient().getPlayer().sendMessage(text("No Entity found").red());
                 }
                 break;
             case EditorCommandPacket.SELF:

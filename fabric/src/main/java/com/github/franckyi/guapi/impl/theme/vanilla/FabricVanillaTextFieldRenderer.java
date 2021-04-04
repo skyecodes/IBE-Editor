@@ -7,6 +7,9 @@ import com.github.franckyi.minecraft.api.client.render.Matrices;
 import com.github.franckyi.minecraft.impl.client.render.FabricRenderer;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.text.OrderedText;
+import net.minecraft.text.Style;
+import net.minecraft.text.Text;
 
 import java.util.Objects;
 
@@ -14,7 +17,7 @@ public class FabricVanillaTextFieldRenderer extends TextFieldWidget implements F
     private final TextField node;
 
     public FabricVanillaTextFieldRenderer(TextField node) {
-        super(MinecraftClient.getInstance().textRenderer, node.getX(), node.getY(), node.getWidth(), node.getHeight(), node.getLabel().get());
+        super(MinecraftClient.getInstance().textRenderer, node.getX(), node.getY(), node.getWidth(), node.getHeight(), node.getLabel().getComponent());
         this.node = node;
         setEditable(!node.isDisabled());
         setMaxLength(node.getMaxLength());
@@ -27,7 +30,7 @@ public class FabricVanillaTextFieldRenderer extends TextFieldWidget implements F
         node.widthProperty().addListener(newVal -> width = newVal);
         node.heightProperty().addListener(newVal -> height = newVal);
         node.disabledProperty().addListener(newVal -> setEditable(!newVal));
-        node.labelProperty().addListener(label -> setMessage(label.get()));
+        node.labelProperty().addListener(label -> setMessage(label.getComponent()));
         node.maxLengthProperty().addListener(this::setMaxLength);
         node.textProperty().addListener(newVal -> {
             int cursor = getCursor();
@@ -37,7 +40,9 @@ public class FabricVanillaTextFieldRenderer extends TextFieldWidget implements F
         node.focusedProperty().addListener(this::setFocused);
         node.validatorProperty().addListener(this::updateValidator);
         node.validationForcedProperty().addListener(this::updateValidator);
+        node.textRendererProperty().addListener(this::updateRenderer);
         updateValidator();
+        updateRenderer();
     }
 
     private void updateValidator() {
@@ -47,6 +52,16 @@ public class FabricVanillaTextFieldRenderer extends TextFieldWidget implements F
             } else {
                 setTextPredicate(node.getValidator());
             }
+        } else {
+            setTextPredicate(Objects::nonNull);
+        }
+    }
+
+    private void updateRenderer() {
+        if (node.getTextRenderer() == null) {
+            setRenderTextProvider((string, integer) -> OrderedText.styledString(string, Style.EMPTY));
+        } else {
+            setRenderTextProvider((string, integer) -> ((Text) node.getTextRenderer().render(string, integer).getComponent()).asOrderedText());
         }
     }
 

@@ -3,6 +3,7 @@ package com.github.franckyi.ibeeditor.api.client.mvc.editor.model;
 import com.github.franckyi.databindings.api.BooleanProperty;
 import com.github.franckyi.databindings.api.ObjectProperty;
 import com.github.franckyi.databindings.api.ObservableList;
+import com.github.franckyi.ibeeditor.impl.client.mvc.editor.model.entry.TextEntryModel;
 import com.github.franckyi.minecraft.api.common.text.Text;
 
 public interface EditorModel {
@@ -32,6 +33,16 @@ public interface EditorModel {
 
     default void setValid(boolean value) {
         validProperty().setValue(value);
+    }
+
+    default TextEntryModel getFocusedTextEntry() {
+        return focusedTextEntryProperty().getValue();
+    }
+
+    ObjectProperty<TextEntryModel> focusedTextEntryProperty();
+
+    default void setFocusedTextEntry(TextEntryModel value) {
+        focusedTextEntryProperty().setValue(value);
     }
 
     void apply();

@@ -6,13 +6,9 @@ import com.github.franckyi.guapi.api.node.TreeView;
 import com.github.franckyi.guapi.api.node.builder.*;
 import com.github.franckyi.guapi.impl.node.*;
 import com.github.franckyi.minecraft.api.common.text.Text;
-import com.github.franckyi.minecraft.util.common.TextFormatting;
-import com.github.franckyi.minecraft.util.common.TextStyle;
 
 import java.util.Collection;
 import java.util.function.Consumer;
-
-import static com.github.franckyi.guapi.GUAPIHelper.*;
 
 public class NodeFactoryImpl implements NodeFactory {
     public static final NodeFactory INSTANCE = new NodeFactoryImpl();
@@ -28,16 +24,6 @@ public class NodeFactoryImpl implements NodeFactory {
     @Override
     public ButtonBuilder button(String text) {
         return new ButtonImpl(text);
-    }
-
-    @Override
-    public ButtonBuilder button(String text, TextStyle style) {
-        return button(text(text, style));
-    }
-
-    @Override
-    public ButtonBuilder button(String text, TextFormatting... formatting) {
-        return button(text(text, formatting));
     }
 
     @Override
@@ -58,16 +44,6 @@ public class NodeFactoryImpl implements NodeFactory {
     @Override
     public CheckBoxBuilder checkBox(String text) {
         return new CheckBoxImpl(text);
-    }
-
-    @Override
-    public CheckBoxBuilder checkBox(String text, TextStyle style) {
-        return checkBox(text(text, style));
-    }
-
-    @Override
-    public CheckBoxBuilder checkBox(String text, TextFormatting... formatting) {
-        return checkBox(text(text, formatting));
     }
 
     @Override
@@ -138,16 +114,6 @@ public class NodeFactoryImpl implements NodeFactory {
     @Override
     public LabelBuilder label(String text) {
         return new LabelImpl(text);
-    }
-
-    @Override
-    public LabelBuilder label(String text, TextStyle style) {
-        return label(text(text, style));
-    }
-
-    @Override
-    public LabelBuilder label(String text, TextFormatting... formatting) {
-        return label(text(text, formatting));
     }
 
     @Override

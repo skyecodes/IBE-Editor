@@ -14,7 +14,7 @@ import java.nio.file.Path;
 import java.util.function.Function;
 
 public interface MinecraftCommon {
-    TextFactory getTextFactory();
+    <T> TextFactory<T> getTextFactory();
 
     TagFactory getTagFactory();
 

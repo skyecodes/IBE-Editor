@@ -16,30 +16,30 @@ public final class ServerEditorLogic {
     public static void updatePlayerMainHandItem(Player player, Item item) {
         LOGGER.debug("Updating {}'s main hand item to {}", player.toString(), item);
         player.setItemMainHand(item);
-        player.sendMessage(text("Item updated!", GREEN));
+        player.sendMessage(text("Item updated!").green());
     }
 
     public static void updatePlayerInventoryItem(Player player, Item item, int slotId) {
         LOGGER.debug("Updating {}'s inventory item at slot {} to {}", player.toString(), slotId, item);
         player.setInventoryItem(slotId, item);
-        player.sendMessage(text("Item updated!", GREEN));
+        player.sendMessage(text("Item updated!").green());
     }
 
     public static void updateBlockInventoryItem(Player sender, Item item, int slotId, BlockPos blockPos) {
         LOGGER.debug("Updating block inventory item at pos {} and slot {} to {}", blockPos, slotId, item);
         sender.getWorld().setBlockInventoryItem(blockPos, slotId, item);
-        sender.sendMessage(text("Item updated!", GREEN));
+        sender.sendMessage(text("Item updated!").green());
     }
 
     public static void updateBlock(Player sender, Block block, BlockPos blockPos) {
         LOGGER.debug("Updating block {} at pos {}", block, blockPos);
         sender.getWorld().setBlockData(blockPos, block);
-        sender.sendMessage(text("Block updated!", GREEN));
+        sender.sendMessage(text("Block updated!").green());
     }
 
     public static void updateEntity(Player sender, Entity entity, int entityId) {
         LOGGER.debug("Updating entity {} with id {}", entity, entityId);
         sender.getWorld().setEntityData(entityId, entity);
-        sender.sendMessage(text("Entity updated!", GREEN));
+        sender.sendMessage(text("Entity updated!").green());
     }
 }
