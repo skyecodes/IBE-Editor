@@ -58,23 +58,26 @@ public class ClientProxy implements IProxy {
     }
 
     private void onKeyPressed(GuiScreenEvent.KeyboardKeyPressedEvent.Pre e) {
+        boolean cancel = false;
         if (e.getGui() instanceof ContainerScreen && e.getKeyCode() == KEY_OPEN_EDITOR.getKey().getKeyCode()) {
             ContainerScreen<?> gui = (ContainerScreen<?>) e.getGui();
             if (gui.getSlotUnderMouse() != null && gui.getSlotUnderMouse().getHasStack()) {
-                if (gui instanceof InventoryScreen || gui instanceof CreativeScreen) {
-                    Slot slot = gui.getSlotUnderMouse();
-                    if (slot.inventory instanceof PlayerInventory) {
-                        EditorHelper.openItemEditorFromPlayerInventory(gui.getSlotUnderMouse());
-                    }
+                Slot slot = gui.getSlotUnderMouse();
+                if (slot.inventory instanceof PlayerInventory) {
+                    EditorHelper.openItemEditorFromPlayerInventory(gui.getSlotUnderMouse());
+                    cancel = true;
                 } else {
                     if (mc.objectMouseOver instanceof BlockRayTraceResult) {
                         EditorHelper.openItemEditorFromBlockInventory(gui.getSlotUnderMouse(), ((BlockRayTraceResult) mc.objectMouseOver).getPos());
+                        cancel = true;
                     } else if (mc.objectMouseOver instanceof EntityRayTraceResult) {
                         EditorHelper.openItemEditorFromEntityInventory(gui.getSlotUnderMouse(), ((EntityRayTraceResult) mc.objectMouseOver).getEntity());
+                        cancel = true;
                     }
                 }
             }
         }
+        e.setCanceled(cancel); // avoids crash #18
     }
 
     private void onWorldUnload(WorldEvent.Unload event) {
