@@ -46,7 +46,7 @@ public final class TagMVCImpl implements TagMVC {
             case Tag.LIST_ID:
                 return new TagViewImpl("list_tag", text("List").green());
             case Tag.COMPOUND_ID:
-                return new TagViewImpl("object_tag", text("Compound").lightPurple());
+                return new TagViewImpl("compound_tag", text("Compound").lightPurple());
             case Tag.INT_ARRAY_ID:
                 return new TagViewImpl("int_array_tag", text("Int Array").aqua());
             case Tag.LONG_ARRAY_ID:

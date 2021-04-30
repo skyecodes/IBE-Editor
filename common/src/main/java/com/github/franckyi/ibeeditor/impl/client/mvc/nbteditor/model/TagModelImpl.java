@@ -1,6 +1,6 @@
 package com.github.franckyi.ibeeditor.impl.client.mvc.nbteditor.model;
 
-import com.github.franckyi.databindings.Bindings;
+import com.github.franckyi.databindings.DataBindings;
 import com.github.franckyi.databindings.api.BooleanProperty;
 import com.github.franckyi.databindings.api.ObjectProperty;
 import com.github.franckyi.databindings.api.ObservableList;
@@ -14,13 +14,13 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class TagModelImpl implements TagModel {
-    private final ObservableList<TagModel> children = Bindings.getObservableListFactory().arrayList();
-    private final BooleanProperty expandedProperty = Bindings.getPropertyFactory().ofBoolean();
+    private final ObservableList<TagModel> children = DataBindings.getObservableListFactory().createObservableArrayList();
+    private final BooleanProperty expandedProperty = DataBindings.getPropertyFactory().createBooleanProperty();
     private final ObjectProperty<TagModel> parentProperty;
-    private final BooleanProperty childrenChangedProperty = Bindings.getPropertyFactory().ofBoolean();
+    private final BooleanProperty childrenChangedProperty = DataBindings.getPropertyFactory().createBooleanProperty();
     private final StringProperty nameProperty;
     private final StringProperty valueProperty;
-    private final BooleanProperty validProperty = Bindings.getPropertyFactory().ofBoolean();
+    private final BooleanProperty validProperty = DataBindings.getPropertyFactory().createBooleanProperty();
     protected final Tag tag;
     protected byte forcedTagType;
 
@@ -36,9 +36,9 @@ public class TagModelImpl implements TagModel {
 
     public TagModelImpl(Tag tag, TagModel parent, String name, String value) {
         this.tag = tag;
-        parentProperty = Bindings.getPropertyFactory().ofObject(parent);
-        nameProperty = Bindings.getPropertyFactory().ofString(name);
-        valueProperty = Bindings.getPropertyFactory().ofString(value);
+        parentProperty = DataBindings.getPropertyFactory().createObjectProperty(parent);
+        nameProperty = DataBindings.getPropertyFactory().createStringProperty(name);
+        valueProperty = DataBindings.getPropertyFactory().createStringProperty(value);
         if (tag != null) {
             switch (tag.getType()) {
                 case Tag.COMPOUND_ID:

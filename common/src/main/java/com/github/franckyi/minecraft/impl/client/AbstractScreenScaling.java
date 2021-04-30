@@ -1,6 +1,6 @@
 package com.github.franckyi.minecraft.impl.client;
 
-import com.github.franckyi.databindings.Bindings;
+import com.github.franckyi.databindings.DataBindings;
 import com.github.franckyi.databindings.api.BooleanProperty;
 import com.github.franckyi.databindings.api.IntegerProperty;
 import com.github.franckyi.databindings.api.ObservableBooleanValue;
@@ -8,10 +8,10 @@ import com.github.franckyi.databindings.api.ObservableIntegerValue;
 import com.github.franckyi.minecraft.api.client.screen.ScreenScaling;
 
 public abstract class AbstractScreenScaling implements ScreenScaling {
-    protected final IntegerProperty scaleProperty = Bindings.getPropertyFactory().ofInteger();
-    private final ObservableIntegerValue scalePropertyReadOnly = Bindings.getPropertyFactory().readOnly(scaleProperty);
-    protected final BooleanProperty canScaleBeResetProperty = Bindings.getPropertyFactory().ofBoolean();
-    private final ObservableBooleanValue canScaleBeResetPropertyReadOnly = Bindings.getPropertyFactory().readOnly(canScaleBeResetProperty);
+    protected final IntegerProperty scaleProperty = DataBindings.getPropertyFactory().createIntegerProperty();
+    private final ObservableIntegerValue scalePropertyReadOnly = DataBindings.getPropertyFactory().createReadOnlyProperty(scaleProperty);
+    protected final BooleanProperty canScaleBeResetProperty = DataBindings.getPropertyFactory().createBooleanProperty();
+    private final ObservableBooleanValue canScaleBeResetPropertyReadOnly = DataBindings.getPropertyFactory().createReadOnlyProperty(canScaleBeResetProperty);
 
     protected AbstractScreenScaling() {
         scaleProperty().addListener(this::setScreenScale);

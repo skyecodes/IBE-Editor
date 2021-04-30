@@ -63,6 +63,7 @@ public class ForgeVanillaTextFieldRenderer extends TextFieldWidget implements Fo
         } else {
             setTextFormatter((string, integer) -> ((ITextComponent) node.getTextRenderer().render(string, integer).getComponent()).func_241878_f());
         }
+        setCursorPositionZero(); // fix in order to render text
     }
 
     @Override

@@ -9,109 +9,109 @@ import java.util.Collection;
 import java.util.function.Consumer;
 
 public interface NodeFactory {
-    ButtonBuilder button();
+    ButtonBuilder createButton();
 
-    ButtonBuilder button(String text);
+    ButtonBuilder createButton(String text);
 
-    ButtonBuilder button(Text text);
+    ButtonBuilder createButton(Text text);
 
-    ButtonBuilder button(Consumer<ButtonBuilder> with);
+    ButtonBuilder createButton(Consumer<ButtonBuilder> with);
 
-    CheckBoxBuilder checkBox();
+    CheckBoxBuilder createCheckBox();
 
-    CheckBoxBuilder checkBox(String text);
+    CheckBoxBuilder createCheckBox(String text);
 
-    CheckBoxBuilder checkBox(Text text);
+    CheckBoxBuilder createCheckBox(Text text);
 
-    CheckBoxBuilder checkBox(Consumer<CheckBoxBuilder> with);
+    CheckBoxBuilder createCheckBox(Consumer<CheckBoxBuilder> with);
 
-    HBoxBuilder hBox();
+    HBoxBuilder createHBox();
 
-    HBoxBuilder hBox(int spacing);
+    HBoxBuilder createHBox(int spacing);
 
-    HBoxBuilder hBox(Node... children);
+    HBoxBuilder createHBox(Node... children);
 
-    HBoxBuilder hBox(Collection<? extends Node> children);
+    HBoxBuilder createHBox(Collection<? extends Node> children);
 
-    HBoxBuilder hBox(int spacing, Node... children);
+    HBoxBuilder createHBox(int spacing, Node... children);
 
-    HBoxBuilder hBox(int spacing, Collection<? extends Node> children);
+    HBoxBuilder createHBox(int spacing, Collection<? extends Node> children);
 
-    HBoxBuilder hBox(Consumer<HBoxBuilder> with);
+    HBoxBuilder createHBox(Consumer<HBoxBuilder> with);
 
-    ImageViewBuilder imageView(String id);
+    ImageViewBuilder createImageView(String id);
 
-    ImageViewBuilder imageView(String id, int imageWidth, int imageHeight);
+    ImageViewBuilder createImageView(String id, int imageWidth, int imageHeight);
 
-    ImageViewBuilder imageView(String id, Consumer<ImageViewBuilder> with);
+    ImageViewBuilder createImageView(String id, Consumer<ImageViewBuilder> with);
 
-    LabelBuilder label();
+    LabelBuilder createLabel();
 
-    LabelBuilder label(String text);
+    LabelBuilder createLabel(String text);
 
-    LabelBuilder label(Text text);
+    LabelBuilder createLabel(Text text);
 
-    LabelBuilder label(String text, boolean shadow);
+    LabelBuilder createLabel(String text, boolean shadow);
 
-    LabelBuilder label(Text text, boolean shadow);
+    LabelBuilder createLabel(Text text, boolean shadow);
 
-    LabelBuilder label(Consumer<LabelBuilder> with);
+    LabelBuilder createLabel(Consumer<LabelBuilder> with);
 
-    <E> ListViewBuilder<E> listView(Class<E> eClass);
+    <E> ListViewBuilder<E> createListView(Class<E> eClass);
 
-    <E> ListViewBuilder<E> listView(Class<E> eClass, int itemHeight);
+    <E> ListViewBuilder<E> createListView(Class<E> eClass, int itemHeight);
 
-    <E> ListViewBuilder<E> listView(int itemHeight, E... items);
+    <E> ListViewBuilder<E> createListView(int itemHeight, E... items);
 
-    <E> ListViewBuilder<E> listView(int itemHeight, Collection<? extends E> items);
+    <E> ListViewBuilder<E> createListView(int itemHeight, Collection<? extends E> items);
 
-    <E> ListViewBuilder<E> listView(Class<E> eClass, Consumer<ListViewBuilder<E>> with);
+    <E> ListViewBuilder<E> createListView(Class<E> eClass, Consumer<ListViewBuilder<E>> with);
 
-    TextFieldBuilder textField();
+    TextFieldBuilder createTextField();
 
-    TextFieldBuilder textField(String value);
+    TextFieldBuilder createTextField(String value);
 
-    TextFieldBuilder textField(String label, String value);
+    TextFieldBuilder createTextField(String label, String value);
 
-    TextFieldBuilder textField(Text label, String value);
+    TextFieldBuilder createTextField(Text label, String value);
 
-    TextFieldBuilder textField(Consumer<TextFieldBuilder> with);
+    TextFieldBuilder createTextField(Consumer<TextFieldBuilder> with);
 
-    TexturedButtonBuilder texturedButton(String id, boolean drawButton);
+    TexturedButtonBuilder createTexturedButton(String id, boolean drawButton);
 
-    TexturedButtonBuilder texturedButton(String id, int imageWidth, int imageHeight, boolean drawButton);
+    TexturedButtonBuilder createTexturedButton(String id, int imageWidth, int imageHeight, boolean drawButton);
 
-    TexturedButtonBuilder texturedButton(String id, boolean drawButton, Consumer<TexturedButtonBuilder> with);
+    TexturedButtonBuilder createTexturedButton(String id, boolean drawButton, Consumer<TexturedButtonBuilder> with);
 
-    <E extends TreeView.TreeItem<E>> TreeViewBuilder<E> treeView(Class<E> eClass);
+    <E extends TreeView.TreeItem<E>> TreeViewBuilder<E> createTreeView(Class<E> eClass);
 
-    <E extends TreeView.TreeItem<E>> TreeViewBuilder<E> treeView(Class<E> eClass, int itemHeight);
+    <E extends TreeView.TreeItem<E>> TreeViewBuilder<E> createTreeView(Class<E> eClass, int itemHeight);
 
-    <E extends TreeView.TreeItem<E>> TreeViewBuilder<E> treeView(int itemHeight, E root);
+    <E extends TreeView.TreeItem<E>> TreeViewBuilder<E> createTreeView(int itemHeight, E root);
 
-    <E extends TreeView.TreeItem<E>> TreeViewBuilder<E> treeView(Class<E> eClass, Consumer<TreeViewBuilder<E>> with);
+    <E extends TreeView.TreeItem<E>> TreeViewBuilder<E> createTreeView(Class<E> eClass, Consumer<TreeViewBuilder<E>> with);
 
-    VBoxBuilder vBox();
+    VBoxBuilder createVBox();
 
-    VBoxBuilder vBox(int spacing);
+    VBoxBuilder createVBox(int spacing);
 
-    VBoxBuilder vBox(Node... children);
+    VBoxBuilder createVBox(Node... children);
 
-    VBoxBuilder vBox(Collection<? extends Node> children);
+    VBoxBuilder createVBox(Collection<? extends Node> children);
 
-    VBoxBuilder vBox(int spacing, Collection<? extends Node> children);
+    VBoxBuilder createVBox(int spacing, Collection<? extends Node> children);
 
-    VBoxBuilder vBox(int spacing, Node... children);
+    VBoxBuilder createVBox(int spacing, Node... children);
 
-    VBoxBuilder vBox(Consumer<VBoxBuilder> with);
+    VBoxBuilder createVBox(Consumer<VBoxBuilder> with);
 
-    SceneBuilder scene();
+    SceneBuilder createScene();
 
-    SceneBuilder scene(Node root);
+    SceneBuilder createScene(Node root);
 
-    SceneBuilder scene(Node root, boolean fullScreen);
+    SceneBuilder createScene(Node root, boolean fullScreen);
 
-    SceneBuilder scene(Node root, boolean fullScreen, boolean texturedBackground);
+    SceneBuilder createScene(Node root, boolean fullScreen, boolean texturedBackground);
 
-    SceneBuilder scene(Consumer<SceneBuilder> with);
+    SceneBuilder createScene(Consumer<SceneBuilder> with);
 }

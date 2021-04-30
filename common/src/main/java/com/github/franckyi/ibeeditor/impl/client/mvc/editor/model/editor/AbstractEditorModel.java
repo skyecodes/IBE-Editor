@@ -1,12 +1,12 @@
 package com.github.franckyi.ibeeditor.impl.client.mvc.editor.model.editor;
 
-import com.github.franckyi.databindings.Bindings;
+import com.github.franckyi.databindings.DataBindings;
 import com.github.franckyi.databindings.api.BooleanProperty;
 import com.github.franckyi.databindings.api.ObjectProperty;
 import com.github.franckyi.databindings.api.ObservableList;
 import com.github.franckyi.ibeeditor.api.client.mvc.editor.model.CategoryModel;
 import com.github.franckyi.ibeeditor.api.client.mvc.editor.model.EditorModel;
-import com.github.franckyi.ibeeditor.impl.client.mvc.editor.model.entry.TextEntryModel;
+import com.github.franckyi.ibeeditor.impl.client.mvc.editor.controller.entry.TextEntryController;
 import com.github.franckyi.minecraft.api.common.text.Text;
 
 import java.util.function.Consumer;
@@ -15,10 +15,10 @@ public abstract class AbstractEditorModel<T, C extends CategoryModel> implements
     private final T target;
     private final Consumer<T> action;
     private final Text disabledTooltip;
-    private final ObservableList<C> categories = Bindings.getObservableListFactory().arrayList();
-    private final ObjectProperty<CategoryModel> selectedCategory = Bindings.getPropertyFactory().ofObject();
-    private final BooleanProperty validProperty = Bindings.getPropertyFactory().ofBoolean(true);
-    private final ObjectProperty<TextEntryModel> focusedTextEntryProperty = Bindings.getPropertyFactory().ofObject();
+    private final ObservableList<C> categories = DataBindings.getObservableListFactory().createObservableArrayList();
+    private final ObjectProperty<CategoryModel> selectedCategory = DataBindings.getPropertyFactory().createObjectProperty();
+    private final BooleanProperty validProperty = DataBindings.getPropertyFactory().createBooleanProperty(true);
+    private final ObjectProperty<TextEntryController> focusedTextEntryProperty = DataBindings.getPropertyFactory().createObjectProperty();
 
     protected AbstractEditorModel(T target, Consumer<T> action, Text disabledTooltip) {
         this.target = target;
@@ -69,7 +69,7 @@ public abstract class AbstractEditorModel<T, C extends CategoryModel> implements
     }
 
     @Override
-    public ObjectProperty<TextEntryModel> focusedTextEntryProperty() {
+    public ObjectProperty<TextEntryController> focusedTextEntryProperty() {
         return focusedTextEntryProperty;
     }
 

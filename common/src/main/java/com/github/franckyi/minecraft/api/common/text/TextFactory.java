@@ -1,7 +1,9 @@
 package com.github.franckyi.minecraft.api.common.text;
 
 public interface TextFactory<T> {
-    T createComponent(Text text);
+    T createComponentFromText(Text text);
 
-    Text fromComponent(T component);
+    Text createTextFromComponent(T component);
+
+    String getRawTextFromComponent(T component);
 }

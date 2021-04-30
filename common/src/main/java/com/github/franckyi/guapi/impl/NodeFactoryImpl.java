@@ -17,267 +17,267 @@ public class NodeFactoryImpl implements NodeFactory {
     }
 
     @Override
-    public ButtonBuilder button() {
+    public ButtonBuilder createButton() {
         return new ButtonImpl();
     }
 
     @Override
-    public ButtonBuilder button(String text) {
+    public ButtonBuilder createButton(String text) {
         return new ButtonImpl(text);
     }
 
     @Override
-    public ButtonBuilder button(Text text) {
+    public ButtonBuilder createButton(Text text) {
         return new ButtonImpl(text);
     }
 
     @Override
-    public ButtonBuilder button(Consumer<ButtonBuilder> with) {
-        return button().with(with);
+    public ButtonBuilder createButton(Consumer<ButtonBuilder> with) {
+        return createButton().with(with);
     }
 
     @Override
-    public CheckBoxBuilder checkBox() {
+    public CheckBoxBuilder createCheckBox() {
         return new CheckBoxImpl();
     }
 
     @Override
-    public CheckBoxBuilder checkBox(String text) {
+    public CheckBoxBuilder createCheckBox(String text) {
         return new CheckBoxImpl(text);
     }
 
     @Override
-    public CheckBoxBuilder checkBox(Text text) {
+    public CheckBoxBuilder createCheckBox(Text text) {
         return new CheckBoxImpl(text);
     }
 
     @Override
-    public CheckBoxBuilder checkBox(Consumer<CheckBoxBuilder> with) {
-        return checkBox().with(with);
+    public CheckBoxBuilder createCheckBox(Consumer<CheckBoxBuilder> with) {
+        return createCheckBox().with(with);
     }
 
     @Override
-    public HBoxBuilder hBox() {
+    public HBoxBuilder createHBox() {
         return new HBoxImpl();
     }
 
     @Override
-    public HBoxBuilder hBox(int spacing) {
+    public HBoxBuilder createHBox(int spacing) {
         return new HBoxImpl(spacing);
     }
 
     @Override
-    public HBoxBuilder hBox(Node... children) {
+    public HBoxBuilder createHBox(Node... children) {
         return new HBoxImpl(children);
     }
 
     @Override
-    public HBoxBuilder hBox(Collection<? extends Node> children) {
+    public HBoxBuilder createHBox(Collection<? extends Node> children) {
         return new HBoxImpl(children);
     }
 
     @Override
-    public HBoxBuilder hBox(int spacing, Node... children) {
+    public HBoxBuilder createHBox(int spacing, Node... children) {
         return new HBoxImpl(spacing, children);
     }
 
     @Override
-    public HBoxBuilder hBox(int spacing, Collection<? extends Node> children) {
+    public HBoxBuilder createHBox(int spacing, Collection<? extends Node> children) {
         return new HBoxImpl(spacing, children);
     }
 
     @Override
-    public HBoxBuilder hBox(Consumer<HBoxBuilder> with) {
-        return hBox().with(with);
+    public HBoxBuilder createHBox(Consumer<HBoxBuilder> with) {
+        return createHBox().with(with);
     }
 
     @Override
-    public ImageViewBuilder imageView(String id) {
+    public ImageViewBuilder createImageView(String id) {
         return new ImageViewImpl(id);
     }
 
     @Override
-    public ImageViewBuilder imageView(String id, int imageWidth, int imageHeight) {
+    public ImageViewBuilder createImageView(String id, int imageWidth, int imageHeight) {
         return new ImageViewImpl(id, imageWidth, imageHeight);
     }
 
     @Override
-    public ImageViewBuilder imageView(String id, Consumer<ImageViewBuilder> with) {
-        return imageView(id).with(with);
+    public ImageViewBuilder createImageView(String id, Consumer<ImageViewBuilder> with) {
+        return createImageView(id).with(with);
     }
 
     @Override
-    public LabelBuilder label() {
+    public LabelBuilder createLabel() {
         return new LabelImpl();
     }
 
     @Override
-    public LabelBuilder label(String text) {
+    public LabelBuilder createLabel(String text) {
         return new LabelImpl(text);
     }
 
     @Override
-    public LabelBuilder label(Text text) {
+    public LabelBuilder createLabel(Text text) {
         return new LabelImpl(text);
     }
 
     @Override
-    public LabelBuilder label(String text, boolean shadow) {
+    public LabelBuilder createLabel(String text, boolean shadow) {
         return new LabelImpl(text, shadow);
     }
 
     @Override
-    public LabelBuilder label(Text text, boolean shadow) {
+    public LabelBuilder createLabel(Text text, boolean shadow) {
         return new LabelImpl(text, shadow);
     }
 
     @Override
-    public LabelBuilder label(Consumer<LabelBuilder> with) {
-        return label().with(with);
+    public LabelBuilder createLabel(Consumer<LabelBuilder> with) {
+        return createLabel().with(with);
     }
 
     @Override
-    public <E> ListViewBuilder<E> listView(Class<E> eClass) {
+    public <E> ListViewBuilder<E> createListView(Class<E> eClass) {
         return new ListViewImpl<>();
     }
 
     @Override
-    public <E> ListViewBuilder<E> listView(Class<E> eClass, int itemHeight) {
+    public <E> ListViewBuilder<E> createListView(Class<E> eClass, int itemHeight) {
         return new ListViewImpl<>(itemHeight);
     }
 
     @Override
-    public <E> ListViewBuilder<E> listView(int itemHeight, E... items) {
+    public <E> ListViewBuilder<E> createListView(int itemHeight, E... items) {
         return new ListViewImpl<>(itemHeight, items);
     }
 
     @Override
-    public <E> ListViewBuilder<E> listView(int itemHeight, Collection<? extends E> items) {
+    public <E> ListViewBuilder<E> createListView(int itemHeight, Collection<? extends E> items) {
         return new ListViewImpl<>(itemHeight, items);
     }
 
     @Override
-    public <E> ListViewBuilder<E> listView(Class<E> eClass, Consumer<ListViewBuilder<E>> with) {
-        return listView(eClass).with(with);
+    public <E> ListViewBuilder<E> createListView(Class<E> eClass, Consumer<ListViewBuilder<E>> with) {
+        return createListView(eClass).with(with);
     }
 
     @Override
-    public TextFieldBuilder textField() {
+    public TextFieldBuilder createTextField() {
         return new TextFieldImpl();
     }
 
     @Override
-    public TextFieldBuilder textField(String value) {
+    public TextFieldBuilder createTextField(String value) {
         return new TextFieldImpl(value);
     }
 
     @Override
-    public TextFieldBuilder textField(String label, String value) {
+    public TextFieldBuilder createTextField(String label, String value) {
         return new TextFieldImpl(label, value);
     }
 
     @Override
-    public TextFieldBuilder textField(Text label, String value) {
+    public TextFieldBuilder createTextField(Text label, String value) {
         return new TextFieldImpl(label, value);
     }
 
     @Override
-    public TextFieldBuilder textField(Consumer<TextFieldBuilder> with) {
-        return textField().with(with);
+    public TextFieldBuilder createTextField(Consumer<TextFieldBuilder> with) {
+        return createTextField().with(with);
     }
 
     @Override
-    public TexturedButtonBuilder texturedButton(String id, boolean drawButton) {
+    public TexturedButtonBuilder createTexturedButton(String id, boolean drawButton) {
         return new TexturedButtonImpl(id, drawButton);
     }
 
     @Override
-    public TexturedButtonBuilder texturedButton(String id, int imageWidth, int imageHeight, boolean drawButton) {
+    public TexturedButtonBuilder createTexturedButton(String id, int imageWidth, int imageHeight, boolean drawButton) {
         return new TexturedButtonImpl(id, imageWidth, imageHeight, drawButton);
     }
 
     @Override
-    public TexturedButtonBuilder texturedButton(String id, boolean drawButton, Consumer<TexturedButtonBuilder> with) {
-        return texturedButton(id, drawButton).with(with);
+    public TexturedButtonBuilder createTexturedButton(String id, boolean drawButton, Consumer<TexturedButtonBuilder> with) {
+        return createTexturedButton(id, drawButton).with(with);
     }
 
     @Override
-    public <E extends TreeView.TreeItem<E>> TreeViewBuilder<E> treeView(Class<E> eClass) {
+    public <E extends TreeView.TreeItem<E>> TreeViewBuilder<E> createTreeView(Class<E> eClass) {
         return new TreeViewImpl<>();
     }
 
     @Override
-    public <E extends TreeView.TreeItem<E>> TreeViewBuilder<E> treeView(Class<E> eClass, int itemHeight) {
+    public <E extends TreeView.TreeItem<E>> TreeViewBuilder<E> createTreeView(Class<E> eClass, int itemHeight) {
         return new TreeViewImpl<>(itemHeight);
     }
 
     @Override
-    public <E extends TreeView.TreeItem<E>> TreeViewBuilder<E> treeView(int itemHeight, E root) {
+    public <E extends TreeView.TreeItem<E>> TreeViewBuilder<E> createTreeView(int itemHeight, E root) {
         return new TreeViewImpl<>(itemHeight, root);
     }
 
     @Override
-    public <E extends TreeView.TreeItem<E>> TreeViewBuilder<E> treeView(Class<E> eClass, Consumer<TreeViewBuilder<E>> with) {
-        return treeView(eClass).with(with);
+    public <E extends TreeView.TreeItem<E>> TreeViewBuilder<E> createTreeView(Class<E> eClass, Consumer<TreeViewBuilder<E>> with) {
+        return createTreeView(eClass).with(with);
     }
 
     @Override
-    public VBoxBuilder vBox() {
+    public VBoxBuilder createVBox() {
         return new VBoxImpl();
     }
 
     @Override
-    public VBoxBuilder vBox(int spacing) {
+    public VBoxBuilder createVBox(int spacing) {
         return new VBoxImpl(spacing);
     }
 
     @Override
-    public VBoxBuilder vBox(Node... children) {
+    public VBoxBuilder createVBox(Node... children) {
         return new VBoxImpl(children);
     }
 
     @Override
-    public VBoxBuilder vBox(Collection<? extends Node> children) {
+    public VBoxBuilder createVBox(Collection<? extends Node> children) {
         return new VBoxImpl(children);
     }
 
     @Override
-    public VBoxBuilder vBox(int spacing, Collection<? extends Node> children) {
+    public VBoxBuilder createVBox(int spacing, Collection<? extends Node> children) {
         return new VBoxImpl(spacing, children);
     }
 
     @Override
-    public VBoxBuilder vBox(int spacing, Node... children) {
+    public VBoxBuilder createVBox(int spacing, Node... children) {
         return new VBoxImpl(spacing, children);
     }
 
     @Override
-    public VBoxBuilder vBox(Consumer<VBoxBuilder> with) {
-        return vBox().with(with);
+    public VBoxBuilder createVBox(Consumer<VBoxBuilder> with) {
+        return createVBox().with(with);
     }
 
     @Override
-    public SceneBuilder scene() {
+    public SceneBuilder createScene() {
         return new SceneImpl();
     }
 
     @Override
-    public SceneBuilder scene(Node root) {
+    public SceneBuilder createScene(Node root) {
         return new SceneImpl(root);
     }
 
     @Override
-    public SceneBuilder scene(Node root, boolean fullScreen) {
+    public SceneBuilder createScene(Node root, boolean fullScreen) {
         return new SceneImpl(root, fullScreen);
     }
 
     @Override
-    public SceneBuilder scene(Node root, boolean fullScreen, boolean texturedBackground) {
+    public SceneBuilder createScene(Node root, boolean fullScreen, boolean texturedBackground) {
         return new SceneImpl(root, fullScreen, texturedBackground);
     }
 
     @Override
-    public SceneBuilder scene(Consumer<SceneBuilder> with) {
-        return scene().with(with);
+    public SceneBuilder createScene(Consumer<SceneBuilder> with) {
+        return createScene().with(with);
     }
 }

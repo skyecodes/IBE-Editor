@@ -5,8 +5,8 @@ import com.github.franckyi.databindings.api.ObservableValue;
 
 import java.util.function.BiFunction;
 
-public class BiMappedObservableStringValue<T> extends AbstractBiMappedObservableValue<T, String> implements ObservableStringValue {
-    public BiMappedObservableStringValue(ObservableValue<T> a, ObservableValue<T> b, BiFunction<T, T, String> mapper) {
+public class BiMappedObservableStringValue<T, X> extends AbstractBiMappedObservableValue<T, X, String> implements ObservableStringValue {
+    public BiMappedObservableStringValue(ObservableValue<T> a, ObservableValue<X> b, BiFunction<T, X, String> mapper) {
         super(a, b, mapper);
     }
 }

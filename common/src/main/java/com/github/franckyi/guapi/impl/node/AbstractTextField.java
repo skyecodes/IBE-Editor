@@ -1,6 +1,6 @@
 package com.github.franckyi.guapi.impl.node;
 
-import com.github.franckyi.databindings.Bindings;
+import com.github.franckyi.databindings.DataBindings;
 import com.github.franckyi.databindings.api.*;
 import com.github.franckyi.guapi.api.node.TextField;
 import com.github.franckyi.minecraft.api.common.text.Text;
@@ -10,13 +10,13 @@ import java.util.function.Predicate;
 import static com.github.franckyi.guapi.GUAPIHelper.*;
 
 public abstract class AbstractTextField extends AbstractLabeled implements TextField {
-    private final StringProperty textProperty = Bindings.getPropertyFactory().ofString("");
-    private final IntegerProperty maxLengthProperty = Bindings.getPropertyFactory().ofInteger(Integer.MAX_VALUE);
-    private final ObjectProperty<Predicate<String>> validatorProperty = Bindings.getPropertyFactory().ofObject(s -> true);
-    private final BooleanProperty validationForcedProperty = Bindings.getPropertyFactory().ofBoolean();
-    protected final BooleanProperty validProperty = Bindings.getPropertyFactory().ofBoolean();
-    private final ObservableBooleanValue validPropertyReadOnly = Bindings.getPropertyFactory().readOnly(validProperty);
-    private final ObjectProperty<TextRenderer> textRendererProperty = Bindings.getPropertyFactory().ofObject();
+    private final StringProperty textProperty = DataBindings.getPropertyFactory().createStringProperty("");
+    private final IntegerProperty maxLengthProperty = DataBindings.getPropertyFactory().createIntegerProperty(Integer.MAX_VALUE);
+    private final ObjectProperty<Predicate<String>> validatorProperty = DataBindings.getPropertyFactory().createObjectProperty(s -> true);
+    private final BooleanProperty validationForcedProperty = DataBindings.getPropertyFactory().createBooleanProperty();
+    protected final BooleanProperty validProperty = DataBindings.getPropertyFactory().createBooleanProperty();
+    private final ObservableBooleanValue validPropertyReadOnly = DataBindings.getPropertyFactory().createReadOnlyProperty(validProperty);
+    private final ObjectProperty<TextRenderer> textRendererProperty = DataBindings.getPropertyFactory().createObjectProperty();
 
     protected AbstractTextField() {
         this("");

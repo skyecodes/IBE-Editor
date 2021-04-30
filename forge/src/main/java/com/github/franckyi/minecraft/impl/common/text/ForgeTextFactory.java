@@ -1,7 +1,7 @@
 package com.github.franckyi.minecraft.impl.common.text;
 
-import com.github.franckyi.minecraft.api.common.text.TextFactory;
 import com.github.franckyi.minecraft.api.common.text.Text;
+import com.github.franckyi.minecraft.api.common.text.TextFactory;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import net.minecraft.util.text.ITextComponent;
@@ -14,12 +14,17 @@ public final class ForgeTextFactory implements TextFactory<ITextComponent> {
     }
 
     @Override
-    public ITextComponent createComponent(Text text) {
+    public ITextComponent createComponentFromText(Text text) {
         return ITextComponent.Serializer.getComponentFromJson(GSON.toJson(text));
     }
 
     @Override
-    public Text fromComponent(ITextComponent component) {
+    public Text createTextFromComponent(ITextComponent component) {
         return GSON.fromJson(ITextComponent.Serializer.toJson(component), Text.class);
+    }
+
+    @Override
+    public String getRawTextFromComponent(ITextComponent component) {
+        return component.getString();
     }
 }

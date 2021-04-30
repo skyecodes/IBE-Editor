@@ -1,34 +1,35 @@
 package com.github.franckyi.databindings.api.factory;
 
-import com.github.franckyi.databindings.Bindings;
+import com.github.franckyi.databindings.DataBindings;
 import com.github.franckyi.databindings.api.*;
 
 /**
  * Factory for {@link Property}s.
- * @see Bindings#getPropertyFactory()
+ *
+ * @see DataBindings#getPropertyFactory()
  */
 public interface PropertyFactory {
-    <T> ObjectProperty<T> ofObject();
+    <T> ObjectProperty<T> createObjectProperty();
 
-    <T> ObjectProperty<T> ofObject(T value);
+    <T> ObjectProperty<T> createObjectProperty(T value);
 
-    StringProperty ofString();
+    StringProperty createStringProperty();
 
-    StringProperty ofString(String value);
+    StringProperty createStringProperty(String value);
 
-    BooleanProperty ofBoolean();
+    BooleanProperty createBooleanProperty();
 
-    BooleanProperty ofBoolean(boolean value);
+    BooleanProperty createBooleanProperty(boolean value);
 
-    IntegerProperty ofInteger();
+    IntegerProperty createIntegerProperty();
 
-    IntegerProperty ofInteger(int value);
+    IntegerProperty createIntegerProperty(int value);
 
-    <T> ObservableObjectValue<T> readOnly(ObjectProperty<T> property);
+    <T> ObservableObjectValue<T> createReadOnlyProperty(ObjectProperty<T> property);
 
-    ObservableStringValue readOnly(StringProperty property);
+    ObservableStringValue createReadOnlyProperty(StringProperty property);
 
-    ObservableBooleanValue readOnly(BooleanProperty property);
+    ObservableBooleanValue createReadOnlyProperty(BooleanProperty property);
 
-    ObservableIntegerValue readOnly(IntegerProperty property);
+    ObservableIntegerValue createReadOnlyProperty(IntegerProperty property);
 }

@@ -6,8 +6,8 @@ import com.github.franckyi.ibeeditor.impl.client.mvc.editor.model.entry.IntegerE
 import com.github.franckyi.ibeeditor.impl.client.mvc.editor.model.entry.StringEntryModel;
 import com.github.franckyi.ibeeditor.impl.client.mvc.editor.model.entry.TextEntryModel;
 import com.github.franckyi.minecraft.api.common.tag.CompoundTag;
-import com.github.franckyi.minecraft.api.common.world.Item;
 import com.github.franckyi.minecraft.api.common.text.Text;
+import com.github.franckyi.minecraft.api.common.world.Item;
 
 import static com.github.franckyi.guapi.GUAPIHelper.*;
 
@@ -19,7 +19,7 @@ public class ItemGeneralCategoryModel extends AbstractItemCategoryModel {
         getEntries().addAll(
                 new StringEntryModel(this, text("Item ID"), item.getTag().getString("id"), value -> getTag().putString("id", value)),
                 new IntegerEntryModel(this, text("Count"), item.getTag().getInt("Count"), value -> getTag().putInt("Count", value)),
-                new TextEntryModel(this, text("Name"), item.getName(), this::setItemName)
+                new TextEntryModel(this, text("Name"), item.getName(), this::setItemName, item.getDefaultName())
         );
     }
 

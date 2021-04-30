@@ -1,6 +1,6 @@
 package com.github.franckyi.guapi.impl;
 
-import com.github.franckyi.databindings.Bindings;
+import com.github.franckyi.databindings.DataBindings;
 import com.github.franckyi.databindings.api.IntegerProperty;
 import com.github.franckyi.databindings.api.ObjectProperty;
 import com.github.franckyi.guapi.GUAPI;
@@ -17,9 +17,9 @@ import java.util.Deque;
 
 public abstract class AbstractScreenHandler implements ScreenHandler {
     private final Deque<Scene> scenes = new ArrayDeque<>();
-    private final ObjectProperty<Scene> currentSceneProperty = Bindings.getPropertyFactory().ofObject();
-    private final IntegerProperty widthProperty = Bindings.getPropertyFactory().ofInteger();
-    private final IntegerProperty heightProperty = Bindings.getPropertyFactory().ofInteger();
+    private final ObjectProperty<Scene> currentSceneProperty = DataBindings.getPropertyFactory().createObjectProperty();
+    private final IntegerProperty widthProperty = DataBindings.getPropertyFactory().createIntegerProperty();
+    private final IntegerProperty heightProperty = DataBindings.getPropertyFactory().createIntegerProperty();
 
     public AbstractScreenHandler() {
         currentSceneProperty().addListener((oldVal, newVal) -> {

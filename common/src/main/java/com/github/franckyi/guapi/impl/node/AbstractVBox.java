@@ -1,6 +1,6 @@
 package com.github.franckyi.guapi.impl.node;
 
-import com.github.franckyi.databindings.Bindings;
+import com.github.franckyi.databindings.DataBindings;
 import com.github.franckyi.databindings.api.BooleanProperty;
 import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.api.node.VBox;
@@ -11,7 +11,7 @@ import java.util.Collection;
 import java.util.Collections;
 
 public abstract class AbstractVBox extends AbstractBox implements VBox {
-    private final BooleanProperty fillWidthProperty = Bindings.getPropertyFactory().ofBoolean();
+    private final BooleanProperty fillWidthProperty = DataBindings.getPropertyFactory().createBooleanProperty();
 
     protected AbstractVBox() {
         this(0);

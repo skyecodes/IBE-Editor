@@ -1,6 +1,6 @@
 package com.github.franckyi.databindings.api.factory;
 
-import com.github.franckyi.databindings.Bindings;
+import com.github.franckyi.databindings.DataBindings;
 import com.github.franckyi.databindings.api.*;
 
 import java.util.function.BiFunction;
@@ -8,44 +8,45 @@ import java.util.function.Function;
 
 /**
  * Factory for {@link ObservableValue} mappings.
- * @see Bindings#getMappingFactory()
+ *
+ * @see DataBindings#getMappingFactory()
  */
 public interface MappingFactory {
-    <T, X> ObservableObjectValue<X> map(ObservableValue<T> thisValue, Function<T, X> mapper);
+    <T, X> ObservableObjectValue<X> createMapping(ObservableValue<T> thisValue, Function<T, X> mapper);
 
-    <T, X> ObservableObjectValue<X> map(ObservableValue<T> thisValue, Function<T, X> mapper, X orIfNull);
+    <T, X> ObservableObjectValue<X> createMapping(ObservableValue<T> thisValue, Function<T, X> mapper, X orIfNull);
 
-    <T> ObservableStringValue mapToString(ObservableValue<T> thisValue, Function<T, String> mapper);
+    <T> ObservableStringValue createStringMapping(ObservableValue<T> thisValue, Function<T, String> mapper);
 
-    <T> ObservableStringValue mapToString(ObservableValue<T> thisValue, Function<T, String> mapper, String orIfNull);
+    <T> ObservableStringValue createStringMapping(ObservableValue<T> thisValue, Function<T, String> mapper, String orIfNull);
 
-    <T> ObservableBooleanValue mapToBoolean(ObservableValue<T> thisValue, Function<T, Boolean> mapper);
+    <T> ObservableBooleanValue createBooleanMapping(ObservableValue<T> thisValue, Function<T, Boolean> mapper);
 
-    <T> ObservableBooleanValue mapToBoolean(ObservableValue<T> thisValue, Function<T, Boolean> mapper, Boolean orIfNull);
+    <T> ObservableBooleanValue createBooleanMapping(ObservableValue<T> thisValue, Function<T, Boolean> mapper, Boolean orIfNull);
 
-    <T> ObservableIntegerValue mapToInt(ObservableValue<T> thisValue, Function<T, Integer> mapper);
+    <T> ObservableIntegerValue createIntMapping(ObservableValue<T> thisValue, Function<T, Integer> mapper);
 
-    <T> ObservableIntegerValue mapToInt(ObservableValue<T> thisValue, Function<T, Integer> mapper, Integer orIfNull);
+    <T> ObservableIntegerValue createIntMapping(ObservableValue<T> thisValue, Function<T, Integer> mapper, Integer orIfNull);
 
-    <T, X> ObservableObjectValue<X> bindMap(ObservableValue<T> thisValue, Function<T, ObservableValue<X>> mapper);
+    <T, X> ObservableObjectValue<X> createBoundMapping(ObservableValue<T> thisValue, Function<T, ObservableValue<X>> mapper);
 
-    <T, X> ObservableObjectValue<X> bindMap(ObservableValue<T> thisValue, Function<T, ObservableValue<X>> mapper, X orIfNull);
+    <T, X> ObservableObjectValue<X> createBoundMapping(ObservableValue<T> thisValue, Function<T, ObservableValue<X>> mapper, X orIfNull);
 
-    <T> ObservableStringValue bindMapToString(ObservableValue<T> thisValue, Function<T, ObservableValue<String>> mapper);
+    <T> ObservableStringValue createStringBoundMapping(ObservableValue<T> thisValue, Function<T, ObservableValue<String>> mapper);
 
-    <T> ObservableStringValue bindMapToString(ObservableValue<T> thisValue, Function<T, ObservableValue<String>> mapper, String orIfNull);
+    <T> ObservableStringValue createStringBoundMapping(ObservableValue<T> thisValue, Function<T, ObservableValue<String>> mapper, String orIfNull);
 
-    <T> ObservableBooleanValue bindMapToBoolean(ObservableValue<T> thisValue, Function<T, ObservableValue<Boolean>> mapper);
+    <T> ObservableBooleanValue createBooleanBoundMapping(ObservableValue<T> thisValue, Function<T, ObservableValue<Boolean>> mapper);
 
-    <T> ObservableBooleanValue bindMapToBoolean(ObservableValue<T> thisValue, Function<T, ObservableValue<Boolean>> mapper, Boolean orIfNull);
+    <T> ObservableBooleanValue createBooleanBoundMapping(ObservableValue<T> thisValue, Function<T, ObservableValue<Boolean>> mapper, Boolean orIfNull);
 
-    <T> ObservableIntegerValue bindMapToInt(ObservableValue<T> thisValue, Function<T, ObservableValue<Integer>> mapper);
+    <T> ObservableIntegerValue createIntBoundMapping(ObservableValue<T> thisValue, Function<T, ObservableValue<Integer>> mapper);
 
-    <T> ObservableIntegerValue bindMapToInt(ObservableValue<T> thisValue, Function<T, ObservableValue<Integer>> mapper, Integer orIfNull);
+    <T> ObservableIntegerValue createIntBoundMapping(ObservableValue<T> thisValue, Function<T, ObservableValue<Integer>> mapper, Integer orIfNull);
 
-    <T> ObservableStringValue mapToString(ObservableValue<T> thisValue, ObservableValue<T> otherValue, BiFunction<T, T, String> mapper);
+    <T, X> ObservableStringValue createStringBiMapping(ObservableValue<T> thisValue, ObservableValue<X> otherValue, BiFunction<T, X, String> mapper);
 
-    <T> ObservableBooleanValue mapToBoolean(ObservableValue<T> thisValue, ObservableValue<T> otherValue, BiFunction<T, T, Boolean> mapper);
+    <T, X> ObservableBooleanValue createBooleanBiMapping(ObservableValue<T> thisValue, ObservableValue<X> otherValue, BiFunction<T, X, Boolean> mapper);
 
-    <T> ObservableIntegerValue mapToInt(ObservableValue<T> thisValue, ObservableValue<T> otherValue, BiFunction<T, T, Integer> mapper);
+    <T, X> ObservableIntegerValue createIntBiMapping(ObservableValue<T> thisValue, ObservableValue<X> otherValue, BiFunction<T, X, Integer> mapper);
 }

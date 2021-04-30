@@ -7,13 +7,15 @@ import com.github.franckyi.ibeeditor.api.client.mvc.editor.model.CategoryModel;
 import com.github.franckyi.ibeeditor.api.client.mvc.editor.view.CategoryView;
 import com.github.franckyi.minecraft.api.common.text.Text;
 
+import static com.github.franckyi.guapi.GUAPIHelper.*;
+
 public class CategoryControllerImpl extends AbstractController<CategoryModel, CategoryView> implements CategoryController {
     public CategoryControllerImpl(CategoryModel model, CategoryView view) {
         super(model, view);
     }
 
     private void updateLabel() {
-        Text text = view.getLabel().getLabel();
+        Text text = text(model.getName());
         if (model.isSelected()) {
             if (model.isValid()) {
                 text.setColor("yellow");
@@ -26,6 +28,7 @@ public class CategoryControllerImpl extends AbstractController<CategoryModel, Ca
             text.setColor("red");
             text.setBold(false);
         }
+        view.getLabel().setLabel(text);
     }
 
     @Override

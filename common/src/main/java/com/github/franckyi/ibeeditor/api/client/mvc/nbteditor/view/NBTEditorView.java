@@ -40,7 +40,7 @@ public interface NBTEditorView extends View {
         BYTE_ARRAY(7),
         STRING(8),
         LIST(9),
-        OBJECT(10),
+        COMPOUND(10),
         INT_ARRAY(11),
         LONG_ARRAY(12),
         MOVE_UP,
@@ -73,5 +73,6 @@ public interface NBTEditorView extends View {
         public byte getType() {
             return type;
         }
+
     }
 }

@@ -63,6 +63,7 @@ public class FabricVanillaTextFieldRenderer extends TextFieldWidget implements F
         } else {
             setRenderTextProvider((string, integer) -> ((Text) node.getTextRenderer().render(string, integer).getComponent()).asOrderedText());
         }
+        setCursorToStart(); // fix in order to render text
     }
 
     @Override

@@ -43,7 +43,7 @@ public class NBTEditorControllerImpl extends AbstractController<NBTEditorModel, 
                 case BYTE_ARRAY:
                 case STRING:
                 case LIST:
-                case OBJECT:
+                case COMPOUND:
                 case INT_ARRAY:
                 case LONG_ARRAY:
                     addChildTag(tag, Minecraft.getCommon().getTagFactory().createEmptyTag(type.getType()));

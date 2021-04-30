@@ -78,6 +78,8 @@ public interface Scene extends ScreenEventHandler, Parent, Renderable {
 
     ObservableObjectValue<Node> focusedProperty();
 
+    void askFocus(Node node);
+
     default Node getHovered() {
         return hoveredProperty().getValue();
     }

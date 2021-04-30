@@ -262,4 +262,8 @@ public interface Node extends ScreenEventHandler, Renderable, EventTarget {
     boolean checkRender();
 
     void shouldComputeSize();
+
+    default void askFocus() {
+        getScene().askFocus(this);
+    }
 }

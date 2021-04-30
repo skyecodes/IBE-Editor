@@ -1,6 +1,9 @@
 package com.github.franckyi.minecraft.api.common.text;
 
+import com.github.franckyi.minecraft.api.common.text.builder.PlainTextBuilder;
+import com.github.franckyi.minecraft.api.common.text.builder.TranslatedTextBuilder;
 import com.github.franckyi.minecraft.impl.common.text.PlainTextImpl;
+import com.github.franckyi.minecraft.impl.common.text.TextEventImpl;
 import com.github.franckyi.minecraft.impl.common.text.TranslatedTextImpl;
 import com.google.gson.*;
 
@@ -46,18 +49,40 @@ public interface Text {
 
     <T> T getComponent();
 
+    String getRawText();
+
     interface Event {
+        String OPEN_LINK = "open_url";
+
         String getAction();
 
         String getValue();
+
+        static Event createEvent(String action, String value) {
+            return new TextEventImpl(action, value);
+        }
+
+        static Event createLink(String url) {
+            return createEvent(OPEN_LINK, url);
+        }
     }
 
-    // TODO rework serializer so it doesn't depend on implementations
     final class Serializer implements JsonDeserializer<Text> {
         private static final Gson GSON = new Gson();
+
         @Override
         public Text deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
             return json.getAsJsonObject().has("text") ? GSON.fromJson(json, PlainTextImpl.class) : GSON.fromJson(json, TranslatedTextImpl.class);
         }
+    }
+
+    Text EMPTY = createPlainText("");
+
+    static PlainTextBuilder createPlainText(String text) {
+        return new PlainTextImpl(text);
+    }
+
+    static TranslatedTextBuilder createTranslatedText(String translate) {
+        return new TranslatedTextImpl(translate);
     }
 }

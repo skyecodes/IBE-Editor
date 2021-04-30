@@ -9,11 +9,12 @@ import com.github.franckyi.databindings.impl.factory.PropertyFactoryImpl;
 
 /**
  * The entrypoint for my data binding API. Holds the factories used to create properties, mappings and observable lists.
+ *
  * @see com.github.franckyi.databindings.api.ObservableValue
  * @see com.github.franckyi.databindings.api.Property
  * @see com.github.franckyi.databindings.api.ObservableList
  */
-public final class Bindings {
+public final class DataBindings {
     private static PropertyFactory propertyFactory = PropertyFactoryImpl.INSTANCE;
     private static MappingFactory mappingFactory = MappingFactoryImpl.INSTANCE;
     private static ObservableListFactory observableListFactory = ObservableListFactoryImpl.INSTANCE;
@@ -31,7 +32,7 @@ public final class Bindings {
      * @param propertyFactory The new property factory
      */
     public static void setPropertyFactory(PropertyFactory propertyFactory) {
-        Bindings.propertyFactory = propertyFactory;
+        DataBindings.propertyFactory = propertyFactory;
     }
 
     /**
@@ -47,7 +48,7 @@ public final class Bindings {
      * @param mappingFactory The new mapping factory
      */
     public static void setMappingFactory(MappingFactory mappingFactory) {
-        Bindings.mappingFactory = mappingFactory;
+        DataBindings.mappingFactory = mappingFactory;
     }
 
     /**
@@ -63,6 +64,6 @@ public final class Bindings {
      * @param observableListFactory The new observable list factory
      */
     public static void setObservableListFactory(ObservableListFactory observableListFactory) {
-        Bindings.observableListFactory = observableListFactory;
+        DataBindings.observableListFactory = observableListFactory;
     }
 }

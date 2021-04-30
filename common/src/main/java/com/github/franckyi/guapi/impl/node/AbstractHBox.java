@@ -1,6 +1,6 @@
 package com.github.franckyi.guapi.impl.node;
 
-import com.github.franckyi.databindings.Bindings;
+import com.github.franckyi.databindings.DataBindings;
 import com.github.franckyi.databindings.api.BooleanProperty;
 import com.github.franckyi.guapi.api.node.HBox;
 import com.github.franckyi.guapi.api.node.Node;
@@ -11,7 +11,7 @@ import java.util.Collection;
 import java.util.Collections;
 
 public abstract class AbstractHBox extends AbstractBox implements HBox {
-    private final BooleanProperty fillHeightProperty = Bindings.getPropertyFactory().ofBoolean();
+    private final BooleanProperty fillHeightProperty = DataBindings.getPropertyFactory().createBooleanProperty();
 
     protected AbstractHBox() {
         this(0);

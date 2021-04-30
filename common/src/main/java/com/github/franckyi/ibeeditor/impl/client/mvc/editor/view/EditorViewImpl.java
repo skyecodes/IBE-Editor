@@ -1,6 +1,6 @@
 package com.github.franckyi.ibeeditor.impl.client.mvc.editor.view;
 
-import com.github.franckyi.databindings.Bindings;
+import com.github.franckyi.databindings.DataBindings;
 import com.github.franckyi.databindings.api.BooleanProperty;
 import com.github.franckyi.guapi.api.node.*;
 import com.github.franckyi.guapi.api.node.builder.TexturedButtonBuilder;
@@ -27,7 +27,7 @@ public class EditorViewImpl implements EditorView {
     private Button cancelButton;
     private final HBox textButtons;
     private Consumer<TextButtonType> onTextButtonClick;
-    private final BooleanProperty showTextButtonsProperty = Bindings.getPropertyFactory().ofBoolean();
+    private final BooleanProperty showTextButtonsProperty = DataBindings.getPropertyFactory().createBooleanProperty();
 
     public EditorViewImpl() {
         root = vBox(root -> {
@@ -66,6 +66,7 @@ public class EditorViewImpl implements EditorView {
                 middle.add(createButton(TextButtonType.UNDERLINE, "ibeeditor:textures/gui/text_underline.png", "Underline"));
                 middle.add(createButton(TextButtonType.STRIKETHROUGH, "ibeeditor:textures/gui/text_strikethrough.png", "Strikethrough"));
                 middle.add(createButton(TextButtonType.OBFUSCATED, "ibeeditor:textures/gui/text_obfuscated.png", "Obfuscated"));
+                middle.spacing(2);
             }));
             buttons.add(hBox(right -> {
                 right.add(vBox(colors -> {
@@ -123,8 +124,9 @@ public class EditorViewImpl implements EditorView {
 
     private TexturedButtonBuilder createButton(TextButtonType type, String id, String tooltipText) {
         return createButton(id, tooltipText)
-                .action(() -> {
+                .action((e) -> {
                     if (onTextButtonClick != null) {
+                        e.consume();
                         onTextButtonClick.accept(type);
                     }
                 });
@@ -134,8 +136,9 @@ public class EditorViewImpl implements EditorView {
         return texturedButton(id, 7, 7, false)
                 .prefSize(7, 7)
                 .tooltip(tooltipText)
-                .action(() -> {
+                .action((e) -> {
                     if (onTextButtonClick != null) {
+                        e.consume();
                         onTextButtonClick.accept(type);
                     }
                 });

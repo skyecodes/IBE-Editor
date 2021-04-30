@@ -1,6 +1,6 @@
 package com.github.franckyi.guapi.impl.node;
 
-import com.github.franckyi.databindings.Bindings;
+import com.github.franckyi.databindings.DataBindings;
 import com.github.franckyi.databindings.api.*;
 import com.github.franckyi.guapi.GUAPI;
 import com.github.franckyi.guapi.api.event.MouseButtonEvent;
@@ -21,18 +21,18 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public abstract class AbstractScene implements Scene {
-    protected final ObjectProperty<Node> focusedProperty = Bindings.getPropertyFactory().ofObject();
-    protected final ObjectProperty<Node> hoveredProperty = Bindings.getPropertyFactory().ofObject();
+    protected final ObjectProperty<Node> focusedProperty = DataBindings.getPropertyFactory().createObjectProperty();
+    protected final ObjectProperty<Node> hoveredProperty = DataBindings.getPropertyFactory().createObjectProperty();
     protected final ScreenEventHandler eventHandlerDelegate = new ScreenEventHandlerDelegate();
-    private final ObjectProperty<Node> rootProperty = Bindings.getPropertyFactory().ofObject();
-    private final BooleanProperty fullScreenProperty = Bindings.getPropertyFactory().ofBoolean();
-    private final IntegerProperty widthProperty = Bindings.getPropertyFactory().ofInteger(Integer.MAX_VALUE);
-    private final IntegerProperty heightProperty = Bindings.getPropertyFactory().ofInteger(Integer.MAX_VALUE);
-    private final ObjectProperty<Insets> paddingProperty = Bindings.getPropertyFactory().ofObject(Insets.NONE);
-    private final BooleanProperty texturedBackgroundProperty = Bindings.getPropertyFactory().ofBoolean();
-    private final BooleanProperty closeOnEscProperty = Bindings.getPropertyFactory().ofBoolean(true);
-    private final ObservableObjectValue<Node> focusedPropertyReadOnly = Bindings.getPropertyFactory().readOnly(focusedProperty);
-    private final ObservableObjectValue<Node> hoveredPropertyReadOnly = Bindings.getPropertyFactory().readOnly(hoveredProperty);
+    private final ObjectProperty<Node> rootProperty = DataBindings.getPropertyFactory().createObjectProperty();
+    private final BooleanProperty fullScreenProperty = DataBindings.getPropertyFactory().createBooleanProperty();
+    private final IntegerProperty widthProperty = DataBindings.getPropertyFactory().createIntegerProperty(Integer.MAX_VALUE);
+    private final IntegerProperty heightProperty = DataBindings.getPropertyFactory().createIntegerProperty(Integer.MAX_VALUE);
+    private final ObjectProperty<Insets> paddingProperty = DataBindings.getPropertyFactory().createObjectProperty(Insets.NONE);
+    private final BooleanProperty texturedBackgroundProperty = DataBindings.getPropertyFactory().createBooleanProperty();
+    private final BooleanProperty closeOnEscProperty = DataBindings.getPropertyFactory().createBooleanProperty(true);
+    private final ObservableObjectValue<Node> focusedPropertyReadOnly = DataBindings.getPropertyFactory().createReadOnlyProperty(focusedProperty);
+    private final ObservableObjectValue<Node> hoveredPropertyReadOnly = DataBindings.getPropertyFactory().createReadOnlyProperty(hoveredProperty);
     private final ObservableValue<Scene> sceneProperty = ObservableValue.unmodifiable(this);
     private final ObservableValue<Boolean> disabledProperty = ObservableValue.unmodifiable(false);
     protected boolean shouldUpdateChildrenPos;
@@ -124,6 +124,11 @@ public abstract class AbstractScene implements Scene {
         return focusedPropertyReadOnly;
     }
 
+    @Override
+    public void askFocus(Node node) {
+        setFocused(node);
+    }
+
     protected void setFocused(Node value) {
         focusedProperty.setValue(value);
     }
@@ -191,16 +196,22 @@ public abstract class AbstractScene implements Scene {
         if (getRoot() != null) {
             type.ifMouseEvent(event, (t, e) -> {
                 getRoot().handleEvent(type, event);
-                if (e instanceof MouseButtonEvent) {
-                    MouseButtonEvent be = (MouseButtonEvent) e;
-                    if (type == ScreenEventType.MOUSE_CLICKED && be.getButton() == MouseButtonEvent.LEFT_BUTTON) {
-                        setFocused(e.getTarget());
-                        if (e.getTarget() != null && !e.getTarget().isDisabled()) {
-                            e.getTarget().handleEvent(ScreenEventType.ACTION, be);
+                if (!e.isConsumed()) {
+                    if (e instanceof MouseButtonEvent) {
+                        MouseButtonEvent be = (MouseButtonEvent) e;
+                        if (type == ScreenEventType.MOUSE_CLICKED && be.getButton() == MouseButtonEvent.LEFT_BUTTON) {
+                            if (e.getTarget() != null && !e.getTarget().isDisabled()) {
+                                e.getTarget().handleEvent(ScreenEventType.ACTION, be);
+                                if (!e.isConsumed()) {
+                                    setFocused(e.getTarget());
+                                }
+                            } else {
+                                setFocused(e.getTarget());
+                            }
                         }
+                    } else if (type == ScreenEventType.MOUSE_MOVED) {
+                        setHovered(e.getTarget());
                     }
-                } else if (type == ScreenEventType.MOUSE_MOVED) {
-                    setHovered(e.getTarget());
                 }
             }, () -> {
                 if (getFocused() != null && !getFocused().isDisabled()) {

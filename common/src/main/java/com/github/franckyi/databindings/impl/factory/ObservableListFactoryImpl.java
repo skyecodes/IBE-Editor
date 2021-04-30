@@ -11,7 +11,7 @@ public class ObservableListFactoryImpl implements ObservableListFactory {
     }
 
     @Override
-    public <E> ObservableList<E> arrayList() {
+    public <E> ObservableList<E> createObservableArrayList() {
         return new ObservableArrayList<>();
     }
 }

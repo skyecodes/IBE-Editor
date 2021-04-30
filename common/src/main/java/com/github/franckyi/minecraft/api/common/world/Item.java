@@ -8,5 +8,7 @@ public interface Item {
 
     Text getName();
 
+    Text getDefaultName();
+
     <S> S get();
 }
