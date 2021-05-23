@@ -9,6 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -38,8 +39,16 @@ public class EnchantmentsCategory extends AbstractCategory {
     }
 
     private void setEnchantment(Enchantment ench, int value) {
-        if (value > 0) {
-            itemStack.addEnchantment(ench, value);
+        CompoundNBT tag = itemStack.getOrCreateTag();
+        if (value != 0) {
+            if (!tag.contains("Enchantments", 9)) {
+                tag.put("Enchantments", new ListNBT());
+            }
+            ListNBT listnbt = tag.getList("Enchantments", 10);
+            CompoundNBT compoundnbt = new CompoundNBT();
+            compoundnbt.putString("id", String.valueOf(Registry.ENCHANTMENT.getKey(ench)));
+            compoundnbt.putShort("lvl", (short) value);
+            listnbt.add(compoundnbt);
         }
     }
 
@@ -88,7 +97,7 @@ public class EnchantmentsCategory extends AbstractCategory {
         protected Enchantment enchantment;
 
         public PropertyEnchantment(ItemStack itemStack, Enchantment enchantment, Integer initialValue, Consumer<Integer> action) {
-            super(enchantment.getDisplayName(0).copyRaw().getString(), initialValue, action, 0, 127);
+            super(enchantment.getDisplayName(0).copyRaw().getString(), initialValue, action, Short.MIN_VALUE, Short.MAX_VALUE);
             this.enchantment = enchantment;
             nameLabel.setPrefWidth(COMPUTED_SIZE);
             nameLabel.setColor(enchantment.isCurse() ? TextFormatting.RED.getColor() : (enchantment.canApply(itemStack) ? TextFormatting.GREEN.getColor() : 0xffffff));
