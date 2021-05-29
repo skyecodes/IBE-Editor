@@ -2,15 +2,11 @@ import net.minecraftforge.gradle.common.task.SignJar
 
 buildscript {
     repositories {
-        maven {
-            name = "forge"
-            url = "http://files.minecraftforge.net/maven"
-        }
-        jcenter()
+        maven { url = 'https://maven.minecraftforge.net' }
         mavenCentral()
     }
     dependencies {
-        classpath group: "net.minecraftforge.gradle", name: "ForgeGradle", version: "4.0.13"
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '4.1.+', changing: true
     }
 }
 

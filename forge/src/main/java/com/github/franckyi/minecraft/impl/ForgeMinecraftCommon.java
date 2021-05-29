@@ -66,6 +66,6 @@ public final class ForgeMinecraftCommon implements MinecraftCommon {
 
     @Override
     public Command<CommandSource> createCommand(Function<Player, Integer> command) {
-        return ctx -> command.apply(new ForgePlayer(ctx.getSource().asPlayer()));
+        return ctx -> command.apply(new ForgePlayer(ctx.getSource().getPlayerOrException()));
     }
 }

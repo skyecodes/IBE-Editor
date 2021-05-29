@@ -20,7 +20,7 @@ public class ForgeStringTag implements StringTag {
 
     @Override
     public String getValue() {
-        return tag.getString();
+        return tag.getAsString();
     }
 
     @Override

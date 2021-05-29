@@ -20,7 +20,7 @@ public class ForgeByteTag implements ByteTag {
 
     @Override
     public byte getValue() {
-        return tag.getByte();
+        return tag.getAsByte();
     }
 
     @Override

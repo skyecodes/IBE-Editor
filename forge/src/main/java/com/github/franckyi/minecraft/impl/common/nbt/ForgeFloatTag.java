@@ -20,7 +20,7 @@ public class ForgeFloatTag implements FloatTag {
 
     @Override
     public float getValue() {
-        return tag.getFloat();
+        return tag.getAsFloat();
     }
 
     @Override

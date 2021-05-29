@@ -20,7 +20,7 @@ public class ForgeDoubleTag implements DoubleTag {
 
     @Override
     public double getValue() {
-        return tag.getDouble();
+        return tag.getAsDouble();
     }
 
     @Override

@@ -15,11 +15,11 @@ public class ForgeItem implements Item {
     private Text defaultName;
 
     public ForgeItem(ItemStack item) {
-        this(item, new ForgeCompoundTag(item.write(new CompoundNBT())));
+        this(item, new ForgeCompoundTag(item.save(new CompoundNBT())));
     }
 
     public ForgeItem(CompoundTag tag) {
-        this(ItemStack.read(tag.get()), tag);
+        this(ItemStack.of(tag.get()), tag);
     }
 
     public ForgeItem(ItemStack item, CompoundTag tag) {
@@ -43,7 +43,7 @@ public class ForgeItem implements Item {
     @Override
     public Text getDefaultName() {
         if (defaultName == null) {
-            defaultName = ForgeTextFactory.INSTANCE.createTextFromComponent(item.getItem().getName());
+            defaultName = ForgeTextFactory.INSTANCE.createTextFromComponent(item.getItem().getName(item));
         }
         return defaultName;
     }

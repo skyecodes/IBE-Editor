@@ -15,7 +15,7 @@ public final class ForgeTextFactory implements TextFactory<ITextComponent> {
 
     @Override
     public ITextComponent createComponentFromText(Text text) {
-        return ITextComponent.Serializer.getComponentFromJson(GSON.toJson(text));
+        return ITextComponent.Serializer.fromJson(GSON.toJson(text));
     }
 
     @Override

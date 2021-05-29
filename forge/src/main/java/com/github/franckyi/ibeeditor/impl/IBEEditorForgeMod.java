@@ -53,7 +53,7 @@ public final class IBEEditorForgeMod {
     }
 
     private void onKeyInput(InputEvent.KeyInputEvent e) {
-        if (Minecraft.getInstance().currentScreen == null) {
+        if (Minecraft.getInstance().screen == null) {
             ClientEventHandler.onKeyInput();
         }
     }
@@ -65,7 +65,7 @@ public final class IBEEditorForgeMod {
     }
 
     private void onServerStarting(FMLServerStartingEvent event) {
-        ServerCommandHandler.registerCommand(event.getServer().getCommandManager().getDispatcher());
+        ServerCommandHandler.registerCommand(event.getServer().getCommands().getDispatcher());
     }
 
     private void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {

@@ -21,23 +21,23 @@ public class ForgePlayer extends ForgeWorldEntity implements Player {
 
     @Override
     public Item getItemMainHand() {
-        ItemStack item = entity.inventory.getCurrentItem();
+        ItemStack item = entity.inventory.getSelected();
         return item.isEmpty() ? null : new ForgeItem(item);
     }
 
     @Override
     public void setItemMainHand(Item item) {
-        entity.setHeldItem(Hand.MAIN_HAND, item.get());
+        entity.setItemInHand(Hand.MAIN_HAND, item.get());
     }
 
     @Override
     public void setInventoryItem(int slotId, Item item) {
-        entity.inventory.setInventorySlotContents(slotId, item.get());
+        entity.inventory.setItem(slotId, item.get());
     }
 
     @Override
     public World getWorld() {
-        return new ForgeWorld(entity.getEntityWorld());
+        return new ForgeWorld(entity.getCommandSenderWorld());
     }
 
     @Override
@@ -52,7 +52,7 @@ public class ForgePlayer extends ForgeWorldEntity implements Player {
 
     @Override
     public void sendMessage(Text message, boolean actionBar) {
-        entity.sendStatusMessage(message.getComponent(), actionBar);
+        entity.displayClientMessage(message.getComponent(), actionBar);
     }
 
     @Override
@@ -62,17 +62,17 @@ public class ForgePlayer extends ForgeWorldEntity implements Player {
 
     @Override
     public void updateMainHandItem(Item item) {
-        updateInventoryItem(item, entity.inventory.currentItem + entity.inventory.mainInventory.size());
+        updateInventoryItem(item, entity.inventory.selected + entity.inventory.items.size());
     }
 
     @Override
     public void updateCreativeInventoryItem(Item item, int slotId) {
-        entity.inventory.setInventorySlotContents(slotId, item.get());
+        entity.inventory.setItem(slotId, item.get());
     }
 
     @Override
     public void updateInventoryItem(Item item, int slotId) {
-        Minecraft.getInstance().playerController.sendSlotPacket(item.get(), slotId < 9 ? slotId + entity.inventory.mainInventory.size() : slotId);
+        Minecraft.getInstance().gameMode.handleCreativeModeItemAdd(item.get(), slotId < 9 ? slotId + entity.inventory.items.size() : slotId);
     }
 
     @Override

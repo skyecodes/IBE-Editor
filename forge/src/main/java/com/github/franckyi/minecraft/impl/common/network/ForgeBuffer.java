@@ -22,12 +22,16 @@ public class ForgeBuffer implements Buffer {
 
     @Override
     public CompoundTag readTag() {
-        return ForgeTagFactory.parseCompound(buf.readCompoundTag());
+        return ForgeTagFactory.parseCompound(buf.readNbt());
     }
 
     @Override
     public void writeTag(CompoundTag tag) {
-        buf.writeCompoundTag(tag.get());
+        if (tag != null) {
+            buf.writeNbt(tag.get());
+        } else {
+            buf.writeByte(0);
+        }
     }
 
     @Override

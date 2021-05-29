@@ -18,13 +18,13 @@ public final class ForgeScreenHandler extends AbstractScreenHandler {
 
     @Override
     protected void openScreen() {
-        oldScreen = Minecraft.getInstance().currentScreen;
-        Minecraft.getInstance().displayGuiScreen(screen);
+        oldScreen = Minecraft.getInstance().screen;
+        Minecraft.getInstance().setScreen(screen);
     }
 
     @Override
     protected void closeScreen() {
-        Minecraft.getInstance().displayGuiScreen(oldScreen);
+        Minecraft.getInstance().setScreen(oldScreen);
     }
 
     private final class ScreenImpl extends Screen {

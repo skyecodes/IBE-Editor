@@ -37,9 +37,9 @@ public class ForgeVanillaTreeViewRenderer<E extends TreeView.TreeItem<E>> extend
 
     private void addChild(E item, int increment) {
         NodeEntry<E> entry = new NodeEntry<>(this, item, node.getRenderer().getView(item), increment);
-        getEventListeners().add(entry);
+        children().add(entry);
         if (item == node.getFocusedElement()) {
-            setListener(entry);
+            setFocused(entry);
         }
         increment++;
         if (item.isExpanded()) {

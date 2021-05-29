@@ -16,22 +16,22 @@ public final class ForgeScreenScaling extends AbstractScreenScaling {
 
     @Override
     protected void resetScale() {
-        mc().updateWindowSize();
+        mc().resizeDisplay();
     }
 
     @Override
     protected void setScreenScale(int value) {
-        mc().getMainWindow().setGuiScale(mc().getMainWindow().calcGuiScale(value, mc().getForceUnicodeFont()));
-        mc().currentScreen.resize(mc(), mc().getMainWindow().getScaledWidth(), mc().getMainWindow().getScaledHeight());
+        mc().getWindow().setGuiScale(mc().getWindow().calculateScale(value, mc().isEnforceUnicode()));
+        mc().screen.resize(mc(), mc().getWindow().getGuiScaledWidth(), mc().getWindow().getGuiScaledHeight());
     }
 
     @Override
     protected int getDefaultScale() {
-        return mc().gameSettings.guiScale;
+        return mc().options.guiScale;
     }
 
     @Override
     public int getMaxScale() {
-        return mc().getMainWindow().calcGuiScale(0, mc().getForceUnicodeFont());
+        return mc().getWindow().calculateScale(0, mc().isEnforceUnicode());
     }
 }

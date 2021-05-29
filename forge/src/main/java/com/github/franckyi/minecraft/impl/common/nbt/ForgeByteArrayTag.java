@@ -26,7 +26,7 @@ public class ForgeByteArrayTag implements ByteArrayTag {
 
     @Override
     public byte[] getValue() {
-        return tag.getByteArray();
+        return tag.getAsByteArray();
     }
 
     @Override

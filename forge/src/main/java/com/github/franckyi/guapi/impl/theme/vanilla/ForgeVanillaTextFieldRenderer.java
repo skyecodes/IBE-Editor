@@ -17,24 +17,24 @@ public class ForgeVanillaTextFieldRenderer extends TextFieldWidget implements Fo
     private final TextField node;
 
     public ForgeVanillaTextFieldRenderer(TextField node) {
-        super(Minecraft.getInstance().fontRenderer, node.getX(), node.getY(), node.getWidth(), node.getHeight(), node.getLabel().getComponent());
+        super(Minecraft.getInstance().font, node.getX(), node.getY(), node.getWidth(), node.getHeight(), node.getLabel().getComponent());
         this.node = node;
-        setEnabled(!node.isDisabled());
-        setMaxStringLength(node.getMaxLength());
-        setText(node.getText());
-        setCursorPositionZero(); // fix in order to render text
+        active = !node.isDisabled();
+        setMaxLength(node.getMaxLength());
+        setValue(node.getText());
+        moveCursorToStart(); // fix in order to render text
         setFocused(node.isFocused());
         setResponder(node::setText);
         node.xProperty().addListener(newVal -> x = newVal);
         node.yProperty().addListener(newVal -> y = newVal);
         node.widthProperty().addListener(newVal -> width = newVal);
         node.heightProperty().addListener(newVal -> height = newVal);
-        node.disabledProperty().addListener(newVal -> setEnabled(!newVal));
+        node.disabledProperty().addListener(newVal -> active = !newVal);
         node.labelProperty().addListener(label -> setMessage(label.getComponent()));
-        node.maxLengthProperty().addListener(this::setMaxStringLength);
+        node.maxLengthProperty().addListener(this::setMaxLength);
         node.textProperty().addListener(newVal -> {
             int cursor = getCursorPosition();
-            setText(newVal);
+            setValue(newVal);
             setCursorPosition(cursor);
         });
         node.focusedProperty().addListener(this::setFocused);
@@ -48,28 +48,28 @@ public class ForgeVanillaTextFieldRenderer extends TextFieldWidget implements Fo
     private void updateValidator() {
         if (node.isValidationForced()) {
             if (node.getValidator() == null) {
-                setValidator(Objects::nonNull);
+                setFilter(Objects::nonNull);
             } else {
-                setValidator(node.getValidator());
+                setFilter(node.getValidator());
             }
         } else {
-            setValidator(Objects::nonNull);
+            setFilter(Objects::nonNull);
         }
     }
 
     private void updateRenderer() {
         if (node.getTextRenderer() == null) {
-            setTextFormatter((string, integer) -> IReorderingProcessor.fromString(string, Style.EMPTY));
+            setFormatter((string, integer) -> IReorderingProcessor.forward(string, Style.EMPTY));
         } else {
-            setTextFormatter((string, integer) -> ((ITextComponent) node.getTextRenderer().render(string, integer).getComponent()).func_241878_f());
+            setFormatter((string, integer) -> ((ITextComponent) node.getTextRenderer().render(string, integer).getComponent()).getVisualOrderText());
         }
-        setCursorPositionZero(); // fix in order to render text
+        moveCursorToStart(); // fix in order to render text
     }
 
     @Override
     public void render(Matrices matrices, int mouseX, int mouseY, float partialTicks) {
         ForgeVanillaDelegateRenderer.super.render(matrices, mouseX, mouseY, partialTicks);
-        if (!(node.isValidationForced() || node.getValidator().test(getText()))) {
+        if (!(node.isValidationForced() || node.getValidator().test(getValue()))) {
             ForgeRenderer.INSTANCE.drawRectangle(matrices, x - 1, y - 1, x + width + 1, y + height + 1, Color.rgba(1, 0, 0, 0.8));
         }
     }

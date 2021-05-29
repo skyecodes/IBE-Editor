@@ -27,7 +27,7 @@ public class ForgeCompoundTag implements CompoundTag {
     @Override
     public Map<String, Tag> getValue() {
         Map<String, Tag> value = new HashMap<>();
-        for (String key : tag.keySet()) {
+        for (String key : tag.getAllKeys()) {
             value.put(key, ForgeTagFactory.from(tag.get(key)));
         }
         return value;

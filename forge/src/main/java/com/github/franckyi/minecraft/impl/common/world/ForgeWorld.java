@@ -14,35 +14,35 @@ public class ForgeWorld implements World {
 
     @Override
     public void setBlockInventoryItem(BlockPos blockPos, int slotId, Item item) {
-        TileEntity tileEntity = world.getTileEntity(blockPos.get());
+        TileEntity tileEntity = world.getBlockEntity(blockPos.get());
         if (tileEntity instanceof IInventory) {
-            ((IInventory) tileEntity).setInventorySlotContents(slotId, item.get());
+            ((IInventory) tileEntity).setItem(slotId, item.get());
         }
     }
 
     @Override
     public WorldBlock getBlock(BlockPos blockPos) {
-        return new ForgeWorldBlock(blockPos, world.getBlockState(blockPos.get()), world.getTileEntity(blockPos.get()));
+        return new ForgeWorldBlock(blockPos, world.getBlockState(blockPos.get()), world.getBlockEntity(blockPos.get()));
     }
 
     @Override
     public void setBlockData(BlockPos blockPos, Block block) {
-        TileEntity tileEntity = world.getTileEntity(blockPos.get());
+        TileEntity tileEntity = world.getBlockEntity(blockPos.get());
         if (tileEntity != null) {
-            tileEntity.read(world.getBlockState(blockPos.get()), block.getData().get());
+            tileEntity.load(world.getBlockState(blockPos.get()), block.getData().get());
         }
     }
 
     @Override
     public WorldEntity getEntity(int entityId) {
-        return new ForgeWorldEntity(world.getEntityByID(entityId));
+        return new ForgeWorldEntity(world.getEntity(entityId));
     }
 
     @Override
     public void setEntityData(int entityId, Entity entity) {
-        net.minecraft.entity.Entity worldEntity = world.getEntityByID(entityId);
+        net.minecraft.entity.Entity worldEntity = world.getEntity(entityId);
         if (worldEntity != null) {
-            worldEntity.read(entity.getTag().get());
+            worldEntity.load(entity.getTag().get());
         }
     }
 }

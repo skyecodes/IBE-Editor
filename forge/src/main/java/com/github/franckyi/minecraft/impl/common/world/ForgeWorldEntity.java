@@ -14,14 +14,14 @@ public class ForgeWorldEntity implements WorldEntity {
 
     @Override
     public int getEntityId() {
-        return entity.getEntityId();
+        return entity.getId();
     }
 
     @Override
     public CompoundTag getTag() {
         CompoundNBT compound = new CompoundNBT();
-        if (!entity.writeUnlessRemoved(compound)) {
-            entity.writeWithoutTypeId(compound);
+        if (!entity.saveAsPassenger(compound)) {
+            entity.saveWithoutId(compound);
         }
         return ForgeTagFactory.parseCompound(compound);
     }

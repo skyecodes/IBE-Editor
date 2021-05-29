@@ -20,7 +20,7 @@ public class ForgeIntTag implements IntTag {
 
     @Override
     public int getValue() {
-        return tag.getInt();
+        return tag.getAsInt();
     }
 
     @Override

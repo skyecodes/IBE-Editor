@@ -26,7 +26,7 @@ public class ForgeIntArrayTag implements IntArrayTag {
 
     @Override
     public int[] getValue() {
-        return tag.getIntArray();
+        return tag.getAsIntArray();
     }
 
     @Override

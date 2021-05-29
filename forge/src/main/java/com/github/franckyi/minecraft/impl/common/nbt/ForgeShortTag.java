@@ -20,7 +20,7 @@ public class ForgeShortTag implements ShortTag {
 
     @Override
     public short getValue() {
-        return tag.getShort();
+        return tag.getAsShort();
     }
 
     @Override

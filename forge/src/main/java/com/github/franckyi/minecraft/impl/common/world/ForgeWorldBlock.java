@@ -32,6 +32,6 @@ public class ForgeWorldBlock implements WorldBlock {
 
     @Override
     public CompoundTag getData() {
-        return tileEntity == null ? null : ForgeTagFactory.parseCompound(tileEntity.write(new CompoundNBT()));
+        return tileEntity == null ? null : ForgeTagFactory.parseCompound(tileEntity.save(new CompoundNBT()));
     }
 }

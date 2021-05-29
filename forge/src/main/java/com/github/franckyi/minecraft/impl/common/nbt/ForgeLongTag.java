@@ -20,7 +20,7 @@ public class ForgeLongTag implements LongTag {
 
     @Override
     public long getValue() {
-        return tag.getLong();
+        return tag.getAsLong();
     }
 
     @Override

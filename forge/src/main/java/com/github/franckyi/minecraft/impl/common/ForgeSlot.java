@@ -15,12 +15,12 @@ public class ForgeSlot implements Slot {
 
     @Override
     public boolean hasStack() {
-        return slot != null && slot.getHasStack();
+        return slot != null && slot.hasItem();
     }
 
     @Override
     public boolean isInPlayerInventory() {
-        return slot.inventory instanceof PlayerInventory;
+        return slot.container instanceof PlayerInventory;
     }
 
     @Override
@@ -31,7 +31,7 @@ public class ForgeSlot implements Slot {
     @Override
     public Item getStack() {
         if (stack == null) {
-            stack = new ForgeItem(slot.getStack());
+            stack = new ForgeItem(slot.getItem());
         }
         return stack;
     }

@@ -58,15 +58,15 @@ public abstract class AbstractForgeVanillaListNodeRenderer<N extends ListNode<E>
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         if (getEntryAtPosition(mouseX, mouseY) == null) {
-            setListener(null);
+            setFocused(null);
         }
         return super.mouseClicked(mouseX, mouseY, button);
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public void setListener(@Nullable IGuiEventListener listener) {
-        super.setListener(listener);
+    public void setFocused(@Nullable IGuiEventListener listener) {
+        super.setFocused(listener);
         if (listener == null) {
             node.setFocusedElement(null);
         } else {
@@ -99,7 +99,7 @@ public abstract class AbstractForgeVanillaListNodeRenderer<N extends ListNode<E>
 
     @Override
     public void render(Matrices matrices, int mouseX, int mouseY, float delta) {
-        for (T entry : getEventListeners()) {
+        for (T entry : children()) {
             entry.getNode().postRender(matrices, mouseX, mouseY, delta);
         }
     }
@@ -140,7 +140,7 @@ public abstract class AbstractForgeVanillaListNodeRenderer<N extends ListNode<E>
     protected abstract void createList();
 
     protected void scrollTo() {
-        for (T e : getEventListeners()) {
+        for (T e : children()) {
             if (e.getItem() == node.getScrollTo()) {
                 centerScrollOn(e);
                 break;
@@ -150,9 +150,9 @@ public abstract class AbstractForgeVanillaListNodeRenderer<N extends ListNode<E>
     }
 
     protected void changeFocus() {
-        for (T e : getEventListeners()) {
+        for (T e : children()) {
             if (e.getItem() == node.getFocusedElement()) {
-                super.setListener(e);
+                super.setFocused(e);
                 break;
             }
         }
@@ -161,7 +161,7 @@ public abstract class AbstractForgeVanillaListNodeRenderer<N extends ListNode<E>
 
     @Override
     public void tick() {
-        for (T child : getEventListeners()) {
+        for (T child : children()) {
             child.getNode().tick();
         }
     }
@@ -197,7 +197,7 @@ public abstract class AbstractForgeVanillaListNodeRenderer<N extends ListNode<E>
     }
 
     protected <EE extends MouseEvent> void handleMouseEvent(ScreenEventType<EE> type, EE event) {
-        for (T child : getEventListeners()) {
+        for (T child : children()) {
             child.getNode().handleEvent(type, event);
             if (event.getTarget() != null) return;
         }
@@ -235,7 +235,7 @@ public abstract class AbstractForgeVanillaListNodeRenderer<N extends ListNode<E>
         }
 
         protected void renderBackground(Matrices matrices, int x, int y, int entryWidth, int entryHeight) {
-            if (getList().getListener() == this) {
+            if (getList().getFocused() == this) {
                 ForgeRenderer.INSTANCE.fillRectangle(matrices, x - 2, y - 2,
                         x + entryWidth + 3, y + entryHeight + 2, 0x4fffffff);
             }

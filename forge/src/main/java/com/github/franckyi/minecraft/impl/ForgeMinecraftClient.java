@@ -54,12 +54,12 @@ public final class ForgeMinecraftClient implements MinecraftClient {
         return new KeyBinding() {
             @Override
             public boolean isPressed() {
-                return keyBinding.isPressed();
+                return keyBinding.isDown();
             }
 
             @Override
             public int getKeyCode() {
-                return keyBinding.getKey().getKeyCode();
+                return keyBinding.getKey().getValue();
             }
         };
     }
@@ -71,12 +71,12 @@ public final class ForgeMinecraftClient implements MinecraftClient {
 
     @Override
     public World getWorld() {
-        return new ForgeWorld(mc().world);
+        return new ForgeWorld(mc().level);
     }
 
     @Override
     public WorldEntity getEntityMouseOver() {
-        RayTraceResult result = mc().objectMouseOver;
+        RayTraceResult result = mc().hitResult;
         if (result instanceof EntityRayTraceResult) {
             return new ForgeWorldEntity(((EntityRayTraceResult) result).getEntity());
         }
@@ -85,11 +85,11 @@ public final class ForgeMinecraftClient implements MinecraftClient {
 
     @Override
     public WorldBlock getBlockMouseOver() {
-        RayTraceResult result = mc().objectMouseOver;
+        RayTraceResult result = mc().hitResult;
         if (result instanceof BlockRayTraceResult) {
             BlockRayTraceResult res = (BlockRayTraceResult) result;
-            if (!mc().world.isAirBlock(res.getPos())) {
-                return getWorld().getBlock(new ForgeBlockPos(res.getPos()));
+            if (!mc().level.isEmptyBlock(res.getBlockPos())) {
+                return getWorld().getBlock(new ForgeBlockPos(res.getBlockPos()));
             }
         }
         return null;
@@ -97,6 +97,6 @@ public final class ForgeMinecraftClient implements MinecraftClient {
 
     @Override
     public void unlockCursor() {
-        mc().mouseHelper.ungrabMouse();
+        mc().mouseHandler.releaseMouse();
     }
 }
