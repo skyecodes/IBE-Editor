@@ -138,7 +138,7 @@ public abstract class AbstractText implements Text {
 
     @Override
     @SuppressWarnings("unchecked")
-    public <T> T getComponent() {
+    public <T> T get() {
         if (shouldUpdateComponent || component == null) {
             component = Minecraft.getCommon().getTextFactory().createComponentFromText(this);
         }
@@ -147,6 +147,6 @@ public abstract class AbstractText implements Text {
 
     @Override
     public String getRawText() {
-        return Minecraft.getCommon().getTextFactory().getRawTextFromComponent(getComponent());
+        return Minecraft.getCommon().getTextFactory().getRawTextFromComponent(get());
     }
 }

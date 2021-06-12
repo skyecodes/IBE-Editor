@@ -1,32 +1,33 @@
 package com.github.franckyi.ibeeditor.impl.common.packet;
 
+import com.github.franckyi.ibeeditor.impl.common.EditorType;
 import com.github.franckyi.minecraft.api.common.network.Buffer;
 import com.github.franckyi.minecraft.api.common.network.Packet;
 
 public class EntityEditorRequestPacket implements Packet {
     private final int entityId;
-    private final boolean nbt;
+    private final EditorType type;
 
-    public EntityEditorRequestPacket(int entityId, boolean nbt) {
+    public EntityEditorRequestPacket(int entityId, EditorType type) {
         this.entityId = entityId;
-        this.nbt = nbt;
+        this.type = type;
     }
 
     public EntityEditorRequestPacket(Buffer buffer) {
-        this(buffer.readInt(), buffer.readBoolean());
+        this(buffer.readInt(), EditorType.from(buffer.readByte()));
     }
 
     @Override
     public void write(Buffer buffer) {
         buffer.writeInt(entityId);
-        buffer.writeBoolean(nbt);
+        buffer.writeByte(type.getId());
     }
 
     public int getEntityId() {
         return entityId;
     }
 
-    public boolean isNBT() {
-        return nbt;
+    public EditorType getType() {
+        return type;
     }
 }

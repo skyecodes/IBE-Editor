@@ -35,7 +35,7 @@ public class FabricBuffer implements Buffer {
         if (tag != null) {
             buf.writeCompoundTag(tag.get());
         } else {
-            buf.writeByte(0);
+            buf.writeCompoundTag(null);
         }
     }
 

@@ -52,7 +52,7 @@ public class ForgePlayer extends ForgeWorldEntity implements Player {
 
     @Override
     public void sendMessage(Text message, boolean actionBar) {
-        entity.displayClientMessage(message.getComponent(), actionBar);
+        entity.displayClientMessage(message.get(), actionBar);
     }
 
     @Override

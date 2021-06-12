@@ -17,7 +17,7 @@ public class ForgeVanillaTextFieldRenderer extends TextFieldWidget implements Fo
     private final TextField node;
 
     public ForgeVanillaTextFieldRenderer(TextField node) {
-        super(Minecraft.getInstance().font, node.getX(), node.getY(), node.getWidth(), node.getHeight(), node.getLabel().getComponent());
+        super(Minecraft.getInstance().font, node.getX(), node.getY(), node.getWidth(), node.getHeight(), node.getLabel().get());
         this.node = node;
         active = !node.isDisabled();
         setMaxLength(node.getMaxLength());
@@ -30,7 +30,7 @@ public class ForgeVanillaTextFieldRenderer extends TextFieldWidget implements Fo
         node.widthProperty().addListener(newVal -> width = newVal);
         node.heightProperty().addListener(newVal -> height = newVal);
         node.disabledProperty().addListener(newVal -> active = !newVal);
-        node.labelProperty().addListener(label -> setMessage(label.getComponent()));
+        node.labelProperty().addListener(label -> setMessage(label.get()));
         node.maxLengthProperty().addListener(this::setMaxLength);
         node.textProperty().addListener(newVal -> {
             int cursor = getCursorPosition();
@@ -61,7 +61,7 @@ public class ForgeVanillaTextFieldRenderer extends TextFieldWidget implements Fo
         if (node.getTextRenderer() == null) {
             setFormatter((string, integer) -> IReorderingProcessor.forward(string, Style.EMPTY));
         } else {
-            setFormatter((string, integer) -> ((ITextComponent) node.getTextRenderer().render(string, integer).getComponent()).getVisualOrderText());
+            setFormatter((string, integer) -> ((ITextComponent) node.getTextRenderer().render(string, integer).get()).getVisualOrderText());
         }
         moveCursorToStart(); // fix in order to render text
     }

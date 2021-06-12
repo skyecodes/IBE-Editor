@@ -1,5 +1,6 @@
 package com.github.franckyi.ibeeditor.impl.server;
 
+import com.github.franckyi.ibeeditor.impl.common.EditorType;
 import com.github.franckyi.ibeeditor.impl.common.Networking;
 import com.github.franckyi.ibeeditor.impl.common.packet.*;
 import com.github.franckyi.minecraft.Minecraft;
@@ -25,28 +26,28 @@ public final class ServerNetworkEmitter {
         send(Networking.ENTITY_EDITOR_RESPONSE, sender, new EntityEditorResponsePacket(packet, entity));
     }
 
-    public static void sendWorldEditorCommand(Player sender, boolean nbt) {
-        sendEditorCommand(sender, EditorCommandPacket.WORLD, nbt);
+    public static void sendWorldEditorCommand(Player sender, EditorType type) {
+        sendEditorCommand(sender, EditorCommandPacket.TARGET_WORLD, type);
     }
 
-    public static void sendItemEditorCommand(Player sender, boolean nbt) {
-        sendEditorCommand(sender, EditorCommandPacket.ITEM, nbt);
+    public static void sendItemEditorCommand(Player sender, EditorType type) {
+        sendEditorCommand(sender, EditorCommandPacket.TARGET_ITEM, type);
     }
 
-    public static void sendBlockEditorCommand(Player sender, boolean nbt) {
-        sendEditorCommand(sender, EditorCommandPacket.BLOCK, nbt);
+    public static void sendBlockEditorCommand(Player sender, EditorType type) {
+        sendEditorCommand(sender, EditorCommandPacket.TARGET_BLOCK, type);
     }
 
-    public static void sendEntityEditorCommand(Player sender, boolean nbt) {
-        sendEditorCommand(sender, EditorCommandPacket.ENTITY, nbt);
+    public static void sendEntityEditorCommand(Player sender, EditorType type) {
+        sendEditorCommand(sender, EditorCommandPacket.TARGET_ENTITY, type);
     }
 
-    public static void sendSelfEditorCommand(Player sender, boolean nbt) {
-        sendEditorCommand(sender, EditorCommandPacket.SELF, nbt);
+    public static void sendSelfEditorCommand(Player sender, EditorType type) {
+        sendEditorCommand(sender, EditorCommandPacket.TARGET_SELF, type);
     }
 
-    private static void sendEditorCommand(Player sender, byte type, boolean nbt) {
-        send(Networking.EDITOR_COMMAND, sender, new EditorCommandPacket(type, nbt));
+    private static void sendEditorCommand(Player sender, byte target, EditorType type) {
+        send(Networking.EDITOR_COMMAND, sender, new EditorCommandPacket(target, type));
     }
 
     private static void send(String id, Player player, Packet packet) {

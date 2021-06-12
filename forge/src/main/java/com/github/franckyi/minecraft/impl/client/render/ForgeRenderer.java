@@ -8,7 +8,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.ITextProperties;
 
 public class ForgeRenderer implements Renderer {
     public static final Renderer INSTANCE = new ForgeRenderer();
@@ -27,15 +26,15 @@ public class ForgeRenderer implements Renderer {
 
     @Override
     public int getFontWidth(Text text) {
-        return font().width((ITextComponent) text.getComponent());
+        return font().width((ITextComponent) text.get());
     }
 
     @Override
     public void drawString(Matrices matrices, Text text, float x, float y, int color, boolean shadow) {
         if (shadow) {
-            font().draw(matrices.getMatrixStack(), (ITextComponent) text.getComponent(), x, y, color);
+            font().draw(matrices.getMatrixStack(), (ITextComponent) text.get(), x, y, color);
         } else {
-            font().drawShadow(matrices.getMatrixStack(), (ITextComponent) text.getComponent(), x, y, color);
+            font().drawShadow(matrices.getMatrixStack(), (ITextComponent) text.get(), x, y, color);
         }
     }
 
@@ -55,6 +54,6 @@ public class ForgeRenderer implements Renderer {
 
     @Override
     public void drawTooltip(Matrices matrices, Text text, int x, int y) {
-        Minecraft.getInstance().screen.renderTooltip(matrices.getMatrixStack(), (ITextComponent) text.getComponent(), x, y);
+        Minecraft.getInstance().screen.renderTooltip(matrices.getMatrixStack(), (ITextComponent) text.get(), x, y);
     }
 }

@@ -52,7 +52,7 @@ public class FabricPlayer extends FabricWorldEntity implements Player {
 
     @Override
     public void sendMessage(Text message, boolean actionBar) {
-        entity.sendMessage(message.getComponent(), actionBar);
+        entity.sendMessage(message.get(), actionBar);
     }
 
     @Override

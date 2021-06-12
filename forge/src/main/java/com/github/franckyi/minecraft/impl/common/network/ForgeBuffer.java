@@ -30,7 +30,7 @@ public class ForgeBuffer implements Buffer {
         if (tag != null) {
             buf.writeNbt(tag.get());
         } else {
-            buf.writeByte(0);
+            buf.writeNbt(null);
         }
     }
 

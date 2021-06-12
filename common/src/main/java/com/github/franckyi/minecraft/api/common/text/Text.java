@@ -47,7 +47,7 @@ public interface Text {
 
     void setHoverEvent(Event hoverEvent);
 
-    <T> T getComponent();
+    <T> T get();
 
     String getRawText();
 
@@ -65,14 +65,34 @@ public interface Text {
         static Event createLink(String url) {
             return createEvent(OPEN_LINK, url);
         }
+
+        final class Serializer implements JsonSerializer<Event>, JsonDeserializer<Event> {
+            @Override
+            public Event deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+                return Text.Serializer.GSON.fromJson(json, TextEventImpl.class);
+            }
+
+            @Override
+            public JsonElement serialize(Event src, Type typeOfSrc, JsonSerializationContext context) {
+                return Text.Serializer.GSON.toJsonTree(src);
+            }
+        }
     }
 
-    final class Serializer implements JsonDeserializer<Text> {
-        private static final Gson GSON = new Gson();
+    final class Serializer implements JsonSerializer<Text>, JsonDeserializer<Text> {
+        public static final Gson GSON = new GsonBuilder()
+                .registerTypeAdapter(Text.class, new Serializer())
+                .registerTypeAdapter(Event.class, new Event.Serializer())
+                .create();
 
         @Override
         public Text deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
             return json.getAsJsonObject().has("text") ? GSON.fromJson(json, PlainTextImpl.class) : GSON.fromJson(json, TranslatedTextImpl.class);
+        }
+
+        @Override
+        public JsonElement serialize(Text src, Type typeOfSrc, JsonSerializationContext context) {
+            return GSON.toJsonTree(src);
         }
     }
 

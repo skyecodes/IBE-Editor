@@ -7,7 +7,6 @@ import com.google.gson.GsonBuilder;
 import net.minecraft.util.text.ITextComponent;
 
 public final class ForgeTextFactory implements TextFactory<ITextComponent> {
-    private static final Gson GSON = new GsonBuilder().registerTypeAdapter(Text.class, new Text.Serializer()).create();
     public static final TextFactory<ITextComponent> INSTANCE = new ForgeTextFactory();
 
     private ForgeTextFactory() {
@@ -15,12 +14,12 @@ public final class ForgeTextFactory implements TextFactory<ITextComponent> {
 
     @Override
     public ITextComponent createComponentFromText(Text text) {
-        return ITextComponent.Serializer.fromJson(GSON.toJson(text));
+        return ITextComponent.Serializer.fromJson(Text.Serializer.GSON.toJson(text));
     }
 
     @Override
     public Text createTextFromComponent(ITextComponent component) {
-        return GSON.fromJson(ITextComponent.Serializer.toJson(component), Text.class);
+        return Text.Serializer.GSON.fromJson(ITextComponent.Serializer.toJson(component), Text.class);
     }
 
     @Override

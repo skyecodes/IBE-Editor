@@ -8,7 +8,7 @@ public class EntityEditorResponsePacket extends EntityEditorRequestPacket {
     private final Entity entity;
 
     public EntityEditorResponsePacket(EntityEditorRequestPacket request, Entity entity) {
-        super(request.getEntityId(), request.isNBT());
+        super(request.getEntityId(), request.getType());
         this.entity = entity;
     }
 

@@ -151,7 +151,7 @@ public class NBTEditorViewImpl implements NBTEditorView {
     }
 
     private TexturedButtonBuilder createButton(String id, String tooltipText) {
-        return createButton(id, text(tooltipText));
+        return createButton(id, translated(tooltipText));
     }
 
     private TexturedButtonBuilder createButton(String id, Text tooltipText) {

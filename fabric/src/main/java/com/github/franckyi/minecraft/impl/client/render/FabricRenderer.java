@@ -26,15 +26,15 @@ public class FabricRenderer implements Renderer {
 
     @Override
     public int getFontWidth(Text text) {
-        return font().getWidth((net.minecraft.text.Text) text.getComponent());
+        return font().getWidth((net.minecraft.text.Text) text.get());
     }
 
     @Override
     public void drawString(Matrices matrices, Text text, float x, float y, int color, boolean shadow) {
         if (shadow) {
-            font().drawWithShadow(matrices.getMatrixStack(), (net.minecraft.text.Text) text.getComponent(), x, y, color);
+            font().drawWithShadow(matrices.getMatrixStack(), (net.minecraft.text.Text) text.get(), x, y, color);
         } else {
-            font().draw(matrices.getMatrixStack(), (net.minecraft.text.Text) text.getComponent(), x, y, color);
+            font().draw(matrices.getMatrixStack(), (net.minecraft.text.Text) text.get(), x, y, color);
         }
     }
 
@@ -54,6 +54,6 @@ public class FabricRenderer implements Renderer {
 
     @Override
     public void drawTooltip(Matrices matrices, Text text, int x, int y) {
-        MinecraftClient.getInstance().currentScreen.renderTooltip(matrices.getMatrixStack(), (net.minecraft.text.Text) text.getComponent(), x, y);
+        MinecraftClient.getInstance().currentScreen.renderTooltip(matrices.getMatrixStack(), (net.minecraft.text.Text) text.get(), x, y);
     }
 }

@@ -8,7 +8,7 @@ public class BlockEditorResponsePacket extends BlockEditorRequestPacket {
     private final Block block;
 
     public BlockEditorResponsePacket(BlockEditorRequestPacket request, Block block) {
-        super(request.getPos(), request.isNBT());
+        super(request.getPos(), request.getType());
         this.block = block;
     }
 
