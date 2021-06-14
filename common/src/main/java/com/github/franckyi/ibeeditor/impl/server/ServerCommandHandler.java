@@ -2,8 +2,8 @@ package com.github.franckyi.ibeeditor.impl.server;
 
 import com.github.franckyi.ibeeditor.impl.common.EditorType;
 import com.github.franckyi.minecraft.Minecraft;
-import com.github.franckyi.minecraft.api.common.world.Player;
 import com.github.franckyi.minecraft.api.common.text.Text;
+import com.github.franckyi.minecraft.api.common.world.Player;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
@@ -81,29 +81,29 @@ public final class ServerCommandHandler {
         return (Command<S>) Minecraft.getCommon().createCommand(command);
     }
 
-    private static int commandOpenWorldEditor(Player player, EditorType nbt) {
-        LOGGER.debug("{} issued a world editor command with nbt={}", player, nbt);
-        return commandOpenEditor(player, nbt, ServerNetworkEmitter::sendWorldEditorCommand);
+    private static int commandOpenWorldEditor(Player player, EditorType type) {
+        LOGGER.debug("{} issued a world editor command with type={}", player, type);
+        return commandOpenEditor(player, type, ServerNetworkEmitter::sendWorldEditorCommand);
     }
 
-    private static int commandOpenItemEditor(Player player, EditorType nbt) {
-        LOGGER.debug("{} issued an item editor command with nbt={}", player, nbt);
-        return commandOpenEditor(player, nbt, ServerNetworkEmitter::sendItemEditorCommand);
+    private static int commandOpenItemEditor(Player player, EditorType type) {
+        LOGGER.debug("{} issued an item editor command with type={}", player, type);
+        return commandOpenEditor(player, type, ServerNetworkEmitter::sendItemEditorCommand);
     }
 
-    private static int commandOpenBlockEditor(Player player, EditorType nbt) {
-        LOGGER.debug("{} issued a block editor command with nbt={}", player, nbt);
-        return commandOpenEditor(player, nbt, ServerNetworkEmitter::sendBlockEditorCommand);
+    private static int commandOpenBlockEditor(Player player, EditorType type) {
+        LOGGER.debug("{} issued a block editor command with type={}", player, type);
+        return commandOpenEditor(player, type, ServerNetworkEmitter::sendBlockEditorCommand);
     }
 
-    private static int commandOpenEntityEditor(Player player, EditorType nbt) {
-        LOGGER.debug("{} issued an entity editor command with nbt={}", player, nbt);
-        return commandOpenEditor(player, nbt, ServerNetworkEmitter::sendEntityEditorCommand);
+    private static int commandOpenEntityEditor(Player player, EditorType type) {
+        LOGGER.debug("{} issued an entity editor command with type={}", player, type);
+        return commandOpenEditor(player, type, ServerNetworkEmitter::sendEntityEditorCommand);
     }
 
-    private static int commandOpenSelfEditor(Player player, EditorType nbt) {
-        LOGGER.debug("{} issued a self editor command with nbt={}", player, nbt);
-        return commandOpenEditor(player, nbt, ServerNetworkEmitter::sendSelfEditorCommand);
+    private static int commandOpenSelfEditor(Player player, EditorType type) {
+        LOGGER.debug("{} issued a self editor command with type={}", player, type);
+        return commandOpenEditor(player, type, ServerNetworkEmitter::sendSelfEditorCommand);
     }
 
     private static int commandOpenEditor(Player player, EditorType nbt, BiConsumer<Player, EditorType> action) {

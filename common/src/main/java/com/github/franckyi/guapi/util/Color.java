@@ -2,7 +2,7 @@ package com.github.franckyi.guapi.util;
 
 public final class Color {
     public static int rgb(int r, int g, int b) {
-        return rgba(r, g, b, 0xff);
+        return rgba(r, g, b, 255);
     }
 
     public static int rgba(int r, int g, int b, int a) {

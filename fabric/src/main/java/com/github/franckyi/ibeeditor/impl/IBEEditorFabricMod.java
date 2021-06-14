@@ -1,5 +1,7 @@
 package com.github.franckyi.ibeeditor.impl;
 
+import com.github.franckyi.guapi.api.node.Node;
+import com.github.franckyi.guapi.api.theme.DelegatedRendererProvider;
 import com.github.franckyi.guapi.impl.theme.vanilla.*;
 import com.github.franckyi.guapi.util.NodeType;
 import com.github.franckyi.ibeeditor.impl.client.ClientEventHandler;
@@ -28,13 +30,17 @@ public final class IBEEditorFabricMod implements ModInitializer, ClientModInitia
     @Override
     public void onInitializeClient() {
         ClientInit.init(FabricMinecraftClient.INSTANCE);
-        VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(NodeType.BUTTON, FabricVanillaButtonRenderer::new);
-        VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(NodeType.TEXTURED_BUTTON, FabricVanillaTexturedButtonRenderer::new);
-        VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(NodeType.TEXT_FIELD, FabricVanillaTextFieldRenderer::new);
-        VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(NodeType.CHECK_BOX, FabricVanillaCheckBoxRenderer::new);
-        VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(NodeType.LIST_VIEW, FabricVanillaListViewRenderer::new);
-        VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(NodeType.TREE_VIEW, FabricVanillaTreeViewRenderer::new);
+        initSkin(NodeType.BUTTON, FabricVanillaButtonRenderer::new);
+        initSkin(NodeType.TEXTURED_BUTTON, FabricVanillaTexturedButtonRenderer::new);
+        initSkin(NodeType.TEXT_FIELD, FabricVanillaTextFieldRenderer::new);
+        initSkin(NodeType.CHECK_BOX, FabricVanillaCheckBoxRenderer::new);
+        initSkin(NodeType.LIST_VIEW, FabricVanillaListViewRenderer::new);
+        initSkin(NodeType.TREE_VIEW, FabricVanillaTreeViewRenderer::new);
         ScreenEvents.AFTER_INIT.register(this::afterScreenInit);
+    }
+
+    private <N extends Node> void initSkin(NodeType<N> type, DelegatedRendererProvider<N> delegatedRendererProvider) {
+        VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(type, delegatedRendererProvider);
     }
 
     private void afterScreenInit(MinecraftClient mc, Screen screen, int width, int height) {

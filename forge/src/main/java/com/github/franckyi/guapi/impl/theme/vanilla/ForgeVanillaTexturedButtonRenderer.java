@@ -2,6 +2,7 @@ package com.github.franckyi.guapi.impl.theme.vanilla;
 
 import com.github.franckyi.guapi.api.node.TexturedButton;
 import com.github.franckyi.guapi.api.theme.vanilla.ForgeVanillaDelegateRenderer;
+import com.github.franckyi.guapi.util.Color;
 import com.github.franckyi.minecraft.api.client.render.Matrices;
 import com.github.franckyi.minecraft.impl.client.render.ForgeRenderer;
 import com.mojang.blaze3d.matrix.MatrixStack;
@@ -30,7 +31,7 @@ public class ForgeVanillaTexturedButtonRenderer extends Button implements ForgeV
         ForgeRenderer.INSTANCE.drawTexture(matrices, node.getTextureId(), x, y, node.getWidth(), node.getHeight(),
                 node.getImageX(), node.getImageY(), node.getImageWidth(), node.getImageHeight());
         if (!node.isDrawButton() && node.isDisabled()) {
-            ForgeRenderer.INSTANCE.fillRectangle(matrices, x, y, x + node.getWidth(), y + node.getHeight(), 0xbf000000);
+            ForgeRenderer.INSTANCE.fillRectangle(matrices, x, y, x + node.getWidth(), y + node.getHeight(), Color.rgba(0, 0, 0, 191));
         }
     }
 

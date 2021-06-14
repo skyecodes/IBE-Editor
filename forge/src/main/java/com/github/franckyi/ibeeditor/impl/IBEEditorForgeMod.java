@@ -1,10 +1,12 @@
 package com.github.franckyi.ibeeditor.impl;
 
+import com.github.franckyi.guapi.api.node.Node;
+import com.github.franckyi.guapi.api.theme.DelegatedRendererProvider;
 import com.github.franckyi.guapi.impl.theme.vanilla.*;
 import com.github.franckyi.guapi.util.NodeType;
+import com.github.franckyi.ibeeditor.impl.client.ClientContext;
 import com.github.franckyi.ibeeditor.impl.client.ClientEventHandler;
 import com.github.franckyi.ibeeditor.impl.client.ClientInit;
-import com.github.franckyi.ibeeditor.impl.client.ClientContext;
 import com.github.franckyi.ibeeditor.impl.common.CommonInit;
 import com.github.franckyi.ibeeditor.impl.server.ServerCommandHandler;
 import com.github.franckyi.ibeeditor.impl.server.ServerEventHandler;
@@ -41,15 +43,19 @@ public final class IBEEditorForgeMod {
 
     private void onClientInit(FMLClientSetupEvent event) {
         ClientInit.init(ForgeMinecraftClient.INSTANCE);
-        VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(NodeType.BUTTON, ForgeVanillaButtonRenderer::new);
-        VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(NodeType.TEXTURED_BUTTON, ForgeVanillaTexturedButtonRenderer::new);
-        VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(NodeType.TEXT_FIELD, ForgeVanillaTextFieldRenderer::new);
-        VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(NodeType.CHECK_BOX, ForgeVanillaCheckBoxRenderer::new);
-        VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(NodeType.LIST_VIEW, ForgeVanillaListViewRenderer::new);
-        VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(NodeType.TREE_VIEW, ForgeVanillaTreeViewRenderer::new);
+        initSkin(NodeType.BUTTON, ForgeVanillaButtonRenderer::new);
+        initSkin(NodeType.TEXTURED_BUTTON, ForgeVanillaTexturedButtonRenderer::new);
+        initSkin(NodeType.TEXT_FIELD, ForgeVanillaTextFieldRenderer::new);
+        initSkin(NodeType.CHECK_BOX, ForgeVanillaCheckBoxRenderer::new);
+        initSkin(NodeType.LIST_VIEW, ForgeVanillaListViewRenderer::new);
+        initSkin(NodeType.TREE_VIEW, ForgeVanillaTreeViewRenderer::new);
         MinecraftForge.EVENT_BUS.addListener(this::onKeyInput);
         MinecraftForge.EVENT_BUS.addListener(this::onKeyPressed);
         MinecraftForge.EVENT_BUS.addListener(this::onWorldUnload);
+    }
+
+    private <N extends Node> void initSkin(NodeType<N> type, DelegatedRendererProvider<N> delegatedRendererProvider) {
+        VanillaTheme.INSTANCE.registerDelegatedSkinRenderer(type, delegatedRendererProvider);
     }
 
     private void onKeyInput(InputEvent.KeyInputEvent e) {
