@@ -14,8 +14,6 @@ public final class ClientInit {
         Minecraft.setClient(client);
         ClientConfiguration.load();
         GUAPI.init();
-        GUAPI.setDebugMode(ClientConfiguration.INSTANCE.isGuapiDebugMode());
-        GUAPI.setTheme(ClientConfiguration.INSTANCE.getGuapiTheme());
         KeyBindings.init();
     }
 }

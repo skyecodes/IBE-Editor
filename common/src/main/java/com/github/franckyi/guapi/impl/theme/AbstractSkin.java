@@ -20,8 +20,14 @@ public abstract class AbstractSkin<N extends Node> implements Skin<N> {
     @Override
     public void render(N node, Matrices matrices, int mouseX, int mouseY, float delta) {
         renderBackground(node, matrices);
-        if (GUAPI.isDebugMode()) {
-            renderDebug(node, matrices);
+        switch (GUAPI.getDebugMode()) {
+            case OFF:
+                break;
+            case HOVER:
+                if (!node.inBounds(mouseX, mouseY)) break;
+            case FULL:
+                renderDebug(node, matrices);
+                break;
         }
     }
 

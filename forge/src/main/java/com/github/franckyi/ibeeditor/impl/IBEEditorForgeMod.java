@@ -45,6 +45,7 @@ public final class IBEEditorForgeMod {
         ClientInit.init(ForgeMinecraftClient.INSTANCE);
         initSkin(NodeType.BUTTON, ForgeVanillaButtonRenderer::new);
         initSkin(NodeType.TEXTURED_BUTTON, ForgeVanillaTexturedButtonRenderer::new);
+        initSkin(NodeType.ENUM_BUTTON, ForgeVanillaButtonRenderer::new);
         initSkin(NodeType.TEXT_FIELD, ForgeVanillaTextFieldRenderer::new);
         initSkin(NodeType.CHECK_BOX, ForgeVanillaCheckBoxRenderer::new);
         initSkin(NodeType.LIST_VIEW, ForgeVanillaListViewRenderer::new);

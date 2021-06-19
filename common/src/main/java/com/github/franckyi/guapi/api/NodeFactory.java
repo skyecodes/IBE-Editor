@@ -25,6 +25,10 @@ public interface NodeFactory {
 
     CheckBoxBuilder createCheckBox(Consumer<CheckBoxBuilder> with);
 
+    <E extends Enum<E>> EnumButtonBuilder<E> createEnumButton(Class<? extends E> enumClass);
+
+    <E extends Enum<E>> EnumButtonBuilder<E> createEnumButton(E value);
+
     HBoxBuilder createHBox();
 
     HBoxBuilder createHBox(int spacing);

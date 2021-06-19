@@ -57,6 +57,16 @@ public class NodeFactoryImpl implements NodeFactory {
     }
 
     @Override
+    public <E extends Enum<E>> EnumButtonBuilder<E> createEnumButton(Class<? extends E> enumClass) {
+        return new EnumButtonImpl<>(enumClass);
+    }
+
+    @Override
+    public <E extends Enum<E>> EnumButtonBuilder<E> createEnumButton(E value) {
+        return new EnumButtonImpl<>(value);
+    }
+
+    @Override
     public HBoxBuilder createHBox() {
         return new HBoxImpl();
     }

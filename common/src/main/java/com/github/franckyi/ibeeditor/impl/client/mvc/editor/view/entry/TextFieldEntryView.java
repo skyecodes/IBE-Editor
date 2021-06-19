@@ -5,7 +5,7 @@ import com.github.franckyi.guapi.api.node.TextField;
 import static com.github.franckyi.guapi.GUAPIHelper.*;
 
 public abstract class TextFieldEntryView extends LabeledEntryView {
-    private final TextField textField;
+    protected final TextField textField;
 
     protected TextFieldEntryView() {
         super();

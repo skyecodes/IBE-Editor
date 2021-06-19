@@ -15,15 +15,17 @@ public abstract class AbstractEditorModel<T, C extends CategoryModel> implements
     private final T target;
     private final Consumer<T> action;
     private final Text disabledTooltip;
+    private final String title;
     private final ObservableList<C> categories = DataBindings.getObservableListFactory().createObservableArrayList();
     private final ObjectProperty<CategoryModel> selectedCategory = DataBindings.getPropertyFactory().createObjectProperty();
     private final BooleanProperty validProperty = DataBindings.getPropertyFactory().createBooleanProperty(true);
     private final ObjectProperty<TextEntryController> focusedTextEntryProperty = DataBindings.getPropertyFactory().createObjectProperty();
 
-    protected AbstractEditorModel(T target, Consumer<T> action, Text disabledTooltip) {
+    protected AbstractEditorModel(T target, Consumer<T> action, Text disabledTooltip, String title) {
         this.target = target;
         this.action = action;
         this.disabledTooltip = disabledTooltip;
+        this.title = title;
         selectedCategoryProperty().addListener((oldVal, newVal) -> {
             if (oldVal != null) {
                 oldVal.setSelected(false);
@@ -61,6 +63,11 @@ public abstract class AbstractEditorModel<T, C extends CategoryModel> implements
     @Override
     public Text getDisabledTooltip() {
         return disabledTooltip;
+    }
+
+    @Override
+    public String getTitle() {
+        return title;
     }
 
     @Override

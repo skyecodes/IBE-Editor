@@ -13,6 +13,7 @@ public class VanillaTheme extends AbstractTheme {
         registerSkinInstance(NodeType.IMAGE_VIEW, VanillaImageViewSkin.INSTANCE);
         delegateSkinRenderer(NodeType.BUTTON, VanillaButtonSkin::new);
         delegateSkinRenderer(NodeType.TEXTURED_BUTTON, VanillaTexturedButtonSkin::new);
+        delegateSkinRenderer(NodeType.ENUM_BUTTON, VanillaEnumButtonSkin::new);
         delegateSkinRenderer(NodeType.TEXT_FIELD, VanillaTextFieldSkin::new);
         delegateSkinRenderer(NodeType.CHECK_BOX, VanillaCheckBoxSkin::new);
         delegateSkinRenderer(NodeType.LIST_VIEW, VanillaListViewSkin::new);

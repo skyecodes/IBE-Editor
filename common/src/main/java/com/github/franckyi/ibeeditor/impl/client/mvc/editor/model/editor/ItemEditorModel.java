@@ -11,7 +11,7 @@ import java.util.function.Consumer;
 
 public class ItemEditorModel extends AbstractEditorModel<Item, AbstractItemCategoryModel> {
     public ItemEditorModel(Item item, Consumer<Item> action, Text disabledTooltip) {
-        super(item, action, disabledTooltip);
+        super(item, action, disabledTooltip, "ibeeditor.gui.item_editor");
         getCategories().addAll(
                 new ItemGeneralCategoryModel(this, item)
         );

@@ -32,6 +32,7 @@ public final class IBEEditorFabricMod implements ModInitializer, ClientModInitia
         ClientInit.init(FabricMinecraftClient.INSTANCE);
         initSkin(NodeType.BUTTON, FabricVanillaButtonRenderer::new);
         initSkin(NodeType.TEXTURED_BUTTON, FabricVanillaTexturedButtonRenderer::new);
+        initSkin(NodeType.ENUM_BUTTON, FabricVanillaButtonRenderer::new);
         initSkin(NodeType.TEXT_FIELD, FabricVanillaTextFieldRenderer::new);
         initSkin(NodeType.CHECK_BOX, FabricVanillaCheckBoxRenderer::new);
         initSkin(NodeType.LIST_VIEW, FabricVanillaListViewRenderer::new);

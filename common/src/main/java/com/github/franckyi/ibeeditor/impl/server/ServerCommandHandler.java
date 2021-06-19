@@ -106,9 +106,9 @@ public final class ServerCommandHandler {
         return commandOpenEditor(player, type, ServerNetworkEmitter::sendSelfEditorCommand);
     }
 
-    private static int commandOpenEditor(Player player, EditorType nbt, BiConsumer<Player, EditorType> action) {
+    private static int commandOpenEditor(Player player, EditorType type, BiConsumer<Player, EditorType> action) {
         if (ServerContext.isClientModded(player)) {
-            action.accept(player, nbt);
+            action.accept(player, type);
             return 0;
         }
         player.sendMessage(MUST_INSTALL);

@@ -7,6 +7,7 @@ import com.github.franckyi.guapi.api.node.*;
 import com.github.franckyi.guapi.api.node.builder.TexturedButtonBuilder;
 import com.github.franckyi.ibeeditor.api.client.mvc.nbteditor.model.TagModel;
 import com.github.franckyi.ibeeditor.api.client.mvc.nbteditor.view.NBTEditorView;
+import com.github.franckyi.ibeeditor.impl.client.EditorScreenHandler;
 import com.github.franckyi.ibeeditor.impl.client.mvc.IBEEditorMVC;
 import com.github.franckyi.minecraft.Minecraft;
 import com.github.franckyi.minecraft.api.common.text.Text;
@@ -34,7 +35,11 @@ public class NBTEditorViewImpl implements NBTEditorView {
     public NBTEditorViewImpl() {
         root = vBox(root -> {
             root.spacing(5).align(CENTER).padding(5).fillWidth();
-            root.add(label(translated("ibeeditor.gui.nbt_editor").aqua().bold(), true).textAlign(CENTER).prefHeight(15));
+            root.add(hBox(header -> {
+                header.add(hBox().prefWidth(16));
+                header.add(label(translated("ibeeditor.gui.nbt_editor").aqua().bold(), true).textAlign(CENTER).prefHeight(20), 1);
+                header.add(createButton("ibeeditor:textures/gui/settings.png", "ibeeditor.gui.settings").action(EditorScreenHandler::openSettings));
+            }));
             root.add(main = vBox(main -> {
                 main.add(hBox(buttons -> {
                     buttons.add(rawButton = createButton("ibeeditor:textures/gui/raw_nbt.png", "ibeeditor.gui.switch_raw_nbt_editor"));

@@ -6,6 +6,8 @@ import com.github.franckyi.ibeeditor.api.client.mvc.editor.model.CategoryModel;
 import com.github.franckyi.ibeeditor.api.client.mvc.editor.model.EntryType;
 import com.github.franckyi.minecraft.api.common.text.Text;
 
+import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 
 public class TextEntryModel extends ValueEntryModel<Text> {

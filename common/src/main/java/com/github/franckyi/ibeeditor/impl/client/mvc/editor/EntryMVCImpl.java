@@ -4,12 +4,15 @@ import com.github.franckyi.ibeeditor.api.client.mvc.editor.EntryMVC;
 import com.github.franckyi.ibeeditor.api.client.mvc.editor.controller.EntryController;
 import com.github.franckyi.ibeeditor.api.client.mvc.editor.model.EntryModel;
 import com.github.franckyi.ibeeditor.api.client.mvc.editor.view.EntryView;
+import com.github.franckyi.ibeeditor.impl.client.mvc.editor.controller.entry.EnumEntryController;
 import com.github.franckyi.ibeeditor.impl.client.mvc.editor.controller.entry.IntegerEntryController;
 import com.github.franckyi.ibeeditor.impl.client.mvc.editor.controller.entry.StringEntryController;
 import com.github.franckyi.ibeeditor.impl.client.mvc.editor.controller.entry.TextEntryController;
+import com.github.franckyi.ibeeditor.impl.client.mvc.editor.model.entry.EnumEntryModel;
 import com.github.franckyi.ibeeditor.impl.client.mvc.editor.model.entry.IntegerEntryModel;
 import com.github.franckyi.ibeeditor.impl.client.mvc.editor.model.entry.StringEntryModel;
 import com.github.franckyi.ibeeditor.impl.client.mvc.editor.model.entry.TextEntryModel;
+import com.github.franckyi.ibeeditor.impl.client.mvc.editor.view.entry.EnumEntryView;
 import com.github.franckyi.ibeeditor.impl.client.mvc.editor.view.entry.IntegerEntryView;
 import com.github.franckyi.ibeeditor.impl.client.mvc.editor.view.entry.StringEntryView;
 import com.github.franckyi.ibeeditor.impl.client.mvc.editor.view.entry.TextEntryView;
@@ -30,10 +33,17 @@ public class EntryMVCImpl implements EntryMVC {
             case TEXT:
                 controller = new TextEntryController(((TextEntryModel) model), new TextEntryView());
                 break;
+            case ENUM:
+                controller = createEnumController((EnumEntryModel<?>) model);
+                break;
             default:
                 throw new IllegalStateException("Unexpected value: " + model.getType());
         }
         controller.bind();
         return controller.getView();
+    }
+
+    private <E extends Enum<E>> EntryController<?, ?> createEnumController(EnumEntryModel<E> model) {
+        return new EnumEntryController<>(model, new EnumEntryView<>(model.getValue().getDeclaringClass()));
     }
 }

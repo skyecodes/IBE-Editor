@@ -4,6 +4,7 @@ import com.github.franckyi.guapi.api.NodeFactory;
 import com.github.franckyi.guapi.api.theme.Theme;
 import com.github.franckyi.guapi.impl.NodeFactoryImpl;
 import com.github.franckyi.guapi.impl.theme.vanilla.VanillaTheme;
+import com.github.franckyi.guapi.util.DebugMode;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
 
@@ -13,9 +14,9 @@ import java.util.Map;
 public final class GUAPI {
     public static final Marker LOG_MARKER = MarkerManager.getMarker("GUAPI");
     private static final Map<String, Theme> themeRegistry = new HashMap<>();
-    private static Theme theme;
+    private static Theme theme = VanillaTheme.INSTANCE;
     private static NodeFactory nodeFactory = NodeFactoryImpl.INSTANCE;
-    private static boolean debugMode = false;
+    private static DebugMode debugMode = DebugMode.OFF;
 
     public static void init() {
         registerTheme("vanilla", VanillaTheme.INSTANCE);
@@ -41,11 +42,11 @@ public final class GUAPI {
         GUAPI.nodeFactory = nodeFactory;
     }
 
-    public static boolean isDebugMode() {
+    public static DebugMode getDebugMode() {
         return debugMode;
     }
 
-    public static void setDebugMode(boolean debugMode) {
+    public static void setDebugMode(DebugMode debugMode) {
         GUAPI.debugMode = debugMode;
     }
 }

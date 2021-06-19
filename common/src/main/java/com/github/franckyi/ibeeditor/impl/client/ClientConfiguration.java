@@ -1,5 +1,6 @@
 package com.github.franckyi.ibeeditor.impl.client;
 
+import com.github.franckyi.guapi.util.DebugMode;
 import com.github.franckyi.minecraft.Minecraft;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -21,12 +22,12 @@ public final class ClientConfiguration {
 
     private int editorScale;
     private String guapiTheme;
-    private boolean guapiDebugMode;
+    private DebugMode guapiDebugMode;
 
     private ClientConfiguration() {
         editorScale = -1;
         guapiTheme = "vanilla";
-        guapiDebugMode = false;
+        guapiDebugMode = DebugMode.OFF;
     }
 
     public int getEditorScale() {
@@ -51,11 +52,11 @@ public final class ClientConfiguration {
         }
     }
 
-    public boolean isGuapiDebugMode() {
+    public DebugMode getGuapiDebugMode() {
         return guapiDebugMode;
     }
 
-    public void setGuapiDebugMode(boolean guapiDebugMode) {
+    public void setGuapiDebugMode(DebugMode guapiDebugMode) {
         if (this.guapiDebugMode != guapiDebugMode) {
             this.guapiDebugMode = guapiDebugMode;
             changed = true;

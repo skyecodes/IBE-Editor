@@ -8,7 +8,7 @@ import java.util.function.Consumer;
 
 public class EntityEditorModel extends AbstractEditorModel<Entity, AbstractEntityCategoryModel> {
     public EntityEditorModel(Entity entity, Consumer<Entity> action, Text disabledTooltip) {
-        super(entity, action, disabledTooltip);
+        super(entity, action, disabledTooltip, "ibeeditor.gui.entity_editor");
     }
 
     @Override

@@ -8,7 +8,7 @@ import java.util.function.Consumer;
 
 public class BlockEditorModel extends AbstractEditorModel<Block, AbstractBlockCategoryModel> {
     public BlockEditorModel(Block block, Consumer<Block> action, Text disabledTooltip) {
-        super(block, action, disabledTooltip);
+        super(block, action, disabledTooltip, "ibeeditor.gui.block_editor");
     }
 
     @Override

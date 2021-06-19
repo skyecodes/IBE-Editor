@@ -2,7 +2,6 @@ package com.github.franckyi.minecraft.impl.common.text;
 
 import com.github.franckyi.minecraft.api.common.text.Text;
 import com.github.franckyi.minecraft.api.common.text.TextFactory;
-import com.google.gson.Gson;
 
 public final class FabricTextFactory implements TextFactory<net.minecraft.text.Text> {
     public static final TextFactory<net.minecraft.text.Text> INSTANCE = new FabricTextFactory();

@@ -4,6 +4,7 @@ import com.github.franckyi.guapi.api.NodeFactory;
 import com.github.franckyi.guapi.api.mvc.Controller;
 import com.github.franckyi.guapi.api.mvc.MVC;
 import com.github.franckyi.guapi.api.mvc.View;
+import com.github.franckyi.guapi.api.node.EnumButton;
 import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.api.node.TreeView;
 import com.github.franckyi.guapi.api.node.builder.*;
@@ -84,6 +85,14 @@ public final class GUAPIHelper {
 
     public static CheckBoxBuilder checkBox(Consumer<CheckBoxBuilder> with) {
         return node().createCheckBox(with);
+    }
+
+    public static <E extends Enum<E>> EnumButtonBuilder<E> enumButton(Class<? extends E> enumClass) {
+        return node().createEnumButton(enumClass);
+    }
+
+    public static <E extends Enum<E>> EnumButtonBuilder<E> enumButton(E value) {
+        return node().createEnumButton(value);
     }
 
     public static HBoxBuilder hBox() {

@@ -1,8 +1,10 @@
 package com.github.franckyi.ibeeditor.impl.client;
 
+import com.github.franckyi.guapi.GUAPI;
 import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.ibeeditor.impl.client.mvc.IBEEditorMVC;
 import com.github.franckyi.ibeeditor.impl.client.mvc.editor.model.editor.BlockEditorModel;
+import com.github.franckyi.ibeeditor.impl.client.mvc.editor.model.editor.ConfigEditorModel;
 import com.github.franckyi.ibeeditor.impl.client.mvc.editor.model.editor.EntityEditorModel;
 import com.github.franckyi.ibeeditor.impl.client.mvc.editor.model.editor.ItemEditorModel;
 import com.github.franckyi.ibeeditor.impl.client.mvc.nbteditor.model.NBTEditor;
@@ -34,7 +36,13 @@ public final class EditorScreenHandler {
         openScaledScreen(mvc(IBEEditorMVC.NBT_EDITOR, new NBTEditor(tag, action, disabledTooltip)));
     }
 
+    public static void openSettings() {
+        openScaledScreen(mvc(IBEEditorMVC.EDITOR, new ConfigEditorModel()));
+    }
+
     private static void openScaledScreen(Node root) {
+        GUAPI.setDebugMode(ClientConfiguration.INSTANCE.getGuapiDebugMode());
+        GUAPI.setTheme(ClientConfiguration.INSTANCE.getGuapiTheme());
         Minecraft.getClient().getScreenHandler().showScene(scene(root, true, true).show(scene -> {
             Minecraft.getClient().getScreenScaling().setBaseScale(ClientConfiguration.INSTANCE.getEditorScale());
             scene.widthProperty().addListener(Minecraft.getClient().getScreenScaling()::refresh);

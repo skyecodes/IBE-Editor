@@ -29,6 +29,8 @@ public interface EditorModel {
         return validProperty().getValue();
     }
 
+    String getTitle();
+
     BooleanProperty validProperty();
 
     default void setValid(boolean value) {

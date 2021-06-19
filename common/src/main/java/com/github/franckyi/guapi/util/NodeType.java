@@ -13,6 +13,7 @@ public final class NodeType<N extends Node> {
     public static final NodeType<TreeView<?>> TREE_VIEW = new NodeType<>("TreeView");
     public static final NodeType<ImageView> IMAGE_VIEW = new NodeType<>("ImageView");
     public static final NodeType<TexturedButton> TEXTURED_BUTTON = new NodeType<>("TexturedButton");
+    public static final NodeType<EnumButton<?>> ENUM_BUTTON = new NodeType<>("EnumButton");
     private final String s;
 
     private NodeType(String s) {

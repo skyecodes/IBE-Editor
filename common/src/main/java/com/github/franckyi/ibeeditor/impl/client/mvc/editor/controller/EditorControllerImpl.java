@@ -15,6 +15,7 @@ public class EditorControllerImpl extends AbstractController<EditorModel, Editor
 
     @Override
     public void bind() {
+        view.getHeaderLabel().setLabel(translated(model.getTitle()).aqua().bold());
         updateCategoryList();
         updateEntryList();
         model.getCategories().addListener(this::updateCategoryList);
