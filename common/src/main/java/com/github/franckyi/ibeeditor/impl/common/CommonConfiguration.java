@@ -3,6 +3,7 @@ package com.github.franckyi.ibeeditor.impl.common;
 import com.github.franckyi.minecraft.Minecraft;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -24,8 +25,9 @@ public final class CommonConfiguration {
             try (Reader r = Files.newBufferedReader(COMMON_CONFIG_FILE)) {
                 INSTANCE = GSON.fromJson(r, CommonConfiguration.class);
                 LOGGER.debug("Common configuration loaded");
-            } catch (IOException e) {
+            } catch (IOException | JsonSyntaxException e) {
                 LOGGER.error("Error while loading common configuration", e);
+                INSTANCE = new CommonConfiguration();
             }
         } else {
             LOGGER.debug("Generating default common configuration");
