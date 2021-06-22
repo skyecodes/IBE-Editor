@@ -10,6 +10,10 @@ public interface GenericEnumButtonBuilder<E extends Enum<E>, N extends EnumButto
         return with(n -> n.setValue(value));
     }
 
+    default N valueIndex(int value) {
+        return with(n -> n.setValueIndex(value));
+    }
+
     default N textFactory(Function<E, Text> value) {
         return with(n -> n.setTextFactory(value));
     }

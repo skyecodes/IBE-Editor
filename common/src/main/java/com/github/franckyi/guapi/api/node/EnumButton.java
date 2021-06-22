@@ -1,5 +1,6 @@
 package com.github.franckyi.guapi.api.node;
 
+import com.github.franckyi.databindings.api.IntegerProperty;
 import com.github.franckyi.databindings.api.ObjectProperty;
 import com.github.franckyi.minecraft.api.common.text.Text;
 
@@ -14,6 +15,16 @@ public interface EnumButton<E extends Enum<E>> extends Button {
 
     default void setValue(E value) {
         valueProperty().setValue(value);
+    }
+
+    default int getValueIndex() {
+        return valueIndexProperty().getValue();
+    }
+
+    IntegerProperty valueIndexProperty();
+
+    default void setValueIndex(int value) {
+        valueIndexProperty().setValue(value);
     }
 
     default Function<E, Text> getTextFactory() {
