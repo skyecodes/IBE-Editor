@@ -20,6 +20,6 @@ public interface EditorEntryModel {
     Type getType();
 
     enum Type {
-        STRING, INTEGER, TEXT, ENUM
+        STRING, INTEGER, TEXT, ENUM, ACTION
     }
 }

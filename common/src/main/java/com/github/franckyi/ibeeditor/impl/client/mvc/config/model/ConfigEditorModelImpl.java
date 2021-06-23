@@ -6,11 +6,14 @@ import com.github.franckyi.ibeeditor.api.client.mvc.config.model.ConfigEditorMod
 import com.github.franckyi.ibeeditor.impl.client.mvc.base.model.AbstractListEditorModel;
 import com.github.franckyi.ibeeditor.impl.client.mvc.config.model.category.AbstractConfigEditorCategoryModel;
 import com.github.franckyi.ibeeditor.impl.client.mvc.config.model.category.ClientConfigEditorCategoryModel;
+import com.github.franckyi.minecraft.Minecraft;
 
 public class ConfigEditorModelImpl extends AbstractListEditorModel implements ConfigEditorModel {
+    private final ClientConfigEditorCategoryModel client;
+
     public ConfigEditorModelImpl() {
         getCategories().addAll(
-                new ClientConfigEditorCategoryModel(this)
+                client = new ClientConfigEditorCategoryModel(this)
         );
     }
 
@@ -22,6 +25,12 @@ public class ConfigEditorModelImpl extends AbstractListEditorModel implements Co
 
     @Override
     public void apply() {
+        getCategories().forEach(AbstractConfigEditorCategoryModel::apply);
+        Minecraft.getClient().getScreenHandler().hideScene();
+    }
+
+    public void syncEntries() {
+        client.syncEntries();
     }
 
     @Override

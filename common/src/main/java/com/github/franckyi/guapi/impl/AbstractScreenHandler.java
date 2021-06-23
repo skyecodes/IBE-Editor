@@ -33,6 +33,8 @@ public abstract class AbstractScreenHandler implements ScreenHandler {
             } else {
                 if (oldVal == null) {
                     openScreen();
+                } else {
+                    oldVal.hide();
                 }
                 newVal.widthProperty().bind(widthProperty);
                 newVal.heightProperty().bind(heightProperty);

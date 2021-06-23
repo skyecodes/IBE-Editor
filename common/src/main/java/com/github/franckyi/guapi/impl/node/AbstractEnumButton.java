@@ -69,7 +69,7 @@ public abstract class AbstractEnumButton<E extends Enum<E>> extends AbstractButt
     private void updateValueIndex(E value) {
         valueUpdated = true;
         if (!indexUpdated) {
-            for (int i = 0; i < values.length - 1; i++) {
+            for (int i = 0; i < values.length; i++) {
                 if (values[i] == value) {
                     setValueIndex(i);
                     break;

@@ -24,5 +24,6 @@
   "ibeeditor.gui.zoom_reset": "Reset Zoom",
   "ibeeditor.gui.zoom_out": "Zoom Out",
   "ibeeditor.gui.zoom_in": "Zoom In",
-  "ibeeditor.gui.add_tag": "Add %s Tag"
+  "ibeeditor.gui.add_tag": "Add %s Tag",
+  "ibeeditor.gui.save": "Save"
 }

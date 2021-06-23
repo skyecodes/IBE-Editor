@@ -1,6 +1,5 @@
 package com.github.franckyi.ibeeditor.impl.client;
 
-import com.github.franckyi.guapi.GUAPI;
 import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.ibeeditor.impl.client.mvc.IBEEditorMVC;
 import com.github.franckyi.ibeeditor.impl.client.mvc.config.model.ConfigEditorModelImpl;
@@ -37,12 +36,12 @@ public final class EditorScreenHandler {
     }
 
     public static void openSettings() {
-        openScaledScreen(mvc(IBEEditorMVC.CONFIG_EDITOR, new ConfigEditorModelImpl()));
+        ConfigEditorModelImpl model = new ConfigEditorModelImpl();
+        openScaledScreen(mvc(IBEEditorMVC.CONFIG_EDITOR, model));
+        model.syncEntries();
     }
 
     private static void openScaledScreen(Node root) {
-        GUAPI.setDebugMode(ClientConfiguration.INSTANCE.getGuapiDebugMode());
-        GUAPI.setTheme(ClientConfiguration.INSTANCE.getGuapiTheme());
         Minecraft.getClient().getScreenHandler().showScene(scene(root, true, true).show(scene -> {
             Minecraft.getClient().getScreenScaling().setBaseScale(ClientConfiguration.INSTANCE.getEditorScale());
             scene.widthProperty().addListener(Minecraft.getClient().getScreenScaling()::refresh);
