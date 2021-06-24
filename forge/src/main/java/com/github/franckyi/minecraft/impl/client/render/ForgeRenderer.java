@@ -32,9 +32,9 @@ public class ForgeRenderer implements Renderer {
     @Override
     public void drawString(Matrices matrices, Text text, float x, float y, int color, boolean shadow) {
         if (shadow) {
-            font().draw(matrices.getMatrixStack(), (ITextComponent) text.get(), x, y, color);
-        } else {
             font().drawShadow(matrices.getMatrixStack(), (ITextComponent) text.get(), x, y, color);
+        } else {
+            font().draw(matrices.getMatrixStack(), (ITextComponent) text.get(), x, y, color);
         }
     }
 
@@ -46,6 +46,7 @@ public class ForgeRenderer implements Renderer {
     @Override
     public void drawTexture(Matrices matrices, String id, int x, int y, int width, int height, int imageX, int imageY, int imageWidth, int imageHeight) {
         Minecraft.getInstance().getTextureManager().bind(new ResourceLocation(id));
+        RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
         RenderSystem.enableDepthTest();
