@@ -62,6 +62,26 @@ public interface TextField extends Labeled {
         textRendererProperty().setValue(value);
     }
 
+    default int getCursorPosition() {
+        return cursorPositionProperty().getValue();
+    }
+
+    IntegerProperty cursorPositionProperty();
+
+    default void setCursorPosition(int value) {
+        cursorPositionProperty().setValue(value);
+    }
+
+    default int getHighlightPosition() {
+        return highlightPositionProperty().getValue();
+    }
+
+    IntegerProperty highlightPositionProperty();
+
+    default void setHighlightPosition(int value) {
+        highlightPositionProperty().setValue(value);
+    }
+
     @FunctionalInterface
     interface TextRenderer {
         Text render(String text, int firstCharacterIndex);

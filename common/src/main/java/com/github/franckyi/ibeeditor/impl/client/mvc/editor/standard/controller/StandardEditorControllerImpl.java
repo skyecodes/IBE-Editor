@@ -31,7 +31,11 @@ public class StandardEditorControllerImpl extends AbstractListEditorController<S
         }
     }
 
-    private void onTextButtonClick(StandardEditorView.TextButtonType buttonType) {
+    private void onTextButtonClick(StandardEditorView.TextButtonType textButtonType) {
+        if (textButtonType == StandardEditorView.TextButtonType.CUSTOM) {
 
+        } else {
+            model.getFocusedTextEntry().addFormatting(textButtonType);
+        }
     }
 }

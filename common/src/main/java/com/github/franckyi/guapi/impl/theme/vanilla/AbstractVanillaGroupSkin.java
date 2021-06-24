@@ -5,7 +5,7 @@ import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.impl.theme.AbstractSkin;
 import com.github.franckyi.minecraft.api.client.render.Matrices;
 
-public abstract class VanillaGroupSkin<N extends Group> extends AbstractSkin<N> {
+public abstract class AbstractVanillaGroupSkin<N extends Group> extends AbstractSkin<N> {
     @Override
     public boolean preRender(N node, Matrices matrices, int mouseX, int mouseY, float delta) {
         boolean res = false;

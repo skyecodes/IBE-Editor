@@ -19,7 +19,7 @@ public class ItemGeneralEditorCategoryModel extends AbstractItemEditorCategoryMo
         getEntries().addAll(
                 new StringEditorEntryModel(this, translated("ibeeditor.gui.editor.item.entry.item_id"), item.getTag().getString("id"), value -> getTag().putString("id", value)),
                 new IntegerEditorEntryModel(this, translated("ibeeditor.gui.editor.item.entry.count"), item.getTag().getInt("Count"), value -> getTag().putInt("Count", value)),
-                new TextEditorEntryModel(this, translated("ibeeditor.gui.editor.item.entry.name"), item.getName(), this::setItemName, item.getDefaultName())
+                new TextEditorEntryModel(this, translated("ibeeditor.gui.editor.item.entry.name"), item.getName(), this::setItemName, item.getDefaultName(), text(null).italic(false))
         );
     }
 

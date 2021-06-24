@@ -13,7 +13,7 @@ public interface BooleanProperty extends Property<Boolean>, ObservableBooleanVal
         set(value);
     }
 
-    default void other() {
+    default void toggle() {
         setValue(!getValue());
     }
 }

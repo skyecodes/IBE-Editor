@@ -4,7 +4,7 @@ import com.github.franckyi.guapi.api.node.HBox;
 import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.api.theme.Skin;
 
-public class VanillaHBoxSkin extends VanillaGroupSkin<HBox> {
+public class VanillaHBoxSkin extends AbstractVanillaGroupSkin<HBox> {
     public static final Skin<HBox> INSTANCE = new VanillaHBoxSkin();
 
     private VanillaHBoxSkin() {

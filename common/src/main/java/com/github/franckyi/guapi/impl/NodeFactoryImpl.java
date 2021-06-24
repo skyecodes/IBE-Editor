@@ -212,6 +212,41 @@ public class NodeFactoryImpl implements NodeFactory {
     }
 
     @Override
+    public TexturedToggleButtonBuilder createTexturedToggleButton(String id, boolean drawButton) {
+        return new TexturedToggleButtonImpl(id, drawButton);
+    }
+
+    @Override
+    public TexturedToggleButtonBuilder createTexturedToggleButton(String id, int imageWidth, int imageHeight, boolean drawButton) {
+        return new TexturedToggleButtonImpl(id, imageWidth, imageHeight, drawButton);
+    }
+
+    @Override
+    public TexturedToggleButtonBuilder createTexturedToggleButton(String id, boolean drawButton, Consumer<TexturedToggleButtonBuilder> with) {
+        return createTexturedToggleButton(id, drawButton).with(with);
+    }
+
+    @Override
+    public ToggleButtonBuilder createToggleButton() {
+        return new ToggleButtonImpl();
+    }
+
+    @Override
+    public ToggleButtonBuilder createToggleButton(String text) {
+        return new ToggleButtonImpl(text);
+    }
+
+    @Override
+    public ToggleButtonBuilder createToggleButton(Text text) {
+        return new ToggleButtonImpl(text);
+    }
+
+    @Override
+    public ToggleButtonBuilder createToggleButton(Consumer<ToggleButtonBuilder> with) {
+        return createToggleButton().with(with);
+    }
+
+    @Override
     public <E extends TreeView.TreeItem<E>> TreeViewBuilder<E> createTreeView(Class<E> eClass) {
         return new TreeViewImpl<>();
     }

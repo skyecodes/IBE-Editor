@@ -1,10 +1,14 @@
 package com.github.franckyi.guapi.api.theme.vanilla;
 
 import com.github.franckyi.guapi.api.event.*;
+import com.github.franckyi.guapi.api.node.Labeled;
+import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.api.theme.DelegatedRenderer;
+import com.github.franckyi.ibeeditor.mixin.AbstractButtonWidgetMixin;
 import com.github.franckyi.minecraft.api.client.render.Matrices;
 import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.gui.Element;
+import net.minecraft.client.gui.widget.AbstractButtonWidget;
 import net.minecraft.client.util.math.MatrixStack;
 
 public interface FabricVanillaDelegateRenderer extends DelegatedRenderer, Element, Drawable {
@@ -51,5 +55,19 @@ public interface FabricVanillaDelegateRenderer extends DelegatedRenderer, Elemen
     @Override
     default void render(Matrices matrices, int mouseX, int mouseY, float delta) {
         render((MatrixStack) matrices.getMatrixStack(), mouseX, mouseY, delta);
+    }
+
+    default void initNode(Node node, AbstractButtonWidget widget) {
+        widget.active = !node.isDisabled();
+        node.xProperty().addListener(newVal -> widget.x = newVal);
+        node.yProperty().addListener(newVal -> widget.y = newVal);
+        node.widthProperty().addListener(widget::setWidth);
+        node.heightProperty().addListener(((AbstractButtonWidgetMixin) widget)::setHeight);
+        node.disabledProperty().addListener(newVal -> widget.active = !newVal);
+    }
+
+    default void initLabeled(Labeled node, AbstractButtonWidget widget) {
+        initNode(node, widget);
+        node.labelProperty().addListener(label -> widget.setMessage(label.get()));
     }
 }

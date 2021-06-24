@@ -35,7 +35,7 @@ public class ForgeItem implements Item {
     @Override
     public Text getName() {
         if (name == null) {
-            name = ForgeTextFactory.INSTANCE.createTextFromComponent(item.getDisplayName());
+            name = ForgeTextFactory.INSTANCE.createTextFromComponent(item.getHoverName());
         }
         return name;
     }

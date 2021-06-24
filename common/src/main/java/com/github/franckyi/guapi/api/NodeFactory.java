@@ -87,6 +87,20 @@ public interface NodeFactory {
 
     TexturedButtonBuilder createTexturedButton(String id, boolean drawButton, Consumer<TexturedButtonBuilder> with);
 
+    TexturedToggleButtonBuilder createTexturedToggleButton(String id, boolean drawButton);
+
+    TexturedToggleButtonBuilder createTexturedToggleButton(String id, int imageWidth, int imageHeight, boolean drawButton);
+
+    TexturedToggleButtonBuilder createTexturedToggleButton(String id, boolean drawButton, Consumer<TexturedToggleButtonBuilder> with);
+
+    ToggleButtonBuilder createToggleButton();
+
+    ToggleButtonBuilder createToggleButton(String text);
+
+    ToggleButtonBuilder createToggleButton(Text text);
+
+    ToggleButtonBuilder createToggleButton(Consumer<ToggleButtonBuilder> with);
+
     <E extends TreeView.TreeItem<E>> TreeViewBuilder<E> createTreeView(Class<E> eClass);
 
     <E extends TreeView.TreeItem<E>> TreeViewBuilder<E> createTreeView(Class<E> eClass, int itemHeight);

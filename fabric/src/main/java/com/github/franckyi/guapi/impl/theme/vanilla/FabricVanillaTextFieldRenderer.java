@@ -10,6 +10,7 @@ import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.text.OrderedText;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
+import net.minecraft.util.math.MathHelper;
 
 import java.util.Objects;
 
@@ -19,18 +20,12 @@ public class FabricVanillaTextFieldRenderer extends TextFieldWidget implements F
     public FabricVanillaTextFieldRenderer(TextField node) {
         super(MinecraftClient.getInstance().textRenderer, node.getX(), node.getY(), node.getWidth(), node.getHeight(), node.getLabel().get());
         this.node = node;
-        setEditable(!node.isDisabled());
+        initLabeled(node, this);
         setMaxLength(node.getMaxLength());
         setText(node.getText());
         setCursorToStart(); // fix in order to render text
         setFocused(node.isFocused());
         setChangedListener(node::setText);
-        node.xProperty().addListener(newVal -> x = newVal);
-        node.yProperty().addListener(newVal -> y = newVal);
-        node.widthProperty().addListener(newVal -> width = newVal);
-        node.heightProperty().addListener(newVal -> height = newVal);
-        node.disabledProperty().addListener(newVal -> setEditable(!newVal));
-        node.labelProperty().addListener(label -> setMessage(label.get()));
         node.maxLengthProperty().addListener(this::setMaxLength);
         node.textProperty().addListener(newVal -> {
             int cursor = getCursor();
@@ -41,6 +36,8 @@ public class FabricVanillaTextFieldRenderer extends TextFieldWidget implements F
         node.validatorProperty().addListener(this::updateValidator);
         node.validationForcedProperty().addListener(this::updateValidator);
         node.textRendererProperty().addListener(this::updateRenderer);
+        node.cursorPositionProperty().addListener(super::setSelectionStart);
+        node.highlightPositionProperty().addListener(super::setSelectionEnd);
         updateValidator();
         updateRenderer();
     }
@@ -72,5 +69,17 @@ public class FabricVanillaTextFieldRenderer extends TextFieldWidget implements F
         if (!(node.isValidationForced() || node.getValidator().test(getText()))) {
             FabricRenderer.INSTANCE.drawRectangle(matrices, x - 1, y - 1, x + width + 1, y + height + 1, Color.rgba(1, 0, 0, 0.8));
         }
+    }
+
+    @Override
+    public void setSelectionStart(int value) {
+        super.setSelectionStart(value);
+        node.setCursorPosition(getCursor());
+    }
+
+    @Override
+    public void setSelectionEnd(int value) {
+        super.setSelectionEnd(value);
+        node.setHighlightPosition(MathHelper.clamp(value, 0, getText().length()));
     }
 }

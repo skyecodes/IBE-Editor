@@ -54,6 +54,8 @@ public final class IBEEditorForgeMod {
         initSkin(NodeType.CHECK_BOX, ForgeVanillaCheckBoxRenderer::new);
         initSkin(NodeType.LIST_VIEW, ForgeVanillaListViewRenderer::new);
         initSkin(NodeType.TREE_VIEW, ForgeVanillaTreeViewRenderer::new);
+        initSkin(NodeType.TOGGLE_BUTTON, ForgeVanillaButtonRenderer::new);
+        initSkin(NodeType.TEXTURED_TOGGLE_BUTTON, ForgeVanillaTexturedButtonRenderer::new);
         MinecraftForge.EVENT_BUS.addListener(this::onKeyInput);
         MinecraftForge.EVENT_BUS.addListener(this::onKeyPressed);
         MinecraftForge.EVENT_BUS.addListener(this::onWorldUnload);

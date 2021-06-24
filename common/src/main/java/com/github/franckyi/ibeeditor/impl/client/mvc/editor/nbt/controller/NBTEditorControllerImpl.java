@@ -29,81 +29,79 @@ public class NBTEditorControllerImpl extends AbstractController<NBTEditorModel, 
             view.getDoneButton().setTooltip(model.getDisabledTooltip());
         }
         view.getCancelButton().onAction(event -> Minecraft.getClient().getScreenHandler().hideScene());
-        view.getTagTree().focusedElementProperty().addListener(this::updateButtons);
-        view.setOnButtonClick(type -> {
-            EditorTagModel tag = view.getTagTree().getFocusedElement();
-            EditorTagModel parent = tag.getParent();
-            switch (type) {
-                case BYTE:
-                case SHORT:
-                case INT:
-                case LONG:
-                case FLOAT:
-                case DOUBLE:
-                case BYTE_ARRAY:
-                case STRING:
-                case LIST:
-                case COMPOUND:
-                case INT_ARRAY:
-                case LONG_ARRAY:
-                    addChildTag(tag, Minecraft.getCommon().getTagFactory().createEmptyTag(type.getType()));
-                    break;
-                case MOVE_UP:
-                    int index0 = parent.getChildren().indexOf(tag);
-                    Collections.swap(parent.getChildren(), index0, index0 - 1);
-                    updateButtons(tag);
-                    break;
-                case MOVE_DOWN:
-                    int index1 = parent.getChildren().indexOf(tag);
-                    Collections.swap(parent.getChildren(), index1, index1 + 1);
-                    updateButtons(tag);
-                    break;
-                case ADD:
-                    switch (tag.getTagType()) {
-                        case Tag.BYTE_ARRAY_ID:
-                            addChildTag(tag, Tag.BYTE_ID, "0");
-                            break;
-                        case Tag.INT_ARRAY_ID:
-                            addChildTag(tag, Tag.INT_ID, "0");
-                            break;
-                        case Tag.LONG_ARRAY_ID:
-                            addChildTag(tag, Tag.LONG_ID, "0");
-                            break;
-                        case Tag.LIST_ID:
-                            if (tag.getChildren().isEmpty()) {
-                                view.setShowAddButtons(!view.isShowAddButtons());
-                            } else {
-                                addChildTag(tag, Minecraft.getCommon().getTagFactory().createEmptyTag(tag.getChildren().get(0).getTagType()));
-                            }
-                            break;
-                        case Tag.COMPOUND_ID:
-                            view.setShowAddButtons(!view.isShowAddButtons());
-                    }
-                    break;
-                case CUT:
-                    model.setClipboardTag(tag);
-                case DELETE:
-                    parent.getChildren().remove(tag);
-                    view.getTagTree().setFocusedElement(null);
-                    break;
-                case COPY:
-                    model.setClipboardTag(tag.createClipboardTag());
-                    updateButtons(tag);
-                    break;
-                case PASTE:
-                    EditorTagModel clipboardTag = model.getClipboardTag();
-                    if (clipboardTag.canBuild()) {
-                        addChildTag(tag, clipboardTag.build(), clipboardTag.getName());
-                    } else {
-                        addChildTag(tag, clipboardTag.getTagType(), clipboardTag.getValue());
-                    }
-                    break;
-            }
-        });
+        view.getTagTree().focusedElementProperty().addListener(this::updateEnabledButtons);
+        view.setOnButtonClick(this::onButtonClick);
     }
 
-    private void updateButtons(EditorTagModel newVal) {
-        view.setShowAddButtons(false);
+    private void onButtonClick(NBTEditorView.ButtonType type) {
+        EditorTagModel tag = view.getTagTree().getFocusedElement();
+        EditorTagModel parent = tag.getParent();
+        switch (type) {
+            case BYTE:
+            case SHORT:
+            case INT:
+            case LONG:
+            case FLOAT:
+            case DOUBLE:
+            case BYTE_ARRAY:
+            case STRING:
+            case LIST:
+            case COMPOUND:
+            case INT_ARRAY:
+            case LONG_ARRAY:
+                addChildTag(tag, Minecraft.getCommon().getTagFactory().createEmptyTag(type.getType()));
+                break;
+            case MOVE_UP:
+                int index0 = parent.getChildren().indexOf(tag);
+                Collections.swap(parent.getChildren(), index0, index0 - 1);
+                updateEnabledButtons(tag);
+                break;
+            case MOVE_DOWN:
+                int index1 = parent.getChildren().indexOf(tag);
+                Collections.swap(parent.getChildren(), index1, index1 + 1);
+                updateEnabledButtons(tag);
+                break;
+            case ADD:
+                switch (tag.getTagType()) {
+                    case Tag.BYTE_ARRAY_ID:
+                        addChildTag(tag, Tag.BYTE_ID, "0");
+                        break;
+                    case Tag.INT_ARRAY_ID:
+                        addChildTag(tag, Tag.INT_ID, "0");
+                        break;
+                    case Tag.LONG_ARRAY_ID:
+                        addChildTag(tag, Tag.LONG_ID, "0");
+                        break;
+                    case Tag.LIST_ID:
+                        if (!tag.getChildren().isEmpty()) {
+                            addChildTag(tag, Minecraft.getCommon().getTagFactory().createEmptyTag(tag.getChildren().get(0).getTagType()));
+                        }
+                        break;
+                }
+                break;
+            case CUT:
+                model.setClipboardTag(tag);
+            case DELETE:
+                parent.getChildren().remove(tag);
+                view.getTagTree().setFocusedElement(null);
+                break;
+            case COPY:
+                model.setClipboardTag(tag.createClipboardTag());
+                updateEnabledButtons(tag);
+                break;
+            case PASTE:
+                EditorTagModel clipboardTag = model.getClipboardTag();
+                if (clipboardTag.canBuild()) {
+                    addChildTag(tag, clipboardTag.build(), clipboardTag.getName());
+                } else {
+                    addChildTag(tag, clipboardTag.getTagType(), clipboardTag.getValue());
+                }
+                break;
+        }
+    }
+
+    private void updateEnabledButtons(EditorTagModel newVal) {
+        view.getAddTagButton().setActive(false);
         List<NBTEditorView.ButtonType> buttons = new ArrayList<>();
         EditorTagModel clipboardTag = model.getClipboardTag();
         if (newVal != null) {

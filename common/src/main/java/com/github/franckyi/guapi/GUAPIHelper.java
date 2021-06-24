@@ -4,7 +4,6 @@ import com.github.franckyi.guapi.api.NodeFactory;
 import com.github.franckyi.guapi.api.mvc.Controller;
 import com.github.franckyi.guapi.api.mvc.MVC;
 import com.github.franckyi.guapi.api.mvc.View;
-import com.github.franckyi.guapi.api.node.EnumButton;
 import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.api.node.TreeView;
 import com.github.franckyi.guapi.api.node.builder.*;
@@ -209,6 +208,34 @@ public final class GUAPIHelper {
 
     public static TexturedButtonBuilder texturedButton(String id, boolean drawButton, Consumer<TexturedButtonBuilder> with) {
         return node().createTexturedButton(id, drawButton, with);
+    }
+
+    public static TexturedToggleButtonBuilder texturedToggleButton(String id, boolean drawButton) {
+        return node().createTexturedToggleButton(id, drawButton);
+    }
+
+    public static TexturedToggleButtonBuilder texturedToggleButton(String id, int imageWidth, int imageHeight, boolean drawButton) {
+        return node().createTexturedToggleButton(id, imageWidth, imageHeight, drawButton);
+    }
+
+    public static TexturedToggleButtonBuilder texturedToggleButton(String id, boolean drawButton, Consumer<TexturedToggleButtonBuilder> with) {
+        return node().createTexturedToggleButton(id, drawButton, with);
+    }
+
+    public static ToggleButtonBuilder toggleButton() {
+        return node().createToggleButton();
+    }
+
+    public static ToggleButtonBuilder toggleButton(String text) {
+        return node().createToggleButton(text);
+    }
+
+    public static ToggleButtonBuilder toggleButton(Text text) {
+        return node().createToggleButton(text);
+    }
+
+    public static ToggleButtonBuilder toggleButton(Consumer<ToggleButtonBuilder> with) {
+        return node().createToggleButton(with);
     }
 
     public static <E extends TreeView.TreeItem<E>> TreeViewBuilder<E> treeView(Class<E> eClass) {

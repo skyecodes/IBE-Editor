@@ -37,6 +37,8 @@ public final class IBEEditorFabricMod implements ModInitializer, ClientModInitia
         initSkin(NodeType.CHECK_BOX, FabricVanillaCheckBoxRenderer::new);
         initSkin(NodeType.LIST_VIEW, FabricVanillaListViewRenderer::new);
         initSkin(NodeType.TREE_VIEW, FabricVanillaTreeViewRenderer::new);
+        initSkin(NodeType.TOGGLE_BUTTON, FabricVanillaButtonRenderer::new);
+        initSkin(NodeType.TEXTURED_TOGGLE_BUTTON, FabricVanillaTexturedButtonRenderer::new);
         ScreenEvents.AFTER_INIT.register(this::afterScreenInit);
     }
 

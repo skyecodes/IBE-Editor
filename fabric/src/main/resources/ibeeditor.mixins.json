@@ -7,8 +7,9 @@
     "PlayerManagerMixin"
   ],
   "client": [
-    "KeyboardMixin",
+    "AbstractButtonWidgetMixin",
     "HandledScreenMixin",
+    "KeyboardMixin",
     "MinecraftClientMixin",
     "SlotMixin"
   ],

@@ -2,12 +2,11 @@ package com.github.franckyi.guapi.impl.theme.vanilla;
 
 import com.github.franckyi.guapi.api.node.TextField;
 import com.github.franckyi.guapi.api.theme.vanilla.ForgeVanillaDelegateRenderer;
-import com.github.franckyi.guapi.util.Color;
 import com.github.franckyi.minecraft.api.client.render.Matrices;
-import com.github.franckyi.minecraft.impl.client.render.ForgeRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.util.IReorderingProcessor;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.Style;
 
@@ -19,18 +18,12 @@ public class ForgeVanillaTextFieldRenderer extends TextFieldWidget implements Fo
     public ForgeVanillaTextFieldRenderer(TextField node) {
         super(Minecraft.getInstance().font, node.getX(), node.getY(), node.getWidth(), node.getHeight(), node.getLabel().get());
         this.node = node;
-        active = !node.isDisabled();
+        initLabeled(node, this);
         setMaxLength(node.getMaxLength());
         setValue(node.getText());
         moveCursorToStart(); // fix in order to render text
         setFocused(node.isFocused());
         setResponder(node::setText);
-        node.xProperty().addListener(newVal -> x = newVal);
-        node.yProperty().addListener(newVal -> y = newVal);
-        node.widthProperty().addListener(newVal -> width = newVal);
-        node.heightProperty().addListener(newVal -> height = newVal);
-        node.disabledProperty().addListener(newVal -> active = !newVal);
-        node.labelProperty().addListener(label -> setMessage(label.get()));
         node.maxLengthProperty().addListener(this::setMaxLength);
         node.textProperty().addListener(newVal -> {
             int cursor = getCursorPosition();
@@ -41,6 +34,8 @@ public class ForgeVanillaTextFieldRenderer extends TextFieldWidget implements Fo
         node.validatorProperty().addListener(this::updateValidator);
         node.validationForcedProperty().addListener(this::updateValidator);
         node.textRendererProperty().addListener(this::updateRenderer);
+        node.cursorPositionProperty().addListener(super::setCursorPosition);
+        node.highlightPositionProperty().addListener(super::setHighlightPos);
         updateValidator();
         updateRenderer();
     }
@@ -69,8 +64,18 @@ public class ForgeVanillaTextFieldRenderer extends TextFieldWidget implements Fo
     @Override
     public void render(Matrices matrices, int mouseX, int mouseY, float partialTicks) {
         ForgeVanillaDelegateRenderer.super.render(matrices, mouseX, mouseY, partialTicks);
-        if (!(node.isValidationForced() || node.getValidator().test(getValue()))) {
-            ForgeRenderer.INSTANCE.drawRectangle(matrices, x - 1, y - 1, x + width + 1, y + height + 1, Color.rgba(1, 0, 0, 0.8));
-        }
+
+    }
+
+    @Override
+    public void setCursorPosition(int value) {
+        super.setCursorPosition(value);
+        node.setCursorPosition(getCursorPosition());
+    }
+
+    @Override
+    public void setHighlightPos(int value) {
+        super.setHighlightPos(value);
+        node.setHighlightPosition(MathHelper.clamp(value, 0, getValue().length()));
     }
 }
