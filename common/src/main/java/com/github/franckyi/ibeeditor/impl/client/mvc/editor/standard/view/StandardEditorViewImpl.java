@@ -7,7 +7,7 @@ import com.github.franckyi.guapi.api.node.Label;
 import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.api.node.builder.TexturedButtonBuilder;
 import com.github.franckyi.ibeeditor.api.client.mvc.editor.standard.view.StandardEditorView;
-import com.github.franckyi.ibeeditor.impl.client.EditorScreenHandler;
+import com.github.franckyi.ibeeditor.impl.client.ModScreenHandler;
 import com.github.franckyi.ibeeditor.impl.client.mvc.base.view.AbstractListEditorView;
 import com.github.franckyi.minecraft.api.common.text.Text;
 
@@ -78,7 +78,7 @@ public class StandardEditorViewImpl extends AbstractListEditorView implements St
         return hBox(header -> {
             header.add(hBox().prefWidth(16));
             header.add(headerLabel = label().shadow().textAlign(CENTER).prefHeight(20), 1);
-            header.add(createButton("ibeeditor:textures/gui/settings.png", "ibeeditor.gui.settings").action(EditorScreenHandler::openSettings));
+            header.add(createButton("ibeeditor:textures/gui/settings.png", "ibeeditor.gui.settings").action(ModScreenHandler::openSettingsScreen));
         });
     }
 

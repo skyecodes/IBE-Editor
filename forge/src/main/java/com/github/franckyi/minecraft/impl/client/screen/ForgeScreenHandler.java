@@ -1,7 +1,6 @@
 package com.github.franckyi.minecraft.impl.client.screen;
 
 import com.github.franckyi.guapi.impl.AbstractScreenHandler;
-import com.github.franckyi.minecraft.api.client.screen.ScreenHandler;
 import com.github.franckyi.minecraft.impl.client.render.ForgeMatrices;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
@@ -9,7 +8,7 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.util.text.StringTextComponent;
 
 public final class ForgeScreenHandler extends AbstractScreenHandler {
-    public static final ScreenHandler INSTANCE = new ForgeScreenHandler();
+    public static final ForgeScreenHandler INSTANCE = new ForgeScreenHandler();
     private final Screen screen = new ScreenImpl();
     private Screen oldScreen;
 
@@ -25,6 +24,10 @@ public final class ForgeScreenHandler extends AbstractScreenHandler {
     @Override
     protected void closeScreen() {
         Minecraft.getInstance().setScreen(oldScreen);
+    }
+
+    public Screen getScreen() {
+        return screen;
     }
 
     private final class ScreenImpl extends Screen {

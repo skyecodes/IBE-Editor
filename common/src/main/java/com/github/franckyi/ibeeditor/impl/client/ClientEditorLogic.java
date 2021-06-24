@@ -3,8 +3,8 @@ package com.github.franckyi.ibeeditor.impl.client;
 import com.github.franckyi.ibeeditor.impl.common.EditorType;
 import com.github.franckyi.minecraft.Minecraft;
 import com.github.franckyi.minecraft.api.common.BlockPos;
-import com.github.franckyi.minecraft.api.common.world.*;
 import com.github.franckyi.minecraft.api.common.text.Text;
+import com.github.franckyi.minecraft.api.common.world.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -92,10 +92,10 @@ public final class ClientEditorLogic {
         LOGGER.debug("Opening item editor for item {} with type={})", item, type);
         switch (type) {
             case STANDARD:
-                EditorScreenHandler.openItemEditor(item, action, disabledTooltip);
+                ModScreenHandler.openItemEditorScreen(item, action, disabledTooltip);
                 break;
             case NBT:
-                EditorScreenHandler.openNBTEditor(item.getTag(), tag -> action.accept(Minecraft.getCommon().createItem(tag)), disabledTooltip);
+                ModScreenHandler.openNBTEditorScreen(item.getTag(), tag -> action.accept(Minecraft.getCommon().createItem(tag)), disabledTooltip);
                 break;
             case RAW_NBT:
                 // TODO
@@ -112,10 +112,10 @@ public final class ClientEditorLogic {
         LOGGER.debug("Opening block editor for block {} at pos {} with type={}", block, blockPos, type);
         switch (type) {
             case STANDARD:
-                EditorScreenHandler.openBlockEditor(block, newBlock -> updateBlock(blockPos, newBlock), ClientContext.isModInstalledOnServer() ? null : ERROR_SERVERMOD_BLOCK);
+                ModScreenHandler.openBlockEditorScreen(block, newBlock -> updateBlock(blockPos, newBlock), ClientContext.isModInstalledOnServer() ? null : ERROR_SERVERMOD_BLOCK);
                 break;
             case NBT:
-                EditorScreenHandler.openNBTEditor(block.getData(), tag -> updateBlock(blockPos, Minecraft.getCommon().createBlock(block.getState(), tag)), ClientContext.isModInstalledOnServer() ? null : ERROR_SERVERMOD_BLOCK);
+                ModScreenHandler.openNBTEditorScreen(block.getData(), tag -> updateBlock(blockPos, Minecraft.getCommon().createBlock(block.getState(), tag)), ClientContext.isModInstalledOnServer() ? null : ERROR_SERVERMOD_BLOCK);
                 break;
             case RAW_NBT:
                 // TODO
@@ -132,10 +132,10 @@ public final class ClientEditorLogic {
         LOGGER.debug("Opening entity editor for entity {} with id {} and type={}", entity, entityId, type);
         switch (type) {
             case STANDARD:
-                EditorScreenHandler.openEntityEditor(entity, entity1 -> updateEntity(entityId, entity1), ClientContext.isModInstalledOnServer() ? null : ERROR_SERVERMOD_ENTITY);
+                ModScreenHandler.openEntityEditorScreen(entity, entity1 -> updateEntity(entityId, entity1), ClientContext.isModInstalledOnServer() ? null : ERROR_SERVERMOD_ENTITY);
                 break;
             case NBT:
-                EditorScreenHandler.openNBTEditor(entity.getTag(), tag -> updateEntity(entityId, Minecraft.getCommon().createEntity(tag)), ClientContext.isModInstalledOnServer() ? null : ERROR_SERVERMOD_ENTITY);
+                ModScreenHandler.openNBTEditorScreen(entity.getTag(), tag -> updateEntity(entityId, Minecraft.getCommon().createEntity(tag)), ClientContext.isModInstalledOnServer() ? null : ERROR_SERVERMOD_ENTITY);
                 break;
             case RAW_NBT:
                 // TODO

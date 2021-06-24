@@ -7,7 +7,7 @@ import com.github.franckyi.guapi.api.node.*;
 import com.github.franckyi.guapi.api.node.builder.TexturedButtonBuilder;
 import com.github.franckyi.ibeeditor.api.client.mvc.editor.nbt.model.EditorTagModel;
 import com.github.franckyi.ibeeditor.api.client.mvc.editor.nbt.view.NBTEditorView;
-import com.github.franckyi.ibeeditor.impl.client.EditorScreenHandler;
+import com.github.franckyi.ibeeditor.impl.client.ModScreenHandler;
 import com.github.franckyi.ibeeditor.impl.client.mvc.IBEEditorMVC;
 import com.github.franckyi.ibeeditor.impl.client.mvc.base.view.AbstractEditorView;
 import com.github.franckyi.minecraft.api.common.text.Text;
@@ -61,7 +61,7 @@ public class NBTEditorViewImpl extends AbstractEditorView implements NBTEditorVi
         return hBox(header -> {
             header.add(hBox().prefWidth(16));
             header.add(label(translated("ibeeditor.gui.nbt_editor").aqua().bold(), true).textAlign(CENTER).prefHeight(20), 1);
-            header.add(createButton("ibeeditor:textures/gui/settings.png", "ibeeditor.gui.settings").action(EditorScreenHandler::openSettings));
+            header.add(createButton("ibeeditor:textures/gui/settings.png", "ibeeditor.gui.settings").action(ModScreenHandler::openSettingsScreen));
         });
     }
 

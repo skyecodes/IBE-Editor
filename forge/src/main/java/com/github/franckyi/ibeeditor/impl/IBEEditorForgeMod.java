@@ -7,12 +7,14 @@ import com.github.franckyi.guapi.util.NodeType;
 import com.github.franckyi.ibeeditor.impl.client.ClientContext;
 import com.github.franckyi.ibeeditor.impl.client.ClientEventHandler;
 import com.github.franckyi.ibeeditor.impl.client.ClientInit;
+import com.github.franckyi.ibeeditor.impl.client.ModScreenHandler;
 import com.github.franckyi.ibeeditor.impl.common.CommonInit;
 import com.github.franckyi.ibeeditor.impl.server.ServerCommandHandler;
 import com.github.franckyi.ibeeditor.impl.server.ServerEventHandler;
 import com.github.franckyi.minecraft.impl.ForgeMinecraftClient;
 import com.github.franckyi.minecraft.impl.ForgeMinecraftCommon;
 import com.github.franckyi.minecraft.impl.client.screen.ForgeScreen;
+import com.github.franckyi.minecraft.impl.client.screen.ForgeScreenHandler;
 import com.github.franckyi.minecraft.impl.common.world.ForgePlayer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
@@ -21,6 +23,8 @@ import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.world.WorldEvent;
+import net.minecraftforge.fml.ExtensionPoint;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -53,6 +57,10 @@ public final class IBEEditorForgeMod {
         MinecraftForge.EVENT_BUS.addListener(this::onKeyInput);
         MinecraftForge.EVENT_BUS.addListener(this::onKeyPressed);
         MinecraftForge.EVENT_BUS.addListener(this::onWorldUnload);
+        ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.CONFIGGUIFACTORY, () -> (minecraft, screen) -> {
+            ModScreenHandler.openSettingsScreen();
+            return ForgeScreenHandler.INSTANCE.getScreen();
+        });
     }
 
     private <N extends Node> void initSkin(NodeType<N> type, DelegatedRendererProvider<N> delegatedRendererProvider) {

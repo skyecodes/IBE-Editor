@@ -18,24 +18,24 @@ import java.util.function.Consumer;
 
 import static com.github.franckyi.guapi.GUAPIHelper.*;
 
-public final class EditorScreenHandler {
-    public static void openItemEditor(Item item, Consumer<Item> action, Text disabledTooltip) {
+public final class ModScreenHandler {
+    public static void openItemEditorScreen(Item item, Consumer<Item> action, Text disabledTooltip) {
         openScaledScreen(mvc(IBEEditorMVC.STANDARD_EDITOR, new ItemEditorModel(item, action, disabledTooltip)));
     }
 
-    public static void openBlockEditor(Block block, Consumer<Block> action, Text disabledTooltip) {
+    public static void openBlockEditorScreen(Block block, Consumer<Block> action, Text disabledTooltip) {
         openScaledScreen(mvc(IBEEditorMVC.STANDARD_EDITOR, new BlockEditorModel(block, action, disabledTooltip)));
     }
 
-    public static void openEntityEditor(Entity entity, Consumer<Entity> action, Text disabledTooltip) {
+    public static void openEntityEditorScreen(Entity entity, Consumer<Entity> action, Text disabledTooltip) {
         openScaledScreen(mvc(IBEEditorMVC.STANDARD_EDITOR, new EntityEditorModel(entity, action, disabledTooltip)));
     }
 
-    public static void openNBTEditor(CompoundTag tag, Consumer<CompoundTag> action, Text disabledTooltip) {
+    public static void openNBTEditorScreen(CompoundTag tag, Consumer<CompoundTag> action, Text disabledTooltip) {
         openScaledScreen(mvc(IBEEditorMVC.NBT_EDITOR, new NBTEditor(tag, action, disabledTooltip)));
     }
 
-    public static void openSettings() {
+    public static void openSettingsScreen() {
         ConfigEditorModelImpl model = new ConfigEditorModelImpl();
         openScaledScreen(mvc(IBEEditorMVC.CONFIG_EDITOR, model));
         model.syncEntries();
