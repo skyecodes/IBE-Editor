@@ -15,7 +15,7 @@ public class EditorCategoryControllerImpl extends AbstractController<EditorCateg
     }
 
     private void updateLabel() {
-        Text text = text(model.getName());
+        Text text = translated(model.getName());
         if (model.isSelected()) {
             if (model.isValid()) {
                 text.setColor("yellow");

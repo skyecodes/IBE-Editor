@@ -16,11 +16,11 @@ public class ClientConfigEditorCategoryModel extends AbstractConfigEditorCategor
     private final EnumEditorEntryModel<DebugMode> guapiDebugMode;
 
     public ClientConfigEditorCategoryModel(ConfigEditorModel editor) {
-        super("Client", editor);
+        super("ibeeditor.gui.config.category.client", editor);
         getEntries().addAll(
-                guapiTheme = new StringEditorEntryModel(this, text("Theme"), ClientConfiguration.INSTANCE.getGuapiTheme(), ClientConfiguration.INSTANCE::setGuapiTheme),
-                guapiDebugMode = new EnumEditorEntryModel<>(this, text("Debug Mode"), ClientConfiguration.INSTANCE.getGuapiDebugMode(), ClientConfiguration.INSTANCE::setGuapiDebugMode),
-                new ActionEditorEntryModel(this, text("Reload configuration from disk").yellow(), this::reload)
+                guapiTheme = new StringEditorEntryModel(this, translated("ibeeditor.gui.config.entry.theme"), ClientConfiguration.INSTANCE.getGuapiTheme(), ClientConfiguration.INSTANCE::setGuapiTheme),
+                guapiDebugMode = new EnumEditorEntryModel<>(this, translated("ibeeditor.gui.config.entry.debug_mode"), ClientConfiguration.INSTANCE.getGuapiDebugMode(), ClientConfiguration.INSTANCE::setGuapiDebugMode),
+                new ActionEditorEntryModel(this, translated("ibeeditor.gui.config.entry.reload_config").yellow(), this::reload)
         );
     }
 

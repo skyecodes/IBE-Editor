@@ -60,8 +60,9 @@ public class NBTEditorViewImpl extends AbstractEditorView implements NBTEditorVi
     protected Node createHeader() {
         return hBox(header -> {
             header.add(hBox().prefWidth(16));
-            header.add(label(translated("ibeeditor.gui.nbt_editor").aqua().bold(), true).textAlign(CENTER).prefHeight(20), 1);
+            header.add(label(translated("ibeeditor.gui.editor_title").with(text("NBT")).aqua().bold(), true).textAlign(CENTER).prefHeight(20), 1);
             header.add(createButton("ibeeditor:textures/gui/settings.png", "ibeeditor.gui.settings").action(ModScreenHandler::openSettingsScreen));
+            header.align(CENTER);
         });
     }
 

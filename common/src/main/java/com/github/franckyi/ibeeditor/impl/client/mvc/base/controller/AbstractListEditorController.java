@@ -5,10 +5,13 @@ import com.github.franckyi.ibeeditor.api.client.mvc.base.controller.ListEditorCo
 import com.github.franckyi.ibeeditor.api.client.mvc.base.model.ListEditorModel;
 import com.github.franckyi.ibeeditor.api.client.mvc.base.view.ListEditorView;
 import com.github.franckyi.minecraft.Minecraft;
+import com.github.franckyi.minecraft.api.common.text.Text;
 
 import static com.github.franckyi.guapi.GUAPIHelper.*;
 
 public abstract class AbstractListEditorController<M extends ListEditorModel, V extends ListEditorView> extends AbstractController<M, V> implements ListEditorController<M, V> {
+    private static final Text FIX_ERRORS = translated("ibeeditor.gui.fix_errors").red();
+
     public AbstractListEditorController(M model, V view) {
         super(model, view);
     }
@@ -37,7 +40,7 @@ public abstract class AbstractListEditorController<M extends ListEditorModel, V 
     protected void onValidationChange(boolean newVal) {
         view.getDoneButton().setDisable(!newVal);
         if (!newVal) {
-            view.getDoneButton().setTooltip(text("You must fix errors before applying changes.").red());
+            view.getDoneButton().setTooltip(FIX_ERRORS);
         } else {
             view.getDoneButton().setTooltip(null);
         }

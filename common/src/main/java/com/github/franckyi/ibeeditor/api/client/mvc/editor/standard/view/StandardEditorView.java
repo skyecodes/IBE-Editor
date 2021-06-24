@@ -1,13 +1,13 @@
 package com.github.franckyi.ibeeditor.api.client.mvc.editor.standard.view;
 
 import com.github.franckyi.databindings.api.BooleanProperty;
-import com.github.franckyi.guapi.api.node.Label;
 import com.github.franckyi.ibeeditor.api.client.mvc.base.view.ListEditorView;
+import com.github.franckyi.minecraft.api.common.text.builder.TranslatedTextBuilder;
 
 import java.util.function.Consumer;
 
 public interface StandardEditorView extends ListEditorView {
-    Label getHeaderLabel();
+    TranslatedTextBuilder getHeaderText();
 
     default boolean isShowTextButtons() {
         return showTextButtonsProperty().getValue();

@@ -14,10 +14,10 @@ import static com.github.franckyi.guapi.GUAPIHelper.*;
 
 public final class ClientEditorLogic {
     private static final Logger LOGGER = LogManager.getLogger();
-    private static final Text ERROR_CREATIVE_ITEM = text("You must be in creative mode to update this item.").red();
-    private static final Text ERROR_SERVERMOD_ITEM = text("IBE Editor must be installed on the server to update this item.").red();
-    private static final Text ERROR_SERVERMOD_BLOCK = text("IBE Editor must be installed on the server to update this block.").red();
-    private static final Text ERROR_SERVERMOD_ENTITY = text("IBE Editor must be installed on the server to update this entity.").red();
+    private static final Text ERROR_CREATIVE_ITEM = translated("ibeeditor.message.error_creative_mode").with(translated("ibeeditor.text.item")).red();
+    private static final Text ERROR_SERVERMOD_ITEM = translated("ibeeditor.message.error_server_mod").with(translated("ibeeditor.text.item")).red();
+    private static final Text ERROR_SERVERMOD_BLOCK = translated("ibeeditor.message.error_server_mod").with(translated("ibeeditor.text.block")).red();
+    private static final Text ERROR_SERVERMOD_ENTITY = translated("ibeeditor.message.error_server_mod").with(translated("ibeeditor.text.entity")).red();
 
     public static void openWorldEditor(EditorType type) {
         LOGGER.debug("Opening world editor with type={}", type);

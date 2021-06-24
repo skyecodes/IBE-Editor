@@ -15,11 +15,11 @@ public class ItemGeneralEditorCategoryModel extends AbstractItemEditorCategoryMo
     private CompoundTag tag;
 
     public ItemGeneralEditorCategoryModel(StandardEditorModel editor, Item item) {
-        super("General", editor);
+        super("ibeeditor.gui.editor.category.general", editor);
         getEntries().addAll(
-                new StringEditorEntryModel(this, text("Item ID"), item.getTag().getString("id"), value -> getTag().putString("id", value)),
-                new IntegerEditorEntryModel(this, text("Count"), item.getTag().getInt("Count"), value -> getTag().putInt("Count", value)),
-                new TextEditorEntryModel(this, text("Name"), item.getName(), this::setItemName, item.getDefaultName())
+                new StringEditorEntryModel(this, translated("ibeeditor.gui.editor.item.entry.item_id"), item.getTag().getString("id"), value -> getTag().putString("id", value)),
+                new IntegerEditorEntryModel(this, translated("ibeeditor.gui.editor.item.entry.count"), item.getTag().getInt("Count"), value -> getTag().putInt("Count", value)),
+                new TextEditorEntryModel(this, translated("ibeeditor.gui.editor.item.entry.name"), item.getName(), this::setItemName, item.getDefaultName())
         );
     }
 

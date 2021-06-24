@@ -15,7 +15,7 @@ public class StandardEditorControllerImpl extends AbstractListEditorController<S
     @Override
     public void bind() {
         super.bind();
-        view.getHeaderLabel().setLabel(translated(model.getTitle()).aqua().bold());
+        view.getHeaderText().with(translated(model.getTitle()));
         model.focusedTextEntryProperty().addListener(value -> view.setShowTextButtons(value != null));
         view.setOnTextButtonClick(this::onTextButtonClick);
         if (model.isDisabled()) {

@@ -1,10 +1,10 @@
 package com.github.franckyi.ibeeditor.impl.client;
 
 import com.github.franckyi.ibeeditor.impl.common.Networking;
-import com.github.franckyi.ibeeditor.impl.common.packet.ServerNotificationPacket;
 import com.github.franckyi.ibeeditor.impl.common.packet.BlockEditorResponsePacket;
-import com.github.franckyi.ibeeditor.impl.common.packet.EntityEditorResponsePacket;
 import com.github.franckyi.ibeeditor.impl.common.packet.EditorCommandPacket;
+import com.github.franckyi.ibeeditor.impl.common.packet.EntityEditorResponsePacket;
+import com.github.franckyi.ibeeditor.impl.common.packet.ServerNotificationPacket;
 import com.github.franckyi.minecraft.Minecraft;
 import com.github.franckyi.minecraft.api.common.text.Text;
 import org.apache.logging.log4j.LogManager;
@@ -14,16 +14,16 @@ import static com.github.franckyi.guapi.GUAPIHelper.*;
 
 public final class ClientNetworkReceiver {
     private static final Logger LOGGER = LogManager.getLogger();
-    private static final Text NO_BLOCK_DATA_FOUND_TEXT = text("No Block data found").red();
-    private static final Text NO_ENTITY_FOUND_TEXT = text("No Entity found").red();
-    private static final Text NO_ITEM_FOUND_TEXT = text("No Item found").red();
+    private static final Text NO_ITEM_FOUND_TEXT = translated("ibeeditor.message.no_target_found").with(translated("ibeeditor.text.item")).red();
+    private static final Text NO_BLOCK_FOUND_TEXT = translated("ibeeditor.message.no_target_found").with(translated("ibeeditor.text.block")).red();
+    private static final Text NO_ENTITY_FOUND_TEXT = translated("ibeeditor.message.no_target_found").with(translated("ibeeditor.text.entity")).red();
 
     public static void onBlockEditorResponse(BlockEditorResponsePacket packet) {
         log(Networking.BLOCK_EDITOR_RESPONSE);
         if (packet.getBlock().getData().get() != null || (!packet.getType().isNBT() && packet.getBlock().getState().get() != null)) {
             ClientEditorLogic.openBlockEditor(packet.getBlock(), packet.getPos(), packet.getType());
         } else {
-            Minecraft.getClient().getPlayer().sendMessage(NO_BLOCK_DATA_FOUND_TEXT);
+            Minecraft.getClient().getPlayer().sendMessage(NO_BLOCK_FOUND_TEXT);
         }
     }
 
@@ -55,7 +55,7 @@ public final class ClientNetworkReceiver {
                 break;
             case EditorCommandPacket.TARGET_BLOCK:
                 if (!ClientEditorLogic.tryOpenBlockEditor(packet.getType())) {
-                    Minecraft.getClient().getPlayer().sendMessage(NO_BLOCK_DATA_FOUND_TEXT);
+                    Minecraft.getClient().getPlayer().sendMessage(NO_BLOCK_FOUND_TEXT);
                 }
                 break;
             case EditorCommandPacket.TARGET_ENTITY:

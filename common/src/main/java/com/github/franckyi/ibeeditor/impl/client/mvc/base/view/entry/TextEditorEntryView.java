@@ -13,7 +13,7 @@ public class TextEditorEntryView extends TextFieldEditorEntryView {
         root.resetWeight(textField);
         root.getChildren().remove(textField);
         resetButton = texturedButton("ibeeditor:textures/gui/text_convert.png", 16, 32,
-                false).prefSize(16, 16).imageY(16).tooltip(text("Reset to item's default"));
+                false).prefSize(16, 16).imageY(16).tooltip(translated("ibeeditor.gui.reset_default"));
         fieldButtonBox = hBox(10, textField, resetButton);
         root.getChildren().add(fieldButtonBox);
         root.setWeight(fieldButtonBox, 2);
