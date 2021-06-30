@@ -2,7 +2,6 @@ package com.github.franckyi.guapi.impl.theme.vanilla;
 
 import com.github.franckyi.guapi.api.node.TextField;
 import com.github.franckyi.guapi.api.theme.vanilla.ForgeVanillaDelegateRenderer;
-import com.github.franckyi.minecraft.api.client.render.Matrices;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.util.IReorderingProcessor;
@@ -59,12 +58,6 @@ public class ForgeVanillaTextFieldRenderer extends TextFieldWidget implements Fo
             setFormatter((string, integer) -> ((ITextComponent) node.getTextRenderer().render(string, integer).get()).getVisualOrderText());
         }
         moveCursorToStart(); // fix in order to render text
-    }
-
-    @Override
-    public void render(Matrices matrices, int mouseX, int mouseY, float partialTicks) {
-        ForgeVanillaDelegateRenderer.super.render(matrices, mouseX, mouseY, partialTicks);
-
     }
 
     @Override

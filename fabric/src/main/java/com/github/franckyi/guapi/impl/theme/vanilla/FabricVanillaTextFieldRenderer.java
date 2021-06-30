@@ -2,9 +2,6 @@ package com.github.franckyi.guapi.impl.theme.vanilla;
 
 import com.github.franckyi.guapi.api.node.TextField;
 import com.github.franckyi.guapi.api.theme.vanilla.FabricVanillaDelegateRenderer;
-import com.github.franckyi.guapi.util.Color;
-import com.github.franckyi.minecraft.api.client.render.Matrices;
-import com.github.franckyi.minecraft.impl.client.render.FabricRenderer;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.text.OrderedText;
@@ -61,14 +58,6 @@ public class FabricVanillaTextFieldRenderer extends TextFieldWidget implements F
             setRenderTextProvider((string, integer) -> ((Text) node.getTextRenderer().render(string, integer).get()).asOrderedText());
         }
         setCursorToStart(); // fix in order to render text
-    }
-
-    @Override
-    public void render(Matrices matrices, int mouseX, int mouseY, float delta) {
-        FabricVanillaDelegateRenderer.super.render(matrices, mouseX, mouseY, delta);
-        if (!(node.isValidationForced() || node.getValidator().test(getText()))) {
-            FabricRenderer.INSTANCE.drawRectangle(matrices, x - 1, y - 1, x + width + 1, y + height + 1, Color.rgba(1, 0, 0, 0.8));
-        }
     }
 
     @Override
