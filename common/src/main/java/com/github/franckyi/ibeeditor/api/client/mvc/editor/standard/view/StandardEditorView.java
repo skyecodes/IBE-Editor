@@ -22,7 +22,21 @@ public interface StandardEditorView extends ListEditorView {
     void setOnTextButtonClick(Consumer<TextButtonType> action);
 
     enum TextButtonType {
-        EDIT, RESET, BOLD, ITALIC, UNDERLINE, STRIKETHROUGH, OBFUSCATED, BLACK, DARK_BLUE, DARK_GREEN, DARK_AQUA,
-        DARK_RED, DARK_PURPLE, GOLD, GRAY, DARK_GRAY, BLUE, GREEN, AQUA, RED, LIGHT_PURPLE, YELLOW, WHITE, CUSTOM
+        BOLD(false), ITALIC(false), UNDERLINE(false), STRIKETHROUGH(false), OBFUSCATED(false), BLACK, DARK_BLUE,
+        DARK_GREEN, DARK_AQUA, DARK_RED, DARK_PURPLE, GOLD, GRAY, DARK_GRAY, BLUE, GREEN, AQUA, RED, LIGHT_PURPLE,
+        YELLOW, WHITE, CUSTOM_COLOR(false);
+        private final boolean color;
+
+        TextButtonType(boolean color) {
+            this.color = color;
+        }
+
+        TextButtonType() {
+            this(true);
+        }
+
+        public boolean isColor() {
+            return color;
+        }
     }
 }

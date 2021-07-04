@@ -39,11 +39,13 @@ public class TextEditorEntryModel extends ValueEditorEntryModel<Text> {
         rawValueProperty().setValue(value);
     }
 
-    public Text getCustomTextRoot() {
-        return customTextRoot;
-    }
-
     public void resetValue() {
         setValue(defaultTranslatedValue);
+    }
+
+    public void initValue(Text text) {
+        customTextRoot.getExtra().clear();
+        customTextRoot.getExtra().add(text);
+        setValue(customTextRoot);
     }
 }

@@ -32,7 +32,7 @@ public class StandardEditorControllerImpl extends AbstractListEditorController<S
     }
 
     private void onTextButtonClick(StandardEditorView.TextButtonType textButtonType) {
-        if (textButtonType == StandardEditorView.TextButtonType.CUSTOM) {
+        if (textButtonType == StandardEditorView.TextButtonType.CUSTOM_COLOR) {
 
         } else {
             model.getFocusedTextEntry().addFormatting(textButtonType);

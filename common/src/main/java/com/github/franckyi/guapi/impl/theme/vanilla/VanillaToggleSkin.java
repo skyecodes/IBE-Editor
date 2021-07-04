@@ -10,7 +10,7 @@ public interface VanillaToggleSkin<N extends Node & Toggle> {
     default void renderToggle(N node, Matrices matrices) {
         if (node.isActive()) {
             Minecraft.getClient().getRenderer().drawRectangle(matrices, node.getX(), node.getY(),
-                    node.getX() + node.getWidth(), node.getY() + node.getHeight(), Color.rgb(1.0, 1.0, 1.0));
+                    node.getX() + node.getWidth(), node.getY() + node.getHeight(), node.getBorderColor());
         }
     }
 }
