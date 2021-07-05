@@ -10,14 +10,14 @@ task buildJar(type: Jar) {
     dependsOn ":common:jar", ":fabric:build", ":forge:build"
     finalizedBy ":forge:signJar"
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    from zipTree("common/build/libs/common-${version}.jar"), zipTree("fabric/build/libs/fabric-${version}.jar"), zipTree("forge/build/libs/forge-${version}.jar")
+    from zipTree("common/build/libs/common-${archiveVersion}.jar"), zipTree("fabric/build/libs/fabric-${archiveVersion}.jar"), zipTree("forge/build/libs/forge-${archiveVersion}.jar")
     manifest {
         attributes([
                 "Specification-Title"     : "ibeeditor",
                 "Specification-Vendor"    : "Franckyi",
                 "Specification-Version"   : "1",
                 "Implementation-Title"    : "ibeeditor",
-                "Implementation-Version"  : "${version}",
+                "Implementation-Version"  : "${archiveVersion}",
                 "Implementation-Vendor"   : "Franckyi",
                 "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])

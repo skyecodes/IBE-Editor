@@ -3,18 +3,19 @@ package com.github.franckyi.minecraft.impl.common.nbt;
 import com.github.franckyi.minecraft.api.common.tag.CompoundTag;
 import com.github.franckyi.minecraft.api.common.tag.ListTag;
 import com.github.franckyi.minecraft.api.common.tag.Tag;
+import net.minecraft.nbt.NbtCompound;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class FabricCompoundTag implements CompoundTag {
-    private final net.minecraft.nbt.CompoundTag tag;
+    private final NbtCompound tag;
 
     public FabricCompoundTag() {
-        this(new net.minecraft.nbt.CompoundTag());
+        this(new NbtCompound());
     }
 
-    public FabricCompoundTag(net.minecraft.nbt.CompoundTag tag) {
+    public FabricCompoundTag(NbtCompound tag) {
         this.tag = tag;
     }
 
@@ -109,7 +110,7 @@ public class FabricCompoundTag implements CompoundTag {
 
     @Override
     @SuppressWarnings("unchecked")
-    public net.minecraft.nbt.CompoundTag get() {
+    public NbtCompound get() {
         return tag;
     }
 }

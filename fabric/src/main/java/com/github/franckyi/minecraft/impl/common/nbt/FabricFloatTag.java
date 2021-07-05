@@ -1,30 +1,31 @@
 package com.github.franckyi.minecraft.impl.common.nbt;
 
 import com.github.franckyi.minecraft.api.common.tag.FloatTag;
+import net.minecraft.nbt.NbtFloat;
 
 public class FabricFloatTag implements FloatTag {
-    private final net.minecraft.nbt.FloatTag tag;
+    private final NbtFloat tag;
 
     public FabricFloatTag() {
         this(0F);
     }
 
     public FabricFloatTag(float value) {
-        this(net.minecraft.nbt.FloatTag.of(value));
+        this(NbtFloat.of(value));
     }
 
-    public FabricFloatTag(net.minecraft.nbt.FloatTag tag) {
+    public FabricFloatTag(NbtFloat tag) {
         this.tag = tag;
     }
 
     @Override
     public float getValue() {
-        return tag.getFloat();
+        return tag.floatValue();
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public net.minecraft.nbt.FloatTag get() {
+    public NbtFloat get() {
         return tag;
     }
 

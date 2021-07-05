@@ -48,8 +48,8 @@ public final class FabricMinecraftClient implements MinecraftClient {
 
     @Override
     public KeyBinding registerKeyBinding(String name, int keyCode, String category) {
-        net.minecraft.client.options.KeyBinding keyBinding = KeyBindingHelper.registerKeyBinding(
-                new net.minecraft.client.options.KeyBinding(name, keyCode, category));
+        net.minecraft.client.option.KeyBinding keyBinding = KeyBindingHelper.registerKeyBinding(
+                new net.minecraft.client.option.KeyBinding(name, keyCode, category));
         return new KeyBinding() {
             @Override
             public boolean isPressed() {

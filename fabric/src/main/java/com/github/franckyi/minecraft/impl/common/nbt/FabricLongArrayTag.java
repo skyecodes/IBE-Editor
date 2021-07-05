@@ -1,25 +1,26 @@
 package com.github.franckyi.minecraft.impl.common.nbt;
 
 import com.github.franckyi.minecraft.api.common.tag.LongArrayTag;
+import net.minecraft.nbt.NbtLongArray;
 
 import java.util.List;
 
 public class FabricLongArrayTag implements LongArrayTag {
-    private final net.minecraft.nbt.LongArrayTag tag;
+    private final NbtLongArray tag;
 
     public FabricLongArrayTag() {
         this(new long[0]);
     }
 
     public FabricLongArrayTag(long[] value) {
-        this(new net.minecraft.nbt.LongArrayTag(value));
+        this(new NbtLongArray(value));
     }
 
     public FabricLongArrayTag(List<Long> value) {
-        this(new net.minecraft.nbt.LongArrayTag(value));
+        this(new NbtLongArray(value));
     }
 
-    public FabricLongArrayTag(net.minecraft.nbt.LongArrayTag tag) {
+    public FabricLongArrayTag(NbtLongArray tag) {
         this.tag = tag;
     }
 
@@ -30,7 +31,7 @@ public class FabricLongArrayTag implements LongArrayTag {
 
     @Override
     @SuppressWarnings("unchecked")
-    public net.minecraft.nbt.LongArrayTag get() {
+    public NbtLongArray get() {
         return tag;
     }
 }

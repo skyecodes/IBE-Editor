@@ -3,6 +3,7 @@ package com.github.franckyi.minecraft.impl.common.world;
 import com.github.franckyi.minecraft.api.common.tag.CompoundTag;
 import com.github.franckyi.minecraft.api.common.world.WorldEntity;
 import com.github.franckyi.minecraft.impl.common.nbt.FabricTagFactory;
+import net.minecraft.nbt.NbtCompound;
 
 public class FabricWorldEntity implements WorldEntity {
     private final net.minecraft.entity.Entity entity;
@@ -18,9 +19,9 @@ public class FabricWorldEntity implements WorldEntity {
 
     @Override
     public CompoundTag getTag() {
-        net.minecraft.nbt.CompoundTag compound = new net.minecraft.nbt.CompoundTag();
-        if (!entity.saveSelfToTag(compound)) {
-            entity.toTag(compound);
+        NbtCompound compound = new NbtCompound();
+        if (!entity.saveSelfNbt(compound)) {
+            entity.writeNbt(compound);
         }
         return FabricTagFactory.parseCompound(compound);
     }

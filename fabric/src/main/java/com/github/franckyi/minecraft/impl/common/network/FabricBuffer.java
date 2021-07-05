@@ -27,15 +27,15 @@ public class FabricBuffer implements Buffer {
 
     @Override
     public CompoundTag readTag() {
-        return FabricTagFactory.parseCompound(buf.readCompoundTag());
+        return FabricTagFactory.parseCompound(buf.readNbt());
     }
 
     @Override
     public void writeTag(CompoundTag tag) {
         if (tag != null) {
-            buf.writeCompoundTag(tag.get());
+            buf.writeNbt(tag.get());
         } else {
-            buf.writeCompoundTag(null);
+            buf.writeNbt(null);
         }
     }
 

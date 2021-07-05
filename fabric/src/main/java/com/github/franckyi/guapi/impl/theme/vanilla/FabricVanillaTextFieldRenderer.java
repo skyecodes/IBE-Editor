@@ -53,7 +53,7 @@ public class FabricVanillaTextFieldRenderer extends TextFieldWidget implements F
 
     private void updateRenderer() {
         if (node.getTextRenderer() == null) {
-            setRenderTextProvider((string, integer) -> OrderedText.styledString(string, Style.EMPTY));
+            setRenderTextProvider((string, integer) -> OrderedText.styledForwardsVisitedString(string, Style.EMPTY));
         } else {
             setRenderTextProvider((string, integer) -> ((Text) node.getTextRenderer().render(string, integer).get()).asOrderedText());
         }

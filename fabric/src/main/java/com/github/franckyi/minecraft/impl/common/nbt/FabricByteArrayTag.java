@@ -1,25 +1,26 @@
 package com.github.franckyi.minecraft.impl.common.nbt;
 
 import com.github.franckyi.minecraft.api.common.tag.ByteArrayTag;
+import net.minecraft.nbt.NbtByteArray;
 
 import java.util.List;
 
 public class FabricByteArrayTag implements ByteArrayTag {
-    private final net.minecraft.nbt.ByteArrayTag tag;
+    private final NbtByteArray tag;
 
     public FabricByteArrayTag() {
         this (new byte[0]);
     }
 
     public FabricByteArrayTag(List<Byte> value) {
-        this(new net.minecraft.nbt.ByteArrayTag(value));
+        this(new NbtByteArray(value));
     }
 
     public FabricByteArrayTag(byte[] value) {
-        this(new net.minecraft.nbt.ByteArrayTag(value));
+        this(new NbtByteArray(value));
     }
 
-    public FabricByteArrayTag(net.minecraft.nbt.ByteArrayTag tag) {
+    public FabricByteArrayTag(NbtByteArray tag) {
         this.tag = tag;
     }
 
@@ -30,7 +31,7 @@ public class FabricByteArrayTag implements ByteArrayTag {
 
     @Override
     @SuppressWarnings("unchecked")
-    public net.minecraft.nbt.ByteArrayTag get() {
+    public NbtByteArray get() {
         return tag;
     }
 }

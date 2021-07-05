@@ -1,30 +1,31 @@
 package com.github.franckyi.minecraft.impl.common.nbt;
 
 import com.github.franckyi.minecraft.api.common.tag.DoubleTag;
+import net.minecraft.nbt.NbtDouble;
 
 public class FabricDoubleTag implements DoubleTag {
-    private final net.minecraft.nbt.DoubleTag tag;
+    private final NbtDouble tag;
 
     public FabricDoubleTag() {
         this(0.);
     }
 
     public FabricDoubleTag(double value) {
-        this(net.minecraft.nbt.DoubleTag.of(value));
+        this(NbtDouble.of(value));
     }
 
-    public FabricDoubleTag(net.minecraft.nbt.DoubleTag tag) {
+    public FabricDoubleTag(NbtDouble tag) {
         this.tag = tag;
     }
 
     @Override
     public double getValue() {
-        return tag.getDouble();
+        return tag.doubleValue();
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public net.minecraft.nbt.DoubleTag get() {
+    public NbtDouble get() {
         return tag;
     }
 

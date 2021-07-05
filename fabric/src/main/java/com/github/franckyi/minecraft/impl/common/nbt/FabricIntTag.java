@@ -1,30 +1,31 @@
 package com.github.franckyi.minecraft.impl.common.nbt;
 
 import com.github.franckyi.minecraft.api.common.tag.IntTag;
+import net.minecraft.nbt.NbtInt;
 
 public class FabricIntTag implements IntTag {
-    private final net.minecraft.nbt.IntTag tag;
+    private final NbtInt tag;
 
     public FabricIntTag() {
         this(0);
     }
 
     public FabricIntTag(int value) {
-        this(net.minecraft.nbt.IntTag.of(value));
+        this(NbtInt.of(value));
     }
 
-    public FabricIntTag(net.minecraft.nbt.IntTag tag) {
+    public FabricIntTag(NbtInt tag) {
         this.tag = tag;
     }
 
     @Override
     public int getValue() {
-        return tag.getInt();
+        return tag.intValue();
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public net.minecraft.nbt.IntTag get() {
+    public NbtInt get() {
         return tag;
     }
 

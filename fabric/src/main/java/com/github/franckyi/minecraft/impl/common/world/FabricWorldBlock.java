@@ -6,6 +6,7 @@ import com.github.franckyi.minecraft.api.common.world.WorldBlock;
 import com.github.franckyi.minecraft.impl.common.nbt.FabricTagFactory;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtHelper;
 
 public class FabricWorldBlock implements WorldBlock {
@@ -31,6 +32,6 @@ public class FabricWorldBlock implements WorldBlock {
 
     @Override
     public CompoundTag getData() {
-        return blockEntity == null ? null : FabricTagFactory.parseCompound(blockEntity.toTag(new net.minecraft.nbt.CompoundTag()));
+        return blockEntity == null ? null : FabricTagFactory.parseCompound(blockEntity.writeNbt(new NbtCompound()));
     }
 }

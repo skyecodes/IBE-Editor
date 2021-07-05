@@ -3,19 +3,20 @@ package com.github.franckyi.minecraft.impl.common.nbt;
 import com.github.franckyi.minecraft.api.common.tag.CompoundTag;
 import com.github.franckyi.minecraft.api.common.tag.ListTag;
 import com.github.franckyi.minecraft.api.common.tag.Tag;
+import net.minecraft.nbt.NbtList;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class FabricListTag implements ListTag {
-    private final net.minecraft.nbt.ListTag tag;
+    private final NbtList tag;
 
     public FabricListTag() {
-        this(new net.minecraft.nbt.ListTag());
+        this(new NbtList());
     }
 
-    public FabricListTag(net.minecraft.nbt.ListTag tag) {
+    public FabricListTag(NbtList tag) {
         this.tag = tag;
     }
 
@@ -71,7 +72,7 @@ public class FabricListTag implements ListTag {
 
     @Override
     @SuppressWarnings("unchecked")
-    public net.minecraft.nbt.ListTag get() {
+    public NbtList get() {
         return tag;
     }
 }

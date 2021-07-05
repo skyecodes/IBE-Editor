@@ -6,6 +6,7 @@ import com.github.franckyi.minecraft.api.common.world.Item;
 import com.github.franckyi.minecraft.impl.common.nbt.FabricCompoundTag;
 import com.github.franckyi.minecraft.impl.common.text.FabricTextFactory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
 
 public class FabricItem implements Item {
     private final ItemStack item;
@@ -14,11 +15,11 @@ public class FabricItem implements Item {
     private Text defaultName;
 
     public FabricItem(ItemStack item) {
-        this(item, new FabricCompoundTag(item.toTag(new net.minecraft.nbt.CompoundTag())));
+        this(item, new FabricCompoundTag(item.writeNbt(new NbtCompound())));
     }
 
     public FabricItem(CompoundTag tag) {
-        this(ItemStack.fromTag(tag.get()), tag);
+        this(ItemStack.fromNbt(tag.get()), tag);
     }
 
     private FabricItem(ItemStack item, CompoundTag tag) {

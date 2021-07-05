@@ -1,19 +1,20 @@
 package com.github.franckyi.minecraft.impl.common.nbt;
 
 import com.github.franckyi.minecraft.api.common.tag.StringTag;
+import net.minecraft.nbt.NbtString;
 
 public class FabricStringTag implements StringTag {
-    private final net.minecraft.nbt.StringTag tag;
+    private final NbtString tag;
 
     public FabricStringTag() {
         this("");
     }
 
     public FabricStringTag(String value) {
-        this(net.minecraft.nbt.StringTag.of(value));
+        this(NbtString.of(value));
     }
 
-    public FabricStringTag(net.minecraft.nbt.StringTag tag) {
+    public FabricStringTag(NbtString tag) {
         this.tag = tag;
     }
 
@@ -24,7 +25,7 @@ public class FabricStringTag implements StringTag {
 
     @Override
     @SuppressWarnings("unchecked")
-    public net.minecraft.nbt.StringTag get() {
+    public NbtString get() {
         return tag;
     }
 

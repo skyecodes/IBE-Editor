@@ -1,30 +1,31 @@
 package com.github.franckyi.minecraft.impl.common.nbt;
 
 import com.github.franckyi.minecraft.api.common.tag.ShortTag;
+import net.minecraft.nbt.NbtShort;
 
 public class FabricShortTag implements ShortTag {
-    private final net.minecraft.nbt.ShortTag tag;
+    private final NbtShort tag;
 
     public FabricShortTag() {
         this((short) 0);
     }
 
     public FabricShortTag(short value) {
-        this(net.minecraft.nbt.ShortTag.of(value));
+        this(NbtShort.of(value));
     }
 
-    public FabricShortTag(net.minecraft.nbt.ShortTag tag) {
+    public FabricShortTag(NbtShort tag) {
         this.tag = tag;
     }
 
     @Override
     public short getValue() {
-        return tag.getShort();
+        return tag.shortValue();
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public net.minecraft.nbt.ShortTag get() {
+    public NbtShort get() {
         return tag;
     }
 

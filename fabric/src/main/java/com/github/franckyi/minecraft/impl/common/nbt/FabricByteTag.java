@@ -1,30 +1,31 @@
 package com.github.franckyi.minecraft.impl.common.nbt;
 
 import com.github.franckyi.minecraft.api.common.tag.ByteTag;
+import net.minecraft.nbt.NbtByte;
 
 public class FabricByteTag implements ByteTag {
-    private final net.minecraft.nbt.ByteTag tag;
+    private final NbtByte tag;
 
     public FabricByteTag() {
         this((byte) 0);
     }
 
     public FabricByteTag(byte value) {
-        this(net.minecraft.nbt.ByteTag.of(value));
+        this(NbtByte.of(value));
     }
 
-    public FabricByteTag(net.minecraft.nbt.ByteTag tag) {
+    public FabricByteTag(NbtByte tag) {
         this.tag = tag;
     }
 
     @Override
     public byte getValue() {
-        return tag.getByte();
+        return tag.byteValue();
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public net.minecraft.nbt.ByteTag get() {
+    public NbtByte get() {
         return tag;
     }
 
