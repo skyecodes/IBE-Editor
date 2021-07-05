@@ -46,7 +46,7 @@ processResources {
     from "src/main/resources", "../common/src/main/resources"
 }
 
-task signJar(type: SignJar, dependsOn: rootProject.buildJar) {
+task signJar(type: SignJar) {
     onlyIf {
         project.hasProperty("keyStore")
     }

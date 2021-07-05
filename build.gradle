@@ -7,7 +7,7 @@ group = "com.github.franckyi"
 archivesBaseName = "IBEEditor-$minecraft_version"
 version = project.mod_version
 
-task buildJar(type: Jar) {
+task build(type: Jar, overwrite: true) {
     dependsOn ":common:jar", ":fabric:build", ":forge:build"
     finalizedBy ":forge:signJar"
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
