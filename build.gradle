@@ -5,19 +5,20 @@ allprojects {
 
 group = "com.github.franckyi"
 archivesBaseName = "IBEEditor-$minecraft_version"
+version = project.mod_version
 
 task buildJar(type: Jar) {
     dependsOn ":common:jar", ":fabric:build", ":forge:build"
     finalizedBy ":forge:signJar"
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    from zipTree("common/build/libs/common-${archiveVersion}.jar"), zipTree("fabric/build/libs/fabric-${archiveVersion}.jar"), zipTree("forge/build/libs/forge-${archiveVersion}.jar")
+    from zipTree("common/build/libs/common.jar"), zipTree("fabric/build/libs/fabric.jar"), zipTree("forge/build/libs/forge.jar")
     manifest {
         attributes([
                 "Specification-Title"     : "ibeeditor",
                 "Specification-Vendor"    : "Franckyi",
                 "Specification-Version"   : "1",
                 "Implementation-Title"    : "ibeeditor",
-                "Implementation-Version"  : "${archiveVersion}",
+                "Implementation-Version"  : "${mod_version}",
                 "Implementation-Vendor"   : "Franckyi",
                 "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
