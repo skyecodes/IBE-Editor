@@ -7,8 +7,16 @@ import java.util.Objects;
 public abstract class AbstractPlainText extends AbstractText implements PlainText {
     private String text;
 
+    protected AbstractPlainText() {
+    }
+
     protected AbstractPlainText(String text) {
         this.text = text;
+    }
+
+    protected AbstractPlainText(PlainText text) {
+        super(text);
+        this.text = text.getText();
     }
 
     @Override

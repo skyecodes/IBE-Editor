@@ -10,8 +10,17 @@ public abstract class AbstractTranslatedText extends AbstractText implements Tra
     private String translate;
     private List<Text> with;
 
+    protected AbstractTranslatedText() {
+    }
+
     protected AbstractTranslatedText(String translate) {
         this.translate = translate;
+    }
+
+    protected AbstractTranslatedText(TranslatedText text) {
+        super(text);
+        translate = text.getTranslate();
+        with = text.getWith();
     }
 
     @Override

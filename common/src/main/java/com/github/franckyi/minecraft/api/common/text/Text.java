@@ -79,20 +79,17 @@ public interface Text {
         }
     }
 
-    final class Serializer implements JsonSerializer<Text>, JsonDeserializer<Text> {
+    final class Serializer implements JsonDeserializer<Text> {
         public static final Gson GSON = new GsonBuilder()
                 .registerTypeAdapter(Text.class, new Serializer())
+                .registerTypeAdapter(PlainTextImpl.class, new PlainTextImpl.Serializer())
+                .registerTypeAdapter(TranslatedTextImpl.class, new TranslatedTextImpl.Serializer())
                 .registerTypeAdapter(Event.class, new Event.Serializer())
                 .create();
 
         @Override
         public Text deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
             return json.getAsJsonObject().has("text") ? GSON.fromJson(json, PlainTextImpl.class) : GSON.fromJson(json, TranslatedTextImpl.class);
-        }
-
-        @Override
-        public JsonElement serialize(Text src, Type typeOfSrc, JsonSerializationContext context) {
-            return GSON.toJsonTree(src);
         }
     }
 

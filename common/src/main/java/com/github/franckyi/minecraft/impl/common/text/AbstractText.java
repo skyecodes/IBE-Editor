@@ -19,6 +19,21 @@ public abstract class AbstractText implements Text {
     private Event clickEvent;
     private Event hoverEvent;
 
+    protected AbstractText() {
+    }
+
+    protected AbstractText(Text text) {
+        extra = text.getExtra();
+        color = text.getColor();
+        bold = text.getBold();
+        italic = text.getItalic();
+        underlined = text.getUnderlined();
+        strikethrough = text.getStrikethrough();
+        obfuscated = text.getObfuscated();
+        clickEvent = text.getClickEvent();
+        hoverEvent = text.getHoverEvent();
+    }
+
     @Override
     public List<Text> getExtra() {
         return extra;
