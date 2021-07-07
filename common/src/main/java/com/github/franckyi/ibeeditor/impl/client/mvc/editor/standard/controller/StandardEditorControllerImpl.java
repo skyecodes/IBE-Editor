@@ -4,10 +4,12 @@ import com.github.franckyi.ibeeditor.api.client.mvc.editor.standard.controller.S
 import com.github.franckyi.ibeeditor.api.client.mvc.editor.standard.model.StandardEditorModel;
 import com.github.franckyi.ibeeditor.api.client.mvc.editor.standard.view.StandardEditorView;
 import com.github.franckyi.ibeeditor.impl.client.mvc.base.controller.AbstractListEditorController;
+import com.github.franckyi.ibeeditor.impl.client.util.texteditor.StyleType;
+import com.github.franckyi.ibeeditor.impl.client.util.texteditor.TextEditorActionHandler;
 
 import static com.github.franckyi.guapi.GUAPIHelper.*;
 
-public class StandardEditorControllerImpl extends AbstractListEditorController<StandardEditorModel, StandardEditorView> implements StandardEditorController {
+public class StandardEditorControllerImpl extends AbstractListEditorController<StandardEditorModel, StandardEditorView> implements StandardEditorController, TextEditorActionHandler {
     public StandardEditorControllerImpl(StandardEditorModel model, StandardEditorView view) {
         super(model, view);
     }
@@ -17,7 +19,7 @@ public class StandardEditorControllerImpl extends AbstractListEditorController<S
         super.bind();
         view.getHeaderText().with(translated(model.getTitle()));
         model.focusedTextEntryProperty().addListener(value -> view.setShowTextButtons(value != null));
-        view.setOnTextButtonClick(this::onTextButtonClick);
+        view.setTextEditorActionHandler(this);
         if (model.isDisabled()) {
             view.getDoneButton().setDisable(true);
             view.getDoneButton().setTooltip(model.getDisabledTooltip());
@@ -31,11 +33,13 @@ public class StandardEditorControllerImpl extends AbstractListEditorController<S
         }
     }
 
-    private void onTextButtonClick(StandardEditorView.TextButtonType textButtonType) {
-        if (textButtonType == StandardEditorView.TextButtonType.CUSTOM_COLOR) {
+    @Override
+    public void addColorFormatting(String color) {
+        model.getFocusedTextEntry().addColorFormatting(color);
+    }
 
-        } else {
-            model.getFocusedTextEntry().addFormatting(textButtonType);
-        }
+    @Override
+    public void addStyleFormatting(StyleType type) {
+        model.getFocusedTextEntry().addStyleFormatting(type);
     }
 }

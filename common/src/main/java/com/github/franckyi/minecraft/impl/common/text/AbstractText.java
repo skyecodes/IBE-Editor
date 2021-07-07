@@ -3,8 +3,10 @@ package com.github.franckyi.minecraft.impl.common.text;
 import com.github.franckyi.minecraft.Minecraft;
 import com.github.franckyi.minecraft.api.common.text.Text;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public abstract class AbstractText implements Text {
     protected transient boolean shouldUpdateComponent = true;
@@ -45,6 +47,15 @@ public abstract class AbstractText implements Text {
             this.extra = extra;
             shouldUpdateComponent = true;
         }
+    }
+
+    @Override
+    public void addExtra(Text extra) {
+        if (getExtra() == null) {
+            setExtra(new ArrayList<>());
+        }
+        getExtra().add(extra);
+        shouldUpdateComponent = true;
     }
 
     @Override
@@ -162,6 +173,19 @@ public abstract class AbstractText implements Text {
 
     @Override
     public String getRawText() {
-        return Minecraft.getCommon().getTextFactory().getRawTextFromComponent(get());
+        return getExtra() == null ? "" : getExtra().stream().map(Text::getRawText).collect(Collectors.joining());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AbstractText that = (AbstractText) o;
+        return Objects.equals(extra, that.extra) && Objects.equals(color, that.color) && Objects.equals(bold, that.bold) && Objects.equals(italic, that.italic) && Objects.equals(underlined, that.underlined) && Objects.equals(strikethrough, that.strikethrough) && Objects.equals(obfuscated, that.obfuscated) && Objects.equals(clickEvent, that.clickEvent) && Objects.equals(hoverEvent, that.hoverEvent);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(extra, color, bold, italic, underlined, strikethrough, obfuscated, clickEvent, hoverEvent);
     }
 }

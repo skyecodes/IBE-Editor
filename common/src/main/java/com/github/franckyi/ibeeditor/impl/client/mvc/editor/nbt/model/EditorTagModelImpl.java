@@ -42,7 +42,7 @@ public class EditorTagModelImpl implements EditorTagModel {
         if (tag != null) {
             switch (tag.getType()) {
                 case Tag.COMPOUND_ID:
-                    children.setAll(((CompoundTag) tag).getValue().entrySet()
+                    children.setAll(((CompoundTag) tag).getEntries().entrySet()
                             .stream()
                             .map(entry -> new EditorTagModelImpl(entry.getValue(), this, entry.getKey(), null))
                             .collect(Collectors.toList())

@@ -49,35 +49,8 @@ public final class ForgeTagFactory implements TagFactory {
     }
 
     @Override
-    public Tag createEmptyTag(byte type) {
-        switch (type) {
-            case Tag.BYTE_ID:
-                return new ForgeByteTag();
-            case Tag.SHORT_ID:
-                return new ForgeShortTag();
-            case Tag.INT_ID:
-                return new ForgeIntTag();
-            case Tag.LONG_ID:
-                return new ForgeLongTag();
-            case Tag.FLOAT_ID:
-                return new ForgeFloatTag();
-            case Tag.DOUBLE_ID:
-                return new ForgeDoubleTag();
-            case Tag.BYTE_ARRAY_ID:
-                return new ForgeByteArrayTag();
-            case Tag.STRING_ID:
-                return new ForgeStringTag();
-            case Tag.LIST_ID:
-                return new ForgeListTag();
-            case Tag.COMPOUND_ID:
-                return new ForgeCompoundTag();
-            case Tag.INT_ARRAY_ID:
-                return new ForgeIntArrayTag();
-            case Tag.LONG_ARRAY_ID:
-                return new ForgeLongArrayTag();
-            default:
-                return null;
-        }
+    public ByteTag createByteTag() {
+        return new ForgeByteTag();
     }
 
     @Override
@@ -86,8 +59,18 @@ public final class ForgeTagFactory implements TagFactory {
     }
 
     @Override
+    public ShortTag createShortTag() {
+        return new ForgeShortTag();
+    }
+
+    @Override
     public ShortTag createShortTag(short value) {
         return new ForgeShortTag(value);
+    }
+
+    @Override
+    public IntTag createIntTag() {
+        return new ForgeIntTag();
     }
 
     @Override
@@ -96,8 +79,18 @@ public final class ForgeTagFactory implements TagFactory {
     }
 
     @Override
+    public LongTag createLongTag() {
+        return new ForgeLongTag();
+    }
+
+    @Override
     public LongTag createLongTag(long value) {
         return new ForgeLongTag(value);
+    }
+
+    @Override
+    public FloatTag createFloatTag() {
+        return new ForgeFloatTag();
     }
 
     @Override
@@ -106,8 +99,18 @@ public final class ForgeTagFactory implements TagFactory {
     }
 
     @Override
+    public DoubleTag createDoubleTag() {
+        return new ForgeDoubleTag();
+    }
+
+    @Override
     public DoubleTag createDoubleTag(double value) {
         return new ForgeDoubleTag(value);
+    }
+
+    @Override
+    public ByteArrayTag createByteArrayTag() {
+        return new ForgeByteArrayTag();
     }
 
     @Override
@@ -116,8 +119,18 @@ public final class ForgeTagFactory implements TagFactory {
     }
 
     @Override
+    public StringTag createStringTag() {
+        return new ForgeStringTag();
+    }
+
+    @Override
     public StringTag createStringTag(String value) {
         return new ForgeStringTag(value);
+    }
+
+    @Override
+    public ListTag createListTag() {
+        return new ForgeListTag();
     }
 
     @Override
@@ -126,13 +139,28 @@ public final class ForgeTagFactory implements TagFactory {
     }
 
     @Override
+    public CompoundTag createCompoundTag() {
+        return new ForgeCompoundTag();
+    }
+
+    @Override
     public CompoundTag createCompoundTag(Map<String, Tag> value) {
         return new ForgeCompoundTag(value);
     }
 
     @Override
+    public IntArrayTag createIntArrayTag() {
+        return new ForgeIntArrayTag();
+    }
+
+    @Override
     public IntArrayTag createIntArrayTag(List<Integer> value) {
         return new ForgeIntArrayTag(value);
+    }
+
+    @Override
+    public LongArrayTag createLongArrayTag() {
+        return new ForgeLongArrayTag();
     }
 
     @Override

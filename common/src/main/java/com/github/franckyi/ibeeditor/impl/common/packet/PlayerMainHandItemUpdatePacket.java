@@ -18,7 +18,7 @@ public class PlayerMainHandItemUpdatePacket implements Packet {
 
     @Override
     public void write(Buffer buffer) {
-        buffer.writeTag(item.getTag());
+        buffer.writeTag(item.getData());
     }
 
     public Item getItem() {

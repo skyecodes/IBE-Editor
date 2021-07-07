@@ -31,4 +31,23 @@ public abstract class AbstractPlainText extends AbstractText implements PlainTex
             shouldUpdateComponent = true;
         }
     }
+
+    @Override
+    public String getRawText() {
+        return (text == null ? "" : text) + super.getRawText();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        AbstractPlainText that = (AbstractPlainText) o;
+        return Objects.equals(text, that.text);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), text);
+    }
 }

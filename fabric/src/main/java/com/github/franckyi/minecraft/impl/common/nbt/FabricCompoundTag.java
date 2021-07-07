@@ -25,7 +25,7 @@ public class FabricCompoundTag implements CompoundTag {
     }
 
     @Override
-    public Map<String, Tag> getValue() {
+    public Map<String, Tag> getEntries() {
         Map<String, Tag> value = new HashMap<>();
         for (String key : tag.getKeys()) {
             value.put(key, FabricTagFactory.from(tag.get(key)));
@@ -34,38 +34,8 @@ public class FabricCompoundTag implements CompoundTag {
     }
 
     @Override
-    public byte getByte(String key) {
-        return tag.getByte(key);
-    }
-
-    @Override
-    public short getShort(String key) {
-        return tag.getShort(key);
-    }
-
-    @Override
     public int getInt(String key) {
         return tag.getInt(key);
-    }
-
-    @Override
-    public long getLong(String key) {
-        return tag.getLong(key);
-    }
-
-    @Override
-    public float getFloat(String key) {
-        return tag.getFloat(key);
-    }
-
-    @Override
-    public double getDouble(String key) {
-        return tag.getDouble(key);
-    }
-
-    @Override
-    public byte[] getByteArray(String key) {
-        return tag.getByteArray(key);
     }
 
     @Override
@@ -84,13 +54,11 @@ public class FabricCompoundTag implements CompoundTag {
     }
 
     @Override
-    public int[] getIntArray(String key) {
-        return tag.getIntArray(key);
-    }
-
-    @Override
-    public long[] getLongArray(String key) {
-        return tag.getLongArray(key);
+    public CompoundTag getOrCreateCompound(String key) {
+        if (!tag.contains(key, COMPOUND_ID)) {
+            tag.put(key, new NbtCompound());
+        }
+        return new FabricCompoundTag(tag.getCompound(key));
     }
 
     @Override
@@ -101,6 +69,26 @@ public class FabricCompoundTag implements CompoundTag {
     @Override
     public void putInt(String key, int value) {
         tag.putInt(key, value);
+    }
+
+    @Override
+    public void putCompound(String key, CompoundTag value) {
+        tag.put(key, value.get());
+    }
+
+    @Override
+    public boolean contains(String key, byte type) {
+        return tag.contains(key, type);
+    }
+
+    @Override
+    public void remove(String key) {
+        tag.remove(key);
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return tag.isEmpty();
     }
 
     @Override

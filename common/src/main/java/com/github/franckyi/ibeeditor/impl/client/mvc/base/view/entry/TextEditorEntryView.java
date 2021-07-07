@@ -17,6 +17,7 @@ public class TextEditorEntryView extends TextFieldEditorEntryView {
         fieldButtonBox = hBox(10, textField, resetButton).weight(textField, 1).align(CENTER);
         root.getChildren().add(fieldButtonBox);
         root.setWeight(fieldButtonBox, 2);
+        textField.setValidator(s -> true);
     }
 
     public TexturedButton getResetButton() {

@@ -11,8 +11,6 @@ import net.minecraft.nbt.NbtCompound;
 public class FabricItem implements Item {
     private final ItemStack item;
     private final CompoundTag tag;
-    private Text name;
-    private Text defaultName;
 
     public FabricItem(ItemStack item) {
         this(item, new FabricCompoundTag(item.writeNbt(new NbtCompound())));
@@ -28,24 +26,8 @@ public class FabricItem implements Item {
     }
 
     @Override
-    public CompoundTag getTag() {
+    public CompoundTag getData() {
         return tag;
-    }
-
-    @Override
-    public Text getName() {
-        if (name == null) {
-            name = FabricTextFactory.INSTANCE.createTextFromComponent(item.getName());
-        }
-        return name;
-    }
-
-    @Override
-    public Text getDefaultName() {
-        if (defaultName == null) {
-            defaultName = FabricTextFactory.INSTANCE.createTextFromComponent(item.getItem().getName());
-        }
-        return defaultName;
     }
 
     @Override

@@ -4,6 +4,7 @@ import com.github.franckyi.ibeeditor.impl.client.mvc.editor.standard.model.categ
 import com.github.franckyi.ibeeditor.impl.client.mvc.editor.standard.model.category.item.ItemGeneralEditorCategoryModel;
 import com.github.franckyi.minecraft.Minecraft;
 import com.github.franckyi.minecraft.api.common.tag.CompoundTag;
+import com.github.franckyi.minecraft.api.common.tag.Tag;
 import com.github.franckyi.minecraft.api.common.text.Text;
 import com.github.franckyi.minecraft.api.common.world.Item;
 
@@ -19,8 +20,11 @@ public class ItemEditorModel extends AbstractStandardEditorModel<Item, AbstractI
 
     @Override
     public Item applyChanges() {
-        CompoundTag tag = getTarget().getTag().copy();
-        getCategories().forEach(categoryModel -> categoryModel.apply(tag));
-        return Minecraft.getCommon().createItem(tag);
+        CompoundTag nbt = getTarget().getData().copy();
+        getCategories().forEach(categoryModel -> categoryModel.apply(nbt));
+        if (nbt.contains("tag", Tag.COMPOUND_ID) && nbt.getCompound("tag").isEmpty()) {
+            nbt.remove("tag");
+        }
+        return Minecraft.getCommon().createItem(nbt);
     }
 }

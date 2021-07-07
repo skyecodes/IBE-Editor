@@ -95,7 +95,7 @@ public final class ClientEditorLogic {
                 ModScreenHandler.openItemEditorScreen(item, action, disabledTooltip);
                 break;
             case NBT:
-                ModScreenHandler.openNBTEditorScreen(item.getTag(), tag -> action.accept(Minecraft.getCommon().createItem(tag)), disabledTooltip);
+                ModScreenHandler.openNBTEditorScreen(item.getData(), tag -> action.accept(Minecraft.getCommon().createItem(tag)), disabledTooltip);
                 break;
             case RAW_NBT:
                 // TODO

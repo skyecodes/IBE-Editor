@@ -1,13 +1,15 @@
 package com.github.franckyi.minecraft.api.common.text.builder;
 
-import com.github.franckyi.minecraft.impl.common.text.AbstractText;
 import com.github.franckyi.minecraft.api.common.text.Text;
+import com.github.franckyi.minecraft.impl.common.text.AbstractText;
 import com.google.common.collect.Lists;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Consumer;
+
+import static com.github.franckyi.guapi.GUAPIHelper.*;
 
 public interface TextBuilder<T extends Text> {
     @SuppressWarnings("unchecked")
@@ -34,67 +36,67 @@ public interface TextBuilder<T extends Text> {
     }
 
     default T black() {
-        return color("black");
+        return color(BLACK);
     }
 
     default T darkBlue() {
-        return color("dark_blue");
+        return color(DARK_BLUE);
     }
 
     default T darkGreen() {
-        return color("dark_green");
+        return color(DARK_GREEN);
     }
 
     default T darkAqua() {
-        return color("dark_aqua");
+        return color(DARK_AQUA);
     }
 
     default T darkRed() {
-        return color("dark_red");
+        return color(DARK_RED);
     }
 
     default T darkPurple() {
-        return color("dark_purple");
+        return color(DARK_PURPLE);
     }
 
     default T gold() {
-        return color("gold");
+        return color(GOLD);
     }
 
     default T gray() {
-        return color("gray");
+        return color(GRAY);
     }
 
     default T darkGray() {
-        return color("dark_gray");
+        return color(DARK_GRAY);
     }
 
     default T blue() {
-        return color("blue");
+        return color(BLUE);
     }
 
     default T green() {
-        return color("green");
+        return color(GREEN);
     }
 
     default T aqua() {
-        return color("aqua");
+        return color(AQUA);
     }
 
     default T red() {
-        return color("red");
+        return color(RED);
     }
 
     default T lightPurple() {
-        return color("light_purple");
+        return color(LIGHT_PURPLE);
     }
 
     default T yellow() {
-        return color("yellow");
+        return color(YELLOW);
     }
 
     default T white() {
-        return color("white");
+        return color(WHITE);
     }
 
     default T bold(boolean bold) {

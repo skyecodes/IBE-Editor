@@ -8,21 +8,9 @@ public interface CompoundTag extends Tag {
         return Tag.COMPOUND_ID;
     }
 
-    Map<String, Tag> getValue();
-
-    byte getByte(String key);
-
-    short getShort(String key);
+    Map<String, Tag> getEntries();
 
     int getInt(String key);
-
-    long getLong(String key);
-
-    float getFloat(String key);
-
-    double getDouble(String key);
-
-    byte[] getByteArray(String key);
 
     String getString(String key);
 
@@ -30,13 +18,19 @@ public interface CompoundTag extends Tag {
 
     CompoundTag getCompound(String key);
 
-    int[] getIntArray(String key);
-
-    long[] getLongArray(String key);
+    CompoundTag getOrCreateCompound(String key);
 
     void putString(String key, String value);
 
     void putInt(String key, int value);
+
+    void putCompound(String key, CompoundTag tag);
+
+    boolean contains(String key, byte type);
+
+    void remove(String key);
+
+    boolean isEmpty();
 
     CompoundTag copy();
 }

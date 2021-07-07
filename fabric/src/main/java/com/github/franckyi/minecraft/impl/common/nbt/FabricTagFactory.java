@@ -49,35 +49,8 @@ public final class FabricTagFactory implements TagFactory {
     }
 
     @Override
-    public Tag createEmptyTag(byte type) {
-        switch (type) {
-            case Tag.BYTE_ID:
-                return new FabricByteTag();
-            case Tag.SHORT_ID:
-                return new FabricShortTag();
-            case Tag.INT_ID:
-                return new FabricIntTag();
-            case Tag.LONG_ID:
-                return new FabricLongTag();
-            case Tag.FLOAT_ID:
-                return new FabricFloatTag();
-            case Tag.DOUBLE_ID:
-                return new FabricDoubleTag();
-            case Tag.BYTE_ARRAY_ID:
-                return new FabricByteArrayTag();
-            case Tag.STRING_ID:
-                return new FabricStringTag();
-            case Tag.LIST_ID:
-                return new FabricListTag();
-            case Tag.COMPOUND_ID:
-                return new FabricCompoundTag();
-            case Tag.INT_ARRAY_ID:
-                return new FabricIntArrayTag();
-            case Tag.LONG_ARRAY_ID:
-                return new FabricLongArrayTag();
-            default:
-                return null;
-        }
+    public ByteTag createByteTag() {
+        return new FabricByteTag();
     }
 
     @Override
@@ -86,8 +59,18 @@ public final class FabricTagFactory implements TagFactory {
     }
 
     @Override
+    public ShortTag createShortTag() {
+        return new FabricShortTag();
+    }
+
+    @Override
     public ShortTag createShortTag(short value) {
         return new FabricShortTag(value);
+    }
+
+    @Override
+    public IntTag createIntTag() {
+        return new FabricIntTag();
     }
 
     @Override
@@ -96,8 +79,18 @@ public final class FabricTagFactory implements TagFactory {
     }
 
     @Override
+    public LongTag createLongTag() {
+        return new FabricLongTag();
+    }
+
+    @Override
     public LongTag createLongTag(long value) {
         return new FabricLongTag(value);
+    }
+
+    @Override
+    public FloatTag createFloatTag() {
+        return new FabricFloatTag();
     }
 
     @Override
@@ -106,8 +99,18 @@ public final class FabricTagFactory implements TagFactory {
     }
 
     @Override
+    public DoubleTag createDoubleTag() {
+        return new FabricDoubleTag();
+    }
+
+    @Override
     public DoubleTag createDoubleTag(double value) {
         return new FabricDoubleTag(value);
+    }
+
+    @Override
+    public ByteArrayTag createByteArrayTag() {
+        return new FabricByteArrayTag();
     }
 
     @Override
@@ -116,8 +119,18 @@ public final class FabricTagFactory implements TagFactory {
     }
 
     @Override
+    public StringTag createStringTag() {
+        return new FabricStringTag();
+    }
+
+    @Override
     public StringTag createStringTag(String value) {
         return new FabricStringTag(value);
+    }
+
+    @Override
+    public ListTag createListTag() {
+        return new FabricListTag();
     }
 
     @Override
@@ -126,13 +139,28 @@ public final class FabricTagFactory implements TagFactory {
     }
 
     @Override
+    public CompoundTag createCompoundTag() {
+        return new FabricCompoundTag();
+    }
+
+    @Override
     public CompoundTag createCompoundTag(Map<String, Tag> value) {
         return new FabricCompoundTag(value);
     }
 
     @Override
+    public IntArrayTag createIntArrayTag() {
+        return new FabricIntArrayTag();
+    }
+
+    @Override
     public IntArrayTag createIntArrayTag(List<Integer> value) {
         return new FabricIntArrayTag(value);
+    }
+
+    @Override
+    public LongArrayTag createLongArrayTag() {
+        return new FabricLongArrayTag();
     }
 
     @Override

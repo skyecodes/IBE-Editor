@@ -8,6 +8,7 @@ import com.github.franckyi.minecraft.impl.common.text.TranslatedTextImpl;
 import com.google.gson.*;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 public interface Text {
@@ -15,25 +16,47 @@ public interface Text {
 
     void setExtra(List<Text> extra);
 
+    void addExtra(Text extra);
+
     String getColor();
 
     void setColor(String color);
+
+    default boolean isBold() {
+        return getBold() != null && getBold();
+    }
 
     Boolean getBold();
 
     void setBold(Boolean bold);
 
+    default boolean isItalic() {
+        return getItalic() != null && getItalic();
+    }
+
     Boolean getItalic();
 
     void setItalic(Boolean italic);
+
+    default boolean isUnderlined() {
+        return getUnderlined() != null && getUnderlined();
+    }
 
     Boolean getUnderlined();
 
     void setUnderlined(Boolean underlined);
 
+    default boolean isStrikethrough() {
+        return getStrikethrough() != null && getStrikethrough();
+    }
+
     Boolean getStrikethrough();
 
     void setStrikethrough(Boolean strikethrough);
+
+    default boolean isObfuscated() {
+        return getObfuscated() != null && getObfuscated();
+    }
 
     Boolean getObfuscated();
 
@@ -89,14 +112,28 @@ public interface Text {
 
         @Override
         public Text deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-            return json.getAsJsonObject().has("text") ? GSON.fromJson(json, PlainTextImpl.class) : GSON.fromJson(json, TranslatedTextImpl.class);
+            if (json.isJsonArray()) {
+                PlainTextImpl text = new PlainTextImpl();
+                json.getAsJsonArray().forEach(jsonElement -> text.addExtra(GSON.fromJson(jsonElement, Text.class)));
+                return text;
+            } else {
+                return json.getAsJsonObject().has("text") ? GSON.fromJson(json, PlainTextImpl.class) : GSON.fromJson(json, TranslatedTextImpl.class);
+            }
         }
     }
 
     Text EMPTY = createPlainText("");
 
+    static PlainTextBuilder createPlainText() {
+        return new PlainTextImpl();
+    }
+
     static PlainTextBuilder createPlainText(String text) {
         return new PlainTextImpl(text);
+    }
+
+    static TranslatedTextBuilder createTranslatedText() {
+        return new TranslatedTextImpl();
     }
 
     static TranslatedTextBuilder createTranslatedText(String translate) {

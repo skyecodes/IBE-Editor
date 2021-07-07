@@ -306,8 +306,16 @@ public final class GUAPIHelper {
         return Text.EMPTY;
     }
 
+    public static PlainTextBuilder text() {
+        return Text.createPlainText();
+    }
+
     public static PlainTextBuilder text(String text) {
         return Text.createPlainText(text);
+    }
+
+    public static TranslatedTextBuilder translated() {
+        return Text.createTranslatedText();
     }
 
     public static TranslatedTextBuilder translated(String translate) {

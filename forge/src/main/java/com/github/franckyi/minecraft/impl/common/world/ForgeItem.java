@@ -11,8 +11,6 @@ import net.minecraft.nbt.CompoundNBT;
 public class ForgeItem implements Item {
     private final ItemStack item;
     private final CompoundTag tag;
-    private Text name;
-    private Text defaultName;
 
     public ForgeItem(ItemStack item) {
         this(item, new ForgeCompoundTag(item.save(new CompoundNBT())));
@@ -28,24 +26,8 @@ public class ForgeItem implements Item {
     }
 
     @Override
-    public CompoundTag getTag() {
+    public CompoundTag getData() {
         return tag;
-    }
-
-    @Override
-    public Text getName() {
-        if (name == null) {
-            name = ForgeTextFactory.INSTANCE.createTextFromComponent(item.getHoverName());
-        }
-        return name;
-    }
-
-    @Override
-    public Text getDefaultName() {
-        if (defaultName == null) {
-            defaultName = ForgeTextFactory.INSTANCE.createTextFromComponent(item.getItem().getName(item));
-        }
-        return defaultName;
     }
 
     @Override
