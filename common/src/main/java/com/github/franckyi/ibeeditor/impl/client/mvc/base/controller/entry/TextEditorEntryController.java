@@ -5,7 +5,6 @@ import com.github.franckyi.ibeeditor.impl.client.mvc.base.view.entry.TextEditorE
 import com.github.franckyi.ibeeditor.impl.client.util.texteditor.*;
 import com.github.franckyi.minecraft.api.common.text.PlainText;
 import com.github.franckyi.minecraft.api.common.text.Text;
-import com.github.franckyi.minecraft.api.common.text.TranslatedText;
 
 import java.util.List;
 
@@ -25,10 +24,8 @@ public class TextEditorEntryController extends LabeledEditorEntryController<Text
         view.getTextField().setTextRenderer(this::renderText);
         view.getTextField().focusedProperty().addListener(this::onTextFieldFocus);
         model.validProperty().bind(view.getTextField().validProperty());
-        model.valueProperty().addListener(this::updateResetButton);
         model.setValueFactory(this::createText);
         initFormattings(model.getValue());
-        updateResetButton();
     }
 
     private Text renderText(String str, int firstCharacterIndex) {
@@ -52,42 +49,29 @@ public class TextEditorEntryController extends LabeledEditorEntryController<Text
         formattings = parser.getFormattings();
     }
 
-    private void updateResetButton() {
-        view.getResetButton().setDisable(model.getValue() instanceof TranslatedText);
-    }
-
     private void onTextFieldFocus(boolean focused) {
         if (focused) {
-            model.getCategory().getEditor().setFocusedTextEntry(this);
-        } else if (model.getCategory().getEditor().getFocusedTextEntry() == this) {
-            model.getCategory().getEditor().setFocusedTextEntry(null);
+            model.getCategory().getEditor().setActiveTextEditor(this);
+        } else if (model.getCategory().getEditor().getActiveTextEditor() == this) {
+            model.getCategory().getEditor().setActiveTextEditor(null);
         }
     }
 
     @Override
     public void addColorFormatting(String color) {
-        addFormatting(color, ColorFormatting::new);
+        int start = Math.min(view.getTextField().getCursorPosition(), view.getTextField().getHighlightPosition());
+        int end = Math.max(view.getTextField().getCursorPosition(), view.getTextField().getHighlightPosition());
+        if (start != end) {
+            formattings.add(new ColorFormatting(start, end, color));
+        }
     }
 
     @Override
     public void addStyleFormatting(StyleType type) {
-        addFormatting(type, StyleFormatting::new);
-    }
-
-    private <T> void addFormatting(T value, FormattingSupplier<T> supplier) {
-        int start = view.getTextField().getCursorPosition();
-        int end = view.getTextField().getHighlightPosition();
+        int start = Math.min(view.getTextField().getCursorPosition(), view.getTextField().getHighlightPosition());
+        int end = Math.max(view.getTextField().getCursorPosition(), view.getTextField().getHighlightPosition());
         if (start != end) {
-            if (start < end) {
-                formattings.add(supplier.get(start, end, value));
-            } else {
-                formattings.add(supplier.get(end, start, value));
-            }
+            formattings.add(new StyleFormatting(start, end, type));
         }
-    }
-
-    @FunctionalInterface
-    private interface FormattingSupplier<T> {
-        Formatting get(int start, int end, T value);
     }
 }

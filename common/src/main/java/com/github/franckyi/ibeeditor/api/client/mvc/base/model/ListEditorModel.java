@@ -3,7 +3,7 @@ package com.github.franckyi.ibeeditor.api.client.mvc.base.model;
 import com.github.franckyi.databindings.api.BooleanProperty;
 import com.github.franckyi.databindings.api.ObjectProperty;
 import com.github.franckyi.databindings.api.ObservableList;
-import com.github.franckyi.ibeeditor.impl.client.mvc.base.controller.entry.TextEditorEntryController;
+import com.github.franckyi.ibeeditor.impl.client.util.texteditor.TextEditorActionHandler;
 
 public interface ListEditorModel {
     ObservableList<? extends EditorCategoryModel> getCategories();
@@ -28,14 +28,14 @@ public interface ListEditorModel {
         validProperty().setValue(value);
     }
 
-    default TextEditorEntryController getFocusedTextEntry() {
-        return focusedTextEntryProperty().getValue();
+    default TextEditorActionHandler getActiveTextEditor() {
+        return activeTextEditorProperty().getValue();
     }
 
-    ObjectProperty<TextEditorEntryController> focusedTextEntryProperty();
+    ObjectProperty<TextEditorActionHandler> activeTextEditorProperty();
 
-    default void setFocusedTextEntry(TextEditorEntryController value) {
-        focusedTextEntryProperty().setValue(value);
+    default void setActiveTextEditor(TextEditorActionHandler value) {
+        activeTextEditorProperty().setValue(value);
     }
 
     void apply();

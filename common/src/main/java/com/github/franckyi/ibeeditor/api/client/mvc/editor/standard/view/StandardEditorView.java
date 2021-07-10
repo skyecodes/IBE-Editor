@@ -5,6 +5,8 @@ import com.github.franckyi.ibeeditor.api.client.mvc.base.view.ListEditorView;
 import com.github.franckyi.ibeeditor.impl.client.util.texteditor.TextEditorActionHandler;
 import com.github.franckyi.minecraft.api.common.text.builder.TranslatedTextBuilder;
 
+import java.util.function.Supplier;
+
 public interface StandardEditorView extends ListEditorView {
     TranslatedTextBuilder getHeaderText();
 
@@ -18,5 +20,5 @@ public interface StandardEditorView extends ListEditorView {
         showTextButtonsProperty().setValue(value);
     }
 
-    void setTextEditorActionHandler(TextEditorActionHandler handler);
+    void setTextEditorSupplier(Supplier<TextEditorActionHandler> supplier);
 }

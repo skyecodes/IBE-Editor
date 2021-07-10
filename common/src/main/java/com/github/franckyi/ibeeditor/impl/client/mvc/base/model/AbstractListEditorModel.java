@@ -6,13 +6,13 @@ import com.github.franckyi.databindings.api.ObjectProperty;
 import com.github.franckyi.databindings.api.ObservableList;
 import com.github.franckyi.ibeeditor.api.client.mvc.base.model.EditorCategoryModel;
 import com.github.franckyi.ibeeditor.api.client.mvc.base.model.ListEditorModel;
-import com.github.franckyi.ibeeditor.impl.client.mvc.base.controller.entry.TextEditorEntryController;
+import com.github.franckyi.ibeeditor.impl.client.util.texteditor.TextEditorActionHandler;
 
 public abstract class AbstractListEditorModel implements ListEditorModel {
     protected final BooleanProperty validProperty = DataBindings.getPropertyFactory().createBooleanProperty(true);
     protected final ObservableList<? extends EditorCategoryModel> categories = DataBindings.getObservableListFactory().createObservableArrayList();
     protected final ObjectProperty<EditorCategoryModel> selectedCategory = DataBindings.getPropertyFactory().createObjectProperty();
-    protected final ObjectProperty<TextEditorEntryController> focusedTextEntryProperty = DataBindings.getPropertyFactory().createObjectProperty();
+    protected final ObjectProperty<TextEditorActionHandler> activeTextEditorProperty = DataBindings.getPropertyFactory().createObjectProperty();
 
     protected AbstractListEditorModel() {
         selectedCategoryProperty().addListener((oldVal, newVal) -> {
@@ -42,8 +42,8 @@ public abstract class AbstractListEditorModel implements ListEditorModel {
     }
 
     @Override
-    public ObjectProperty<TextEditorEntryController> focusedTextEntryProperty() {
-        return focusedTextEntryProperty;
+    public ObjectProperty<TextEditorActionHandler> activeTextEditorProperty() {
+        return activeTextEditorProperty;
     }
 
     @Override

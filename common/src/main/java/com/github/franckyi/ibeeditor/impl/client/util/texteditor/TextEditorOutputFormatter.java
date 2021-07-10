@@ -8,7 +8,8 @@ import java.util.stream.Collectors;
 
 public class TextEditorOutputFormatter {
     private final PlainText rootText;
-    private int currentFormattingIndex, currentTextIndex, previousTextIndex;
+    private int currentFormattingIndex;
+    private int previousTextIndex;
     private List<Formatting> currentFormattings;
 
     public TextEditorOutputFormatter(PlainText rootText) {
@@ -17,6 +18,7 @@ public class TextEditorOutputFormatter {
 
     public void format(String text, int firstCharacterIndex, List<Formatting> formattings) {
         initFormattingsForIndex(formattings, firstCharacterIndex);
+        int currentTextIndex;
         for (currentTextIndex = 1; currentTextIndex <= text.length(); currentTextIndex++) {
             currentFormattingIndex++;
             List<Formatting> changedFormattings = getChangedFormattingsForCurrentIndex(formattings);
