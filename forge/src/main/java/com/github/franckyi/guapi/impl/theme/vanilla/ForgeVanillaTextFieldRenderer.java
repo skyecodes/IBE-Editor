@@ -5,9 +5,9 @@ import com.github.franckyi.guapi.api.theme.vanilla.ForgeVanillaDelegateRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.util.IReorderingProcessor;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.Style;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 
 import java.util.Objects;
 
@@ -69,6 +69,6 @@ public class ForgeVanillaTextFieldRenderer extends TextFieldWidget implements Fo
     @Override
     public void setHighlightPos(int value) {
         super.setHighlightPos(value);
-        node.setHighlightPosition(MathHelper.clamp(value, 0, getValue().length()));
+        node.setHighlightPosition(ObfuscationReflectionHelper.getPrivateValue(TextFieldWidget.class, this, "field_146223_s"));
     }
 }

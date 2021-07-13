@@ -2,6 +2,8 @@ package com.github.franckyi.ibeeditor.impl.client.util.texteditor;
 
 import com.github.franckyi.minecraft.api.common.text.Text;
 
+import java.util.Objects;
+
 public abstract class Formatting {
     private int start, end;
 
@@ -27,4 +29,17 @@ public abstract class Formatting {
     }
 
     public abstract void apply(Text text);
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Formatting that = (Formatting) o;
+        return start == that.start && end == that.end;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(start, end);
+    }
 }

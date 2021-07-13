@@ -2,12 +2,12 @@ package com.github.franckyi.guapi.impl.theme.vanilla;
 
 import com.github.franckyi.guapi.api.node.TextField;
 import com.github.franckyi.guapi.api.theme.vanilla.FabricVanillaDelegateRenderer;
+import com.github.franckyi.ibeeditor.mixin.TextFieldWidgetMixin;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.text.OrderedText;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
-import net.minecraft.util.math.MathHelper;
 
 import java.util.Objects;
 
@@ -69,6 +69,6 @@ public class FabricVanillaTextFieldRenderer extends TextFieldWidget implements F
     @Override
     public void setSelectionEnd(int value) {
         super.setSelectionEnd(value);
-        node.setHighlightPosition(MathHelper.clamp(value, 0, getText().length()));
+        node.setHighlightPosition(((TextFieldWidgetMixin) this).getSelectionEnd());
     }
 }
