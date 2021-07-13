@@ -25,6 +25,7 @@
   "mixins": [
     "ibeeditor.mixins.json"
   ],
+  "accessWidener": "ibeeditor.accesswidener",
   "depends": {
     "fabricloader": ">=0.7.4",
     "fabric": ">=0.30.0",

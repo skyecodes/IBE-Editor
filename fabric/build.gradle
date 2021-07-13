@@ -20,6 +20,10 @@ dependencies {
     implementation project(':common')
 }
 
+minecraft {
+    accessWidener =  file("src/main/resources/ibeeditor.accesswidener")
+}
+
 processResources {
     from "src/main/resources", "../common/src/main/resources"
 

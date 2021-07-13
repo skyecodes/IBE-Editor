@@ -4,6 +4,7 @@ import com.github.franckyi.guapi.api.node.TextField;
 import com.github.franckyi.guapi.api.theme.vanilla.FabricVanillaDelegateRenderer;
 import com.github.franckyi.ibeeditor.mixin.TextFieldWidgetMixin;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.text.OrderedText;
 import net.minecraft.text.Style;
@@ -55,7 +56,7 @@ public class FabricVanillaTextFieldRenderer extends TextFieldWidget implements F
         if (node.getTextRenderer() == null) {
             setRenderTextProvider((string, integer) -> OrderedText.styledForwardsVisitedString(string, Style.EMPTY));
         } else {
-            setRenderTextProvider((string, integer) -> ((Text) node.getTextRenderer().render(string, integer).get()).asOrderedText());
+            setRenderTextProvider((string, integer) -> renderText(string, integer).asOrderedText());
         }
         setCursorToStart(); // fix in order to render text
     }
@@ -70,5 +71,34 @@ public class FabricVanillaTextFieldRenderer extends TextFieldWidget implements F
     public void setSelectionEnd(int value) {
         super.setSelectionEnd(value);
         node.setHighlightPosition(((TextFieldWidgetMixin) this).getSelectionEnd());
+    }
+
+    @Override
+    protected void drawSelectionHighlight(int x1, int y1, int x2, int y2) {
+        TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
+        int firstCharacterIndex = ((TextFieldWidgetMixin) this).getFirstCharacterIndex();
+        int cursorPosition = node.getCursorPosition();
+        int highlightPosition = node.getHighlightPosition();
+        int start = Math.min(cursorPosition, highlightPosition);
+        int end = Math.max(cursorPosition, highlightPosition);
+        if (start < firstCharacterIndex) {
+            ((TextFieldWidgetMixin) this).setFirstCharacterIndex(start);
+            start = firstCharacterIndex;
+        }
+        Text fullText = renderText(getText().substring(firstCharacterIndex), firstCharacterIndex);
+        String trimmedText = textRenderer.trimToWidth(fullText, this.getInnerWidth()).getString();
+        if (end > trimmedText.length() + firstCharacterIndex) {
+            ((TextFieldWidgetMixin) this).setFirstCharacterIndex(end - trimmedText.length());
+        }
+        Text previousText = renderText(getText().substring(firstCharacterIndex, start), firstCharacterIndex);
+        int previousTextWidth = textRenderer.getWidth(previousText);
+        Text highlightedText = renderText(getText().substring(start, end), firstCharacterIndex + start);
+        int highlightedTextWidth = textRenderer.getWidth(highlightedText);
+        int x0 = x + 4;
+        super.drawSelectionHighlight(x0 + previousTextWidth, y1, x0 + previousTextWidth + highlightedTextWidth, y2);
+    }
+
+    public Text renderText(String str, int firstCharacterIndex) {
+        return node.getTextRenderer() == null ? null : node.getTextRenderer().render(str, firstCharacterIndex).get();
     }
 }

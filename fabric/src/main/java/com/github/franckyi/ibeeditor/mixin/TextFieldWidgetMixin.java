@@ -8,4 +8,10 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 public interface TextFieldWidgetMixin {
     @Accessor("selectionEnd")
     int getSelectionEnd();
+
+    @Accessor("firstCharacterIndex")
+    int getFirstCharacterIndex();
+
+    @Accessor("firstCharacterIndex")
+    void setFirstCharacterIndex(int value);
 }
