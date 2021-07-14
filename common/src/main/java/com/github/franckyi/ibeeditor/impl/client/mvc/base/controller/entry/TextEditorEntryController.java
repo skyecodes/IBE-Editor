@@ -9,6 +9,7 @@ import com.google.common.collect.Lists;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Predicate;
 
 import static com.github.franckyi.guapi.GUAPIHelper.*;
@@ -70,7 +71,7 @@ public class TextEditorEntryController extends LabeledEditorEntryController<Text
             return;
         }
         mergeIdenticalFormattings(ColorFormatting.class, other -> other.getColor().equals(color), formatting);
-        formattings.addAll(resizeOtherColorFormattings(formatting, color));
+        resizeOtherColorFormattings(formatting);
     }
 
     @Override
@@ -83,8 +84,13 @@ public class TextEditorEntryController extends LabeledEditorEntryController<Text
             formattings.remove(formatting);
             return;
         }
-        mergeIdenticalFormattings(StyleFormatting.class, other -> other.getType().equals(type), formatting);
-        formattings.add(formatting);
+        Optional<StyleFormatting> surrounding = getSurroundingStyleFormatting(formatting);
+        if (surrounding.isPresent()) {
+            removeStyleFormatting(formatting, surrounding.get());
+        } else {
+            mergeIdenticalFormattings(StyleFormatting.class, other -> other.getType().equals(type), formatting);
+            formattings.add(formatting);
+        }
     }
 
     private <T extends Formatting> void mergeIdenticalFormattings(Class<T> formattingClass, Predicate<T> identicalPredicate, T formatting) {
@@ -111,14 +117,14 @@ public class TextEditorEntryController extends LabeledEditorEntryController<Text
         }
     }
 
-    private List<Formatting> resizeOtherColorFormattings(ColorFormatting formatting, String color) {
+    private void resizeOtherColorFormattings(ColorFormatting formatting) {
         List<Formatting> addedFormattings = Lists.newArrayList(formatting);
         Iterator<Formatting> it = formattings.iterator();
         while (it.hasNext()) {
             Formatting f = it.next();
             if (f instanceof ColorFormatting) {
                 ColorFormatting other = (ColorFormatting) f;
-                if (!other.getColor().equals(color)) {
+                if (!other.getColor().equals(formatting.getColor())) {
                     if (formatting.getStart() <= other.getStart() && formatting.getEnd() >= other.getEnd()) {
                         it.remove();
                         continue;
@@ -139,6 +145,29 @@ public class TextEditorEntryController extends LabeledEditorEntryController<Text
                 }
             }
         }
-        return addedFormattings;
+        formattings.addAll(addedFormattings);
+    }
+
+    private Optional<StyleFormatting> getSurroundingStyleFormatting(StyleFormatting formatting) {
+        return formattings.stream()
+                .filter(StyleFormatting.class::isInstance)
+                .map(StyleFormatting.class::cast)
+                .filter(other -> other.getType().equals(formatting.getType()))
+                .filter(other -> formatting.getStart() >= other.getStart() && formatting.getEnd() <= other.getEnd())
+                .findFirst();
+    }
+
+    private void removeStyleFormatting(StyleFormatting formatting, StyleFormatting other) {
+        if (formatting.getStart() == other.getStart()) {
+            other.setStart(formatting.getEnd());
+        } else if (formatting.getEnd() == other.getEnd()) {
+            other.setEnd(formatting.getStart());
+        } else {
+            int otherEnd = other.getEnd();
+            other.setEnd(formatting.getStart());
+            formatting.setStart(formatting.getEnd());
+            formatting.setEnd(otherEnd);
+            formattings.add(formatting);
+        }
     }
 }
