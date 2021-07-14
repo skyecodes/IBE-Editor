@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Keyboard.class)
-public class KeyboardMixin {
+public class FabricKeyboardMixin {
     @Inject(at = @At("TAIL"), method = "onKey(JIIII)V")
     private void onKey(long window, int key, int scancode, int i, int j, CallbackInfo ci) {
         if (MinecraftClient.getInstance().currentScreen == null) {

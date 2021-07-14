@@ -4,7 +4,7 @@ import com.github.franckyi.guapi.api.event.*;
 import com.github.franckyi.guapi.api.node.Labeled;
 import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.api.theme.DelegatedRenderer;
-import com.github.franckyi.ibeeditor.mixin.ClickableWidgetMixin;
+import com.github.franckyi.ibeeditor.mixin.FabricClickableWidgetMixin;
 import com.github.franckyi.minecraft.api.client.render.Matrices;
 import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.gui.Element;
@@ -62,7 +62,7 @@ public interface FabricVanillaDelegateRenderer extends DelegatedRenderer, Elemen
         node.xProperty().addListener(newVal -> widget.x = newVal);
         node.yProperty().addListener(newVal -> widget.y = newVal);
         node.widthProperty().addListener(widget::setWidth);
-        node.heightProperty().addListener(((ClickableWidgetMixin) widget)::setHeight);
+        node.heightProperty().addListener(((FabricClickableWidgetMixin) widget)::setHeight);
         node.disabledProperty().addListener(newVal -> widget.active = !newVal);
     }
 

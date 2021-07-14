@@ -8,21 +8,15 @@ import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.util.IReorderingProcessor;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.Style;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 
-import java.lang.reflect.Field;
 import java.util.Objects;
 
 public class ForgeVanillaTextFieldRenderer extends TextFieldWidget implements ForgeVanillaDelegateRenderer {
     private final TextField node;
-    private final Field highlightPosField;
-    private final Field firstCharacterIndexField;
 
     public ForgeVanillaTextFieldRenderer(TextField node) {
         super(Minecraft.getInstance().font, node.getX(), node.getY(), node.getWidth(), node.getHeight(), node.getLabel().get());
         this.node = node;
-        highlightPosField = ObfuscationReflectionHelper.findField(TextFieldWidget.class, "field_146223_s");
-        firstCharacterIndexField = ObfuscationReflectionHelper.findField(TextFieldWidget.class, "field_146225_q");
         initLabeled(node, this);
         setMaxLength(node.getMaxLength());
         setValue(node.getText());
@@ -75,40 +69,38 @@ public class ForgeVanillaTextFieldRenderer extends TextFieldWidget implements Fo
     @Override
     public void setHighlightPos(int value) {
         super.setHighlightPos(value);
-        try {
-            node.setHighlightPosition(highlightPosField.getInt(this));
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException("Unable to update TextField's highlight position", e);
-        }
+        node.setHighlightPosition(highlightPos);
     }
 
     @Override
     protected void renderHighlight(int p_146188_1_, int p_146188_2_, int p_146188_3_, int p_146188_4_) {
-        try {
-            FontRenderer font = Minecraft.getInstance().font;
-            int firstCharacterIndex = firstCharacterIndexField.getInt(this);
-            int cursorPosition = node.getCursorPosition();
-            int highlightPosition = node.getHighlightPosition();
-            int start = Math.min(cursorPosition, highlightPosition);
-            int end = Math.max(cursorPosition, highlightPosition);
-            if (start < firstCharacterIndex) {
-                firstCharacterIndexField.setInt(this, start);
-                start = firstCharacterIndex;
+        FontRenderer font = Minecraft.getInstance().font;
+        int firstCharacterIndex = displayPos;
+        int cursorPosition = node.getCursorPosition();
+        int highlightPosition = node.getHighlightPosition();
+        int start = Math.min(cursorPosition, highlightPosition);
+        int end = Math.max(cursorPosition, highlightPosition);
+        Integer newDisplayPos = null;
+        if (start < firstCharacterIndex) {
+            start = firstCharacterIndex;
+            if (cursorPosition == start) {
+                newDisplayPos = start;
             }
-            ITextComponent fullText = renderText(getValue().substring(firstCharacterIndex), firstCharacterIndex);
-            String trimmedText = font.substrByWidth(fullText, this.getInnerWidth()).getString();
-            if (end > trimmedText.length() + firstCharacterIndex) {
-                firstCharacterIndexField.setInt(this, end - trimmedText.length());
-            }
-            ITextComponent previousText = renderText(getValue().substring(firstCharacterIndex, start), firstCharacterIndex);
-            int previousTextWidth = font.width(previousText);
-            ITextComponent highlightedText = renderText(getValue().substring(start, end), firstCharacterIndex + start);
-            int highlightedTextWidth = font.width(highlightedText);
-            int x0 = x + 4;
-            super.renderHighlight(x0 + previousTextWidth, p_146188_2_, x0 + previousTextWidth + highlightedTextWidth, p_146188_4_);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException("Unable to render TextField's highlighted text", e);
         }
+        ITextComponent fullText = renderText(getValue().substring(firstCharacterIndex), firstCharacterIndex);
+        String trimmedText = font.substrByWidth(fullText, this.getInnerWidth()).getString();
+        if (cursorPosition == end && end > trimmedText.length() + firstCharacterIndex) {
+            newDisplayPos = end - trimmedText.length();
+        }
+        ITextComponent previousText = renderText(getValue().substring(firstCharacterIndex, start), firstCharacterIndex);
+        int previousTextWidth = font.width(previousText);
+        ITextComponent highlightedText = renderText(getValue().substring(start, end), start);
+        int highlightedTextWidth = font.width(highlightedText);
+        int x0 = x + 4;
+        if (newDisplayPos != null) {
+            displayPos = newDisplayPos;
+        }
+        super.renderHighlight(x0 + previousTextWidth, p_146188_2_, x0 + previousTextWidth + highlightedTextWidth, p_146188_4_);
     }
 
     public ITextComponent renderText(String str, int firstCharacterIndex) {

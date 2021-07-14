@@ -2,7 +2,7 @@ package com.github.franckyi.guapi.impl.theme.vanilla;
 
 import com.github.franckyi.guapi.api.node.TextField;
 import com.github.franckyi.guapi.api.theme.vanilla.FabricVanillaDelegateRenderer;
-import com.github.franckyi.ibeeditor.mixin.TextFieldWidgetMixin;
+import com.github.franckyi.ibeeditor.mixin.FabricTextFieldWidgetMixin;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.widget.TextFieldWidget;
@@ -70,29 +70,31 @@ public class FabricVanillaTextFieldRenderer extends TextFieldWidget implements F
     @Override
     public void setSelectionEnd(int value) {
         super.setSelectionEnd(value);
-        node.setHighlightPosition(((TextFieldWidgetMixin) this).getSelectionEnd());
+        node.setHighlightPosition(((FabricTextFieldWidgetMixin) this).getSelectionEnd());
     }
 
     @Override
     protected void drawSelectionHighlight(int x1, int y1, int x2, int y2) {
         TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
-        int firstCharacterIndex = ((TextFieldWidgetMixin) this).getFirstCharacterIndex();
+        int firstCharacterIndex = ((FabricTextFieldWidgetMixin) this).getFirstCharacterIndex();
         int cursorPosition = node.getCursorPosition();
         int highlightPosition = node.getHighlightPosition();
         int start = Math.min(cursorPosition, highlightPosition);
         int end = Math.max(cursorPosition, highlightPosition);
         if (start < firstCharacterIndex) {
-            ((TextFieldWidgetMixin) this).setFirstCharacterIndex(start);
             start = firstCharacterIndex;
+            if (cursorPosition == start) {
+                ((FabricTextFieldWidgetMixin) this).setFirstCharacterIndex(start);
+            }
         }
         Text fullText = renderText(getText().substring(firstCharacterIndex), firstCharacterIndex);
         String trimmedText = textRenderer.trimToWidth(fullText, this.getInnerWidth()).getString();
-        if (end > trimmedText.length() + firstCharacterIndex) {
-            ((TextFieldWidgetMixin) this).setFirstCharacterIndex(end - trimmedText.length());
+        if (cursorPosition == end && cursorPosition > trimmedText.length() + firstCharacterIndex) {
+            ((FabricTextFieldWidgetMixin) this).setFirstCharacterIndex(cursorPosition - trimmedText.length());
         }
         Text previousText = renderText(getText().substring(firstCharacterIndex, start), firstCharacterIndex);
         int previousTextWidth = textRenderer.getWidth(previousText);
-        Text highlightedText = renderText(getText().substring(start, end), firstCharacterIndex + start);
+        Text highlightedText = renderText(getText().substring(start, end), start);
         int highlightedTextWidth = textRenderer.getWidth(highlightedText);
         int x0 = x + 4;
         super.drawSelectionHighlight(x0 + previousTextWidth, y1, x0 + previousTextWidth + highlightedTextWidth, y2);

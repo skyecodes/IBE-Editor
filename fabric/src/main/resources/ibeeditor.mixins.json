@@ -4,16 +4,16 @@
   "package": "com.github.franckyi.ibeeditor.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "PlayerManagerMixin"
+    "FabricPlayerManagerMixin"
   ],
   "client": [
-    "ClickableWidgetMixin",
-    "FabricTextFieldWidgetRedirectMixin",
-    "HandledScreenMixin",
-    "KeyboardMixin",
-    "MinecraftClientMixin",
-    "SlotMixin",
-    "TextFieldWidgetMixin"
+    "FabricClickableWidgetMixin",
+    "FabricHandledScreenMixin",
+    "FabricKeyboardMixin",
+    "FabricMinecraftClientMixin",
+    "FabricSlotMixin",
+    "FabricTextFieldWidgetMixin",
+    "FabricTextFieldWidgetRedirectMixin"
   ],
   "injectors": {
     "defaultRequire": 1

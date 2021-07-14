@@ -5,7 +5,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(TextFieldWidget.class)
-public interface TextFieldWidgetMixin {
+public interface FabricTextFieldWidgetMixin {
     @Accessor("selectionEnd")
     int getSelectionEnd();
 

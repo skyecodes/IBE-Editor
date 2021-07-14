@@ -1,6 +1,6 @@
 package com.github.franckyi.minecraft.impl.client.screen;
 
-import com.github.franckyi.ibeeditor.mixin.HandledScreenMixin;
+import com.github.franckyi.ibeeditor.mixin.FabricHandledScreenMixin;
 import com.github.franckyi.minecraft.api.client.screen.Screen;
 import com.github.franckyi.minecraft.api.common.Slot;
 import com.github.franckyi.minecraft.impl.common.FabricSlot;
@@ -15,7 +15,7 @@ public class FabricScreen implements Screen {
 
     @Override
     public Slot getInventoryFocusedSlot() {
-        return new FabricSlot(((HandledScreenMixin) screen).getFocusedSlot());
+        return new FabricSlot(((FabricHandledScreenMixin) screen).getFocusedSlot());
     }
 
     @Override

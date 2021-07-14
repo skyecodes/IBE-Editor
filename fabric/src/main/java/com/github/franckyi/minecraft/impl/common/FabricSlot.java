@@ -1,6 +1,6 @@
 package com.github.franckyi.minecraft.impl.common;
 
-import com.github.franckyi.ibeeditor.mixin.SlotMixin;
+import com.github.franckyi.ibeeditor.mixin.FabricSlotMixin;
 import com.github.franckyi.minecraft.api.common.Slot;
 import com.github.franckyi.minecraft.api.common.world.Item;
 import com.github.franckyi.minecraft.impl.common.world.FabricItem;
@@ -26,7 +26,7 @@ public class FabricSlot implements Slot {
 
     @Override
     public int getIndex() {
-        return ((SlotMixin) slot).getIndex();
+        return ((FabricSlotMixin) slot).getIndex();
     }
 
     @Override
