@@ -19,6 +19,7 @@ public abstract class AbstractTextField extends AbstractLabeled implements TextF
     private final ObjectProperty<TextRenderer> textRendererProperty = DataBindings.getPropertyFactory().createObjectProperty();
     private final IntegerProperty cursorPositionProperty = DataBindings.getPropertyFactory().createIntegerProperty();
     private final IntegerProperty highlightPositionProperty = DataBindings.getPropertyFactory().createIntegerProperty();
+    private TextFieldEventListener onTextUpdate, onWrite;
 
     protected AbstractTextField() {
         this("");
@@ -77,6 +78,18 @@ public abstract class AbstractTextField extends AbstractLabeled implements TextF
     @Override
     public IntegerProperty highlightPositionProperty() {
         return highlightPositionProperty;
+    }
+
+    @Override
+    public void onTextUpdate(int oldCursorPos, int oldHighlightPos, String oldText, int newCursorPos, String newText) {
+        if (onTextUpdate != null) {
+            onTextUpdate.handle(oldCursorPos, oldHighlightPos, oldText, newCursorPos, newText);
+        }
+    }
+
+    @Override
+    public void setOnTextUpdate(TextFieldEventListener listener) {
+        onTextUpdate = listener;
     }
 
     private void updateValid() {

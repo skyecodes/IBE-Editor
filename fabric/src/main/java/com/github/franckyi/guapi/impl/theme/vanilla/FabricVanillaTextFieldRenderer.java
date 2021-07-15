@@ -103,4 +103,26 @@ public class FabricVanillaTextFieldRenderer extends TextFieldWidget implements F
     public Text renderText(String str, int firstCharacterIndex) {
         return node.getTextRenderer() == null ? null : node.getTextRenderer().render(str, firstCharacterIndex).get();
     }
+
+    @Override
+    public void write(String string) {
+        int oldCursorPos = getCursor();
+        int oldHighlightPos = node.getHighlightPosition();
+        String oldText = getText();
+        super.write(string);
+        node.onTextUpdate(oldCursorPos, oldHighlightPos, oldText, getCursor(), getText());
+    }
+
+    @Override
+    public void eraseCharacters(int characterOffset) {
+        if (getSelectedText().isEmpty()) {
+            int oldCursorPos = getCursor();
+            int oldHighlightPos = node.getHighlightPosition();
+            String oldText = getText();
+            super.eraseCharacters(characterOffset);
+            node.onTextUpdate(oldCursorPos, oldHighlightPos, oldText, getCursor(), getText());
+        } else {
+            super.eraseCharacters(characterOffset);
+        }
+    }
 }

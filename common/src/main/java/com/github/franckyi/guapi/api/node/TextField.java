@@ -82,8 +82,20 @@ public interface TextField extends Labeled {
         highlightPositionProperty().setValue(value);
     }
 
+    @Deprecated
+        //TODO rewrite event handling
+    void onTextUpdate(int oldCursorPos, int oldHighlightPos, String oldText, int newCursorPos, String newText);
+
+    @Deprecated
+    void setOnTextUpdate(TextFieldEventListener listener);
+
     @FunctionalInterface
     interface TextRenderer {
         Text render(String text, int firstCharacterIndex);
+    }
+
+    @FunctionalInterface
+    interface TextFieldEventListener {
+        void handle(int oldCursorPos, int oldHighlightPos, String oldText, int newCursorPos, String newText);
     }
 }

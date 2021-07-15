@@ -5,8 +5,8 @@ import com.github.franckyi.ibeeditor.impl.client.mvc.base.view.entry.TextEditorE
 import com.github.franckyi.ibeeditor.impl.client.util.texteditor.*;
 import com.github.franckyi.minecraft.api.common.text.PlainText;
 import com.github.franckyi.minecraft.api.common.text.Text;
-import com.google.common.collect.Lists;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
@@ -27,9 +27,40 @@ public class TextEditorEntryController extends LabeledEditorEntryController<Text
         view.getTextField().setText(model.getValue().getRawText());
         view.getTextField().setTextRenderer(this::renderText);
         view.getTextField().focusedProperty().addListener(this::onTextFieldFocus);
+        view.getTextField().setOnTextUpdate(this::onTextUpdate);
         model.validProperty().bind(view.getTextField().validProperty());
         model.setValueFactory(this::createText);
         initFormattings(model.getValue());
+    }
+
+    private void onTextUpdate(int oldCursorPos, int oldHighlightPos, String oldText, int newCursorPos, String newText) {
+        int oldLength = oldText.length();
+        int newLength = newText.length();
+        int amount = newLength - oldLength;
+        if (amount != 0) {
+            if (oldCursorPos == oldHighlightPos && oldCursorPos != newCursorPos) {
+                formattings.removeIf(formatting -> {
+                    if (oldCursorPos <= formatting.getStart()) {
+                        formatting.setStart(formatting.getStart() + amount);
+                        formatting.setEnd(formatting.getEnd() + amount);
+                    } else if (oldCursorPos > formatting.getStart() && oldCursorPos <= formatting.getEnd()) {
+                        formatting.setEnd(formatting.getEnd() + amount);
+                    }
+                    return formatting.getStart() >= formatting.getEnd();
+                });
+            } else {
+                int pos = Math.min(oldCursorPos, oldHighlightPos);
+                formattings.removeIf(formatting -> {
+                    if (pos < formatting.getStart()) {
+                        formatting.setStart(formatting.getStart() + amount);
+                        formatting.setEnd(formatting.getEnd() + amount);
+                    } else if (pos >= formatting.getStart() && pos <= formatting.getEnd()) {
+                        formatting.setEnd(formatting.getEnd() + amount);
+                    }
+                    return formatting.getStart() >= formatting.getEnd();
+                });
+            }
+        }
     }
 
     private Text renderText(String str, int firstCharacterIndex) {
@@ -70,8 +101,8 @@ public class TextEditorEntryController extends LabeledEditorEntryController<Text
         if (formattings.contains(formatting)) {
             return;
         }
-        mergeIdenticalFormattings(ColorFormatting.class, other -> other.getColor().equals(color), formatting);
-        resizeOtherColorFormattings(formatting);
+        boolean add = mergeIdenticalFormattings(ColorFormatting.class, other -> other.getColor().equals(color), formatting);
+        resizeOtherColorFormattings(formatting, add);
     }
 
     @Override
@@ -88,37 +119,37 @@ public class TextEditorEntryController extends LabeledEditorEntryController<Text
         if (surrounding.isPresent()) {
             removeStyleFormatting(formatting, surrounding.get());
         } else {
-            mergeIdenticalFormattings(StyleFormatting.class, other -> other.getType().equals(type), formatting);
-            formattings.add(formatting);
-        }
-    }
-
-    private <T extends Formatting> void mergeIdenticalFormattings(Class<T> formattingClass, Predicate<T> identicalPredicate, T formatting) {
-        Iterator<Formatting> it = formattings.iterator();
-        while (it.hasNext()) {
-            Formatting f = it.next();
-            if (formattingClass.isInstance(f)) {
-                T other = formattingClass.cast(f);
-                if (identicalPredicate.test(other)) {
-                    boolean remove = false;
-                    if (formatting.getStart() >= other.getStart() && formatting.getStart() <= other.getEnd()) {
-                        formatting.setStart(other.getStart());
-                        remove = true;
-                    }
-                    if (formatting.getEnd() >= other.getStart() && formatting.getEnd() <= other.getEnd()) {
-                        formatting.setEnd(other.getEnd());
-                        remove = true;
-                    }
-                    if (remove) {
-                        it.remove();
-                    }
-                }
+            boolean add = mergeIdenticalFormattings(StyleFormatting.class, other -> other.getType().equals(type), formatting);
+            if (add) {
+                formattings.add(formatting);
             }
         }
     }
 
-    private void resizeOtherColorFormattings(ColorFormatting formatting) {
-        List<Formatting> addedFormattings = Lists.newArrayList(formatting);
+    private <T extends Formatting> boolean mergeIdenticalFormattings(Class<T> formattingClass, Predicate<T> identicalPredicate, T formatting) {
+        boolean[] add = {true};
+        formattings.stream()
+                .filter(formattingClass::isInstance)
+                .map(formattingClass::cast)
+                .filter(identicalPredicate)
+                .forEach(other -> {
+                    if (formatting.getStart() >= other.getStart() && formatting.getStart() <= other.getEnd() && formatting.getEnd() > other.getEnd()) {
+                        other.setEnd(formatting.getEnd());
+                        add[0] = false;
+                    }
+                    if (formatting.getEnd() >= other.getStart() && formatting.getEnd() <= other.getEnd() && formatting.getStart() < other.getStart()) {
+                        other.setStart(formatting.getStart());
+                        add[0] = false;
+                    }
+                });
+        return add[0];
+    }
+
+    private void resizeOtherColorFormattings(ColorFormatting formatting, boolean add) {
+        List<Formatting> addedFormattings = new ArrayList<>();
+        if (add) {
+            addedFormattings.add(formatting);
+        }
         Iterator<Formatting> it = formattings.iterator();
         while (it.hasNext()) {
             Formatting f = it.next();
