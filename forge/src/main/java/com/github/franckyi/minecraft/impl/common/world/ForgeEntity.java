@@ -4,19 +4,19 @@ import com.github.franckyi.minecraft.api.common.tag.CompoundTag;
 import com.github.franckyi.minecraft.api.common.world.Entity;
 
 public class ForgeEntity implements Entity {
-    private final CompoundTag tag;
+    private final CompoundTag data;
 
-    public ForgeEntity(CompoundTag tag) {
-        this.tag = tag;
+    public ForgeEntity(CompoundTag data) {
+        this.data = data;
     }
 
     @Override
-    public CompoundTag getTag() {
-        return tag;
+    public CompoundTag getData() {
+        return data;
     }
 
     @Override
     public String toString() {
-        return tag.getString("id");
+        return data.getString("id");
     }
 }

@@ -6,6 +6,7 @@ import com.github.franckyi.ibeeditor.mixin.FabricTextFieldWidgetMixin;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.text.LiteralText;
 import net.minecraft.text.OrderedText;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
@@ -101,7 +102,7 @@ public class FabricVanillaTextFieldRenderer extends TextFieldWidget implements F
     }
 
     public Text renderText(String str, int firstCharacterIndex) {
-        return node.getTextRenderer() == null ? null : node.getTextRenderer().render(str, firstCharacterIndex).get();
+        return node.getTextRenderer() == null ? new LiteralText(str) : node.getTextRenderer().render(str, firstCharacterIndex).get();
     }
 
     @Override

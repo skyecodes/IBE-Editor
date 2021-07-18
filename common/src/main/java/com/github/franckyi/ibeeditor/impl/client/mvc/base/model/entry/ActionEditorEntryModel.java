@@ -22,6 +22,11 @@ public class ActionEditorEntryModel extends AbstractEditorEntryModel {
     }
 
     @Override
+    public boolean isResetable() {
+        return false;
+    }
+
+    @Override
     public void apply() {
     }
 

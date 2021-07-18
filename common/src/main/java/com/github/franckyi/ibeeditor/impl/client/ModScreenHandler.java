@@ -36,9 +36,7 @@ public final class ModScreenHandler {
     }
 
     public static void openSettingsScreen() {
-        ConfigEditorModelImpl model = new ConfigEditorModelImpl();
-        openScaledScreen(mvc(IBEEditorMVC.CONFIG_EDITOR, model));
-        model.syncEntries();
+        openScaledScreen(mvc(IBEEditorMVC.CONFIG_EDITOR, new ConfigEditorModelImpl()));
     }
 
     private static void openScaledScreen(Node root) {

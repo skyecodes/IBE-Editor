@@ -19,30 +19,35 @@ public final class ServerEditorLogic {
 
     public static void updatePlayerMainHandItem(Player player, Item item) {
         LOGGER.debug("Updating {}'s main hand item to {}", player.toString(), item);
+        LOGGER.debug(item.getData());
         player.setItemMainHand(item);
         player.sendMessage(ITEM_UPDATED);
     }
 
     public static void updatePlayerInventoryItem(Player player, Item item, int slotId) {
         LOGGER.debug("Updating {}'s inventory item at slot {} to {}", player.toString(), slotId, item);
+        LOGGER.debug(item.getData());
         player.setInventoryItem(slotId, item);
         player.sendMessage(ITEM_UPDATED);
     }
 
     public static void updateBlockInventoryItem(Player sender, Item item, int slotId, BlockPos blockPos) {
         LOGGER.debug("Updating block inventory item at pos {} and slot {} to {}", blockPos, slotId, item);
+        LOGGER.debug(item.getData());
         sender.getWorld().setBlockInventoryItem(blockPos, slotId, item);
         sender.sendMessage(ITEM_UPDATED);
     }
 
     public static void updateBlock(Player sender, Block block, BlockPos blockPos) {
         LOGGER.debug("Updating block {} at pos {}", block, blockPos);
+        LOGGER.debug(block.getData());
         sender.getWorld().setBlockData(blockPos, block);
         sender.sendMessage(BLOCK_UPDATED);
     }
 
     public static void updateEntity(Player sender, Entity entity, int entityId) {
         LOGGER.debug("Updating entity {} with id {}", entity, entityId);
+        LOGGER.debug(entity.getData());
         sender.getWorld().setEntityData(entityId, entity);
         sender.sendMessage(ENTITY_UPDATED);
     }

@@ -10,6 +10,7 @@ public class ActionEditorEntryController extends AbstractEditorEntryController<A
 
     @Override
     public void bind() {
+        super.bind();
         view.getButton().setLabel(model.getLabel());
         view.getButton().onAction(model.getAction());
     }

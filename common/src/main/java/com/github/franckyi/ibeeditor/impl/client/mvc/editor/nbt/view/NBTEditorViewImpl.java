@@ -19,7 +19,7 @@ import static com.github.franckyi.guapi.GUAPIHelper.*;
 public class NBTEditorViewImpl extends AbstractEditorView implements NBTEditorView {
     private VBox main;
     private TreeView<EditorTagModel> tagTree;
-    private final HBox addButtons;
+    private HBox addButtons;
     private TexturedButton addByteButton, addShortButton, addIntButton, addLongButton, addFloatButton,
             addDoubleButton, addByteArrayButton, addStringButton, addListButton, addCompoundButton,
             addIntArrayButton, addLongArrayButton, rawButton, moveUpButton, moveDownButton, deleteButton,
@@ -28,7 +28,9 @@ public class NBTEditorViewImpl extends AbstractEditorView implements NBTEditorVi
     private final ObservableList<ButtonType> visibleButtons = DataBindings.getObservableListFactory().createObservableArrayList();
     private Consumer<ButtonType> onButtonClick;
 
-    public NBTEditorViewImpl() {
+    @Override
+    public void build() {
+        super.build();
         addButtons = hBox(addBox -> {
             addBox.add(addByteButton = createAddTagButton(ButtonType.BYTE, "ibeeditor:textures/gui/byte_tag_add.png", BLUE, "Byte"));
             addBox.add(addShortButton = createAddTagButton(ButtonType.SHORT, "ibeeditor:textures/gui/short_tag_add.png", GREEN, "Short"));
@@ -74,11 +76,11 @@ public class NBTEditorViewImpl extends AbstractEditorView implements NBTEditorVi
     @Override
     protected Node createButtonBar() {
         return hBox(buttons -> {
-            buttons.add(rawButton = createButton("ibeeditor:textures/gui/raw_nbt.png", "ibeeditor.gui.switch_raw_nbt_editor"));
+            //buttons.add(rawButton = createButton("ibeeditor:textures/gui/raw_nbt.png", "ibeeditor.gui.switch_raw_nbt_editor"));
             buttons.add(hBox(base -> {
                 base.add(moveUpButton = createButtonFromType(ButtonType.MOVE_UP, "ibeeditor:textures/gui/move_up.png", "ibeeditor.gui.move_up").disable());
                 base.add(moveDownButton = createButtonFromType(ButtonType.MOVE_DOWN, "ibeeditor:textures/gui/move_down.png", "ibeeditor.gui.move_down").disable());
-                base.add(addButton = createToggleButtonFromType(ButtonType.ADD, "ibeeditor:textures/gui/add.png", translated("ibeeditor.gui.add").green()).imageHeight(32).disable());
+                base.add(addButton = createToggleButtonFromType(ButtonType.ADD, "ibeeditor:textures/gui/add.png", translated("ibeeditor.gui.add").green()).disable());
                 base.add(deleteButton = createButtonFromType(ButtonType.DELETE, "ibeeditor:textures/gui/delete.png", translated("ibeeditor.gui.remove").red()).disable());
                 base.spacing(2);
             }));
@@ -120,16 +122,6 @@ public class NBTEditorViewImpl extends AbstractEditorView implements NBTEditorVi
     }
 
     @Override
-    public Button getCancelButton() {
-        return cancelButton;
-    }
-
-    @Override
-    public Button getDoneButton() {
-        return doneButton;
-    }
-
-    @Override
     public ObservableList<ButtonType> getEnabledButtons() {
         return visibleButtons;
     }
@@ -158,7 +150,6 @@ public class NBTEditorViewImpl extends AbstractEditorView implements NBTEditorVi
 
     private TexturedToggleButtonBuilder createToggleButtonFromType(ButtonType type, String id, Text tooltipText) {
         return texturedToggleButton(id, 16, 16, false)
-                .prefSize(16, 16)
                 .tooltip(tooltipText).action(() -> {
                     if (onButtonClick != null) {
                         onButtonClick.accept(type);

@@ -1,7 +1,11 @@
 package com.github.franckyi.ibeeditor.impl.client.mvc.base.controller;
 
+import com.github.franckyi.databindings.api.event.ObservableListChangeEvent;
+import com.github.franckyi.databindings.api.event.ObservableListChangeListener;
 import com.github.franckyi.guapi.api.mvc.AbstractController;
 import com.github.franckyi.ibeeditor.api.client.mvc.base.controller.ListEditorController;
+import com.github.franckyi.ibeeditor.api.client.mvc.base.model.EditorCategoryModel;
+import com.github.franckyi.ibeeditor.api.client.mvc.base.model.EditorEntryModel;
 import com.github.franckyi.ibeeditor.api.client.mvc.base.model.ListEditorModel;
 import com.github.franckyi.ibeeditor.api.client.mvc.base.view.ListEditorView;
 import com.github.franckyi.minecraft.Minecraft;
@@ -11,6 +15,7 @@ import static com.github.franckyi.guapi.GUAPIHelper.*;
 
 public abstract class AbstractListEditorController<M extends ListEditorModel, V extends ListEditorView> extends AbstractController<M, V> implements ListEditorController<M, V> {
     private static final Text FIX_ERRORS = translated("ibeeditor.gui.fix_errors").red();
+    private final ObservableListChangeListener<EditorEntryModel> listener = this::onSelectedCategoryEntryChange;
 
     public AbstractListEditorController(M model, V view) {
         super(model, view);
@@ -19,7 +24,7 @@ public abstract class AbstractListEditorController<M extends ListEditorModel, V 
     @Override
     public void bind() {
         updateCategoryList();
-        updateEntryList();
+        updateEntryList(null, model.getSelectedCategory());
         model.getCategories().addListener(this::updateCategoryList);
         model.selectedCategoryProperty().addListener(this::updateEntryList);
         view.getDoneButton().onAction(event -> model.apply());
@@ -31,10 +36,18 @@ public abstract class AbstractListEditorController<M extends ListEditorModel, V 
         view.getCategoryList().getItems().setAll(model.getCategories());
     }
 
-    private void updateEntryList() {
-        if (model.selectedCategoryProperty().hasValue()) {
-            view.getEntryList().getItems().setAll(model.getSelectedCategory().getEntries());
+    private void updateEntryList(EditorCategoryModel oldValue, EditorCategoryModel newValue) {
+        if (oldValue != null) {
+            oldValue.getEntries().removeListener(listener);
         }
+        if (newValue != null) {
+            model.getSelectedCategory().getEntries().addListener(listener);
+            onSelectedCategoryEntryChange(null);
+        }
+    }
+
+    private void onSelectedCategoryEntryChange(ObservableListChangeEvent<? extends EditorEntryModel> event) {
+        view.getEntryList().getItems().setAll(model.getSelectedCategory().getEntries());
     }
 
     protected void onValidationChange(boolean newVal) {

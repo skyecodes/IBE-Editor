@@ -8,13 +8,15 @@ import com.github.franckyi.ibeeditor.api.client.mvc.base.model.EditorCategoryMod
 import com.github.franckyi.ibeeditor.api.client.mvc.base.model.ListEditorModel;
 import com.github.franckyi.ibeeditor.impl.client.util.texteditor.TextEditorActionHandler;
 
-public abstract class AbstractListEditorModel implements ListEditorModel {
+public abstract class AbstractListEditorModel<C extends EditorCategoryModel> implements ListEditorModel {
     protected final BooleanProperty validProperty = DataBindings.getPropertyFactory().createBooleanProperty(true);
-    protected final ObservableList<? extends EditorCategoryModel> categories = DataBindings.getObservableListFactory().createObservableArrayList();
+    protected final ObservableList<C> categories = DataBindings.getObservableListFactory().createObservableArrayList();
     protected final ObjectProperty<EditorCategoryModel> selectedCategory = DataBindings.getPropertyFactory().createObjectProperty();
     protected final ObjectProperty<TextEditorActionHandler> activeTextEditorProperty = DataBindings.getPropertyFactory().createObjectProperty();
 
-    protected AbstractListEditorModel() {
+    @Override
+    public void initalize() {
+        setupCategories();
         selectedCategoryProperty().addListener((oldVal, newVal) -> {
             if (oldVal != null) {
                 oldVal.setSelected(false);
@@ -23,16 +25,17 @@ public abstract class AbstractListEditorModel implements ListEditorModel {
                 newVal.setSelected(true);
             }
         });
-        getCategories().addListener(() -> {
-            if (!selectedCategoryProperty().hasValue() && getCategories().size() > 0) {
-                setSelectedCategory(getCategories().get(0));
-            }
+        if (getCategories().size() > 0) {
+            setSelectedCategory(getCategories().get(0));
             updateValidity();
-        });
+        }
+        getCategories().addListener(this::updateValidity);
     }
 
+    protected abstract void setupCategories();
+
     @Override
-    public ObservableList<? extends EditorCategoryModel> getCategories() {
+    public ObservableList<C> getCategories() {
         return categories;
     }
 

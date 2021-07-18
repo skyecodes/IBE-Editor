@@ -1,23 +1,24 @@
 package com.github.franckyi.ibeeditor.impl.client.mvc.base.view;
 
-import com.github.franckyi.guapi.api.mvc.View;
 import com.github.franckyi.guapi.api.node.*;
 import com.github.franckyi.guapi.api.node.builder.TexturedButtonBuilder;
+import com.github.franckyi.ibeeditor.api.client.mvc.base.view.EditorView;
 import com.github.franckyi.minecraft.Minecraft;
 import com.github.franckyi.minecraft.api.common.text.Text;
 
 import static com.github.franckyi.guapi.GUAPIHelper.*;
 
-public abstract class AbstractEditorView implements View {
-    protected final VBox root;
-    protected TexturedButton zoomResetButton;
-    protected TexturedButton zoomOutButton;
-    protected TexturedButton zoomInButton;
-    protected Button cancelButton;
-    protected Button doneButton;
+public abstract class AbstractEditorView implements EditorView {
+    private VBox root;
+    private TexturedButton zoomResetButton;
+    private TexturedButton zoomOutButton;
+    private TexturedButton zoomInButton;
+    private Button cancelButton;
+    private Button doneButton;
     private Label zoomLabel;
 
-    protected AbstractEditorView() {
+    @Override
+    public void build() {
         root = vBox(root -> {
             root.spacing(5).align(CENTER).padding(5).fillWidth();
             root.add(createHeader());
@@ -64,9 +65,7 @@ public abstract class AbstractEditorView implements View {
     }
 
     protected TexturedButtonBuilder createButton(String id, Text tooltipText) {
-        return texturedButton(id, 16, 16, false)
-                .prefSize(16, 16)
-                .tooltip(tooltipText);
+        return texturedButton(id, 16, 16, false).tooltip(tooltipText);
     }
 
     protected void onZoomUpdated() {
@@ -78,5 +77,15 @@ public abstract class AbstractEditorView implements View {
     @Override
     public VBox getRoot() {
         return root;
+    }
+
+    @Override
+    public Button getCancelButton() {
+        return cancelButton;
+    }
+
+    @Override
+    public Button getDoneButton() {
+        return doneButton;
     }
 }

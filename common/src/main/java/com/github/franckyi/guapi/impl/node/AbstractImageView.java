@@ -20,6 +20,8 @@ public abstract class AbstractImageView extends AbstractControl implements Image
         setTextureId(textureId);
         setImageWidth(imageWidth);
         setImageHeight(imageHeight);
+        setPrefWidth(imageWidth);
+        setPrefHeight(imageHeight);
     }
 
     @Override

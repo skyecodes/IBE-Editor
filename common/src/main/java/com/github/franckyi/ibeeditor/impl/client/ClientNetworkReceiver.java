@@ -29,7 +29,7 @@ public final class ClientNetworkReceiver {
 
     public static void onEntityEditorResponse(EntityEditorResponsePacket packet) {
         log(Networking.ENTITY_EDITOR_RESPONSE);
-        if (packet.getEntity().getTag() != null) {
+        if (packet.getEntity().getData() != null) {
             ClientEditorLogic.openEntityEditor(packet.getEntity(), packet.getEntityId(), packet.getType());
         } else {
             Minecraft.getClient().getPlayer().sendMessage(NO_ENTITY_FOUND_TEXT);

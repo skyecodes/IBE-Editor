@@ -7,9 +7,10 @@ import com.github.franckyi.ibeeditor.api.client.mvc.base.view.EditorCategoryView
 import static com.github.franckyi.guapi.GUAPIHelper.*;
 
 public class EditorCategoryViewImpl implements EditorCategoryView {
-    private final Label root;
+    private Label root;
 
-    public EditorCategoryViewImpl() {
+    @Override
+    public void build() {
         root = label().shadow().textAlign(CENTER);
     }
 

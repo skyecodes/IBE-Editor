@@ -7,6 +7,7 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.util.IReorderingProcessor;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.Style;
 
 import java.util.Objects;
@@ -104,6 +105,28 @@ public class ForgeVanillaTextFieldRenderer extends TextFieldWidget implements Fo
     }
 
     public ITextComponent renderText(String str, int firstCharacterIndex) {
-        return node.getTextRenderer() == null ? null : node.getTextRenderer().render(str, firstCharacterIndex).get();
+        return node.getTextRenderer() == null ? new StringTextComponent(str) : node.getTextRenderer().render(str, firstCharacterIndex).get();
+    }
+
+    @Override
+    public void insertText(String string) {
+        int oldCursorPos = getCursorPosition();
+        int oldHighlightPos = node.getHighlightPosition();
+        String oldText = getValue();
+        super.insertText(string);
+        node.onTextUpdate(oldCursorPos, oldHighlightPos, oldText, getCursorPosition(), getValue());
+    }
+
+    @Override
+    public void deleteChars(int characterOffset) {
+        if (getHighlighted().isEmpty()) {
+            int oldCursorPos = getCursorPosition();
+            int oldHighlightPos = node.getHighlightPosition();
+            String oldText = getValue();
+            super.deleteChars(characterOffset);
+            node.onTextUpdate(oldCursorPos, oldHighlightPos, oldText, getCursorPosition(), getValue());
+        } else {
+            super.deleteChars(characterOffset);
+        }
     }
 }

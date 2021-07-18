@@ -1,28 +1,30 @@
 package com.github.franckyi.ibeeditor.impl.client.mvc.base.view.entry;
 
-import com.github.franckyi.guapi.api.node.HBox;
 import com.github.franckyi.guapi.api.node.Label;
-import com.github.franckyi.ibeeditor.api.client.mvc.base.view.EditorEntryView;
+import com.github.franckyi.guapi.api.node.Node;
 
 import static com.github.franckyi.guapi.GUAPIHelper.*;
 
-public abstract class LabeledEditorEntryView implements EditorEntryView {
-    protected final HBox root;
-    protected Label label;
+public abstract class LabeledEditorEntryView extends AbstractEditorEntryView {
+    private Label label;
 
-    protected LabeledEditorEntryView() {
-        root = hBox(root -> {
-            root.add(label = label().textAlign(CENTER_RIGHT), 1);
-            root.spacing(10).align(CENTER);
-        });
-    }
-
-    public Label getLabel() {
-        return label;
+    @Override
+    public void build() {
+        super.build();
+        Node labeledContent = createLabeledContent();
+        getRight().getChildren().add(0, labeledContent);
+        getRight().setWeight(labeledContent, 1);
+        getRoot().setWeight(getRight(), 2);
     }
 
     @Override
-    public HBox getRoot() {
-        return root;
+    protected Node createContent() {
+        return label = label().textAlign(CENTER_RIGHT);
+    }
+
+    protected abstract Node createLabeledContent();
+
+    public Label getLabel() {
+        return label;
     }
 }

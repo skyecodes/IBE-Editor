@@ -1,5 +1,6 @@
 package com.github.franckyi.ibeeditor.impl.client.mvc.config.model.category;
 
+import com.github.franckyi.ibeeditor.api.client.mvc.base.model.EditorEntryModel;
 import com.github.franckyi.ibeeditor.api.client.mvc.config.model.ConfigEditorModel;
 import com.github.franckyi.ibeeditor.impl.client.mvc.base.model.AbstractEditorCategoryModel;
 
@@ -8,5 +9,7 @@ public abstract class AbstractConfigEditorCategoryModel extends AbstractEditorCa
         super(name, editor);
     }
 
-    public abstract void apply();
+    public void apply() {
+        getEntries().forEach(EditorEntryModel::apply);
+    }
 }

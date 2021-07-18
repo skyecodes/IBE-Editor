@@ -1,6 +1,5 @@
 package com.github.franckyi.ibeeditor.impl.client.mvc.base.view;
 
-import com.github.franckyi.guapi.api.node.Button;
 import com.github.franckyi.guapi.api.node.ListView;
 import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.ibeeditor.api.client.mvc.base.model.EditorCategoryModel;
@@ -13,9 +12,6 @@ import static com.github.franckyi.guapi.GUAPIHelper.*;
 public abstract class AbstractListEditorView extends AbstractEditorView implements ListEditorView {
     private ListView<EditorCategoryModel> categoryList;
     private ListView<EditorEntryModel> entryList;
-
-    protected AbstractListEditorView() {
-    }
 
     @Override
     protected Node createEditor() {
@@ -34,15 +30,5 @@ public abstract class AbstractListEditorView extends AbstractEditorView implemen
     @Override
     public ListView<EditorEntryModel> getEntryList() {
         return entryList;
-    }
-
-    @Override
-    public Button getCancelButton() {
-        return cancelButton;
-    }
-
-    @Override
-    public Button getDoneButton() {
-        return doneButton;
     }
 }

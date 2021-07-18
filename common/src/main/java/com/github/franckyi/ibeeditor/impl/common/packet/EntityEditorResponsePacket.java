@@ -20,7 +20,7 @@ public class EntityEditorResponsePacket extends EntityEditorRequestPacket {
     @Override
     public void write(Buffer buffer) {
         super.write(buffer);
-        buffer.writeTag(entity.getTag());
+        buffer.writeTag(entity.getData());
     }
 
     public Entity getEntity() {

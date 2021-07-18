@@ -12,6 +12,10 @@ public class EntityEditorModel extends AbstractStandardEditorModel<Entity, Abstr
     }
 
     @Override
+    protected void setupCategories() {
+    }
+
+    @Override
     public Entity applyChanges() {
         return getTarget(); // TODO
     }

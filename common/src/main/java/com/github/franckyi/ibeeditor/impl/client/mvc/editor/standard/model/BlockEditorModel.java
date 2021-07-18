@@ -12,6 +12,10 @@ public class BlockEditorModel extends AbstractStandardEditorModel<Block, Abstrac
     }
 
     @Override
+    protected void setupCategories() {
+    }
+
+    @Override
     public Block applyChanges() {
         return getTarget(); // TODO
     }

@@ -14,7 +14,7 @@ import java.util.function.Predicate;
 
 import static com.github.franckyi.guapi.GUAPIHelper.*;
 
-public class TextEditorEntryController extends LabeledEditorEntryController<TextEditorEntryModel, TextEditorEntryView> implements TextEditorActionHandler {
+public class TextEditorEntryController extends ValueEditorEntryController<TextEditorEntryModel, TextEditorEntryView> implements TextEditorActionHandler {
     private List<Formatting> formattings;
 
     public TextEditorEntryController(TextEditorEntryModel model, TextEditorEntryView view) {

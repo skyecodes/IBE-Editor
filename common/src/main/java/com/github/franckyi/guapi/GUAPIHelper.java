@@ -3,6 +3,7 @@ package com.github.franckyi.guapi;
 import com.github.franckyi.guapi.api.NodeFactory;
 import com.github.franckyi.guapi.api.mvc.Controller;
 import com.github.franckyi.guapi.api.mvc.MVC;
+import com.github.franckyi.guapi.api.mvc.Model;
 import com.github.franckyi.guapi.api.mvc.View;
 import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.api.node.TreeView;
@@ -354,7 +355,7 @@ public final class GUAPIHelper {
         return new Insets(0, 0, 0, left);
     }
 
-    public static <M, V extends View, C extends Controller<M, V>> Node mvc(MVC<M, V, C> mvc, M model) {
-        return mvc.createViewAndBind(model).getRoot();
+    public static <M extends Model, V extends View, C extends Controller<M, V>> Node mvc(MVC<M, V, C> mvc, M model) {
+        return mvc.setup(model).getRoot();
     }
 }

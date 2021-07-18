@@ -2,10 +2,11 @@ package com.github.franckyi.ibeeditor.api.client.mvc.editor.nbt.model;
 
 import com.github.franckyi.databindings.api.BooleanProperty;
 import com.github.franckyi.databindings.api.StringProperty;
+import com.github.franckyi.guapi.api.mvc.Model;
 import com.github.franckyi.guapi.api.node.TreeView;
 import com.github.franckyi.minecraft.api.common.tag.Tag;
 
-public interface EditorTagModel extends TreeView.TreeItem<EditorTagModel> {
+public interface EditorTagModel extends TreeView.TreeItem<EditorTagModel>, Model {
     default String getName() {
         return nameProperty().getValue();
     }

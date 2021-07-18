@@ -7,6 +7,9 @@ import com.github.franckyi.databindings.api.StringProperty;
 import com.github.franckyi.ibeeditor.api.client.mvc.base.model.EditorCategoryModel;
 import com.github.franckyi.ibeeditor.api.client.mvc.base.model.EditorEntryModel;
 import com.github.franckyi.ibeeditor.api.client.mvc.base.model.ListEditorModel;
+import com.github.franckyi.ibeeditor.impl.client.mvc.base.model.entry.AddListEntryEditorEntryModel;
+
+import java.util.Collections;
 
 public abstract class AbstractEditorCategoryModel implements EditorCategoryModel {
     private final StringProperty nameProperty;
@@ -15,12 +18,23 @@ public abstract class AbstractEditorCategoryModel implements EditorCategoryModel
     private final ObservableList<EditorEntryModel> entries = DataBindings.getObservableListFactory().createObservableArrayList();
     private final ListEditorModel editor;
 
-    public AbstractEditorCategoryModel(String name, ListEditorModel editor) {
+    protected AbstractEditorCategoryModel(String name, ListEditorModel editor) {
         nameProperty = DataBindings.getPropertyFactory().createStringProperty(name);
         this.editor = editor;
-        validProperty().addListener(() -> getEditor().updateValidity());
+    }
+
+    @Override
+    public void initalize() {
+        setupEntries();
+        if (hasEntryList()) {
+            getEntries().add(new AddListEntryEditorEntryModel(this, getAddListEntryButtonTooltip()));
+        }
+        updateValidity();
+        validProperty().addListener(getEditor()::updateValidity);
         getEntries().addListener(this::updateValidity);
     }
+
+    protected abstract void setupEntries();
 
     @Override
     public StringProperty nameProperty() {
@@ -50,5 +64,27 @@ public abstract class AbstractEditorCategoryModel implements EditorCategoryModel
     @Override
     public void updateValidity() {
         setValid(getEntries().stream().allMatch(EditorEntryModel::isValid));
+        if (hasEntryList()) {
+            for (int i = 0; i < getEntryListSize(); i++) {
+                EditorEntryModel entry = getEntries().get(getEntryListIndex(i));
+                entry.setListSize(getEntryListSize());
+                entry.setListIndex(i);
+            }
+        }
+    }
+
+    @Override
+    public void moveEntryUp(int index) {
+        Collections.swap(getEntries(), getEntryListIndex(index), getEntryListIndex(index) - 1);
+    }
+
+    @Override
+    public void moveEntryDown(int index) {
+        Collections.swap(getEntries(), getEntryListIndex(index), getEntryListIndex(index) + 1);
+    }
+
+    @Override
+    public void deleteEntry(int index) {
+        getEntries().remove(getEntryListIndex(index));
     }
 }

@@ -21,7 +21,7 @@ public class EntityUpdatePacket implements Packet {
     @Override
     public void write(Buffer buffer) {
         buffer.writeInt(entityId);
-        buffer.writeTag(entity.getTag());
+        buffer.writeTag(entity.getData());
     }
 
     public int getEntityId() {

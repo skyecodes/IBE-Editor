@@ -10,6 +10,7 @@ public abstract class LabeledEditorEntryController<M extends LabeledEditorEntryM
 
     @Override
     public void bind() {
+        super.bind();
         view.getLabel().labelProperty().bind(model.labelProperty());
     }
 }

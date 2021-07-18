@@ -1,20 +1,15 @@
 package com.github.franckyi.ibeeditor.api.client.mvc.editor.nbt.view;
 
 import com.github.franckyi.databindings.api.ObservableList;
-import com.github.franckyi.guapi.api.mvc.View;
-import com.github.franckyi.guapi.api.node.Button;
 import com.github.franckyi.guapi.api.node.Toggle;
 import com.github.franckyi.guapi.api.node.TreeView;
+import com.github.franckyi.ibeeditor.api.client.mvc.base.view.EditorView;
 import com.github.franckyi.ibeeditor.api.client.mvc.editor.nbt.model.EditorTagModel;
 
 import java.util.function.Consumer;
 
-public interface NBTEditorView extends View {
+public interface NBTEditorView extends EditorView {
     TreeView<EditorTagModel> getTagTree();
-
-    Button getCancelButton();
-
-    Button getDoneButton();
 
     ObservableList<ButtonType> getEnabledButtons();
 

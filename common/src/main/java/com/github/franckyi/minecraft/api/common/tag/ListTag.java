@@ -10,19 +10,11 @@ public interface ListTag extends Tag {
 
     List<Tag> getValue();
 
-    short getShort(int index);
+    int size();
 
-    int getInt(int index);
-
-    float getFloat(int index);
-
-    double getDouble(int index);
+    boolean isEmpty();
 
     String getString(int index);
 
-    ListTag getList(int index);
-
-    CompoundTag getCompound(int index);
-
-    int[] getIntArray(int index);
+    void addString(String value);
 }

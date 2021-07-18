@@ -21,14 +21,16 @@ import java.util.function.Supplier;
 import static com.github.franckyi.guapi.GUAPIHelper.*;
 
 public class StandardEditorViewImpl extends AbstractListEditorView implements StandardEditorView {
-    private final List<TexturedButton> colorButtons;
-    private final HBox textButtons;
+    private List<TexturedButton> colorButtons;
+    private HBox textButtons;
     private TranslatedTextBuilder headerText;
     private HBox buttons;
     private final BooleanProperty showTextButtonsProperty = DataBindings.getPropertyFactory().createBooleanProperty();
     private Supplier<TextEditorActionHandler> textEditorSupplier;
 
-    public StandardEditorViewImpl() {
+    @Override
+    public void build() {
+        super.build();
         colorButtons = Arrays.asList(
                 createTextColorButton(BLACK, "ibeeditor:textures/gui/color_black.png", translated("ibeeditor.gui.black").gray()),
                 createTextColorButton(DARK_BLUE, "ibeeditor:textures/gui/color_dark_blue.png", translated("ibeeditor.gui.dark_blue").blue()),
@@ -94,7 +96,6 @@ public class StandardEditorViewImpl extends AbstractListEditorView implements St
 
     private TexturedButtonBuilder createTextButton(StyleType type, String id, String tooltipText) {
         return texturedButton(id, 16, 16, false)
-                .prefSize(16, 16)
                 .tooltip(translated(tooltipText))
                 .action(e -> {
                     if (textEditorSupplier != null) {
@@ -106,7 +107,6 @@ public class StandardEditorViewImpl extends AbstractListEditorView implements St
 
     private TexturedButtonBuilder createTextColorButton(String color, String id, Text tooltipText) {
         return texturedButton(id, 7, 7, false)
-                .prefSize(7, 7)
                 .tooltip(tooltipText)
                 .action(e -> {
                     if (textEditorSupplier != null) {
@@ -118,7 +118,6 @@ public class StandardEditorViewImpl extends AbstractListEditorView implements St
 
     private TexturedButtonBuilder createCustomButton() {
         return texturedButton("ibeeditor:textures/gui/color_custom.png", 16, 16, false)
-                .prefSize(16, 16)
                 .tooltip(translated("ibeeditor.gui.custom_color")); // TODO add action
     }
 

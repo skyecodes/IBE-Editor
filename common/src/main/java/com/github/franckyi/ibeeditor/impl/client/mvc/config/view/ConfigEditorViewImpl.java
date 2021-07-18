@@ -8,7 +8,9 @@ import com.github.franckyi.minecraft.api.common.text.TranslatedText;
 import static com.github.franckyi.guapi.GUAPIHelper.*;
 
 public class ConfigEditorViewImpl extends AbstractListEditorView implements ConfigEditorView {
-    public ConfigEditorViewImpl() {
+    @Override
+    public void build() {
+        super.build();
         ((TranslatedText) getDoneButton().getLabel()).setTranslate("ibeeditor.gui.save");
     }
 

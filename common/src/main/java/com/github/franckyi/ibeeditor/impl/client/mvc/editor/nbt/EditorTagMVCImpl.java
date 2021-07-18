@@ -1,8 +1,8 @@
 package com.github.franckyi.ibeeditor.impl.client.mvc.editor.nbt;
 
+import com.github.franckyi.guapi.api.mvc.MVC;
 import com.github.franckyi.guapi.util.Predicates;
 import com.github.franckyi.ibeeditor.api.client.mvc.editor.nbt.EditorTagMVC;
-import com.github.franckyi.ibeeditor.api.client.mvc.editor.nbt.controller.EditorTagController;
 import com.github.franckyi.ibeeditor.api.client.mvc.editor.nbt.model.EditorTagModel;
 import com.github.franckyi.ibeeditor.api.client.mvc.editor.nbt.view.EditorTagView;
 import com.github.franckyi.ibeeditor.impl.client.mvc.editor.nbt.controller.EditorTagControllerImpl;
@@ -18,11 +18,8 @@ public final class EditorTagMVCImpl implements EditorTagMVC {
     }
 
     @Override
-    public EditorTagView createViewAndBind(EditorTagModel model) {
-        EditorTagView view = createView(model.getTagType());
-        EditorTagController controller = new EditorTagControllerImpl(model, view);
-        controller.bind();
-        return view;
+    public EditorTagView setup(EditorTagModel model) {
+        return MVC.createViewAndBind(model, () -> createView(model.getTagType()), EditorTagControllerImpl::new);
     }
 
     private EditorTagView createView(byte tagType) {

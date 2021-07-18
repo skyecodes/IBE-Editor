@@ -1,9 +1,10 @@
 package com.github.franckyi.ibeeditor.api.client.mvc.editor.nbt.model;
 
 import com.github.franckyi.databindings.api.ObjectProperty;
+import com.github.franckyi.guapi.api.mvc.Model;
 import com.github.franckyi.minecraft.api.common.text.Text;
 
-public interface NBTEditorModel {
+public interface NBTEditorModel extends Model {
     default EditorTagModel getRootTag() {
         return rootTagProperty().getValue();
     }

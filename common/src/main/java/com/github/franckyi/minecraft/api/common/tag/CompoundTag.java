@@ -14,7 +14,11 @@ public interface CompoundTag extends Tag {
 
     String getString(String key);
 
+    boolean getBoolean(String key);
+
     ListTag getList(String key, byte type);
+
+    ListTag getOrCreateList(String key, byte type);
 
     CompoundTag getCompound(String key);
 
@@ -24,7 +28,9 @@ public interface CompoundTag extends Tag {
 
     void putInt(String key, int value);
 
-    void putCompound(String key, CompoundTag tag);
+    void putBoolean(String key, boolean value);
+
+    void putTag(String key, Tag tag);
 
     boolean contains(String key, byte type);
 

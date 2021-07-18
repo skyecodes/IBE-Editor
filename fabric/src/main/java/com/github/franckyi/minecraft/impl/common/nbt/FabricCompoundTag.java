@@ -4,6 +4,7 @@ import com.github.franckyi.minecraft.api.common.tag.CompoundTag;
 import com.github.franckyi.minecraft.api.common.tag.ListTag;
 import com.github.franckyi.minecraft.api.common.tag.Tag;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtList;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -44,8 +45,21 @@ public class FabricCompoundTag implements CompoundTag {
     }
 
     @Override
+    public boolean getBoolean(String key) {
+        return tag.getBoolean(key);
+    }
+
+    @Override
     public ListTag getList(String key, byte type) {
         return new FabricListTag(tag.getList(key, type));
+    }
+
+    @Override
+    public ListTag getOrCreateList(String key, byte type) {
+        if (!tag.contains(key, LIST_ID)) {
+            tag.put(key, new NbtList());
+        }
+        return getList(key, type);
     }
 
     @Override
@@ -58,7 +72,7 @@ public class FabricCompoundTag implements CompoundTag {
         if (!tag.contains(key, COMPOUND_ID)) {
             tag.put(key, new NbtCompound());
         }
-        return new FabricCompoundTag(tag.getCompound(key));
+        return getCompound(key);
     }
 
     @Override
@@ -72,7 +86,12 @@ public class FabricCompoundTag implements CompoundTag {
     }
 
     @Override
-    public void putCompound(String key, CompoundTag value) {
+    public void putBoolean(String key, boolean value) {
+        tag.putBoolean(key, value);
+    }
+
+    @Override
+    public void putTag(String key, Tag value) {
         tag.put(key, value.get());
     }
 
@@ -100,5 +119,10 @@ public class FabricCompoundTag implements CompoundTag {
     @SuppressWarnings("unchecked")
     public NbtCompound get() {
         return tag;
+    }
+
+    @Override
+    public String toString() {
+        return tag.toString();
     }
 }

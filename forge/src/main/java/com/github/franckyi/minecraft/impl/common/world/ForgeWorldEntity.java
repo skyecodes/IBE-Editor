@@ -18,7 +18,7 @@ public class ForgeWorldEntity implements WorldEntity {
     }
 
     @Override
-    public CompoundTag getTag() {
+    public CompoundTag getData() {
         CompoundNBT compound = new CompoundNBT();
         if (!entity.saveAsPassenger(compound)) {
             entity.saveWithoutId(compound);

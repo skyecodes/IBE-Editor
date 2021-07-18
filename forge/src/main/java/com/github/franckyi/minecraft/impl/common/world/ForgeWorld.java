@@ -42,7 +42,7 @@ public class ForgeWorld implements World {
     public void setEntityData(int entityId, Entity entity) {
         net.minecraft.entity.Entity worldEntity = world.getEntity(entityId);
         if (worldEntity != null) {
-            worldEntity.load(entity.getTag().get());
+            worldEntity.load(entity.getData().get());
         }
     }
 }

@@ -135,7 +135,7 @@ public final class ClientEditorLogic {
                 ModScreenHandler.openEntityEditorScreen(entity, entity1 -> updateEntity(entityId, entity1), ClientContext.isModInstalledOnServer() ? null : ERROR_SERVERMOD_ENTITY);
                 break;
             case NBT:
-                ModScreenHandler.openNBTEditorScreen(entity.getTag(), tag -> updateEntity(entityId, Minecraft.getCommon().createEntity(tag)), ClientContext.isModInstalledOnServer() ? null : ERROR_SERVERMOD_ENTITY);
+                ModScreenHandler.openNBTEditorScreen(entity.getData(), tag -> updateEntity(entityId, Minecraft.getCommon().createEntity(tag)), ClientContext.isModInstalledOnServer() ? null : ERROR_SERVERMOD_ENTITY);
                 break;
             case RAW_NBT:
                 // TODO

@@ -18,7 +18,7 @@ public class FabricWorldEntity implements WorldEntity {
     }
 
     @Override
-    public CompoundTag getTag() {
+    public CompoundTag getData() {
         NbtCompound compound = new NbtCompound();
         if (!entity.saveSelfNbt(compound)) {
             entity.writeNbt(compound);

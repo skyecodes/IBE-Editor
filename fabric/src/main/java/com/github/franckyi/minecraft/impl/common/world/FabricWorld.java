@@ -42,7 +42,7 @@ public class FabricWorld implements World {
     public void setEntityData(int entityId, Entity entity) {
         net.minecraft.entity.Entity worldEntity = world.getEntityById(entityId);
         if (worldEntity != null) {
-            worldEntity.readNbt(entity.getTag().get());
+            worldEntity.readNbt(entity.getData().get());
         }
     }
 }

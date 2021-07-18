@@ -22,7 +22,9 @@ public class TextEditorEntryModel extends ValueEditorEntryModel<PlainText> {
 
     @Override
     public void apply() {
-        setValue(valueFactory.get());
+        if (valueFactory != null) {
+            setValue(valueFactory.get());
+        }
         super.apply();
     }
 
