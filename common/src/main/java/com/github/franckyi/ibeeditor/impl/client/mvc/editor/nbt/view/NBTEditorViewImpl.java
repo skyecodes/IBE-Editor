@@ -81,7 +81,7 @@ public class NBTEditorViewImpl extends AbstractEditorView implements NBTEditorVi
                 base.add(moveUpButton = createButtonFromType(ButtonType.MOVE_UP, "ibeeditor:textures/gui/move_up.png", "ibeeditor.gui.move_up").disable());
                 base.add(moveDownButton = createButtonFromType(ButtonType.MOVE_DOWN, "ibeeditor:textures/gui/move_down.png", "ibeeditor.gui.move_down").disable());
                 base.add(addButton = createToggleButtonFromType(ButtonType.ADD, "ibeeditor:textures/gui/add.png", translated("ibeeditor.gui.add").green()).disable());
-                base.add(deleteButton = createButtonFromType(ButtonType.DELETE, "ibeeditor:textures/gui/delete.png", translated("ibeeditor.gui.remove").red()).disable());
+                base.add(deleteButton = createButtonFromType(ButtonType.DELETE, "ibeeditor:textures/gui/remove.png", translated("ibeeditor.gui.remove").red()).disable());
                 base.spacing(2);
             }));
             buttons.add(hBox(copyBox -> {

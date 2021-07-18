@@ -46,7 +46,7 @@
   "ibeeditor.gui.white": "White",
   "ibeeditor.gui.custom_color": "Custom Color...",
   "ibeeditor.gui.fix_errors": "You must fix errors before applying changes.",
-  "ibeeditor.gui.reset_default": "Reset to default",
+  "ibeeditor.gui.reset": "Reset",
   "ibeeditor.gui.editor.category.general": "General",
   "ibeeditor.gui.editor.category.display": "Display",
   "ibeeditor.gui.editor.item.entry.item_id": "Item ID",

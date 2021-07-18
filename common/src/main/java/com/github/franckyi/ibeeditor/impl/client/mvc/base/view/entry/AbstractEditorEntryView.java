@@ -16,17 +16,27 @@ public abstract class AbstractEditorEntryView implements EditorEntryView {
 
     @Override
     public void build() {
-        root = hBox(10,
-                content = createContent(),
-                right = hBox(2,
-                        listButtons = hBox(2,
-                                upButton = texturedButton("ibeeditor:textures/gui/move_up.png", 16, 16, false),
-                                downButton = texturedButton("ibeeditor:textures/gui/move_down.png", 16, 16, false),
-                                deleteButton = texturedButton("ibeeditor:textures/gui/delete.png", 16, 16, false)
-                        ).visible(false),
-                        resetButton = texturedButton("ibeeditor:textures/gui/reset.png", 16, 16, false)
-                ).align(CENTER_RIGHT)
-        ).weight(content, 1).align(CENTER);
+        root = hBox(root -> {
+            root.add(content = createContent(), 1);
+            root.add(right = hBox(right -> {
+                right.add(hBox(buttons -> {
+                    buttons.add(listButtons = hBox(listButtons -> {
+                        listButtons.add(upButton = texturedButton("ibeeditor:textures/gui/move_up.png", 16, 16, false)
+                                .tooltip(translated("ibeeditor.gui.move_up")));
+                        listButtons.add(downButton = texturedButton("ibeeditor:textures/gui/move_down.png", 16, 16, false)
+                                .tooltip(translated("ibeeditor.gui.move_down")));
+                        listButtons.add(deleteButton = texturedButton("ibeeditor:textures/gui/remove.png", 16, 16, false)
+                                .tooltip(translated("ibeeditor.gui.remove").red()));
+                        listButtons.spacing(2);
+                    }));
+                    buttons.add(resetButton = texturedButton("ibeeditor:textures/gui/reset.png", 16, 16, false)
+                            .tooltip(translated("ibeeditor.gui.reset").yellow()));
+                    buttons.spacing(2);
+                }));
+                right.spacing(10).align(CENTER_RIGHT);
+            }));
+            root.spacing(10).weight(content, 1).align(CENTER);
+        });
     }
 
     protected abstract Node createContent();

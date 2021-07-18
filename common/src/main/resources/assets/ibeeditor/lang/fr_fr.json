@@ -46,7 +46,7 @@
   "ibeeditor.gui.white": "Blanc",
   "ibeeditor.gui.custom_color": "Couleur personnalisée...",
   "ibeeditor.gui.fix_errors": "Vous devez corriger les erreurs avant de pouvoir sauvegarder.",
-  "ibeeditor.gui.reset_default": "Remettre la valeur par défaut",
+  "ibeeditor.gui.reset": "Remettre la valeur par défaut",
   "ibeeditor.gui.editor.category.general": "General",
   "ibeeditor.gui.editor.category.display": "Affichage",
   "ibeeditor.gui.editor.item.entry.item_id": "ID de l'item",

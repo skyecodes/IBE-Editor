@@ -20,6 +20,10 @@ public abstract class AbstractSkin<N extends Node> implements Skin<N> {
     @Override
     public void render(N node, Matrices matrices, int mouseX, int mouseY, float delta) {
         renderBackground(node, matrices);
+    }
+
+    @Override
+    public void postRender(N node, Matrices matrices, int mouseX, int mouseY, float delta) {
         switch (GUAPI.getDebugMode()) {
             case OFF:
                 break;
@@ -29,6 +33,7 @@ public abstract class AbstractSkin<N extends Node> implements Skin<N> {
                 renderDebug(node, matrices);
                 break;
         }
+        Skin.super.postRender(node, matrices, mouseX, mouseY, delta);
     }
 
     @Override

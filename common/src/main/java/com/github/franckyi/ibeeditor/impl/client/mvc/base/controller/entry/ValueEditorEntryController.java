@@ -11,6 +11,10 @@ public abstract class ValueEditorEntryController<M extends ValueEditorEntryModel
     @Override
     public void bind() {
         super.bind();
-        view.getResetButton().onAction(model::reset);
+        view.getResetButton().onAction(this::resetModel);
+    }
+
+    protected void resetModel() {
+        model.reset();
     }
 }

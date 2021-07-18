@@ -1,5 +1,7 @@
 package com.github.franckyi.ibeeditor.impl.client.mvc.base.controller.entry;
 
+import com.github.franckyi.databindings.DataBindings;
+import com.github.franckyi.databindings.api.ObservableList;
 import com.github.franckyi.ibeeditor.impl.client.mvc.base.model.entry.TextEditorEntryModel;
 import com.github.franckyi.ibeeditor.impl.client.mvc.base.view.entry.TextEditorEntryView;
 import com.github.franckyi.ibeeditor.impl.client.util.texteditor.*;
@@ -15,7 +17,8 @@ import java.util.function.Predicate;
 import static com.github.franckyi.guapi.GUAPIHelper.*;
 
 public class TextEditorEntryController extends ValueEditorEntryController<TextEditorEntryModel, TextEditorEntryView> implements TextEditorActionHandler {
-    private List<Formatting> formattings;
+    private final ObservableList<Formatting> formattings = DataBindings.getObservableListFactory().createObservableArrayList();
+    private boolean isResettingModel;
 
     public TextEditorEntryController(TextEditorEntryModel model, TextEditorEntryView view) {
         super(model, view);
@@ -28,9 +31,25 @@ public class TextEditorEntryController extends ValueEditorEntryController<TextEd
         view.getTextField().setTextRenderer(this::renderText);
         view.getTextField().focusedProperty().addListener(this::onTextFieldFocus);
         view.getTextField().setOnTextUpdate(this::onTextUpdate);
+        view.getTextField().textProperty().addListener(this::updateModel);
+        formattings.addListener(this::updateModel);
         model.validProperty().bind(view.getTextField().validProperty());
-        model.setValueFactory(this::createText);
         initFormattings(model.getValue());
+    }
+
+    private void updateModel() {
+        if (!isResettingModel) {
+            model.setValue(createText());
+        }
+    }
+
+    @Override
+    protected void resetModel() {
+        super.resetModel();
+        isResettingModel = true;
+        view.getTextField().setText(model.getValue().getRawText());
+        initFormattings(model.getValue());
+        isResettingModel = false;
     }
 
     private void onTextUpdate(int oldCursorPos, int oldHighlightPos, String oldText, int newCursorPos, String newText) {
@@ -81,7 +100,7 @@ public class TextEditorEntryController extends ValueEditorEntryController<TextEd
     private void initFormattings(PlainText text) {
         TextEditorInputParser parser = new TextEditorInputParser();
         parser.parse(text);
-        formattings = parser.getFormattings();
+        formattings.setAll(parser.getFormattings());
     }
 
     private void onTextFieldFocus(boolean focused) {

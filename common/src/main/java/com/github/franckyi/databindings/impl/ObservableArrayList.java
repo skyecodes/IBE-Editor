@@ -160,7 +160,7 @@ public class ObservableArrayList<E> extends ArrayList<E> implements ObservableLi
         int index = 0;
         for (int copyIndex = 0; copyIndex < copy.size(); copyIndex++) {
             E oldValue = copy.get(copyIndex);
-            E newValue = get(index);
+            E newValue = index < size() ? get(index) : null;
             if (oldValue != newValue) {
                 builder.remove(copyIndex, oldValue);
             } else if (++index == size()) {
