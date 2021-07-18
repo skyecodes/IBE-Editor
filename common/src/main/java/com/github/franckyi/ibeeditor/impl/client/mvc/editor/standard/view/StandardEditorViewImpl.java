@@ -68,7 +68,7 @@ public class StandardEditorViewImpl extends AbstractListEditorView implements St
                 right.spacing(2);
             }));
             buttons.spacing(12);
-        });
+        }).align(CENTER_RIGHT);
         showTextButtonsProperty().addListener(newVal -> {
             if (newVal) {
                 buttons.getChildren().add(0, textButtons);

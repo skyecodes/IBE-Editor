@@ -21,7 +21,7 @@ public abstract class AbstractEditorEntryController<M extends EditorEntryModel, 
     }
 
     private void updateListButtons(int listIndex) {
-        view.getListButtons().setVisible(listIndex >= 0);
+        view.setListButtonsVisible(listIndex >= 0);
         view.getUpButton().setVisible(listIndex != 0);
         view.getDownButton().setVisible(listIndex != model.getListSize() - 1);
     }

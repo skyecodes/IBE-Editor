@@ -46,6 +46,6 @@ public interface EditorEntryModel extends Model {
     Type getType();
 
     enum Type {
-        STRING, INTEGER, TEXT, ENUM, ACTION, ADD_LIST_ENTRY, BOOLEAN
+        STRING, INTEGER, TEXT, ENUM, ACTION, ADD_LIST_ENTRY, BOOLEAN, ENCHANTMENT
     }
 }

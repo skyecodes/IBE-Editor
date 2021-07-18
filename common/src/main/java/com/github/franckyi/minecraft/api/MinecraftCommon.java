@@ -1,5 +1,6 @@
 package com.github.franckyi.minecraft.api;
 
+import com.github.franckyi.minecraft.api.common.Registries;
 import com.github.franckyi.minecraft.api.common.network.Network;
 import com.github.franckyi.minecraft.api.common.tag.CompoundTag;
 import com.github.franckyi.minecraft.api.common.tag.TagFactory;
@@ -29,4 +30,6 @@ public interface MinecraftCommon {
     Path getGameDir();
 
     Command<?> createCommand(Function<Player, Integer> command);
+
+    Registries getRegistries();
 }

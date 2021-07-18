@@ -19,6 +19,11 @@ public abstract class AbstractItemEditorCategoryModel extends AbstractEditorCate
         getEntries().forEach(EditorEntryModel::apply);
     }
 
+    @Override
+    public ItemEditorModel getEditor() {
+        return (ItemEditorModel) super.getEditor();
+    }
+
     protected CompoundTag getBaseData() {
         return baseData;
     }

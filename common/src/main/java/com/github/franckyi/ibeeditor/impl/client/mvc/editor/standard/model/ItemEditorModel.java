@@ -2,6 +2,7 @@ package com.github.franckyi.ibeeditor.impl.client.mvc.editor.standard.model;
 
 import com.github.franckyi.ibeeditor.impl.client.mvc.editor.standard.model.category.item.AbstractItemEditorCategoryModel;
 import com.github.franckyi.ibeeditor.impl.client.mvc.editor.standard.model.category.item.ItemDisplayEditorCategoryModel;
+import com.github.franckyi.ibeeditor.impl.client.mvc.editor.standard.model.category.item.ItemEnchantmentsEditorCategoryModel;
 import com.github.franckyi.ibeeditor.impl.client.mvc.editor.standard.model.category.item.ItemGeneralEditorCategoryModel;
 import com.github.franckyi.minecraft.Minecraft;
 import com.github.franckyi.minecraft.api.common.tag.CompoundTag;
@@ -20,7 +21,8 @@ public class ItemEditorModel extends AbstractStandardEditorModel<Item, AbstractI
     protected void setupCategories() {
         getCategories().addAll(
                 new ItemGeneralEditorCategoryModel(this),
-                new ItemDisplayEditorCategoryModel(this)
+                new ItemDisplayEditorCategoryModel(this),
+                new ItemEnchantmentsEditorCategoryModel(this)
         );
     }
 

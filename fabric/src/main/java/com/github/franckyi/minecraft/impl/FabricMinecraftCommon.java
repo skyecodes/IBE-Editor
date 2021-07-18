@@ -1,6 +1,7 @@
 package com.github.franckyi.minecraft.impl;
 
 import com.github.franckyi.minecraft.api.MinecraftCommon;
+import com.github.franckyi.minecraft.api.common.Registries;
 import com.github.franckyi.minecraft.api.common.network.Network;
 import com.github.franckyi.minecraft.api.common.tag.CompoundTag;
 import com.github.franckyi.minecraft.api.common.tag.TagFactory;
@@ -9,6 +10,7 @@ import com.github.franckyi.minecraft.api.common.world.Block;
 import com.github.franckyi.minecraft.api.common.world.Entity;
 import com.github.franckyi.minecraft.api.common.world.Item;
 import com.github.franckyi.minecraft.api.common.world.Player;
+import com.github.franckyi.minecraft.impl.common.FabricRegistries;
 import com.github.franckyi.minecraft.impl.common.nbt.FabricTagFactory;
 import com.github.franckyi.minecraft.impl.common.network.FabricNetwork;
 import com.github.franckyi.minecraft.impl.common.text.FabricTextFactory;
@@ -67,5 +69,10 @@ public final class FabricMinecraftCommon implements MinecraftCommon {
     @Override
     public Command<ServerCommandSource> createCommand(Function<Player, Integer> command) {
         return ctx -> command.apply(new FabricPlayer(ctx.getSource().getPlayer()));
+    }
+
+    @Override
+    public Registries getRegistries() {
+        return FabricRegistries.INSTANCE;
     }
 }

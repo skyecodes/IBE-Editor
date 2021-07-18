@@ -1,5 +1,6 @@
 package com.github.franckyi.minecraft.impl.common.nbt;
 
+import com.github.franckyi.minecraft.api.common.tag.CompoundTag;
 import com.github.franckyi.minecraft.api.common.tag.ListTag;
 import com.github.franckyi.minecraft.api.common.tag.Tag;
 import net.minecraft.nbt.NbtList;
@@ -46,8 +47,18 @@ public class FabricListTag implements ListTag {
     }
 
     @Override
+    public CompoundTag getCompound(int index) {
+        return new FabricCompoundTag(tag.getCompound(index));
+    }
+
+    @Override
     public void addString(String value) {
         tag.add(NbtString.of(value));
+    }
+
+    @Override
+    public void addTag(Tag tag) {
+        this.tag.add(tag.get());
     }
 
     @Override

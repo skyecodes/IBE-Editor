@@ -16,5 +16,9 @@ public interface ListTag extends Tag {
 
     String getString(int index);
 
+    CompoundTag getCompound(int index);
+
     void addString(String value);
+
+    void addTag(Tag tag);
 }

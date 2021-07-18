@@ -1,6 +1,7 @@
 package com.github.franckyi.minecraft.impl;
 
 import com.github.franckyi.minecraft.api.MinecraftCommon;
+import com.github.franckyi.minecraft.api.common.Registries;
 import com.github.franckyi.minecraft.api.common.network.Network;
 import com.github.franckyi.minecraft.api.common.tag.CompoundTag;
 import com.github.franckyi.minecraft.api.common.tag.TagFactory;
@@ -9,6 +10,7 @@ import com.github.franckyi.minecraft.api.common.world.Block;
 import com.github.franckyi.minecraft.api.common.world.Entity;
 import com.github.franckyi.minecraft.api.common.world.Item;
 import com.github.franckyi.minecraft.api.common.world.Player;
+import com.github.franckyi.minecraft.impl.common.ForgeRegistries;
 import com.github.franckyi.minecraft.impl.common.nbt.ForgeTagFactory;
 import com.github.franckyi.minecraft.impl.common.network.ForgeNetwork;
 import com.github.franckyi.minecraft.impl.common.text.ForgeTextFactory;
@@ -67,5 +69,10 @@ public final class ForgeMinecraftCommon implements MinecraftCommon {
     @Override
     public Command<CommandSource> createCommand(Function<Player, Integer> command) {
         return ctx -> command.apply(new ForgePlayer(ctx.getSource().getPlayerOrException()));
+    }
+
+    @Override
+    public Registries getRegistries() {
+        return ForgeRegistries.INSTANCE;
     }
 }

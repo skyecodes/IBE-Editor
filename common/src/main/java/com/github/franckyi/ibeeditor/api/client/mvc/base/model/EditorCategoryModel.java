@@ -6,6 +6,8 @@ import com.github.franckyi.databindings.api.StringProperty;
 import com.github.franckyi.guapi.api.mvc.Model;
 import com.github.franckyi.minecraft.api.common.text.Text;
 
+import static com.github.franckyi.guapi.GUAPIHelper.*;
+
 public interface EditorCategoryModel extends Model {
     default String getName() {
         return nameProperty().getValue();
@@ -68,7 +70,7 @@ public interface EditorCategoryModel extends Model {
     }
 
     default Text getAddListEntryButtonTooltip() {
-        return Text.createTranslatedText("ibeeditor.gui.add");
+        return translated("ibeeditor.gui.add").green();
     }
 
     void moveEntryUp(int index);

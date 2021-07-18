@@ -3,8 +3,8 @@ package com.github.franckyi.ibeeditor.impl.client.mvc.base.controller.entry;
 import com.github.franckyi.ibeeditor.impl.client.mvc.base.model.entry.IntegerEditorEntryModel;
 import com.github.franckyi.ibeeditor.impl.client.mvc.base.view.entry.IntegerEditorEntryView;
 
-public class IntegerEditorEntryController extends ValueEditorEntryController<IntegerEditorEntryModel, IntegerEditorEntryView> {
-    public IntegerEditorEntryController(IntegerEditorEntryModel model, IntegerEditorEntryView view) {
+public class IntegerEditorEntryController<M extends IntegerEditorEntryModel, V extends IntegerEditorEntryView> extends ValueEditorEntryController<M, V> {
+    public IntegerEditorEntryController(M model, V view) {
         super(model, view);
     }
 

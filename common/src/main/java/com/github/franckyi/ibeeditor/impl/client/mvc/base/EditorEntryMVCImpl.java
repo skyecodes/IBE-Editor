@@ -7,6 +7,9 @@ import com.github.franckyi.ibeeditor.api.client.mvc.base.view.EditorEntryView;
 import com.github.franckyi.ibeeditor.impl.client.mvc.base.controller.entry.*;
 import com.github.franckyi.ibeeditor.impl.client.mvc.base.model.entry.*;
 import com.github.franckyi.ibeeditor.impl.client.mvc.base.view.entry.*;
+import com.github.franckyi.ibeeditor.impl.client.mvc.editor.standard.controller.entry.item.EnchantmentEditorEntryCategory;
+import com.github.franckyi.ibeeditor.impl.client.mvc.editor.standard.model.entry.item.EnchantmentEditorEntryModel;
+import com.github.franckyi.ibeeditor.impl.client.mvc.editor.standard.view.entry.item.EnchantmentEditorEntryView;
 
 public class EditorEntryMVCImpl implements EditorEntryMVC {
     public static final EditorEntryMVC INSTANCE = new EditorEntryMVCImpl();
@@ -28,6 +31,8 @@ public class EditorEntryMVCImpl implements EditorEntryMVC {
                 return MVC.createViewAndBind((AddListEntryEditorEntryModel) model, AddListEntryEditorEntryView::new, AddListEntryEditorEntryController::new);
             case BOOLEAN:
                 return MVC.createViewAndBind((BooleanEditorEntryModel) model, BooleanEditorEntryView::new, BooleanEditorEntryController::new);
+            case ENCHANTMENT:
+                return MVC.createViewAndBind((EnchantmentEditorEntryModel) model, EnchantmentEditorEntryView::new, EnchantmentEditorEntryCategory::new);
             default:
                 throw new IllegalStateException("Unexpected value: " + model.getType());
         }
