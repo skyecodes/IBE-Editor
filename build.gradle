@@ -8,8 +8,8 @@ archivesBaseName = "IBEEditor-$minecraft_version"
 version = project.mod_version
 
 task build(type: Jar, overwrite: true) {
-    dependsOn ":common:jar", ":fabric:build", ":forge:build"
-    finalizedBy ":forge:signJar"
+    dependsOn ":ibeeditor-common:jar", ":ibeeditor-fabric:build", ":ibeeditor-forge:build"
+    finalizedBy ":ibeeditor-forge:signJar"
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     from zipTree("common/build/libs/common.jar"), zipTree("fabric/build/libs/fabric.jar"), zipTree("forge/build/libs/forge.jar")
     manifest {

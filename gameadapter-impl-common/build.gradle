@@ -1,0 +1,13 @@
+repositories {
+    mavenCentral()
+    maven {
+        name = "Minecraft Libraries"
+        url = "https://libraries.minecraft.net"
+    }
+}
+
+dependencies {
+    implementation "com.google.code.gson:gson:2.8.0"
+    implementation project(':databindings-api')
+    implementation project(':gameadapter-api')
+}

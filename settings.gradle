@@ -10,4 +10,12 @@ pluginManagement {
 }
 
 rootProject.name = "IBE-Editor"
-include("common", "fabric", "forge")
+include 'databindings-api'
+include 'databindings-impl'
+include 'guapi-api'
+include 'guapi-impl'
+include 'gameadapter-api'
+include 'gameadapter-impl-common'
+include 'ibeeditor-common'
+include 'ibeeditor-fabric'
+include 'ibeeditor-forge'
