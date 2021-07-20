@@ -1,5 +1,6 @@
 package com.github.franckyi.ibeeditor.impl.client;
 
+import com.github.franckyi.guapi.GUAPI;
 import com.github.franckyi.ibeeditor.impl.common.EditorType;
 import com.github.franckyi.minecraft.Minecraft;
 import com.github.franckyi.minecraft.api.common.BlockPos;
@@ -154,7 +155,7 @@ public final class ClientEditorLogic {
                 getClientPlayer().sendMessage(ERROR_CREATIVE_ITEM);
             }
         }
-        Minecraft.getClient().getScreenHandler().hideScene();
+        GUAPI.getScreenHandler().hideScene();
     }
 
     private static void updatePlayerInventoryItem(Item item, int slotId, boolean isCreativeInventoryScreen) {
@@ -172,7 +173,7 @@ public final class ClientEditorLogic {
                 getClientPlayer().sendMessage(ERROR_CREATIVE_ITEM);
             }
         }
-        Minecraft.getClient().getScreenHandler().hideScene();
+        GUAPI.getScreenHandler().hideScene();
     }
 
     private static void updateBlockInventoryItem(Item item, int slotId, BlockPos blockPos) {
@@ -182,7 +183,7 @@ public final class ClientEditorLogic {
         } else {
             getClientPlayer().sendMessage(ERROR_SERVERMOD_ITEM);
         }
-        Minecraft.getClient().getScreenHandler().hideScene();
+        GUAPI.getScreenHandler().hideScene();
     }
 
     private static void updateBlock(BlockPos blockPos, Block block) {
@@ -192,7 +193,7 @@ public final class ClientEditorLogic {
         } else {
             getClientPlayer().sendMessage(ERROR_SERVERMOD_BLOCK);
         }
-        Minecraft.getClient().getScreenHandler().hideScene();
+        GUAPI.getScreenHandler().hideScene();
     }
 
     private static void updateEntity(int entityId, Entity entity) {
@@ -202,7 +203,7 @@ public final class ClientEditorLogic {
         } else {
             getClientPlayer().sendMessage(ERROR_SERVERMOD_ENTITY);
         }
-        Minecraft.getClient().getScreenHandler().hideScene();
+        GUAPI.getScreenHandler().hideScene();
     }
 
     private static Player getClientPlayer() {

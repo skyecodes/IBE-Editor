@@ -88,7 +88,7 @@ public class TextEditorEntryController extends ValueEditorEntryController<TextEd
             formatter.format(str, firstCharacterIndex, formattings);
             return formatter.getText();
         }
-        return Text.EMPTY;
+        return emptyText();
     }
 
     private PlainText createText() {

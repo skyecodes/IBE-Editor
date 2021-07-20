@@ -1,10 +1,10 @@
 package com.github.franckyi.ibeeditor.impl.client.mvc.config.model;
 
+import com.github.franckyi.guapi.GUAPI;
 import com.github.franckyi.ibeeditor.api.client.mvc.config.model.ConfigEditorModel;
 import com.github.franckyi.ibeeditor.impl.client.mvc.base.model.AbstractListEditorModel;
 import com.github.franckyi.ibeeditor.impl.client.mvc.config.model.category.AbstractConfigEditorCategoryModel;
 import com.github.franckyi.ibeeditor.impl.client.mvc.config.model.category.ClientConfigEditorCategoryModel;
-import com.github.franckyi.minecraft.Minecraft;
 
 public class ConfigEditorModelImpl extends AbstractListEditorModel<AbstractConfigEditorCategoryModel> implements ConfigEditorModel {
 
@@ -16,6 +16,6 @@ public class ConfigEditorModelImpl extends AbstractListEditorModel<AbstractConfi
     @Override
     public void apply() {
         getCategories().forEach(AbstractConfigEditorCategoryModel::apply);
-        Minecraft.getClient().getScreenHandler().hideScene();
+        GUAPI.getScreenHandler().hideScene();
     }
 }

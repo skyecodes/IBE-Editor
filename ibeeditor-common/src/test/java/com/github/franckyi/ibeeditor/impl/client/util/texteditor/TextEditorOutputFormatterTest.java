@@ -1,7 +1,7 @@
 package com.github.franckyi.ibeeditor.impl.client.util.texteditor;
 
+import com.github.franckyi.minecraft.TextHandler;
 import com.github.franckyi.minecraft.api.common.text.PlainText;
-import com.github.franckyi.minecraft.api.common.text.Text;
 import com.google.gson.JsonArray;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -20,7 +20,7 @@ class TextEditorOutputFormatterTest {
     public void testFormat(PlainText rootText, String text, int firstCharacterIndex, List<Formatting> formattings, String expected) {
         TextEditorOutputFormatter formatter = new TextEditorOutputFormatter(rootText);
         formatter.format(text, firstCharacterIndex, formattings);
-        assertEquals(Text.Serializer.GSON.fromJson(expected, JsonArray.class), Text.Serializer.GSON.toJsonTree(formatter.getText()));
+        assertEquals(TextHandler.getSerializer().fromJson(expected, JsonArray.class), TextHandler.getSerializer().toJsonTree(formatter.getText()));
     }
 
     private static Stream<Arguments> provideTestFormat() {

@@ -5,6 +5,7 @@ import com.github.franckyi.ibeeditor.api.client.mvc.base.model.EditorEntryModel;
 import com.github.franckyi.ibeeditor.impl.client.mvc.base.model.entry.TextEditorEntryModel;
 import com.github.franckyi.ibeeditor.impl.client.mvc.editor.standard.model.ItemEditorModel;
 import com.github.franckyi.minecraft.Minecraft;
+import com.github.franckyi.minecraft.TextHandler;
 import com.github.franckyi.minecraft.api.common.tag.CompoundTag;
 import com.github.franckyi.minecraft.api.common.tag.ListTag;
 import com.github.franckyi.minecraft.api.common.tag.Tag;
@@ -25,7 +26,7 @@ public class ItemDisplayEditorCategoryModel extends AbstractItemEditorCategoryMo
         getEntries().add(new TextEditorEntryModel(this, translated("ibeeditor.gui.editor.item.entry.custom_name"), getItemName(), this::setItemName));
         ListTag loreList = getBaseDisplay().getList("Lore", Tag.STRING_ID);
         for (int i = 0; i < loreList.size(); i++) {
-            getEntries().add(createLoreEntry((PlainText) Text.Serializer.GSON.fromJson(loreList.getString(i), Text.class)));
+            getEntries().add(createLoreEntry((PlainText) TextHandler.getSerializer().fromJson(loreList.getString(i), Text.class)));
         }
     }
 
@@ -65,7 +66,7 @@ public class ItemDisplayEditorCategoryModel extends AbstractItemEditorCategoryMo
 
     private PlainText getItemName() {
         String s = getBaseDisplay().getString("Name");
-        return s.isEmpty() ? null : (PlainText) Text.Serializer.GSON.fromJson(s, Text.class);
+        return s.isEmpty() ? null : (PlainText) TextHandler.getSerializer().fromJson(s, Text.class);
     }
 
     private void setItemName(PlainText value) {
@@ -78,7 +79,7 @@ public class ItemDisplayEditorCategoryModel extends AbstractItemEditorCategoryMo
                     firstText.setItalic(false);
                 }
             }
-            getNewDisplay().putString("Name", Text.Serializer.GSON.toJson(value));
+            getNewDisplay().putString("Name", TextHandler.getSerializer().toJson(value));
         } else if (getNewTag().contains("display", Tag.COMPOUND_ID)) {
             getNewDisplay().remove("Name");
         }
@@ -96,7 +97,7 @@ public class ItemDisplayEditorCategoryModel extends AbstractItemEditorCategoryMo
                 }
             }
         }
-        newLore.addString(Text.Serializer.GSON.toJson(value));
+        newLore.addString(TextHandler.getSerializer().toJson(value));
     }
 
     private CompoundTag getBaseDisplay() {

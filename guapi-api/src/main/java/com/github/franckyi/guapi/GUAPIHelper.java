@@ -11,7 +11,10 @@ import com.github.franckyi.guapi.api.node.builder.*;
 import com.github.franckyi.guapi.util.Align;
 import com.github.franckyi.guapi.util.Color;
 import com.github.franckyi.guapi.util.Insets;
+import com.github.franckyi.minecraft.TextHandler;
 import com.github.franckyi.minecraft.api.common.text.Text;
+import com.github.franckyi.minecraft.api.common.text.TextEvent;
+import com.github.franckyi.minecraft.api.common.text.TextFactory;
 import com.github.franckyi.minecraft.api.common.text.builder.PlainTextBuilder;
 import com.github.franckyi.minecraft.api.common.text.builder.TranslatedTextBuilder;
 
@@ -53,6 +56,10 @@ public final class GUAPIHelper {
 
     private static NodeFactory node() {
         return GUAPI.getNodeFactory();
+    }
+
+    private static TextFactory textFactory() {
+        return TextHandler.getTextFactory();
     }
 
     public static ButtonBuilder button() {
@@ -304,31 +311,31 @@ public final class GUAPIHelper {
     }
 
     public static Text emptyText() {
-        return Text.EMPTY;
+        return textFactory().createEmptyText();
     }
 
     public static PlainTextBuilder text() {
-        return Text.createPlainText();
+        return textFactory().createPlainText();
     }
 
     public static PlainTextBuilder text(String text) {
-        return Text.createPlainText(text);
+        return textFactory().createPlainText(text);
     }
 
     public static TranslatedTextBuilder translated() {
-        return Text.createTranslatedText();
+        return textFactory().createTranslatedText();
     }
 
     public static TranslatedTextBuilder translated(String translate) {
-        return Text.createTranslatedText(translate);
+        return textFactory().createTranslatedText(translate);
     }
 
-    public static Text.Event event(String action, String value) {
-        return Text.Event.createEvent(action, value);
+    public static TextEvent event(String action, String value) {
+        return textFactory().createEvent(action, value);
     }
 
-    public static Text.Event link(String url) {
-        return Text.Event.createLink(url);
+    public static TextEvent link(String url) {
+        return textFactory().createLink(url);
     }
 
     public static int rgb(int r, int g, int b) {

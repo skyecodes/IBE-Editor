@@ -5,7 +5,7 @@ import com.github.franckyi.minecraft.api.common.Registries;
 import com.github.franckyi.minecraft.api.common.network.Network;
 import com.github.franckyi.minecraft.api.common.tag.CompoundTag;
 import com.github.franckyi.minecraft.api.common.tag.TagFactory;
-import com.github.franckyi.minecraft.api.common.text.TextFactory;
+import com.github.franckyi.minecraft.api.common.text.TextComponentFactory;
 import com.github.franckyi.minecraft.api.common.world.Block;
 import com.github.franckyi.minecraft.api.common.world.Entity;
 import com.github.franckyi.minecraft.api.common.world.Item;
@@ -13,7 +13,7 @@ import com.github.franckyi.minecraft.api.common.world.Player;
 import com.github.franckyi.minecraft.impl.common.ForgeRegistries;
 import com.github.franckyi.minecraft.impl.common.nbt.ForgeTagFactory;
 import com.github.franckyi.minecraft.impl.common.network.ForgeNetwork;
-import com.github.franckyi.minecraft.impl.common.text.ForgeTextFactory;
+import com.github.franckyi.minecraft.impl.common.text.ForgeTextComponentFactory;
 import com.github.franckyi.minecraft.impl.common.world.ForgeBlock;
 import com.github.franckyi.minecraft.impl.common.world.ForgeEntity;
 import com.github.franckyi.minecraft.impl.common.world.ForgeItem;
@@ -32,8 +32,8 @@ public final class ForgeMinecraftCommon implements MinecraftCommon {
     }
 
     @Override
-    public TextFactory getTextFactory() {
-        return ForgeTextFactory.INSTANCE;
+    public TextComponentFactory getTextComponentFactory() {
+        return ForgeTextComponentFactory.INSTANCE;
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.github.franckyi.guapi;
 
 import com.github.franckyi.guapi.api.NodeFactory;
+import com.github.franckyi.guapi.api.ScreenHandler;
 import com.github.franckyi.guapi.api.theme.Theme;
 import com.github.franckyi.guapi.util.DebugMode;
 import com.github.franckyi.minecraft.Minecraft;
@@ -16,6 +17,7 @@ public final class GUAPI {
     private static final Map<String, Theme> themeRegistry = new HashMap<>();
     private static Theme theme;
     private static NodeFactory nodeFactory;
+    private static ScreenHandler screenHandler;
     private static DebugMode debugMode = DebugMode.OFF;
 
     public static Theme getTheme() {
@@ -46,6 +48,14 @@ public final class GUAPI {
 
     public static void setNodeFactory(NodeFactory nodeFactory) {
         GUAPI.nodeFactory = nodeFactory;
+    }
+
+    public static ScreenHandler getScreenHandler() {
+        return screenHandler;
+    }
+
+    public static void setScreenHandler(ScreenHandler screenHandler) {
+        GUAPI.screenHandler = screenHandler;
     }
 
     public static DebugMode getDebugMode() {

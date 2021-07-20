@@ -1,5 +1,6 @@
 package com.github.franckyi.ibeeditor.impl.client;
 
+import com.github.franckyi.guapi.GUAPI;
 import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.ibeeditor.impl.client.mvc.IBEEditorMVC;
 import com.github.franckyi.ibeeditor.impl.client.mvc.config.model.ConfigEditorModelImpl;
@@ -40,7 +41,7 @@ public final class ModScreenHandler {
     }
 
     private static void openScaledScreen(Node root) {
-        Minecraft.getClient().getScreenHandler().showScene(scene(root, true, true).show(scene -> {
+        GUAPI.getScreenHandler().showScene(scene(root, true, true).show(scene -> {
             Minecraft.getClient().getScreenScaling().setBaseScale(ClientConfiguration.INSTANCE.getEditorScale());
             scene.widthProperty().addListener(Minecraft.getClient().getScreenScaling()::refresh);
             scene.heightProperty().addListener(Minecraft.getClient().getScreenScaling()::refresh);

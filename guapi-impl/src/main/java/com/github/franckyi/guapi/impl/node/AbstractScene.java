@@ -74,7 +74,7 @@ public abstract class AbstractScene implements Scene {
         });
         addListener(ScreenEventType.KEY_PRESSED, e -> {
             if (e.getKeyCode() == GLFW.GLFW_KEY_ESCAPE && isCloseOnEsc()) {
-                Minecraft.getClient().getScreenHandler().hideScene();
+                GUAPI.getScreenHandler().hideScene();
                 e.consume();
             }
         });

@@ -13,7 +13,6 @@ public final class ClientInit {
         LOGGER.debug("Initializing IBE Editor - client");
         Minecraft.setClient(client);
         ClientConfiguration.load();
-        GUAPI.init();
         syncGuapiConfig();
         KeyBindings.init();
     }

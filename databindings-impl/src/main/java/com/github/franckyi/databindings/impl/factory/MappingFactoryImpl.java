@@ -7,10 +7,10 @@ import com.github.franckyi.databindings.impl.*;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
-public class DefaultMappingFactory implements MappingFactory {
-    public static final MappingFactory INSTANCE = new DefaultMappingFactory();
+public class MappingFactoryImpl implements MappingFactory {
+    public static final MappingFactory INSTANCE = new MappingFactoryImpl();
 
-    protected DefaultMappingFactory() {
+    protected MappingFactoryImpl() {
     }
 
     @Override

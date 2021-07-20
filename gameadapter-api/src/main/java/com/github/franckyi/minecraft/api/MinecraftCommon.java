@@ -4,7 +4,7 @@ import com.github.franckyi.minecraft.api.common.Registries;
 import com.github.franckyi.minecraft.api.common.network.Network;
 import com.github.franckyi.minecraft.api.common.tag.CompoundTag;
 import com.github.franckyi.minecraft.api.common.tag.TagFactory;
-import com.github.franckyi.minecraft.api.common.text.TextFactory;
+import com.github.franckyi.minecraft.api.common.text.TextComponentFactory;
 import com.github.franckyi.minecraft.api.common.world.Block;
 import com.github.franckyi.minecraft.api.common.world.Entity;
 import com.github.franckyi.minecraft.api.common.world.Item;
@@ -15,7 +15,7 @@ import java.nio.file.Path;
 import java.util.function.Function;
 
 public interface MinecraftCommon {
-    <T> TextFactory<T> getTextFactory();
+    <T> TextComponentFactory<T> getTextComponentFactory();
 
     TagFactory getTagFactory();
 

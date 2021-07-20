@@ -1,5 +1,6 @@
 package com.github.franckyi.ibeeditor.impl;
 
+import com.github.franckyi.guapi.GUAPI;
 import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.api.theme.DelegatedRendererProvider;
 import com.github.franckyi.guapi.impl.theme.vanilla.*;
@@ -11,6 +12,7 @@ import com.github.franckyi.ibeeditor.impl.server.ServerCommandHandler;
 import com.github.franckyi.minecraft.impl.FabricMinecraftClient;
 import com.github.franckyi.minecraft.impl.FabricMinecraftCommon;
 import com.github.franckyi.minecraft.impl.client.screen.FabricScreen;
+import com.github.franckyi.minecraft.impl.client.screen.FabricScreenHandler;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
@@ -30,6 +32,7 @@ public final class IBEEditorFabricMod implements ModInitializer, ClientModInitia
     @Override
     public void onInitializeClient() {
         ClientInit.init(FabricMinecraftClient.INSTANCE);
+        GUAPI.setScreenHandler(FabricScreenHandler.INSTANCE);
         initSkin(NodeType.BUTTON, FabricVanillaButtonRenderer::new);
         initSkin(NodeType.TEXTURED_BUTTON, FabricVanillaTexturedButtonRenderer::new);
         initSkin(NodeType.ENUM_BUTTON, FabricVanillaButtonRenderer::new);

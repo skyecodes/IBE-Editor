@@ -1,9 +1,22 @@
 package com.github.franckyi.minecraft.api.common.text;
 
-public interface TextFactory<T> {
-    T createComponentFromText(Text text);
+import com.github.franckyi.minecraft.api.common.text.builder.PlainTextBuilder;
+import com.github.franckyi.minecraft.api.common.text.builder.TranslatedTextBuilder;
 
-    Text createTextFromComponent(T component);
+public interface TextFactory {
+    Text createEmptyText();
 
-    String getRawTextFromComponent(T component);
+    PlainTextBuilder createPlainText();
+
+    PlainTextBuilder createPlainText(String text);
+
+    TranslatedTextBuilder createTranslatedText();
+
+    TranslatedTextBuilder createTranslatedText(String translate);
+
+    TextEvent createEvent(String action, String value);
+
+    default TextEvent createLink(String url) {
+        return createEvent("open_url", url);
+    }
 }

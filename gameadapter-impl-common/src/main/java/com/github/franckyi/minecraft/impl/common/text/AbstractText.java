@@ -2,6 +2,7 @@ package com.github.franckyi.minecraft.impl.common.text;
 
 import com.github.franckyi.minecraft.Minecraft;
 import com.github.franckyi.minecraft.api.common.text.Text;
+import com.github.franckyi.minecraft.api.common.text.TextEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +19,8 @@ public abstract class AbstractText implements Text {
     private Boolean underlined;
     private Boolean strikethrough;
     private Boolean obfuscated;
-    private Event clickEvent;
-    private Event hoverEvent;
+    private TextEvent clickEvent;
+    private TextEvent hoverEvent;
 
     protected AbstractText() {
     }
@@ -137,12 +138,12 @@ public abstract class AbstractText implements Text {
     }
 
     @Override
-    public Event getClickEvent() {
+    public TextEvent getClickEvent() {
         return clickEvent;
     }
 
     @Override
-    public void setClickEvent(Event clickEvent) {
+    public void setClickEvent(TextEvent clickEvent) {
         if (!Objects.equals(this.clickEvent, clickEvent)) {
             this.clickEvent = clickEvent;
             shouldUpdateComponent = true;
@@ -150,12 +151,12 @@ public abstract class AbstractText implements Text {
     }
 
     @Override
-    public Event getHoverEvent() {
+    public TextEvent getHoverEvent() {
         return hoverEvent;
     }
 
     @Override
-    public void setHoverEvent(Event hoverEvent) {
+    public void setHoverEvent(TextEvent hoverEvent) {
         if (!Objects.equals(this.hoverEvent, hoverEvent)) {
             this.hoverEvent = hoverEvent;
             shouldUpdateComponent = true;
@@ -166,7 +167,7 @@ public abstract class AbstractText implements Text {
     @SuppressWarnings("unchecked")
     public <T> T get() {
         if (shouldUpdateComponent || component == null) {
-            component = Minecraft.getCommon().getTextFactory().createComponentFromText(this);
+            component = Minecraft.getCommon().getTextComponentFactory().createComponentFromText(this);
         }
         return (T) component;
     }

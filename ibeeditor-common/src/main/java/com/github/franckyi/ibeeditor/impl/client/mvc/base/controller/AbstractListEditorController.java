@@ -2,13 +2,13 @@ package com.github.franckyi.ibeeditor.impl.client.mvc.base.controller;
 
 import com.github.franckyi.databindings.api.event.ObservableListChangeEvent;
 import com.github.franckyi.databindings.api.event.ObservableListChangeListener;
+import com.github.franckyi.guapi.GUAPI;
 import com.github.franckyi.guapi.api.mvc.AbstractController;
 import com.github.franckyi.ibeeditor.api.client.mvc.base.controller.ListEditorController;
 import com.github.franckyi.ibeeditor.api.client.mvc.base.model.EditorCategoryModel;
 import com.github.franckyi.ibeeditor.api.client.mvc.base.model.EditorEntryModel;
 import com.github.franckyi.ibeeditor.api.client.mvc.base.model.ListEditorModel;
 import com.github.franckyi.ibeeditor.api.client.mvc.base.view.ListEditorView;
-import com.github.franckyi.minecraft.Minecraft;
 import com.github.franckyi.minecraft.api.common.text.Text;
 
 import static com.github.franckyi.guapi.GUAPIHelper.*;
@@ -29,7 +29,7 @@ public abstract class AbstractListEditorController<M extends ListEditorModel, V 
         model.selectedCategoryProperty().addListener(this::updateEntryList);
         view.getDoneButton().onAction(event -> model.apply());
         model.validProperty().addListener(this::onValidationChange);
-        view.getCancelButton().onAction(Minecraft.getClient().getScreenHandler()::hideScene);
+        view.getCancelButton().onAction(GUAPI.getScreenHandler()::hideScene);
     }
 
     private void updateCategoryList() {

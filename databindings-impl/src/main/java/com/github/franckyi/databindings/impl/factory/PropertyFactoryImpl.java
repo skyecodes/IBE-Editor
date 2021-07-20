@@ -4,10 +4,10 @@ import com.github.franckyi.databindings.api.*;
 import com.github.franckyi.databindings.api.factory.PropertyFactory;
 import com.github.franckyi.databindings.impl.*;
 
-public class DefaultPropertyFactory implements PropertyFactory {
-    public static final PropertyFactory INSTANCE = new DefaultPropertyFactory();
+public class PropertyFactoryImpl implements PropertyFactory {
+    public static final PropertyFactory INSTANCE = new PropertyFactoryImpl();
 
-    protected DefaultPropertyFactory() {
+    protected PropertyFactoryImpl() {
     }
 
     @Override

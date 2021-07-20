@@ -4,10 +4,10 @@ import com.github.franckyi.databindings.api.ObservableList;
 import com.github.franckyi.databindings.api.factory.ObservableListFactory;
 import com.github.franckyi.databindings.impl.ObservableArrayList;
 
-public class DefaultObservableListFactory implements ObservableListFactory {
-    public static final ObservableListFactory INSTANCE = new DefaultObservableListFactory();
+public class ObservableListFactoryImpl implements ObservableListFactory {
+    public static final ObservableListFactory INSTANCE = new ObservableListFactoryImpl();
 
-    protected DefaultObservableListFactory() {
+    protected ObservableListFactoryImpl() {
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.github.franckyi.ibeeditor.impl.client.mvc.editor.nbt.controller;
 
+import com.github.franckyi.guapi.GUAPI;
 import com.github.franckyi.guapi.api.mvc.AbstractController;
 import com.github.franckyi.ibeeditor.api.client.mvc.editor.nbt.controller.NBTEditorController;
 import com.github.franckyi.ibeeditor.api.client.mvc.editor.nbt.model.EditorTagModel;
@@ -28,7 +29,7 @@ public class NBTEditorControllerImpl extends AbstractController<NBTEditorModel, 
             view.getDoneButton().setDisable(true);
             view.getDoneButton().setTooltip(model.getDisabledTooltip());
         }
-        view.getCancelButton().onAction(event -> Minecraft.getClient().getScreenHandler().hideScene());
+        view.getCancelButton().onAction(event -> GUAPI.getScreenHandler().hideScene());
         view.getTagTree().focusedElementProperty().addListener(this::updateEnabledButtons);
         view.setOnButtonClick(this::onButtonClick);
     }

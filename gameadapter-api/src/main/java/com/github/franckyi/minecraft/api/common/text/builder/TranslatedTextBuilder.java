@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public interface TranslatedTextBuilder extends TranslatedText, TextBuilder<TranslatedTextBuilder> {
+public interface TranslatedTextBuilder extends TranslatedText, GenericTextBuilder<TranslatedTextBuilder> {
     default TranslatedTextBuilder translate(String translate) {
         return with(t -> t.setTranslate(translate));
     }

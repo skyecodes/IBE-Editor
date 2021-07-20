@@ -1,5 +1,6 @@
 package com.github.franckyi.ibeeditor.impl;
 
+import com.github.franckyi.guapi.GUAPI;
 import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.api.theme.DelegatedRendererProvider;
 import com.github.franckyi.guapi.impl.theme.vanilla.*;
@@ -47,6 +48,7 @@ public final class IBEEditorForgeMod {
 
     private void onClientInit(FMLClientSetupEvent event) {
         ClientInit.init(ForgeMinecraftClient.INSTANCE);
+        GUAPI.setScreenHandler(ForgeScreenHandler.INSTANCE);
         initSkin(NodeType.BUTTON, ForgeVanillaButtonRenderer::new);
         initSkin(NodeType.TEXTURED_BUTTON, ForgeVanillaTexturedButtonRenderer::new);
         initSkin(NodeType.ENUM_BUTTON, ForgeVanillaButtonRenderer::new);
