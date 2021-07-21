@@ -1,0 +1,18 @@
+modLoader = "javafml"
+loaderVersion = "[36,)"
+license = "MIT"
+issueTrackerURL = "https://github.com/Franckyi/IBE-Editor/issues"
+
+[[mods]]
+modId = "guapi-vanilla-theme-forge"
+version = "${file.jarVersion}"
+displayName = "GUAPI: Vanilla Theme (Forge)"
+displayURL = "https://www.curseforge.com/minecraft/mc-mods/ibe-editor"
+authors = "Franckyi"
+
+[[dependencies.guapi-vanilla-theme-forge]]
+modId = "guapi-forge"
+mandatory = true
+versionRange = "[${file.jarVersion}]"
+ordering = "NONE"
+side = "CLIENT"

@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "id": "gameadapter-fabric",
+  "version": "${version}",
+  "name": "GameAdapter (Fabric)",
+  "description": "",
+  "authors": [
+    "Franckyi"
+  ],
+  "contact": {
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/ibe-editor",
+    "sources": "https://github.com/Franckyi/IBE-Editor"
+  },
+  "license": "MIT",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.github.franckyi.gameadapter.FabricGameAdapterMod"
+    ],
+    "client": [
+      "com.github.franckyi.gameadapter.FabricGameAdapterMod"
+    ]
+  },
+  "mixins": [
+    "gameadapter-fabric.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.7.4",
+    "fabric": ">=0.30.0",
+    "minecraft": "1.16.x"
+  }
+}

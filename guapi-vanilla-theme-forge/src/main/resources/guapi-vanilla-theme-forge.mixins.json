@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.github.franckyi.guapi.theme.vanilla.forge.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "client": [
+    "ForgeTextFieldWidgetMixin",
+    "ForgeTextFieldWidgetRedirectMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

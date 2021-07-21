@@ -3,7 +3,7 @@ package com.github.franckyi.guapi.api.node.builder.generic;
 import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.api.node.Scene;
 import com.github.franckyi.guapi.api.node.builder.Builder;
-import com.github.franckyi.guapi.util.Insets;
+import com.github.franckyi.guapi.api.util.Insets;
 
 import java.util.function.Consumer;
 

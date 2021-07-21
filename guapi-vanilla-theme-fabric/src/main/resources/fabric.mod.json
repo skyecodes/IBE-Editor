@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "id": "guapi-vanilla-theme-fabric",
+  "version": "${version}",
+  "name": "GUAPI: Vanilla Theme (Fabric)",
+  "description": "",
+  "authors": [
+    "Franckyi"
+  ],
+  "contact": {
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/ibe-editor",
+    "sources": "https://github.com/Franckyi/IBE-Editor"
+  },
+  "license": "MIT",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "com.github.franckyi.guapi.theme.vanilla.FabricGuapiVanillaThemeMod"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.7.4",
+    "fabric": ">=0.30.0",
+    "minecraft": "1.16.x",
+    "gameadapter-fabric": "*",
+    "guapi-fabric": "*"
+  }
+}

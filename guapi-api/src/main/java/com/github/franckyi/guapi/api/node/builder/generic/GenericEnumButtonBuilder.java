@@ -1,7 +1,7 @@
 package com.github.franckyi.guapi.api.node.builder.generic;
 
+import com.github.franckyi.gameadapter.api.common.text.Text;
 import com.github.franckyi.guapi.api.node.EnumButton;
-import com.github.franckyi.minecraft.api.common.text.Text;
 
 import java.util.function.Function;
 

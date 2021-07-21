@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "id": "ibeeditor",
+  "id": "ibeeditor-fabric",
   "version": "${version}",
   "name": "IBE Editor",
   "description": "Simple GUI Mod to edit an item, a block or an entity in your current world",
@@ -16,19 +16,20 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "com.github.franckyi.ibeeditor.impl.IBEEditorFabricMod"
+      "com.github.franckyi.ibeeditor.FabricIBEEditorMod"
     ],
     "client": [
-      "com.github.franckyi.ibeeditor.impl.IBEEditorFabricMod"
+      "com.github.franckyi.ibeeditor.FabricIBEEditorMod"
     ]
   },
   "mixins": [
-    "ibeeditor.mixins.json"
+    "ibeeditor-fabric.mixins.json"
   ],
-  "accessWidener": "ibeeditor.accesswidener",
   "depends": {
     "fabricloader": ">=0.7.4",
     "fabric": ">=0.30.0",
-    "minecraft": "1.16.x"
+    "minecraft": "1.16.x",
+    "gameadapter-fabric": "*",
+    "guapi-fabric": "*"
   }
 }

@@ -1,11 +1,11 @@
 package com.github.franckyi.guapi.api.node.builder.generic;
 
+import com.github.franckyi.gameadapter.api.common.text.Text;
 import com.github.franckyi.guapi.api.event.*;
 import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.api.node.builder.Builder;
-import com.github.franckyi.guapi.util.Insets;
-import com.github.franckyi.guapi.util.ScreenEventType;
-import com.github.franckyi.minecraft.api.common.text.Text;
+import com.github.franckyi.guapi.api.util.Insets;
+import com.github.franckyi.guapi.api.util.ScreenEventType;
 
 public interface GenericNodeBuilder<N extends Node> extends Node, Builder<N> {
     default N minWidth(int value) {

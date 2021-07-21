@@ -1,0 +1,24 @@
+buildscript {
+    repositories {
+        maven { url = 'https://maven.minecraftforge.net' }
+        mavenCentral()
+    }
+    dependencies {
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '4.1.+', changing: true
+    }
+}
+
+apply plugin: 'net.minecraftforge.gradle'
+
+minecraft {
+    mappings channel: mappings_channel, version: mappings_version
+}
+
+dependencies {
+    minecraft "net.minecraftforge:forge:$forge_version"
+    implementation project(':databindings-api')
+    implementation project(':gameadapter-api')
+    implementation project(':gameadapter-forge')
+    implementation project(':guapi-api')
+    implementation project(':guapi-base')
+}

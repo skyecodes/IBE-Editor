@@ -5,7 +5,7 @@ import com.github.franckyi.databindings.api.IntegerProperty;
 import com.github.franckyi.databindings.api.ObjectProperty;
 import com.github.franckyi.databindings.api.ObservableObjectValue;
 import com.github.franckyi.guapi.api.Renderable;
-import com.github.franckyi.guapi.util.Insets;
+import com.github.franckyi.guapi.api.util.Insets;
 
 import java.util.function.Consumer;
 

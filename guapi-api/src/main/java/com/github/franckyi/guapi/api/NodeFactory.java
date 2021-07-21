@@ -1,9 +1,9 @@
 package com.github.franckyi.guapi.api;
 
+import com.github.franckyi.gameadapter.api.common.text.Text;
 import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.api.node.TreeView;
 import com.github.franckyi.guapi.api.node.builder.*;
-import com.github.franckyi.minecraft.api.common.text.Text;
 
 import java.util.Collection;
 import java.util.function.Consumer;

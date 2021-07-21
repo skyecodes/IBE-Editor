@@ -11,11 +11,19 @@ pluginManagement {
 
 rootProject.name = "IBE-Editor"
 include 'databindings-api'
-include 'databindings-impl'
+include 'databindings-base'
 include 'guapi-api'
-include 'guapi-impl'
+include 'guapi-base'
 include 'gameadapter-api'
-include 'gameadapter-impl-common'
-include 'ibeeditor-common'
+include 'gameadapter-base'
+include 'ibeeditor-base'
 include 'ibeeditor-fabric'
 include 'ibeeditor-forge'
+include 'gameadapter-fabric'
+include 'guapi-fabric'
+include 'gameadapter-forge'
+include 'guapi-forge'
+include 'guapi-vanilla-theme-base'
+include 'guapi-vanilla-theme-fabric'
+include 'guapi-vanilla-theme-forge'
+

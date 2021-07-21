@@ -1,6 +1,13 @@
 allprojects {
     apply plugin: "java"
     sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = JavaVersion.VERSION_1_8
+    repositories {
+        mavenCentral()
+        maven {
+            name = "Minecraft Libraries"
+            url = "https://libraries.minecraft.net"
+        }
+    }
 }
 
 group = "com.github.franckyi"
@@ -8,7 +15,7 @@ archivesBaseName = "IBEEditor-$minecraft_version"
 version = project.mod_version
 
 task build(type: Jar, overwrite: true) {
-    dependsOn ":ibeeditor-common:jar", ":ibeeditor-fabric:build", ":ibeeditor-forge:build"
+    dependsOn ":ibeeditor-base:jar", ":ibeeditor-fabric:build", ":ibeeditor-forge:build"
     finalizedBy ":ibeeditor-forge:signJar"
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     from zipTree("common/build/libs/common.jar"), zipTree("fabric/build/libs/fabric.jar"), zipTree("forge/build/libs/forge.jar")

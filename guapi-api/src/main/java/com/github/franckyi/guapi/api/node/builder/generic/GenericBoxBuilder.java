@@ -2,7 +2,7 @@ package com.github.franckyi.guapi.api.node.builder.generic;
 
 import com.github.franckyi.guapi.api.node.Box;
 import com.github.franckyi.guapi.api.node.Node;
-import com.github.franckyi.guapi.util.Align;
+import com.github.franckyi.guapi.api.util.Align;
 
 public interface GenericBoxBuilder<N extends Box> extends Box, GenericGroupBuilder<N> {
     default N spacing(int value) {

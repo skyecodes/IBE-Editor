@@ -1,3 +1,0 @@
-accessWidener   v1  named
-
-extendable  method  net/minecraft/client/gui/widget/TextFieldWidget drawSelectionHighlight  (IIII)V

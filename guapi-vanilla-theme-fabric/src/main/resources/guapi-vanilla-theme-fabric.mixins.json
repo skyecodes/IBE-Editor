@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.github.franckyi.guapi.theme.vanilla.fabric.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "client": [
+    "FabricClickableWidgetMixin",
+    "FabricTextFieldWidgetMixin",
+    "FabricTextFieldWidgetRedirectMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

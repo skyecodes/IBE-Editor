@@ -16,7 +16,6 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'org.spongepowered.mixin'
 
 minecraft {
-    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
     mappings channel: mappings_channel, version: mappings_version
     runs {
         client {
@@ -48,17 +47,12 @@ mixin {
 
 dependencies {
     minecraft "net.minecraftforge:forge:$forge_version"
-    annotationProcessor 'org.spongepowered:mixin:0.8:processor'
-    implementation project(':databindings-api')
     implementation project(':gameadapter-api')
-    implementation project(':gameadapter-impl-common')
-    implementation project(':guapi-api')
-    implementation project(':guapi-impl')
-    implementation project(':ibeeditor-common')
+    implementation project(':ibeeditor-base')
 }
 
 processResources {
-    from 'src/main/resources', '../ibeeditor-common/src/main/resources'
+    from 'src/main/resources'
 }
 
 task signJar(type: SignJar) {

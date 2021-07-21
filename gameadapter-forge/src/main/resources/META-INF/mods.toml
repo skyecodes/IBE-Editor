@@ -1,0 +1,25 @@
+modLoader = "javafml"
+loaderVersion = "[36,)"
+license = "MIT"
+issueTrackerURL = "https://github.com/Franckyi/IBE-Editor/issues"
+
+[[mods]]
+modId = "gameadapter-forge"
+version = "${file.jarVersion}"
+displayName = "GameAdapter (Forge)"
+displayURL = "https://www.curseforge.com/minecraft/mc-mods/ibe-editor"
+authors = "Franckyi"
+
+[[dependencies.gameadapter-forge]]
+modId = "forge"
+mandatory = true
+versionRange = "[36,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.gameadapter-forge]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.16,)"
+ordering = "NONE"
+side = "BOTH"

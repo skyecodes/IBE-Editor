@@ -1,7 +1,7 @@
 package com.github.franckyi.guapi.api.node;
 
 import com.github.franckyi.databindings.api.*;
-import com.github.franckyi.minecraft.api.common.text.Text;
+import com.github.franckyi.gameadapter.api.common.text.Text;
 
 import java.util.function.Predicate;
 
@@ -82,11 +82,9 @@ public interface TextField extends Labeled {
         highlightPositionProperty().setValue(value);
     }
 
-    @Deprecated
-        //TODO rewrite event handling
+    //TODO rewrite event handling
     void onTextUpdate(int oldCursorPos, int oldHighlightPos, String oldText, int newCursorPos, String newText);
 
-    @Deprecated
     void setOnTextUpdate(TextFieldEventListener listener);
 
     @FunctionalInterface
