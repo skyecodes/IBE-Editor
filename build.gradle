@@ -15,41 +15,41 @@ archivesBaseName = "IBEEditor-$minecraft_version"
 version = project.mod_version
 
 task buildCommon(type: Jar) {
-    dependsOn ":databindings-api:jar",
-            ":databindings-base:jar",
-            ":gameadapter-api:jar",
-            ":gameadapter-base:jar",
-            ":gameadapter-fabric:build",
-            ":gameadapter-forge:build",
-            ":guapi-api:jar",
-            ":guapi-base:jar",
-            ":guapi-fabric:build",
-            ":guapi-forge:build",
-            ":guapi-vanilla-theme-base:jar",
-            ":guapi-vanilla-theme-fabric:build",
-            ":guapi-vanilla-theme-forge:build",
-            ":ibeeditor-base:jar",
-            ":ibeeditor-fabric:build",
-            ":ibeeditor-forge:build"
-    finalizedBy ":ibeeditor-forge:signCommonJar"
+    dependsOn ":databindings:api:jar",
+            ":databindings:base:jar",
+            ":gameadapter:api:jar",
+            ":gameadapter:base:jar",
+            ":gameadapter:fabric:build",
+            ":gameadapter:forge:build",
+            ":guapi:api:jar",
+            ":guapi:base:jar",
+            ":guapi:fabric:build",
+            ":guapi:forge:build",
+            ":guapi:vanilla-theme:base:jar",
+            ":guapi:vanilla-theme:fabric:build",
+            ":guapi:vanilla-theme:forge:build",
+            ":ibeeditor:base:jar",
+            ":ibeeditor:fabric:build",
+            ":ibeeditor:forge:build"
+    finalizedBy ":ibeeditor:forge:signCommonJar"
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     archiveBaseName.set("IBEEditor-$minecraft_version")
-    from zipTree("databindings-api/build/libs/databindings-api.jar"),
-            zipTree("databindings-base/build/libs/databindings-base.jar"),
-            zipTree("gameadapter-api/build/libs/gameadapter-api.jar"),
-            zipTree("gameadapter-base/build/libs/gameadapter-base.jar"),
-            //zipTree("gameadapter-fabric/build/libs/gameadapter-fabric.jar"), JIJ
-            zipTree("gameadapter-forge/build/libs/gameadapter-forge.jar"),
-            zipTree("guapi-api/build/libs/guapi-api.jar"),
-            zipTree("guapi-base/build/libs/guapi-base.jar"),
-            //zipTree("guapi-fabric/build/libs/guapi-fabric.jar"), JIJ
-            zipTree("guapi-forge/build/libs/guapi-forge.jar"),
-            zipTree("guapi-vanilla-theme-base/build/libs/guapi-vanilla-theme-base.jar"),
-            //zipTree("guapi-vanilla-theme-fabric/build/libs/guapi-vanilla-theme-fabric.jar"), JIJ
-            zipTree("guapi-vanilla-theme-forge/build/libs/guapi-vanilla-theme-forge.jar"),
-            zipTree("ibeeditor-base/build/libs/ibeeditor-base.jar"),
-            zipTree("ibeeditor-fabric/build/libs/ibeeditor-fabric.jar"),
-            zipTree("ibeeditor-forge/build/libs/ibeeditor-forge.jar")
+    from zipTree("databindings/api/build/libs/databindings-api.jar"),
+            zipTree("databindings/base/build/libs/databindings-base.jar"),
+            zipTree("gameadapter/api/build/libs/gameadapter-api.jar"),
+            zipTree("gameadapter/base/build/libs/gameadapter-base.jar"),
+            //zipTree("gameadapter/fabric/build/libs/gameadapter-fabric.jar"), JIJ
+            zipTree("gameadapter/forge/build/libs/gameadapter-forge.jar"),
+            zipTree("guapi/api/build/libs/guapi-api.jar"),
+            zipTree("guapi/base/build/libs/guapi-base.jar"),
+            //zipTree("guapi/fabric/build/libs/guapi-fabric.jar"), JIJ
+            zipTree("guapi/forge/build/libs/guapi-forge.jar"),
+            zipTree("guapi/vanilla-theme/base/build/libs/guapi-vanilla-theme-base.jar"),
+            //zipTree("guapi/vanilla-theme/fabric/build/libs/guapi-vanilla-theme-fabric.jar"), JIJ
+            zipTree("guapi/vanilla-theme/forge/build/libs/guapi-vanilla-theme-forge.jar"),
+            zipTree("ibeeditor/base/build/libs/ibeeditor-base.jar"),
+            zipTree("ibeeditor/fabric/build/libs/ibeeditor-fabric.jar"),
+            zipTree("ibeeditor/forge/build/libs/ibeeditor-forge.jar")
     exclude("META-INF/mods.toml")
     rename("build.mods.toml", "mods.toml")
     manifest {
@@ -67,32 +67,32 @@ task buildCommon(type: Jar) {
 }
 
 task buildFabric(type: Jar) {
-    dependsOn ":databindings-api:jar",
-            ":databindings-base:jar",
-            ":gameadapter-api:jar",
-            ":gameadapter-base:jar",
-            ":gameadapter-fabric:build",
-            ":guapi-api:jar",
-            ":guapi-base:jar",
-            ":guapi-fabric:build",
-            ":guapi-vanilla-theme-base:jar",
-            ":guapi-vanilla-theme-fabric:build",
-            ":ibeeditor-base:jar",
-            ":ibeeditor-fabric:build"
+    dependsOn ":databindings:api:jar",
+            ":databindings:base:jar",
+            ":gameadapter:api:jar",
+            ":gameadapter:base:jar",
+            ":gameadapter:fabric:build",
+            ":guapi:api:jar",
+            ":guapi:base:jar",
+            ":guapi:fabric:build",
+            ":guapi:vanilla-theme:base:jar",
+            ":guapi:vanilla-theme:fabric:build",
+            ":ibeeditor:base:jar",
+            ":ibeeditor:fabric:build"
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     archiveBaseName.set("IBEEditor-Fabric-$minecraft_version")
-    from zipTree("databindings-api/build/libs/databindings-api.jar"),
-            zipTree("databindings-base/build/libs/databindings-base.jar"),
-            zipTree("gameadapter-api/build/libs/gameadapter-api.jar"),
-            zipTree("gameadapter-base/build/libs/gameadapter-base.jar"),
-            //zipTree("gameadapter-fabric/build/libs/gameadapter-fabric.jar"), JIJ
-            zipTree("guapi-api/build/libs/guapi-api.jar"),
-            zipTree("guapi-base/build/libs/guapi-base.jar"),
-            //zipTree("guapi-fabric/build/libs/guapi-fabric.jar"), JIJ
-            zipTree("guapi-vanilla-theme-base/build/libs/guapi-vanilla-theme-base.jar"),
-            //zipTree("guapi-vanilla-theme-fabric/build/libs/guapi-vanilla-theme-fabric.jar"), JIJ
-            zipTree("ibeeditor-base/build/libs/ibeeditor-base.jar"),
-            zipTree("ibeeditor-fabric/build/libs/ibeeditor-fabric.jar")
+    from zipTree("databindings/api/build/libs/databindings-api.jar"),
+            zipTree("databindings/base/build/libs/databindings-base.jar"),
+            zipTree("gameadapter/api/build/libs/gameadapter-api.jar"),
+            zipTree("gameadapter/base/build/libs/gameadapter-base.jar"),
+            //zipTree("gameadapter/fabric/build/libs/gameadapter-fabric.jar"), JIJ
+            zipTree("guapi/api/build/libs/guapi-api.jar"),
+            zipTree("guapi/base/build/libs/guapi-base.jar"),
+            //zipTree("guapi/fabric/build/libs/guapi-fabric.jar"), JIJ
+            zipTree("guapi/vanilla-theme/base/build/libs/guapi-vanilla-theme-base.jar"),
+            //zipTree("guapi/vanilla-theme/fabric/build/libs/guapi-vanilla-theme-fabric.jar"), JIJ
+            zipTree("ibeeditor/base/build/libs/ibeeditor-base.jar"),
+            zipTree("ibeeditor/fabric/build/libs/ibeeditor-fabric.jar")
     manifest {
         attributes([
                 "Specification-Title"     : "ibeeditor",
@@ -107,33 +107,33 @@ task buildFabric(type: Jar) {
 }
 
 task buildForge(type: Jar) {
-    dependsOn ":databindings-api:jar",
-            ":databindings-base:jar",
-            ":gameadapter-api:jar",
-            ":gameadapter-base:jar",
-            ":gameadapter-forge:build",
-            ":guapi-api:jar",
-            ":guapi-base:jar",
-            ":guapi-forge:build",
-            ":guapi-vanilla-theme-base:jar",
-            ":guapi-vanilla-theme-forge:build",
-            ":ibeeditor-base:jar",
-            ":ibeeditor-forge:build"
+    dependsOn ":databindings:api:jar",
+            ":databindings:base:jar",
+            ":gameadapter:api:jar",
+            ":gameadapter:base:jar",
+            ":gameadapter:forge:build",
+            ":guapi:api:jar",
+            ":guapi:base:jar",
+            ":guapi:forge:build",
+            ":guapi:vanilla-theme:base:jar",
+            ":guapi:vanilla-theme:forge:build",
+            ":ibeeditor:base:jar",
+            ":ibeeditor:forge:build"
+    finalizedBy ":ibeeditor:forge:signForgeJar"
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     archiveBaseName.set("IBEEditor-Forge-$minecraft_version")
-    finalizedBy ":ibeeditor-forge:signForgeJar"
-    from zipTree("databindings-api/build/libs/databindings-api.jar"),
-            zipTree("databindings-base/build/libs/databindings-base.jar"),
-            zipTree("gameadapter-api/build/libs/gameadapter-api.jar"),
-            zipTree("gameadapter-base/build/libs/gameadapter-base.jar"),
-            zipTree("gameadapter-forge/build/libs/gameadapter-forge.jar"),
-            zipTree("guapi-api/build/libs/guapi-api.jar"),
-            zipTree("guapi-base/build/libs/guapi-base.jar"),
-            zipTree("guapi-forge/build/libs/guapi-forge.jar"),
-            zipTree("guapi-vanilla-theme-base/build/libs/guapi-vanilla-theme-base.jar"),
-            zipTree("guapi-vanilla-theme-forge/build/libs/guapi-vanilla-theme-forge.jar"),
-            zipTree("ibeeditor-base/build/libs/ibeeditor-base.jar"),
-            zipTree("ibeeditor-forge/build/libs/ibeeditor-forge.jar")
+    from zipTree("databindings/api/build/libs/databindings-api.jar"),
+            zipTree("databindings/base/build/libs/databindings-base.jar"),
+            zipTree("gameadapter/api/build/libs/gameadapter-api.jar"),
+            zipTree("gameadapter/base/build/libs/gameadapter-base.jar"),
+            zipTree("gameadapter/forge/build/libs/gameadapter-forge.jar"),
+            zipTree("guapi/api/build/libs/guapi-api.jar"),
+            zipTree("guapi/base/build/libs/guapi-base.jar"),
+            zipTree("guapi/forge/build/libs/guapi-forge.jar"),
+            zipTree("guapi/vanilla-theme/base/build/libs/guapi-vanilla-theme-base.jar"),
+            zipTree("guapi/vanilla-theme/forge/build/libs/guapi-vanilla-theme-forge.jar"),
+            zipTree("ibeeditor/base/build/libs/ibeeditor-base.jar"),
+            zipTree("ibeeditor/forge/build/libs/ibeeditor-forge.jar")
     exclude("META-INF/mods.toml")
     rename("build.mods.toml", "mods.toml")
     manifest {

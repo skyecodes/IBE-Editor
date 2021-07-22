@@ -1,0 +1,22 @@
+package com.github.franckyi.ibeeditor.base.client.mvc.base.controller.entry;
+
+import com.github.franckyi.ibeeditor.base.client.mvc.base.model.entry.LabeledEditorEntryModel;
+import com.github.franckyi.ibeeditor.base.client.mvc.base.view.entry.LabeledEditorEntryView;
+
+public abstract class LabeledEditorEntryController<M extends LabeledEditorEntryModel, V extends LabeledEditorEntryView> extends AbstractEditorEntryController<M, V> {
+    public LabeledEditorEntryController(M model, V view) {
+        super(model, view);
+    }
+
+    @Override
+    public void bind() {
+        super.bind();
+        view.getLabel().labelProperty().bind(model.labelProperty());
+        model.labelWeightProperty().addListener(this::updateLabelWeight);
+        updateLabelWeight();
+    }
+
+    private void updateLabelWeight() {
+        view.getRoot().setWeight(view.getLabel(), model.getLabelWeight());
+    }
+}

@@ -1,0 +1,11 @@
+archivesBaseName = 'guapi-base'
+
+dependencies {
+    implementation "org.apache.logging.log4j:log4j-api:2.8.1"
+    implementation "com.google.guava:guava:21.0"
+    implementation "org.lwjgl:lwjgl-glfw:3.2.2"
+    implementation project(':guapi:api')
+    implementation project(':gameadapter:api')
+    implementation project(':databindings:api')
+    implementation project(':databindings:base')
+}

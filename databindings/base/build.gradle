@@ -1,0 +1,5 @@
+archivesBaseName = 'databindings-base'
+
+dependencies {
+    implementation project(':databindings:api')
+}

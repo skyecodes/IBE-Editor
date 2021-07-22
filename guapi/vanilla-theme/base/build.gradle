@@ -1,0 +1,8 @@
+archivesBaseName = 'guapi-vanilla-theme-base'
+
+dependencies {
+    implementation project(':databindings:api')
+    implementation project(':gameadapter:api')
+    implementation project(':guapi:api')
+    implementation project(':guapi:base')
+}
