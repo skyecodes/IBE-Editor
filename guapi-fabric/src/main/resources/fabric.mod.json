@@ -3,7 +3,7 @@
   "id": "guapi-fabric",
   "version": "${version}",
   "name": "GUAPI (Fabric)",
-  "description": "",
+  "description": "A Minecraft GUI API inspired by JavaFX",
   "authors": [
     "Franckyi"
   ],
@@ -22,6 +22,6 @@
     "fabricloader": ">=0.7.4",
     "fabric": ">=0.30.0",
     "minecraft": "1.16.x",
-    "gameadapter-fabric": "*"
+    "gameadapter-fabric": "${version}"
   }
 }

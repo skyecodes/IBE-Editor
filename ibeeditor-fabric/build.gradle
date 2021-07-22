@@ -17,8 +17,20 @@ dependencies {
     mappings "net.fabricmc:yarn:$yarn_mappings:v2"
     modImplementation "net.fabricmc:fabric-loader:$loader_version"
     modImplementation "net.fabricmc.fabric-api:fabric-api:$fabric_version"
+    implementation project(':databindings-api')
+    implementation project(':databindings-base')
     implementation project(':gameadapter-api')
+    implementation project(':gameadapter-base')
+    implementation project(':gameadapter-fabric')
+    implementation project(':guapi-api')
+    implementation project(':guapi-base')
+    implementation project(':guapi-fabric')
+    implementation project(':guapi-vanilla-theme-base')
+    implementation project(':guapi-vanilla-theme-fabric')
     implementation project(':ibeeditor-base')
+    include project(':gameadapter-fabric')
+    include project(':guapi-fabric')
+    include project(':guapi-vanilla-theme-fabric')
 }
 
 processResources {
@@ -44,6 +56,7 @@ loom {
     runs {
         client {
             vmArg "-Dfabric.log.level=debug"
+            sourceSets
         }
         server {
             vmArg "-Dfabric.log.level=debug"

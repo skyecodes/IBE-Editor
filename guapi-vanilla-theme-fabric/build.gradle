@@ -24,6 +24,16 @@ dependencies {
     implementation project(':guapi-vanilla-theme-base')
 }
 
+processResources {
+    from "src/main/resources"
+
+    inputs.property "version", project.mod_version
+
+    filesMatching("fabric.mod.json") {
+        expand "version": project.mod_version
+    }
+}
+
 tasks.withType(JavaCompile).configureEach {
     it.options.encoding = "UTF-8"
 

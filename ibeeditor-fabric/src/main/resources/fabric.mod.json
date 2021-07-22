@@ -29,7 +29,7 @@
     "fabricloader": ">=0.7.4",
     "fabric": ">=0.30.0",
     "minecraft": "1.16.x",
-    "gameadapter-fabric": "*",
-    "guapi-fabric": "*"
+    "gameadapter-fabric": "${version}",
+    "guapi-fabric": "${version}"
   }
 }

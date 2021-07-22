@@ -1,5 +1,6 @@
 package com.github.franckyi.guapi.theme.vanilla;
 
+import com.github.franckyi.guapi.Guapi;
 import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.api.theme.DelegatedRendererProvider;
 import com.github.franckyi.guapi.api.util.NodeType;
@@ -25,6 +26,7 @@ public class ForgeGuapiVanillaThemeMod {
         initSkin(NodeType.TREE_VIEW, ForgeVanillaTreeViewRenderer::new);
         initSkin(NodeType.TOGGLE_BUTTON, ForgeVanillaButtonRenderer::new);
         initSkin(NodeType.TEXTURED_TOGGLE_BUTTON, ForgeVanillaTexturedButtonRenderer::new);
+        Guapi.registerTheme("vanilla", VanillaTheme.INSTANCE);
     }
 
     private <N extends Node> void initSkin(NodeType<N> type, DelegatedRendererProvider<N> delegatedRendererProvider) {

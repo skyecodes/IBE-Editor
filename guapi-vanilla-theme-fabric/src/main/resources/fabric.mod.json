@@ -3,7 +3,7 @@
   "id": "guapi-vanilla-theme-fabric",
   "version": "${version}",
   "name": "GUAPI: Vanilla Theme (Fabric)",
-  "description": "",
+  "description": "GUAPI extension to register the 'Vanilla' theme",
   "authors": [
     "Franckyi"
   ],
@@ -18,11 +18,14 @@
       "com.github.franckyi.guapi.theme.vanilla.FabricGuapiVanillaThemeMod"
     ]
   },
+  "mixins": [
+    "guapi-vanilla-theme-fabric.mixins.json"
+  ],
   "depends": {
     "fabricloader": ">=0.7.4",
     "fabric": ">=0.30.0",
     "minecraft": "1.16.x",
-    "gameadapter-fabric": "*",
-    "guapi-fabric": "*"
+    "gameadapter-fabric": "${version}",
+    "guapi-fabric": "${version}"
   }
 }

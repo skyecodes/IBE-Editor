@@ -9,10 +9,25 @@ version = "${file.jarVersion}"
 displayName = "GUAPI (Forge)"
 displayURL = "https://www.curseforge.com/minecraft/mc-mods/ibe-editor"
 authors = "Franckyi"
+description = "A Minecraft GUI API inspired by JavaFX"
+
+[[dependencies.guapi-forge]]
+modId = "forge"
+mandatory = true
+versionRange = "[36,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.guapi-forge]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.16,)"
+ordering = "NONE"
+side = "BOTH"
 
 [[dependencies.guapi-forge]]
 modId = "gameadapter-forge"
 mandatory = true
 versionRange = "[${file.jarVersion}]"
 ordering = "NONE"
-side = "CLIENT"
+side = "BOTH"

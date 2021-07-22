@@ -3,7 +3,7 @@
   "id": "gameadapter-fabric",
   "version": "${version}",
   "name": "GameAdapter (Fabric)",
-  "description": "",
+  "description": "Dependency for GUAPI and IBE Editor",
   "authors": [
     "Franckyi"
   ],

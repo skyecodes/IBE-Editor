@@ -9,6 +9,7 @@ version = "${file.jarVersion}"
 displayName = "GameAdapter (Forge)"
 displayURL = "https://www.curseforge.com/minecraft/mc-mods/ibe-editor"
 authors = "Franckyi"
+description = "Dependency for GUAPI and IBE Editor"
 
 [[dependencies.gameadapter-forge]]
 modId = "forge"

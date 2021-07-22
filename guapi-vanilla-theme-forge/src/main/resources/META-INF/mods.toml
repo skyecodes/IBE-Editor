@@ -9,10 +9,32 @@ version = "${file.jarVersion}"
 displayName = "GUAPI: Vanilla Theme (Forge)"
 displayURL = "https://www.curseforge.com/minecraft/mc-mods/ibe-editor"
 authors = "Franckyi"
+description = "GUAPI extension to register the 'Vanilla' theme"
+
+[[dependencies.guapi-vanilla-theme-forge]]
+modId = "forge"
+mandatory = true
+versionRange = "[36,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.guapi-vanilla-theme-forge]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.16,)"
+ordering = "NONE"
+side = "BOTH"
 
 [[dependencies.guapi-vanilla-theme-forge]]
 modId = "guapi-forge"
 mandatory = true
 versionRange = "[${file.jarVersion}]"
 ordering = "NONE"
-side = "CLIENT"
+side = "BOTH"
+
+[[dependencies.guapi-vanilla-theme-forge]]
+modId = "gameadapter-forge"
+mandatory = true
+versionRange = "[${file.jarVersion}]"
+ordering = "NONE"
+side = "BOTH"

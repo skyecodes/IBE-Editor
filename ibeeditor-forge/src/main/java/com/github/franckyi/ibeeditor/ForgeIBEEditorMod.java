@@ -31,14 +31,13 @@ public final class ForgeIBEEditorMod {
     }
 
     private void onCommonInit(FMLCommonSetupEvent event) {
-        CommonInit.init();
         MinecraftForge.EVENT_BUS.addListener(this::onServerStarting);
         MinecraftForge.EVENT_BUS.addListener(this::onPlayerLoggedIn);
         MinecraftForge.EVENT_BUS.addListener(this::onPlayerLoggedOut);
+        event.enqueueWork(CommonInit::init);
     }
 
     private void onClientInit(FMLClientSetupEvent event) {
-        ClientInit.init();
         MinecraftForge.EVENT_BUS.addListener(this::onKeyInput);
         MinecraftForge.EVENT_BUS.addListener(this::onKeyPressed);
         MinecraftForge.EVENT_BUS.addListener(this::onWorldUnload);
@@ -46,6 +45,7 @@ public final class ForgeIBEEditorMod {
             ModScreenHandler.openSettingsScreen();
             return minecraft.screen;
         });
+        event.enqueueWork(ClientInit::init);
     }
 
     private void onKeyInput(InputEvent.KeyInputEvent e) {

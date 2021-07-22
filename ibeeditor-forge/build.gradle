@@ -3,59 +3,83 @@ import net.minecraftforge.gradle.common.task.SignJar
 buildscript {
     repositories {
         maven { url = 'https://maven.minecraftforge.net' }
-        maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }
         mavenCentral()
     }
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '4.1.+', changing: true
-        classpath group: 'org.spongepowered', name: 'mixingradle', version: '0.7-SNAPSHOT'
     }
 }
 
 apply plugin: 'net.minecraftforge.gradle'
-apply plugin: 'org.spongepowered.mixin'
 
 minecraft {
     mappings channel: mappings_channel, version: mappings_version
     runs {
         client {
             workingDirectory project.file('../run')
-            arg '-mixin.config=ibeeditor.mixins.json'
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
             property 'forge.logging.console.level', 'debug'
+            arg '-mixin.config=guapi-vanilla-theme-forge.mixins.json'
             mods {
-                ibeeditor {
+                'ibeeditor-forge' {
                     source sourceSets.main
+                }
+                'gameadapter-forge' {
+                    source project(':gameadapter-forge').sourceSets.main
+                }
+                'guapi-forge' {
+                    source project(':guapi-forge').sourceSets.main
+                }
+                'guapi-vanilla-theme-forge' {
+                    source project(':guapi-vanilla-theme-forge').sourceSets.main
                 }
             }
         }
 
         server {
             workingDirectory project.file('../run')
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
             property 'forge.logging.console.level', 'debug'
             mods {
-                ibeeditor {
+                'ibeeditor-forge' {
                     source sourceSets.main
+                }
+                'gameadapter-forge' {
+                    source project(':gameadapter-forge').sourceSets.main
+                }
+                'guapi-forge' {
+                    source project(':guapi-forge').sourceSets.main
+                }
+                'guapi-vanilla-theme-forge' {
+                    source project(':guapi-vanilla-theme-forge').sourceSets.main
                 }
             }
         }
     }
 }
 
-mixin {
-    add sourceSets.main, 'ibeeditor.refmap.json'
-}
-
 dependencies {
     minecraft "net.minecraftforge:forge:$forge_version"
+    implementation project(':databindings-api')
+    implementation project(':databindings-base')
     implementation project(':gameadapter-api')
+    implementation project(':gameadapter-base')
+    implementation project(':gameadapter-forge')
+    implementation project(':guapi-api')
+    implementation project(':guapi-base')
+    implementation project(':guapi-forge')
+    implementation project(':guapi-vanilla-theme-base')
+    implementation project(':guapi-vanilla-theme-forge')
     implementation project(':ibeeditor-base')
 }
 
 processResources {
-    from 'src/main/resources'
+    from 'src/main/resources', '../ibeeditor-base/src/main/resources'
 }
 
-task signJar(type: SignJar) {
+task signCommonJar(type: SignJar) {
     onlyIf {
         project.hasProperty('keyStore')
     }
@@ -64,6 +88,19 @@ task signJar(type: SignJar) {
     alias = project.keyStoreAlias
     storePass = project.keyStorePass
     keyPass = project.keyStoreKeyPass
-    inputFile = rootProject.jar.archivePath
-    outputFile = rootProject.jar.archivePath
+    inputFile = rootProject.buildCommon.archivePath
+    outputFile = rootProject.buildCommon.archivePath
+}
+
+task signForgeJar(type: SignJar) {
+    onlyIf {
+        project.hasProperty('keyStore')
+    }
+
+    keyStore = project.keyStore
+    alias = project.keyStoreAlias
+    storePass = project.keyStorePass
+    keyPass = project.keyStoreKeyPass
+    inputFile = rootProject.buildForge.archivePath
+    outputFile = rootProject.buildForge.archivePath
 }
