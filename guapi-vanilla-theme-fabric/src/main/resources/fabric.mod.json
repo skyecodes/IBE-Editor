@@ -15,7 +15,7 @@
   "environment": "client",
   "entrypoints": {
     "client": [
-      "com.github.franckyi.guapi.theme.vanilla.FabricGuapiVanillaThemeMod"
+      "com.github.franckyi.guapi.fabric.theme.FabricGuapiVanillaThemeMod"
     ]
   },
   "mixins": [

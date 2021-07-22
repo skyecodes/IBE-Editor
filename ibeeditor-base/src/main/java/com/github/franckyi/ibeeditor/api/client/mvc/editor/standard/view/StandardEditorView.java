@@ -3,7 +3,7 @@ package com.github.franckyi.ibeeditor.api.client.mvc.editor.standard.view;
 import com.github.franckyi.databindings.api.BooleanProperty;
 import com.github.franckyi.gameadapter.api.common.text.builder.TranslatedTextBuilder;
 import com.github.franckyi.ibeeditor.api.client.mvc.base.view.ListEditorView;
-import com.github.franckyi.ibeeditor.impl.client.util.texteditor.TextEditorActionHandler;
+import com.github.franckyi.ibeeditor.base.client.util.texteditor.TextEditorActionHandler;
 
 import java.util.function.Supplier;
 

@@ -1,7 +1,7 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "com.github.franckyi.guapi.theme.vanilla.forge.mixin",
+  "package": "com.github.franckyi.guapi.forge.theme.mixin",
   "compatibilityLevel": "JAVA_8",
   "refmap": "guapi-vanilla-theme-forge.refmap.json",
   "client": [

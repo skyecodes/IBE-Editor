@@ -4,7 +4,7 @@ import com.github.franckyi.databindings.api.BooleanProperty;
 import com.github.franckyi.databindings.api.ObjectProperty;
 import com.github.franckyi.databindings.api.ObservableList;
 import com.github.franckyi.guapi.api.mvc.Model;
-import com.github.franckyi.ibeeditor.impl.client.util.texteditor.TextEditorActionHandler;
+import com.github.franckyi.ibeeditor.base.client.util.texteditor.TextEditorActionHandler;
 
 public interface ListEditorModel extends Model {
     ObservableList<? extends EditorCategoryModel> getCategories();

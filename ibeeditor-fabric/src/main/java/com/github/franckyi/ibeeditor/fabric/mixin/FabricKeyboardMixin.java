@@ -1,6 +1,6 @@
 package com.github.franckyi.ibeeditor.fabric.mixin;
 
-import com.github.franckyi.ibeeditor.impl.client.ClientEventHandler;
+import com.github.franckyi.ibeeditor.base.client.ClientEventHandler;
 import net.minecraft.client.Keyboard;
 import net.minecraft.client.MinecraftClient;
 import org.spongepowered.asm.mixin.Mixin;

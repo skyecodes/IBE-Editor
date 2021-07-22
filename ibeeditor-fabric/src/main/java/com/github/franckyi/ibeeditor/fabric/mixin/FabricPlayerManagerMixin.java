@@ -1,7 +1,7 @@
 package com.github.franckyi.ibeeditor.fabric.mixin;
 
 import com.github.franckyi.gameadapter.Game;
-import com.github.franckyi.ibeeditor.impl.server.ServerEventHandler;
+import com.github.franckyi.ibeeditor.base.server.ServerEventHandler;
 import net.minecraft.network.ClientConnection;
 import net.minecraft.server.PlayerManager;
 import net.minecraft.server.network.ServerPlayerEntity;
