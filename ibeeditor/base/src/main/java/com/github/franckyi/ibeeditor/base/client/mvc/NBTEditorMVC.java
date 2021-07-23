@@ -5,19 +5,10 @@ import com.github.franckyi.ibeeditor.base.client.mvc.controller.NBTEditorControl
 import com.github.franckyi.ibeeditor.base.client.mvc.model.NBTEditorModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.view.NBTEditorView;
 
-public final class NBTEditorMVC implements SimpleMVC<NBTEditorModel, NBTEditorView, NBTEditorController> {
+public final class NBTEditorMVC extends SimpleMVC<NBTEditorModel, NBTEditorView, NBTEditorController> {
     public static final NBTEditorMVC INSTANCE = new NBTEditorMVC();
 
-    protected NBTEditorMVC() {
-    }
-
-    @Override
-    public NBTEditorView createView() {
-        return new NBTEditorView();
-    }
-
-    @Override
-    public NBTEditorController createController(NBTEditorModel model, NBTEditorView view) {
-        return new NBTEditorController(model, view);
+    private NBTEditorMVC() {
+        super(NBTEditorView::new, NBTEditorController::new);
     }
 }

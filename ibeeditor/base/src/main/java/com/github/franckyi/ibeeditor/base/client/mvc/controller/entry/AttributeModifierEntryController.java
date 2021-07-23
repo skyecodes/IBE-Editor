@@ -1,6 +1,7 @@
 package com.github.franckyi.ibeeditor.base.client.mvc.controller.entry;
 
 import com.github.franckyi.gameadapter.Game;
+import com.github.franckyi.ibeeditor.base.client.ModScreenHandler;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.AttributeModifierEntryModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.view.entry.AttributeModifierEntryView;
 
@@ -32,6 +33,7 @@ public class AttributeModifierEntryController extends EntryController<AttributeM
     }
 
     private void openAttributeList() {
-
+        ModScreenHandler.openAttributeScreen(model.getAttributeName().contains(":") ? model.getAttributeName()
+                : "minecraft:" + model.getAttributeName(), model::setAttributeName);
     }
 }

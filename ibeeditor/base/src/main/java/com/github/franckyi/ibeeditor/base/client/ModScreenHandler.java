@@ -8,6 +8,7 @@ import com.github.franckyi.gameadapter.api.common.world.Entity;
 import com.github.franckyi.gameadapter.api.common.world.Item;
 import com.github.franckyi.guapi.Guapi;
 import com.github.franckyi.guapi.api.node.Node;
+import com.github.franckyi.ibeeditor.base.client.mvc.AttributeSelectionMVC;
 import com.github.franckyi.ibeeditor.base.client.mvc.ConfigEditorMVC;
 import com.github.franckyi.ibeeditor.base.client.mvc.NBTEditorMVC;
 import com.github.franckyi.ibeeditor.base.client.mvc.StandardEditorMVC;
@@ -38,7 +39,7 @@ public final class ModScreenHandler {
         openScaledScreen(mvc(ConfigEditorMVC.INSTANCE, new ConfigEditorModel()));
     }
 
-    private static void openScaledScreen(Node root) {
+    public static void openScaledScreen(Node root) {
         Guapi.getScreenHandler().showScene(scene(root, true, true).show(scene -> {
             Game.getClient().getScreenScaling().setBaseScale(ClientConfiguration.INSTANCE.getEditorScale());
             scene.widthProperty().addListener(Game.getClient().getScreenScaling()::refresh);
@@ -47,5 +48,9 @@ public final class ModScreenHandler {
             ClientConfiguration.INSTANCE.setEditorScale(Game.getClient().getScreenScaling().getScaleAndReset());
             ClientConfiguration.save();
         }));
+    }
+
+    public static void openAttributeScreen(String attributeName, Consumer<String> action) {
+        openScaledScreen(mvc(AttributeSelectionMVC.INSTANCE, new AttributeSelectionModel(attributeName, action)));
     }
 }
