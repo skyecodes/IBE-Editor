@@ -71,8 +71,8 @@ public interface GenericNodeBuilder<N extends Node> extends Node, Builder<N> {
         return padding(new Insets(top, right, bottom, left));
     }
 
-    default N tooltip(Text value) {
-        return with(n -> n.getTooltip().add(value));
+    default N tooltip(Text... value) {
+        return with(n -> n.getTooltip().setAll(value));
     }
 
     default N visible(boolean value) {

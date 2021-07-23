@@ -7,10 +7,10 @@ import com.github.franckyi.databindings.api.ObservableList;
 import com.github.franckyi.guapi.api.mvc.Model;
 import com.github.franckyi.ibeeditor.base.client.util.texteditor.TextEditorActionHandler;
 
-public abstract class ListEditorModel<C extends EditorCategoryModel> implements Model {
+public abstract class ListEditorModel<C extends CategoryModel> implements Model {
     protected final BooleanProperty validProperty = DataBindings.getPropertyFactory().createBooleanProperty(true);
     protected final ObservableList<C> categories = DataBindings.getObservableListFactory().createObservableArrayList();
-    protected final ObjectProperty<EditorCategoryModel> selectedCategory = DataBindings.getPropertyFactory().createObjectProperty();
+    protected final ObjectProperty<CategoryModel> selectedCategory = DataBindings.getPropertyFactory().createObjectProperty();
     protected final ObjectProperty<TextEditorActionHandler> activeTextEditorProperty = DataBindings.getPropertyFactory().createObjectProperty();
 
     @Override
@@ -39,15 +39,15 @@ public abstract class ListEditorModel<C extends EditorCategoryModel> implements 
         return categories;
     }
 
-    public EditorCategoryModel getSelectedCategory() {
+    public CategoryModel getSelectedCategory() {
         return selectedCategoryProperty().getValue();
     }
 
-    public ObjectProperty<EditorCategoryModel> selectedCategoryProperty() {
+    public ObjectProperty<CategoryModel> selectedCategoryProperty() {
         return selectedCategory;
     }
 
-    public void setSelectedCategory(EditorCategoryModel value) {
+    public void setSelectedCategory(CategoryModel value) {
         selectedCategoryProperty().setValue(value);
     }
 
@@ -76,6 +76,6 @@ public abstract class ListEditorModel<C extends EditorCategoryModel> implements 
     }
 
     public void updateValidity() {
-        setValid(getCategories().stream().allMatch(EditorCategoryModel::isValid));
+        setValid(getCategories().stream().allMatch(CategoryModel::isValid));
     }
 }

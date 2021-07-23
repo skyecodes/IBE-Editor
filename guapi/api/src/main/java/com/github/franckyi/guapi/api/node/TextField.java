@@ -87,6 +87,14 @@ public interface TextField extends Labeled {
 
     void setOnTextUpdate(TextFieldEventListener listener);
 
+    ObservableList<String> getSuggestions();
+
+    default boolean isSuggested() {
+        return suggestedProperty().getValue();
+    }
+
+    ObservableBooleanValue suggestedProperty();
+
     @FunctionalInterface
     interface TextRenderer {
         Text render(String text, int firstCharacterIndex);

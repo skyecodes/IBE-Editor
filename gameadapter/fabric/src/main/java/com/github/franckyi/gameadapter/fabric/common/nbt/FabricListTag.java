@@ -6,11 +6,10 @@ import com.github.franckyi.gameadapter.api.common.tag.Tag;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.nbt.NbtString;
 
+import java.util.AbstractList;
 import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
 
-public class FabricListTag implements ListTag {
+public class FabricListTag extends AbstractList<Tag> implements ListTag {
     private final NbtList tag;
 
     public FabricListTag() {
@@ -27,8 +26,8 @@ public class FabricListTag implements ListTag {
     }
 
     @Override
-    public List<Tag> getValue() {
-        return tag.stream().map(FabricTagFactory::from).collect(Collectors.toList());
+    public Tag get(int index) {
+        return FabricTagFactory.from(tag.get(index));
     }
 
     @Override
@@ -37,8 +36,18 @@ public class FabricListTag implements ListTag {
     }
 
     @Override
-    public boolean isEmpty() {
-        return tag.isEmpty();
+    public Tag set(int index, Tag element) {
+        return FabricTagFactory.from(tag.set(index, element.get()));
+    }
+
+    @Override
+    public void add(int index, Tag element) {
+        tag.add(index, element.get());
+    }
+
+    @Override
+    public Tag remove(int index) {
+        return FabricTagFactory.from(tag.remove(index));
     }
 
     @Override

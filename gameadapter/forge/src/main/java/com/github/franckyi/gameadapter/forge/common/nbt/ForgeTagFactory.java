@@ -14,6 +14,7 @@ public final class ForgeTagFactory implements TagFactory {
     }
 
     public static Tag from(net.minecraft.nbt.INBT tag) {
+        if (tag == null) return null;
         switch (tag.getId()) {
             case Tag.BYTE_ID:
                 return new ForgeByteTag(((ByteNBT) tag));

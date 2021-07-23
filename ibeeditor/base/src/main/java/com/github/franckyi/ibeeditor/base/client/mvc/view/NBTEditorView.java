@@ -8,8 +8,8 @@ import com.github.franckyi.guapi.api.node.*;
 import com.github.franckyi.guapi.api.node.builder.TexturedButtonBuilder;
 import com.github.franckyi.guapi.api.node.builder.TexturedToggleButtonBuilder;
 import com.github.franckyi.ibeeditor.base.client.ModScreenHandler;
-import com.github.franckyi.ibeeditor.base.client.mvc.EditorTagMVC;
-import com.github.franckyi.ibeeditor.base.client.mvc.model.EditorTagModel;
+import com.github.franckyi.ibeeditor.base.client.mvc.NBTTagMVC;
+import com.github.franckyi.ibeeditor.base.client.mvc.model.NBTTagModel;
 
 import java.util.function.Consumer;
 
@@ -17,7 +17,7 @@ import static com.github.franckyi.guapi.GuapiHelper.*;
 
 public class NBTEditorView extends EditorView implements View {
     private VBox main;
-    private TreeView<EditorTagModel> tagTree;
+    private TreeView<NBTTagModel> tagTree;
     private HBox addButtons;
     private TexturedButton addByteButton, addShortButton, addIntButton, addLongButton, addFloatButton,
             addDoubleButton, addByteArrayButton, addStringButton, addListButton, addCompoundButton,
@@ -102,7 +102,7 @@ public class NBTEditorView extends EditorView implements View {
 
     @Override
     protected Node createEditor() {
-        return tagTree = treeView(EditorTagModel.class).showRoot().itemHeight(20).childrenFocusable().padding(5).renderer(item -> mvc(EditorTagMVC.INSTANCE, item));
+        return tagTree = treeView(NBTTagModel.class).showRoot().itemHeight(20).childrenFocusable().padding(5).renderer(item -> mvc(NBTTagMVC.INSTANCE, item));
     }
 
     private void expandAll() {
@@ -115,7 +115,7 @@ public class NBTEditorView extends EditorView implements View {
         getTagTree().getRoot().setChildrenChanged(true);
     }
 
-    public TreeView<EditorTagModel> getTagTree() {
+    public TreeView<NBTTagModel> getTagTree() {
         return tagTree;
     }
 

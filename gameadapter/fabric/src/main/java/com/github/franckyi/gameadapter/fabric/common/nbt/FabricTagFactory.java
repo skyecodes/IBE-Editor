@@ -14,6 +14,7 @@ public final class FabricTagFactory implements TagFactory {
     }
 
     public static Tag from(NbtElement tag) {
+        if (tag == null) return null;
         switch (tag.getType()) {
             case Tag.BYTE_ID:
                 return new FabricByteTag(((NbtByte) tag));

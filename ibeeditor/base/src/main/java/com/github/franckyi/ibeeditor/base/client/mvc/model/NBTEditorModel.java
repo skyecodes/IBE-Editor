@@ -9,38 +9,38 @@ import com.github.franckyi.guapi.api.mvc.Model;
 import java.util.function.Consumer;
 
 public class NBTEditorModel implements Model {
-    private final ObjectProperty<EditorTagModel> rootTagProperty;
-    private final ObjectProperty<EditorTagModel> clipboardTagProperty = DataBindings.getPropertyFactory().createObjectProperty();
+    private final ObjectProperty<NBTTagModel> rootTagProperty;
+    private final ObjectProperty<NBTTagModel> clipboardTagProperty = DataBindings.getPropertyFactory().createObjectProperty();
     private final Consumer<CompoundTag> action;
     private final Text disabledTooltip;
 
     public NBTEditorModel(CompoundTag tag, Consumer<CompoundTag> action, Text disabledTooltip) {
-        rootTagProperty = DataBindings.getPropertyFactory().createObjectProperty(new EditorTagModel(tag));
+        rootTagProperty = DataBindings.getPropertyFactory().createObjectProperty(new NBTTagModel(tag));
         this.action = action;
         this.disabledTooltip = disabledTooltip;
     }
 
-    public EditorTagModel getRootTag() {
+    public NBTTagModel getRootTag() {
         return rootTagProperty().getValue();
     }
 
-    public ObjectProperty<EditorTagModel> rootTagProperty() {
+    public ObjectProperty<NBTTagModel> rootTagProperty() {
         return rootTagProperty;
     }
 
-    public void setRootTag(EditorTagModel value) {
+    public void setRootTag(NBTTagModel value) {
         rootTagProperty().setValue(value);
     }
 
-    public EditorTagModel getClipboardTag() {
+    public NBTTagModel getClipboardTag() {
         return clipboardTagProperty().getValue();
     }
 
-    public ObjectProperty<EditorTagModel> clipboardTagProperty() {
+    public ObjectProperty<NBTTagModel> clipboardTagProperty() {
         return clipboardTagProperty;
     }
 
-    public void setClipboardTag(EditorTagModel value) {
+    public void setClipboardTag(NBTTagModel value) {
         clipboardTagProperty().setValue(value);
     }
 

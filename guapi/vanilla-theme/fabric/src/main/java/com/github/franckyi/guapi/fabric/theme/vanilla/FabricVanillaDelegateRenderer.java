@@ -59,11 +59,13 @@ public interface FabricVanillaDelegateRenderer extends DelegatedRenderer, Elemen
 
     default void initNode(Node node, ClickableWidget widget) {
         widget.active = !node.isDisabled();
+        widget.visible = node.isVisible();
         node.xProperty().addListener(newVal -> widget.x = newVal);
         node.yProperty().addListener(newVal -> widget.y = newVal);
         node.widthProperty().addListener(widget::setWidth);
         node.heightProperty().addListener(((FabricClickableWidgetMixin) widget)::setHeight);
         node.disabledProperty().addListener(newVal -> widget.active = !newVal);
+        node.visibleProperty().addListener(newVal -> widget.visible = newVal);
     }
 
     default void initLabeled(Labeled node, ClickableWidget widget) {

@@ -5,7 +5,7 @@ import com.github.franckyi.ibeeditor.base.client.mvc.controller.StandardEditorCo
 import com.github.franckyi.ibeeditor.base.client.mvc.model.StandardEditorModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.view.StandardEditorView;
 
-public class StandardEditorMVC implements SimpleMVC<StandardEditorModel<?, ?>, StandardEditorView, StandardEditorController> {
+public final class StandardEditorMVC implements SimpleMVC<StandardEditorModel<?, ?>, StandardEditorView, StandardEditorController> {
     public static final StandardEditorMVC INSTANCE = new StandardEditorMVC();
 
     private StandardEditorMVC() {

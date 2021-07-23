@@ -9,7 +9,7 @@ import com.github.franckyi.ibeeditor.base.client.mvc.model.category.*;
 
 import java.util.function.Consumer;
 
-public class ItemEditorModel extends StandardEditorModel<Item, ItemEditorCategoryModel> {
+public class ItemEditorModel extends StandardEditorModel<Item, ItemCategoryModel> {
     public ItemEditorModel(Item item, Consumer<Item> action, Text disabledTooltip) {
         super(item, action, disabledTooltip, "ibeeditor.text.item");
     }
@@ -17,10 +17,11 @@ public class ItemEditorModel extends StandardEditorModel<Item, ItemEditorCategor
     @Override
     protected void setupCategories() {
         getCategories().addAll(
-                new ItemGeneralEditorCategoryModel(this),
-                new ItemDisplayEditorCategoryModel(this),
-                new ItemEnchantmentsEditorCategoryModel(this),
-                new ItemHideFlagsEditorCategoryModel(this)
+                new ItemGeneralCategoryModel(this),
+                new ItemDisplayCategoryModel(this),
+                new ItemEnchantmentsCategoryModel(this),
+                new ItemAttributeModifiersCategoryModel(this),
+                new ItemHideFlagsCategoryModel(this)
         );
     }
 

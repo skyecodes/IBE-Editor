@@ -6,11 +6,10 @@ import com.github.franckyi.gameadapter.api.common.tag.Tag;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.nbt.StringNBT;
 
+import java.util.AbstractList;
 import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
 
-public class ForgeListTag implements ListTag {
+public class ForgeListTag extends AbstractList<Tag> implements ListTag {
     private final ListNBT tag;
 
     public ForgeListTag() {
@@ -26,18 +25,29 @@ public class ForgeListTag implements ListTag {
         value.forEach(tag1 -> tag.add(tag1.get()));
     }
 
-    public List<Tag> getValue() {
-        return tag.stream().map(ForgeTagFactory::from).collect(Collectors.toList());
-    }
-
     @Override
     public int size() {
         return tag.size();
     }
 
     @Override
-    public boolean isEmpty() {
-        return tag.isEmpty();
+    public Tag get(int index) {
+        return ForgeTagFactory.from(tag.get(index));
+    }
+
+    @Override
+    public Tag set(int index, Tag element) {
+        return ForgeTagFactory.from(tag.set(index, element.get()));
+    }
+
+    @Override
+    public void add(int index, Tag element) {
+        tag.add(index, element.get());
+    }
+
+    @Override
+    public Tag remove(int index) {
+        return ForgeTagFactory.from(tag.remove(index));
     }
 
     @Override

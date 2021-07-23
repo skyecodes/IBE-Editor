@@ -5,8 +5,8 @@ import com.github.franckyi.gameadapter.api.common.tag.Tag;
 import com.github.franckyi.guapi.Guapi;
 import com.github.franckyi.guapi.api.mvc.AbstractController;
 import com.github.franckyi.guapi.api.mvc.Controller;
-import com.github.franckyi.ibeeditor.base.client.mvc.model.EditorTagModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.NBTEditorModel;
+import com.github.franckyi.ibeeditor.base.client.mvc.model.NBTTagModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.view.NBTEditorView;
 
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ public class NBTEditorController extends AbstractController<NBTEditorModel, NBTE
     public void bind() {
         view.getTagTree().rootItemProperty().bind(model.rootTagProperty());
         if (model.canSave()) {
-            view.getDoneButton().disableProperty().bind(model.rootTagProperty().bindMapToBoolean(EditorTagModel::validProperty).not());
+            view.getDoneButton().disableProperty().bind(model.rootTagProperty().bindMapToBoolean(NBTTagModel::validProperty).not());
             view.getDoneButton().onAction(event -> model.apply());
         } else {
             view.getDoneButton().setDisable(true);
@@ -34,8 +34,8 @@ public class NBTEditorController extends AbstractController<NBTEditorModel, NBTE
     }
 
     private void onButtonClick(NBTEditorView.ButtonType type) {
-        EditorTagModel tag = view.getTagTree().getFocusedElement();
-        EditorTagModel parent = tag.getParent();
+        NBTTagModel tag = view.getTagTree().getFocusedElement();
+        NBTTagModel parent = tag.getParent();
         switch (type) {
             case BYTE:
             case SHORT:
@@ -90,7 +90,7 @@ public class NBTEditorController extends AbstractController<NBTEditorModel, NBTE
                 updateEnabledButtons(tag);
                 break;
             case PASTE:
-                EditorTagModel clipboardTag = model.getClipboardTag();
+                NBTTagModel clipboardTag = model.getClipboardTag();
                 if (clipboardTag.canBuild()) {
                     addChildTag(tag, clipboardTag.build(), clipboardTag.getName());
                 } else {
@@ -100,10 +100,10 @@ public class NBTEditorController extends AbstractController<NBTEditorModel, NBTE
         }
     }
 
-    private void updateEnabledButtons(EditorTagModel newVal) {
+    private void updateEnabledButtons(NBTTagModel newVal) {
         view.getAddTagButton().setActive(false);
         List<NBTEditorView.ButtonType> buttons = new ArrayList<>();
-        EditorTagModel clipboardTag = model.getClipboardTag();
+        NBTTagModel clipboardTag = model.getClipboardTag();
         if (newVal != null) {
             switch (newVal.getTagType()) {
                 case Tag.COMPOUND_ID:
@@ -144,7 +144,7 @@ public class NBTEditorController extends AbstractController<NBTEditorModel, NBTE
                     }
             }
             if (newVal.getParent() != null) {
-                EditorTagModel parent = newVal.getParent();
+                NBTTagModel parent = newVal.getParent();
                 if (parent.getChildren().indexOf(newVal) != 0) {
                     buttons.add(NBTEditorView.ButtonType.MOVE_UP);
                 }
@@ -159,19 +159,19 @@ public class NBTEditorController extends AbstractController<NBTEditorModel, NBTE
         view.getEnabledButtons().setAll(buttons);
     }
 
-    private void addChildTag(EditorTagModel parent, Tag newTag) {
+    private void addChildTag(NBTTagModel parent, Tag newTag) {
         addChildTag(parent, newTag, "");
     }
 
-    private void addChildTag(EditorTagModel parent, Tag newTag, String name) {
-        addChildTag(parent, new EditorTagModel(newTag, parent, parent.getTagType() != Tag.LIST_ID ? name : null, null));
+    private void addChildTag(NBTTagModel parent, Tag newTag, String name) {
+        addChildTag(parent, new NBTTagModel(newTag, parent, parent.getTagType() != Tag.LIST_ID ? name : null, null));
     }
 
-    private void addChildTag(EditorTagModel parent, byte type, String value) {
-        addChildTag(parent, new EditorTagModel(type, parent, value));
+    private void addChildTag(NBTTagModel parent, byte type, String value) {
+        addChildTag(parent, new NBTTagModel(type, parent, value));
     }
 
-    private void addChildTag(EditorTagModel parent, EditorTagModel tag) {
+    private void addChildTag(NBTTagModel parent, NBTTagModel tag) {
         parent.getChildren().add(tag);
         parent.setExpanded(true);
         view.getTagTree().setScrollTo(tag);

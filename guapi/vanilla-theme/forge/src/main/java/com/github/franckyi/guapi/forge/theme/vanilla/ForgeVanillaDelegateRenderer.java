@@ -58,11 +58,13 @@ public interface ForgeVanillaDelegateRenderer extends DelegatedRenderer, IGuiEve
 
     default void initNode(Node node, Widget widget) {
         widget.active = !node.isDisabled();
+        widget.visible = node.isVisible();
         node.xProperty().addListener(newVal -> widget.x = newVal);
         node.yProperty().addListener(newVal -> widget.y = newVal);
         node.widthProperty().addListener(widget::setWidth);
         node.heightProperty().addListener(widget::setHeight);
         node.disabledProperty().addListener(newVal -> widget.active = !newVal);
+        node.visibleProperty().addListener(newVal -> widget.visible = newVal);
     }
 
     default void initLabeled(Labeled node, Widget widget) {

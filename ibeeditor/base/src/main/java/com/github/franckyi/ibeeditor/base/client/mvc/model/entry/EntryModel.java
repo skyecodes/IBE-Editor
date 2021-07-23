@@ -1,0 +1,75 @@
+package com.github.franckyi.ibeeditor.base.client.mvc.model.entry;
+
+import com.github.franckyi.databindings.DataBindings;
+import com.github.franckyi.databindings.api.BooleanProperty;
+import com.github.franckyi.databindings.api.IntegerProperty;
+import com.github.franckyi.guapi.api.mvc.Model;
+import com.github.franckyi.ibeeditor.base.client.mvc.model.CategoryModel;
+
+public abstract class EntryModel implements Model {
+    private final CategoryModel category;
+    private final BooleanProperty validProperty = DataBindings.getPropertyFactory().createBooleanProperty(true);
+    private final IntegerProperty listIndexProperty = DataBindings.getPropertyFactory().createIntegerProperty(-1);
+    private final IntegerProperty listSizeProperty = DataBindings.getPropertyFactory().createIntegerProperty(-1);
+
+    protected EntryModel(CategoryModel category) {
+        this.category = category;
+        validProperty().addListener(() -> getCategory().updateValidity());
+    }
+
+    public CategoryModel getCategory() {
+        return category;
+    }
+
+    public boolean isValid() {
+        return validProperty().getValue();
+    }
+
+    public BooleanProperty validProperty() {
+        return validProperty;
+    }
+
+    public void setValid(boolean value) {
+        validProperty().setValue(value);
+    }
+
+    public int getListIndex() {
+        return listIndexProperty().getValue();
+    }
+
+    public IntegerProperty listIndexProperty() {
+        return listIndexProperty;
+    }
+
+    public void setListIndex(int value) {
+        listIndexProperty().setValue(value);
+    }
+
+    public boolean isResetable() {
+        return true;
+    }
+
+    public int getListSize() {
+        return listSizeProperty().getValue();
+    }
+
+    public IntegerProperty listSizeProperty() {
+        return listSizeProperty;
+    }
+
+    public void setListSize(int value) {
+        listSizeProperty().setValue(value);
+    }
+
+    public abstract void apply();
+
+    public void reset() {
+    }
+
+    public abstract Type getType();
+
+    public enum Type {
+        STRING, INTEGER, TEXT, ENUM, ACTION, ADD_LIST_ENTRY, BOOLEAN,
+        ENCHANTMENT, HIDE_FLAG, ATTRIBUTE_MODIFIER
+    }
+}

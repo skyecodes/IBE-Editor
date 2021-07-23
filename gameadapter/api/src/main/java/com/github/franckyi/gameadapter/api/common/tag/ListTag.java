@@ -2,17 +2,11 @@ package com.github.franckyi.gameadapter.api.common.tag;
 
 import java.util.List;
 
-public interface ListTag extends Tag {
+public interface ListTag extends Tag, List<Tag> {
     @Override
     default byte getType() {
         return Tag.LIST_ID;
     }
-
-    List<Tag> getValue();
-
-    int size();
-
-    boolean isEmpty();
 
     String getString(int index);
 

@@ -19,7 +19,10 @@ public abstract class AbstractTextField extends AbstractLabeled implements TextF
     private final ObjectProperty<TextRenderer> textRendererProperty = DataBindings.getPropertyFactory().createObjectProperty();
     private final IntegerProperty cursorPositionProperty = DataBindings.getPropertyFactory().createIntegerProperty();
     private final IntegerProperty highlightPositionProperty = DataBindings.getPropertyFactory().createIntegerProperty();
-    private TextFieldEventListener onTextUpdate, onWrite;
+    private TextFieldEventListener onTextUpdate;
+    private final ObservableList<String> suggestions = DataBindings.getObservableListFactory().createObservableArrayList();
+    private final BooleanProperty suggestedProperty = DataBindings.getPropertyFactory().createBooleanProperty();
+    private final ObservableBooleanValue suggestedPropertyReadOnly = DataBindings.getPropertyFactory().createReadOnlyProperty(suggestedProperty);
 
     protected AbstractTextField() {
         this("");
@@ -38,6 +41,8 @@ public abstract class AbstractTextField extends AbstractLabeled implements TextF
         setText(value);
         textProperty().addListener(this::updateValid);
         validatorProperty().addListener(this::updateValid);
+        textProperty().addListener(this::updateSuggested);
+        getSuggestions().addListener(this::updateSuggested);
     }
 
     @Override
@@ -92,7 +97,21 @@ public abstract class AbstractTextField extends AbstractLabeled implements TextF
         onTextUpdate = listener;
     }
 
+    @Override
+    public ObservableList<String> getSuggestions() {
+        return suggestions;
+    }
+
+    @Override
+    public ObservableBooleanValue suggestedProperty() {
+        return suggestedPropertyReadOnly;
+    }
+
     private void updateValid() {
         validProperty.setValue(getValidator().test(getText()));
+    }
+
+    private void updateSuggested() {
+        suggestedProperty.setValue(getSuggestions().contains(getText()));
     }
 }

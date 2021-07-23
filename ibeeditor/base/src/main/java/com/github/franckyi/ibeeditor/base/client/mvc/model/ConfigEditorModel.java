@@ -1,19 +1,19 @@
 package com.github.franckyi.ibeeditor.base.client.mvc.model;
 
 import com.github.franckyi.guapi.Guapi;
-import com.github.franckyi.ibeeditor.base.client.mvc.model.category.ClientConfigEditorCategoryModel;
-import com.github.franckyi.ibeeditor.base.client.mvc.model.category.ConfigEditorCategoryModel;
+import com.github.franckyi.ibeeditor.base.client.mvc.model.category.ClientConfigCategoryModel;
+import com.github.franckyi.ibeeditor.base.client.mvc.model.category.ConfigCategoryModel;
 
-public class ConfigEditorModel extends ListEditorModel<ConfigEditorCategoryModel> {
+public class ConfigEditorModel extends ListEditorModel<ConfigCategoryModel> {
 
     @Override
     protected void setupCategories() {
-        getCategories().add(new ClientConfigEditorCategoryModel(this));
+        getCategories().add(new ClientConfigCategoryModel(this));
     }
 
     @Override
     public void apply() {
-        getCategories().forEach(ConfigEditorCategoryModel::apply);
+        getCategories().forEach(ConfigCategoryModel::apply);
         Guapi.getScreenHandler().hideScene();
     }
 }

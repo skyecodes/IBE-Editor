@@ -1,6 +1,7 @@
 package com.github.franckyi.guapi.fabric.theme.vanilla;
 
 import com.github.franckyi.guapi.api.node.TextField;
+import com.github.franckyi.guapi.fabric.theme.mixin.FabricClickableWidgetMixin;
 import com.github.franckyi.guapi.fabric.theme.mixin.FabricTextFieldWidgetMixin;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.widget.TextFieldWidget;
@@ -17,7 +18,13 @@ public class FabricVanillaTextFieldRenderer extends TextFieldWidget implements F
     public FabricVanillaTextFieldRenderer(TextField node) {
         super(MinecraftClient.getInstance().textRenderer, node.getX(), node.getY(), node.getWidth(), node.getHeight(), node.getLabel().get());
         this.node = node;
-        initLabeled(node, this);
+        active = !node.isDisabled();
+        node.xProperty().addListener(newVal -> x = newVal + 1);
+        node.yProperty().addListener(newVal -> y = newVal + 1);
+        node.widthProperty().addListener(newVal -> setWidth(newVal - 2));
+        node.heightProperty().addListener(newVal -> ((FabricClickableWidgetMixin) this).setHeight(newVal - 2));
+        node.disabledProperty().addListener(newVal -> active = !newVal);
+        node.labelProperty().addListener(newVal -> setMessage(newVal.get()));
         setMaxLength(node.getMaxLength());
         setText(node.getText());
         setCursorToStart(); // fix in order to render text

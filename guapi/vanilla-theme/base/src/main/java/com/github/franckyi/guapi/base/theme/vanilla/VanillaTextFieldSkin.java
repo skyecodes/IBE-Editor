@@ -16,8 +16,9 @@ public class VanillaTextFieldSkin extends DelegatedSkin<TextField> {
     public void render(TextField node, Matrices matrices, int mouseX, int mouseY, float delta) {
         super.render(node, matrices, mouseX, mouseY, delta);
         if (!(node.isValidationForced() || node.getValidator().test(node.getText()))) {
-            Game.getClient().getRenderer().drawRectangle(matrices, node.getX() - 1, node.getY() - 1,
-                    node.getX() + node.getWidth() + 1, node.getY() + node.getHeight() + 1, Color.rgba(1, 0, 0, 0.8));
+            drawBorder(node, matrices, Color.rgba(1, 0, 0, 0.8));
+        } else if (node.isSuggested()) {
+            drawBorder(node, matrices, Color.rgba(0, 1, 0, 0.8));
         }
     }
 
@@ -29,5 +30,10 @@ public class VanillaTextFieldSkin extends DelegatedSkin<TextField> {
     @Override
     public int computeHeight(TextField node) {
         return 20;
+    }
+
+    private void drawBorder(TextField node, Matrices matrices, int color) {
+        Game.getClient().getRenderer().drawRectangle(matrices, node.getX(), node.getY(),
+                node.getX() + node.getWidth(), node.getY() + node.getHeight(), color);
     }
 }

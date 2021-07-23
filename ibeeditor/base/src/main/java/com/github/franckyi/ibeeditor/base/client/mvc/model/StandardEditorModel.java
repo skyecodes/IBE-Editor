@@ -4,7 +4,7 @@ import com.github.franckyi.gameadapter.api.common.text.Text;
 
 import java.util.function.Consumer;
 
-public abstract class StandardEditorModel<T, C extends EditorCategoryModel> extends ListEditorModel<C> {
+public abstract class StandardEditorModel<T, C extends CategoryModel> extends ListEditorModel<C> {
     private final T target;
     private final Consumer<T> action;
     private final Text disabledTooltip;

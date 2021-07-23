@@ -5,7 +5,7 @@ import com.github.franckyi.ibeeditor.base.client.mvc.controller.ConfigEditorCont
 import com.github.franckyi.ibeeditor.base.client.mvc.model.ConfigEditorModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.view.ConfigEditorView;
 
-public class ConfigEditorMVC implements SimpleMVC<ConfigEditorModel, ConfigEditorView, ConfigEditorController> {
+public final class ConfigEditorMVC implements SimpleMVC<ConfigEditorModel, ConfigEditorView, ConfigEditorController> {
     public static final ConfigEditorMVC INSTANCE = new ConfigEditorMVC();
 
     protected ConfigEditorMVC() {

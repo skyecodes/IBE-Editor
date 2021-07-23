@@ -16,8 +16,8 @@ public class VanillaEnumButtonSkin extends AbstractVanillaButtonSkin<EnumButton>
     @Override
     @SuppressWarnings("unchecked")
     public int computeWidth(EnumButton node) {
-        return Math.max(90, Arrays.stream(node.getValues())
-                .mapToInt(e -> Game.getClient().getRenderer().getFontWidth((Text) node.getTextFactory().apply(node.getValue())))
-                .max().orElse(0) + 20);
+        return Arrays.stream(node.getValues())
+                .mapToInt(e -> Game.getClient().getRenderer().getFontWidth((Text) node.getTextFactory().apply(e)))
+                .max().orElse(0) + 20;
     }
 }

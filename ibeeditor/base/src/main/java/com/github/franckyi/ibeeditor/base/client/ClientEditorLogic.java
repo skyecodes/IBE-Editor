@@ -6,6 +6,7 @@ import com.github.franckyi.gameadapter.api.common.text.Text;
 import com.github.franckyi.gameadapter.api.common.world.*;
 import com.github.franckyi.guapi.Guapi;
 import com.github.franckyi.ibeeditor.base.common.EditorType;
+import com.github.franckyi.ibeeditor.base.common.Messages;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -15,10 +16,14 @@ import static com.github.franckyi.guapi.GuapiHelper.*;
 
 public final class ClientEditorLogic {
     private static final Logger LOGGER = LogManager.getLogger();
-    private static final Text ERROR_CREATIVE_ITEM = translated("ibeeditor.message.error_creative_mode").with(translated("ibeeditor.text.item")).red();
-    private static final Text ERROR_SERVERMOD_ITEM = translated("ibeeditor.message.error_server_mod").with(translated("ibeeditor.text.item")).red();
-    private static final Text ERROR_SERVERMOD_BLOCK = translated("ibeeditor.message.error_server_mod").with(translated("ibeeditor.text.block")).red();
-    private static final Text ERROR_SERVERMOD_ENTITY = translated("ibeeditor.message.error_server_mod").with(translated("ibeeditor.text.entity")).red();
+    private static final Text ERROR_CREATIVE_ITEM = Messages.withPrefix(translated("ibeeditor.message.error_creative_mode")
+            .with(translated("ibeeditor.text.item"))).red();
+    private static final Text ERROR_SERVERMOD_ITEM = Messages.withPrefix(translated("ibeeditor.message.error_server_mod")
+            .with(translated("ibeeditor.text.item"))).red();
+    private static final Text ERROR_SERVERMOD_BLOCK = Messages.withPrefix(translated("ibeeditor.message.error_server_mod")
+            .with(translated("ibeeditor.text.block"))).red();
+    private static final Text ERROR_SERVERMOD_ENTITY = Messages.withPrefix(translated("ibeeditor.message.error_server_mod")
+            .with(translated("ibeeditor.text.entity"))).red();
 
     public static void openWorldEditor(EditorType type) {
         LOGGER.debug("Opening world editor with type={}", type);

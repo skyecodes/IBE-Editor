@@ -6,6 +6,7 @@ import com.github.franckyi.gameadapter.api.common.world.Block;
 import com.github.franckyi.gameadapter.api.common.world.Entity;
 import com.github.franckyi.gameadapter.api.common.world.Item;
 import com.github.franckyi.gameadapter.api.common.world.Player;
+import com.github.franckyi.ibeeditor.base.common.Messages;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -13,9 +14,12 @@ import static com.github.franckyi.guapi.GuapiHelper.*;
 
 public final class ServerEditorLogic {
     private static final Logger LOGGER = LogManager.getLogger();
-    private static final Text ITEM_UPDATED = translated("ibeeditor.message.success_update").with(translated("ibeeditor.text.item")).green();
-    private static final Text BLOCK_UPDATED = translated("ibeeditor.message.success_update").with(translated("ibeeditor.text.block")).green();
-    private static final Text ENTITY_UPDATED = translated("ibeeditor.message.success_update").with(translated("ibeeditor.text.entity")).green();
+    private static final Text ITEM_UPDATED = Messages.withPrefix(translated("ibeeditor.message.success_update")
+            .with(translated("ibeeditor.text.item"))).green();
+    private static final Text BLOCK_UPDATED = Messages.withPrefix(translated("ibeeditor.message.success_update")
+            .with(translated("ibeeditor.text.block"))).green();
+    private static final Text ENTITY_UPDATED = Messages.withPrefix(translated("ibeeditor.message.success_update")
+            .with(translated("ibeeditor.text.entity"))).green();
 
     public static void updatePlayerMainHandItem(Player player, Item item) {
         LOGGER.debug("Updating {}'s main hand item to {}", player.toString(), item);

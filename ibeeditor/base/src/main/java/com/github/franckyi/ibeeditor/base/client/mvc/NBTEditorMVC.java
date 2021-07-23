@@ -5,7 +5,7 @@ import com.github.franckyi.ibeeditor.base.client.mvc.controller.NBTEditorControl
 import com.github.franckyi.ibeeditor.base.client.mvc.model.NBTEditorModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.view.NBTEditorView;
 
-public class NBTEditorMVC implements SimpleMVC<NBTEditorModel, NBTEditorView, NBTEditorController> {
+public final class NBTEditorMVC implements SimpleMVC<NBTEditorModel, NBTEditorView, NBTEditorController> {
     public static final NBTEditorMVC INSTANCE = new NBTEditorMVC();
 
     protected NBTEditorMVC() {

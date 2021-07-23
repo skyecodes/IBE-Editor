@@ -2,6 +2,7 @@ package com.github.franckyi.ibeeditor.base.client;
 
 import com.github.franckyi.gameadapter.Game;
 import com.github.franckyi.gameadapter.api.common.text.Text;
+import com.github.franckyi.ibeeditor.base.common.Messages;
 import com.github.franckyi.ibeeditor.base.common.Networking;
 import com.github.franckyi.ibeeditor.base.common.packet.BlockEditorResponsePacket;
 import com.github.franckyi.ibeeditor.base.common.packet.EditorCommandPacket;
@@ -14,9 +15,12 @@ import static com.github.franckyi.guapi.GuapiHelper.*;
 
 public final class ClientNetworkReceiver {
     private static final Logger LOGGER = LogManager.getLogger();
-    private static final Text NO_ITEM_FOUND_TEXT = translated("ibeeditor.message.no_target_found").with(translated("ibeeditor.text.item")).red();
-    private static final Text NO_BLOCK_FOUND_TEXT = translated("ibeeditor.message.no_target_found").with(translated("ibeeditor.text.block")).red();
-    private static final Text NO_ENTITY_FOUND_TEXT = translated("ibeeditor.message.no_target_found").with(translated("ibeeditor.text.entity")).red();
+    private static final Text NO_ITEM_FOUND_TEXT = Messages.withPrefix(translated("ibeeditor.message.no_target_found")
+            .with(translated("ibeeditor.text.item"))).red();
+    private static final Text NO_BLOCK_FOUND_TEXT = Messages.withPrefix(translated("ibeeditor.message.no_target_found")
+            .with(translated("ibeeditor.text.block"))).red();
+    private static final Text NO_ENTITY_FOUND_TEXT = Messages.withPrefix(translated("ibeeditor.message.no_target_found")
+            .with(translated("ibeeditor.text.entity"))).red();
 
     public static void onBlockEditorResponse(BlockEditorResponsePacket packet) {
         log(Networking.BLOCK_EDITOR_RESPONSE);
