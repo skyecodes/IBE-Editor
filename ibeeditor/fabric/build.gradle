@@ -58,7 +58,6 @@ loom {
     runs {
         client {
             vmArg "-Dfabric.log.level=debug"
-            sourceSets
         }
         server {
             vmArg "-Dfabric.log.level=debug"

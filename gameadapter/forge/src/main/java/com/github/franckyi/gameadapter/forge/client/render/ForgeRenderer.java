@@ -9,6 +9,9 @@ import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class ForgeRenderer implements Renderer {
     public static final Renderer INSTANCE = new ForgeRenderer();
 
@@ -54,7 +57,7 @@ public class ForgeRenderer implements Renderer {
     }
 
     @Override
-    public void drawTooltip(Matrices matrices, Text text, int x, int y) {
-        Minecraft.getInstance().screen.renderTooltip(matrices.getMatrixStack(), (ITextComponent) text.get(), x, y);
+    public void drawTooltip(Matrices matrices, List<Text> text, int x, int y) {
+        Minecraft.getInstance().screen.renderComponentTooltip(matrices.getMatrixStack(), text.stream().<ITextComponent>map(Text::get).collect(Collectors.toList()), x, y);
     }
 }

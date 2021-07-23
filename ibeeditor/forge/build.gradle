@@ -18,7 +18,7 @@ minecraft {
     mappings channel: mappings_channel, version: mappings_version
     runs {
         client {
-            workingDirectory project.file('../run')
+            workingDirectory rootProject.file('run')
             property 'mixin.env.remapRefMap', 'true'
             property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
             property 'forge.logging.console.level', 'debug'
@@ -40,7 +40,7 @@ minecraft {
         }
 
         server {
-            workingDirectory project.file('../run')
+            workingDirectory rootProject.file('run')
             property 'mixin.env.remapRefMap', 'true'
             property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
             property 'forge.logging.console.level', 'debug'

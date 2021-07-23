@@ -167,15 +167,7 @@ public interface Node extends ScreenEventHandler, Renderable, EventTarget {
         paddingProperty().setValue(value);
     }
 
-    default Text getTooltip() {
-        return tooltipProperty().getValue();
-    }
-
-    ObjectProperty<Text> tooltipProperty();
-
-    default void setTooltip(Text value) {
-        tooltipProperty().setValue(value);
-    }
+    ObservableList<Text> getTooltip();
 
     default Parent getParent() {
         return parentProperty().getValue();

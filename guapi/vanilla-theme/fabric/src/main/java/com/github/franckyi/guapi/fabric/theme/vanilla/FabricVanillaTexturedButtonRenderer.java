@@ -9,7 +9,7 @@ public class FabricVanillaTexturedButtonRenderer extends ButtonWidget implements
     private final TexturedButton node;
 
     public FabricVanillaTexturedButtonRenderer(TexturedButton node) {
-        super(node.getX(), node.getY(), node.getWidth(), node.getHeight(), node.tooltipProperty().hasValue() ? node.getTooltip().get() : LiteralText.EMPTY, button -> {
+        super(node.getX(), node.getY(), node.getWidth(), node.getHeight(), node.getTooltip().isEmpty() ? LiteralText.EMPTY : node.getTooltip().get(0).get(), button -> {
         });
         this.node = node;
         initNode(node, this);

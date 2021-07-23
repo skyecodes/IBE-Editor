@@ -9,6 +9,9 @@ import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.util.Identifier;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class FabricRenderer implements Renderer {
     public static final FabricRenderer INSTANCE = new FabricRenderer();
 
@@ -54,7 +57,7 @@ public class FabricRenderer implements Renderer {
     }
 
     @Override
-    public void drawTooltip(Matrices matrices, Text text, int x, int y) {
-        MinecraftClient.getInstance().currentScreen.renderTooltip(matrices.getMatrixStack(), (net.minecraft.text.Text) text.get(), x, y);
+    public void drawTooltip(Matrices matrices, List<Text> text, int x, int y) {
+        MinecraftClient.getInstance().currentScreen.renderTooltip(matrices.getMatrixStack(), text.stream().<net.minecraft.text.Text>map(Text::get).collect(Collectors.toList()), x, y);
     }
 }

@@ -8,12 +8,10 @@ import com.github.franckyi.gameadapter.api.common.world.Entity;
 import com.github.franckyi.gameadapter.api.common.world.Item;
 import com.github.franckyi.guapi.Guapi;
 import com.github.franckyi.guapi.api.node.Node;
-import com.github.franckyi.ibeeditor.base.client.mvc.IBEEditorMVC;
-import com.github.franckyi.ibeeditor.base.client.mvc.config.model.ConfigEditorModelImpl;
-import com.github.franckyi.ibeeditor.base.client.mvc.editor.nbt.model.NBTEditor;
-import com.github.franckyi.ibeeditor.base.client.mvc.editor.standard.model.BlockEditorModel;
-import com.github.franckyi.ibeeditor.base.client.mvc.editor.standard.model.EntityEditorModel;
-import com.github.franckyi.ibeeditor.base.client.mvc.editor.standard.model.ItemEditorModel;
+import com.github.franckyi.ibeeditor.base.client.mvc.ConfigEditorMVC;
+import com.github.franckyi.ibeeditor.base.client.mvc.NBTEditorMVC;
+import com.github.franckyi.ibeeditor.base.client.mvc.StandardEditorMVC;
+import com.github.franckyi.ibeeditor.base.client.mvc.model.*;
 
 import java.util.function.Consumer;
 
@@ -21,23 +19,23 @@ import static com.github.franckyi.guapi.GuapiHelper.*;
 
 public final class ModScreenHandler {
     public static void openItemEditorScreen(Item item, Consumer<Item> action, Text disabledTooltip) {
-        openScaledScreen(mvc(IBEEditorMVC.STANDARD_EDITOR, new ItemEditorModel(item, action, disabledTooltip)));
+        openScaledScreen(mvc(StandardEditorMVC.INSTANCE, new ItemEditorModel(item, action, disabledTooltip)));
     }
 
     public static void openBlockEditorScreen(Block block, Consumer<Block> action, Text disabledTooltip) {
-        openScaledScreen(mvc(IBEEditorMVC.STANDARD_EDITOR, new BlockEditorModel(block, action, disabledTooltip)));
+        openScaledScreen(mvc(StandardEditorMVC.INSTANCE, new BlockEditorModel(block, action, disabledTooltip)));
     }
 
     public static void openEntityEditorScreen(Entity entity, Consumer<Entity> action, Text disabledTooltip) {
-        openScaledScreen(mvc(IBEEditorMVC.STANDARD_EDITOR, new EntityEditorModel(entity, action, disabledTooltip)));
+        openScaledScreen(mvc(StandardEditorMVC.INSTANCE, new EntityEditorModel(entity, action, disabledTooltip)));
     }
 
     public static void openNBTEditorScreen(CompoundTag tag, Consumer<CompoundTag> action, Text disabledTooltip) {
-        openScaledScreen(mvc(IBEEditorMVC.NBT_EDITOR, new NBTEditor(tag, action, disabledTooltip)));
+        openScaledScreen(mvc(NBTEditorMVC.INSTANCE, new NBTEditorModel(tag, action, disabledTooltip)));
     }
 
     public static void openSettingsScreen() {
-        openScaledScreen(mvc(IBEEditorMVC.CONFIG_EDITOR, new ConfigEditorModelImpl()));
+        openScaledScreen(mvc(ConfigEditorMVC.INSTANCE, new ConfigEditorModel()));
     }
 
     private static void openScaledScreen(Node root) {

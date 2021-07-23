@@ -9,7 +9,7 @@ public class ForgeVanillaTexturedButtonRenderer extends Button implements ForgeV
     private final TexturedButton node;
 
     public ForgeVanillaTexturedButtonRenderer(TexturedButton node) {
-        super(node.getX(), node.getY(), node.getWidth(), node.getHeight(), node.tooltipProperty().hasValue() ? node.getTooltip().get() : StringTextComponent.EMPTY, button -> {
+        super(node.getX(), node.getY(), node.getWidth(), node.getHeight(), node.getTooltip().isEmpty() ? StringTextComponent.EMPTY : node.getTooltip().get(0).get(), button -> {
         });
         this.node = node;
         initNode(node, this);

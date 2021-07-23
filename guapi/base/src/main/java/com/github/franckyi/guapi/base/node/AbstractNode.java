@@ -39,7 +39,7 @@ public abstract class AbstractNode implements Node {
 
     private final IntegerProperty backgroundColorProperty = DataBindings.getPropertyFactory().createIntegerProperty(DEFAULT_BACKGROUND_COLOR);
     private final ObjectProperty<Insets> paddingProperty = DataBindings.getPropertyFactory().createObjectProperty(Insets.NONE);
-    private final ObjectProperty<Text> tooltipProperty = DataBindings.getPropertyFactory().createObjectProperty();
+    private final ObservableList<Text> tooltip = DataBindings.getObservableListFactory().createObservableArrayList();
 
     protected final ObjectProperty<Parent> parentProperty = DataBindings.getPropertyFactory().createObjectProperty();
     protected final ObjectProperty<Scene> sceneProperty = DataBindings.getPropertyFactory().createObjectProperty();
@@ -171,8 +171,8 @@ public abstract class AbstractNode implements Node {
     }
 
     @Override
-    public ObjectProperty<Text> tooltipProperty() {
-        return tooltipProperty;
+    public ObservableList<Text> getTooltip() {
+        return tooltip;
     }
 
     @Override

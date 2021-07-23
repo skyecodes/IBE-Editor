@@ -72,7 +72,7 @@ public interface GenericNodeBuilder<N extends Node> extends Node, Builder<N> {
     }
 
     default N tooltip(Text value) {
-        return with(n -> n.setTooltip(value));
+        return with(n -> n.getTooltip().add(value));
     }
 
     default N visible(boolean value) {
