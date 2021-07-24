@@ -3,22 +3,21 @@ package com.github.franckyi.gameadapter.fabric.common.world;
 import com.github.franckyi.gameadapter.api.common.tag.CompoundTag;
 import com.github.franckyi.gameadapter.api.common.world.Item;
 import com.github.franckyi.gameadapter.fabric.common.nbt.FabricCompoundTag;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 
 public class FabricItem implements Item {
-    private final ItemStack item;
+    private final net.minecraft.item.ItemStack item;
     private final CompoundTag data;
 
-    public FabricItem(ItemStack item) {
+    public FabricItem(net.minecraft.item.ItemStack item) {
         this(item, new FabricCompoundTag(item.writeNbt(new NbtCompound())));
     }
 
     public FabricItem(CompoundTag data) {
-        this(ItemStack.fromNbt(data.get()), data);
+        this(net.minecraft.item.ItemStack.fromNbt(data.get()), data);
     }
 
-    private FabricItem(ItemStack item, CompoundTag data) {
+    private FabricItem(net.minecraft.item.ItemStack item, CompoundTag data) {
         this.item = item;
         this.data = data;
     }
@@ -30,7 +29,7 @@ public class FabricItem implements Item {
 
     @Override
     @SuppressWarnings("unchecked")
-    public ItemStack get() {
+    public net.minecraft.item.ItemStack get() {
         return item;
     }
 

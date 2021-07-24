@@ -21,6 +21,8 @@ public interface GameCommon {
 
     Item createItem(CompoundTag tag);
 
+    Item createItem(String id);
+
     Block createBlock(CompoundTag state, CompoundTag data);
 
     Entity createEntity(CompoundTag tag);
@@ -34,6 +36,8 @@ public interface GameCommon {
     Registries getRegistries();
 
     <P> PlayerFactory<P> getPlayerFactory();
+
+    String translate(String translationKey);
 
     interface PlayerFactory<P> {
         Player createPlayer(P player);

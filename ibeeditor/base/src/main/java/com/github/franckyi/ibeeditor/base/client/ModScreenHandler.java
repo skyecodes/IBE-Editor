@@ -8,12 +8,13 @@ import com.github.franckyi.gameadapter.api.common.world.Entity;
 import com.github.franckyi.gameadapter.api.common.world.Item;
 import com.github.franckyi.guapi.Guapi;
 import com.github.franckyi.guapi.api.node.Node;
-import com.github.franckyi.ibeeditor.base.client.mvc.AttributeSelectionMVC;
 import com.github.franckyi.ibeeditor.base.client.mvc.ConfigEditorMVC;
 import com.github.franckyi.ibeeditor.base.client.mvc.NBTEditorMVC;
+import com.github.franckyi.ibeeditor.base.client.mvc.SelectionScreenMVC;
 import com.github.franckyi.ibeeditor.base.client.mvc.StandardEditorMVC;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.*;
 
+import java.util.List;
 import java.util.function.Consumer;
 
 import static com.github.franckyi.guapi.GuapiHelper.*;
@@ -50,7 +51,7 @@ public final class ModScreenHandler {
         }));
     }
 
-    public static void openAttributeScreen(String attributeName, Consumer<String> action) {
-        openScaledScreen(mvc(AttributeSelectionMVC.INSTANCE, new AttributeSelectionModel(attributeName, action)));
+    public static void openSelectionScreen(String title, String attributeName, List<? extends SelectionItemModel> items, Consumer<String> action) {
+        openScaledScreen(mvc(SelectionScreenMVC.INSTANCE, new SelectionScreenModel(title, attributeName, items, action)));
     }
 }

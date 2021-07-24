@@ -6,7 +6,6 @@ import com.github.franckyi.gameadapter.api.common.world.Player;
 import com.github.franckyi.gameadapter.api.common.world.World;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
 
 import java.util.UUID;
@@ -21,7 +20,7 @@ public class FabricPlayer extends FabricWorldEntity implements Player {
 
     @Override
     public Item getItemMainHand() {
-        ItemStack item = entity.inventory.getMainHandStack();
+        net.minecraft.item.ItemStack item = entity.inventory.getMainHandStack();
         return item.isEmpty() ? null : new FabricItem(item);
     }
 

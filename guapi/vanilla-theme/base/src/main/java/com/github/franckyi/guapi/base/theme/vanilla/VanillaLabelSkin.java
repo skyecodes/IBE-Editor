@@ -9,7 +9,7 @@ import com.github.franckyi.guapi.api.theme.Skin;
 import com.github.franckyi.guapi.api.util.Align;
 import com.github.franckyi.guapi.base.theme.AbstractSkin;
 
-public class VanillaLabelSkin extends AbstractSkin<Label> {
+public final class VanillaLabelSkin extends AbstractSkin<Label> {
     public static final Skin<Label> INSTANCE = new VanillaLabelSkin();
 
     private VanillaLabelSkin() {

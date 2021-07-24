@@ -21,6 +21,10 @@ import com.github.franckyi.gameadapter.forge.common.world.ForgePlayer;
 import com.mojang.brigadier.Command;
 import net.minecraft.command.CommandSource;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.LanguageMap;
 import net.minecraftforge.fml.loading.FMLPaths;
 
 import java.nio.file.Path;
@@ -33,7 +37,8 @@ public final class ForgeGameCommon implements GameCommon {
     }
 
     @Override
-    public TextComponentFactory getTextComponentFactory() {
+    @SuppressWarnings("unchecked")
+    public TextComponentFactory<ITextComponent> getTextComponentFactory() {
         return ForgeTextComponentFactory.INSTANCE;
     }
 
@@ -45,6 +50,11 @@ public final class ForgeGameCommon implements GameCommon {
     @Override
     public Item createItem(CompoundTag tag) {
         return new ForgeItem(tag);
+    }
+
+    @Override
+    public Item createItem(String id) {
+        return new ForgeItem(new ItemStack(net.minecraftforge.registries.ForgeRegistries.ITEMS.getValue(ResourceLocation.tryParse(id))));
     }
 
     @Override
@@ -81,5 +91,10 @@ public final class ForgeGameCommon implements GameCommon {
     @SuppressWarnings("unchecked")
     public PlayerFactory<PlayerEntity> getPlayerFactory() {
         return ForgePlayer::new;
+    }
+
+    @Override
+    public String translate(String translationKey) {
+        return LanguageMap.getInstance().getOrDefault(translationKey);
     }
 }

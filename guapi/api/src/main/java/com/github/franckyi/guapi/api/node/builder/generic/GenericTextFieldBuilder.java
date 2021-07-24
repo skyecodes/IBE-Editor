@@ -1,7 +1,9 @@
 package com.github.franckyi.guapi.api.node.builder.generic;
 
+import com.github.franckyi.gameadapter.api.common.text.Text;
 import com.github.franckyi.guapi.api.node.TextField;
 
+import java.util.Collection;
 import java.util.function.Predicate;
 
 public interface GenericTextFieldBuilder<N extends TextField> extends TextField, GenericLabeledBuilder<N> {
@@ -19,5 +21,17 @@ public interface GenericTextFieldBuilder<N extends TextField> extends TextField,
 
     default N validationForced(boolean value) {
         return with(n -> n.setValidationForced(value));
+    }
+
+    default N suggestions(String... value) {
+        return with(n -> n.getSuggestions().setAll(value));
+    }
+
+    default N suggestion(Collection<? extends String> value) {
+        return with(n -> n.getSuggestions().setAll(value));
+    }
+
+    default N placeholder(Text value) {
+        return with(n -> n.setPlaceholder(value));
     }
 }

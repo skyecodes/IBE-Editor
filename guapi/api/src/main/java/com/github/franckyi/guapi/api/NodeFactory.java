@@ -1,6 +1,7 @@
 package com.github.franckyi.guapi.api;
 
 import com.github.franckyi.gameadapter.api.common.text.Text;
+import com.github.franckyi.gameadapter.api.common.world.Item;
 import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.api.node.TreeView;
 import com.github.franckyi.guapi.api.node.builder.*;
@@ -48,6 +49,12 @@ public interface NodeFactory {
     ImageViewBuilder createImageView(String id, int imageWidth, int imageHeight);
 
     ImageViewBuilder createImageView(String id, Consumer<ImageViewBuilder> with);
+
+    ItemViewBuilder createItemView();
+
+    ItemViewBuilder createItemView(Item id);
+
+    ItemViewBuilder createItemView(Consumer<ItemViewBuilder> with);
 
     LabelBuilder createLabel();
 

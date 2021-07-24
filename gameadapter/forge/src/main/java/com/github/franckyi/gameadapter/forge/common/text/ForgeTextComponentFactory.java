@@ -15,14 +15,4 @@ public final class ForgeTextComponentFactory implements TextComponentFactory<ITe
     public ITextComponent createComponentFromText(Text text) {
         return ITextComponent.Serializer.fromJson(TextHandler.getSerializer().toJson(text));
     }
-
-    @Override
-    public Text createTextFromComponent(ITextComponent component) {
-        return TextHandler.getSerializer().fromJson(ITextComponent.Serializer.toJson(component), Text.class);
-    }
-
-    @Override
-    public String getRawTextFromComponent(ITextComponent component) {
-        return component.getString();
-    }
 }

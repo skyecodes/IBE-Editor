@@ -4,7 +4,7 @@ import com.github.franckyi.guapi.api.theme.Theme;
 import com.github.franckyi.guapi.api.util.NodeType;
 import com.github.franckyi.guapi.base.theme.vanilla.*;
 
-public class VanillaTheme extends AbstractTheme {
+public final class VanillaTheme extends AbstractTheme {
     public static final Theme INSTANCE = new VanillaTheme();
 
     private VanillaTheme() {
@@ -12,6 +12,7 @@ public class VanillaTheme extends AbstractTheme {
         registerSkinInstance(NodeType.HBOX, VanillaHBoxSkin.INSTANCE);
         registerSkinInstance(NodeType.VBOX, VanillaVBoxSkin.INSTANCE);
         registerSkinInstance(NodeType.IMAGE_VIEW, VanillaImageViewSkin.INSTANCE);
+        registerSkinInstance(NodeType.ITEM_VIEW, VanillaItemViewSkin.INSTANCE);
         delegateSkinRenderer(NodeType.BUTTON, VanillaButtonSkin::new);
         delegateSkinRenderer(NodeType.TEXTURED_BUTTON, VanillaTexturedButtonSkin::new);
         delegateSkinRenderer(NodeType.ENUM_BUTTON, VanillaEnumButtonSkin::new);

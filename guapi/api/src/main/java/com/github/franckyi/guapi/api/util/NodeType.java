@@ -16,6 +16,7 @@ public final class NodeType<N extends Node> {
     public static final NodeType<EnumButton<?>> ENUM_BUTTON = new NodeType<>("EnumButton");
     public static final NodeType<ToggleButton> TOGGLE_BUTTON = new NodeType<>("ToggleButton");
     public static final NodeType<TexturedToggleButton> TEXTURED_TOGGLE_BUTTON = new NodeType<>("TexturedToggleButton");
+    public static final NodeType<ItemView> ITEM_VIEW = new NodeType<>("ItemView");
     private final String s;
 
     private NodeType(String s) {

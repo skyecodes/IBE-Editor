@@ -3,6 +3,7 @@ package com.github.franckyi.gameadapter.forge.client.render;
 import com.github.franckyi.gameadapter.api.client.render.Matrices;
 import com.github.franckyi.gameadapter.api.client.render.Renderer;
 import com.github.franckyi.gameadapter.api.common.text.Text;
+import com.github.franckyi.gameadapter.api.common.world.Item;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
@@ -59,5 +60,10 @@ public class ForgeRenderer implements Renderer {
     @Override
     public void drawTooltip(Matrices matrices, List<Text> text, int x, int y) {
         Minecraft.getInstance().screen.renderComponentTooltip(matrices.getMatrixStack(), text.stream().<ITextComponent>map(Text::get).collect(Collectors.toList()), x, y);
+    }
+
+    @Override
+    public void drawItem(Item item, int x, int y) {
+        Minecraft.getInstance().getItemRenderer().renderAndDecorateFakeItem(item.get(), x, y);
     }
 }

@@ -3,7 +3,7 @@ package com.github.franckyi.ibeeditor.base.client.mvc.model.category;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.ItemEditorModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.BooleanEntryModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.IntegerEntryModel;
-import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.StringEntryModel;
+import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.ItemSelectionEntryModel;
 
 import static com.github.franckyi.guapi.GuapiHelper.*;
 
@@ -15,7 +15,7 @@ public class ItemGeneralCategoryModel extends ItemCategoryModel {
     @Override
     protected void setupEntries() {
         getEntries().addAll(
-                new StringEntryModel(this, translated("ibeeditor.gui.item_id"), getBaseData().getString("id"), value -> getNewData().putString("id", value)),
+                new ItemSelectionEntryModel(this, translated("ibeeditor.gui.item_id"), getBaseData().getString("id"), value -> getNewData().putString("id", value)),
                 new IntegerEntryModel(this, translated("ibeeditor.gui.count"), getBaseData().getInt("Count"), value -> getNewData().putInt("Count", value)),
                 new IntegerEntryModel(this, translated("ibeeditor.gui.damage"), getBaseTag().getInt("Damage"), this::setDamage),
                 new BooleanEntryModel(this, translated("ibeeditor.gui.unbreakable"), getBaseTag().getBoolean("Unbreakable"), this::setUnbreakable)

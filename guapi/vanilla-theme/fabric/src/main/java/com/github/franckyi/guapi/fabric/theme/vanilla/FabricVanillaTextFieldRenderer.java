@@ -19,17 +19,16 @@ public class FabricVanillaTextFieldRenderer extends TextFieldWidget implements F
         super(MinecraftClient.getInstance().textRenderer, node.getX(), node.getY(), node.getWidth(), node.getHeight(), node.getLabel().get());
         this.node = node;
         active = !node.isDisabled();
+        setMaxLength(node.getMaxLength());
+        setText(node.getText());
+        setFocused(node.isFocused());
+        setChangedListener(node::setText);
         node.xProperty().addListener(newVal -> x = newVal + 1);
         node.yProperty().addListener(newVal -> y = newVal + 1);
         node.widthProperty().addListener(newVal -> setWidth(newVal - 2));
         node.heightProperty().addListener(newVal -> ((FabricClickableWidgetMixin) this).setHeight(newVal - 2));
         node.disabledProperty().addListener(newVal -> active = !newVal);
         node.labelProperty().addListener(newVal -> setMessage(newVal.get()));
-        setMaxLength(node.getMaxLength());
-        setText(node.getText());
-        setCursorToStart(); // fix in order to render text
-        setFocused(node.isFocused());
-        setChangedListener(node::setText);
         node.maxLengthProperty().addListener(this::setMaxLength);
         node.textProperty().addListener(newVal -> {
             int cursor = getCursor();
@@ -42,8 +41,12 @@ public class FabricVanillaTextFieldRenderer extends TextFieldWidget implements F
         node.textRendererProperty().addListener(this::updateRenderer);
         node.cursorPositionProperty().addListener(super::setSelectionStart);
         node.highlightPositionProperty().addListener(super::setSelectionEnd);
+        node.placeholderProperty().addListener(this::updatePlaceholder);
+        node.textProperty().addListener(this::updatePlaceholder);
+        setCursorToStart(); // fix in order to render text
         updateValidator();
         updateRenderer();
+        updatePlaceholder();
     }
 
     private void updateValidator() {
@@ -65,6 +68,10 @@ public class FabricVanillaTextFieldRenderer extends TextFieldWidget implements F
             setRenderTextProvider((string, integer) -> renderText(string, integer).asOrderedText());
         }
         setCursorToStart(); // fix in order to render text
+    }
+
+    private void updatePlaceholder() {
+        setSuggestion(getText().isEmpty() ? node.getPlaceholder().getRawText() : null);
     }
 
     @Override

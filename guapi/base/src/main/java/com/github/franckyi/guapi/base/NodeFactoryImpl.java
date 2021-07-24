@@ -1,6 +1,7 @@
 package com.github.franckyi.guapi.base;
 
 import com.github.franckyi.gameadapter.api.common.text.Text;
+import com.github.franckyi.gameadapter.api.common.world.Item;
 import com.github.franckyi.guapi.api.NodeFactory;
 import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.api.node.TreeView;
@@ -114,6 +115,21 @@ public class NodeFactoryImpl implements NodeFactory {
     @Override
     public ImageViewBuilder createImageView(String id, Consumer<ImageViewBuilder> with) {
         return createImageView(id).with(with);
+    }
+
+    @Override
+    public ItemViewBuilder createItemView() {
+        return new ItemViewImpl();
+    }
+
+    @Override
+    public ItemViewBuilder createItemView(Item item) {
+        return new ItemViewImpl(item);
+    }
+
+    @Override
+    public ItemViewBuilder createItemView(Consumer<ItemViewBuilder> with) {
+        return createItemView().with(with);
     }
 
     @Override

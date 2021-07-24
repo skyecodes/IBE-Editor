@@ -14,14 +14,4 @@ public final class FabricTextComponentFactory implements TextComponentFactory<ne
     public net.minecraft.text.Text createComponentFromText(Text text) {
         return net.minecraft.text.Text.Serializer.fromJson(TextHandler.getSerializer().toJson(text));
     }
-
-    @Override
-    public Text createTextFromComponent(net.minecraft.text.Text component) {
-        return TextHandler.getSerializer().fromJson(net.minecraft.text.Text.Serializer.toJson(component), Text.class);
-    }
-
-    @Override
-    public String getRawTextFromComponent(net.minecraft.text.Text component) {
-        return component.getString();
-    }
 }

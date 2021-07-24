@@ -1,11 +1,12 @@
 package com.github.franckyi.ibeeditor.base.client.mvc.controller.entry;
 
-import com.github.franckyi.gameadapter.Game;
+import com.github.franckyi.ibeeditor.base.client.ClientCache;
 import com.github.franckyi.ibeeditor.base.client.ModScreenHandler;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.AttributeModifierEntryModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.view.entry.AttributeModifierEntryView;
 
 public class AttributeModifierEntryController extends EntryController<AttributeModifierEntryModel, AttributeModifierEntryView> {
+
     public AttributeModifierEntryController(AttributeModifierEntryModel model, AttributeModifierEntryView view) {
         super(model, view);
     }
@@ -28,12 +29,14 @@ public class AttributeModifierEntryController extends EntryController<AttributeM
         view.getOperationButton().setValue(model.getOperation());
         view.getAmountField().setText(Double.toString(model.getAmount()));
         view.getAmountField().validProperty().addListener(model::setValid);
-        view.getAttributeNameField().getSuggestions().setAll(Game.getCommon().getRegistries().getAttributeSuggestions());
+        view.getAttributeNameField().getSuggestions().setAll(ClientCache.getAttributeSuggestions());
         view.getAttributeListButton().onAction(this::openAttributeList);
     }
 
     private void openAttributeList() {
-        ModScreenHandler.openAttributeScreen(model.getAttributeName().contains(":") ? model.getAttributeName()
-                : "minecraft:" + model.getAttributeName(), model::setAttributeName);
+        ModScreenHandler.openSelectionScreen("ibeeditor.gui.choose_attribute",
+                model.getAttributeName().contains(":") ? model.getAttributeName() : "minecraft:" + model.getAttributeName(),
+                ClientCache.getAttributeSelectionItems(), model::setAttributeName);
     }
+
 }

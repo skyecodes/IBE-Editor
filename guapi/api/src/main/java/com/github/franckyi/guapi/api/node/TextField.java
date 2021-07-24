@@ -95,6 +95,16 @@ public interface TextField extends Labeled {
 
     ObservableBooleanValue suggestedProperty();
 
+    default Text getPlaceholder() {
+        return placeholderProperty().getValue();
+    }
+
+    ObjectProperty<Text> placeholderProperty();
+
+    default void setPlaceholder(Text value) {
+        placeholderProperty().setValue(value);
+    }
+
     @FunctionalInterface
     interface TextRenderer {
         Text render(String text, int firstCharacterIndex);

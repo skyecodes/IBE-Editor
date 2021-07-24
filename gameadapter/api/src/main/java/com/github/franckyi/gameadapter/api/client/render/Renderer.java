@@ -1,6 +1,7 @@
 package com.github.franckyi.gameadapter.api.client.render;
 
 import com.github.franckyi.gameadapter.api.common.text.Text;
+import com.github.franckyi.gameadapter.api.common.world.Item;
 
 import java.util.List;
 
@@ -16,6 +17,8 @@ public interface Renderer {
     void drawTexture(Matrices matrices, String id, int x, int y, int width, int height, int imageX, int imageY, int imageWidth, int imageHeight);
 
     void drawTooltip(Matrices matrices, List<Text> text, int x, int y);
+
+    void drawItem(Item item, int x, int y);
 
     default void drawVLine(Matrices matrices, int x, int y0, int y1, int color) {
         fillRectangle(matrices, x, y0, x + 1, y1, color);

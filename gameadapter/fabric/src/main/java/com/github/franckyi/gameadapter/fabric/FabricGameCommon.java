@@ -21,8 +21,12 @@ import com.github.franckyi.gameadapter.fabric.common.world.FabricPlayer;
 import com.mojang.brigadier.Command;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.Language;
+import net.minecraft.util.registry.Registry;
 
 import java.nio.file.Path;
 import java.util.function.Function;
@@ -47,6 +51,11 @@ public final class FabricGameCommon implements GameCommon {
     @Override
     public Item createItem(CompoundTag tag) {
         return new FabricItem(tag);
+    }
+
+    @Override
+    public Item createItem(String id) {
+        return new FabricItem(new ItemStack(Registry.ITEM.get(Identifier.tryParse(id))));
     }
 
     @Override
@@ -83,5 +92,10 @@ public final class FabricGameCommon implements GameCommon {
     @SuppressWarnings("unchecked")
     public PlayerFactory<PlayerEntity> getPlayerFactory() {
         return FabricPlayer::new;
+    }
+
+    @Override
+    public String translate(String key) {
+        return Language.getInstance().get(key);
     }
 }

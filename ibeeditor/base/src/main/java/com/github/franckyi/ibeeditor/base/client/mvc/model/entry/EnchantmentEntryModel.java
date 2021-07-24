@@ -1,6 +1,6 @@
 package com.github.franckyi.ibeeditor.base.client.mvc.model.entry;
 
-import com.github.franckyi.gameadapter.api.common.Enchantment;
+import com.github.franckyi.gameadapter.api.common.registry.Enchantment;
 import com.github.franckyi.guapi.api.util.Color;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.CategoryModel;
 

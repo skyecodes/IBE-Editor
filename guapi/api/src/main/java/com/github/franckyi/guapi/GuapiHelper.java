@@ -6,6 +6,7 @@ import com.github.franckyi.gameadapter.api.common.text.TextEvent;
 import com.github.franckyi.gameadapter.api.common.text.TextFactory;
 import com.github.franckyi.gameadapter.api.common.text.builder.PlainTextBuilder;
 import com.github.franckyi.gameadapter.api.common.text.builder.TranslatedTextBuilder;
+import com.github.franckyi.gameadapter.api.common.world.Item;
 import com.github.franckyi.guapi.api.NodeFactory;
 import com.github.franckyi.guapi.api.mvc.Controller;
 import com.github.franckyi.guapi.api.mvc.MVC;
@@ -140,6 +141,18 @@ public final class GuapiHelper {
 
     public static ImageViewBuilder imageView(String id, Consumer<ImageViewBuilder> with) {
         return node().createImageView(id, with);
+    }
+
+    public static ItemViewBuilder itemView() {
+        return node().createItemView();
+    }
+
+    public static ItemViewBuilder itemView(Item item) {
+        return node().createItemView(item);
+    }
+
+    public static ItemViewBuilder itemView(Consumer<ItemViewBuilder> with) {
+        return node().createItemView(with);
     }
 
     public static LabelBuilder label() {

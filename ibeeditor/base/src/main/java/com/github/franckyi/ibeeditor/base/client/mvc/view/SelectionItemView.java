@@ -1,28 +1,30 @@
 package com.github.franckyi.ibeeditor.base.client.mvc.view;
 
 import com.github.franckyi.guapi.api.mvc.View;
+import com.github.franckyi.guapi.api.node.HBox;
 import com.github.franckyi.guapi.api.node.Label;
-import com.github.franckyi.guapi.api.node.Node;
-import com.github.franckyi.guapi.api.node.VBox;
 
 import static com.github.franckyi.guapi.GuapiHelper.*;
 
-public class AttributeItemView implements View {
-    private VBox root;
+public class SelectionItemView implements View {
+    private HBox root;
     private Label nameLabel;
     private Label idLabel;
 
     @Override
     public void build() {
-        root = vBox(root -> {
-            root.add(nameLabel = label());
-            root.add(idLabel = label());
-            root.fillWidth().spacing(2).align(CENTER);
+        root = hBox(root -> {
+            root.add(vBox(labels -> {
+                labels.add(nameLabel = label());
+                labels.add(idLabel = label());
+                labels.fillWidth().spacing(2);
+            }), 1);
+            root.fillHeight().spacing(5).align(CENTER);
         });
     }
 
     @Override
-    public Node getRoot() {
+    public HBox getRoot() {
         return root;
     }
 

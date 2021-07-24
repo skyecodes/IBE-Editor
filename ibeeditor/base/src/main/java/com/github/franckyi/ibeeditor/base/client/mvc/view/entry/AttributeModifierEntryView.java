@@ -1,9 +1,9 @@
 package com.github.franckyi.ibeeditor.base.client.mvc.view.entry;
 
-import com.github.franckyi.guapi.api.node.Button;
 import com.github.franckyi.guapi.api.node.EnumButton;
 import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.api.node.TextField;
+import com.github.franckyi.guapi.api.node.TexturedButton;
 import com.github.franckyi.guapi.api.util.Predicates;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.AttributeModifierEntryModel;
 
@@ -11,7 +11,7 @@ import static com.github.franckyi.guapi.GuapiHelper.*;
 
 public class AttributeModifierEntryView extends EntryView {
     private TextField attributeNameField;
-    private Button attributeListButton;
+    private TexturedButton attributeListButton;
     private EnumButton<AttributeModifierEntryModel.Slot> slotButton;
     private EnumButton<AttributeModifierEntryModel.Operation> operationButton;
     private TextField amountField;
@@ -19,7 +19,12 @@ public class AttributeModifierEntryView extends EntryView {
     @Override
     public void build() {
         super.build();
-        operationButton.valueProperty().addListener(op -> operationButton.getTooltip().setAll(op.getTooltip()));
+        operationButton.valueProperty().addListener(this::updateOperationTooltip);
+        updateOperationTooltip();
+    }
+
+    private void updateOperationTooltip() {
+        operationButton.getTooltip().setAll(operationButton.getValue().getTooltip());
     }
 
     @Override
@@ -27,8 +32,8 @@ public class AttributeModifierEntryView extends EntryView {
         return vBox(content -> {
             content.add(hBox(top -> {
                 top.add(attributeNameField = textField().prefHeight(16)
-                        .tooltip(translated("ibeeditor.gui.attribute_name")), 1);
-                top.add(attributeListButton = button(text("...")).prefWidth(20).tooltip(translated("ibeeditor.gui.choose_attribute")));
+                        .placeholder(translated("ibeeditor.gui.attribute_name")), 1);
+                top.add(attributeListButton = texturedButton("ibeeditor:textures/gui/search.png", 16, 16, false).tooltip(translated("ibeeditor.gui.choose_attribute")));
                 top.align(CENTER).spacing(2);
             }));
             content.add(hBox(bottom -> {
@@ -49,7 +54,7 @@ public class AttributeModifierEntryView extends EntryView {
         return attributeNameField;
     }
 
-    public Button getAttributeListButton() {
+    public TexturedButton getAttributeListButton() {
         return attributeListButton;
     }
 

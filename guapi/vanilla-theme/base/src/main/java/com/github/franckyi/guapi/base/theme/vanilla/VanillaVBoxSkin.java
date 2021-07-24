@@ -4,7 +4,7 @@ import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.api.node.VBox;
 import com.github.franckyi.guapi.api.theme.Skin;
 
-public class VanillaVBoxSkin extends AbstractVanillaGroupSkin<VBox> {
+public final class VanillaVBoxSkin extends AbstractVanillaGroupSkin<VBox> {
     public static final Skin<VBox> INSTANCE = new VanillaVBoxSkin();
 
     private VanillaVBoxSkin() {

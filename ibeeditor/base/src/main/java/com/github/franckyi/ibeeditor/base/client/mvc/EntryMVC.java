@@ -31,6 +31,8 @@ public final class EntryMVC implements MVC<EntryModel, EntryView, EntryControlle
                 return MVC.createViewAndBind((HideFlagEntryModel) model, HideFlagEntryView::new, HideFlagEntryController::new);
             case ATTRIBUTE_MODIFIER:
                 return MVC.createViewAndBind((AttributeModifierEntryModel) model, AttributeModifierEntryView::new, AttributeModifierEntryController::new);
+            case ITEM_SELECTION:
+                return MVC.createViewAndBind((ItemSelectionEntryModel) model, ItemSelectionEntryView::new, ItemSelectionEntryController::new);
             default:
                 throw new IllegalStateException("Unexpected value: " + model.getType());
         }

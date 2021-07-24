@@ -3,22 +3,21 @@ package com.github.franckyi.gameadapter.forge.common.world;
 import com.github.franckyi.gameadapter.api.common.tag.CompoundTag;
 import com.github.franckyi.gameadapter.api.common.world.Item;
 import com.github.franckyi.gameadapter.forge.common.nbt.ForgeCompoundTag;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 
 public class ForgeItem implements Item {
-    private final ItemStack item;
+    private final net.minecraft.item.ItemStack item;
     private final CompoundTag data;
 
-    public ForgeItem(ItemStack item) {
+    public ForgeItem(net.minecraft.item.ItemStack item) {
         this(item, new ForgeCompoundTag(item.save(new CompoundNBT())));
     }
 
     public ForgeItem(CompoundTag data) {
-        this(ItemStack.of(data.get()), data);
+        this(net.minecraft.item.ItemStack.of(data.get()), data);
     }
 
-    public ForgeItem(ItemStack item, CompoundTag data) {
+    public ForgeItem(net.minecraft.item.ItemStack item, CompoundTag data) {
         this.item = item;
         this.data = data;
     }
@@ -30,7 +29,7 @@ public class ForgeItem implements Item {
 
     @Override
     @SuppressWarnings("unchecked")
-    public ItemStack get() {
+    public net.minecraft.item.ItemStack get() {
         return item;
     }
 

@@ -1,5 +1,6 @@
 package com.github.franckyi.gameadapter.base.common.text;
 
+import com.github.franckyi.gameadapter.Game;
 import com.github.franckyi.gameadapter.api.common.text.Text;
 import com.github.franckyi.gameadapter.api.common.text.TranslatedText;
 
@@ -43,10 +44,15 @@ public abstract class AbstractTranslatedText extends AbstractText implements Tra
 
     @Override
     public void setWith(List<Text> with) {
-        if (!Objects.equals(this.with , with)) {
+        if (!Objects.equals(this.with, with)) {
             this.with = with;
             shouldUpdateComponent = true;
         }
+    }
+
+    @Override
+    public String getRawText() {
+        return (translate == null ? "" : Game.getCommon().translate(translate)) + super.getRawText();
     }
 
     @Override

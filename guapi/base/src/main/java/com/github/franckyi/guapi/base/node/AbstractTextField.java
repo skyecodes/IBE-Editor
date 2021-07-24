@@ -23,6 +23,7 @@ public abstract class AbstractTextField extends AbstractLabeled implements TextF
     private final ObservableList<String> suggestions = DataBindings.getObservableListFactory().createObservableArrayList();
     private final BooleanProperty suggestedProperty = DataBindings.getPropertyFactory().createBooleanProperty();
     private final ObservableBooleanValue suggestedPropertyReadOnly = DataBindings.getPropertyFactory().createReadOnlyProperty(suggestedProperty);
+    private final ObjectProperty<Text> placeholderProperty = DataBindings.getPropertyFactory().createObjectProperty(emptyText());
 
     protected AbstractTextField() {
         this("");
@@ -105,6 +106,11 @@ public abstract class AbstractTextField extends AbstractLabeled implements TextF
     @Override
     public ObservableBooleanValue suggestedProperty() {
         return suggestedPropertyReadOnly;
+    }
+
+    @Override
+    public ObjectProperty<Text> placeholderProperty() {
+        return placeholderProperty;
     }
 
     private void updateValid() {

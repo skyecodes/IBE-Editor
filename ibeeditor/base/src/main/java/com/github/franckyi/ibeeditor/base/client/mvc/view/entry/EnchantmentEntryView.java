@@ -1,27 +1,29 @@
 package com.github.franckyi.ibeeditor.base.client.mvc.view.entry;
 
-import com.github.franckyi.guapi.api.node.Button;
+import com.github.franckyi.guapi.api.node.TexturedButton;
 
 import static com.github.franckyi.guapi.GuapiHelper.*;
 
 public class EnchantmentEntryView extends IntegerEntryView {
-    private Button plusButton, minusButton;
+    private TexturedButton plusButton, minusButton;
 
     @Override
     public void build() {
         super.build();
         getRight().getChildren().add(1, vBox(2,
-                plusButton = button(text("+").green()).tooltip(translated("ibeeditor.gui.level_add").with(text("+1")).green()).prefSize(16, 7),
-                minusButton = button(text("-").red()).tooltip(translated("ibeeditor.gui.level_add").with(text("-1")).red()).prefSize(16, 7)
+                plusButton = texturedButton("ibeeditor:textures/gui/level_add.png", 11, 7, false)
+                        .tooltip(translated("ibeeditor.gui.level_add").with(text("+1")).green()),
+                minusButton = texturedButton("ibeeditor:textures/gui/level_remove.png", 11, 7, false)
+                        .tooltip(translated("ibeeditor.gui.level_add").with(text("-1")).red())
         ));
         getRoot().setWeight(getLabel(), 2);
     }
 
-    public Button getPlusButton() {
+    public TexturedButton getPlusButton() {
         return plusButton;
     }
 
-    public Button getMinusButton() {
+    public TexturedButton getMinusButton() {
         return minusButton;
     }
 }

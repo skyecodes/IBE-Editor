@@ -3,6 +3,7 @@ package com.github.franckyi.gameadapter.fabric.client.render;
 import com.github.franckyi.gameadapter.api.client.render.Matrices;
 import com.github.franckyi.gameadapter.api.client.render.Renderer;
 import com.github.franckyi.gameadapter.api.common.text.Text;
+import com.github.franckyi.gameadapter.api.common.world.Item;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
@@ -59,5 +60,10 @@ public class FabricRenderer implements Renderer {
     @Override
     public void drawTooltip(Matrices matrices, List<Text> text, int x, int y) {
         MinecraftClient.getInstance().currentScreen.renderTooltip(matrices.getMatrixStack(), text.stream().<net.minecraft.text.Text>map(Text::get).collect(Collectors.toList()), x, y);
+    }
+
+    @Override
+    public void drawItem(Item item, int x, int y) {
+        MinecraftClient.getInstance().getItemRenderer().renderInGui(item.get(), x, y);
     }
 }

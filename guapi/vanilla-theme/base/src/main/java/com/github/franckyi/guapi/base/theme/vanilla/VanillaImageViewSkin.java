@@ -6,7 +6,7 @@ import com.github.franckyi.guapi.api.node.ImageView;
 import com.github.franckyi.guapi.api.theme.Skin;
 import com.github.franckyi.guapi.base.theme.AbstractSkin;
 
-public class VanillaImageViewSkin extends AbstractSkin<ImageView> {
+public final class VanillaImageViewSkin extends AbstractSkin<ImageView> {
     public static final Skin<ImageView> INSTANCE = new VanillaImageViewSkin();
 
     private VanillaImageViewSkin() {

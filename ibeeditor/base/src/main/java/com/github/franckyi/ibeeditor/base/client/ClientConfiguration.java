@@ -21,14 +21,18 @@ public final class ClientConfiguration {
     public static ClientConfiguration INSTANCE;
     private static boolean changed;
 
+    private final int version;
     private int editorScale;
     private String guapiTheme;
     private DebugMode guapiDebugMode;
+    private int selectionScreenMaxItems;
 
     private ClientConfiguration() {
+        version = 0;
         editorScale = -1;
         guapiTheme = "vanilla";
         guapiDebugMode = DebugMode.OFF;
+        selectionScreenMaxItems = 50;
     }
 
     public int getEditorScale() {
@@ -60,6 +64,17 @@ public final class ClientConfiguration {
     public void setGuapiDebugMode(DebugMode guapiDebugMode) {
         if (this.guapiDebugMode != guapiDebugMode) {
             this.guapiDebugMode = guapiDebugMode;
+            changed = true;
+        }
+    }
+
+    public int getSelectionScreenMaxItems() {
+        return selectionScreenMaxItems;
+    }
+
+    public void setSelectionScreenMaxItems(int selectionScreenMaxItems) {
+        if (this.selectionScreenMaxItems != selectionScreenMaxItems) {
+            this.selectionScreenMaxItems = selectionScreenMaxItems;
             changed = true;
         }
     }

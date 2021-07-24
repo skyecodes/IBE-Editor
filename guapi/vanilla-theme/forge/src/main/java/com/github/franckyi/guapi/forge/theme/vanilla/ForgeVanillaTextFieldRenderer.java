@@ -18,18 +18,16 @@ public class ForgeVanillaTextFieldRenderer extends TextFieldWidget implements Fo
         super(Minecraft.getInstance().font, node.getX(), node.getY(), node.getWidth(), node.getHeight(), node.getLabel().get());
         this.node = node;
         active = !node.isDisabled();
+        setValue(node.getText());
+        setMaxLength(node.getMaxLength());
+        setFocused(node.isFocused());
+        setResponder(node::setText);
         node.xProperty().addListener(newVal -> x = newVal + 1);
         node.yProperty().addListener(newVal -> y = newVal + 1);
         node.widthProperty().addListener(newVal -> setWidth(newVal - 2));
         node.heightProperty().addListener(newVal -> setHeight(newVal - 2));
         node.disabledProperty().addListener(newVal -> active = !newVal);
         node.labelProperty().addListener(newVal -> setMessage(newVal.get()));
-        initLabeled(node, this);
-        setMaxLength(node.getMaxLength());
-        setValue(node.getText());
-        moveCursorToStart(); // fix in order to render text
-        setFocused(node.isFocused());
-        setResponder(node::setText);
         node.maxLengthProperty().addListener(this::setMaxLength);
         node.textProperty().addListener(newVal -> {
             int cursor = getCursorPosition();
@@ -42,8 +40,12 @@ public class ForgeVanillaTextFieldRenderer extends TextFieldWidget implements Fo
         node.textRendererProperty().addListener(this::updateRenderer);
         node.cursorPositionProperty().addListener(super::setCursorPosition);
         node.highlightPositionProperty().addListener(super::setHighlightPos);
+        node.placeholderProperty().addListener(this::updatePlaceholder);
+        node.textProperty().addListener(this::updatePlaceholder);
+        moveCursorToStart(); // fix in order to render text
         updateValidator();
         updateRenderer();
+        updatePlaceholder();
     }
 
     private void updateValidator() {
@@ -65,6 +67,10 @@ public class ForgeVanillaTextFieldRenderer extends TextFieldWidget implements Fo
             setFormatter((string, integer) -> renderText(string, integer).getVisualOrderText());
         }
         moveCursorToStart(); // fix in order to render text
+    }
+
+    private void updatePlaceholder() {
+        setSuggestion(getValue().isEmpty() ? node.getPlaceholder().getRawText() : null);
     }
 
     @Override
