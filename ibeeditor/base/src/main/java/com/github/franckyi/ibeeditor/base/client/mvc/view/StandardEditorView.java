@@ -116,7 +116,8 @@ public class StandardEditorView extends ListEditorView {
 
     private TexturedButtonBuilder createCustomButton() {
         return texturedButton("ibeeditor:textures/gui/color_custom.png", 16, 16, false)
-                .tooltip(translated("ibeeditor.gui.custom_color")); // TODO add action
+                .tooltip(translated("ibeeditor.gui.custom_color"))
+                .action(() -> ModScreenHandler.openColorSelectionScreen(textEditorSupplier.get()::addColorFormatting));
     }
 
     public TranslatedTextBuilder getHeaderText() {

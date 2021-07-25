@@ -13,6 +13,7 @@ public final class ForgeRegistries implements Registries {
     private List<RegistryEntry> blocks;
     private List<Enchantment> enchantments;
     private List<RegistryEntry> attributes;
+    private List<RegistryEntry> potions;
 
     private ForgeRegistries() {
     }
@@ -61,5 +62,16 @@ public final class ForgeRegistries implements Registries {
             )).collect(Collectors.toList());
         }
         return attributes;
+    }
+
+    @Override
+    public List<RegistryEntry> getPotions() {
+        if (potions == null) {
+            potions = net.minecraftforge.registries.ForgeRegistries.POTIONS.getEntries().stream().map(entry -> RegistryEntry.of(
+                    entry.getKey().location().toString(),
+                    entry.getValue().getDescriptionId()
+            )).collect(Collectors.toList());
+        }
+        return potions;
     }
 }

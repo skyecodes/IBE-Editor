@@ -1,13 +1,13 @@
 package com.github.franckyi.ibeeditor.base.client.mvc.controller;
 
 import com.github.franckyi.guapi.api.mvc.AbstractController;
-import com.github.franckyi.ibeeditor.base.client.mvc.model.SelectionItemModel;
-import com.github.franckyi.ibeeditor.base.client.mvc.view.SelectionItemView;
+import com.github.franckyi.ibeeditor.base.client.mvc.model.ListSelectionItemModel;
+import com.github.franckyi.ibeeditor.base.client.mvc.view.ListSelectionItemView;
 
 import static com.github.franckyi.guapi.GuapiHelper.*;
 
-public class SelectionItemController<M extends SelectionItemModel, V extends SelectionItemView> extends AbstractController<M, V> {
-    public SelectionItemController(M model, V view) {
+public class ListSelectionItemController<M extends ListSelectionItemModel, V extends ListSelectionItemView> extends AbstractController<M, V> {
+    public ListSelectionItemController(M model, V view) {
         super(model, view);
     }
 

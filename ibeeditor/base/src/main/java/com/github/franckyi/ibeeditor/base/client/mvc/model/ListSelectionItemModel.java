@@ -5,11 +5,11 @@ import com.github.franckyi.guapi.api.mvc.Model;
 
 import java.util.Locale;
 
-public class SelectionItemModel implements Model {
+public class ListSelectionItemModel implements Model {
     private final String name;
     private final String id;
 
-    public SelectionItemModel(String name, String id) {
+    public ListSelectionItemModel(String name, String id) {
         this.name = name;
         this.id = id;
     }

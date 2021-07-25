@@ -7,8 +7,8 @@ import com.github.franckyi.ibeeditor.base.client.mvc.view.entry.SelectionEntryVi
 
 import static com.github.franckyi.guapi.GuapiHelper.*;
 
-public class SelectionEntryController extends StringEntryController<SelectionEntryModel, SelectionEntryView> {
-    public SelectionEntryController(SelectionEntryModel model, SelectionEntryView view) {
+public class SelectionEntryController<M extends SelectionEntryModel, V extends SelectionEntryView> extends StringEntryController<M, V> {
+    public SelectionEntryController(M model, V view) {
         super(model, view);
     }
 
@@ -24,7 +24,7 @@ public class SelectionEntryController extends StringEntryController<SelectionEnt
     }
 
     private void openItemList() {
-        ModScreenHandler.openSelectionScreen(model.getSuggestionScreenTitle(),
+        ModScreenHandler.openListSelectionScreen(model.getSuggestionScreenTitle(),
                 model.getValue().contains(":") ? model.getValue() : "minecraft:" + model.getValue(),
                 model.getSelectionItems(), model::setValue);
     }

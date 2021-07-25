@@ -3,15 +3,15 @@ package com.github.franckyi.ibeeditor.base.client.mvc.controller;
 import com.github.franckyi.guapi.Guapi;
 import com.github.franckyi.guapi.api.mvc.AbstractController;
 import com.github.franckyi.ibeeditor.base.client.ClientConfiguration;
-import com.github.franckyi.ibeeditor.base.client.mvc.model.SelectionScreenModel;
-import com.github.franckyi.ibeeditor.base.client.mvc.view.SelectionScreenView;
+import com.github.franckyi.ibeeditor.base.client.mvc.model.ListSelectionScreenModel;
+import com.github.franckyi.ibeeditor.base.client.mvc.view.ListSelectionScreenView;
 
 import java.util.stream.Collectors;
 
 import static com.github.franckyi.guapi.GuapiHelper.*;
 
-public class SelectionScreenController extends AbstractController<SelectionScreenModel, SelectionScreenView> {
-    public SelectionScreenController(SelectionScreenModel model, SelectionScreenView view) {
+public class ListSelectionScreenController extends AbstractController<ListSelectionScreenModel, ListSelectionScreenView> {
+    public ListSelectionScreenController(ListSelectionScreenModel model, ListSelectionScreenView view) {
         super(model, view);
     }
 

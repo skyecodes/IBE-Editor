@@ -8,10 +8,7 @@ import com.github.franckyi.gameadapter.api.common.world.Entity;
 import com.github.franckyi.gameadapter.api.common.world.Item;
 import com.github.franckyi.guapi.Guapi;
 import com.github.franckyi.guapi.api.node.Node;
-import com.github.franckyi.ibeeditor.base.client.mvc.ConfigEditorMVC;
-import com.github.franckyi.ibeeditor.base.client.mvc.NBTEditorMVC;
-import com.github.franckyi.ibeeditor.base.client.mvc.SelectionScreenMVC;
-import com.github.franckyi.ibeeditor.base.client.mvc.StandardEditorMVC;
+import com.github.franckyi.ibeeditor.base.client.mvc.*;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.*;
 
 import java.util.List;
@@ -51,7 +48,11 @@ public final class ModScreenHandler {
         }));
     }
 
-    public static void openSelectionScreen(String title, String attributeName, List<? extends SelectionItemModel> items, Consumer<String> action) {
-        openScaledScreen(mvc(SelectionScreenMVC.INSTANCE, new SelectionScreenModel(title, attributeName, items, action)));
+    public static void openListSelectionScreen(String title, String attributeName, List<? extends ListSelectionItemModel> items, Consumer<String> action) {
+        openScaledScreen(mvc(ListSelectionScreenMVC.INSTANCE, new ListSelectionScreenModel(title, attributeName, items, action)));
+    }
+
+    public static void openColorSelectionScreen(Consumer<String> action) {
+        openScaledScreen(mvc(ColorSelectionScreenMVC.INSTANCE, new ColorSelectionScreenModel(action)));
     }
 }

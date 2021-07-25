@@ -6,7 +6,7 @@ import com.github.franckyi.guapi.api.node.Label;
 
 import static com.github.franckyi.guapi.GuapiHelper.*;
 
-public class SelectionItemView implements View {
+public class ListSelectionItemView implements View {
     private HBox root;
     private Label nameLabel;
     private Label idLabel;

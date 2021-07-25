@@ -2,7 +2,7 @@ package com.github.franckyi.ibeeditor.base.client.mvc.model.entry;
 
 import com.github.franckyi.gameadapter.api.common.text.Text;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.CategoryModel;
-import com.github.franckyi.ibeeditor.base.client.mvc.model.SelectionItemModel;
+import com.github.franckyi.ibeeditor.base.client.mvc.model.ListSelectionItemModel;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -21,5 +21,5 @@ public abstract class SelectionEntryModel extends StringEntryModel {
 
     public abstract String getSuggestionScreenTitle();
 
-    public abstract List<? extends SelectionItemModel> getSelectionItems();
+    public abstract List<? extends ListSelectionItemModel> getSelectionItems();
 }

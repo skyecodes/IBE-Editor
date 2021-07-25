@@ -5,13 +5,13 @@ import com.github.franckyi.guapi.api.mvc.Model;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class SelectionScreenModel implements Model {
+public class ListSelectionScreenModel implements Model {
     private final String initialValue;
-    private final List<? extends SelectionItemModel> items;
+    private final List<? extends ListSelectionItemModel> items;
     private final Consumer<String> action;
     private final String title;
 
-    public SelectionScreenModel(String title, String initialValue, List<? extends SelectionItemModel> items, Consumer<String> action) {
+    public ListSelectionScreenModel(String title, String initialValue, List<? extends ListSelectionItemModel> items, Consumer<String> action) {
         this.title = title;
         this.initialValue = initialValue;
         this.items = items;
@@ -26,7 +26,7 @@ public class SelectionScreenModel implements Model {
         return initialValue;
     }
 
-    public List<? extends SelectionItemModel> getItems() {
+    public List<? extends ListSelectionItemModel> getItems() {
         return items;
     }
 

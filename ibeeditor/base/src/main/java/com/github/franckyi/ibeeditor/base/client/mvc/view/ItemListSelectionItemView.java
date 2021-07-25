@@ -4,7 +4,7 @@ import com.github.franckyi.guapi.api.node.ItemView;
 
 import static com.github.franckyi.guapi.GuapiHelper.*;
 
-public class ItemSelectionItemView extends SelectionItemView {
+public class ItemListSelectionItemView extends ListSelectionItemView {
     private ItemView itemView;
 
     @Override

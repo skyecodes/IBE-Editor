@@ -112,6 +112,14 @@ public class TextEntryController extends ValueEntryController<TextEntryModel, Te
     }
 
     @Override
+    public void removeColorFormatting() {
+        int i = view.getTextField().getCursorPosition();
+        int j = view.getTextField().getHighlightPosition();
+        if (i == j) return;
+        resizeOtherColorFormattings(new ColorFormatting(Math.min(i, j), Math.max(i, j), null), false);
+    }
+
+    @Override
     public void addColorFormatting(String color) {
         int i = view.getTextField().getCursorPosition();
         int j = view.getTextField().getHighlightPosition();

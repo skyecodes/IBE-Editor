@@ -34,7 +34,7 @@ public class AttributeModifierEntryController extends EntryController<AttributeM
     }
 
     private void openAttributeList() {
-        ModScreenHandler.openSelectionScreen("ibeeditor.gui.attribute",
+        ModScreenHandler.openListSelectionScreen("ibeeditor.gui.attribute",
                 model.getAttributeName().contains(":") ? model.getAttributeName() : "minecraft:" + model.getAttributeName(),
                 ClientCache.getAttributeSelectionItems(), model::setAttributeName);
     }

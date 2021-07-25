@@ -3,7 +3,7 @@ package com.github.franckyi.ibeeditor.base.client.mvc.model.entry;
 import com.github.franckyi.gameadapter.api.common.text.Text;
 import com.github.franckyi.ibeeditor.base.client.ClientCache;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.CategoryModel;
-import com.github.franckyi.ibeeditor.base.client.mvc.model.SelectionItemModel;
+import com.github.franckyi.ibeeditor.base.client.mvc.model.ListSelectionItemModel;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -24,7 +24,7 @@ public class BlockSelectionEntryModel extends SelectionEntryModel {
     }
 
     @Override
-    public List<? extends SelectionItemModel> getSelectionItems() {
+    public List<? extends ListSelectionItemModel> getSelectionItems() {
         return ClientCache.getBlockSelectionItems();
     }
 }

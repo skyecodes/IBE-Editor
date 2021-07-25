@@ -2,19 +2,19 @@ package com.github.franckyi.ibeeditor.base.client;
 
 import com.github.franckyi.gameadapter.Game;
 import com.github.franckyi.gameadapter.api.common.registry.RegistryEntry;
-import com.github.franckyi.ibeeditor.base.client.mvc.model.ItemSelectionItemModel;
-import com.github.franckyi.ibeeditor.base.client.mvc.model.SelectionItemModel;
+import com.github.franckyi.ibeeditor.base.client.mvc.model.ItemListSelectionItemModel;
+import com.github.franckyi.ibeeditor.base.client.mvc.model.ListSelectionItemModel;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 public final class ClientCache {
     private static List<String> itemSuggestions;
-    private static List<ItemSelectionItemModel> itemSelectionItems;
+    private static List<ItemListSelectionItemModel> itemSelectionItems;
     private static List<String> blockSuggestions;
-    private static List<ItemSelectionItemModel> blockSelectionItems;
+    private static List<ItemListSelectionItemModel> blockSelectionItems;
     private static List<String> attributeSuggestions;
-    private static List<SelectionItemModel> attributeSelectionItems;
+    private static List<ListSelectionItemModel> attributeSelectionItems;
     private static List<String> potionSuggestions;
 
     public static List<String> getItemSuggestions() {
@@ -24,7 +24,7 @@ public final class ClientCache {
         return itemSuggestions;
     }
 
-    public static List<ItemSelectionItemModel> getItemSelectionItems() {
+    public static List<ItemListSelectionItemModel> getItemSelectionItems() {
         if (itemSelectionItems == null) {
             itemSelectionItems = getItemSelectionItems(Game.getCommon().getRegistries().getItems());
         }
@@ -38,7 +38,7 @@ public final class ClientCache {
         return blockSuggestions;
     }
 
-    public static List<ItemSelectionItemModel> getBlockSelectionItems() {
+    public static List<ItemListSelectionItemModel> getBlockSelectionItems() {
         if (blockSelectionItems == null) {
             blockSelectionItems = getItemSelectionItems(Game.getCommon().getRegistries().getBlocks());
         }
@@ -52,7 +52,7 @@ public final class ClientCache {
         return attributeSuggestions;
     }
 
-    public static List<SelectionItemModel> getAttributeSelectionItems() {
+    public static List<ListSelectionItemModel> getAttributeSelectionItems() {
         if (attributeSelectionItems == null) {
             attributeSelectionItems = getSelectionItems(Game.getCommon().getRegistries().getAttributes());
         }
@@ -76,15 +76,15 @@ public final class ClientCache {
         return suggestions;
     }
 
-    private static List<SelectionItemModel> getSelectionItems(List<? extends RegistryEntry> list) {
+    private static List<ListSelectionItemModel> getSelectionItems(List<? extends RegistryEntry> list) {
         return list.stream()
-                .map(attribute -> new SelectionItemModel(attribute.getName(), attribute.getId()))
+                .map(attribute -> new ListSelectionItemModel(attribute.getName(), attribute.getId()))
                 .collect(Collectors.toList());
     }
 
-    private static List<ItemSelectionItemModel> getItemSelectionItems(List<? extends RegistryEntry> list) {
+    private static List<ItemListSelectionItemModel> getItemSelectionItems(List<? extends RegistryEntry> list) {
         return list.stream()
-                .map(attribute -> new ItemSelectionItemModel(attribute.getName(), attribute.getId(), Game.getCommon().createItem(attribute.getId())))
+                .map(attribute -> new ItemListSelectionItemModel(attribute.getName(), attribute.getId(), Game.getCommon().createItem(attribute.getId())))
                 .collect(Collectors.toList());
     }
 }
