@@ -5,7 +5,8 @@
   "compatibilityLevel": "JAVA_8",
   "refmap": "guapi-vanilla-theme-forge.refmap.json",
   "client": [
-    "ForgeTextFieldWidgetMixin",
+    "ForgeAbstractListMixin",
+    "ForgeTextFieldWidgetAccessorMixin",
     "ForgeTextFieldWidgetRedirectMixin"
   ],
   "injectors": {

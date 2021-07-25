@@ -2,7 +2,7 @@ package com.github.franckyi.guapi.fabric.theme.vanilla;
 
 import com.github.franckyi.guapi.api.node.TextField;
 import com.github.franckyi.guapi.fabric.theme.mixin.FabricClickableWidgetMixin;
-import com.github.franckyi.guapi.fabric.theme.mixin.FabricTextFieldWidgetMixin;
+import com.github.franckyi.guapi.fabric.theme.mixin.FabricTextFieldWidgetAccessorMixin;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.text.LiteralText;
@@ -83,7 +83,7 @@ public class FabricVanillaTextFieldRenderer extends TextFieldWidget implements F
     @Override
     public void setSelectionEnd(int value) {
         super.setSelectionEnd(value);
-        node.setHighlightPosition(((FabricTextFieldWidgetMixin) this).getSelectionEnd());
+        node.setHighlightPosition(((FabricTextFieldWidgetAccessorMixin) this).getSelectionEnd());
     }
 
     public Text renderText(String str, int firstCharacterIndex) {

@@ -1,7 +1,7 @@
 package com.github.franckyi.guapi.forge.theme.vanilla;
 
 import com.github.franckyi.guapi.api.node.TextField;
-import com.github.franckyi.guapi.forge.theme.mixin.ForgeTextFieldWidgetMixin;
+import com.github.franckyi.guapi.forge.theme.mixin.ForgeTextFieldWidgetAccessorMixin;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.util.IReorderingProcessor;
@@ -82,7 +82,7 @@ public class ForgeVanillaTextFieldRenderer extends TextFieldWidget implements Fo
     @Override
     public void setHighlightPos(int value) {
         super.setHighlightPos(value);
-        node.setHighlightPosition(((ForgeTextFieldWidgetMixin) this).getHighlightPos());
+        node.setHighlightPosition(((ForgeTextFieldWidgetAccessorMixin) this).getHighlightPos());
     }
 
     public ITextComponent renderText(String str, int firstCharacterIndex) {

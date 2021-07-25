@@ -39,6 +39,10 @@ public abstract class AbstractFabricVanillaListNodeRenderer<N extends ListNode<E
         node.focusedElementProperty().addListener(this::shouldChangeFocus);
     }
 
+    public N getNode() {
+        return node;
+    }
+
     @Override
     public int getRowWidth() {
         return node.getWidth() - node.getPadding().getHorizontal() - 6;
