@@ -3,6 +3,7 @@ package com.github.franckyi.gameadapter.forge.common.world;
 import com.github.franckyi.gameadapter.api.common.tag.CompoundTag;
 import com.github.franckyi.gameadapter.api.common.world.Item;
 import com.github.franckyi.gameadapter.forge.common.nbt.ForgeCompoundTag;
+import net.minecraft.item.BlockItem;
 import net.minecraft.nbt.CompoundNBT;
 
 public class ForgeItem implements Item {
@@ -25,6 +26,11 @@ public class ForgeItem implements Item {
     @Override
     public CompoundTag getData() {
         return data;
+    }
+
+    @Override
+    public boolean isBlockItem() {
+        return item.getItem() instanceof BlockItem;
     }
 
     @Override

@@ -17,7 +17,7 @@ public class SelectionScreenController extends AbstractController<SelectionScree
 
     @Override
     public void bind() {
-        view.getTitleLabel().setLabel(translated(model.getTitle()).gold().bold());
+        view.getTitleLabel().setLabel(translated("ibeeditor.gui.choose").with(translated(model.getTitle())).gold().bold());
         view.getSearchField().textProperty().addListener(this::filter);
         view.getListView().getItems().forEach(item -> {
             if (item.getId().equals(model.getInitialValue())) {

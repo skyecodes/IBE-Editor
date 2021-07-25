@@ -97,15 +97,15 @@ public abstract class CategoryModel implements Model {
         return -1;
     }
 
-    public int getEntryListIndex(int index) {
+    private int getEntryListIndex(int index) {
         return getEntryListStart() + index;
     }
 
-    public int getEntryListSize() {
+    private int getEntryListSize() {
         return getEntries().size() - getEntryListStart() - 1;
     }
 
-    public boolean hasEntryList() {
+    private boolean hasEntryList() {
         return getEntryListStart() >= 0;
     }
 
@@ -117,7 +117,7 @@ public abstract class CategoryModel implements Model {
         return null;
     }
 
-    public Text getAddListEntryButtonTooltip() {
+    protected Text getAddListEntryButtonTooltip() {
         return translated("ibeeditor.gui.add").green();
     }
 

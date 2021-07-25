@@ -21,8 +21,12 @@ public class ItemEditorModel extends StandardEditorModel<Item, ItemCategoryModel
                 new ItemDisplayCategoryModel(this),
                 new ItemEnchantmentsCategoryModel(this),
                 new ItemAttributeModifiersCategoryModel(this),
-                new ItemHideFlagsCategoryModel(this)
+                new ItemHideFlagsCategoryModel(this),
+                new ItemBlockListCategoryModel("ibeeditor.gui.can_destroy", this, "CanDestroy")
         );
+        if (getTarget().isBlockItem()) {
+            getCategories().add(new ItemBlockListCategoryModel("ibeeditor.gui.can_place_on", this, "CanPlaceOn"));
+        }
     }
 
     @Override

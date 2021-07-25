@@ -8,23 +8,23 @@ import com.github.franckyi.ibeeditor.base.client.mvc.model.SelectionItemModel;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class ItemSelectionEntryModel extends SelectionEntryModel {
-    public ItemSelectionEntryModel(CategoryModel category, Text label, String value, Consumer<String> action) {
+public class BlockSelectionEntryModel extends SelectionEntryModel {
+    public BlockSelectionEntryModel(CategoryModel category, Text label, String value, Consumer<String> action) {
         super(category, label, value, action);
     }
 
     @Override
     public List<String> getSuggestions() {
-        return ClientCache.getItemSuggestions();
+        return ClientCache.getBlockSuggestions();
     }
 
     @Override
     public String getSuggestionScreenTitle() {
-        return "ibeeditor.text.item";
+        return "ibeeditor.text.block";
     }
 
     @Override
     public List<? extends SelectionItemModel> getSelectionItems() {
-        return ClientCache.getItemSelectionItems();
+        return ClientCache.getBlockSelectionItems();
     }
 }

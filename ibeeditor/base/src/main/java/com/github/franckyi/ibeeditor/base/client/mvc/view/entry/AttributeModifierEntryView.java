@@ -33,7 +33,8 @@ public class AttributeModifierEntryView extends EntryView {
             content.add(hBox(top -> {
                 top.add(attributeNameField = textField().prefHeight(16)
                         .placeholder(translated("ibeeditor.gui.attribute_name")), 1);
-                top.add(attributeListButton = texturedButton("ibeeditor:textures/gui/search.png", 16, 16, false).tooltip(translated("ibeeditor.gui.choose_attribute")));
+                top.add(attributeListButton = texturedButton("ibeeditor:textures/gui/search.png", 16, 16, false)
+                        .tooltip(translated("ibeeditor.gui.choose").with(translated("ibeeditor.gui.attribute"))));
                 top.align(CENTER).spacing(2);
             }));
             content.add(hBox(bottom -> {

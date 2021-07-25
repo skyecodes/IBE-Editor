@@ -25,7 +25,7 @@ public final class ClientCache {
 
     public static List<ItemSelectionItemModel> getItemSelectionItems() {
         if (itemSelectionItems == null) {
-            itemSelectionItems = getSelectionItemsWithItem(Game.getCommon().getRegistries().getItems());
+            itemSelectionItems = getItemSelectionItems(Game.getCommon().getRegistries().getItems());
         }
         return itemSelectionItems;
     }
@@ -39,7 +39,7 @@ public final class ClientCache {
 
     public static List<ItemSelectionItemModel> getBlockSelectionItems() {
         if (blockSelectionItems == null) {
-            blockSelectionItems = getSelectionItemsWithItem(Game.getCommon().getRegistries().getBlocks());
+            blockSelectionItems = getItemSelectionItems(Game.getCommon().getRegistries().getBlocks());
         }
         return blockSelectionItems;
     }
@@ -74,7 +74,7 @@ public final class ClientCache {
                 .collect(Collectors.toList());
     }
 
-    private static List<ItemSelectionItemModel> getSelectionItemsWithItem(List<? extends RegistryEntry> list) {
+    private static List<ItemSelectionItemModel> getItemSelectionItems(List<? extends RegistryEntry> list) {
         return list.stream()
                 .map(attribute -> new ItemSelectionItemModel(attribute.getName(), attribute.getId(), Game.getCommon().createItem(attribute.getId())))
                 .collect(Collectors.toList());

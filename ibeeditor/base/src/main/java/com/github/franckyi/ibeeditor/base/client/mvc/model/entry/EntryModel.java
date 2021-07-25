@@ -70,6 +70,6 @@ public abstract class EntryModel implements Model {
 
     public enum Type {
         STRING, INTEGER, TEXT, ENUM, ACTION, ADD_LIST_ENTRY, BOOLEAN,
-        ENCHANTMENT, HIDE_FLAG, ATTRIBUTE_MODIFIER, ITEM_SELECTION
+        ENCHANTMENT, HIDE_FLAG, ATTRIBUTE_MODIFIER, SELECTION
     }
 }
