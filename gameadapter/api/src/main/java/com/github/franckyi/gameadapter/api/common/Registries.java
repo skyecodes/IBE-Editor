@@ -13,4 +13,6 @@ public interface Registries {
     List<Enchantment> getEnchantments();
 
     List<RegistryEntry> getAttributes();
+
+    List<RegistryEntry> getPotions();
 }

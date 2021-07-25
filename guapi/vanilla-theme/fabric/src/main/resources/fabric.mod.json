@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "id": "guapi-vanilla-theme-fabric",
+  "id": "guapi-vanilla-theme",
   "version": "${version}",
-  "name": "GUAPI: Vanilla Theme (Fabric)",
+  "name": "GUAPI: Vanilla Theme",
   "description": "GUAPI extension to register the 'Vanilla' theme",
   "authors": [
     "Franckyi"
@@ -25,7 +25,7 @@
     "fabricloader": ">=0.7.4",
     "fabric": ">=0.30.0",
     "minecraft": "1.16.x",
-    "gameadapter-fabric": "${version}",
-    "guapi-fabric": "${version}"
+    "gameadapter": "${version}",
+    "guapi": "${version}"
   }
 }

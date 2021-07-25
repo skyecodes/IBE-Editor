@@ -23,7 +23,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
-@Mod("ibeeditor-forge")
+@Mod("ibeeditor")
 public final class ForgeIBEEditorMod {
     public ForgeIBEEditorMod() {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onCommonInit);

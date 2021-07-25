@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "id": "gameadapter-fabric",
+  "id": "gameadapter",
   "version": "${version}",
-  "name": "GameAdapter (Fabric)",
+  "name": "GameAdapter",
   "description": "Dependency for GUAPI and IBE Editor",
   "authors": [
     "Franckyi"

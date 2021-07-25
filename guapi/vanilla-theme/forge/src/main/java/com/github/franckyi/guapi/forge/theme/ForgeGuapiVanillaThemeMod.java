@@ -10,7 +10,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
-@Mod("guapi-vanilla-theme-forge")
+@Mod("guapi-vanilla-theme")
 public class ForgeGuapiVanillaThemeMod {
     public ForgeGuapiVanillaThemeMod() {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onClientInit);

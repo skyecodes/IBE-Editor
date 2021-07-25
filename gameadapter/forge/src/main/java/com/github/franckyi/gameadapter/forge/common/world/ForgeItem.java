@@ -4,6 +4,7 @@ import com.github.franckyi.gameadapter.api.common.tag.CompoundTag;
 import com.github.franckyi.gameadapter.api.common.world.Item;
 import com.github.franckyi.gameadapter.forge.common.nbt.ForgeCompoundTag;
 import net.minecraft.item.BlockItem;
+import net.minecraft.item.PotionItem;
 import net.minecraft.nbt.CompoundNBT;
 
 public class ForgeItem implements Item {
@@ -31,6 +32,11 @@ public class ForgeItem implements Item {
     @Override
     public boolean isBlockItem() {
         return item.getItem() instanceof BlockItem;
+    }
+
+    @Override
+    public boolean isPotionItem() {
+        return item.getItem() instanceof PotionItem;
     }
 
     @Override

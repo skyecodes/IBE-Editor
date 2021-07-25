@@ -15,6 +15,7 @@ public final class ClientCache {
     private static List<ItemSelectionItemModel> blockSelectionItems;
     private static List<String> attributeSuggestions;
     private static List<SelectionItemModel> attributeSelectionItems;
+    private static List<String> potionSuggestions;
 
     public static List<String> getItemSuggestions() {
         if (itemSuggestions == null) {
@@ -56,6 +57,13 @@ public final class ClientCache {
             attributeSelectionItems = getSelectionItems(Game.getCommon().getRegistries().getAttributes());
         }
         return attributeSelectionItems;
+    }
+
+    public static List<String> getPotionSuggestions() {
+        if (potionSuggestions == null) {
+            potionSuggestions = getSuggestions(Game.getCommon().getRegistries().getPotions());
+        }
+        return potionSuggestions;
     }
 
     private static List<String> getSuggestions(List<? extends RegistryEntry> list) {

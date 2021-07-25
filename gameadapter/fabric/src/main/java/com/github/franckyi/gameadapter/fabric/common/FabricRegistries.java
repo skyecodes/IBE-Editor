@@ -14,6 +14,7 @@ public final class FabricRegistries implements Registries {
     private List<RegistryEntry> blocks;
     private List<Enchantment> enchantments;
     private List<RegistryEntry> attributes;
+    private List<RegistryEntry> potions;
 
     private FabricRegistries() {
     }
@@ -62,5 +63,16 @@ public final class FabricRegistries implements Registries {
             ).collect(Collectors.toList());
         }
         return attributes;
+    }
+
+    @Override
+    public List<RegistryEntry> getPotions() {
+        if (potions == null) {
+            potions = Registry.POTION.getEntries().stream().map(entry -> RegistryEntry.of(
+                    entry.getKey().getValue().toString(),
+                    entry.getValue().finishTranslationKey("minecraft:potion.effect.")
+            )).collect(Collectors.toList());
+        }
+        return potions;
     }
 }

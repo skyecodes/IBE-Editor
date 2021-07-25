@@ -7,7 +7,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
-@Mod("gameadapter-forge")
+@Mod("gameadapter")
 public final class ForgeGameAdapterMod {
     public ForgeGameAdapterMod() {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onCommonInit);

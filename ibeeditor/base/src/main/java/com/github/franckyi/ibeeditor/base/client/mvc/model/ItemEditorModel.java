@@ -18,7 +18,12 @@ public class ItemEditorModel extends StandardEditorModel<Item, ItemCategoryModel
     protected void setupCategories() {
         getCategories().addAll(
                 new ItemGeneralCategoryModel(this),
-                new ItemDisplayCategoryModel(this),
+                new ItemDisplayCategoryModel(this)
+        );
+        if (getTarget().isPotionItem()) {
+            getCategories().add(new ItemPotionEffectsCategoryModel(this));
+        }
+        getCategories().addAll(
                 new ItemEnchantmentsCategoryModel(this),
                 new ItemAttributeModifiersCategoryModel(this),
                 new ItemHideFlagsCategoryModel(this),

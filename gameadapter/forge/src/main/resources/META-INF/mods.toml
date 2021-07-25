@@ -4,21 +4,21 @@ license = "MIT"
 issueTrackerURL = "https://github.com/Franckyi/IBE-Editor/issues"
 
 [[mods]]
-modId = "gameadapter-forge"
+modId = "gameadapter"
 version = "${file.jarVersion}"
-displayName = "GameAdapter (Forge)"
+displayName = "GameAdapter"
 displayURL = "https://www.curseforge.com/minecraft/mc-mods/ibe-editor"
 authors = "Franckyi"
 description = "Dependency for GUAPI and IBE Editor"
 
-[[dependencies.gameadapter-forge]]
+[[dependencies.gameadapter]]
 modId = "forge"
 mandatory = true
 versionRange = "[36,)"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.gameadapter-forge]]
+[[dependencies.gameadapter]]
 modId = "minecraft"
 mandatory = true
 versionRange = "[1.16,)"

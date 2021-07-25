@@ -16,7 +16,7 @@ public abstract class ListEditorView extends EditorView {
     @Override
     protected Node createEditor() {
         return hBox(editor -> {
-            editor.add(categoryList = listView(CategoryModel.class, left -> left.itemHeight(25).padding(5).renderer(item -> mvc(CategoryMVC.INSTANCE, item))), 1);
+            editor.add(categoryList = listView(CategoryModel.class, left -> left.itemHeight(20).padding(5).renderer(item -> mvc(CategoryMVC.INSTANCE, item))), 1);
             editor.add(entryList = listView(EntryModel.class, right -> right.itemHeight(25).padding(5).renderer(item -> mvc(EntryMVC.INSTANCE, item))), 2);
             editor.spacing(10).fillHeight();
         });

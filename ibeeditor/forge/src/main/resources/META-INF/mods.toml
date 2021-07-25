@@ -5,22 +5,22 @@ issueTrackerURL = "https://github.com/Franckyi/IBE-Editor/issues"
 logoFile = "logo.png"
 
 [[mods]]
-modId = "ibeeditor-forge"
+modId = "ibeeditor"
 version = "${file.jarVersion}"
-displayName = "IBE Editor (Forge)"
+displayName = "IBE Editor"
 displayURL = "https://www.curseforge.com/minecraft/mc-mods/ibe-editor"
 credits = "Thanks to Emex for the logo !"
 authors = "Franckyi"
 description = "Simple GUI Mod to edit an item, a block or an entity in your current world"
 
-[[dependencies.ibeeditor-forge]]
+[[dependencies.ibeeditor]]
 modId = "forge"
 mandatory = true
 versionRange = "[36,)"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.ibeeditor-forge]]
+[[dependencies.ibeeditor]]
 modId = "minecraft"
 mandatory = true
 versionRange = "[1.16,)"

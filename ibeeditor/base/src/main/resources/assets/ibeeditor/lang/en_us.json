@@ -89,6 +89,7 @@
   "ibeeditor.gui.hide_other_tooltip_5": "- Explosion data",
   "ibeeditor.gui.hide_other_tooltip_6": "- Fireworks data",
   "ibeeditor.gui.hide_other_tooltip_7": "- Map tooltips",
+  "ibeeditor.gui.potion_effects": "Potion Effects",
   "ibeeditor.gui.client": "Client",
   "ibeeditor.gui.theme": "Theme",
   "ibeeditor.gui.debug_mode": "Debug Mode",

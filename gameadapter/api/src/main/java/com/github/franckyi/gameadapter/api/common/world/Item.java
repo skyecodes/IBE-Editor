@@ -7,5 +7,7 @@ public interface Item {
 
     boolean isBlockItem();
 
+    boolean isPotionItem();
+
     <S> S get();
 }

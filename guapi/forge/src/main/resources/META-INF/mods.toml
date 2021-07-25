@@ -4,29 +4,29 @@ license = "MIT"
 issueTrackerURL = "https://github.com/Franckyi/IBE-Editor/issues"
 
 [[mods]]
-modId = "guapi-forge"
+modId = "guapi"
 version = "${file.jarVersion}"
-displayName = "GUAPI (Forge)"
+displayName = "GUAPI"
 displayURL = "https://www.curseforge.com/minecraft/mc-mods/ibe-editor"
 authors = "Franckyi"
 description = "A Minecraft GUI API inspired by JavaFX"
 
-[[dependencies.guapi-forge]]
+[[dependencies.guapi]]
 modId = "forge"
 mandatory = true
 versionRange = "[36,)"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.guapi-forge]]
+[[dependencies.guapi]]
 modId = "minecraft"
 mandatory = true
 versionRange = "[1.16,)"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.guapi-forge]]
-modId = "gameadapter-forge"
+[[dependencies.guapi]]
+modId = "gameadapter"
 mandatory = true
 versionRange = "[${file.jarVersion}]"
 ordering = "NONE"
