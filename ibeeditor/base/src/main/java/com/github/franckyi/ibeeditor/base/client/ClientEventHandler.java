@@ -14,9 +14,9 @@ public final class ClientEventHandler {
             ClientEditorLogic.openWorldEditor(EditorType.NBT);
         } else if (KeyBindings.rawNbtEditorKey.isPressed()) {
             ClientEditorLogic.openWorldEditor(EditorType.RAW_NBT);
-        } else if (KeyBindings.clipboardKey.isPressed()) {
+        }/* else if (KeyBindings.clipboardKey.isPressed()) {
             ClientEditorLogic.openClipboard();
-        }
+        }*/
     }
 
     public static void onScreenEvent(Screen screen, int keyCode) {

@@ -1,14 +1,19 @@
 package com.github.franckyi.ibeeditor.base.client.mvc.view;
 
+import com.github.franckyi.guapi.api.node.HBox;
 import com.github.franckyi.guapi.api.node.Node;
+import com.github.franckyi.guapi.api.node.Slider;
 import com.github.franckyi.guapi.api.node.TextField;
+import com.github.franckyi.guapi.api.util.Color;
 import com.github.franckyi.guapi.api.util.Predicates;
 import com.github.franckyi.ibeeditor.base.client.ModScreenHandler;
 
 import static com.github.franckyi.guapi.GuapiHelper.*;
 
-public class ColorSelectionScreenView extends EditorView {
-    private TextField redField, greenField, blueField, hexField;
+public abstract class ColorSelectionScreenView extends EditorView {
+    private Slider redSlider, greenSlider, blueSlider;
+    private TextField hexField;
+    private HBox exampleBox;
 
     @Override
     protected Node createHeader() {
@@ -33,9 +38,9 @@ public class ColorSelectionScreenView extends EditorView {
                         labels.spacing(4);
                     }));
                     rgb.add(hBox(fields -> {
-                        fields.add(redField = textField().prefHeight(16).validator(Predicates.range(0, 256)), 1);
-                        fields.add(greenField = textField().prefHeight(16).validator(Predicates.range(0, 256)), 1);
-                        fields.add(blueField = textField().prefHeight(16).validator(Predicates.range(0, 256)), 1);
+                        fields.add(redSlider = colorSlider(), 1);
+                        fields.add(greenSlider = colorSlider(), 1);
+                        fields.add(blueSlider = colorSlider(), 1);
                         fields.spacing(4);
                     }));
                     rgb.fillWidth().spacing(4);
@@ -48,10 +53,10 @@ public class ColorSelectionScreenView extends EditorView {
                         labels.spacing(4);
                     }));
                     hex.add(hBox(fields -> {
-                        fields.add(hexField = textField().prefHeight(16).validator(Predicates.HEX_COLOR), 1);
-                        fields.add(hBox(), 1);
-                        fields.add(hBox(), 1);
-                        fields.spacing(4);
+                        fields.add(hexField = textField().prefHeight(16), 1);
+                        fields.add(createExample(), 1);
+                        fields.add(exampleBox = hBox().prefHeight(16), 1);
+                        fields.spacing(4).align(CENTER);
                     }));
                     hex.fillWidth().spacing(4);
                 }));
@@ -62,19 +67,29 @@ public class ColorSelectionScreenView extends EditorView {
         });
     }
 
-    public TextField getRedField() {
-        return redField;
+    private Slider colorSlider() {
+        return slider(0, 0, 255, 1);
     }
 
-    public TextField getGreenField() {
-        return greenField;
+    protected abstract Node createExample();
+
+    public Slider getRedSlider() {
+        return redSlider;
     }
 
-    public TextField getBlueField() {
-        return blueField;
+    public Slider getGreenSlider() {
+        return greenSlider;
+    }
+
+    public Slider getBlueSlider() {
+        return blueSlider;
     }
 
     public TextField getHexField() {
         return hexField;
+    }
+
+    public HBox getExampleBox() {
+        return exampleBox;
     }
 }

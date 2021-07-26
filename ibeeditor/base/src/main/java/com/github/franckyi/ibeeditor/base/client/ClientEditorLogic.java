@@ -25,78 +25,78 @@ public final class ClientEditorLogic {
     private static final Text ERROR_SERVERMOD_ENTITY = Messages.withPrefix(translated("ibeeditor.message.error_server_mod")
             .with(translated("ibeeditor.text.entity"))).red();
 
-    public static void openWorldEditor(EditorType type) {
-        LOGGER.debug("Opening world editor with type={}", type);
-        if (!(tryOpenEntityEditor(type) || tryOpenBlockEditor(type) || tryOpenItemEditor(type))) {
-            tryOpenSelfEditor(type);
+    public static void openWorldEditor(EditorType target) {
+        LOGGER.debug("Opening world editor with target={}", target);
+        if (!(tryOpenEntityEditor(target) || tryOpenBlockEditor(target) || tryOpenItemEditor(target))) {
+            tryOpenSelfEditor(target);
         }
     }
 
-    public static boolean tryOpenEntityEditor(EditorType type) {
-        LOGGER.debug("Trying to open entity editor with type={}", type);
+    public static boolean tryOpenEntityEditor(EditorType target) {
+        LOGGER.debug("Trying to open entity editor with target={}", target);
         WorldEntity entity = Game.getClient().getEntityMouseOver();
         if (entity != null) {
             if (ClientContext.isModInstalledOnServer()) {
-                requestOpenEntityEditor(entity.getEntityId(), type);
+                requestOpenEntityEditor(entity.getEntityId(), target);
             } else {
-                openEntityEditor(entity, entity.getEntityId(), type);
+                openEntityEditor(entity, entity.getEntityId(), target);
             }
             return true;
         }
         return false;
     }
 
-    public static boolean tryOpenBlockEditor(EditorType type) {
-        LOGGER.debug("Trying to open block editor with type={}", type);
+    public static boolean tryOpenBlockEditor(EditorType target) {
+        LOGGER.debug("Trying to open block editor with target={}", target);
         WorldBlock block = Game.getClient().getBlockMouseOver();
         if (block != null) {
             if (ClientContext.isModInstalledOnServer()) {
-                requestOpenBlockEditor(block.getBlockPos(), type);
+                requestOpenBlockEditor(block.getBlockPos(), target);
             } else {
-                openBlockEditor(block, block.getBlockPos(), type);
+                openBlockEditor(block, block.getBlockPos(), target);
             }
             return true;
         }
         return false;
     }
 
-    public static boolean tryOpenItemEditor(EditorType type) {
-        LOGGER.debug("Trying to item editor with type={}", type);
+    public static boolean tryOpenItemEditor(EditorType target) {
+        LOGGER.debug("Trying to item editor with target={}", target);
         Item item = getClientPlayer().getItemMainHand();
         if (item != null) {
-            openItemEditor(item, type, ClientEditorLogic::updatePlayerMainHandItem, ClientContext.isModInstalledOnServer() || getClientPlayer().isCreative() ? null : ERROR_CREATIVE_ITEM);
+            openItemEditor(item, target, ClientEditorLogic::updatePlayerMainHandItem, ClientContext.isModInstalledOnServer() || getClientPlayer().isCreative() ? null : ERROR_CREATIVE_ITEM);
             return true;
         }
         return false;
     }
 
-    public static void tryOpenSelfEditor(EditorType type) {
-        LOGGER.debug("Trying to open self editor with type={}", type);
+    public static void tryOpenSelfEditor(EditorType target) {
+        LOGGER.debug("Trying to open self editor with target={}", target);
         if (ClientContext.isModInstalledOnServer()) {
-            requestOpenEntityEditor(getClientPlayer().getEntityId(), type);
+            requestOpenEntityEditor(getClientPlayer().getEntityId(), target);
         } else {
-            openEntityEditor(getClientPlayer(), getClientPlayer().getEntityId(), type);
+            openEntityEditor(getClientPlayer(), getClientPlayer().getEntityId(), target);
         }
     }
 
     public static void openClipboard() {
-        LOGGER.debug("Opening clipboard");
+        //LOGGER.debug("Opening clipboard");
         //GameHooks.client().getScreenHandler().showScene(scene(mvc(EditorView.class, new EditorModelImpl()), true, true));
     }
 
-    public static void openPlayerInventoryItemEditor(Item item, EditorType type, int slotId, boolean isCreativeInventoryScreen) {
-        openItemEditor(item, type, newItem -> ClientEditorLogic.updatePlayerInventoryItem(newItem, slotId, isCreativeInventoryScreen),
+    public static void openPlayerInventoryItemEditor(Item item, EditorType target, int slotId, boolean isCreativeInventoryScreen) {
+        openItemEditor(item, target, newItem -> ClientEditorLogic.updatePlayerInventoryItem(newItem, slotId, isCreativeInventoryScreen),
                 ClientContext.isModInstalledOnServer() || getClientPlayer().isCreative() ? null : ERROR_CREATIVE_ITEM);
     }
 
-    public static void openBlockInventoryItemEditor(Item item, EditorType type, int slotId, BlockPos blockPos) {
-        openItemEditor(item, type, newItem -> updateBlockInventoryItem(newItem, slotId, blockPos),
+    public static void openBlockInventoryItemEditor(Item item, EditorType target, int slotId, BlockPos blockPos) {
+        openItemEditor(item, target, newItem -> updateBlockInventoryItem(newItem, slotId, blockPos),
                 ClientContext.isModInstalledOnServer() ? null : ClientEditorLogic.ERROR_SERVERMOD_ITEM);
     }
 
-    public static void openItemEditor(Item item, EditorType type, Consumer<Item> action, Text disabledTooltip) {
-        LOGGER.debug("Opening item editor for item {} with type={})", item, type);
-        switch (type) {
+    public static void openItemEditor(Item item, EditorType target, Consumer<Item> action, Text disabledTooltip) {
+        LOGGER.debug("Opening item editor for item {} with target={})", item, target);
+        switch (target) {
             case STANDARD:
                 ModScreenHandler.openItemEditorScreen(item, action, disabledTooltip);
                 break;
@@ -109,14 +109,14 @@ public final class ClientEditorLogic {
         }
     }
 
-    public static void requestOpenBlockEditor(BlockPos blockPos, EditorType type) {
-        LOGGER.debug("Requesting block editor at pos {} with type={}", blockPos, type);
-        ClientNetworkEmitter.sendBlockEditorRequest(blockPos, type);
+    public static void requestOpenBlockEditor(BlockPos blockPos, EditorType target) {
+        LOGGER.debug("Requesting block editor at pos {} with target={}", blockPos, target);
+        ClientNetworkEmitter.sendBlockEditorRequest(blockPos, target);
     }
 
-    public static void openBlockEditor(Block block, BlockPos blockPos, EditorType type) {
-        LOGGER.debug("Opening block editor for block {} at pos {} with type={}", block, blockPos, type);
-        switch (type) {
+    public static void openBlockEditor(Block block, BlockPos blockPos, EditorType target) {
+        LOGGER.debug("Opening block editor for block {} at pos {} with target={}", block, blockPos, target);
+        switch (target) {
             case STANDARD:
                 ModScreenHandler.openBlockEditorScreen(block, newBlock -> updateBlock(blockPos, newBlock), ClientContext.isModInstalledOnServer() ? null : ERROR_SERVERMOD_BLOCK);
                 break;
@@ -129,14 +129,14 @@ public final class ClientEditorLogic {
         }
     }
 
-    public static void requestOpenEntityEditor(int entityId, EditorType type) {
-        LOGGER.debug("Requesting entity editor for entityId {} with type={}", entityId, type);
-        ClientNetworkEmitter.sendEntityEditorRequest(entityId, type);
+    public static void requestOpenEntityEditor(int entityId, EditorType target) {
+        LOGGER.debug("Requesting entity editor for entityId {} with target={}", entityId, target);
+        ClientNetworkEmitter.sendEntityEditorRequest(entityId, target);
     }
 
-    public static void openEntityEditor(Entity entity, int entityId, EditorType type) {
-        LOGGER.debug("Opening entity editor for entity {} with id {} and type={}", entity, entityId, type);
-        switch (type) {
+    public static void openEntityEditor(Entity entity, int entityId, EditorType target) {
+        LOGGER.debug("Opening entity editor for entity {} with id {} and target={}", entity, entityId, target);
+        switch (target) {
             case STANDARD:
                 ModScreenHandler.openEntityEditorScreen(entity, entity1 -> updateEntity(entityId, entity1), ClientContext.isModInstalledOnServer() ? null : ERROR_SERVERMOD_ENTITY);
                 break;

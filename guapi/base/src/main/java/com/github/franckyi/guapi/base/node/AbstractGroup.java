@@ -58,15 +58,15 @@ public abstract class AbstractGroup extends AbstractNode implements Group {
     protected abstract void updateChildren();
 
     @Override
-    public <E extends MouseEvent> void handleMouseEvent(ScreenEventType<E> type, E event) {
+    public <E extends MouseEvent> void handleMouseEvent(ScreenEventType<E> target, E event) {
         if (inBounds(event.getMouseX(), event.getMouseY())) {
             for (Node node : getChildren()) {
-                node.handleMouseEvent(type, event);
+                node.handleMouseEvent(target, event);
                 if (event.getTarget() != null) break;
             }
             if (event.getTarget() == null) {
                 event.setTarget(this);
-                notifyEvent(type, event);
+                notifyEvent(target, event);
             }
         }
     }

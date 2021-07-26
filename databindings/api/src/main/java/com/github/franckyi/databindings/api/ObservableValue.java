@@ -121,6 +121,14 @@ public interface ObservableValue<T> {
         return DataBindings.getMappingFactory().createIntMapping(this, mapper, orIfNull);
     }
 
+    default ObservableDoubleValue mapToDouble(Function<T, Double> mapper) {
+        return DataBindings.getMappingFactory().createDoubleMapping(this, mapper);
+    }
+
+    default ObservableDoubleValue mapToDouble(Function<T, Double> mapper, double orIfNull) {
+        return DataBindings.getMappingFactory().createDoubleMapping(this, mapper, orIfNull);
+    }
+
     default <X> ObservableObjectValue<X> bindMap(Function<T, ObservableValue<X>> mapper) {
         return DataBindings.getMappingFactory().createBoundMapping(this, mapper);
     }
@@ -153,6 +161,14 @@ public interface ObservableValue<T> {
         return DataBindings.getMappingFactory().createIntBoundMapping(this, mapper, orIfNull);
     }
 
+    default ObservableDoubleValue bindMapToDouble(Function<T, ObservableValue<Double>> mapper) {
+        return DataBindings.getMappingFactory().createDoubleBoundMapping(this, mapper);
+    }
+
+    default ObservableDoubleValue bindMapToDouble(Function<T, ObservableValue<Double>> mapper, double orIfNull) {
+        return DataBindings.getMappingFactory().createDoubleBoundMapping(this, mapper, orIfNull);
+    }
+
     default ObservableStringValue mapToString(ObservableValue<T> other, BiFunction<T, T, String> mapper) {
         return DataBindings.getMappingFactory().createStringBiMapping(this, other, mapper);
     }
@@ -163,6 +179,10 @@ public interface ObservableValue<T> {
 
     default ObservableIntegerValue mapToInt(ObservableValue<T> other, BiFunction<T, T, Integer> mapper) {
         return DataBindings.getMappingFactory().createIntBiMapping(this, other, mapper);
+    }
+
+    default ObservableDoubleValue mapToDouble(ObservableValue<T> other, BiFunction<T, T, Double> mapper) {
+        return DataBindings.getMappingFactory().createDoubleBiMapping(this, other, mapper);
     }
 
     /**

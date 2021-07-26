@@ -26,6 +26,7 @@ public class ForgeGuapiVanillaThemeMod {
         initSkin(NodeType.TREE_VIEW, ForgeVanillaTreeViewRenderer::new);
         initSkin(NodeType.TOGGLE_BUTTON, ForgeVanillaButtonRenderer::new);
         initSkin(NodeType.TEXTURED_TOGGLE_BUTTON, ForgeVanillaTexturedButtonRenderer::new);
+        initSkin(NodeType.SLIDER, ForgeVanillaSliderRenderer::new);
         Guapi.registerTheme("vanilla", VanillaTheme.INSTANCE);
     }
 

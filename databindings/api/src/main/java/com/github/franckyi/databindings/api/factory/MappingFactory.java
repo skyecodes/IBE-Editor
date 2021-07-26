@@ -28,6 +28,10 @@ public interface MappingFactory {
 
     <T> ObservableIntegerValue createIntMapping(ObservableValue<T> thisValue, Function<T, Integer> mapper, Integer orIfNull);
 
+    <T> ObservableDoubleValue createDoubleMapping(ObservableValue<T> thisValue, Function<T, Double> mapper);
+
+    <T> ObservableDoubleValue createDoubleMapping(ObservableValue<T> thisValue, Function<T, Double> mapper, Double orIfNull);
+
     <T, X> ObservableObjectValue<X> createBoundMapping(ObservableValue<T> thisValue, Function<T, ObservableValue<X>> mapper);
 
     <T, X> ObservableObjectValue<X> createBoundMapping(ObservableValue<T> thisValue, Function<T, ObservableValue<X>> mapper, X orIfNull);
@@ -44,9 +48,15 @@ public interface MappingFactory {
 
     <T> ObservableIntegerValue createIntBoundMapping(ObservableValue<T> thisValue, Function<T, ObservableValue<Integer>> mapper, Integer orIfNull);
 
+    <T> ObservableDoubleValue createDoubleBoundMapping(ObservableValue<T> thisValue, Function<T, ObservableValue<Double>> mapper);
+
+    <T> ObservableDoubleValue createDoubleBoundMapping(ObservableValue<T> thisValue, Function<T, ObservableValue<Double>> mapper, Double orIfNull);
+
     <T, X> ObservableStringValue createStringBiMapping(ObservableValue<T> thisValue, ObservableValue<X> otherValue, BiFunction<T, X, String> mapper);
 
     <T, X> ObservableBooleanValue createBooleanBiMapping(ObservableValue<T> thisValue, ObservableValue<X> otherValue, BiFunction<T, X, Boolean> mapper);
 
     <T, X> ObservableIntegerValue createIntBiMapping(ObservableValue<T> thisValue, ObservableValue<X> otherValue, BiFunction<T, X, Integer> mapper);
+
+    <T, X> ObservableDoubleValue createDoubleBiMapping(ObservableValue<T> thisValue, ObservableValue<X> otherValue, BiFunction<T, X, Double> mapper);
 }

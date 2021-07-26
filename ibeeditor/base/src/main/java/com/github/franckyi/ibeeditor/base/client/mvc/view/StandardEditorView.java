@@ -9,6 +9,7 @@ import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.api.node.TexturedButton;
 import com.github.franckyi.guapi.api.node.builder.TexturedButtonBuilder;
 import com.github.franckyi.ibeeditor.base.client.ModScreenHandler;
+import com.github.franckyi.ibeeditor.base.client.mvc.model.ColorSelectionScreenModel;
 import com.github.franckyi.ibeeditor.base.client.util.texteditor.StyleType;
 import com.github.franckyi.ibeeditor.base.client.util.texteditor.TextEditorActionHandler;
 
@@ -57,12 +58,22 @@ public class StandardEditorView extends ListEditorView {
                 middle.spacing(2);
             }));
             buttons.add(hBox(right -> {
+                right.add(texturedButton("ibeeditor:textures/gui/reset_color.png", 7, 16, false)
+                        .tooltip(translated("ibeeditor.gui.reset_color"))
+                        .action(e -> {
+                            if (textEditorSupplier != null) {
+                                e.consume();
+                                textEditorSupplier.get().removeColorFormatting();
+                            }
+                        }));
                 right.add(vBox(colors -> {
                     colors.add(hBox(2, colorButtons.subList(0, colorButtons.size() / 2)));
                     colors.add(hBox(2, colorButtons.subList(colorButtons.size() / 2, colorButtons.size())));
                     colors.spacing(2);
                 }));
-                right.add(createCustomButton());
+                right.add(texturedButton("ibeeditor:textures/gui/color_custom.png", 16, 16, false)
+                        .tooltip(translated("ibeeditor.gui.custom_color"))
+                        .action(() -> ModScreenHandler.openColorSelectionScreen(ColorSelectionScreenModel.Target.TEXT, textEditorSupplier.get()::addColorFormatting)));
                 right.spacing(2);
             }));
             buttons.spacing(12).padding(right(20));
@@ -92,13 +103,13 @@ public class StandardEditorView extends ListEditorView {
         return buttons = (HBox) super.createButtonBar();
     }
 
-    private TexturedButtonBuilder createTextButton(StyleType type, String id, String tooltipText) {
+    private TexturedButtonBuilder createTextButton(StyleType target, String id, String tooltipText) {
         return texturedButton(id, 16, 16, false)
                 .tooltip(translated(tooltipText))
                 .action(e -> {
                     if (textEditorSupplier != null) {
                         e.consume();
-                        textEditorSupplier.get().addStyleFormatting(type);
+                        textEditorSupplier.get().addStyleFormatting(target);
                     }
                 });
     }
@@ -112,12 +123,6 @@ public class StandardEditorView extends ListEditorView {
                         textEditorSupplier.get().addColorFormatting(color);
                     }
                 });
-    }
-
-    private TexturedButtonBuilder createCustomButton() {
-        return texturedButton("ibeeditor:textures/gui/color_custom.png", 16, 16, false)
-                .tooltip(translated("ibeeditor.gui.custom_color"))
-                .action(() -> ModScreenHandler.openColorSelectionScreen(textEditorSupplier.get()::addColorFormatting));
     }
 
     public TranslatedTextBuilder getHeaderText() {

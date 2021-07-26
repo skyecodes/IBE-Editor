@@ -188,6 +188,26 @@ public class NodeFactoryImpl implements NodeFactory {
     }
 
     @Override
+    public SliderBuilder createSlider() {
+        return new SliderImpl();
+    }
+
+    @Override
+    public SliderBuilder createSlider(double value) {
+        return new SliderImpl(value);
+    }
+
+    @Override
+    public SliderBuilder createSlider(double value, double minValue, double maxValue) {
+        return new SliderImpl(value, minValue, maxValue);
+    }
+
+    @Override
+    public SliderBuilder createSlider(double value, double minValue, double maxValue, double step) {
+        return new SliderImpl(value, minValue, maxValue, step);
+    }
+
+    @Override
     public TextFieldBuilder createTextField() {
         return new TextFieldImpl();
     }

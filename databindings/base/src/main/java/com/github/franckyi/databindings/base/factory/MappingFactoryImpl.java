@@ -54,6 +54,16 @@ public class MappingFactoryImpl implements MappingFactory {
     }
 
     @Override
+    public <T> ObservableDoubleValue createDoubleMapping(ObservableValue<T> thisValue, Function<T, Double> mapper) {
+        return new MappedObservableDoubleValue<>(thisValue, mapper, false, null);
+    }
+
+    @Override
+    public <T> ObservableDoubleValue createDoubleMapping(ObservableValue<T> thisValue, Function<T, Double> mapper, Double orIfNull) {
+        return new MappedObservableDoubleValue<>(thisValue, mapper, true, orIfNull);
+    }
+
+    @Override
     public <T, X> ObservableObjectValue<X> createBoundMapping(ObservableValue<T> thisValue, Function<T, ObservableValue<X>> mapper) {
         return new BoundObservableObjectValue<>(thisValue, mapper, false, null);
     }
@@ -94,6 +104,16 @@ public class MappingFactoryImpl implements MappingFactory {
     }
 
     @Override
+    public <T> ObservableDoubleValue createDoubleBoundMapping(ObservableValue<T> thisValue, Function<T, ObservableValue<Double>> mapper) {
+        return new BoundObservableDoubleValue<>(thisValue, mapper, true, null);
+    }
+
+    @Override
+    public <T> ObservableDoubleValue createDoubleBoundMapping(ObservableValue<T> thisValue, Function<T, ObservableValue<Double>> mapper, Double orIfNull) {
+        return new BoundObservableDoubleValue<>(thisValue, mapper, true, orIfNull);
+    }
+
+    @Override
     public <T, X> ObservableStringValue createStringBiMapping(ObservableValue<T> thisValue, ObservableValue<X> otherValue, BiFunction<T, X, String> mapper) {
         return new BiMappedObservableStringValue<>(thisValue, otherValue, mapper);
     }
@@ -106,5 +126,10 @@ public class MappingFactoryImpl implements MappingFactory {
     @Override
     public <T, X> ObservableIntegerValue createIntBiMapping(ObservableValue<T> thisValue, ObservableValue<X> otherValue, BiFunction<T, X, Integer> mapper) {
         return new BiMappedObservableIntegerValue<>(thisValue, otherValue, mapper);
+    }
+
+    @Override
+    public <T, X> ObservableDoubleValue createDoubleBiMapping(ObservableValue<T> thisValue, ObservableValue<X> otherValue, BiFunction<T, X, Double> mapper) {
+        return new BiMappedObservableDoubleValue<>(thisValue, otherValue, mapper);
     }
 }

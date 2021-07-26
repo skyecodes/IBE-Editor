@@ -199,9 +199,9 @@ public abstract class AbstractFabricVanillaListNodeRenderer<N extends ListNode<E
         handleMouseEvent(ScreenEventType.MOUSE_MOVED, event);
     }
 
-    protected <EE extends MouseEvent> void handleMouseEvent(ScreenEventType<EE> type, EE event) {
+    protected <EE extends MouseEvent> void handleMouseEvent(ScreenEventType<EE> target, EE event) {
         for (T child : children()) {
-            child.getNode().handleEvent(type, event);
+            child.getNode().handleEvent(target, event);
             if (event.getTarget() != null) return;
         }
     }

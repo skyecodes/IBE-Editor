@@ -25,6 +25,10 @@ public interface PropertyFactory {
 
     IntegerProperty createIntegerProperty(int value);
 
+    DoubleProperty createDoubleProperty();
+
+    DoubleProperty createDoubleProperty(double value);
+
     <T> ObservableObjectValue<T> createReadOnlyProperty(ObjectProperty<T> property);
 
     ObservableStringValue createReadOnlyProperty(StringProperty property);
@@ -32,4 +36,6 @@ public interface PropertyFactory {
     ObservableBooleanValue createReadOnlyProperty(BooleanProperty property);
 
     ObservableIntegerValue createReadOnlyProperty(IntegerProperty property);
+
+    ObservableDoubleValue createReadOnlyProperty(DoubleProperty property);
 }

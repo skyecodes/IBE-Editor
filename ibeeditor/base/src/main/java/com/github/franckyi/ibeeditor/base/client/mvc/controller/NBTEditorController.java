@@ -33,10 +33,10 @@ public class NBTEditorController extends AbstractController<NBTEditorModel, NBTE
         view.setOnButtonClick(this::onButtonClick);
     }
 
-    private void onButtonClick(NBTEditorView.ButtonType type) {
+    private void onButtonClick(NBTEditorView.ButtonType target) {
         NBTTagModel tag = view.getTagTree().getFocusedElement();
         NBTTagModel parent = tag.getParent();
-        switch (type) {
+        switch (target) {
             case BYTE:
             case SHORT:
             case INT:
@@ -49,7 +49,7 @@ public class NBTEditorController extends AbstractController<NBTEditorModel, NBTE
             case COMPOUND:
             case INT_ARRAY:
             case LONG_ARRAY:
-                addChildTag(tag, Game.getCommon().getTagFactory().createEmptyTag(type.getType()));
+                addChildTag(tag, Game.getCommon().getTagFactory().createEmptyTag(target.getType()));
                 break;
             case MOVE_UP:
                 int index0 = parent.getChildren().indexOf(tag);
@@ -167,8 +167,8 @@ public class NBTEditorController extends AbstractController<NBTEditorModel, NBTE
         addChildTag(parent, new NBTTagModel(newTag, parent, parent.getTagType() != Tag.LIST_ID ? name : null, null));
     }
 
-    private void addChildTag(NBTTagModel parent, byte type, String value) {
-        addChildTag(parent, new NBTTagModel(type, parent, value));
+    private void addChildTag(NBTTagModel parent, byte target, String value) {
+        addChildTag(parent, new NBTTagModel(target, parent, value));
     }
 
     private void addChildTag(NBTTagModel parent, NBTTagModel tag) {

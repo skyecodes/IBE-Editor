@@ -78,6 +78,14 @@ public interface NodeFactory {
 
     <E> ListViewBuilder<E> createListView(Class<E> eClass, Consumer<ListViewBuilder<E>> with);
 
+    SliderBuilder createSlider();
+
+    SliderBuilder createSlider(double value);
+
+    SliderBuilder createSlider(double value, double minValue, double maxValue);
+
+    SliderBuilder createSlider(double value, double minValue, double maxValue, double step);
+
     TextFieldBuilder createTextField();
 
     TextFieldBuilder createTextField(String value);

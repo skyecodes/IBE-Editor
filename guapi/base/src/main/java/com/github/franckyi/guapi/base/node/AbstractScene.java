@@ -192,14 +192,14 @@ public abstract class AbstractScene implements Scene {
     }
 
     @Override
-    public <E extends ScreenEvent> void handleEvent(ScreenEventType<E> type, E event) {
+    public <E extends ScreenEvent> void handleEvent(ScreenEventType<E> target, E event) {
         if (getRoot() != null) {
-            type.ifMouseEvent(event, (t, e) -> {
-                getRoot().handleEvent(type, event);
+            target.ifMouseEvent(event, (t, e) -> {
+                getRoot().handleEvent(target, event);
                 if (!e.isConsumed()) {
                     if (e instanceof MouseButtonEvent) {
                         MouseButtonEvent be = (MouseButtonEvent) e;
-                        if (type == ScreenEventType.MOUSE_CLICKED && be.getButton() == MouseButtonEvent.LEFT_BUTTON) {
+                        if (target == ScreenEventType.MOUSE_CLICKED && be.getButton() == MouseButtonEvent.LEFT_BUTTON) {
                             if (e.getTarget() != null && !e.getTarget().isDisabled() && e.getTarget().isVisible()) {
                                 e.getTarget().handleEvent(ScreenEventType.ACTION, be);
                                 if (!e.isConsumed()) {
@@ -209,27 +209,27 @@ public abstract class AbstractScene implements Scene {
                                 setFocused(e.getTarget());
                             }
                         }
-                    } else if (type == ScreenEventType.MOUSE_MOVED) {
+                    } else if (target == ScreenEventType.MOUSE_MOVED) {
                         setHovered(e.getTarget());
                     }
                 }
             }, () -> {
                 if (getFocused() != null && !getFocused().isDisabled()) {
-                    getFocused().handleEvent(type, event);
+                    getFocused().handleEvent(target, event);
                 }
             });
         }
-        eventHandlerDelegate.handleEvent(type, event);
+        eventHandlerDelegate.handleEvent(target, event);
     }
 
     @Override
-    public <E extends ScreenEvent> void addListener(ScreenEventType<E> type, ScreenEventListener<E> listener) {
-        eventHandlerDelegate.addListener(type, listener);
+    public <E extends ScreenEvent> void addListener(ScreenEventType<E> target, ScreenEventListener<E> listener) {
+        eventHandlerDelegate.addListener(target, listener);
     }
 
     @Override
-    public <E extends ScreenEvent> void removeListener(ScreenEventType<E> type, ScreenEventListener<E> listener) {
-        eventHandlerDelegate.removeListener(type, listener);
+    public <E extends ScreenEvent> void removeListener(ScreenEventType<E> target, ScreenEventListener<E> listener) {
+        eventHandlerDelegate.removeListener(target, listener);
     }
 
     @Override

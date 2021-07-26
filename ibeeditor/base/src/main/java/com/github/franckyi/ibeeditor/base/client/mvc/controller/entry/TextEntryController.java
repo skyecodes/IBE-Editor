@@ -133,11 +133,11 @@ public class TextEntryController extends ValueEntryController<TextEntryModel, Te
     }
 
     @Override
-    public void addStyleFormatting(StyleType type) {
+    public void addStyleFormatting(StyleType target) {
         int i = view.getTextField().getCursorPosition();
         int j = view.getTextField().getHighlightPosition();
         if (i == j) return;
-        StyleFormatting formatting = new StyleFormatting(Math.min(i, j), Math.max(i, j), type);
+        StyleFormatting formatting = new StyleFormatting(Math.min(i, j), Math.max(i, j), target);
         if (formattings.contains(formatting)) {
             formattings.remove(formatting);
             return;
@@ -146,7 +146,7 @@ public class TextEntryController extends ValueEntryController<TextEntryModel, Te
         if (surrounding.isPresent()) {
             removeStyleFormatting(formatting, surrounding.get());
         } else {
-            boolean add = mergeIdenticalFormattings(StyleFormatting.class, other -> other.getType().equals(type), formatting);
+            boolean add = mergeIdenticalFormattings(StyleFormatting.class, other -> other.getType().equals(target), formatting);
             if (add) {
                 formattings.add(formatting);
             }

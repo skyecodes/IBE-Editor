@@ -51,6 +51,16 @@ public class PropertyFactoryImpl implements PropertyFactory {
     }
 
     @Override
+    public DoubleProperty createDoubleProperty() {
+        return new SimpleDoubleProperty();
+    }
+
+    @Override
+    public DoubleProperty createDoubleProperty(double value) {
+        return new SimpleDoubleProperty(value);
+    }
+
+    @Override
     public <T> ObservableObjectValue<T> createReadOnlyProperty(ObjectProperty<T> property) {
         return new ReadOnlyObjectProperty<>(property);
     }
@@ -68,5 +78,10 @@ public class PropertyFactoryImpl implements PropertyFactory {
     @Override
     public ObservableIntegerValue createReadOnlyProperty(IntegerProperty property) {
         return new ReadOnlyIntegerProperty(property);
+    }
+
+    @Override
+    public ObservableDoubleValue createReadOnlyProperty(DoubleProperty property) {
+        return new ReadOnlyDoubleProperty(property);
     }
 }

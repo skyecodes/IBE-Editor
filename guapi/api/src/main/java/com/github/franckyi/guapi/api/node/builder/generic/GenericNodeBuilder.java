@@ -91,12 +91,12 @@ public interface GenericNodeBuilder<N extends Node> extends Node, Builder<N> {
         return disable(true);
     }
 
-    default <E extends ScreenEvent> N listener(ScreenEventType<E> type, ScreenEventListener<E> listener) {
-        return with(n -> n.addListener(type, listener));
+    default <E extends ScreenEvent> N listener(ScreenEventType<E> target, ScreenEventListener<E> listener) {
+        return with(n -> n.addListener(target, listener));
     }
 
-    default <E extends ScreenEvent> N listener(ScreenEventType<E> type, Runnable listener) {
-        return with(n -> n.addListener(type, listener));
+    default <E extends ScreenEvent> N listener(ScreenEventType<E> target, Runnable listener) {
+        return with(n -> n.addListener(target, listener));
     }
 
     default N mouseClicked(ScreenEventListener<MouseButtonEvent> listener) {

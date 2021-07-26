@@ -20,6 +20,7 @@ public class FabricGuapiVanillaThemeMod implements ClientModInitializer {
         initSkin(NodeType.TREE_VIEW, FabricVanillaTreeViewRenderer::new);
         initSkin(NodeType.TOGGLE_BUTTON, FabricVanillaButtonRenderer::new);
         initSkin(NodeType.TEXTURED_TOGGLE_BUTTON, FabricVanillaTexturedButtonRenderer::new);
+        initSkin(NodeType.SLIDER, FabricVanillaSliderRenderer::new);
         Guapi.registerTheme("vanilla", VanillaTheme.INSTANCE);
     }
 

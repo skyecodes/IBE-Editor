@@ -3,6 +3,7 @@ package com.github.franckyi.databindings.base;
 import com.github.franckyi.databindings.api.ObservableValue;
 import com.github.franckyi.databindings.api.Property;
 import com.github.franckyi.databindings.api.event.ObservableValueChangeListener;
+import org.apache.logging.log4j.LogManager;
 
 import java.util.List;
 import java.util.Objects;
@@ -60,11 +61,12 @@ public abstract class AbstractProperty<T> implements Property<T> {
 
     @Override
     public void bind(ObservableValue<? extends T> value) {
-        if (!isBound()) {
-            set(value.get());
-            value.addListener(valueListener);
-            this.boundValue = value;
+        if (isBound()) {
+            throw new IllegalStateException("Cannot bind property: already bound");
         }
+        set(value.get());
+        value.addListener(valueListener);
+        this.boundValue = value;
     }
 
     @Override
@@ -77,15 +79,19 @@ public abstract class AbstractProperty<T> implements Property<T> {
 
     @Override
     public void bindBidirectional(Property<T> other) {
-        if (!isBound() && !other.isBound()) {
-            this.bind(other);
-            other.bind(this);
+        if (isBound() || other.isBound()) {
+            throw new IllegalStateException("Cannot bind property: already bound");
         }
+        this.bind(other);
+        other.bind(this);
     }
 
     @Override
     public void unbindBidirectional(Property<T> other) {
-        if (isBound() && other.isBound() && boundValue == other) {
+        if (boundValue != other) {
+            throw new IllegalArgumentException("Cannot unbind property: incorrect value");
+        }
+        if (isBound() && other.isBound()) {
             this.unbind();
             other.unbind();
         }

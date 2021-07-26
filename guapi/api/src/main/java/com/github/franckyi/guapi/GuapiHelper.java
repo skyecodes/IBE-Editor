@@ -199,6 +199,26 @@ public final class GuapiHelper {
         return node().createListView(eClass, with);
     }
 
+    public static SliderBuilder slider() {
+        return node().createSlider();
+    }
+
+    public static SliderBuilder slider(double value) {
+        return node().createSlider(value);
+    }
+
+    public static SliderBuilder slider(double value, double minValue, double maxValue) {
+        return node().createSlider(value, minValue, maxValue);
+    }
+
+    public static SliderBuilder slider(double value, double minValue, double maxValue, double step) {
+        return node().createSlider(value, minValue, maxValue, step);
+    }
+
+    public static SliderBuilder slider(Consumer<SliderBuilder> with) {
+        return slider().with(with);
+    }
+
     public static TextFieldBuilder textField() {
         return node().createTextField();
     }

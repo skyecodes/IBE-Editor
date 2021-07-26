@@ -229,24 +229,24 @@ public abstract class AbstractNode implements Node {
     }
 
     @Override
-    public <E extends ScreenEvent> void handleEvent(ScreenEventType<E> type, E event) {
-        type.ifMouseEvent(event, this::handleMouseEvent, () -> notifyEvent(type, event));
+    public <E extends ScreenEvent> void handleEvent(ScreenEventType<E> target, E event) {
+        target.ifMouseEvent(event, this::handleMouseEvent, () -> notifyEvent(target, event));
     }
 
-    protected <E extends ScreenEvent> void notifyEvent(ScreenEventType<E> type, E event) {
-        type.onEvent(this, event);
-        eventHandlerDelegate.handleEvent(type, event);
-        getSkin().onEvent(type, event);
-    }
-
-    @Override
-    public <E extends ScreenEvent> void addListener(ScreenEventType<E> type, ScreenEventListener<E> listener) {
-        eventHandlerDelegate.addListener(type, listener);
+    protected <E extends ScreenEvent> void notifyEvent(ScreenEventType<E> target, E event) {
+        target.onEvent(this, event);
+        eventHandlerDelegate.handleEvent(target, event);
+        getSkin().onEvent(target, event);
     }
 
     @Override
-    public <E extends ScreenEvent> void removeListener(ScreenEventType<E> type, ScreenEventListener<E> listener) {
-        eventHandlerDelegate.removeListener(type, listener);
+    public <E extends ScreenEvent> void addListener(ScreenEventType<E> target, ScreenEventListener<E> listener) {
+        eventHandlerDelegate.addListener(target, listener);
+    }
+
+    @Override
+    public <E extends ScreenEvent> void removeListener(ScreenEventType<E> target, ScreenEventListener<E> listener) {
+        eventHandlerDelegate.removeListener(target, listener);
     }
 
     @Override
@@ -367,7 +367,9 @@ public abstract class AbstractNode implements Node {
     }
 
     private void updateScene(Parent newVal) {
-        sceneProperty.unbind();
+        if (sceneProperty.isBound()) {
+            sceneProperty.unbind();
+        }
         if (newVal != null) {
             sceneProperty.bind(newVal.sceneProperty());
         } else {

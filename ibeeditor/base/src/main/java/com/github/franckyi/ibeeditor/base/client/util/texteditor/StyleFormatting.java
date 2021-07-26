@@ -5,24 +5,24 @@ import com.github.franckyi.gameadapter.api.common.text.Text;
 import java.util.Objects;
 
 public class StyleFormatting extends Formatting {
-    private StyleType type;
+    private StyleType target;
 
-    public StyleFormatting(int start, int end, StyleType type) {
+    public StyleFormatting(int start, int end, StyleType target) {
         super(start, end);
-        this.type = type;
+        this.target = target;
     }
 
     public StyleType getType() {
-        return type;
+        return target;
     }
 
-    public void setType(StyleType type) {
-        this.type = type;
+    public void setType(StyleType target) {
+        this.target = target;
     }
 
     @Override
     public void apply(Text text) {
-        switch (type) {
+        switch (target) {
             case BOLD:
                 text.setBold(true);
                 break;
@@ -47,11 +47,11 @@ public class StyleFormatting extends Formatting {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         StyleFormatting that = (StyleFormatting) o;
-        return type == that.type;
+        return target == that.target;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), type);
+        return Objects.hash(super.hashCode(), target);
     }
 }

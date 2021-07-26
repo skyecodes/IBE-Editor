@@ -28,6 +28,7 @@
   "ibeeditor.gui.underline": "Underline",
   "ibeeditor.gui.strikethough": "Strikethrough",
   "ibeeditor.gui.obfuscated": "Obfuscated",
+  "ibeeditor.gui.reset_color": "Reset Color",
   "ibeeditor.gui.black": "Black",
   "ibeeditor.gui.dark_blue": "Dark Blue",
   "ibeeditor.gui.dark_green": "Dark Green",
@@ -101,5 +102,6 @@
   "ibeeditor.message.error_creative_mode": "You must be in creative mode to update this %s.",
   "ibeeditor.message.error_server_mod": "IBE Editor must be installed on the server to update this %s.",
   "ibeeditor.message.success_update": "%s updated!",
-  "ibeeditor.message.no_target_found": "No editable %s found"
+  "ibeeditor.message.no_target_found": "No editable %s found",
+  "ibeeditor.message.error_generic": "An error occured. Please check the logs for more details and report the issue to the mod author."
 }

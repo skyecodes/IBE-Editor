@@ -10,6 +10,9 @@ import com.github.franckyi.guapi.Guapi;
 import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.ibeeditor.base.client.mvc.*;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.*;
+import com.github.franckyi.ibeeditor.base.common.Messages;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -17,6 +20,7 @@ import java.util.function.Consumer;
 import static com.github.franckyi.guapi.GuapiHelper.*;
 
 public final class ModScreenHandler {
+    private static final Logger LOGGER = LogManager.getLogger();
     public static void openItemEditorScreen(Item item, Consumer<Item> action, Text disabledTooltip) {
         openScaledScreen(mvc(StandardEditorMVC.INSTANCE, new ItemEditorModel(item, action, disabledTooltip)));
     }
@@ -37,22 +41,31 @@ public final class ModScreenHandler {
         openScaledScreen(mvc(ConfigEditorMVC.INSTANCE, new ConfigEditorModel()));
     }
 
-    public static void openScaledScreen(Node root) {
-        Guapi.getScreenHandler().showScene(scene(root, true, true).show(scene -> {
-            Game.getClient().getScreenScaling().setBaseScale(ClientConfiguration.INSTANCE.getEditorScale());
-            scene.widthProperty().addListener(Game.getClient().getScreenScaling()::refresh);
-            scene.heightProperty().addListener(Game.getClient().getScreenScaling()::refresh);
-        }).hide(scene -> {
-            ClientConfiguration.INSTANCE.setEditorScale(Game.getClient().getScreenScaling().getScaleAndReset());
-            ClientConfiguration.save();
-        }));
-    }
-
     public static void openListSelectionScreen(String title, String attributeName, List<? extends ListSelectionItemModel> items, Consumer<String> action) {
         openScaledScreen(mvc(ListSelectionScreenMVC.INSTANCE, new ListSelectionScreenModel(title, attributeName, items, action)));
     }
 
-    public static void openColorSelectionScreen(Consumer<String> action) {
-        openScaledScreen(mvc(ColorSelectionScreenMVC.INSTANCE, new ColorSelectionScreenModel(action)));
+    public static void openColorSelectionScreen(ColorSelectionScreenModel.Target target, Consumer<String> action) {
+        openScaledScreen(mvc(ColorSelectionScreenMVC.INSTANCE, new ColorSelectionScreenModel(target, action)));
+    }
+
+    public static void openColorSelectionScreen(ColorSelectionScreenModel.Target target, Consumer<String> action, double red, double green, double blue) {
+        openScaledScreen(mvc(ColorSelectionScreenMVC.INSTANCE, new ColorSelectionScreenModel(target, action, red, green, blue)));
+    }
+
+    private static void openScaledScreen(Node root) {
+        try {
+            Guapi.getScreenHandler().showScene(scene(root, true, true).show(scene -> {
+                Game.getClient().getScreenScaling().setBaseScale(ClientConfiguration.INSTANCE.getEditorScale());
+                scene.widthProperty().addListener(Game.getClient().getScreenScaling()::refresh);
+                scene.heightProperty().addListener(Game.getClient().getScreenScaling()::refresh);
+            }).hide(scene -> {
+                ClientConfiguration.INSTANCE.setEditorScale(Game.getClient().getScreenScaling().getScaleAndReset());
+                ClientConfiguration.save();
+            }));
+        } catch (Exception e) {
+            LOGGER.error("Error while opening screen", e);
+            Game.getClient().getPlayer().sendMessage(Messages.withPrefix(translated("ibeeditor.message.error_generic")).red());
+        }
     }
 }
