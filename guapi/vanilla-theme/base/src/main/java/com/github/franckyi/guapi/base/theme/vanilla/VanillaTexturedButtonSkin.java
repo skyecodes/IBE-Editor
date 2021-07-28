@@ -14,8 +14,10 @@ public class VanillaTexturedButtonSkin<N extends TexturedButton> extends Abstrac
     @Override
     public void render(N node, Matrices matrices, int mouseX, int mouseY, float delta) {
         super.render(node, matrices, mouseX, mouseY, delta);
-        Game.getClient().getRenderer().drawTexture(matrices, node.getTextureId(), node.getX(), node.getY(), node.getWidth(), node.getHeight(),
-                node.getImageX(), node.getImageY(), node.getImageWidth(), node.getImageHeight());
+        if (node.getTextureId() != null) {
+            Game.getClient().getRenderer().drawTexture(matrices, node.getTextureId(), node.getX(), node.getY(), node.getWidth(), node.getHeight(),
+                    node.getImageX(), node.getImageY(), node.getImageWidth(), node.getImageHeight());
+        }
         if (!node.isDrawButton() && node.isDisabled()) {
             Game.getClient().getRenderer().fillRectangle(matrices, node.getX(), node.getY(), node.getX() + node.getWidth(), node.getY() + node.getHeight(), Color.rgba(0, 0, 0, 191));
         }

@@ -19,7 +19,7 @@ public abstract class ColorSelectionScreenView extends EditorView {
     protected Node createHeader() {
         return hBox(header -> {
             header.add(hBox().prefWidth(16));
-            header.add(label(translated("ibeeditor.gui.custom_color").aqua().bold(), true).textAlign(CENTER).prefHeight(20), 1);
+            header.add(label(translated("ibeeditor.gui.choose_custom_color").aqua().bold(), true).textAlign(CENTER).prefHeight(20), 1);
             header.add(createButton("ibeeditor:textures/gui/settings.png", "ibeeditor.gui.settings").action(ModScreenHandler::openSettingsScreen));
             header.align(CENTER);
         });

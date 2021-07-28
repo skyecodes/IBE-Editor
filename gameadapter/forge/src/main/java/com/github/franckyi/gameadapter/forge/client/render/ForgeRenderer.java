@@ -7,6 +7,8 @@ import com.github.franckyi.gameadapter.api.common.world.Item;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
+import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 
@@ -60,6 +62,12 @@ public class ForgeRenderer implements Renderer {
     @Override
     public void drawTooltip(Matrices matrices, List<Text> text, int x, int y) {
         Minecraft.getInstance().screen.renderComponentTooltip(matrices.getMatrixStack(), text.stream().<ITextComponent>map(Text::get).collect(Collectors.toList()), x, y);
+    }
+
+    @Override
+    public void drawTooltip(Matrices matrices, Item item, int x, int y) {
+        Minecraft.getInstance().screen.renderComponentTooltip(matrices.getMatrixStack(),
+                ((ItemStack) item.get()).getTooltipLines(Minecraft.getInstance().player, ITooltipFlag.TooltipFlags.NORMAL), x, y);
     }
 
     @Override

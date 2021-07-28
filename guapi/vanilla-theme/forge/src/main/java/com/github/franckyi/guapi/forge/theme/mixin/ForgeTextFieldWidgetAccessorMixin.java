@@ -8,4 +8,10 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 public interface ForgeTextFieldWidgetAccessorMixin {
     @Accessor("highlightPos")
     int getHighlightPos();
+
+    @Accessor("displayPos")
+    int getDisplayPos();
+
+    @Accessor("shiftPressed")
+    void setShiftPressed(boolean shiftPressed);
 }

@@ -21,6 +21,8 @@ import static com.github.franckyi.guapi.GuapiHelper.*;
 
 public class StandardEditorView extends ListEditorView {
     private List<TexturedButton> colorButtons;
+    private TexturedButton customColorButton;
+    private TexturedButtonBuilder chooseCustomColorButton;
     private HBox textButtons;
     private TranslatedTextBuilder headerText;
     private HBox buttons;
@@ -71,9 +73,11 @@ public class StandardEditorView extends ListEditorView {
                     colors.add(hBox(2, colorButtons.subList(colorButtons.size() / 2, colorButtons.size())));
                     colors.spacing(2);
                 }));
-                right.add(texturedButton("ibeeditor:textures/gui/color_custom.png", 16, 16, false)
-                        .tooltip(translated("ibeeditor.gui.custom_color"))
-                        .action(() -> ModScreenHandler.openColorSelectionScreen(ColorSelectionScreenModel.Target.TEXT, textEditorSupplier.get()::addColorFormatting)));
+                right.add(customColorButton = texturedButton(null, 1, 1, false)
+                        .prefSize(7, 16).visible(false)
+                        .tooltip(translated("ibeeditor.gui.custom_color")));
+                right.add(chooseCustomColorButton = texturedButton("ibeeditor:textures/gui/color_custom.png", 16, 16, false)
+                        .tooltip(translated("ibeeditor.gui.choose_custom_color")));
                 right.spacing(2);
             }));
             buttons.spacing(12).padding(right(20));
@@ -123,6 +127,14 @@ public class StandardEditorView extends ListEditorView {
                         textEditorSupplier.get().addColorFormatting(color);
                     }
                 });
+    }
+
+    public TexturedButton getCustomColorButton() {
+        return customColorButton;
+    }
+
+    public TexturedButton getChooseCustomColorButton() {
+        return chooseCustomColorButton;
     }
 
     public TranslatedTextBuilder getHeaderText() {

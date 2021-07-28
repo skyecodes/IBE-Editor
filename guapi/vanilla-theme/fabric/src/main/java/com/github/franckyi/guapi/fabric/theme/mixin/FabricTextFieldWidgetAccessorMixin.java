@@ -8,4 +8,10 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 public interface FabricTextFieldWidgetAccessorMixin {
     @Accessor("selectionEnd")
     int getSelectionEnd();
+
+    @Accessor("firstCharacterIndex")
+    int getFirstCharacterIndex();
+
+    @Accessor("selecting")
+    void setSelecting(boolean selecting);
 }

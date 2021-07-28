@@ -4,11 +4,10 @@ import com.github.franckyi.guapi.api.node.TextField;
 import com.github.franckyi.guapi.fabric.theme.mixin.FabricClickableWidgetMixin;
 import com.github.franckyi.guapi.fabric.theme.mixin.FabricTextFieldWidgetAccessorMixin;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.text.LiteralText;
-import net.minecraft.text.OrderedText;
-import net.minecraft.text.Style;
-import net.minecraft.text.Text;
+import net.minecraft.text.*;
+import net.minecraft.util.math.MathHelper;
 
 import java.util.Objects;
 
@@ -110,5 +109,15 @@ public class FabricVanillaTextFieldRenderer extends TextFieldWidget implements F
         } else {
             super.eraseCharacters(characterOffset);
         }
+    }
+
+    @Override
+    protected void onDrag(double mouseX, double mouseY, double deltaX, double deltaY) {
+        FabricTextFieldWidgetAccessorMixin self = (FabricTextFieldWidgetAccessorMixin) this;
+        self.setSelecting(false);
+        int firstCharacterIndex = self.getFirstCharacterIndex();
+        TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
+        StringVisitable string = textRenderer.trimToWidth(renderText(getText().substring(firstCharacterIndex), firstCharacterIndex), getInnerWidth());
+        setSelectionEnd(textRenderer.trimToWidth(string, MathHelper.floor(mouseX) - x - 4).getString().length() + firstCharacterIndex);
     }
 }

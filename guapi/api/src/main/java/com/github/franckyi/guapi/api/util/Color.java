@@ -1,6 +1,14 @@
 package com.github.franckyi.guapi.api.util;
 
 public final class Color {
+    public static int hex(String hex) {
+        hex = hex.substring(1);
+        int red = Integer.valueOf(hex.substring(0, 2), 16);
+        int green = Integer.valueOf(hex.substring(2, 4), 16);
+        int blue = Integer.valueOf(hex.substring(4, 6), 16);
+        return rgb(red, green, blue);
+    }
+
     public static int rgb(int r, int g, int b) {
         return rgba(r, g, b, 255);
     }
@@ -26,7 +34,6 @@ public final class Color {
             throw new IllegalArgumentException("RGBA values must be between 0 and 255");
         }
     }
-
     public static final String BLACK = "black";
     public static final String DARK_BLUE = "dark_blue";
     public static final String DARK_GREEN = "dark_green";
@@ -42,5 +49,6 @@ public final class Color {
     public static final String RED = "red";
     public static final String LIGHT_PURPLE = "light_purple";
     public static final String YELLOW = "yellow";
+
     public static final String WHITE = "white";
 }

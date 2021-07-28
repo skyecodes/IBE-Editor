@@ -8,6 +8,8 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.item.TooltipContext;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 
 import java.util.List;
@@ -60,6 +62,11 @@ public class FabricRenderer implements Renderer {
     @Override
     public void drawTooltip(Matrices matrices, List<Text> text, int x, int y) {
         MinecraftClient.getInstance().currentScreen.renderTooltip(matrices.getMatrixStack(), text.stream().<net.minecraft.text.Text>map(Text::get).collect(Collectors.toList()), x, y);
+    }
+
+    @Override
+    public void drawTooltip(Matrices matrices, Item item, int x, int y) {
+        MinecraftClient.getInstance().currentScreen.renderTooltip(matrices.getMatrixStack(), ((ItemStack) item.get()).getTooltip(MinecraftClient.getInstance().player, TooltipContext.Default.NORMAL), x, y);
     }
 
     @Override

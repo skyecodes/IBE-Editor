@@ -3,9 +3,12 @@ package com.github.franckyi.guapi.forge.theme.vanilla;
 import com.github.franckyi.guapi.api.node.TextField;
 import com.github.franckyi.guapi.forge.theme.mixin.ForgeTextFieldWidgetAccessorMixin;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.util.IReorderingProcessor;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.ITextProperties;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.Style;
 
@@ -109,5 +112,15 @@ public class ForgeVanillaTextFieldRenderer extends TextFieldWidget implements Fo
         } else {
             super.deleteChars(characterOffset);
         }
+    }
+
+    @Override
+    protected void onDrag(double mouseX, double mouseY, double deltaX, double deltaY) {
+        ForgeTextFieldWidgetAccessorMixin self = (ForgeTextFieldWidgetAccessorMixin) this;
+        self.setShiftPressed(false);
+        int displayPos = self.getDisplayPos();
+        FontRenderer font = Minecraft.getInstance().font;
+        ITextProperties string = font.substrByWidth(renderText(getValue().substring(displayPos), displayPos), getInnerWidth());
+        moveCursorTo(font.substrByWidth(string, MathHelper.floor(mouseX) - x - 4).getString().length() + displayPos);
     }
 }

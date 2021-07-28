@@ -18,6 +18,8 @@ public interface Renderer {
 
     void drawTooltip(Matrices matrices, List<Text> text, int x, int y);
 
+    void drawTooltip(Matrices matrices, Item item, int x, int y);
+
     void drawItem(Item item, int x, int y);
 
     default void drawVLine(Matrices matrices, int x, int y0, int y1, int color) {

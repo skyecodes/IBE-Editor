@@ -15,9 +15,11 @@ public final class VanillaImageViewSkin extends AbstractSkin<ImageView> {
     @Override
     public void render(ImageView node, Matrices matrices, int mouseX, int mouseY, float delta) {
         super.render(node, matrices, mouseX, mouseY, delta);
-        Game.getClient().getRenderer().drawTexture(matrices, node.getTextureId(),
-                node.getX(), node.getY(), node.getWidth(), node.getHeight(),
-                node.getImageX(), node.getImageY(), node.getImageWidth(), node.getImageHeight());
+        if (node.getTextureId() != null) {
+            Game.getClient().getRenderer().drawTexture(matrices, node.getTextureId(),
+                    node.getX(), node.getY(), node.getWidth(), node.getHeight(),
+                    node.getImageX(), node.getImageY(), node.getImageWidth(), node.getImageHeight());
+        }
     }
 
     @Override
