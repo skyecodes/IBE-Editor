@@ -14,8 +14,9 @@ public class NBTTagController extends AbstractController<NBTTagModel, NBTTagView
     public void bind() {
         view.getNameField().setText(model.getName());
         view.getValueField().setText(model.getValue());
-        model.nameProperty().bindBidirectional(view.getNameField().textProperty());
-        model.valueProperty().bindBidirectional(view.getValueField().textProperty());
+        softBind(model.nameProperty(), view.getNameField().textProperty());
+        softBind(model.valueProperty(), view.getValueField().textProperty());
+        model.validProperty().unbind();
         model.validProperty().bind(view.getValueField().validProperty());
         if (model.getName() == null) {
             view.getRoot().getChildren().removeAll(view.getNameField(), view.getSeparator());
