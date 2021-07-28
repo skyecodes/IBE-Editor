@@ -48,8 +48,8 @@ public final class ForgeGameCommon implements GameCommon {
     }
 
     @Override
-    public Item createItem(CompoundTag tag) {
-        return new ForgeItem(tag);
+    public Item createItem(CompoundTag data) {
+        return new ForgeItem(data);
     }
 
     @Override
@@ -63,8 +63,8 @@ public final class ForgeGameCommon implements GameCommon {
     }
 
     @Override
-    public Entity createEntity(CompoundTag tag) {
-        return new ForgeEntity(tag);
+    public Entity createEntity(CompoundTag data) {
+        return new ForgeEntity(data);
     }
 
     @Override

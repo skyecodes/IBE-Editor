@@ -5,12 +5,12 @@ import com.github.franckyi.gameadapter.api.common.text.Text;
 import com.github.franckyi.guapi.api.EventTarget;
 import com.github.franckyi.guapi.api.Renderable;
 import com.github.franckyi.guapi.api.event.MouseEvent;
-import com.github.franckyi.guapi.api.util.Color;
+import com.github.franckyi.gameadapter.Color;
 import com.github.franckyi.guapi.api.util.Insets;
 import com.github.franckyi.guapi.api.util.ScreenEventType;
 
 public interface Node extends ScreenEventHandler, Renderable, EventTarget {
-    int DEFAULT_BACKGROUND_COLOR = Color.rgba(0, 0, 0, 0);
+    int DEFAULT_BACKGROUND_COLOR = Color.fromRGBA(0, 0, 0, 0);
     int INFINITE_SIZE = Integer.MAX_VALUE;
     int COMPUTED_SIZE = -1;
     int NONE = -1;

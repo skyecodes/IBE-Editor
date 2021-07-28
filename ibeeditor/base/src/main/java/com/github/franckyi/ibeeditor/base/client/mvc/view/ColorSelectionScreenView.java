@@ -4,8 +4,6 @@ import com.github.franckyi.guapi.api.node.HBox;
 import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.api.node.Slider;
 import com.github.franckyi.guapi.api.node.TextField;
-import com.github.franckyi.guapi.api.util.Color;
-import com.github.franckyi.guapi.api.util.Predicates;
 import com.github.franckyi.ibeeditor.base.client.ModScreenHandler;
 
 import static com.github.franckyi.guapi.GuapiHelper.*;

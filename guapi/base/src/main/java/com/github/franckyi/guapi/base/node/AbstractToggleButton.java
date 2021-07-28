@@ -6,11 +6,11 @@ import com.github.franckyi.databindings.api.IntegerProperty;
 import com.github.franckyi.gameadapter.api.common.text.Text;
 import com.github.franckyi.guapi.api.event.MouseButtonEvent;
 import com.github.franckyi.guapi.api.node.ToggleButton;
-import com.github.franckyi.guapi.api.util.Color;
+import com.github.franckyi.gameadapter.Color;
 
 public abstract class AbstractToggleButton extends AbstractButton implements ToggleButton {
     private final BooleanProperty activeProperty = DataBindings.getPropertyFactory().createBooleanProperty();
-    private final IntegerProperty borderColorProperty = DataBindings.getPropertyFactory().createIntegerProperty(Color.rgb(1.0, 1.0, 1.0));
+    private final IntegerProperty borderColorProperty = DataBindings.getPropertyFactory().createIntegerProperty(Color.fromRGB(1.0, 1.0, 1.0));
 
     protected AbstractToggleButton() {
     }

@@ -1,19 +1,35 @@
-package com.github.franckyi.guapi.api.util;
+package com.github.franckyi.gameadapter;
 
 public final class Color {
-    public static int hex(String hex) {
+    public static int fromHex(String hex) {
         hex = hex.substring(1);
         int red = Integer.valueOf(hex.substring(0, 2), 16);
         int green = Integer.valueOf(hex.substring(2, 4), 16);
         int blue = Integer.valueOf(hex.substring(4, 6), 16);
-        return rgb(red, green, blue);
+        return fromRGB(red, green, blue);
     }
 
-    public static int rgb(int r, int g, int b) {
-        return rgba(r, g, b, 255);
+    public static int getAlpha(int color) {
+        return (color >> 24) & 0xff;
     }
 
-    public static int rgba(int r, int g, int b, int a) {
+    public static int getRed(int color) {
+        return (color >> 16) & 0xff;
+    }
+
+    public static int getGreen(int color) {
+        return (color >> 8) & 0xff;
+    }
+
+    public static int getBlue(int color) {
+        return (color) & 0xff;
+    }
+
+    public static int fromRGB(int r, int g, int b) {
+        return fromRGBA(r, g, b, 255);
+    }
+
+    public static int fromRGBA(int r, int g, int b, int a) {
         checkValues(r, g, b, a);
         return (a & 0xff) << 24 |
                 (r & 0xff) << 16 |
@@ -21,12 +37,12 @@ public final class Color {
                 b & 0xff;
     }
 
-    public static int rgb(double r, double g, double b) {
-        return rgb((int) (r * 255), (int) (g * 255), (int) (b * 255));
+    public static int fromRGB(double r, double g, double b) {
+        return fromRGB((int) (r * 255), (int) (g * 255), (int) (b * 255));
     }
 
-    public static int rgba(double r, double g, double b, double a) {
-        return rgba((int) (r * 255), (int) (g * 255), (int) (b * 255), (int) (a * 255));
+    public static int fromRGBA(double r, double g, double b, double a) {
+        return fromRGBA((int) (r * 255), (int) (g * 255), (int) (b * 255), (int) (a * 255));
     }
 
     private static void checkValues(int r, int g, int b, int a) {
@@ -49,6 +65,6 @@ public final class Color {
     public static final String RED = "red";
     public static final String LIGHT_PURPLE = "light_purple";
     public static final String YELLOW = "yellow";
-
     public static final String WHITE = "white";
+    public static final int NONE = Integer.MIN_VALUE;
 }

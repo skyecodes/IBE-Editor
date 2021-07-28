@@ -4,7 +4,7 @@ import com.github.franckyi.gameadapter.Game;
 import com.github.franckyi.gameadapter.api.client.render.Matrices;
 import com.github.franckyi.guapi.api.node.TextField;
 import com.github.franckyi.guapi.api.theme.DelegatedRenderer;
-import com.github.franckyi.guapi.api.util.Color;
+import com.github.franckyi.gameadapter.Color;
 import com.github.franckyi.guapi.base.theme.DelegatedSkin;
 
 public class VanillaTextFieldSkin extends DelegatedSkin<TextField> {
@@ -16,9 +16,9 @@ public class VanillaTextFieldSkin extends DelegatedSkin<TextField> {
     public void render(TextField node, Matrices matrices, int mouseX, int mouseY, float delta) {
         super.render(node, matrices, mouseX, mouseY, delta);
         if (!(node.isValidationForced() || node.getValidator().test(node.getText()))) {
-            drawBorder(node, matrices, Color.rgba(1, 0, 0, 0.8));
+            drawBorder(node, matrices, Color.fromRGBA(1, 0, 0, 0.8));
         } else if (node.isSuggested()) {
-            drawBorder(node, matrices, Color.rgba(0, 1, 0, 0.8));
+            drawBorder(node, matrices, Color.fromRGBA(0, 1, 0, 0.8));
         }
     }
 

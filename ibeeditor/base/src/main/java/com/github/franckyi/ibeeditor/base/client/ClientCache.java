@@ -2,6 +2,7 @@ package com.github.franckyi.ibeeditor.base.client;
 
 import com.github.franckyi.gameadapter.Game;
 import com.github.franckyi.gameadapter.api.common.registry.RegistryEntry;
+import com.github.franckyi.gameadapter.Color;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.ItemListSelectionItemModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.ListSelectionItemModel;
 
@@ -16,6 +17,7 @@ public final class ClientCache {
     private static List<String> attributeSuggestions;
     private static List<ListSelectionItemModel> attributeSelectionItems;
     private static List<String> potionSuggestions;
+    private static List<ItemListSelectionItemModel> potionSelectionItems;
 
     public static List<String> getItemSuggestions() {
         if (itemSuggestions == null) {
@@ -66,6 +68,13 @@ public final class ClientCache {
         return potionSuggestions;
     }
 
+    public static List<ItemListSelectionItemModel> getPotionSelectionItems() {
+        if (potionSelectionItems == null) {
+            potionSelectionItems = getPotionSelectionItems(Game.getCommon().getRegistries().getPotions());
+        }
+        return potionSelectionItems;
+    }
+
     private static List<String> getSuggestions(List<? extends RegistryEntry> list) {
         List<String> suggestions = list.stream().map(RegistryEntry::getId).collect(Collectors.toList());
         list.forEach(e -> {
@@ -85,6 +94,12 @@ public final class ClientCache {
     private static List<ItemListSelectionItemModel> getItemSelectionItems(List<? extends RegistryEntry> list) {
         return list.stream()
                 .map(attribute -> new ItemListSelectionItemModel(attribute.getName(), attribute.getId(), Game.getCommon().createItem(attribute.getId())))
+                .collect(Collectors.toList());
+    }
+
+    private static List<ItemListSelectionItemModel> getPotionSelectionItems(List<? extends RegistryEntry> list) {
+        return list.stream()
+                .map(attribute -> new ItemListSelectionItemModel(attribute.getName(), attribute.getId(), Game.getCommon().createPotionItem(attribute.getId(), Color.NONE)))
                 .collect(Collectors.toList());
     }
 }

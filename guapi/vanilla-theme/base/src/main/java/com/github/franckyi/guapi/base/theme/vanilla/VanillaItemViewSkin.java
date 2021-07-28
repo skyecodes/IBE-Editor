@@ -15,14 +15,16 @@ public final class VanillaItemViewSkin extends AbstractSkin<ItemView> {
     @Override
     public void render(ItemView node, Matrices matrices, int mouseX, int mouseY, float delta) {
         super.render(node, matrices, mouseX, mouseY, delta);
-        Game.getClient().getRenderer().drawItem(node.getItem(),
-                node.getX() + (node.getWidth() - node.getComputedWidth()) / 2,
-                node.getY() + (node.getHeight() - node.getComputedHeight()) / 2);
+        if (node.getItem() != null) {
+            Game.getClient().getRenderer().drawItem(node.getItem(),
+                    node.getX() + (node.getWidth() - node.getComputedWidth()) / 2,
+                    node.getY() + (node.getHeight() - node.getComputedHeight()) / 2);
+        }
     }
 
     @Override
     public void postRender(ItemView node, Matrices matrices, int mouseX, int mouseY, float delta) {
-        if (node.isHovered()) {
+        if (node.isHovered() && node.getItem() != null) {
             Game.getClient().getRenderer().drawTooltip(matrices, node.getItem(), mouseX, mouseY);
         }
         super.postRender(node, matrices, mouseX, mouseY, delta);

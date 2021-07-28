@@ -49,8 +49,8 @@ public final class FabricGameCommon implements GameCommon {
     }
 
     @Override
-    public Item createItem(CompoundTag tag) {
-        return new FabricItem(tag);
+    public Item createItem(CompoundTag data) {
+        return new FabricItem(data);
     }
 
     @Override
@@ -64,8 +64,8 @@ public final class FabricGameCommon implements GameCommon {
     }
 
     @Override
-    public Entity createEntity(CompoundTag tag) {
-        return new FabricEntity(tag);
+    public Entity createEntity(CompoundTag data) {
+        return new FabricEntity(data);
     }
 
     @Override

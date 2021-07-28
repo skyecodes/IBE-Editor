@@ -2,6 +2,7 @@ package com.github.franckyi.ibeeditor.base.client.mvc.model.category;
 
 import com.github.franckyi.gameadapter.api.common.tag.CompoundTag;
 import com.github.franckyi.gameadapter.api.common.tag.Tag;
+import com.github.franckyi.gameadapter.Color;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.ItemEditorModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.EntryModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.PotionEffectEntryModel;
@@ -23,7 +24,7 @@ public class ItemPotionEffectsCategoryModel extends ItemCategoryModel {
 
     @Override
     public int getEntryListStart() {
-        return 2;
+        return 1;
     }
 
     @Override
@@ -37,11 +38,11 @@ public class ItemPotionEffectsCategoryModel extends ItemCategoryModel {
     }
 
     private int getCustomPotionColor() {
-        return getBaseTag().contains("CustomPotionColor", Tag.INT_ID) ? getBaseTag().getInt("CustomPotionColor") : -1;
+        return getBaseTag().contains("CustomPotionColor", Tag.INT_ID) ? getBaseTag().getInt("CustomPotionColor") : Color.NONE;
     }
 
     private void setCustomPotionColor(int color) {
-        if (color != -1) {
+        if (color != Color.NONE) {
             getNewTag().putInt("CustomPotionColor", color);
         } else {
             getNewTag().remove("CustomPotionColor");

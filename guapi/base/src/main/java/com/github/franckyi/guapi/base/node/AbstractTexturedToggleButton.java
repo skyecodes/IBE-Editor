@@ -5,11 +5,11 @@ import com.github.franckyi.databindings.api.BooleanProperty;
 import com.github.franckyi.databindings.api.IntegerProperty;
 import com.github.franckyi.guapi.api.event.MouseButtonEvent;
 import com.github.franckyi.guapi.api.node.TexturedToggleButton;
-import com.github.franckyi.guapi.api.util.Color;
+import com.github.franckyi.gameadapter.Color;
 
 public abstract class AbstractTexturedToggleButton extends AbstractTexturedButton implements TexturedToggleButton {
     private final BooleanProperty activeProperty = DataBindings.getPropertyFactory().createBooleanProperty();
-    private final IntegerProperty borderColorProperty = DataBindings.getPropertyFactory().createIntegerProperty(Color.rgba(1, 1, 1, 0.8));
+    private final IntegerProperty borderColorProperty = DataBindings.getPropertyFactory().createIntegerProperty(Color.fromRGBA(1, 1, 1, 0.8));
 
     protected AbstractTexturedToggleButton(String textureId, boolean drawButton) {
         super(textureId, drawButton);

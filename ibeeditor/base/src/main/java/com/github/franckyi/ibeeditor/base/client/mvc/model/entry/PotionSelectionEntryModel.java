@@ -11,27 +11,38 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public class PotionSelectionEntryModel extends SelectionEntryModel {
+    private int defaultCustomColor;
     private final IntegerProperty customColorProperty;
-    private final Consumer<Integer> otherAction;
+    private final Consumer<Integer> customColorAction;
 
-    public PotionSelectionEntryModel(CategoryModel category, Text label, String potionName, int customColor, Consumer<String> action, Consumer<Integer> otherAction) {
+    public PotionSelectionEntryModel(CategoryModel category, Text label, String potionName, int customColor, Consumer<String> action, Consumer<Integer> customColorAction) {
         super(category, label, potionName, action);
+        defaultCustomColor = customColor;
         customColorProperty = DataBindings.getPropertyFactory().createIntegerProperty(customColor);
-        this.otherAction = otherAction;
+        this.customColorAction = customColorAction;
     }
 
     @Override
     public void apply() {
         super.apply();
-        otherAction.accept(getCustomColor());
+        customColorAction.accept(getCustomColor());
+        defaultCustomColor = getCustomColor();
     }
 
     public int getCustomColor() {
         return customColorProperty().getValue();
     }
 
-    private IntegerProperty customColorProperty() {
+    public IntegerProperty customColorProperty() {
         return customColorProperty;
+    }
+
+    public void setCustomColor(int value) {
+        customColorProperty().setValue(value);
+    }
+
+    public void resetCustomColor() {
+        setCustomColor(defaultCustomColor);
     }
 
     @Override
@@ -46,11 +57,11 @@ public class PotionSelectionEntryModel extends SelectionEntryModel {
 
     @Override
     public String getSuggestionScreenTitle() {
-        return null;
+        return "ibeeditor.gui.potion";
     }
 
     @Override
     public List<? extends ListSelectionItemModel> getSelectionItems() {
-        return null;
+        return ClientCache.getPotionSelectionItems();
     }
 }

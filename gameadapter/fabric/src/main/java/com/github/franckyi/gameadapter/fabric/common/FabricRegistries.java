@@ -70,7 +70,7 @@ public final class FabricRegistries implements Registries {
         if (potions == null) {
             potions = Registry.POTION.getEntries().stream().map(entry -> RegistryEntry.of(
                     entry.getKey().getValue().toString(),
-                    entry.getValue().finishTranslationKey("minecraft:potion.effect.")
+                    entry.getValue().finishTranslationKey("item.minecraft.potion.effect.")
             )).collect(Collectors.toList());
         }
         return potions;

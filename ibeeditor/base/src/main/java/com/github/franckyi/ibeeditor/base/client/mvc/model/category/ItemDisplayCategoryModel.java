@@ -7,7 +7,7 @@ import com.github.franckyi.gameadapter.api.common.tag.ListTag;
 import com.github.franckyi.gameadapter.api.common.tag.Tag;
 import com.github.franckyi.gameadapter.api.common.text.PlainText;
 import com.github.franckyi.gameadapter.api.common.text.Text;
-import com.github.franckyi.guapi.api.util.Color;
+import com.github.franckyi.gameadapter.Color;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.ItemEditorModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.EntryModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.TextEntryModel;
@@ -47,7 +47,7 @@ public class ItemDisplayCategoryModel extends ItemCategoryModel {
 
     private EntryModel createLoreEntry(PlainText value) {
         TextEntryModel entry = new TextEntryModel(this, null, value, this::addLore);
-        entry.listIndexProperty().addListener(index -> entry.setLabel(translated("ibeeditor.gui.lore").with(text(Integer.toString(index)))));
+        entry.listIndexProperty().addListener(index -> entry.setLabel(translated("ibeeditor.gui.lore").with(text(Integer.toString(index + 1)))));
         return entry;
     }
 

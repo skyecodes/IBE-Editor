@@ -1,6 +1,6 @@
 package com.github.franckyi.ibeeditor.base.client.mvc.controller;
 
-import com.github.franckyi.guapi.api.util.Color;
+import com.github.franckyi.gameadapter.Color;
 import com.github.franckyi.ibeeditor.base.client.ModScreenHandler;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.ColorSelectionScreenModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.StandardEditorModel;
@@ -28,7 +28,7 @@ public class StandardEditorController extends ListEditorController<StandardEdito
             ModScreenHandler.openColorSelectionScreen(ColorSelectionScreenModel.Target.TEXT, this::updateCustomColor);
         });
         model.currentCustomColorProperty().addListener(value -> {
-            view.getCustomColorButton().setBackgroundColor(Color.hex(value));
+            view.getCustomColorButton().setBackgroundColor(Color.fromHex(value));
             view.getCustomColorButton().setVisible(value != null);
         });
         view.getCustomColorButton().onAction(e -> {

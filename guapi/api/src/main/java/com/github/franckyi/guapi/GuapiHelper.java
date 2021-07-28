@@ -16,7 +16,7 @@ import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.api.node.TreeView;
 import com.github.franckyi.guapi.api.node.builder.*;
 import com.github.franckyi.guapi.api.util.Align;
-import com.github.franckyi.guapi.api.util.Color;
+import com.github.franckyi.gameadapter.Color;
 import com.github.franckyi.guapi.api.util.Insets;
 
 import java.util.Collection;
@@ -372,11 +372,11 @@ public final class GuapiHelper {
     }
 
     public static int rgb(int r, int g, int b) {
-        return Color.rgb(r, g, b);
+        return Color.fromRGB(r, g, b);
     }
 
     public static int rgba(int r, int g, int b, int a) {
-        return Color.rgba(r, g, b, a);
+        return Color.fromRGBA(r, g, b, a);
     }
 
     public static Insets top(int top) {

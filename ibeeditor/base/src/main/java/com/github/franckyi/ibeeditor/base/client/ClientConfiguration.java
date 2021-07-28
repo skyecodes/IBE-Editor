@@ -32,7 +32,7 @@ public final class ClientConfiguration {
         editorScale = -1;
         guapiTheme = "vanilla";
         guapiDebugMode = DebugMode.OFF;
-        selectionScreenMaxItems = 50;
+        selectionScreenMaxItems = 100;
     }
 
     public int getEditorScale() {

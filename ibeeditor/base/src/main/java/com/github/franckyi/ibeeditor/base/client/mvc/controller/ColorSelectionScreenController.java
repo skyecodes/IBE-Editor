@@ -2,7 +2,7 @@ package com.github.franckyi.ibeeditor.base.client.mvc.controller;
 
 import com.github.franckyi.guapi.Guapi;
 import com.github.franckyi.guapi.api.mvc.AbstractController;
-import com.github.franckyi.guapi.api.util.Color;
+import com.github.franckyi.gameadapter.Color;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.ColorSelectionScreenModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.view.ColorSelectionScreenView;
 
@@ -59,7 +59,7 @@ public abstract class ColorSelectionScreenController<V extends ColorSelectionScr
     }
 
     protected void updateExample() {
-        view.getExampleBox().setBackgroundColor(Color.rgb(
+        view.getExampleBox().setBackgroundColor(Color.fromRGB(
                 (int) model.getRedValue(),
                 (int) model.getGreenValue(),
                 (int) model.getBlueValue()

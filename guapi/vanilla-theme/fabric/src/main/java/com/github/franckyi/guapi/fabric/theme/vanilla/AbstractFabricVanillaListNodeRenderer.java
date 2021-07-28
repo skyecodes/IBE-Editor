@@ -8,7 +8,7 @@ import com.github.franckyi.guapi.api.event.MouseEvent;
 import com.github.franckyi.guapi.api.event.MouseScrollEvent;
 import com.github.franckyi.guapi.api.node.ListNode;
 import com.github.franckyi.guapi.api.node.Node;
-import com.github.franckyi.guapi.api.util.Color;
+import com.github.franckyi.gameadapter.Color;
 import com.github.franckyi.guapi.api.util.ScreenEventType;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.Element;
@@ -240,7 +240,7 @@ public abstract class AbstractFabricVanillaListNodeRenderer<N extends ListNode<E
         protected void renderBackground(Matrices matrices, int x, int y, int entryWidth, int entryHeight) {
             if (getList().getFocused() == this) {
                 FabricRenderer.INSTANCE.fillRectangle(matrices, x - 2, y - 2,
-                        x + entryWidth + 3, y + entryHeight + 2, Color.rgba(255, 255, 255, 79));
+                        x + entryWidth + 3, y + entryHeight + 2, Color.fromRGBA(255, 255, 255, 79));
             }
         }
 

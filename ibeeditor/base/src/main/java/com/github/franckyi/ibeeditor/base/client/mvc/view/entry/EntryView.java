@@ -1,6 +1,7 @@
 package com.github.franckyi.ibeeditor.base.client.mvc.view.entry;
 
 import com.github.franckyi.guapi.api.mvc.View;
+import com.github.franckyi.guapi.api.node.Box;
 import com.github.franckyi.guapi.api.node.HBox;
 import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.api.node.TexturedButton;
@@ -9,7 +10,6 @@ import static com.github.franckyi.guapi.GuapiHelper.*;
 
 public abstract class EntryView implements View {
     private HBox root, right, buttons, listButtons;
-    private Node content;
     private TexturedButton upButton, downButton, deleteButton, resetButton;
 
     @Override
@@ -24,7 +24,7 @@ public abstract class EntryView implements View {
             listButtons.spacing(2);
         });
         root = hBox(root -> {
-            root.add(content = createContent(), 1);
+            root.add(createContent(), 1);
             root.add(right = hBox(right -> {
                 right.add(buttons = hBox(buttons -> {
                     buttons.add(resetButton = texturedButton("ibeeditor:textures/gui/reset.png", 16, 16, false)
@@ -33,7 +33,7 @@ public abstract class EntryView implements View {
                 }));
                 right.spacing(5).align(CENTER_RIGHT);
             }));
-            root.spacing(5).weight(content, 1).align(CENTER);
+            root.spacing(5).align(CENTER);
         });
     }
 
@@ -52,7 +52,7 @@ public abstract class EntryView implements View {
     }
 
     @Override
-    public final HBox getRoot() {
+    public Box getRoot() {
         return root;
     }
 

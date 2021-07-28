@@ -49,8 +49,8 @@ public final class ModScreenHandler {
         openScaledScreen(mvc(ColorSelectionScreenMVC.INSTANCE, new ColorSelectionScreenModel(target, action)));
     }
 
-    public static void openColorSelectionScreen(ColorSelectionScreenModel.Target target, Consumer<String> action, double red, double green, double blue) {
-        openScaledScreen(mvc(ColorSelectionScreenMVC.INSTANCE, new ColorSelectionScreenModel(target, action, red, green, blue)));
+    public static void openColorSelectionScreen(ColorSelectionScreenModel.Target target, Consumer<String> action, int color) {
+        openScaledScreen(mvc(ColorSelectionScreenMVC.INSTANCE, new ColorSelectionScreenModel(target, action, color)));
     }
 
     private static void openScaledScreen(Node root) {

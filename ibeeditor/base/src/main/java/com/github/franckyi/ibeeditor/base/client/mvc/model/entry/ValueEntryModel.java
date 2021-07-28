@@ -38,7 +38,7 @@ public abstract class ValueEntryModel<T> extends LabeledEntryModel {
 
     @Override
     public void apply() {
-        action.accept(valueProperty.getValue());
-        defaultValue = valueProperty.getValue();
+        action.accept(getValue());
+        defaultValue = getValue();
     }
 }

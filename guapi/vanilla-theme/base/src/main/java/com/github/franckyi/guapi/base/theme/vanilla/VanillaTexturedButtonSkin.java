@@ -4,7 +4,7 @@ import com.github.franckyi.gameadapter.Game;
 import com.github.franckyi.gameadapter.api.client.render.Matrices;
 import com.github.franckyi.guapi.api.node.TexturedButton;
 import com.github.franckyi.guapi.api.theme.DelegatedRenderer;
-import com.github.franckyi.guapi.api.util.Color;
+import com.github.franckyi.gameadapter.Color;
 
 public class VanillaTexturedButtonSkin<N extends TexturedButton> extends AbstractVanillaButtonSkin<N> {
     public VanillaTexturedButtonSkin(DelegatedRenderer delegatedRenderer) {
@@ -19,7 +19,7 @@ public class VanillaTexturedButtonSkin<N extends TexturedButton> extends Abstrac
                     node.getImageX(), node.getImageY(), node.getImageWidth(), node.getImageHeight());
         }
         if (!node.isDrawButton() && node.isDisabled()) {
-            Game.getClient().getRenderer().fillRectangle(matrices, node.getX(), node.getY(), node.getX() + node.getWidth(), node.getY() + node.getHeight(), Color.rgba(0, 0, 0, 191));
+            Game.getClient().getRenderer().fillRectangle(matrices, node.getX(), node.getY(), node.getX() + node.getWidth(), node.getY() + node.getHeight(), Color.fromRGBA(0, 0, 0, 191));
         }
     }
 

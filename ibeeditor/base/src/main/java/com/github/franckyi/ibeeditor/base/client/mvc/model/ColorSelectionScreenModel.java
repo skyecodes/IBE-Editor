@@ -4,6 +4,7 @@ import com.github.franckyi.databindings.DataBindings;
 import com.github.franckyi.databindings.api.DoubleProperty;
 import com.github.franckyi.databindings.api.StringProperty;
 import com.github.franckyi.guapi.api.mvc.Model;
+import com.github.franckyi.gameadapter.Color;
 
 import java.util.function.Consumer;
 
@@ -16,15 +17,18 @@ public class ColorSelectionScreenModel implements Model {
     private final DoubleProperty blueValueProperty = DataBindings.getPropertyFactory().createDoubleProperty();
 
     public ColorSelectionScreenModel(Target target, Consumer<String> action) {
-        this(target, action, 255, 255, 255);
+        this(target, action, -1);
     }
 
-    public ColorSelectionScreenModel(Target target, Consumer<String> action, double red, double green, double blue) {
+    public ColorSelectionScreenModel(Target target, Consumer<String> action, int color) {
+        if (color < 0) {
+            color = Color.fromRGB(1., 1., 1.);
+        }
         this.target = target;
         this.action = action;
-        setRedValue(red);
-        setGreenValue(green);
-        setBlueValue(blue);
+        setRedValue(Color.getRed(color));
+        setGreenValue(Color.getGreen(color));
+        setBlueValue(Color.getBlue(color));
     }
 
     public void apply() {
