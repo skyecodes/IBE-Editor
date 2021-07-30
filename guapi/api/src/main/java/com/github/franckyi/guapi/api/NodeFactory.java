@@ -86,6 +86,12 @@ public interface NodeFactory {
 
     SliderBuilder createSlider(double value, double minValue, double maxValue, double step);
 
+    SpriteViewBuilder createSpriteView();
+
+    SpriteViewBuilder createSpriteView(Object sprite);
+
+    SpriteViewBuilder createSpriteView(Object sprite, int imageWidth, int imageHeight);
+
     TextFieldBuilder createTextField();
 
     TextFieldBuilder createTextField(String value);

@@ -1,6 +1,12 @@
 package com.github.franckyi.gameadapter.api.common.tag;
 
+import com.github.franckyi.gameadapter.Game;
+
 public interface Tag {
+    static Tag fromType(byte type) {
+        return Game.getCommon().getTagFactory().createEmptyTag(type);
+    }
+
     byte BYTE_ID = 1;
     byte SHORT_ID = 2;
     byte INT_ID = 3;

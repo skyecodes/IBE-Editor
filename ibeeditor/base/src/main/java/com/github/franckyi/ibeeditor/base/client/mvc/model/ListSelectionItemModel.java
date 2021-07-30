@@ -29,4 +29,12 @@ public class ListSelectionItemModel implements Model {
         String lower = s.toLowerCase(Locale.ROOT);
         return id.toLowerCase(Locale.ROOT).contains(lower) || Game.getCommon().translate(name).toLowerCase(Locale.ROOT).contains(lower);
     }
+
+    public Type getType() {
+        return Type.DEFAULT;
+    }
+
+    public enum Type {
+        DEFAULT, ITEM, IMAGE, SPRITE;
+    }
 }

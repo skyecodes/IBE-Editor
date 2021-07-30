@@ -1,9 +1,19 @@
 package com.github.franckyi.gameadapter.api.common.tag;
 
+import com.github.franckyi.gameadapter.Game;
+
 import java.util.Map;
 import java.util.UUID;
 
 public interface CompoundTag extends Tag, Map<String, Tag> {
+    static CompoundTag create() {
+        return Game.getCommon().getTagFactory().createCompoundTag();
+    }
+
+    static CompoundTag create(Map<String, Tag> value) {
+        return Game.getCommon().getTagFactory().createCompoundTag(value);
+    }
+
     @Override
     default byte getType() {
         return Tag.COMPOUND_ID;

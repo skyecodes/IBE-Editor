@@ -18,7 +18,7 @@ public class PotionSelectionEntryModel extends SelectionEntryModel {
     public PotionSelectionEntryModel(CategoryModel category, Text label, String potionName, int customColor, Consumer<String> action, Consumer<Integer> customColorAction) {
         super(category, label, potionName, action);
         defaultCustomColor = customColor;
-        customColorProperty = DataBindings.getPropertyFactory().createIntegerProperty(customColor);
+        customColorProperty = IntegerProperty.create(customColor);
         this.customColorAction = customColorAction;
     }
 

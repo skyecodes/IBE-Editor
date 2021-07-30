@@ -17,7 +17,7 @@ import java.util.function.Predicate;
 import static com.github.franckyi.guapi.GuapiHelper.*;
 
 public class TextEntryController extends ValueEntryController<TextEntryModel, TextEntryView> implements TextEditorActionHandler {
-    private final ObservableList<Formatting> formattings = DataBindings.getObservableListFactory().createObservableArrayList();
+    private final ObservableList<Formatting> formattings = ObservableList.create();
     private boolean isResettingModel;
 
     public TextEntryController(TextEntryModel model, TextEntryView view) {

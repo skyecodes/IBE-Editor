@@ -219,6 +219,22 @@ public final class GuapiHelper {
         return slider().with(with);
     }
 
+    public static SpriteViewBuilder spriteView() {
+        return node().createSpriteView();
+    }
+
+    public static SpriteViewBuilder spriteView(Object sprite) {
+        return node().createSpriteView(sprite);
+    }
+
+    public static SpriteViewBuilder spriteView(Object sprite, int imageWidth, int imageHeight) {
+        return node().createSpriteView(sprite, imageWidth, imageHeight);
+    }
+
+    public static SpriteViewBuilder spriteView(Consumer<SpriteViewBuilder> with) {
+        return spriteView().with(with);
+    }
+
     public static TextFieldBuilder textField() {
         return node().createTextField();
     }

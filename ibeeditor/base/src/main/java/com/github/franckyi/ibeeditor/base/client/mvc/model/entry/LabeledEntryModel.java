@@ -10,7 +10,7 @@ public abstract class LabeledEntryModel extends EntryModel {
 
     protected LabeledEntryModel(CategoryModel category, Text label) {
         super(category);
-        labelProperty = DataBindings.getPropertyFactory().createObjectProperty(label);
+        labelProperty = ObjectProperty.create(label);
     }
 
     public Text getLabel() {

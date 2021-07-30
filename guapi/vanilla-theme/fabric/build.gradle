@@ -27,7 +27,7 @@ dependencies {
 }
 
 processResources {
-    from "src/main/resources"
+    from "src/main/resources", "../base/src/main/resources"
 
     inputs.property "version", project.mod_version
 

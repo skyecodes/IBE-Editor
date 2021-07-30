@@ -17,7 +17,11 @@ public class ForgeVanillaListViewRenderer<E> extends AbstractForgeVanillaListNod
         for (E item : node.getItems()) {
             Node view = node.getRenderer().getView(item);
             view.setParent(node);
-            addEntry(new NodeEntry<>(this, item, view));
+            NodeEntry<E> entry = new NodeEntry<>(this, item, view);
+            addEntry(entry);
+            if (item == node.getFocusedElement()) {
+                setFocused(entry);
+            }
         }
     }
 

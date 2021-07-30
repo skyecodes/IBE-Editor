@@ -7,9 +7,9 @@ import com.github.franckyi.databindings.api.ObjectProperty;
 import com.github.franckyi.guapi.api.node.TreeView;
 
 public abstract class AbstractTreeView<E extends TreeView.TreeItem<E>> extends AbstractListNode<E> implements TreeView<E> {
-    private final ObjectProperty<E> rootItemProperty = DataBindings.getPropertyFactory().createObjectProperty();
-    private final BooleanProperty showRootProperty = DataBindings.getPropertyFactory().createBooleanProperty();
-    private final IntegerProperty childrenIncrementProperty = DataBindings.getPropertyFactory().createIntegerProperty(20);
+    private final ObjectProperty<E> rootItemProperty = ObjectProperty.create();
+    private final BooleanProperty showRootProperty = BooleanProperty.create();
+    private final IntegerProperty childrenIncrementProperty = IntegerProperty.create(20);
 
     protected AbstractTreeView() {
         this(0);

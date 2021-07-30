@@ -12,8 +12,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public abstract class AbstractBox extends AbstractGroup implements Box {
-    private final IntegerProperty spacingProperty = DataBindings.getPropertyFactory().createIntegerProperty();
-    private final ObjectProperty<Align> alignmentProperty = DataBindings.getPropertyFactory().createObjectProperty(Align.TOP_LEFT);
+    private final IntegerProperty spacingProperty = IntegerProperty.create();
+    private final ObjectProperty<Align> alignmentProperty = ObjectProperty.create(Align.TOP_LEFT);
     protected final Map<Node, Integer> weightMap = new HashMap<>();
 
     protected AbstractBox(int spacing, Collection<? extends Node> children) {

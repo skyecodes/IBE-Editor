@@ -11,15 +11,15 @@ import com.github.franckyi.guapi.api.node.Scene;
 import com.github.franckyi.guapi.api.util.ScreenEventType;
 
 public abstract class AbstractListNode<E> extends AbstractNode implements ListNode<E> {
-    private final BooleanProperty childrenFocusableProperty = DataBindings.getPropertyFactory().createBooleanProperty(false);
-    private final ObjectProperty<E> focusedElementProperty = DataBindings.getPropertyFactory().createObjectProperty();
-    private final ObjectProperty<E> scrollToProperty = DataBindings.getPropertyFactory().createObjectProperty();
-    private final IntegerProperty itemHeightProperty = DataBindings.getPropertyFactory().createIntegerProperty();
-    private final IntegerProperty fullWidthProperty = DataBindings.getPropertyFactory().createIntegerProperty();
-    private final IntegerProperty fullHeightProperty = DataBindings.getPropertyFactory().createIntegerProperty();
-    private final IntegerProperty baseXProperty = DataBindings.getPropertyFactory().createIntegerProperty();
-    private final IntegerProperty baseYProperty = DataBindings.getPropertyFactory().createIntegerProperty();
-    private final ObjectProperty<Renderer<E>> rendererProperty = DataBindings.getPropertyFactory().createObjectProperty();
+    private final BooleanProperty childrenFocusableProperty = BooleanProperty.create(false);
+    private final ObjectProperty<E> focusedElementProperty = ObjectProperty.create();
+    private final ObjectProperty<E> scrollToProperty = ObjectProperty.create();
+    private final IntegerProperty itemHeightProperty = IntegerProperty.create();
+    private final IntegerProperty fullWidthProperty = IntegerProperty.create();
+    private final IntegerProperty fullHeightProperty = IntegerProperty.create();
+    private final IntegerProperty baseXProperty = IntegerProperty.create();
+    private final IntegerProperty baseYProperty = IntegerProperty.create();
+    private final ObjectProperty<Renderer<E>> rendererProperty = ObjectProperty.create();
 
     protected AbstractListNode(int itemHeight) {
         setItemHeight(itemHeight);

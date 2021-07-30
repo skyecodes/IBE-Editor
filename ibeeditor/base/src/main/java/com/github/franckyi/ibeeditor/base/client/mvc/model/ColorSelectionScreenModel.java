@@ -11,10 +11,10 @@ import java.util.function.Consumer;
 public class ColorSelectionScreenModel implements Model {
     private final Target target;
     private final Consumer<String> action;
-    private final StringProperty hexValueProperty = DataBindings.getPropertyFactory().createStringProperty();
-    private final DoubleProperty redValueProperty = DataBindings.getPropertyFactory().createDoubleProperty();
-    private final DoubleProperty greenValueProperty = DataBindings.getPropertyFactory().createDoubleProperty();
-    private final DoubleProperty blueValueProperty = DataBindings.getPropertyFactory().createDoubleProperty();
+    private final StringProperty hexValueProperty = StringProperty.create();
+    private final DoubleProperty redValueProperty = DoubleProperty.create();
+    private final DoubleProperty greenValueProperty = DoubleProperty.create();
+    private final DoubleProperty blueValueProperty = DoubleProperty.create();
 
     public ColorSelectionScreenModel(Target target, Consumer<String> action) {
         this(target, action, -1);

@@ -18,35 +18,35 @@ import com.github.franckyi.guapi.api.util.ScreenEventType;
 import com.github.franckyi.guapi.base.event.ScreenEventHandlerDelegate;
 
 public abstract class AbstractNode implements Node {
-    protected final IntegerProperty xProperty = DataBindings.getPropertyFactory().createIntegerProperty();
-    protected final IntegerProperty yProperty = DataBindings.getPropertyFactory().createIntegerProperty();
-    protected final IntegerProperty widthProperty = DataBindings.getPropertyFactory().createIntegerProperty();
-    protected final IntegerProperty heightProperty = DataBindings.getPropertyFactory().createIntegerProperty();
+    protected final IntegerProperty xProperty = IntegerProperty.create();
+    protected final IntegerProperty yProperty = IntegerProperty.create();
+    protected final IntegerProperty widthProperty = IntegerProperty.create();
+    protected final IntegerProperty heightProperty = IntegerProperty.create();
 
-    private final IntegerProperty minWidthProperty = DataBindings.getPropertyFactory().createIntegerProperty();
-    private final IntegerProperty minHeightProperty = DataBindings.getPropertyFactory().createIntegerProperty();
-    private final IntegerProperty prefWidthProperty = DataBindings.getPropertyFactory().createIntegerProperty(COMPUTED_SIZE);
-    private final IntegerProperty prefHeightProperty = DataBindings.getPropertyFactory().createIntegerProperty(COMPUTED_SIZE);
-    private final IntegerProperty maxWidthProperty = DataBindings.getPropertyFactory().createIntegerProperty(INFINITE_SIZE);
-    private final IntegerProperty maxHeightProperty = DataBindings.getPropertyFactory().createIntegerProperty(INFINITE_SIZE);
-    private final IntegerProperty parentPrefWidthProperty = DataBindings.getPropertyFactory().createIntegerProperty(NONE);
-    private final IntegerProperty parentPrefHeightProperty = DataBindings.getPropertyFactory().createIntegerProperty(NONE);
+    private final IntegerProperty minWidthProperty = IntegerProperty.create();
+    private final IntegerProperty minHeightProperty = IntegerProperty.create();
+    private final IntegerProperty prefWidthProperty = IntegerProperty.create(COMPUTED_SIZE);
+    private final IntegerProperty prefHeightProperty = IntegerProperty.create(COMPUTED_SIZE);
+    private final IntegerProperty maxWidthProperty = IntegerProperty.create(INFINITE_SIZE);
+    private final IntegerProperty maxHeightProperty = IntegerProperty.create(INFINITE_SIZE);
+    private final IntegerProperty parentPrefWidthProperty = IntegerProperty.create(NONE);
+    private final IntegerProperty parentPrefHeightProperty = IntegerProperty.create(NONE);
 
-    protected final IntegerProperty computedWidthProperty = DataBindings.getPropertyFactory().createIntegerProperty();
-    private final ObservableIntegerValue computedWidthPropertyReadOnly = DataBindings.getPropertyFactory().createReadOnlyProperty(computedWidthProperty);
-    protected final IntegerProperty computedHeightProperty = DataBindings.getPropertyFactory().createIntegerProperty();
-    private final ObservableIntegerValue computedHeightPropertyReadOnly = DataBindings.getPropertyFactory().createReadOnlyProperty(computedHeightProperty);
+    protected final IntegerProperty computedWidthProperty = IntegerProperty.create();
+    private final ObservableIntegerValue computedWidthPropertyReadOnly = ObservableIntegerValue.readOnly(computedWidthProperty);
+    protected final IntegerProperty computedHeightProperty = IntegerProperty.create();
+    private final ObservableIntegerValue computedHeightPropertyReadOnly = ObservableIntegerValue.readOnly(computedHeightProperty);
 
-    private final IntegerProperty backgroundColorProperty = DataBindings.getPropertyFactory().createIntegerProperty(DEFAULT_BACKGROUND_COLOR);
-    private final ObjectProperty<Insets> paddingProperty = DataBindings.getPropertyFactory().createObjectProperty(Insets.NONE);
-    private final ObservableList<Text> tooltip = DataBindings.getObservableListFactory().createObservableArrayList();
+    private final IntegerProperty backgroundColorProperty = IntegerProperty.create(DEFAULT_BACKGROUND_COLOR);
+    private final ObjectProperty<Insets> paddingProperty = ObjectProperty.create(Insets.NONE);
+    private final ObservableList<Text> tooltip = ObservableList.create();
 
-    protected final ObjectProperty<Parent> parentProperty = DataBindings.getPropertyFactory().createObjectProperty();
-    protected final ObjectProperty<Scene> sceneProperty = DataBindings.getPropertyFactory().createObjectProperty();
-    private final ObservableObjectValue<Scene> scenePropertyReadOnly = DataBindings.getPropertyFactory().createReadOnlyProperty(sceneProperty);
+    protected final ObjectProperty<Parent> parentProperty = ObjectProperty.create();
+    protected final ObjectProperty<Scene> sceneProperty = ObjectProperty.create();
+    private final ObservableObjectValue<Scene> scenePropertyReadOnly = ObservableObjectValue.readOnly(sceneProperty);
 
-    private final BooleanProperty visibleProperty = DataBindings.getPropertyFactory().createBooleanProperty(true);
-    private final BooleanProperty disableProperty = DataBindings.getPropertyFactory().createBooleanProperty();
+    private final BooleanProperty visibleProperty = BooleanProperty.create(true);
+    private final BooleanProperty disableProperty = BooleanProperty.create();
     private final ObservableBooleanValue disabledProperty = disableProperty()
             .or(parentProperty().bindMapToBoolean(Parent::disabledProperty, false));
 

@@ -17,11 +17,14 @@ import com.github.franckyi.gameadapter.fabric.common.world.FabricPlayer;
 import com.github.franckyi.gameadapter.fabric.common.world.FabricWorld;
 import com.github.franckyi.gameadapter.fabric.common.world.FabricWorldEntity;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
+import net.minecraft.util.registry.Registry;
 
 public final class FabricGameClient implements GameClient {
     public static final GameClient INSTANCE = new FabricGameClient();
@@ -101,6 +104,12 @@ public final class FabricGameClient implements GameClient {
     @SuppressWarnings("unchecked")
     public ScreenFactory<Screen> getScreenFactory() {
         return FabricScreen::new;
+    }
+
+    @Override
+    public Object getEffectSprite(String effectId) {
+        return MinecraftClient.getInstance().getStatusEffectSpriteManager()
+                .getSprite(Registry.STATUS_EFFECT.get(Identifier.tryParse(effectId)));
     }
 
     @Override

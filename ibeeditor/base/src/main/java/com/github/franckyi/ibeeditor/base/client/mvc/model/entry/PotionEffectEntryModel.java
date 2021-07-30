@@ -3,35 +3,31 @@ package com.github.franckyi.ibeeditor.base.client.mvc.model.entry;
 import com.github.franckyi.databindings.DataBindings;
 import com.github.franckyi.databindings.api.BooleanProperty;
 import com.github.franckyi.databindings.api.IntegerProperty;
+import com.github.franckyi.gameadapter.Game;
+import com.github.franckyi.ibeeditor.base.client.ClientCache;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.CategoryModel;
+import com.github.franckyi.ibeeditor.base.client.mvc.model.ListSelectionItemModel;
 
-public class PotionEffectEntryModel extends EntryModel {
-    private final IntegerProperty idProperty, amplifierProperty, durationProperty;
+import java.util.List;
+
+public class PotionEffectEntryModel extends SelectionEntryModel {
+    private final IntegerProperty amplifierProperty, durationProperty;
     private final BooleanProperty ambientProperty, showParticlesProperty, showIconProperty;
     private final PotionEffectConsumer callback;
 
     public PotionEffectEntryModel(CategoryModel category, int id, int amplifier, int duration, boolean ambient, boolean showParticles, boolean showIcon, PotionEffectConsumer callback) {
-        super(category);
-        idProperty = DataBindings.getPropertyFactory().createIntegerProperty(id);
-        amplifierProperty = DataBindings.getPropertyFactory().createIntegerProperty(amplifier);
-        durationProperty = DataBindings.getPropertyFactory().createIntegerProperty(duration);
-        ambientProperty = DataBindings.getPropertyFactory().createBooleanProperty(ambient);
-        showParticlesProperty = DataBindings.getPropertyFactory().createBooleanProperty(showParticles);
-        showIconProperty = DataBindings.getPropertyFactory().createBooleanProperty(showIcon);
+        super(category, null, Game.getCommon().getRegistries().getEffectFromId(id), s -> {});
+        amplifierProperty = IntegerProperty.create(amplifier);
+        durationProperty = IntegerProperty.create(duration);
+        ambientProperty = BooleanProperty.create(ambient);
+        showParticlesProperty = BooleanProperty.create(showParticles);
+        showIconProperty = BooleanProperty.create(showIcon);
         this.callback = callback;
     }
 
     @Override
     public void apply() {
-        callback.consume(getId(), getAmplifier(), getDuration(), isAmbient(), isShowParticles(), isShowIcon());
-    }
-
-    public int getId() {
-        return idProperty().getValue();
-    }
-
-    public IntegerProperty idProperty() {
-        return idProperty;
+        callback.consume(Game.getCommon().getRegistries().getEffectId(getValue()), getAmplifier(), getDuration(), isAmbient(), isShowParticles(), isShowIcon());
     }
 
     public int getAmplifier() {
@@ -42,12 +38,20 @@ public class PotionEffectEntryModel extends EntryModel {
         return amplifierProperty;
     }
 
+    public void setAmplifier(int value) {
+        amplifierProperty().setValue(value);
+    }
+
     public int getDuration() {
         return durationProperty().getValue();
     }
 
     public IntegerProperty durationProperty() {
         return durationProperty;
+    }
+
+    public void setDuration(int value) {
+        durationProperty().setValue(value);
     }
 
     public boolean isAmbient() {
@@ -58,12 +62,20 @@ public class PotionEffectEntryModel extends EntryModel {
         return ambientProperty;
     }
 
+    public void setAmbient(boolean value) {
+        ambientProperty().setValue(value);
+    }
+
     public boolean isShowParticles() {
         return showParticlesProperty().getValue();
     }
 
     public BooleanProperty showParticlesProperty() {
         return showParticlesProperty;
+    }
+
+    public void setShowParticles(boolean value) {
+        showParticlesProperty().setValue(value);
     }
 
     public boolean isShowIcon() {
@@ -74,9 +86,28 @@ public class PotionEffectEntryModel extends EntryModel {
         return showIconProperty;
     }
 
+    public void setShowIcon(boolean value) {
+        showIconProperty().setValue(value);
+    }
+
     @Override
     public Type getType() {
         return Type.POTION_EFFECT;
+    }
+
+    @Override
+    public List<String> getSuggestions() {
+        return ClientCache.getEffectSuggestions();
+    }
+
+    @Override
+    public String getSuggestionScreenTitle() {
+        return "ibeeditor.gui.effect";
+    }
+
+    @Override
+    public List<? extends ListSelectionItemModel> getSelectionItems() {
+        return ClientCache.getEffectSelectionItems();
     }
 
     @FunctionalInterface

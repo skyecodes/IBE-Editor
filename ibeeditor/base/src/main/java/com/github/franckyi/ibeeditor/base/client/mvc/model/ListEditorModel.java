@@ -8,10 +8,10 @@ import com.github.franckyi.guapi.api.mvc.Model;
 import com.github.franckyi.ibeeditor.base.client.util.texteditor.TextEditorActionHandler;
 
 public abstract class ListEditorModel<C extends CategoryModel> implements Model {
-    protected final BooleanProperty validProperty = DataBindings.getPropertyFactory().createBooleanProperty(true);
-    protected final ObservableList<C> categories = DataBindings.getObservableListFactory().createObservableArrayList();
-    protected final ObjectProperty<CategoryModel> selectedCategory = DataBindings.getPropertyFactory().createObjectProperty();
-    protected final ObjectProperty<TextEditorActionHandler> activeTextEditorProperty = DataBindings.getPropertyFactory().createObjectProperty();
+    protected final BooleanProperty validProperty = BooleanProperty.create(true);
+    protected final ObservableList<C> categories = ObservableList.create();
+    protected final ObjectProperty<CategoryModel> selectedCategory = ObjectProperty.create();
+    protected final ObjectProperty<TextEditorActionHandler> activeTextEditorProperty = ObjectProperty.create();
 
     @Override
     public void initalize() {

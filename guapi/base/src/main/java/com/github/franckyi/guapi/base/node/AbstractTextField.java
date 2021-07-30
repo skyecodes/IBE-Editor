@@ -10,20 +10,20 @@ import java.util.function.Predicate;
 import static com.github.franckyi.guapi.GuapiHelper.*;
 
 public abstract class AbstractTextField extends AbstractLabeled implements TextField {
-    private final StringProperty textProperty = DataBindings.getPropertyFactory().createStringProperty("");
-    private final IntegerProperty maxLengthProperty = DataBindings.getPropertyFactory().createIntegerProperty(Integer.MAX_VALUE);
-    private final ObjectProperty<Predicate<String>> validatorProperty = DataBindings.getPropertyFactory().createObjectProperty(s -> true);
-    private final BooleanProperty validationForcedProperty = DataBindings.getPropertyFactory().createBooleanProperty();
-    private final BooleanProperty validProperty = DataBindings.getPropertyFactory().createBooleanProperty();
-    private final ObservableBooleanValue validPropertyReadOnly = DataBindings.getPropertyFactory().createReadOnlyProperty(validProperty);
-    private final ObjectProperty<TextRenderer> textRendererProperty = DataBindings.getPropertyFactory().createObjectProperty();
-    private final IntegerProperty cursorPositionProperty = DataBindings.getPropertyFactory().createIntegerProperty();
-    private final IntegerProperty highlightPositionProperty = DataBindings.getPropertyFactory().createIntegerProperty();
+    private final StringProperty textProperty = StringProperty.create("");
+    private final IntegerProperty maxLengthProperty = IntegerProperty.create(Integer.MAX_VALUE);
+    private final ObjectProperty<Predicate<String>> validatorProperty = ObjectProperty.create(s -> true);
+    private final BooleanProperty validationForcedProperty = BooleanProperty.create();
+    private final BooleanProperty validProperty = BooleanProperty.create();
+    private final ObservableBooleanValue validPropertyReadOnly = ObservableBooleanValue.readOnly(validProperty);
+    private final ObjectProperty<TextRenderer> textRendererProperty = ObjectProperty.create();
+    private final IntegerProperty cursorPositionProperty = IntegerProperty.create();
+    private final IntegerProperty highlightPositionProperty = IntegerProperty.create();
     private TextFieldEventListener onTextUpdate;
-    private final ObservableList<String> suggestions = DataBindings.getObservableListFactory().createObservableArrayList();
-    private final BooleanProperty suggestedProperty = DataBindings.getPropertyFactory().createBooleanProperty();
-    private final ObservableBooleanValue suggestedPropertyReadOnly = DataBindings.getPropertyFactory().createReadOnlyProperty(suggestedProperty);
-    private final ObjectProperty<Text> placeholderProperty = DataBindings.getPropertyFactory().createObjectProperty(emptyText());
+    private final ObservableList<String> suggestions = ObservableList.create();
+    private final BooleanProperty suggestedProperty = BooleanProperty.create();
+    private final ObservableBooleanValue suggestedPropertyReadOnly = ObservableBooleanValue.readOnly(suggestedProperty);
+    private final ObjectProperty<Text> placeholderProperty = ObjectProperty.create(emptyText());
 
     protected AbstractTextField() {
         this("");

@@ -16,6 +16,8 @@ public interface Renderer {
 
     void drawTexture(Matrices matrices, String id, int x, int y, int width, int height, int imageX, int imageY, int imageWidth, int imageHeight);
 
+    void drawSprite(Matrices matrices, Object sprite, int x, int y, int imageWidth, int imageHeight);
+
     void drawTooltip(Matrices matrices, List<Text> text, int x, int y);
 
     void drawTooltip(Matrices matrices, Item item, int x, int y);

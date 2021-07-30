@@ -6,11 +6,11 @@ import com.github.franckyi.databindings.api.StringProperty;
 import com.github.franckyi.guapi.api.node.ImageView;
 
 public abstract class AbstractImageView extends AbstractControl implements ImageView {
-    private final StringProperty textureIdProperty = DataBindings.getPropertyFactory().createStringProperty();
-    private final IntegerProperty imageXProperty = DataBindings.getPropertyFactory().createIntegerProperty();
-    private final IntegerProperty imageYProperty = DataBindings.getPropertyFactory().createIntegerProperty();
-    private final IntegerProperty imageWidthProperty = DataBindings.getPropertyFactory().createIntegerProperty();
-    private final IntegerProperty imageHeightProperty = DataBindings.getPropertyFactory().createIntegerProperty();
+    private final StringProperty textureIdProperty = StringProperty.create();
+    private final IntegerProperty imageXProperty = IntegerProperty.create();
+    private final IntegerProperty imageYProperty = IntegerProperty.create();
+    private final IntegerProperty imageWidthProperty = IntegerProperty.create();
+    private final IntegerProperty imageHeightProperty = IntegerProperty.create();
 
     public AbstractImageView(String textureId) {
         this(textureId, 0, 0);

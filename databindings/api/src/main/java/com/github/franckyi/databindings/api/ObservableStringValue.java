@@ -1,6 +1,11 @@
 package com.github.franckyi.databindings.api;
 
+import com.github.franckyi.databindings.DataBindings;
+
 public interface ObservableStringValue extends ObservableObjectValue<String> {
+    static ObservableStringValue readOnly(StringProperty property) {
+        return DataBindings.getPropertyFactory().createReadOnlyProperty(property);
+    }
 
     /**
      * Creates a new {@link ObservableStringValue} that is always equal to the concatenation of this value

@@ -208,6 +208,21 @@ public class NodeFactoryImpl implements NodeFactory {
     }
 
     @Override
+    public SpriteViewBuilder createSpriteView() {
+        return new SpriteViewImpl();
+    }
+
+    @Override
+    public SpriteViewBuilder createSpriteView(Object sprite) {
+        return new SpriteViewImpl(sprite);
+    }
+
+    @Override
+    public SpriteViewBuilder createSpriteView(Object sprite, int imageWidth, int imageHeight) {
+        return new SpriteViewImpl(sprite, imageWidth, imageHeight);
+    }
+
+    @Override
     public TextFieldBuilder createTextField() {
         return new TextFieldImpl();
     }

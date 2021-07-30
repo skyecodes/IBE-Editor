@@ -1,6 +1,12 @@
 package com.github.franckyi.databindings.api;
 
+import com.github.franckyi.databindings.DataBindings;
+
 public interface ObservableObjectValue<T> extends ObservableValue<T> {
+    static <T> ObservableObjectValue<T> readOnly(ObjectProperty<T> property) {
+        return DataBindings.getPropertyFactory().createReadOnlyProperty(property);
+    }
+
     /**
      * Gets the value (no difference with {@link #get}, but is preferable to use)
      * @return The value

@@ -1,9 +1,15 @@
 package com.github.franckyi.databindings.api;
 
+import com.github.franckyi.databindings.DataBindings;
+
 /**
  * An {@link ObservableValue} that holds a boolean value.
  */
 public interface ObservableBooleanValue extends ObservableValue<Boolean> {
+    static ObservableBooleanValue readOnly(BooleanProperty property) {
+        return DataBindings.getPropertyFactory().createReadOnlyProperty(property);
+    }
+
     /**
      * Gets the value (safer than {@link #get}, will return {@code false} is the value is {@code null}).
      * @return The value

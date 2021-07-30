@@ -12,9 +12,9 @@ import java.util.function.Function;
 import static com.github.franckyi.guapi.GuapiHelper.*;
 
 public abstract class AbstractEnumButton<E extends Enum<E>> extends AbstractButton implements EnumButton<E> {
-    private final ObjectProperty<E> valueProperty = DataBindings.getPropertyFactory().createObjectProperty();
-    private final IntegerProperty valueIndexProperty = DataBindings.getPropertyFactory().createIntegerProperty();
-    private final ObjectProperty<Function<E, Text>> textFactoryProperty = DataBindings.getPropertyFactory().createObjectProperty(e -> text(e.name()));
+    private final ObjectProperty<E> valueProperty = ObjectProperty.create();
+    private final IntegerProperty valueIndexProperty = IntegerProperty.create();
+    private final ObjectProperty<Function<E, Text>> textFactoryProperty = ObjectProperty.create(e -> text(e.name()));
     private final E[] values;
     private boolean indexUpdated, valueUpdated;
 

@@ -9,7 +9,7 @@ import static com.github.franckyi.guapi.GuapiHelper.*;
 
 public abstract class AbstractSlider extends AbstractControl implements Slider {
     private final DoubleProperty valueProperty, minValueProperty, maxValueProperty, stepProperty;
-    private final ObjectProperty<LabelFactory> labelFactoryProperty = DataBindings.getPropertyFactory().createObjectProperty(d -> text(Integer.toString((int) d)));
+    private final ObjectProperty<LabelFactory> labelFactoryProperty = ObjectProperty.create(d -> text(Integer.toString((int) d)));
 
     protected AbstractSlider() {
         this(0);
@@ -24,10 +24,10 @@ public abstract class AbstractSlider extends AbstractControl implements Slider {
     }
 
     protected AbstractSlider(double value, double minValue, double maxValue, double step) {
-        valueProperty = DataBindings.getPropertyFactory().createDoubleProperty(value);
-        minValueProperty = DataBindings.getPropertyFactory().createDoubleProperty(minValue);
-        maxValueProperty = DataBindings.getPropertyFactory().createDoubleProperty(maxValue);
-        stepProperty = DataBindings.getPropertyFactory().createDoubleProperty(step);
+        valueProperty = DoubleProperty.create(value);
+        minValueProperty = DoubleProperty.create(minValue);
+        maxValueProperty = DoubleProperty.create(maxValue);
+        stepProperty = DoubleProperty.create(step);
         minValueProperty.addListener(min -> setValue(Math.max(min, getValue())));
         maxValueProperty.addListener(max -> setValue(Math.min(max, getValue())));
     }

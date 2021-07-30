@@ -1,6 +1,6 @@
 package com.github.franckyi.databindings.base;
 
-import com.github.franckyi.databindings.DataBindings;
+import com.github.franckyi.databindings.api.ObjectProperty;
 import com.github.franckyi.databindings.api.ObservableValue;
 import com.github.franckyi.databindings.api.Property;
 import com.github.franckyi.databindings.api.event.ObservableValueChangeListener;
@@ -12,7 +12,7 @@ public abstract class AbstractBoundObservableValue<T, X> implements ObservableVa
     protected final Function<T, ObservableValue<X>> mapper;
     protected final boolean nullSafe;
     protected final ObservableValue<X> orIfNull;
-    protected final Property<X> value = DataBindings.getPropertyFactory().createObjectProperty();
+    protected final Property<X> value = ObjectProperty.create();
 
     protected AbstractBoundObservableValue(ObservableValue<T> source, Function<T, ObservableValue<X>> mapper, boolean nullSafe, X orIfNull) {
         this.source = source;

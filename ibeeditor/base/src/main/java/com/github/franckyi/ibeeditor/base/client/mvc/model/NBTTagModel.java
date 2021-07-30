@@ -15,13 +15,13 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class NBTTagModel implements TreeView.TreeItem<NBTTagModel>, Model {
-    private final ObservableList<NBTTagModel> children = DataBindings.getObservableListFactory().createObservableArrayList();
-    private final BooleanProperty expandedProperty = DataBindings.getPropertyFactory().createBooleanProperty();
+    private final ObservableList<NBTTagModel> children = ObservableList.create();
+    private final BooleanProperty expandedProperty = BooleanProperty.create();
     private final ObjectProperty<NBTTagModel> parentProperty;
-    private final BooleanProperty childrenChangedProperty = DataBindings.getPropertyFactory().createBooleanProperty();
+    private final BooleanProperty childrenChangedProperty = BooleanProperty.create();
     private final StringProperty nameProperty;
     private final StringProperty valueProperty;
-    private final BooleanProperty validProperty = DataBindings.getPropertyFactory().createBooleanProperty();
+    private final BooleanProperty validProperty = BooleanProperty.create();
     protected final Tag tag;
     protected byte forcedTagType;
 
@@ -37,9 +37,9 @@ public class NBTTagModel implements TreeView.TreeItem<NBTTagModel>, Model {
 
     public NBTTagModel(Tag tag, NBTTagModel parent, String name, String value) {
         this.tag = tag;
-        parentProperty = DataBindings.getPropertyFactory().createObjectProperty(parent);
-        nameProperty = DataBindings.getPropertyFactory().createStringProperty(name);
-        valueProperty = DataBindings.getPropertyFactory().createStringProperty(value);
+        parentProperty = ObjectProperty.create(parent);
+        nameProperty = StringProperty.create(name);
+        valueProperty = StringProperty.create(value);
         if (tag != null) {
             switch (tag.getType()) {
                 case Tag.COMPOUND_ID:
@@ -150,46 +150,46 @@ public class NBTTagModel implements TreeView.TreeItem<NBTTagModel>, Model {
         if (canBuild()) {
             switch (tag.getType()) {
                 case Tag.BYTE_ID:
-                    return Game.getCommon().getTagFactory().createByteTag(Byte.parseByte(getValue()));
+                    return ByteTag.create(Byte.parseByte(getValue()));
                 case Tag.SHORT_ID:
-                    return Game.getCommon().getTagFactory().createShortTag(Short.parseShort(getValue()));
+                    return ShortTag.create(Short.parseShort(getValue()));
                 case Tag.INT_ID:
-                    return Game.getCommon().getTagFactory().createIntTag(Integer.parseInt(getValue()));
+                    return IntTag.create(Integer.parseInt(getValue()));
                 case Tag.LONG_ID:
-                    return Game.getCommon().getTagFactory().createLongTag(Long.parseLong(getValue()));
+                    return LongTag.create(Long.parseLong(getValue()));
                 case Tag.FLOAT_ID:
-                    return Game.getCommon().getTagFactory().createFloatTag(Float.parseFloat(getValue()));
+                    return FloatTag.create(Float.parseFloat(getValue()));
                 case Tag.DOUBLE_ID:
-                    return Game.getCommon().getTagFactory().createDoubleTag(Double.parseDouble(getValue()));
+                    return DoubleTag.create(Double.parseDouble(getValue()));
                 case Tag.BYTE_ARRAY_ID:
-                    return Game.getCommon().getTagFactory().createByteArrayTag(getChildren()
+                    return ByteArrayTag.create(getChildren()
                             .stream()
                             .map(NBTTagModel::getValue)
                             .map(Byte::parseByte)
                             .collect(Collectors.toList())
                     );
                 case Tag.STRING_ID:
-                    return Game.getCommon().getTagFactory().createStringTag(getValue());
+                    return StringTag.create(getValue());
                 case Tag.LIST_ID:
-                    return Game.getCommon().getTagFactory().createListTag(getChildren()
+                    return ListTag.create(getChildren()
                             .stream()
                             .map(NBTTagModel::build)
                             .collect(Collectors.toList())
                     );
                 case Tag.COMPOUND_ID:
-                    return Game.getCommon().getTagFactory().createCompoundTag(getChildren()
+                    return CompoundTag.create(getChildren()
                             .stream()
                             .collect(Collectors.toMap(NBTTagModel::getName, NBTTagModel::build))
                     );
                 case Tag.INT_ARRAY_ID:
-                    return Game.getCommon().getTagFactory().createIntArrayTag(getChildren()
+                    return IntArrayTag.create(getChildren()
                             .stream()
                             .map(NBTTagModel::getValue)
                             .map(Integer::parseInt)
                             .collect(Collectors.toList())
                     );
                 case Tag.LONG_ARRAY_ID:
-                    return Game.getCommon().getTagFactory().createLongArrayTag(getChildren()
+                    return LongArrayTag.create(getChildren()
                             .stream()
                             .map(NBTTagModel::getValue)
                             .map(Long::parseLong)

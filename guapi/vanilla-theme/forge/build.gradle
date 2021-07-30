@@ -33,3 +33,7 @@ dependencies {
     implementation project(':guapi:vanilla-theme:base')
 }
 
+processResources {
+    from 'src/main/resources', '../base/src/main/resources'
+}
+

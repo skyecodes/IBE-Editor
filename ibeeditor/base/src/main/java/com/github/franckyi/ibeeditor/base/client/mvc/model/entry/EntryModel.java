@@ -8,9 +8,9 @@ import com.github.franckyi.ibeeditor.base.client.mvc.model.CategoryModel;
 
 public abstract class EntryModel implements Model {
     private final CategoryModel category;
-    private final BooleanProperty validProperty = DataBindings.getPropertyFactory().createBooleanProperty(true);
-    private final IntegerProperty listIndexProperty = DataBindings.getPropertyFactory().createIntegerProperty(-1);
-    private final IntegerProperty listSizeProperty = DataBindings.getPropertyFactory().createIntegerProperty(-1);
+    private final BooleanProperty validProperty = BooleanProperty.create(true);
+    private final IntegerProperty listIndexProperty = IntegerProperty.create(-1);
+    private final IntegerProperty listSizeProperty = IntegerProperty.create(-1);
 
     protected EntryModel(CategoryModel category) {
         this.category = category;

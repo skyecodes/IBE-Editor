@@ -45,7 +45,7 @@ public class ItemBlockListCategoryModel extends ItemCategoryModel {
 
     @Override
     public void apply(CompoundTag nbt) {
-        newBlocks = Game.getCommon().getTagFactory().createListTag();
+        newBlocks = ListTag.create();
         super.apply(nbt);
         if (!newBlocks.isEmpty()) {
             getNewTag().putTag(tagName, newBlocks);

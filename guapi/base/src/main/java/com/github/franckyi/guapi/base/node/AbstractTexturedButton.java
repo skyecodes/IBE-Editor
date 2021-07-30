@@ -5,7 +5,7 @@ import com.github.franckyi.databindings.api.BooleanProperty;
 import com.github.franckyi.guapi.api.node.TexturedButton;
 
 public abstract class AbstractTexturedButton extends AbstractImageView implements TexturedButton {
-    private final BooleanProperty drawButtonProperty = DataBindings.getPropertyFactory().createBooleanProperty(true);
+    private final BooleanProperty drawButtonProperty = BooleanProperty.create(true);
 
     public AbstractTexturedButton(String textureId, boolean drawButton) {
         super(textureId);

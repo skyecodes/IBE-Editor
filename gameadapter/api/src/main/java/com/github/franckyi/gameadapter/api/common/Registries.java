@@ -15,4 +15,10 @@ public interface Registries {
     List<RegistryEntry> getAttributes();
 
     List<RegistryEntry> getPotions();
+
+    List<RegistryEntry> getEffects();
+
+    int getEffectId(String name);
+
+    String getEffectFromId(int id);
 }

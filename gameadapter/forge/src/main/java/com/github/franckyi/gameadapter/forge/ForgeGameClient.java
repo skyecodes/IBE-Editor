@@ -19,10 +19,12 @@ import com.github.franckyi.gameadapter.forge.common.world.ForgeWorldEntity;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
+import net.minecraftforge.registries.ForgeRegistries;
 
 public final class ForgeGameClient implements GameClient {
     public static final GameClient INSTANCE = new ForgeGameClient();
@@ -90,6 +92,12 @@ public final class ForgeGameClient implements GameClient {
             }
         }
         return null;
+    }
+
+    @Override
+    public Object getEffectSprite(String effectId) {
+        return Minecraft.getInstance().getMobEffectTextures()
+                .get(ForgeRegistries.POTIONS.getValue(ResourceLocation.tryParse(effectId)));
     }
 
     @Override

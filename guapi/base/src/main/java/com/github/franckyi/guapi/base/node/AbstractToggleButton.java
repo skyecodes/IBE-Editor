@@ -9,8 +9,8 @@ import com.github.franckyi.guapi.api.node.ToggleButton;
 import com.github.franckyi.gameadapter.Color;
 
 public abstract class AbstractToggleButton extends AbstractButton implements ToggleButton {
-    private final BooleanProperty activeProperty = DataBindings.getPropertyFactory().createBooleanProperty();
-    private final IntegerProperty borderColorProperty = DataBindings.getPropertyFactory().createIntegerProperty(Color.fromRGB(1.0, 1.0, 1.0));
+    private final BooleanProperty activeProperty = BooleanProperty.create();
+    private final IntegerProperty borderColorProperty = IntegerProperty.create(Color.fromRGB(1.0, 1.0, 1.0));
 
     protected AbstractToggleButton() {
     }

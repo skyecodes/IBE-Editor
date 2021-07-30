@@ -6,7 +6,7 @@ import com.github.franckyi.gameadapter.api.common.text.Text;
 import com.github.franckyi.guapi.api.node.Labeled;
 
 public abstract class AbstractLabeled extends AbstractControl implements Labeled {
-    private final ObjectProperty<Text> labelProperty = DataBindings.getPropertyFactory().createObjectProperty();
+    private final ObjectProperty<Text> labelProperty = ObjectProperty.create();
 
     protected AbstractLabeled(Text label) {
         setLabel(label);

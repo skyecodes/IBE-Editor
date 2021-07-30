@@ -11,7 +11,7 @@ import java.util.Collection;
 import java.util.Collections;
 
 public abstract class AbstractHBox extends AbstractBox implements HBox {
-    private final BooleanProperty fillHeightProperty = DataBindings.getPropertyFactory().createBooleanProperty();
+    private final BooleanProperty fillHeightProperty = BooleanProperty.create();
 
     protected AbstractHBox() {
         this(0);

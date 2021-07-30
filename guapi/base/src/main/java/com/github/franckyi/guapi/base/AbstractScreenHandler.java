@@ -17,9 +17,9 @@ import java.util.Deque;
 
 public abstract class AbstractScreenHandler implements ScreenHandler {
     private final Deque<Scene> scenes = new ArrayDeque<>();
-    private final ObjectProperty<Scene> currentSceneProperty = DataBindings.getPropertyFactory().createObjectProperty();
-    private final IntegerProperty widthProperty = DataBindings.getPropertyFactory().createIntegerProperty();
-    private final IntegerProperty heightProperty = DataBindings.getPropertyFactory().createIntegerProperty();
+    private final ObjectProperty<Scene> currentSceneProperty = ObjectProperty.create();
+    private final IntegerProperty widthProperty = IntegerProperty.create();
+    private final IntegerProperty heightProperty = IntegerProperty.create();
 
     public AbstractScreenHandler() {
         currentSceneProperty().addListener((oldVal, newVal) -> {

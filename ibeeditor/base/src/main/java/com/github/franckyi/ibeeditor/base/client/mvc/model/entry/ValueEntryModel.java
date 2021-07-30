@@ -15,7 +15,7 @@ public abstract class ValueEntryModel<T> extends LabeledEntryModel {
     public ValueEntryModel(CategoryModel category, Text label, T value, Consumer<T> action) {
         super(category, label);
         defaultValue = value;
-        valueProperty = DataBindings.getPropertyFactory().createObjectProperty(value);
+        valueProperty = ObjectProperty.create(value);
         this.action = action;
     }
 

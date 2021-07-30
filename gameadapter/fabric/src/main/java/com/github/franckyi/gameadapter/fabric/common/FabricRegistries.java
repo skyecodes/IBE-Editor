@@ -3,6 +3,7 @@ package com.github.franckyi.gameadapter.fabric.common;
 import com.github.franckyi.gameadapter.api.common.Registries;
 import com.github.franckyi.gameadapter.api.common.registry.Enchantment;
 import com.github.franckyi.gameadapter.api.common.registry.RegistryEntry;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 import java.util.List;
@@ -15,6 +16,7 @@ public final class FabricRegistries implements Registries {
     private List<Enchantment> enchantments;
     private List<RegistryEntry> attributes;
     private List<RegistryEntry> potions;
+    private List<RegistryEntry> effects;
 
     private FabricRegistries() {
     }
@@ -74,5 +76,26 @@ public final class FabricRegistries implements Registries {
             )).collect(Collectors.toList());
         }
         return potions;
+    }
+
+    @Override
+    public List<RegistryEntry> getEffects() {
+        if (effects == null) {
+            effects = Registry.STATUS_EFFECT.getEntries().stream().map(entry -> RegistryEntry.of(
+                    entry.getKey().getValue().toString(),
+                    entry.getValue().getTranslationKey()
+            )).collect(Collectors.toList());
+        }
+        return effects;
+    }
+
+    @Override
+    public int getEffectId(String name) {
+        return Registry.STATUS_EFFECT.getRawId(Registry.STATUS_EFFECT.get(Identifier.tryParse(name)));
+    }
+
+    @Override
+    public String getEffectFromId(int id) {
+        return Registry.STATUS_EFFECT.getKey(Registry.STATUS_EFFECT.get(id)).map(key -> key.getValue().toString()).orElse(null);
     }
 }

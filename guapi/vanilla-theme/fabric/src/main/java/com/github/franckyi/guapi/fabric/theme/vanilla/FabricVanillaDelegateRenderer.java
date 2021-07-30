@@ -54,7 +54,7 @@ public interface FabricVanillaDelegateRenderer extends DelegatedRenderer, Elemen
 
     @Override
     default void render(Matrices matrices, int mouseX, int mouseY, float delta) {
-        render((MatrixStack) matrices.getMatrixStack(), mouseX, mouseY, delta);
+        render((MatrixStack) matrices.get(), mouseX, mouseY, delta);
     }
 
     default void initNode(Node node, ClickableWidget widget) {

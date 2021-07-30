@@ -18,6 +18,7 @@ public final class NodeType<N extends Node> {
     public static final NodeType<TexturedToggleButton> TEXTURED_TOGGLE_BUTTON = new NodeType<>("TexturedToggleButton");
     public static final NodeType<ItemView> ITEM_VIEW = new NodeType<>("ItemView");
     public static final NodeType<Slider> SLIDER = new NodeType<>("Slider");
+    public static final NodeType<SpriteView> SPRITE_VIEW = new NodeType<>("SpriteView");
     private final String s;
 
     private NodeType(String s) {

@@ -26,7 +26,7 @@ public class StandardEditorView extends ListEditorView {
     private HBox textButtons;
     private TranslatedTextBuilder headerText;
     private HBox buttons;
-    private final BooleanProperty showTextButtonsProperty = DataBindings.getPropertyFactory().createBooleanProperty();
+    private final BooleanProperty showTextButtonsProperty = BooleanProperty.create();
     private Supplier<TextEditorActionHandler> textEditorSupplier;
 
     @Override

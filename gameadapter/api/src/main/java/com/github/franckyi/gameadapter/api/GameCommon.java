@@ -46,8 +46,8 @@ public interface GameCommon {
     }
 
     default Item createPotionItem(String potionId, int color) {
-        CompoundTag data = Game.getCommon().getTagFactory().createCompoundTag();
-        CompoundTag tag = Game.getCommon().getTagFactory().createCompoundTag();
+        CompoundTag data = CompoundTag.create();
+        CompoundTag tag = CompoundTag.create();
         tag.putString("Potion", potionId);
         if (color != Color.NONE) {
             tag.putInt("CustomPotionColor", color);

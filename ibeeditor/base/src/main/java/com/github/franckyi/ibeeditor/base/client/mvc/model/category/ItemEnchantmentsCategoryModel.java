@@ -40,7 +40,7 @@ public class ItemEnchantmentsCategoryModel extends ItemCategoryModel {
 
     @Override
     public void apply(CompoundTag nbt) {
-        newEnch = Game.getCommon().getTagFactory().createListTag();
+        newEnch = ListTag.create();
         super.apply(nbt);
         if (!newEnch.isEmpty()) {
             getNewTag().putTag("Enchantments", newEnch);
@@ -49,7 +49,7 @@ public class ItemEnchantmentsCategoryModel extends ItemCategoryModel {
 
     private void addNewEnchantment(String id, int lvl) {
         if (lvl != 0) {
-            CompoundTag tag = Game.getCommon().getTagFactory().createCompoundTag();
+            CompoundTag tag = CompoundTag.create();
             tag.putString("id", id);
             tag.putInt("lvl", lvl);
             newEnch.addTag(tag);

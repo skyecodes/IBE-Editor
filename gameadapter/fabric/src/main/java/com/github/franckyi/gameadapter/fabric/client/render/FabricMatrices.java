@@ -18,7 +18,7 @@ public class FabricMatrices implements Matrices {
 
     @Override
     @SuppressWarnings("unchecked")
-    public MatrixStack getMatrixStack() {
+    public MatrixStack get() {
         return matrices;
     }
 }

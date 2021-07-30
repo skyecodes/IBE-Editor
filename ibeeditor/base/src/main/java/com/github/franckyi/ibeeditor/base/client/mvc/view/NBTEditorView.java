@@ -24,7 +24,7 @@ public class NBTEditorView extends EditorView implements View {
             addIntArrayButton, addLongArrayButton, rawButton, moveUpButton, moveDownButton, deleteButton,
             cutButton, copyButton, pasteButton;
     private TexturedToggleButton addButton;
-    private final ObservableList<ButtonType> visibleButtons = DataBindings.getObservableListFactory().createObservableArrayList();
+    private final ObservableList<ButtonType> visibleButtons = ObservableList.create();
     private Consumer<ButtonType> onButtonClick;
 
     @Override

@@ -56,7 +56,7 @@ public class ItemAttributeModifiersCategoryModel extends ItemCategoryModel {
 
     @Override
     public void apply(CompoundTag nbt) {
-        newAttributeModifiers = Game.getCommon().getTagFactory().createListTag();
+        newAttributeModifiers = ListTag.create();
         super.apply(nbt);
         if (!newAttributeModifiers.isEmpty()) {
             getNewTag().putTag("AttributeModifiers", newAttributeModifiers);
@@ -66,7 +66,7 @@ public class ItemAttributeModifiersCategoryModel extends ItemCategoryModel {
     }
 
     private void addAttributeModifier(String attributeName, String slot, int operation, double amount, UUID uuid) {
-        CompoundTag tag = Game.getCommon().getTagFactory().createCompoundTag();
+        CompoundTag tag = CompoundTag.create();
         tag.putString("AttributeName", attributeName);
         tag.putString("Slot", slot);
         tag.putInt("Operation", operation);

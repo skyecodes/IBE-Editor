@@ -3,6 +3,8 @@ package com.github.franckyi.gameadapter.forge.common;
 import com.github.franckyi.gameadapter.api.common.Registries;
 import com.github.franckyi.gameadapter.api.common.registry.Enchantment;
 import com.github.franckyi.gameadapter.api.common.registry.RegistryEntry;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.registry.Registry;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,6 +16,7 @@ public final class ForgeRegistries implements Registries {
     private List<Enchantment> enchantments;
     private List<RegistryEntry> attributes;
     private List<RegistryEntry> potions;
+    private List<RegistryEntry> effects;
 
     private ForgeRegistries() {
     }
@@ -67,11 +70,33 @@ public final class ForgeRegistries implements Registries {
     @Override
     public List<RegistryEntry> getPotions() {
         if (potions == null) {
-            potions = net.minecraftforge.registries.ForgeRegistries.POTIONS.getEntries().stream().map(entry -> RegistryEntry.of(
+            potions = net.minecraftforge.registries.ForgeRegistries.POTION_TYPES.getEntries().stream().map(entry -> RegistryEntry.of(
+                    entry.getKey().location().toString(),
+                    entry.getValue().getName("item.minecraft.potion.effect.")
+            )).collect(Collectors.toList());
+        }
+        return potions;
+    }
+
+    @Override
+    public List<RegistryEntry> getEffects() {
+        if (effects == null) {
+            effects = net.minecraftforge.registries.ForgeRegistries.POTIONS.getEntries().stream().map(entry -> RegistryEntry.of(
                     entry.getKey().location().toString(),
                     entry.getValue().getDescriptionId()
             )).collect(Collectors.toList());
         }
-        return potions;
+        return effects;
+    }
+
+    @Override
+    public int getEffectId(String name) {
+        return Registry.MOB_EFFECT.getId(net.minecraftforge.registries.ForgeRegistries.POTIONS.getValue(ResourceLocation.tryParse(name)));
+    }
+
+    @Override
+    public String getEffectFromId(int id) {
+        ResourceLocation key = net.minecraftforge.registries.ForgeRegistries.POTIONS.getKey(Registry.MOB_EFFECT.byId(id));
+        return key == null ? null : key.toString();
     }
 }

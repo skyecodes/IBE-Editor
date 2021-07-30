@@ -1,9 +1,19 @@
 package com.github.franckyi.databindings.api;
 
+import com.github.franckyi.databindings.DataBindings;
+
 /**
  * A {@link Property} that holds an double value.
  */
 public interface DoubleProperty extends Property<Double>, ObservableDoubleValue {
+    static DoubleProperty create() {
+        return DataBindings.getPropertyFactory().createDoubleProperty();
+    }
+
+    static DoubleProperty create(double value) {
+        return DataBindings.getPropertyFactory().createDoubleProperty(value);
+    }
+
     /**
      * Sets the value of the property (safer than {@link #set} since it does not allow {@code null} values).
      *

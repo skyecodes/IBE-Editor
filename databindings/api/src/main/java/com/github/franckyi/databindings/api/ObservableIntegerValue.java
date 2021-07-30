@@ -1,9 +1,15 @@
 package com.github.franckyi.databindings.api;
 
+import com.github.franckyi.databindings.DataBindings;
+
 /**
  * An {@link ObservableValue} that holds an integer value.
  */
 public interface ObservableIntegerValue extends ObservableValue<Integer> {
+    static ObservableIntegerValue readOnly(IntegerProperty property) {
+        return DataBindings.getPropertyFactory().createReadOnlyProperty(property);
+    }
+
     /**
      * Gets the value (safer than {@link #get}, will return {@code 0} is the value is {@code null}).
      * @return The value

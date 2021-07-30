@@ -53,7 +53,7 @@ public class ItemDisplayCategoryModel extends ItemCategoryModel {
 
     @Override
     public void apply(CompoundTag nbt) {
-        newLore = Game.getCommon().getTagFactory().createListTag();
+        newLore = ListTag.create();
         super.apply(nbt);
         getNewDisplay().putTag("Lore", newLore);
         if (getNewDisplay().getList("Lore", Tag.STRING_ID).isEmpty()) {

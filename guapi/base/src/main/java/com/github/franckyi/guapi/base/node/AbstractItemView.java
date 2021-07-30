@@ -6,7 +6,7 @@ import com.github.franckyi.gameadapter.api.common.world.Item;
 import com.github.franckyi.guapi.api.node.ItemView;
 
 public abstract class AbstractItemView extends AbstractControl implements ItemView {
-    private final ObjectProperty<Item> itemIdProperty = DataBindings.getPropertyFactory().createObjectProperty();
+    private final ObjectProperty<Item> itemIdProperty = ObjectProperty.create();
 
     protected AbstractItemView() {
     }

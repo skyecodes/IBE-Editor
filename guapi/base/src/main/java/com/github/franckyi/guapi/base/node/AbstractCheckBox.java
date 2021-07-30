@@ -8,7 +8,7 @@ import com.github.franckyi.guapi.api.node.CheckBox;
 import static com.github.franckyi.guapi.GuapiHelper.*;
 
 public abstract class AbstractCheckBox extends AbstractLabeled implements CheckBox {
-    private final BooleanProperty checkedProperty = DataBindings.getPropertyFactory().createBooleanProperty();
+    private final BooleanProperty checkedProperty = BooleanProperty.create();
 
     protected AbstractCheckBox() {
         this(emptyText());

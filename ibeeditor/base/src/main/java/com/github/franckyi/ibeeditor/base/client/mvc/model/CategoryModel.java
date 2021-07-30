@@ -15,13 +15,13 @@ import static com.github.franckyi.guapi.GuapiHelper.*;
 
 public abstract class CategoryModel implements Model {
     private final StringProperty nameProperty;
-    private final BooleanProperty selectedProperty = DataBindings.getPropertyFactory().createBooleanProperty(false);
-    private final BooleanProperty validProperty = DataBindings.getPropertyFactory().createBooleanProperty(true);
-    private final ObservableList<EntryModel> entries = DataBindings.getObservableListFactory().createObservableArrayList();
+    private final BooleanProperty selectedProperty = BooleanProperty.create(false);
+    private final BooleanProperty validProperty = BooleanProperty.create(true);
+    private final ObservableList<EntryModel> entries = ObservableList.create();
     private final ListEditorModel<?> editor;
 
     protected CategoryModel(String name, ListEditorModel<?> editor) {
-        nameProperty = DataBindings.getPropertyFactory().createStringProperty(name);
+        nameProperty = StringProperty.create(name);
         this.editor = editor;
     }
 

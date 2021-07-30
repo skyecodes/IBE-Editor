@@ -49,7 +49,7 @@ public class NBTEditorController extends AbstractController<NBTEditorModel, NBTE
             case COMPOUND:
             case INT_ARRAY:
             case LONG_ARRAY:
-                addChildTag(tag, Game.getCommon().getTagFactory().createEmptyTag(target.getType()));
+                addChildTag(tag, Tag.fromType(target.getType()));
                 break;
             case MOVE_UP:
                 int index0 = parent.getChildren().indexOf(tag);
@@ -74,7 +74,7 @@ public class NBTEditorController extends AbstractController<NBTEditorModel, NBTE
                         break;
                     case Tag.LIST_ID:
                         if (!tag.getChildren().isEmpty()) {
-                            addChildTag(tag, Game.getCommon().getTagFactory().createEmptyTag(tag.getChildren().get(0).getTagType()));
+                            addChildTag(tag, Tag.fromType(tag.getChildren().get(0).getTagType()));
                         }
                         break;
                 }

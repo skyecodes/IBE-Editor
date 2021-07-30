@@ -1,9 +1,15 @@
 package com.github.franckyi.databindings.api;
 
+import com.github.franckyi.databindings.DataBindings;
+
 /**
  * An {@link ObservableValue} that holds a double value.
  */
 public interface ObservableDoubleValue extends ObservableValue<Double> {
+    static ObservableDoubleValue readOnly(DoubleProperty property) {
+        return DataBindings.getPropertyFactory().createReadOnlyProperty(property);
+    }
+
     default double getValue() {
         return get() == null ? 0 : get();
     }

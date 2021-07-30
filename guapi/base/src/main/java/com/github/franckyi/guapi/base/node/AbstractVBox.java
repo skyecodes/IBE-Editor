@@ -11,7 +11,7 @@ import java.util.Collection;
 import java.util.Collections;
 
 public abstract class AbstractVBox extends AbstractBox implements VBox {
-    private final BooleanProperty fillWidthProperty = DataBindings.getPropertyFactory().createBooleanProperty();
+    private final BooleanProperty fillWidthProperty = BooleanProperty.create();
 
     protected AbstractVBox() {
         this(0);

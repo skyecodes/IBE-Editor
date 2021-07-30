@@ -13,4 +13,9 @@ public class ItemListSelectionItemModel extends ListSelectionItemModel {
     public Item getItem() {
         return item;
     }
+
+    @Override
+    public Type getType() {
+        return Type.ITEM;
+    }
 }

@@ -8,10 +8,10 @@ import com.github.franckyi.databindings.api.ObservableIntegerValue;
 import com.github.franckyi.gameadapter.api.client.screen.ScreenScaling;
 
 public abstract class AbstractScreenScaling implements ScreenScaling {
-    protected final IntegerProperty scaleProperty = DataBindings.getPropertyFactory().createIntegerProperty();
-    private final ObservableIntegerValue scalePropertyReadOnly = DataBindings.getPropertyFactory().createReadOnlyProperty(scaleProperty);
-    protected final BooleanProperty canScaleBeResetProperty = DataBindings.getPropertyFactory().createBooleanProperty();
-    private final ObservableBooleanValue canScaleBeResetPropertyReadOnly = DataBindings.getPropertyFactory().createReadOnlyProperty(canScaleBeResetProperty);
+    protected final IntegerProperty scaleProperty = IntegerProperty.create();
+    private final ObservableIntegerValue scalePropertyReadOnly = ObservableIntegerValue.readOnly(scaleProperty);
+    protected final BooleanProperty canScaleBeResetProperty = BooleanProperty.create();
+    private final ObservableBooleanValue canScaleBeResetPropertyReadOnly = ObservableBooleanValue.readOnly(canScaleBeResetProperty);
 
     protected AbstractScreenScaling() {
         scaleProperty().addListener(this::setScreenScale);

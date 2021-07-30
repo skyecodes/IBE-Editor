@@ -20,7 +20,6 @@ public class AttributeModifierEntryController extends EntryController<AttributeM
         view.getAmountField().textProperty().addListener(value -> {
             if (view.getAmountField().isValid()) {
                 model.setAmount(Double.parseDouble(value));
-                model.setValid(true);
             }
         });
         model.amountProperty().addListener(value -> view.getAmountField().setText(Double.toString(value)));

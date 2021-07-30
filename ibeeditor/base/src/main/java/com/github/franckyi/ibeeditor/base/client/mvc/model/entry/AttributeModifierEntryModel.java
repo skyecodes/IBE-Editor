@@ -33,10 +33,10 @@ public class AttributeModifierEntryModel extends EntryModel {
 
     public AttributeModifierEntryModel(CategoryModel category, String attributeName, Slot slot, Operation operation, double amount, UUID uuid, AttributeModifierAction action) {
         super(category);
-        attributeNameProperty = DataBindings.getPropertyFactory().createStringProperty(attributeName);
-        slotProperty = DataBindings.getPropertyFactory().createObjectProperty(slot);
-        operationProperty = DataBindings.getPropertyFactory().createObjectProperty(operation);
-        amountProperty = DataBindings.getPropertyFactory().createObjectProperty(amount);
+        attributeNameProperty = StringProperty.create(attributeName);
+        slotProperty = ObjectProperty.create(slot);
+        operationProperty = ObjectProperty.create(operation);
+        amountProperty = ObjectProperty.create(amount);
         this.uuid = uuid;
         this.action = action;
         defaultAttributeName = attributeName;

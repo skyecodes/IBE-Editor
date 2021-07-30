@@ -10,12 +10,12 @@ import java.util.function.Consumer;
 
 public class NBTEditorModel implements Model {
     private final ObjectProperty<NBTTagModel> rootTagProperty;
-    private final ObjectProperty<NBTTagModel> clipboardTagProperty = DataBindings.getPropertyFactory().createObjectProperty();
+    private final ObjectProperty<NBTTagModel> clipboardTagProperty = ObjectProperty.create();
     private final Consumer<CompoundTag> action;
     private final Text disabledTooltip;
 
     public NBTEditorModel(CompoundTag tag, Consumer<CompoundTag> action, Text disabledTooltip) {
-        rootTagProperty = DataBindings.getPropertyFactory().createObjectProperty(new NBTTagModel(tag));
+        rootTagProperty = ObjectProperty.create(new NBTTagModel(tag));
         this.action = action;
         this.disabledTooltip = disabledTooltip;
     }

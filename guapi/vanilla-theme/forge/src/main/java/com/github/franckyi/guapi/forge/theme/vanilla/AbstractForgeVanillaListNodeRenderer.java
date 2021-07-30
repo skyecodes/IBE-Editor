@@ -97,7 +97,7 @@ public abstract class AbstractForgeVanillaListNodeRenderer<N extends ListNode<E>
             changeFocus();
             res = true;
         }
-        super.render(matrices.getMatrixStack(), mouseX, mouseY, delta); // doing the actual rendering here to not hide the other elements
+        super.render(matrices.get(), mouseX, mouseY, delta); // doing the actual rendering here to not hide the other elements
         return res;
     }
 

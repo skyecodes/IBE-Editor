@@ -18,7 +18,7 @@ public abstract class StandardEditorModel<T, C extends CategoryModel> extends Li
         this.action = action;
         this.disabledTooltip = disabledTooltip;
         this.title = title;
-        currentCustomColorProperty = DataBindings.getPropertyFactory().createStringProperty();
+        currentCustomColorProperty = StringProperty.create();
     }
 
     public T getTarget() {

@@ -10,8 +10,8 @@ import com.github.franckyi.guapi.api.util.Align;
 import static com.github.franckyi.guapi.GuapiHelper.*;
 
 public abstract class AbstractLabel extends AbstractLabeled implements Label {
-    private final ObjectProperty<Align> textAlignProperty = DataBindings.getPropertyFactory().createObjectProperty(Align.TOP_LEFT);
-    private final BooleanProperty shadowProperty = DataBindings.getPropertyFactory().createBooleanProperty(false);
+    private final ObjectProperty<Align> textAlignProperty = ObjectProperty.create(Align.TOP_LEFT);
+    private final BooleanProperty shadowProperty = BooleanProperty.create(false);
 
     protected AbstractLabel() {
         this(emptyText());

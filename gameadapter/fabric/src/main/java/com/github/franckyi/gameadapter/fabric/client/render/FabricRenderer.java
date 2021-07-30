@@ -9,6 +9,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.item.TooltipContext;
+import net.minecraft.client.texture.Sprite;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 
@@ -38,15 +39,15 @@ public class FabricRenderer implements Renderer {
     @Override
     public void drawString(Matrices matrices, Text text, float x, float y, int color, boolean shadow) {
         if (shadow) {
-            font().drawWithShadow(matrices.getMatrixStack(), (net.minecraft.text.Text) text.get(), x, y, color);
+            font().drawWithShadow(matrices.get(), (net.minecraft.text.Text) text.get(), x, y, color);
         } else {
-            font().draw(matrices.getMatrixStack(), (net.minecraft.text.Text) text.get(), x, y, color);
+            font().draw(matrices.get(), (net.minecraft.text.Text) text.get(), x, y, color);
         }
     }
 
     @Override
     public void fillRectangle(Matrices matrices, int x0, int y0, int x1, int y1, int color) {
-        DrawableHelper.fill(matrices.getMatrixStack(), x0, y0, x1, y1, color);
+        DrawableHelper.fill(matrices.get(), x0, y0, x1, y1, color);
     }
 
     @Override
@@ -56,17 +57,25 @@ public class FabricRenderer implements Renderer {
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
         RenderSystem.enableDepthTest();
-        DrawableHelper.drawTexture(matrices.getMatrixStack(), x, y, 0, imageX, imageY, width, height, imageHeight, imageWidth);
+        DrawableHelper.drawTexture(matrices.get(), x, y, 0, imageX, imageY, width, height, imageHeight, imageWidth);
+    }
+
+    @Override
+    public void drawSprite(Matrices matrices, Object spriteObj, int x, int y, int imageWidth, int imageHeight) {
+        Sprite sprite = (Sprite) spriteObj;
+        MinecraftClient.getInstance().getTextureManager().bindTexture(sprite.getAtlas().getId());
+        RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+        DrawableHelper.drawSprite(matrices.get(), x, y, 0, imageWidth, imageHeight, sprite);
     }
 
     @Override
     public void drawTooltip(Matrices matrices, List<Text> text, int x, int y) {
-        MinecraftClient.getInstance().currentScreen.renderTooltip(matrices.getMatrixStack(), text.stream().<net.minecraft.text.Text>map(Text::get).collect(Collectors.toList()), x, y);
+        MinecraftClient.getInstance().currentScreen.renderTooltip(matrices.get(), text.stream().<net.minecraft.text.Text>map(Text::get).collect(Collectors.toList()), x, y);
     }
 
     @Override
     public void drawTooltip(Matrices matrices, Item item, int x, int y) {
-        MinecraftClient.getInstance().currentScreen.renderTooltip(matrices.getMatrixStack(), ((ItemStack) item.get()).getTooltip(MinecraftClient.getInstance().player, TooltipContext.Default.NORMAL), x, y);
+        MinecraftClient.getInstance().currentScreen.renderTooltip(matrices.get(), ((ItemStack) item.get()).getTooltip(MinecraftClient.getInstance().player, TooltipContext.Default.NORMAL), x, y);
     }
 
     @Override

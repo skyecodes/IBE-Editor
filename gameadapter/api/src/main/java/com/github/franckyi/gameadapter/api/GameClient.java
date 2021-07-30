@@ -29,6 +29,8 @@ public interface GameClient {
 
     <S> ScreenFactory<S> getScreenFactory();
 
+    Object getEffectSprite(String effectId);
+
     @Deprecated
     void unlockCursor();
 
