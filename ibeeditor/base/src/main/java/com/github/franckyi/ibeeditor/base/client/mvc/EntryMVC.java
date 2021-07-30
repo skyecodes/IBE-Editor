@@ -37,6 +37,8 @@ public final class EntryMVC implements MVC<EntryModel, EntryView, EntryControlle
                 return MVC.createViewAndBind(((PotionSelectionEntryModel) model), PotionSelectionEntryView::new, PotionSelectionEntryController::new);
             case POTION_EFFECT:
                 return MVC.createViewAndBind(((PotionEffectEntryModel) model), PotionEffectEntryView::new, PotionEffectEntryController::new);
+            case ARMOR_COLOR:
+                return MVC.createViewAndBind((ArmorColorEntryModel) model, ArmorColorEntryView::new, ArmorColorEntryController::new);
             default:
                 throw new IllegalStateException("Unexpected value: " + model.getType());
         }

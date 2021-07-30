@@ -114,6 +114,7 @@
   "ibeeditor.gui.ambient": "Ambiant (effets de particules plus transparents)",
   "ibeeditor.gui.show_particles": "Montrer les particules",
   "ibeeditor.gui.show_icon": "Montrer l'icône",
+  "ibeeditor.gui.armor_color": "Couleur de l'armure",
   "ibeeditor.message.prefix": "[IBE Editor] ",
   "ibeeditor.message.error_generic": "Une erreur est survenue. Merci de regarder les logs pour plus de détails et de rapporter cette erreur au créateur du mod."
 }

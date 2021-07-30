@@ -9,5 +9,7 @@ public interface Item {
 
     boolean isPotionItem();
 
+    boolean isDyeableItem();
+
     <S> S get();
 }

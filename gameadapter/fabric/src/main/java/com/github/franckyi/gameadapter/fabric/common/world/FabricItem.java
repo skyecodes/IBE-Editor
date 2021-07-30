@@ -3,8 +3,7 @@ package com.github.franckyi.gameadapter.fabric.common.world;
 import com.github.franckyi.gameadapter.api.common.tag.CompoundTag;
 import com.github.franckyi.gameadapter.api.common.world.Item;
 import com.github.franckyi.gameadapter.fabric.common.nbt.FabricCompoundTag;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.PotionItem;
+import net.minecraft.item.*;
 import net.minecraft.nbt.NbtCompound;
 
 public class FabricItem implements Item {
@@ -37,6 +36,11 @@ public class FabricItem implements Item {
     @Override
     public boolean isPotionItem() {
         return item.getItem() instanceof PotionItem;
+    }
+
+    @Override
+    public boolean isDyeableItem() {
+        return item.getItem() instanceof DyeableItem;
     }
 
     @Override

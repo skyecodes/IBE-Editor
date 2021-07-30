@@ -15,7 +15,7 @@ public class PotionSelectionEntryController extends SelectionEntryController<Pot
     @Override
     public void bind() {
         super.bind();
-        view.getChooseColorButton().onAction(() -> ModScreenHandler.openColorSelectionScreen(ColorSelectionScreenModel.Target.POTION, this::updatePotionColor, model.getCustomColor()));
+        view.getChooseColorButton().onAction(() -> ModScreenHandler.openColorSelectionScreen(ColorSelectionScreenModel.Target.POTION, model.getCustomColor(), this::updatePotionColor));
         view.getRemoveColorButton().onAction(() -> model.setCustomColor(Color.NONE));
         view.getResetColorButton().onAction(model::resetCustomColor);
         model.customColorProperty().addListener(this::updatePotionItem);

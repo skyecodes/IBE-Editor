@@ -43,9 +43,9 @@ public class PotionSelectionEntryView extends SelectionEntryView {
                     right.add(hBox(content -> {
                         content.add(chooseColorButton = texturedButton("ibeeditor:textures/gui/color_custom.png", 16, 16, false)
                                 .tooltip(translated("ibeeditor.gui.choose_custom_color")));
-                        content.add(potionView = itemView());
                         content.add(removeColorButton = texturedButton("ibeeditor:textures/gui/remove.png", 16, 16, false)
                                 .tooltip(translated("ibeeditor.gui.remove_custom_color").red()));
+                        content.add(potionView = itemView());
                         content.spacing(5);
                     }), 1);
                     right.add(hBox(buttons -> {

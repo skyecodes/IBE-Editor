@@ -15,12 +15,8 @@ public class ColorSelectionScreenModel implements Model {
     private final DoubleProperty greenValueProperty = DoubleProperty.create();
     private final DoubleProperty blueValueProperty = DoubleProperty.create();
 
-    public ColorSelectionScreenModel(Target target, Consumer<String> action) {
-        this(target, action, -1);
-    }
-
     public ColorSelectionScreenModel(Target target, Consumer<String> action, int color) {
-        if (color < 0) {
+        if (color == Color.NONE) {
             color = Color.fromRGB(1., 1., 1.);
         }
         this.target = target;

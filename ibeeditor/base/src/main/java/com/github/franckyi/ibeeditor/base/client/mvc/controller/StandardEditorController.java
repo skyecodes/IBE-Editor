@@ -25,7 +25,7 @@ public class StandardEditorController extends ListEditorController<StandardEdito
         }
         view.getChooseCustomColorButton().onAction(e -> {
             e.consume();
-            ModScreenHandler.openColorSelectionScreen(ColorSelectionScreenModel.Target.TEXT, this::updateCustomColor);
+            ModScreenHandler.openColorSelectionScreen(ColorSelectionScreenModel.Target.TEXT, Color.fromHex(model.getCurrentCustomColor()), this::updateCustomColor);
         });
         model.currentCustomColorProperty().addListener(value -> {
             view.getCustomColorButton().setBackgroundColor(Color.fromHex(value));

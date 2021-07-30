@@ -23,6 +23,9 @@ public class ItemEditorModel extends StandardEditorModel<Item, ItemCategoryModel
         if (getTarget().isPotionItem()) {
             getCategories().add(new ItemPotionEffectsCategoryModel(this));
         }
+        if (getTarget().isDyeableItem()) {
+            getCategories().add(new ItemDyeableCategoryModel(this));
+        }
         getCategories().addAll(
                 new ItemEnchantmentsCategoryModel(this),
                 new ItemAttributeModifiersCategoryModel(this),
