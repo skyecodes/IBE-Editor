@@ -60,7 +60,7 @@ public abstract class AbstractFabricVanillaListNodeRenderer<N extends ListNode<E
 
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        if (getEntryAtPosition(mouseX, mouseY) == null) {
+        if (getEntryAtPosition(mouseX, mouseY) == null && (mouseX < getScrollbarPositionX() || mouseX > node.getRight())) {
             setFocused(null);
         }
         return super.mouseClicked(mouseX, mouseY, button);
