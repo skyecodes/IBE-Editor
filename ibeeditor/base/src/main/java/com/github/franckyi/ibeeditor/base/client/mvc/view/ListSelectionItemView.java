@@ -17,7 +17,7 @@ public class ListSelectionItemView implements View {
             root.add(vBox(labels -> {
                 labels.add(nameLabel = label());
                 labels.add(idLabel = label());
-                labels.fillWidth().spacing(2);
+                labels.fillWidth().spacing(2).align(CENTER);
             }), 1);
             root.fillHeight().spacing(5).align(CENTER);
         });
