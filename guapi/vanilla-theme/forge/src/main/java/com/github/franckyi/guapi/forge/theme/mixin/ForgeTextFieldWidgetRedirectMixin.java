@@ -85,6 +85,8 @@ public abstract class ForgeTextFieldWidgetRedirectMixin {
                 displayPos = newDisplayPos;
             }
             renderHighlight(x0 + previousTextWidth, p_146188_2_, x0 + previousTextWidth + highlightedTextWidth, p_146188_4_);
+        } else {
+            renderHighlight(p_146188_1_, p_146188_2_, p_146188_3_, p_146188_4_);
         }
     }
 
@@ -95,6 +97,8 @@ public abstract class ForgeTextFieldWidgetRedirectMixin {
             ForgeVanillaTextFieldRenderer textField = (ForgeVanillaTextFieldRenderer) self;
             ITextProperties string = font.substrByWidth(textField.renderText(textField.getValue().substring(displayPos), displayPos), textField.getInnerWidth());
             textField.moveCursorTo(font.substrByWidth(string, MathHelper.floor(mouseX) - textField.x - 4).getString().length() + displayPos);
+        } else {
+            self.moveCursorTo(cursor);
         }
     }
 }

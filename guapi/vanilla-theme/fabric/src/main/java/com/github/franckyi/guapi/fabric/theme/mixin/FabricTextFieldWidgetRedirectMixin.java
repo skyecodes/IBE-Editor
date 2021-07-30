@@ -72,6 +72,8 @@ public abstract class FabricTextFieldWidgetRedirectMixin {
             int highlightedTextWidth = textRenderer.getWidth(highlightedText);
             int x0 = self.x + 4;
             drawSelectionHighlight(x0 + previousTextWidth, y1, x0 + previousTextWidth + highlightedTextWidth, y2);
+        } else {
+            drawSelectionHighlight(x1, y1, x2, y2);
         }
     }
 
@@ -91,6 +93,8 @@ public abstract class FabricTextFieldWidgetRedirectMixin {
             FabricVanillaTextFieldRenderer textField = (FabricVanillaTextFieldRenderer) self;
             StringVisitable string = textRenderer.trimToWidth(textField.renderText(textField.getText().substring(firstCharacterIndex), firstCharacterIndex), textField.getInnerWidth());
             textField.setCursor(textRenderer.trimToWidth(string, MathHelper.floor(mouseX) - textField.x - 4).getString().length() + firstCharacterIndex);
+        } else {
+            self.setCursor(cursor);
         }
     }
 }
