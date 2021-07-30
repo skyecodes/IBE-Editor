@@ -48,7 +48,7 @@ public abstract class AbstractScreenScaling implements ScreenScaling {
     @Override
     public int getScaleAndReset() {
         int res = canScaleBeResetProperty.getValue() ? getScale() : -1;
-        setScale(-1);
+        restoreScale();
         resetScale();
         return res;
     }
