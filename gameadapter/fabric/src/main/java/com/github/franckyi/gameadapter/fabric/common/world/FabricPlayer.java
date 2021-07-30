@@ -61,7 +61,7 @@ public class FabricPlayer extends FabricWorldEntity implements Player {
 
     @Override
     public void updateMainHandItem(Item item) {
-        updateInventoryItem(item.get(), entity.inventory.selectedSlot + entity.inventory.main.size());
+        updateInventoryItem(item, entity.inventory.selectedSlot + entity.inventory.main.size());
     }
 
     @Override
