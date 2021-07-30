@@ -17,17 +17,20 @@ import java.util.function.Function;
  * ObservableValues are usually instances of {@link Property} (created through
  * {@link PropertyFactory}), read-only properties (created through the same
  * factory), or mappings (created through {@link MappingFactory}).
+ *
  * @param <T> The type of the value that is observed
  */
 public interface ObservableValue<T> {
     /**
      * Gets the value. It is preferable to use the {@code getValue} if available instead.
+     *
      * @return The value
      */
     T get();
 
     /**
      * Adds a listener to this {@link ObservableValue} that will be triggered everytime the value is changed.
+     *
      * @param listener The listener to add
      */
     void addListener(ObservableValueChangeListener<? super T> listener);
@@ -36,6 +39,7 @@ public interface ObservableValue<T> {
      * Adds a listener to this {@link ObservableValue} that will be triggered everytime the value is changed.
      * The parameter is wrapped into an {@link ObservableValueChangeListener} which is returned by this method.
      * The parameter will consume the <b>new</b> value (after the change).
+     *
      * @param listener The listener to ass
      * @return The actual listener that was added
      * @see ObservableValue#addListener(ObservableValueChangeListener)
@@ -50,6 +54,7 @@ public interface ObservableValue<T> {
      * Adds a listener to this {@link ObservableValue} that will be triggered everytime the value is changed.
      * The parameter is wrapped into an {@link ObservableValueChangeListener} which is returned by this method.
      * The parameter will simply be ran just like any other listener.
+     *
      * @param listener The listener to add
      * @return The actual listener that was added
      * @see ObservableValue#addListener(ObservableValueChangeListener)
@@ -62,14 +67,16 @@ public interface ObservableValue<T> {
 
     /**
      * Removes a listener from this {@link ObservableValue}.
+     *
      * @param listener The listener to remove
      */
     void removeListener(ObservableValueChangeListener<? super T> listener);
 
     /**
      * Creates an unmodifiable (constant) {@link ObservableValue}.
+     *
      * @param value The constant value of the {@link ObservableValue}
-     * @param <T> The type of the value that is observed
+     * @param <T>   The type of the value that is observed
      * @return The unmodifiable {@link ObservableValue}
      */
     static <T> ObservableValue<T> unmodifiable(T value) {

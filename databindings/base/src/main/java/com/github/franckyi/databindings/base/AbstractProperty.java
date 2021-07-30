@@ -3,7 +3,6 @@ package com.github.franckyi.databindings.base;
 import com.github.franckyi.databindings.api.ObservableValue;
 import com.github.franckyi.databindings.api.Property;
 import com.github.franckyi.databindings.api.event.ObservableValueChangeListener;
-import org.apache.logging.log4j.LogManager;
 
 import java.util.List;
 import java.util.Objects;

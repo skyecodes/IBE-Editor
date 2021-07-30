@@ -12,6 +12,7 @@ public interface ObservableBooleanValue extends ObservableValue<Boolean> {
 
     /**
      * Gets the value (safer than {@link #get}, will return {@code false} is the value is {@code null}).
+     *
      * @return The value
      */
     default boolean getValue() {
@@ -20,6 +21,7 @@ public interface ObservableBooleanValue extends ObservableValue<Boolean> {
 
     /**
      * Creates a new {@link ObservableBooleanValue} that is always equal to the opposite of this value.
+     *
      * @return The new {@link ObservableBooleanValue}
      */
     default ObservableBooleanValue not() {
@@ -29,6 +31,7 @@ public interface ObservableBooleanValue extends ObservableValue<Boolean> {
     /**
      * Creates a new {@link ObservableBooleanValue} that is always equal to the result of an {@code OR} operation between
      * this value and an other observable boolean value.
+     *
      * @param other An other observable boolean value
      * @return The new {@link ObservableBooleanValue}
      */
@@ -39,6 +42,7 @@ public interface ObservableBooleanValue extends ObservableValue<Boolean> {
     /**
      * Creates a new {@link ObservableBooleanValue} that is always equal to the result of an {@code AND} operation between
      * this value and an other observable boolean value.
+     *
      * @param value An other observable boolean value
      * @return The new {@link ObservableBooleanValue}
      */

@@ -9,7 +9,7 @@ public class FabricByteArrayTag implements ByteArrayTag {
     private final NbtByteArray tag;
 
     public FabricByteArrayTag() {
-        this (new byte[0]);
+        this(new byte[0]);
     }
 
     public FabricByteArrayTag(List<Byte> value) {

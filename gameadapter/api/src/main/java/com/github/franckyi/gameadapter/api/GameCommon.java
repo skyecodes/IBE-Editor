@@ -1,7 +1,6 @@
 package com.github.franckyi.gameadapter.api;
 
 import com.github.franckyi.gameadapter.Color;
-import com.github.franckyi.gameadapter.Game;
 import com.github.franckyi.gameadapter.api.common.Registries;
 import com.github.franckyi.gameadapter.api.common.network.Network;
 import com.github.franckyi.gameadapter.api.common.tag.CompoundTag;

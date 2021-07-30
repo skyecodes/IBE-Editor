@@ -6,6 +6,7 @@ import java.util.List;
 
 /**
  * This event is triggered whenever an {@link ObservableList} is modified.
+ *
  * @param <E> The type of elements in the list
  */
 public interface ObservableListChangeEvent<E> {
@@ -34,6 +35,7 @@ public interface ObservableListChangeEvent<E> {
     /**
      * A change entry which contains the index of the element that was changed,
      * its old value (before the change) and its new value (after the change).
+     *
      * @param <E> The type of elements in the list
      */
     interface ChangeEntry<E> {
@@ -90,6 +92,7 @@ public interface ObservableListChangeEvent<E> {
 
     /**
      * A simple change entry in case of an "add" or "remove" action.
+     *
      * @param <E> The type of elements in the list
      */
     interface SimpleChangeEntry<E> {

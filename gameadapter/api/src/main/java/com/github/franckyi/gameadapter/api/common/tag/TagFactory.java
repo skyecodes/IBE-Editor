@@ -37,7 +37,7 @@ public interface TagFactory {
     }
 
     ByteTag createByteTag();
-    
+
     ByteTag createByteTag(byte value);
 
     ShortTag createShortTag();

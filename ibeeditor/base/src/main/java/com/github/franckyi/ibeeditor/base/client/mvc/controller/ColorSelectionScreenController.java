@@ -1,8 +1,8 @@
 package com.github.franckyi.ibeeditor.base.client.mvc.controller;
 
+import com.github.franckyi.gameadapter.Color;
 import com.github.franckyi.guapi.Guapi;
 import com.github.franckyi.guapi.api.mvc.AbstractController;
-import com.github.franckyi.gameadapter.Color;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.ColorSelectionScreenModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.view.ColorSelectionScreenView;
 

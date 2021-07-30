@@ -1,5 +1,6 @@
 package com.github.franckyi.guapi;
 
+import com.github.franckyi.gameadapter.Color;
 import com.github.franckyi.gameadapter.TextHandler;
 import com.github.franckyi.gameadapter.api.common.text.Text;
 import com.github.franckyi.gameadapter.api.common.text.TextEvent;
@@ -16,7 +17,6 @@ import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.api.node.TreeView;
 import com.github.franckyi.guapi.api.node.builder.*;
 import com.github.franckyi.guapi.api.util.Align;
-import com.github.franckyi.gameadapter.Color;
 import com.github.franckyi.guapi.api.util.Insets;
 
 import java.util.Collection;

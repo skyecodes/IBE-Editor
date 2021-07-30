@@ -1,13 +1,12 @@
 package com.github.franckyi.ibeeditor.base.client.mvc.model.category;
 
-import com.github.franckyi.gameadapter.Game;
+import com.github.franckyi.gameadapter.Color;
 import com.github.franckyi.gameadapter.TextHandler;
 import com.github.franckyi.gameadapter.api.common.tag.CompoundTag;
 import com.github.franckyi.gameadapter.api.common.tag.ListTag;
 import com.github.franckyi.gameadapter.api.common.tag.Tag;
 import com.github.franckyi.gameadapter.api.common.text.PlainText;
 import com.github.franckyi.gameadapter.api.common.text.Text;
-import com.github.franckyi.gameadapter.Color;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.ItemEditorModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.EntryModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.TextEntryModel;

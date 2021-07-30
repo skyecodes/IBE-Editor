@@ -1,6 +1,5 @@
 package com.github.franckyi.guapi.base.node;
 
-import com.github.franckyi.databindings.DataBindings;
 import com.github.franckyi.databindings.api.*;
 import com.github.franckyi.gameadapter.api.common.text.Text;
 import com.github.franckyi.guapi.api.node.TextField;
@@ -44,6 +43,7 @@ public abstract class AbstractTextField extends AbstractLabeled implements TextF
         validatorProperty().addListener(this::updateValid);
         textProperty().addListener(this::updateSuggested);
         getSuggestions().addListener(this::updateSuggested);
+        focusedProperty().addListener(this::resetSelection);
     }
 
     @Override
@@ -119,5 +119,9 @@ public abstract class AbstractTextField extends AbstractLabeled implements TextF
 
     private void updateSuggested() {
         suggestedProperty.setValue(getSuggestions().contains(getText()));
+    }
+
+    private void resetSelection() {
+        setHighlightPosition(getCursorPosition());
     }
 }

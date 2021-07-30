@@ -1,6 +1,5 @@
 package com.github.franckyi.ibeeditor.base.client.mvc.controller.entry;
 
-import com.github.franckyi.databindings.DataBindings;
 import com.github.franckyi.databindings.api.ObservableList;
 import com.github.franckyi.gameadapter.api.common.text.PlainText;
 import com.github.franckyi.gameadapter.api.common.text.Text;
@@ -154,7 +153,33 @@ public class TextEntryController extends ValueEntryController<TextEntryModel, Te
     }
 
     private <T extends Formatting> boolean mergeIdenticalFormattings(Class<T> formattingClass, Predicate<T> identicalPredicate, T formatting) {
-        boolean[] add = {true};
+        Iterator<Formatting> it = formattings.iterator();
+        while (it.hasNext()) {
+            Formatting f = it.next();
+            if (formattingClass.isInstance(f)) {
+                T other = formattingClass.cast(f);
+                if (identicalPredicate.test(other)) {
+                    boolean remove = false;
+                    if (other.getEnd() >= formatting.getStart() && other.getEnd() <= formatting.getEnd()) {
+                        remove = true;
+                        if (other.getStart() < formatting.getStart()) {
+                            formatting.setStart(other.getStart());
+                        }
+                    }
+                    if (other.getStart() >= formatting.getStart() && other.getStart() <= formatting.getEnd()) {
+                        remove = true;
+                        if (other.getEnd() > formatting.getEnd()) {
+                            formatting.setEnd(other.getEnd());
+                        }
+                    }
+                    if (remove) {
+                        it.remove();
+                    }
+                }
+            }
+        }
+        return true;
+        /*boolean[] add = {true};
         formattings.stream()
                 .filter(formattingClass::isInstance)
                 .map(formattingClass::cast)
@@ -170,6 +195,7 @@ public class TextEntryController extends ValueEntryController<TextEntryModel, Te
                     }
                 });
         return add[0];
+       */
     }
 
     private void resizeOtherColorFormattings(ColorFormatting formatting, boolean add) {

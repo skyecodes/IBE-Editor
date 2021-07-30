@@ -1,6 +1,5 @@
 package com.github.franckyi.ibeeditor.base.client.mvc.controller;
 
-import com.github.franckyi.gameadapter.Game;
 import com.github.franckyi.gameadapter.api.common.tag.Tag;
 import com.github.franckyi.guapi.Guapi;
 import com.github.franckyi.guapi.api.mvc.AbstractController;

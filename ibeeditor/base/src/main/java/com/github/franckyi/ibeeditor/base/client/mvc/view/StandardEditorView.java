@@ -1,6 +1,5 @@
 package com.github.franckyi.ibeeditor.base.client.mvc.view;
 
-import com.github.franckyi.databindings.DataBindings;
 import com.github.franckyi.databindings.api.BooleanProperty;
 import com.github.franckyi.gameadapter.api.common.text.Text;
 import com.github.franckyi.gameadapter.api.common.text.builder.TranslatedTextBuilder;
@@ -9,7 +8,6 @@ import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.api.node.TexturedButton;
 import com.github.franckyi.guapi.api.node.builder.TexturedButtonBuilder;
 import com.github.franckyi.ibeeditor.base.client.ModScreenHandler;
-import com.github.franckyi.ibeeditor.base.client.mvc.model.ColorSelectionScreenModel;
 import com.github.franckyi.ibeeditor.base.client.util.texteditor.StyleType;
 import com.github.franckyi.ibeeditor.base.client.util.texteditor.TextEditorActionHandler;
 

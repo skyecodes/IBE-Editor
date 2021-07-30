@@ -17,6 +17,7 @@ public interface ObservableDoubleValue extends ObservableValue<Double> {
     /**
      * Creates a new {@link ObservableDoubleValue} that is always equal to the addition of this value
      * and an other double.
+     *
      * @param other The other double to add
      * @return The new {@link ObservableDoubleValue}
      */
@@ -27,6 +28,7 @@ public interface ObservableDoubleValue extends ObservableValue<Double> {
     /**
      * Creates a new {@link ObservableDoubleValue} that is always equal to the substraction of this value
      * by an other double.
+     *
      * @param other The other double to substract
      * @return The new {@link ObservableDoubleValue}
      */
@@ -37,6 +39,7 @@ public interface ObservableDoubleValue extends ObservableValue<Double> {
     /**
      * Creates a new {@link ObservableDoubleValue} that is always equal to the multiplication of this value
      * and an other double.
+     *
      * @param other The other double to multiply
      * @return The new {@link ObservableDoubleValue}
      */
@@ -47,6 +50,7 @@ public interface ObservableDoubleValue extends ObservableValue<Double> {
     /**
      * Creates a new {@link ObservableDoubleValue} that is always equal to the division of this value
      * by an other double.
+     *
      * @param other The other double to divide
      * @return The new {@link ObservableDoubleValue}
      */
@@ -57,6 +61,7 @@ public interface ObservableDoubleValue extends ObservableValue<Double> {
     /**
      * Creates a new {@link ObservableDoubleValue} that is always equal to the addition of this value
      * and an other observale double value.
+     *
      * @param other The other observale double value to add
      * @return The new {@link ObservableDoubleValue}
      */
@@ -67,6 +72,7 @@ public interface ObservableDoubleValue extends ObservableValue<Double> {
     /**
      * Creates a new {@link ObservableDoubleValue} that is always equal to the substraction of this value
      * by an other observale double value.
+     *
      * @param other The other observale double value to substract
      * @return The new {@link ObservableDoubleValue}
      */
@@ -77,6 +83,7 @@ public interface ObservableDoubleValue extends ObservableValue<Double> {
     /**
      * Creates a new {@link ObservableDoubleValue} that is always equal to the multiplication of this value
      * and an other observale double value.
+     *
      * @param other The other observale double value to multiply
      * @return The new {@link ObservableDoubleValue}
      */
@@ -87,6 +94,7 @@ public interface ObservableDoubleValue extends ObservableValue<Double> {
     /**
      * Creates a new {@link ObservableDoubleValue} that is always equal to the division of this value
      * by an other observale double value.
+     *
      * @param other The other observale double value to divide
      * @return The new {@link ObservableDoubleValue}
      */

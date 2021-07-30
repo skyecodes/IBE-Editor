@@ -1,10 +1,10 @@
 package com.github.franckyi.guapi.base.theme.vanilla;
 
+import com.github.franckyi.gameadapter.Color;
 import com.github.franckyi.gameadapter.Game;
 import com.github.franckyi.gameadapter.api.client.render.Matrices;
 import com.github.franckyi.guapi.api.node.TextField;
 import com.github.franckyi.guapi.api.theme.DelegatedRenderer;
-import com.github.franckyi.gameadapter.Color;
 import com.github.franckyi.guapi.base.theme.DelegatedSkin;
 
 public class VanillaTextFieldSkin extends DelegatedSkin<TextField> {

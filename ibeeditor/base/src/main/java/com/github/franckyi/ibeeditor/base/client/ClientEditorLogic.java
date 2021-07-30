@@ -165,7 +165,7 @@ public final class ClientEditorLogic {
 
     private static void updatePlayerInventoryItem(Item item, int slotId, boolean isCreativeInventoryScreen) {
         LOGGER.debug("Updating player inventory item {} in slot {}", item, slotId);
-        if (ClientContext.isModInstalledOnServer())  {
+        if (ClientContext.isModInstalledOnServer()) {
             ClientNetworkEmitter.sendPlayerInventoryItemUpdate(item, slotId);
         } else {
             if (getClientPlayer().isCreative()) {

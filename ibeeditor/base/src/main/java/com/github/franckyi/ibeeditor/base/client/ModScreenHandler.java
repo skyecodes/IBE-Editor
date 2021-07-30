@@ -21,6 +21,7 @@ import static com.github.franckyi.guapi.GuapiHelper.*;
 
 public final class ModScreenHandler {
     private static final Logger LOGGER = LogManager.getLogger();
+
     public static void openItemEditorScreen(Item item, Consumer<Item> action, Text disabledTooltip) {
         openScaledScreen(mvc(StandardEditorMVC.INSTANCE, new ItemEditorModel(item, action, disabledTooltip)));
     }

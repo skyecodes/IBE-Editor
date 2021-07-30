@@ -1,6 +1,5 @@
 package com.github.franckyi.guapi.base.node;
 
-import com.github.franckyi.databindings.DataBindings;
 import com.github.franckyi.databindings.api.*;
 import com.github.franckyi.gameadapter.api.client.render.Matrices;
 import com.github.franckyi.gameadapter.api.common.text.Text;

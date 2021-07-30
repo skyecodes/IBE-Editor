@@ -1,11 +1,10 @@
 package com.github.franckyi.guapi.base.node;
 
-import com.github.franckyi.databindings.DataBindings;
 import com.github.franckyi.databindings.api.BooleanProperty;
 import com.github.franckyi.databindings.api.IntegerProperty;
+import com.github.franckyi.gameadapter.Color;
 import com.github.franckyi.guapi.api.event.MouseButtonEvent;
 import com.github.franckyi.guapi.api.node.TexturedToggleButton;
-import com.github.franckyi.gameadapter.Color;
 
 public abstract class AbstractTexturedToggleButton extends AbstractTexturedButton implements TexturedToggleButton {
     private final BooleanProperty activeProperty = BooleanProperty.create();

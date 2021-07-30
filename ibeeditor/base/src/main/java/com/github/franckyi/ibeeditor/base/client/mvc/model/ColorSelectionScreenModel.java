@@ -1,10 +1,9 @@
 package com.github.franckyi.ibeeditor.base.client.mvc.model;
 
-import com.github.franckyi.databindings.DataBindings;
 import com.github.franckyi.databindings.api.DoubleProperty;
 import com.github.franckyi.databindings.api.StringProperty;
-import com.github.franckyi.guapi.api.mvc.Model;
 import com.github.franckyi.gameadapter.Color;
+import com.github.franckyi.guapi.api.mvc.Model;
 
 import java.util.function.Consumer;
 

@@ -1,6 +1,5 @@
 package com.github.franckyi.gameadapter.base.client;
 
-import com.github.franckyi.databindings.DataBindings;
 import com.github.franckyi.databindings.api.BooleanProperty;
 import com.github.franckyi.databindings.api.IntegerProperty;
 import com.github.franckyi.databindings.api.ObservableBooleanValue;

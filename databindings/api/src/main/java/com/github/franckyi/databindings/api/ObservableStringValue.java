@@ -10,6 +10,7 @@ public interface ObservableStringValue extends ObservableObjectValue<String> {
     /**
      * Creates a new {@link ObservableStringValue} that is always equal to the concatenation of this value
      * and another {@link String}.
+     *
      * @param other The string to append
      * @return The new {@link ObservableStringValue}
      */
@@ -20,6 +21,7 @@ public interface ObservableStringValue extends ObservableObjectValue<String> {
     /**
      * Creates a new {@link ObservableStringValue} that is always equal to the concatenation of this value
      * and another observable string value.
+     *
      * @param other The observable string value to append
      * @return The new {@link ObservableStringValue}
      */

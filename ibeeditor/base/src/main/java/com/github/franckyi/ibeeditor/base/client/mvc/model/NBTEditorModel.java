@@ -1,6 +1,5 @@
 package com.github.franckyi.ibeeditor.base.client.mvc.model;
 
-import com.github.franckyi.databindings.DataBindings;
 import com.github.franckyi.databindings.api.ObjectProperty;
 import com.github.franckyi.gameadapter.api.common.tag.CompoundTag;
 import com.github.franckyi.gameadapter.api.common.text.Text;

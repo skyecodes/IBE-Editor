@@ -1,6 +1,5 @@
 package com.github.franckyi.ibeeditor.base.client.mvc.view;
 
-import com.github.franckyi.databindings.DataBindings;
 import com.github.franckyi.databindings.api.ObservableList;
 import com.github.franckyi.gameadapter.api.common.text.Text;
 import com.github.franckyi.guapi.api.mvc.View;

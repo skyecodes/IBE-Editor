@@ -9,6 +9,7 @@ public interface ObservableObjectValue<T> extends ObservableValue<T> {
 
     /**
      * Gets the value (no difference with {@link #get}, but is preferable to use)
+     *
      * @return The value
      */
     default T getValue() {

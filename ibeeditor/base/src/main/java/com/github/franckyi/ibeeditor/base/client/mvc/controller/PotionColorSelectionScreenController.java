@@ -1,7 +1,7 @@
 package com.github.franckyi.ibeeditor.base.client.mvc.controller;
 
-import com.github.franckyi.gameadapter.Game;
 import com.github.franckyi.gameadapter.Color;
+import com.github.franckyi.gameadapter.Game;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.ColorSelectionScreenModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.view.PotionColorSelectionScreenView;
 

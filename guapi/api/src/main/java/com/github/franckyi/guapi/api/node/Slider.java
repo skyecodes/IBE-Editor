@@ -14,7 +14,7 @@ public interface Slider extends Control {
     default void setValue(double value) {
         valueProperty().setValue(value);
     }
-    
+
     default double getMinValue() {
         return minValueProperty().getValue();
     }
@@ -24,7 +24,7 @@ public interface Slider extends Control {
     default void setMinValue(double value) {
         minValueProperty().setValue(value);
     }
-    
+
     default double getMaxValue() {
         return maxValueProperty().getValue();
     }

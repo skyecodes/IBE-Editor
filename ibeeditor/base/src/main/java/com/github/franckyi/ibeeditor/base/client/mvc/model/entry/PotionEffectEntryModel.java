@@ -1,6 +1,5 @@
 package com.github.franckyi.ibeeditor.base.client.mvc.model.entry;
 
-import com.github.franckyi.databindings.DataBindings;
 import com.github.franckyi.databindings.api.BooleanProperty;
 import com.github.franckyi.databindings.api.IntegerProperty;
 import com.github.franckyi.gameadapter.Game;
@@ -16,7 +15,8 @@ public class PotionEffectEntryModel extends SelectionEntryModel {
     private final PotionEffectConsumer callback;
 
     public PotionEffectEntryModel(CategoryModel category, int id, int amplifier, int duration, boolean ambient, boolean showParticles, boolean showIcon, PotionEffectConsumer callback) {
-        super(category, null, Game.getCommon().getRegistries().getEffectFromId(id), s -> {});
+        super(category, null, Game.getCommon().getRegistries().getEffectFromId(id), s -> {
+        });
         amplifierProperty = IntegerProperty.create(amplifier);
         durationProperty = IntegerProperty.create(duration);
         ambientProperty = BooleanProperty.create(ambient);

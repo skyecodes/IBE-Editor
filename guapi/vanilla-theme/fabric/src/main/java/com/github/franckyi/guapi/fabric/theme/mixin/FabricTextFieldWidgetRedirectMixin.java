@@ -7,7 +7,6 @@ import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.text.StringVisitable;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.MathHelper;
-import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;

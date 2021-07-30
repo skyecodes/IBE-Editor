@@ -1,11 +1,9 @@
 package com.github.franckyi.ibeeditor.base.client.mvc.model;
 
-import com.github.franckyi.databindings.DataBindings;
 import com.github.franckyi.databindings.api.BooleanProperty;
 import com.github.franckyi.databindings.api.ObjectProperty;
 import com.github.franckyi.databindings.api.ObservableList;
 import com.github.franckyi.databindings.api.StringProperty;
-import com.github.franckyi.gameadapter.Game;
 import com.github.franckyi.gameadapter.api.common.tag.*;
 import com.github.franckyi.guapi.api.mvc.Model;
 import com.github.franckyi.guapi.api.node.TreeView;

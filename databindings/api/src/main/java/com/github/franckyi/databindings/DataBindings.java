@@ -21,6 +21,7 @@ public final class DataBindings {
 
     /**
      * Gets the current property factory.
+     *
      * @return The current property factory
      */
     public static PropertyFactory getPropertyFactory() {
@@ -29,6 +30,7 @@ public final class DataBindings {
 
     /**
      * Sets the current property factory.
+     *
      * @param propertyFactory The new property factory
      */
     public static void setPropertyFactory(PropertyFactory propertyFactory) {
@@ -37,6 +39,7 @@ public final class DataBindings {
 
     /**
      * Gets the current mapping factory.
+     *
      * @return The current mapping factory
      */
     public static MappingFactory getMappingFactory() {
@@ -45,6 +48,7 @@ public final class DataBindings {
 
     /**
      * Sets the current mapping factory.
+     *
      * @param mappingFactory The new mapping factory
      */
     public static void setMappingFactory(MappingFactory mappingFactory) {
@@ -53,6 +57,7 @@ public final class DataBindings {
 
     /**
      * Gets the current observable list factory.
+     *
      * @return The current observable list factory
      */
     public static ObservableListFactory getObservableListFactory() {
@@ -61,6 +66,7 @@ public final class DataBindings {
 
     /**
      * Sets the current observable list factory.
+     *
      * @param observableListFactory The new observable list factory
      */
     public static void setObservableListFactory(ObservableListFactory observableListFactory) {

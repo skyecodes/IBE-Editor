@@ -50,6 +50,7 @@ public final class Color {
             throw new IllegalArgumentException("RGBA values must be between 0 and 255");
         }
     }
+
     public static final String BLACK = "black";
     public static final String DARK_BLUE = "dark_blue";
     public static final String DARK_GREEN = "dark_green";

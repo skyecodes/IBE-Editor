@@ -1,11 +1,11 @@
 package com.github.franckyi.guapi.api.node;
 
 import com.github.franckyi.databindings.api.*;
+import com.github.franckyi.gameadapter.Color;
 import com.github.franckyi.gameadapter.api.common.text.Text;
 import com.github.franckyi.guapi.api.EventTarget;
 import com.github.franckyi.guapi.api.Renderable;
 import com.github.franckyi.guapi.api.event.MouseEvent;
-import com.github.franckyi.gameadapter.Color;
 import com.github.franckyi.guapi.api.util.Insets;
 import com.github.franckyi.guapi.api.util.ScreenEventType;
 

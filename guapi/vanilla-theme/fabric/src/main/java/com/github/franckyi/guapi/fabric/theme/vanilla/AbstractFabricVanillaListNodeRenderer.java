@@ -1,5 +1,6 @@
 package com.github.franckyi.guapi.fabric.theme.vanilla;
 
+import com.github.franckyi.gameadapter.Color;
 import com.github.franckyi.gameadapter.api.client.render.Matrices;
 import com.github.franckyi.gameadapter.fabric.client.render.FabricRenderer;
 import com.github.franckyi.guapi.api.event.MouseButtonEvent;
@@ -8,7 +9,6 @@ import com.github.franckyi.guapi.api.event.MouseEvent;
 import com.github.franckyi.guapi.api.event.MouseScrollEvent;
 import com.github.franckyi.guapi.api.node.ListNode;
 import com.github.franckyi.guapi.api.node.Node;
-import com.github.franckyi.gameadapter.Color;
 import com.github.franckyi.guapi.api.util.ScreenEventType;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.Element;

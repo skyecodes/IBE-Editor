@@ -1,6 +1,5 @@
 package com.github.franckyi.ibeeditor.base.client.mvc.model.category;
 
-import com.github.franckyi.gameadapter.Game;
 import com.github.franckyi.gameadapter.api.common.tag.CompoundTag;
 import com.github.franckyi.gameadapter.api.common.tag.ListTag;
 import com.github.franckyi.gameadapter.api.common.tag.Tag;

@@ -1,6 +1,5 @@
 package com.github.franckyi.ibeeditor.base.client.mvc.model;
 
-import com.github.franckyi.databindings.DataBindings;
 import com.github.franckyi.databindings.api.BooleanProperty;
 import com.github.franckyi.databindings.api.ObservableList;
 import com.github.franckyi.databindings.api.StringProperty;

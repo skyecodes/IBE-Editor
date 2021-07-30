@@ -1,7 +1,6 @@
 package com.github.franckyi.databindings.base;
 
 import com.github.franckyi.databindings.api.ObservableDoubleValue;
-import com.github.franckyi.databindings.api.ObservableIntegerValue;
 import com.github.franckyi.databindings.api.ObservableValue;
 
 import java.util.function.Function;

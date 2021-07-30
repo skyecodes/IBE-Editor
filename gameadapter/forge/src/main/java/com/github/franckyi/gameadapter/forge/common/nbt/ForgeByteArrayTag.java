@@ -9,7 +9,7 @@ public class ForgeByteArrayTag implements ByteArrayTag {
     private final ByteArrayNBT tag;
 
     public ForgeByteArrayTag() {
-        this (new byte[0]);
+        this(new byte[0]);
     }
 
     public ForgeByteArrayTag(List<Byte> value) {

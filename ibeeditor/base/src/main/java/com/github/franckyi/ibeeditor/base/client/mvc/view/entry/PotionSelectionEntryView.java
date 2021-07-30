@@ -1,7 +1,9 @@
 package com.github.franckyi.ibeeditor.base.client.mvc.view.entry;
 
-import com.github.franckyi.guapi.api.node.*;
-import com.github.franckyi.guapi.api.node.builder.TexturedButtonBuilder;
+import com.github.franckyi.guapi.api.node.Box;
+import com.github.franckyi.guapi.api.node.ItemView;
+import com.github.franckyi.guapi.api.node.TexturedButton;
+import com.github.franckyi.guapi.api.node.VBox;
 
 import static com.github.franckyi.guapi.GuapiHelper.*;
 
