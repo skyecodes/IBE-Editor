@@ -121,6 +121,6 @@ public class ForgeVanillaTextFieldRenderer extends TextFieldWidget implements Fo
         int displayPos = self.getDisplayPos();
         FontRenderer font = Minecraft.getInstance().font;
         ITextProperties string = font.substrByWidth(renderText(getValue().substring(displayPos), displayPos), getInnerWidth());
-        moveCursorTo(font.substrByWidth(string, MathHelper.floor(mouseX) - x - 4).getString().length() + displayPos);
+        setHighlightPos(font.substrByWidth(string, MathHelper.floor(mouseX) - x - 4).getString().length() + displayPos);
     }
 }
