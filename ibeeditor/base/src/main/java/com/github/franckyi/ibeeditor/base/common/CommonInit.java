@@ -14,7 +14,7 @@ public final class CommonInit {
     private static final Logger LOGGER = LogManager.getLogger();
 
     public static void init() {
-        LOGGER.debug("Initializing IBE Editor - common");
+        LOGGER.info("Initializing IBE Editor - common");
         DataBindingsImpl.init();
         Game.setDefaultLogger(LogManager.getLogger("IBE Editor"));
         TextHandler.setTextFactory(TextFactoryImpl.INSTANCE);

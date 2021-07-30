@@ -83,14 +83,14 @@ public final class ClientConfiguration {
         if (Files.exists(CLIENT_CONFIG_FILE)) {
             try (Reader r = Files.newBufferedReader(CLIENT_CONFIG_FILE)) {
                 INSTANCE = GSON.fromJson(r, ClientConfiguration.class);
-                LOGGER.debug("Client configuration loaded");
+                LOGGER.info("Client configuration loaded");
                 return;
             } catch (IOException | JsonSyntaxException e) {
                 LOGGER.error("Error while loading client configuration", e);
                 INSTANCE = new ClientConfiguration();
             }
         } else {
-            LOGGER.debug("Generating default client configuration");
+            LOGGER.info("Generating default client configuration");
             INSTANCE = new ClientConfiguration();
             changed = true;
             save();
@@ -103,7 +103,7 @@ public final class ClientConfiguration {
             try (Writer w = Files.newBufferedWriter(CLIENT_CONFIG_FILE)) {
                 GSON.toJson(INSTANCE, w);
                 changed = false;
-                LOGGER.debug("Client configuration saved");
+                LOGGER.info("Client configuration saved");
             } catch (IOException e) {
                 LOGGER.error("Error while saving client configuration", e);
             }

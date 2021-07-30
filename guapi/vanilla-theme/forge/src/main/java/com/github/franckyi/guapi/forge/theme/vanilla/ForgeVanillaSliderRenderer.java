@@ -2,6 +2,7 @@ package com.github.franckyi.guapi.forge.theme.vanilla;
 
 import com.github.franckyi.guapi.api.node.Slider;
 import net.minecraft.client.gui.widget.AbstractSlider;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.StringTextComponent;
 import org.lwjgl.glfw.GLFW;
 
@@ -27,23 +28,33 @@ public class ForgeVanillaSliderRenderer extends AbstractSlider implements ForgeV
 
     @Override
     public void onClick(double mouseX, double mouseY) {
-        updateSliderFromMouse(mouseX);
+        updateNodeFromMouse(mouseX);
     }
 
     @Override
     protected void onDrag(double mouseX, double mouseY, double deltaX, double deltaY) {
-        updateSliderFromMouse(mouseX);
+        updateNodeFromMouse(mouseX);
     }
 
-    private void updateSliderFromMouse(double mouseX) {
-        double old = this.value;
-        double value = ((mouseX - (x + 4)) / (width - 8));
-        double step = node.getStep() / (node.getMaxValue() - node.getMinValue());
-        this.value = value - (value % step);
-        if (this.value != old) {
-            applyValue();
+    @Override
+    public boolean mouseScrolled(double mouseX, double mouseY, double amount) {
+        if (amount > 0) {
+            node.increment();
+        } else if (amount < 0) {
+            node.decrement();
         }
-        updateMessage();
+        return false;
+    }
+
+    private void updateNodeFromMouse(double mouseX) {
+        updateNode((mouseX - (x + 4)) / (width - 8));
+    }
+
+    private void updateNode(double newRawValue) {
+        double range = node.getMaxValue() - node.getMinValue();
+        double value = MathHelper.clamp(newRawValue, 0, 1) * range + node.getMinValue();
+        double fixedValue = value - (value % node.getStep());
+        node.setValue(fixedValue);
     }
 
     @Override
@@ -63,8 +74,5 @@ public class ForgeVanillaSliderRenderer extends AbstractSlider implements ForgeV
 
     @Override
     protected void applyValue() {
-        double range = node.getMaxValue() - node.getMinValue();
-        double value = node.getMinValue() + this.value * range;
-        node.setValue(value);
     }
 }

@@ -8,7 +8,7 @@ public final class ClientInit {
     private static final Logger LOGGER = LogManager.getLogger();
 
     public static void init() {
-        LOGGER.debug("Initializing IBE Editor - client");
+        LOGGER.info("Initializing IBE Editor - client");
         ClientConfiguration.load();
         syncGuapiConfig();
         KeyBindings.init();

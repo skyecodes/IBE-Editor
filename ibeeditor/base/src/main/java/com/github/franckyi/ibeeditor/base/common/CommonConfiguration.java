@@ -24,13 +24,13 @@ public final class CommonConfiguration {
         if (Files.exists(COMMON_CONFIG_FILE)) {
             try (Reader r = Files.newBufferedReader(COMMON_CONFIG_FILE)) {
                 INSTANCE = GSON.fromJson(r, CommonConfiguration.class);
-                LOGGER.debug("Common configuration loaded");
+                LOGGER.info("Common configuration loaded");
             } catch (IOException | JsonSyntaxException e) {
                 LOGGER.error("Error while loading common configuration", e);
                 INSTANCE = new CommonConfiguration();
             }
         } else {
-            LOGGER.debug("Generating default common configuration");
+            LOGGER.info("Generating default common configuration");
             INSTANCE = new CommonConfiguration();
             changed = true;
             save();
@@ -42,7 +42,7 @@ public final class CommonConfiguration {
             try (Writer w = Files.newBufferedWriter(COMMON_CONFIG_FILE)) {
                 GSON.toJson(INSTANCE, w);
                 changed = false;
-                LOGGER.debug("Common configuration saved");
+                LOGGER.info("Common configuration saved");
             } catch (IOException e) {
                 LOGGER.error("Error while saving common configuration", e);
             }
