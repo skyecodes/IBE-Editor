@@ -36,7 +36,7 @@ public class ItemDisplayCategoryModel extends ItemCategoryModel {
 
     @Override
     public Text getAddListEntryButtonTooltip() {
-        return translated("ibeeditor.gui.lore_add").green();
+        return translated("ibeeditor.gui.lore_add");
     }
 
     @Override

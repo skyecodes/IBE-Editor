@@ -3,12 +3,15 @@ package com.github.franckyi.ibeeditor.base.client.mvc.model.category;
 import com.github.franckyi.gameadapter.api.common.tag.CompoundTag;
 import com.github.franckyi.gameadapter.api.common.tag.ListTag;
 import com.github.franckyi.gameadapter.api.common.tag.Tag;
+import com.github.franckyi.gameadapter.api.common.text.Text;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.ItemEditorModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.AttributeModifierEntryModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.EntryModel;
 
 import java.util.UUID;
 import java.util.stream.Collectors;
+
+import static com.github.franckyi.guapi.GuapiHelper.*;
 
 public class ItemAttributeModifiersCategoryModel extends ItemCategoryModel {
     private ListTag newAttributeModifiers;
@@ -51,6 +54,11 @@ public class ItemAttributeModifiersCategoryModel extends ItemCategoryModel {
             return new AttributeModifierEntryModel(this, attributeName, slot, operation, amount, uuid, this::addAttributeModifier);
         }
         return new AttributeModifierEntryModel(this, this::addAttributeModifier);
+    }
+
+    @Override
+    protected Text getAddListEntryButtonTooltip() {
+        return translated("ibeeditor.gui.modifier");
     }
 
     @Override

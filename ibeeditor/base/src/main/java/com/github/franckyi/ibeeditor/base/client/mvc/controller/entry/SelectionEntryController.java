@@ -1,6 +1,5 @@
 package com.github.franckyi.ibeeditor.base.client.mvc.controller.entry;
 
-import com.github.franckyi.gameadapter.api.common.text.builder.TranslatedTextBuilder;
 import com.github.franckyi.ibeeditor.base.client.ModScreenHandler;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.SelectionEntryModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.view.entry.SelectionEntryView;
@@ -15,8 +14,9 @@ public class SelectionEntryController<M extends SelectionEntryModel, V extends S
     @Override
     public void bind() {
         super.bind();
+        view.getTextField().setPlaceholder(translated(model.getSuggestionScreenTitle()));
         view.getTextField().getSuggestions().setAll(model.getSuggestions());
-        ((TranslatedTextBuilder) view.getItemListButton().getTooltip().get(0)).with(translated(model.getSuggestionScreenTitle()));
+        view.getTooltip().with(translated(model.getSuggestionScreenTitle()));
         view.getItemListButton().onAction(this::openItemList);
         if (model.getLabel() == null) {
             view.getRoot().getChildren().remove(view.getLabel());

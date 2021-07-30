@@ -28,7 +28,7 @@ public abstract class CategoryModel implements Model {
     public void initalize() {
         setupEntries();
         if (hasEntryList()) {
-            getEntries().add(new AddListEntryEntryModel(this, getAddListEntryButtonTooltip()));
+            getEntries().add(new AddListEntryEntryModel(this, translated("ibeeditor.gui.add").green().with(getAddListEntryButtonTooltip())));
         }
         updateValidity();
         validProperty().addListener(getEditor()::updateValidity);
@@ -117,7 +117,7 @@ public abstract class CategoryModel implements Model {
     }
 
     protected Text getAddListEntryButtonTooltip() {
-        return translated("ibeeditor.gui.add").green();
+        return emptyText();
     }
 
     public void moveEntryUp(int index) {

@@ -4,11 +4,14 @@ import com.github.franckyi.gameadapter.api.common.tag.CompoundTag;
 import com.github.franckyi.gameadapter.api.common.tag.ListTag;
 import com.github.franckyi.gameadapter.api.common.tag.StringTag;
 import com.github.franckyi.gameadapter.api.common.tag.Tag;
+import com.github.franckyi.gameadapter.api.common.text.Text;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.ItemEditorModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.BlockSelectionEntryModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.EntryModel;
 
 import java.util.stream.Collectors;
+
+import static com.github.franckyi.guapi.GuapiHelper.*;
 
 public class ItemBlockListCategoryModel extends ItemCategoryModel {
     private final String tagName;
@@ -40,6 +43,11 @@ public class ItemBlockListCategoryModel extends ItemCategoryModel {
 
     private EntryModel createBlockEntry(String id) {
         return new BlockSelectionEntryModel(this, null, id, this::addBlock);
+    }
+
+    @Override
+    protected Text getAddListEntryButtonTooltip() {
+        return translated("ibeeditor.text.block");
     }
 
     @Override

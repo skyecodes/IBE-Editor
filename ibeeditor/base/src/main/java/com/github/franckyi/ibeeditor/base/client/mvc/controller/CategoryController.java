@@ -13,8 +13,21 @@ public class CategoryController extends AbstractController<CategoryModel, Catego
         super(model, view);
     }
 
+    @Override
+    public void bind() {
+        model.selectedProperty().addListener(this::updateLabel);
+        model.validProperty().addListener(this::updateLabel);
+        model.nameProperty().addListener(this::updateLabel);
+        view.getLabel().hoveredProperty().addListener(this::updateLabel);
+        view.getLabel().onAction(() -> model.getEditor().setSelectedCategory(model));
+        updateLabel();
+    }
+
     private void updateLabel() {
         Text text = translated(model.getName());
+        if (view.getLabel().isHovered()) {
+            text.setUnderlined(true);
+        }
         if (model.isSelected()) {
             if (model.isValid()) {
                 text.setColor("yellow");
@@ -25,21 +38,7 @@ public class CategoryController extends AbstractController<CategoryModel, Catego
             }
         } else if (!model.isValid()) {
             text.setColor("red");
-            text.setBold(false);
         }
         view.getLabel().setLabel(text);
-    }
-
-    @Override
-    public void bind() {
-        model.selectedProperty().addListener(this::updateLabel);
-        model.validProperty().addListener(this::updateLabel);
-        model.nameProperty().addListener(this::updateLabel);
-        view.getLabel().onMouseClick(e -> {
-            if (e.getButton() == MouseButtonEvent.LEFT_BUTTON) {
-                model.getEditor().setSelectedCategory(model);
-            }
-        });
-        updateLabel();
     }
 }
