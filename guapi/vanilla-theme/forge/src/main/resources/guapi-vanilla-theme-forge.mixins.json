@@ -6,8 +6,7 @@
   "refmap": "guapi-vanilla-theme-forge.refmap.json",
   "client": [
     "ForgeAbstractListMixin",
-    "ForgeTextFieldWidgetAccessorMixin",
-    "ForgeTextFieldWidgetRedirectMixin"
+    "ForgeTextFieldWidgetMixin"
   ],
   "injectors": {
     "defaultRequire": 1

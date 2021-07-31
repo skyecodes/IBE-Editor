@@ -6,8 +6,7 @@
   "client": [
     "FabricClickableWidgetMixin",
     "FabricEntryListWidgetMixin",
-    "FabricTextFieldWidgetAccessorMixin",
-    "FabricTextFieldWidgetRedirectMixin"
+    "FabricTextFieldWidgetMixin"
   ],
   "injectors": {
     "defaultRequire": 1
