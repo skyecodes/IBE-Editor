@@ -14,6 +14,10 @@ public interface CompoundTag extends Tag, Map<String, Tag> {
         return Game.getCommon().getTagFactory().createCompoundTag(value);
     }
 
+    static CompoundTag parse(String snbt) {
+        return Game.getCommon().getTagFactory().parseCompoundTag(snbt);
+    }
+
     @Override
     default byte getType() {
         return Tag.COMPOUND_ID;

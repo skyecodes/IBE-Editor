@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class NBTEditorController extends AbstractController<NBTEditorModel, NBTEditorView> implements Controller<NBTEditorModel, NBTEditorView> {
+public class NBTEditorController extends AbstractController<NBTEditorModel, NBTEditorView> {
     public NBTEditorController(NBTEditorModel model, NBTEditorView view) {
         super(model, view);
     }

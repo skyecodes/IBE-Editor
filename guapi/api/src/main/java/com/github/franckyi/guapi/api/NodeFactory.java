@@ -102,6 +102,16 @@ public interface NodeFactory {
 
     TextFieldBuilder createTextField(Consumer<TextFieldBuilder> with);
 
+    TextAreaBuilder createTextArea();
+
+    TextAreaBuilder createTextArea(String value);
+
+    TextAreaBuilder createTextArea(String label, String value);
+
+    TextAreaBuilder createTextArea(Text label, String value);
+
+    TextAreaBuilder createTextArea(Consumer<TextAreaBuilder> with);
+
     TexturedButtonBuilder createTexturedButton(String id, boolean drawButton);
 
     TexturedButtonBuilder createTexturedButton(String id, int imageWidth, int imageHeight, boolean drawButton);

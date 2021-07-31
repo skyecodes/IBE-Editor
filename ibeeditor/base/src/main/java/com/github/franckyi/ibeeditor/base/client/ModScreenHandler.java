@@ -38,6 +38,10 @@ public final class ModScreenHandler {
         openScaledScreen(mvc(NBTEditorMVC.INSTANCE, new NBTEditorModel(tag, action, disabledTooltip)));
     }
 
+    public static void openSNBTEditorScreen(String snbt, Consumer<String> action, Text disabledTooltip) {
+        openScaledScreen(mvc(SNBTEditorMVC.INSTANCE, new SNBTEditorModel(snbt, action, disabledTooltip)));
+    }
+
     public static void openSettingsScreen() {
         openScaledScreen(mvc(ConfigEditorMVC.INSTANCE, new ConfigEditorModel()));
     }

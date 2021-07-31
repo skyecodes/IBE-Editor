@@ -19,6 +19,7 @@ public final class NodeType<N extends Node> {
     public static final NodeType<ItemView> ITEM_VIEW = new NodeType<>("ItemView");
     public static final NodeType<Slider> SLIDER = new NodeType<>("Slider");
     public static final NodeType<SpriteView> SPRITE_VIEW = new NodeType<>("SpriteView");
+    public static final NodeType<TextArea> TEXT_AREA = new NodeType<>("TextArea");
     private final String s;
 
     private NodeType(String s) {

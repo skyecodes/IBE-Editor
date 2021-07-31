@@ -1,7 +1,7 @@
 package com.github.franckyi.ibeeditor.base.common;
 
 public enum EditorType {
-    STANDARD(0), NBT(1), RAW_NBT(2);
+    STANDARD(0), NBT(1), SNBT(2);
 
     private final byte id;
 
@@ -24,7 +24,7 @@ public enum EditorType {
             case 1:
                 return NBT;
             case 2:
-                return RAW_NBT;
+                return SNBT;
             default:
                 return null;
         }

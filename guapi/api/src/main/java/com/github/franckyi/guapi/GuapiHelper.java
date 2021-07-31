@@ -255,6 +255,26 @@ public final class GuapiHelper {
         return node().createTextField(with);
     }
 
+    public static TextAreaBuilder textArea() {
+        return node().createTextArea();
+    }
+
+    public static TextAreaBuilder textArea(String value) {
+        return node().createTextArea(value);
+    }
+
+    public static TextAreaBuilder textArea(String label, String value) {
+        return node().createTextArea(label, value);
+    }
+
+    public static TextAreaBuilder textArea(Text label, String value) {
+        return node().createTextArea(label, value);
+    }
+
+    public static TextAreaBuilder textArea(Consumer<TextAreaBuilder> with) {
+        return node().createTextArea(with);
+    }
+
     public static TexturedButtonBuilder texturedButton(String id, boolean drawButton) {
         return node().createTexturedButton(id, drawButton);
     }

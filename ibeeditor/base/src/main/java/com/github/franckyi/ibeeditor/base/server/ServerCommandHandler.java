@@ -39,7 +39,7 @@ public final class ServerCommandHandler {
 
     private enum EditorTypeArgument {
         NBT("nbt", EditorType.NBT),
-        RAW_NBT("raw", EditorType.RAW_NBT);
+        SNBT("snbt", EditorType.SNBT);
 
         private static final EditorType DEFAULT = EditorType.STANDARD;
         private final String literal;

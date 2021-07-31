@@ -2,6 +2,7 @@ package com.github.franckyi.ibeeditor.base.client;
 
 import com.github.franckyi.gameadapter.Game;
 import com.github.franckyi.gameadapter.api.common.BlockPos;
+import com.github.franckyi.gameadapter.api.common.tag.CompoundTag;
 import com.github.franckyi.gameadapter.api.common.text.Text;
 import com.github.franckyi.gameadapter.api.common.world.*;
 import com.github.franckyi.guapi.Guapi;
@@ -103,8 +104,8 @@ public final class ClientEditorLogic {
             case NBT:
                 ModScreenHandler.openNBTEditorScreen(item.getData(), tag -> action.accept(Game.getCommon().createItem(tag)), disabledTooltip);
                 break;
-            case RAW_NBT:
-                // TODO
+            case SNBT:
+                ModScreenHandler.openSNBTEditorScreen(item.getData().toString(), snbt -> action.accept(Game.getCommon().createItem(CompoundTag.parse(snbt))), disabledTooltip);
                 break;
         }
     }
@@ -123,7 +124,7 @@ public final class ClientEditorLogic {
             case NBT:
                 ModScreenHandler.openNBTEditorScreen(block.getData(), tag -> updateBlock(blockPos, Game.getCommon().createBlock(block.getState(), tag)), ClientContext.isModInstalledOnServer() ? null : ERROR_SERVERMOD_BLOCK);
                 break;
-            case RAW_NBT:
+            case SNBT:
                 // TODO
                 break;
         }
@@ -143,7 +144,7 @@ public final class ClientEditorLogic {
             case NBT:
                 ModScreenHandler.openNBTEditorScreen(entity.getData(), tag -> updateEntity(entityId, Game.getCommon().createEntity(tag)), ClientContext.isModInstalledOnServer() ? null : ERROR_SERVERMOD_ENTITY);
                 break;
-            case RAW_NBT:
+            case SNBT:
                 // TODO
                 break;
         }

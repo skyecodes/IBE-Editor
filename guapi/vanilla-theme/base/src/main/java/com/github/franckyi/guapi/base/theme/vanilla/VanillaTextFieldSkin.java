@@ -7,13 +7,13 @@ import com.github.franckyi.guapi.api.node.TextField;
 import com.github.franckyi.guapi.api.theme.DelegatedRenderer;
 import com.github.franckyi.guapi.base.theme.DelegatedSkin;
 
-public class VanillaTextFieldSkin extends DelegatedSkin<TextField> {
+public class VanillaTextFieldSkin<N extends TextField> extends DelegatedSkin<N> {
     public VanillaTextFieldSkin(DelegatedRenderer delegatedRenderer) {
         super(delegatedRenderer);
     }
 
     @Override
-    public void render(TextField node, Matrices matrices, int mouseX, int mouseY, float delta) {
+    public void render(N node, Matrices matrices, int mouseX, int mouseY, float delta) {
         super.render(node, matrices, mouseX, mouseY, delta);
         if (!(node.isValidationForced() || node.getValidator().test(node.getText()))) {
             drawBorder(node, matrices, Color.fromRGBA(1, 0, 0, 0.8));
@@ -23,16 +23,16 @@ public class VanillaTextFieldSkin extends DelegatedSkin<TextField> {
     }
 
     @Override
-    public int computeWidth(TextField node) {
+    public int computeWidth(N node) {
         return 150;
     }
 
     @Override
-    public int computeHeight(TextField node) {
+    public int computeHeight(N node) {
         return 20;
     }
 
-    private void drawBorder(TextField node, Matrices matrices, int color) {
+    private void drawBorder(N node, Matrices matrices, int color) {
         Game.getClient().getRenderer().drawRectangle(matrices, node.getX(), node.getY(),
                 node.getX() + node.getWidth(), node.getY() + node.getHeight(), color);
     }

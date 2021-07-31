@@ -24,5 +24,6 @@ public final class VanillaTheme extends AbstractTheme {
         delegateSkinRenderer(NodeType.TOGGLE_BUTTON, VanillaToggleButtonSkin::new);
         delegateSkinRenderer(NodeType.TEXTURED_TOGGLE_BUTTON, VanillaTexturedToggleButtonSkin::new);
         delegateSkinRenderer(NodeType.SLIDER, VanillaSliderSkin::new);
+        delegateSkinRenderer(NodeType.TEXT_AREA, VanillaTextAreaSkin::new);
     }
 }

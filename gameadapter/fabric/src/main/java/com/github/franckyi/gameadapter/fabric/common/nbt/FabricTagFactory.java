@@ -1,6 +1,7 @@
 package com.github.franckyi.gameadapter.fabric.common.nbt;
 
 import com.github.franckyi.gameadapter.api.common.tag.*;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.nbt.*;
 
 import java.util.Collection;
@@ -147,6 +148,15 @@ public final class FabricTagFactory implements TagFactory {
     @Override
     public CompoundTag createCompoundTag(Map<String, Tag> value) {
         return new FabricCompoundTag(value);
+    }
+
+    @Override
+    public CompoundTag parseCompoundTag(String snbt) {
+        try {
+            return new FabricCompoundTag(StringNbtReader.parse(snbt));
+        } catch (CommandSyntaxException e) {
+            return null;
+        }
     }
 
     @Override

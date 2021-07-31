@@ -76,6 +76,8 @@ public interface TagFactory {
 
     CompoundTag createCompoundTag(Map<String, Tag> value);
 
+    CompoundTag parseCompoundTag(String snbt);
+
     IntArrayTag createIntArrayTag();
 
     IntArrayTag createIntArrayTag(List<Integer> value);

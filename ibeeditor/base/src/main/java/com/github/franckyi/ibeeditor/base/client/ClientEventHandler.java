@@ -12,8 +12,8 @@ public final class ClientEventHandler {
             ClientEditorLogic.openWorldEditor(EditorType.STANDARD);
         } else if (KeyBindings.nbtEditorKey.isPressed()) {
             ClientEditorLogic.openWorldEditor(EditorType.NBT);
-        } else if (KeyBindings.rawNbtEditorKey.isPressed()) {
-            ClientEditorLogic.openWorldEditor(EditorType.RAW_NBT);
+        } else if (KeyBindings.snbtEditorKey.isPressed()) {
+            ClientEditorLogic.openWorldEditor(EditorType.SNBT);
         }/* else if (KeyBindings.clipboardKey.isPressed()) {
             ClientEditorLogic.openClipboard();
         }*/
@@ -25,8 +25,8 @@ public final class ClientEventHandler {
             type = EditorType.STANDARD;
         } else if (keyCode == KeyBindings.nbtEditorKey.getKeyCode()) {
             type = EditorType.NBT;
-        } else if (keyCode == KeyBindings.rawNbtEditorKey.getKeyCode()) {
-            type = EditorType.RAW_NBT;
+        } else if (keyCode == KeyBindings.snbtEditorKey.getKeyCode()) {
+            type = EditorType.SNBT;
         }
         if (type != null) {
             Slot slot = screen.getInventoryFocusedSlot();

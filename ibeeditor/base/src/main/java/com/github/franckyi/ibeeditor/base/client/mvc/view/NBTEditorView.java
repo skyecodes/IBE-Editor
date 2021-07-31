@@ -14,13 +14,13 @@ import java.util.function.Consumer;
 
 import static com.github.franckyi.guapi.GuapiHelper.*;
 
-public class NBTEditorView extends EditorView implements View {
+public class NBTEditorView extends EditorView {
     private VBox main;
     private TreeView<NBTTagModel> tagTree;
     private HBox addButtons;
     private TexturedButton addByteButton, addShortButton, addIntButton, addLongButton, addFloatButton,
             addDoubleButton, addByteArrayButton, addStringButton, addListButton, addCompoundButton,
-            addIntArrayButton, addLongArrayButton, rawButton, moveUpButton, moveDownButton, deleteButton,
+            addIntArrayButton, addLongArrayButton, moveUpButton, moveDownButton, deleteButton,
             cutButton, copyButton, pasteButton;
     private TexturedToggleButton addButton;
     private final ObservableList<ButtonType> visibleButtons = ObservableList.create();
@@ -74,7 +74,6 @@ public class NBTEditorView extends EditorView implements View {
     @Override
     protected Node createButtonBar() {
         return hBox(buttons -> {
-            //buttons.add(rawButton = createButton("ibeeditor:textures/gui/raw_nbt.png", "ibeeditor.gui.switch_raw_nbt_editor"));
             buttons.add(hBox(base -> {
                 base.add(moveUpButton = createButtonFromType(ButtonType.MOVE_UP, "ibeeditor:textures/gui/move_up.png", "ibeeditor.gui.move_up").disable());
                 base.add(moveDownButton = createButtonFromType(ButtonType.MOVE_DOWN, "ibeeditor:textures/gui/move_down.png", "ibeeditor.gui.move_down").disable());

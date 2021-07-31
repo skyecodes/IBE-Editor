@@ -248,6 +248,31 @@ public class NodeFactoryImpl implements NodeFactory {
     }
 
     @Override
+    public TextAreaBuilder createTextArea() {
+        return new TextAreaImpl();
+    }
+
+    @Override
+    public TextAreaBuilder createTextArea(String value) {
+        return new TextAreaImpl(value);
+    }
+
+    @Override
+    public TextAreaBuilder createTextArea(String label, String value) {
+        return new TextAreaImpl(label, value);
+    }
+
+    @Override
+    public TextAreaBuilder createTextArea(Text label, String value) {
+        return new TextAreaImpl(label, value);
+    }
+
+    @Override
+    public TextAreaBuilder createTextArea(Consumer<TextAreaBuilder> with) {
+        return createTextArea().with(with);
+    }
+
+    @Override
     public TexturedButtonBuilder createTexturedButton(String id, boolean drawButton) {
         return new TexturedButtonImpl(id, drawButton);
     }
