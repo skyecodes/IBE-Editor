@@ -23,8 +23,8 @@ public class ForgeVanillaTextFieldRenderer extends TextFieldWidget implements Fo
         super(Minecraft.getInstance().font, node.getX(), node.getY(), node.getWidth(), node.getHeight(), node.getLabel().get());
         this.node = node;
         active = !node.isDisabled();
-        setValue(node.getText());
         setMaxLength(node.getMaxLength());
+        setValue(node.getText());
         setFocused(node.isFocused());
         setResponder(node::setText);
         node.xProperty().addListener(newVal -> x = newVal + 1);
