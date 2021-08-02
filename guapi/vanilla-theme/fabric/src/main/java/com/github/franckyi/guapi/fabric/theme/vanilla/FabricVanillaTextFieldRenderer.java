@@ -31,11 +31,7 @@ public class FabricVanillaTextFieldRenderer extends TextFieldWidget implements F
         node.disabledProperty().addListener(newVal -> active = !newVal);
         node.labelProperty().addListener(newVal -> setMessage(newVal.get()));
         node.maxLengthProperty().addListener(this::setMaxLength);
-        node.textProperty().addListener(newVal -> {
-            int cursor = getCursor();
-            setText(newVal);
-            setCursor(cursor);
-        });
+        node.textProperty().addListener(this::setRawText);
         node.focusedProperty().addListener(this::setFocused);
         node.validatorProperty().addListener(this::updateValidator);
         node.validationForcedProperty().addListener(this::updateValidator);
@@ -48,6 +44,16 @@ public class FabricVanillaTextFieldRenderer extends TextFieldWidget implements F
         updateValidator();
         updateRenderer();
         updatePlaceholder();
+    }
+
+    private void setRawText(String text) {
+        if (node.getValidator().test(text)) {
+            if (text.length() > node.getMaxLength()) {
+                ((FabricTextFieldWidgetMixin) this).setRawText(text.substring(0, node.getMaxLength()));
+            } else {
+                ((FabricTextFieldWidgetMixin) this).setRawText(text);
+            }
+        }
     }
 
     private void updateValidator() {

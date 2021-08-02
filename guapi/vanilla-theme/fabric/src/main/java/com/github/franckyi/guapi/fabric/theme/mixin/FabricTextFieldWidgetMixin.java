@@ -10,6 +10,9 @@ import java.util.function.BiFunction;
 
 @Mixin(TextFieldWidget.class)
 public interface FabricTextFieldWidgetMixin {
+    @Accessor("text")
+    void setRawText(String text);
+
     @Accessor("focusedTicks")
     int getFocusedTicks();
 

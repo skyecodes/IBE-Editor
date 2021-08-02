@@ -10,6 +10,9 @@ import java.util.function.BiFunction;
 
 @Mixin(TextFieldWidget.class)
 public interface ForgeTextFieldWidgetMixin {
+    @Accessor("value")
+    void setRawValue(String text);
+
     @Accessor("frame")
     int getFrame();
 
