@@ -149,6 +149,7 @@ task buildForge(type: Jar) {
     }
 }
 
-task buildAll {
-    dependsOn buildCommon, buildFabric, buildForge
+task build(overwrite: true) {
+    dependsOn allprojects.clean
+    finalizedBy buildCommon, buildFabric, buildForge
 }
