@@ -80,10 +80,10 @@ task signCommonJar(type: SignJar) {
         project.hasProperty('keyStore')
     }
 
-    keyStore = project.keyStore
-    alias = project.keyStoreAlias
-    storePass = project.keyStorePass
-    keyPass = project.keyStoreKeyPass
+    keyStore = project.findProperty('keyStore')
+    alias = project.findProperty('keyStoreAlias')
+    storePass = project.findProperty('keyStorePass')
+    keyPass = project.findProperty('keyStoreKeyPass')
     inputFile = rootProject.buildCommon.archivePath
     outputFile = rootProject.buildCommon.archivePath
 }
@@ -93,10 +93,10 @@ task signForgeJar(type: SignJar) {
         project.hasProperty('keyStore')
     }
 
-    keyStore = project.keyStore
-    alias = project.keyStoreAlias
-    storePass = project.keyStorePass
-    keyPass = project.keyStoreKeyPass
+    keyStore = project.findProperty('keyStore')
+    alias = project.findProperty('keyStoreAlias')
+    storePass = project.findProperty('keyStorePass')
+    keyPass = project.findProperty('keyStoreKeyPass')
     inputFile = rootProject.buildForge.archivePath
     outputFile = rootProject.buildForge.archivePath
 }
