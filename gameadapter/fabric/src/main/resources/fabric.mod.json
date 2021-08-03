@@ -19,6 +19,9 @@
     ],
     "client": [
       "com.github.franckyi.gameadapter.FabricGameAdapterMod"
+    ],
+    "server": [
+      "com.github.franckyi.gameadapter.FabricGameAdapterMod"
     ]
   },
   "mixins": [

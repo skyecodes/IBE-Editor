@@ -10,6 +10,7 @@ import com.github.franckyi.guapi.base.node.*;
 
 import java.util.Collection;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 public class NodeFactoryImpl implements NodeFactory {
     public static final NodeFactory INSTANCE = new NodeFactoryImpl();
@@ -213,13 +214,13 @@ public class NodeFactoryImpl implements NodeFactory {
     }
 
     @Override
-    public SpriteViewBuilder createSpriteView(Object sprite) {
-        return new SpriteViewImpl(sprite);
+    public SpriteViewBuilder createSpriteView(Supplier<Object> spriteFactory) {
+        return new SpriteViewImpl(spriteFactory);
     }
 
     @Override
-    public SpriteViewBuilder createSpriteView(Object sprite, int imageWidth, int imageHeight) {
-        return new SpriteViewImpl(sprite, imageWidth, imageHeight);
+    public SpriteViewBuilder createSpriteView(Supplier<Object> spriteFactory, int imageWidth, int imageHeight) {
+        return new SpriteViewImpl(spriteFactory, imageWidth, imageHeight);
     }
 
     @Override

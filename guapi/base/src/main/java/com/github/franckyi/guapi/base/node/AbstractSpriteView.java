@@ -4,20 +4,25 @@ import com.github.franckyi.databindings.api.IntegerProperty;
 import com.github.franckyi.databindings.api.ObjectProperty;
 import com.github.franckyi.guapi.api.node.SpriteView;
 
+import java.util.function.Supplier;
+
 public abstract class AbstractSpriteView extends AbstractControl implements SpriteView {
-    private final ObjectProperty<Object> spriteProperty = ObjectProperty.create();
+    private final ObjectProperty<Supplier<Object>> spriteFactoryProperty = ObjectProperty.create();
     private final IntegerProperty imageWidthProperty = IntegerProperty.create();
     private final IntegerProperty imageHeightProperty = IntegerProperty.create();
+    private Object cachedSprite;
 
     protected AbstractSpriteView() {
+        spriteFactoryProperty().addListener(() -> cachedSprite = null);
     }
 
-    protected AbstractSpriteView(Object sprite) {
-        setSprite(sprite);
+    protected AbstractSpriteView(Supplier<Object> spriteFactory) {
+        this();
+        setSpriteFactory(spriteFactory);
     }
 
-    protected AbstractSpriteView(Object sprite, int imageWidth, int imageHeight) {
-        this(sprite);
+    protected AbstractSpriteView(Supplier<Object> spriteFactory, int imageWidth, int imageHeight) {
+        this(spriteFactory);
         setImageWidth(imageWidth);
         setImageHeight(imageHeight);
         setPrefWidth(imageWidth);
@@ -25,8 +30,16 @@ public abstract class AbstractSpriteView extends AbstractControl implements Spri
     }
 
     @Override
-    public ObjectProperty<Object> spriteProperty() {
-        return spriteProperty;
+    public ObjectProperty<Supplier<Object>> spriteFactoryProperty() {
+        return spriteFactoryProperty;
+    }
+
+    @Override
+    public Object getSprite() {
+        if (cachedSprite == null) {
+            cachedSprite = getSpriteFactory().get();
+        }
+        return cachedSprite;
     }
 
     @Override

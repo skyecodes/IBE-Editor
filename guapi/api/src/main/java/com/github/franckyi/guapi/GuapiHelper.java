@@ -21,6 +21,7 @@ import com.github.franckyi.guapi.api.util.Insets;
 
 import java.util.Collection;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 public final class GuapiHelper {
     public static final String BLACK = Color.BLACK;
@@ -223,12 +224,12 @@ public final class GuapiHelper {
         return node().createSpriteView();
     }
 
-    public static SpriteViewBuilder spriteView(Object sprite) {
-        return node().createSpriteView(sprite);
+    public static SpriteViewBuilder spriteView(Supplier<Object> spriteFactory) {
+        return node().createSpriteView(spriteFactory);
     }
 
-    public static SpriteViewBuilder spriteView(Object sprite, int imageWidth, int imageHeight) {
-        return node().createSpriteView(sprite, imageWidth, imageHeight);
+    public static SpriteViewBuilder spriteView(Supplier<Object> spriteFactory, int imageWidth, int imageHeight) {
+        return node().createSpriteView(spriteFactory, imageWidth, imageHeight);
     }
 
     public static SpriteViewBuilder spriteView(Consumer<SpriteViewBuilder> with) {

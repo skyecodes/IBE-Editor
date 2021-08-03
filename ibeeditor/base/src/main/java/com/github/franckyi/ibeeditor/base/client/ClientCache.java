@@ -2,6 +2,7 @@ package com.github.franckyi.ibeeditor.base.client;
 
 import com.github.franckyi.gameadapter.Color;
 import com.github.franckyi.gameadapter.Game;
+import com.github.franckyi.gameadapter.api.common.Registries;
 import com.github.franckyi.gameadapter.api.common.registry.RegistryEntry;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.ItemListSelectionItemModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.ListSelectionItemModel;
@@ -22,73 +23,56 @@ public final class ClientCache {
     private static List<String> effectSuggestions;
     private static List<SpriteListSelectionItemModel> effectSelectionItems;
 
+    public static void init() {
+        itemSuggestions = getSuggestions(Registries.get().getItems());
+        itemSelectionItems = getItemSelectionItems(Registries.get().getItems());
+        blockSuggestions = getSuggestions(Registries.get().getBlocks());
+        blockSelectionItems = getItemSelectionItems(Registries.get().getBlocks());
+        attributeSuggestions = getSuggestions(Registries.get().getAttributes());
+        attributeSelectionItems = getSelectionItems(Registries.get().getAttributes());
+        potionSuggestions = getSuggestions(Registries.get().getPotions());
+        potionSelectionItems = getPotionSelectionItems(Registries.get().getPotions());
+        effectSuggestions = getSuggestions(Registries.get().getEffects());
+        effectSelectionItems = getEffectSelectionItems(Registries.get().getEffects());
+    }
+
     public static List<String> getItemSuggestions() {
-        if (itemSuggestions == null) {
-            itemSuggestions = getSuggestions(Game.getCommon().getRegistries().getItems());
-        }
         return itemSuggestions;
     }
 
     public static List<ItemListSelectionItemModel> getItemSelectionItems() {
-        if (itemSelectionItems == null) {
-            itemSelectionItems = getItemSelectionItems(Game.getCommon().getRegistries().getItems());
-        }
         return itemSelectionItems;
     }
 
     public static List<String> getBlockSuggestions() {
-        if (blockSuggestions == null) {
-            blockSuggestions = getSuggestions(Game.getCommon().getRegistries().getBlocks());
-        }
         return blockSuggestions;
     }
 
     public static List<ItemListSelectionItemModel> getBlockSelectionItems() {
-        if (blockSelectionItems == null) {
-            blockSelectionItems = getItemSelectionItems(Game.getCommon().getRegistries().getBlocks());
-        }
         return blockSelectionItems;
     }
 
     public static List<String> getAttributeSuggestions() {
-        if (attributeSuggestions == null) {
-            attributeSuggestions = getSuggestions(Game.getCommon().getRegistries().getAttributes());
-        }
         return attributeSuggestions;
     }
 
     public static List<ListSelectionItemModel> getAttributeSelectionItems() {
-        if (attributeSelectionItems == null) {
-            attributeSelectionItems = getSelectionItems(Game.getCommon().getRegistries().getAttributes());
-        }
         return attributeSelectionItems;
     }
 
     public static List<String> getPotionSuggestions() {
-        if (potionSuggestions == null) {
-            potionSuggestions = getSuggestions(Game.getCommon().getRegistries().getPotions());
-        }
         return potionSuggestions;
     }
 
     public static List<ItemListSelectionItemModel> getPotionSelectionItems() {
-        if (potionSelectionItems == null) {
-            potionSelectionItems = getPotionSelectionItems(Game.getCommon().getRegistries().getPotions());
-        }
         return potionSelectionItems;
     }
 
     public static List<String> getEffectSuggestions() {
-        if (effectSuggestions == null) {
-            effectSuggestions = getSuggestions(Game.getCommon().getRegistries().getEffects());
-        }
         return effectSuggestions;
     }
 
     public static List<SpriteListSelectionItemModel> getEffectSelectionItems() {
-        if (effectSelectionItems == null) {
-            effectSelectionItems = getEffectSelectionItems(Game.getCommon().getRegistries().getEffects());
-        }
         return effectSelectionItems;
     }
 
@@ -122,7 +106,7 @@ public final class ClientCache {
 
     private static List<SpriteListSelectionItemModel> getEffectSelectionItems(List<? extends RegistryEntry> list) {
         return list.stream()
-                .map(attribute -> new SpriteListSelectionItemModel(attribute.getName(), attribute.getId(), Game.getClient().getEffectSprite(attribute.getId())))
+                .map(attribute -> new SpriteListSelectionItemModel(attribute.getName(), attribute.getId(), () -> Game.getClient().getEffectSprite(attribute.getId())))
                 .collect(Collectors.toList());
     }
 }

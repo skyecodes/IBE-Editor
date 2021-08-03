@@ -4,16 +4,18 @@ import com.github.franckyi.guapi.api.node.SpriteView;
 import com.github.franckyi.guapi.api.node.builder.SpriteViewBuilder;
 import com.github.franckyi.guapi.api.util.NodeType;
 
+import java.util.function.Supplier;
+
 public class SpriteViewImpl extends AbstractSpriteView implements SpriteViewBuilder {
     public SpriteViewImpl() {
     }
 
-    public SpriteViewImpl(Object sprite) {
-        super(sprite);
+    public SpriteViewImpl(Supplier<Object> spriteFactory) {
+        super(spriteFactory);
     }
 
-    public SpriteViewImpl(Object sprite, int imageWidth, int imageHeight) {
-        super(sprite, imageWidth, imageHeight);
+    public SpriteViewImpl(Supplier<Object> spriteFactory, int imageWidth, int imageHeight) {
+        super(spriteFactory, imageWidth, imageHeight);
     }
 
     @Override

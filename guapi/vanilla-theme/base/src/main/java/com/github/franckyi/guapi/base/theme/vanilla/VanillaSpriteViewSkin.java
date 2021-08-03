@@ -15,7 +15,7 @@ public final class VanillaSpriteViewSkin extends AbstractSkin<SpriteView> {
     @Override
     public void render(SpriteView node, Matrices matrices, int mouseX, int mouseY, float delta) {
         super.render(node, matrices, mouseX, mouseY, delta);
-        if (node.getSprite() != null) {
+        if (node.getSpriteFactory() != null) {
             Game.getClient().getRenderer().drawSprite(matrices, node.getSprite(),
                     node.getX(), node.getY(), node.getImageWidth(), node.getImageHeight());
         }

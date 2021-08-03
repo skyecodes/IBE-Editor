@@ -12,6 +12,7 @@ public final class ClientInit {
         ClientConfiguration.load();
         syncGuapiConfig();
         KeyBindings.init();
+        ClientCache.init();
     }
 
     public static void syncGuapiConfig() {

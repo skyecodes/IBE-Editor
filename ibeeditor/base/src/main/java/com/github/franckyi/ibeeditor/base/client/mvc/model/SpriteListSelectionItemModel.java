@@ -1,15 +1,17 @@
 package com.github.franckyi.ibeeditor.base.client.mvc.model;
 
-public class SpriteListSelectionItemModel extends ListSelectionItemModel {
-    private final Object sprite;
+import java.util.function.Supplier;
 
-    public SpriteListSelectionItemModel(String name, String id, Object sprite) {
+public class SpriteListSelectionItemModel extends ListSelectionItemModel {
+    private final Supplier<Object> spriteFactory;
+
+    public SpriteListSelectionItemModel(String name, String id, Supplier<Object> spriteFactory) {
         super(name, id);
-        this.sprite = sprite;
+        this.spriteFactory = spriteFactory;
     }
 
-    public Object getSprite() {
-        return sprite;
+    public Supplier<Object> getSpriteFactory() {
+        return spriteFactory;
     }
 
     @Override

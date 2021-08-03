@@ -11,7 +11,7 @@ public class SpriteListSelectionItemController extends ListSelectionItemControll
     @Override
     public void bind() {
         super.bind();
-        view.getSpriteView().setSprite(model.getSprite());
+        view.getSpriteView().setSpriteFactory(model.getSpriteFactory());
     }
 }
 

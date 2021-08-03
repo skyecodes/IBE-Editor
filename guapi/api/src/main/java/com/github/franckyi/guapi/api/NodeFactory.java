@@ -8,6 +8,7 @@ import com.github.franckyi.guapi.api.node.builder.*;
 
 import java.util.Collection;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 public interface NodeFactory {
     ButtonBuilder createButton();
@@ -88,9 +89,9 @@ public interface NodeFactory {
 
     SpriteViewBuilder createSpriteView();
 
-    SpriteViewBuilder createSpriteView(Object sprite);
+    SpriteViewBuilder createSpriteView(Supplier<Object> spriteFactory);
 
-    SpriteViewBuilder createSpriteView(Object sprite, int imageWidth, int imageHeight);
+    SpriteViewBuilder createSpriteView(Supplier<Object> spriteFactory, int imageWidth, int imageHeight);
 
     TextFieldBuilder createTextField();
 

@@ -3,16 +3,20 @@ package com.github.franckyi.guapi.api.node;
 import com.github.franckyi.databindings.api.IntegerProperty;
 import com.github.franckyi.databindings.api.ObjectProperty;
 
+import java.util.function.Supplier;
+
 public interface SpriteView extends Control {
-    default Object getSprite() {
-        return spriteProperty().getValue();
+    default Supplier<Object> getSpriteFactory() {
+        return spriteFactoryProperty().getValue();
     }
 
-    ObjectProperty<Object> spriteProperty();
+    ObjectProperty<Supplier<Object>> spriteFactoryProperty();
 
-    default void setSprite(Object value) {
-        spriteProperty().setValue(value);
+    default void setSpriteFactory(Supplier<Object> value) {
+        spriteFactoryProperty().setValue(value);
     }
+
+    Object getSprite();
 
     default int getImageWidth() {
         return imageWidthProperty().getValue();

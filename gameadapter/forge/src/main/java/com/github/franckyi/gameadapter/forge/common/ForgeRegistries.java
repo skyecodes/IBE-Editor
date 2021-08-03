@@ -22,70 +22,62 @@ public final class ForgeRegistries implements Registries {
     }
 
     @Override
+    public void init() {
+        items = net.minecraftforge.registries.ForgeRegistries.ITEMS.getEntries().stream().map(entry -> RegistryEntry.of(
+                entry.getKey().location().toString(),
+                entry.getValue().getDescriptionId()
+        )).collect(Collectors.toList());
+        blocks = net.minecraftforge.registries.ForgeRegistries.BLOCKS.getEntries().stream().map(entry -> RegistryEntry.of(
+                entry.getKey().location().toString(),
+                entry.getValue().getDescriptionId()
+        )).collect(Collectors.toList());
+        enchantments = net.minecraftforge.registries.ForgeRegistries.ENCHANTMENTS.getEntries().stream().map(entry -> Enchantment.of(
+                entry.getKey().location().toString(),
+                entry.getValue().getDescriptionId(),
+                entry.getValue().isCurse(),
+                item -> entry.getValue().canEnchant(item.get())
+        )).collect(Collectors.toList());
+        attributes = net.minecraftforge.registries.ForgeRegistries.ATTRIBUTES.getEntries().stream().map(entry -> RegistryEntry.of(
+                entry.getKey().location().toString(),
+                entry.getValue().getDescriptionId()
+        )).collect(Collectors.toList());
+        potions = net.minecraftforge.registries.ForgeRegistries.POTION_TYPES.getEntries().stream().map(entry -> RegistryEntry.of(
+                entry.getKey().location().toString(),
+                entry.getValue().getName("item.minecraft.potion.effect.")
+        )).collect(Collectors.toList());
+        effects = net.minecraftforge.registries.ForgeRegistries.POTIONS.getEntries().stream().map(entry -> RegistryEntry.of(
+                entry.getKey().location().toString(),
+                entry.getValue().getDescriptionId()
+        )).collect(Collectors.toList());
+    }
+
+    @Override
     public List<RegistryEntry> getItems() {
-        if (items == null) {
-            items = net.minecraftforge.registries.ForgeRegistries.ITEMS.getEntries().stream().map(entry -> RegistryEntry.of(
-                    entry.getKey().location().toString(),
-                    entry.getValue().getDescriptionId()
-            )).collect(Collectors.toList());
-        }
         return items;
     }
 
     @Override
     public List<RegistryEntry> getBlocks() {
-        if (blocks == null) {
-            blocks = net.minecraftforge.registries.ForgeRegistries.BLOCKS.getEntries().stream().map(entry -> RegistryEntry.of(
-                    entry.getKey().location().toString(),
-                    entry.getValue().getDescriptionId()
-            )).collect(Collectors.toList());
-        }
         return blocks;
     }
 
     @Override
     public List<Enchantment> getEnchantments() {
-        if (enchantments == null) {
-            enchantments = net.minecraftforge.registries.ForgeRegistries.ENCHANTMENTS.getEntries().stream().map(entry -> Enchantment.of(
-                    entry.getKey().location().toString(),
-                    entry.getValue().getDescriptionId(),
-                    entry.getValue().isCurse(),
-                    item -> entry.getValue().canEnchant(item.get())
-            )).collect(Collectors.toList());
-        }
         return enchantments;
     }
 
     @Override
     public List<RegistryEntry> getAttributes() {
-        if (attributes == null) {
-            attributes = net.minecraftforge.registries.ForgeRegistries.ATTRIBUTES.getEntries().stream().map(entry -> RegistryEntry.of(
-                    entry.getKey().location().toString(),
-                    entry.getValue().getDescriptionId()
-            )).collect(Collectors.toList());
-        }
         return attributes;
     }
 
     @Override
     public List<RegistryEntry> getPotions() {
-        if (potions == null) {
-            potions = net.minecraftforge.registries.ForgeRegistries.POTION_TYPES.getEntries().stream().map(entry -> RegistryEntry.of(
-                    entry.getKey().location().toString(),
-                    entry.getValue().getName("item.minecraft.potion.effect.")
-            )).collect(Collectors.toList());
-        }
         return potions;
     }
 
     @Override
     public List<RegistryEntry> getEffects() {
-        if (effects == null) {
-            effects = net.minecraftforge.registries.ForgeRegistries.POTIONS.getEntries().stream().map(entry -> RegistryEntry.of(
-                    entry.getKey().location().toString(),
-                    entry.getValue().getDescriptionId()
-            )).collect(Collectors.toList());
-        }
         return effects;
     }
 
