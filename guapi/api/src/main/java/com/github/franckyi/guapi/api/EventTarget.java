@@ -3,7 +3,7 @@ package com.github.franckyi.guapi.api;
 import com.github.franckyi.guapi.api.event.*;
 
 public interface EventTarget {
-    default void tick() {
+    default void doTick() {
     }
 
     default void mouseClicked(MouseButtonEvent event) {

@@ -163,9 +163,9 @@ public abstract class AbstractFabricVanillaListNodeRenderer<N extends ListNode<E
     }
 
     @Override
-    public void tick() {
+    public void doTick() {
         for (T child : children()) {
-            child.getNode().tick();
+            child.getNode().doTick();
         }
     }
 

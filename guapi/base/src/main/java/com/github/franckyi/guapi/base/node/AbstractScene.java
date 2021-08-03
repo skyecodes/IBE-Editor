@@ -166,7 +166,7 @@ public abstract class AbstractScene implements Scene {
     @Override
     public void tick() {
         if (rootProperty().hasValue()) {
-            getRoot().tick();
+            getRoot().doTick();
         }
     }
 

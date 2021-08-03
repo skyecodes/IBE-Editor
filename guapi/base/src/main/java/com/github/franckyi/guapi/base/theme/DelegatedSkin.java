@@ -31,8 +31,8 @@ public abstract class DelegatedSkin<N extends Node> extends AbstractSkin<N> {
     }
 
     @Override
-    public void tick() {
-        delegatedRenderer.tick();
+    public void doTick() {
+        delegatedRenderer.doTick();
     }
 
     @Override

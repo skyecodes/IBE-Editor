@@ -34,9 +34,9 @@ public abstract class AbstractGroup extends AbstractNode implements Group {
     }
 
     @Override
-    public void tick() {
-        super.tick();
-        getChildren().forEach(Node::tick);
+    public void doTick() {
+        super.doTick();
+        getChildren().forEach(Node::doTick);
     }
 
     @Override

@@ -81,6 +81,15 @@ public class FabricVanillaTextFieldRenderer extends TextFieldWidget implements F
         setSuggestion(getText().isEmpty() ? node.getPlaceholder().getRawText() : null);
     }
 
+    public Text renderText(String str, int firstCharacterIndex) {
+        return node.getTextRenderer() == null ? new LiteralText(str) : node.getTextRenderer().render(str, firstCharacterIndex).get();
+    }
+
+    @Override
+    public void doTick() {
+        tick();
+    }
+
     @Override
     public void setSelectionStart(int value) {
         super.setSelectionStart(value);
@@ -94,10 +103,6 @@ public class FabricVanillaTextFieldRenderer extends TextFieldWidget implements F
     public void setSelectionEnd(int value) {
         super.setSelectionEnd(value);
         node.setHighlightPosition(((FabricTextFieldWidgetMixin) this).getSelectionEnd());
-    }
-
-    public Text renderText(String str, int firstCharacterIndex) {
-        return node.getTextRenderer() == null ? new LiteralText(str) : node.getTextRenderer().render(str, firstCharacterIndex).get();
     }
 
     @Override

@@ -272,8 +272,8 @@ public abstract class AbstractNode implements Node {
     }
 
     @Override
-    public void tick() {
-        getSkin().tick();
+    public void doTick() {
+        getSkin().doTick();
     }
 
     @Override

@@ -84,6 +84,15 @@ public class ForgeVanillaTextFieldRenderer extends TextFieldWidget implements Fo
         setSuggestion(getValue().isEmpty() ? node.getPlaceholder().getRawText() : null);
     }
 
+    public ITextComponent renderText(String str, int firstCharacterIndex) {
+        return node.getTextRenderer() == null ? new StringTextComponent(str) : node.getTextRenderer().render(str, firstCharacterIndex).get();
+    }
+
+    @Override
+    public void doTick() {
+        tick();
+    }
+
     @Override
     public void setCursorPosition(int value) {
         super.setCursorPosition(value);
@@ -97,10 +106,6 @@ public class ForgeVanillaTextFieldRenderer extends TextFieldWidget implements Fo
     public void setHighlightPos(int value) {
         super.setHighlightPos(value);
         node.setHighlightPosition(((ForgeTextFieldWidgetMixin) this).getHighlightPos());
-    }
-
-    public ITextComponent renderText(String str, int firstCharacterIndex) {
-        return node.getTextRenderer() == null ? new StringTextComponent(str) : node.getTextRenderer().render(str, firstCharacterIndex).get();
     }
 
     @Override
