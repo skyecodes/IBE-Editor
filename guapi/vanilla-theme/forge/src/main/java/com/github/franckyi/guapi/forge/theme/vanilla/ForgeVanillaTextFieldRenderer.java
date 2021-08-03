@@ -34,7 +34,7 @@ public class ForgeVanillaTextFieldRenderer extends TextFieldWidget implements Fo
         node.disabledProperty().addListener(newVal -> active = !newVal);
         node.labelProperty().addListener(newVal -> setMessage(newVal.get()));
         node.maxLengthProperty().addListener(this::setMaxLength);
-        node.textProperty().addListener(this::setRawValue);
+        node.textProperty().addListener(this::updateText);
         node.focusedProperty().addListener(this::setFocused);
         node.validatorProperty().addListener(this::updateValidator);
         node.validationForcedProperty().addListener(this::updateValidator);
@@ -49,7 +49,7 @@ public class ForgeVanillaTextFieldRenderer extends TextFieldWidget implements Fo
         updatePlaceholder();
     }
 
-    private void setRawValue(String text) {
+    private void updateText(String text) {
         if (node.getValidator().test(text)) {
             if (text.length() > node.getMaxLength()) {
                 ((ForgeTextFieldWidgetMixin) this).setRawValue(text.substring(0, node.getMaxLength()));
