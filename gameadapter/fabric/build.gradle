@@ -1,13 +1,3 @@
-buildscript {
-    repositories {
-        maven {
-            name = "Modmuss50"
-            url = "http://maven.modmuss50.me/"
-        }
-        jcenter()
-    }
-}
-
 plugins {
     id "fabric-loom" version "$loom_version"
 }
@@ -24,6 +14,8 @@ dependencies {
 
 processResources {
     from "src/main/resources"
+
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 
     inputs.property "version", project.mod_version
 

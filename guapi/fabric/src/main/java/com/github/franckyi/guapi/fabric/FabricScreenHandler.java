@@ -19,12 +19,12 @@ public final class FabricScreenHandler extends AbstractScreenHandler {
     @Override
     protected void openScreen() {
         oldScreen = MinecraftClient.getInstance().currentScreen;
-        MinecraftClient.getInstance().openScreen(screen);
+        MinecraftClient.getInstance().setScreen(screen);
     }
 
     @Override
     protected void closeScreen() {
-        MinecraftClient.getInstance().openScreen(oldScreen);
+        MinecraftClient.getInstance().setScreen(oldScreen);
     }
 
     private final class ScreenImpl extends Screen {
@@ -49,8 +49,7 @@ public final class FabricScreenHandler extends AbstractScreenHandler {
         }
 
         @Override
-        public void init(MinecraftClient client, int width, int height) {
-            super.init(client, width, height);
+        protected void init() {
             FabricScreenHandler.this.updateSize(width, height);
         }
 

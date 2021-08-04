@@ -1,5 +1,6 @@
 package com.github.franckyi.ibeeditor.base.client.mvc.controller.entry;
 
+import com.github.franckyi.guapi.api.util.Predicates;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.EnchantmentEntryModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.view.entry.EnchantmentEntryView;
 
@@ -13,5 +14,6 @@ public class EnchantmentEntryController extends IntegerEntryController<Enchantme
         super.bind();
         view.getPlusButton().onAction(() -> model.setValue(model.getValue() + 1));
         view.getMinusButton().onAction(() -> model.setValue(model.getValue() - 1));
+        view.getTextField().setValidator(Predicates.range(0, 255));
     }
 }

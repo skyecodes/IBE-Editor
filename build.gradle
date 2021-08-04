@@ -13,7 +13,7 @@ allprojects {
 group = "com.github.franckyi"
 version = project.mod_version
 
-task buildCommon(type: Jar) {
+/*task buildCommon(type: Jar) {
     dependsOn ":databindings:api:jar",
             ":databindings:base:jar",
             ":gameadapter:api:jar",
@@ -61,7 +61,7 @@ task buildCommon(type: Jar) {
                 "MixinConfigs"            : "guapi-vanilla-theme-forge.mixins.json,gameadapter-forge.mixins.json"
         ])
     }
-}
+}*/
 
 task buildFabric(type: Jar) {
     dependsOn ":databindings:api:jar",
@@ -101,7 +101,7 @@ task buildFabric(type: Jar) {
     }
 }
 
-task buildForge(type: Jar) {
+/*task buildForge(type: Jar) {
     dependsOn ":databindings:api:jar",
             ":databindings:base:jar",
             ":gameadapter:api:jar",
@@ -141,9 +141,9 @@ task buildForge(type: Jar) {
                 "MixinConfigs"            : "guapi-vanilla-theme-forge.mixins.json,gameadapter-forge.mixins.json"
         ])
     }
-}
+}*/
 
 task build(overwrite: true) {
     dependsOn allprojects.clean
-    finalizedBy buildCommon, buildFabric, buildForge
+    finalizedBy /*buildCommon,*/ buildFabric/*, buildForge*/
 }

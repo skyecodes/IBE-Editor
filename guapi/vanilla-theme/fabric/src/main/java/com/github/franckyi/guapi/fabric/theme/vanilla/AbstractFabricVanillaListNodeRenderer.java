@@ -12,6 +12,7 @@ import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.api.util.ScreenEventType;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.Element;
+import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.gui.widget.EntryListWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import org.jetbrains.annotations.Nullable;
@@ -42,6 +43,10 @@ public abstract class AbstractFabricVanillaListNodeRenderer<N extends ListNode<E
 
     public N getNode() {
         return node;
+    }
+
+    @Override
+    public void appendNarrations(NarrationMessageBuilder builder) {
     }
 
     @Override
