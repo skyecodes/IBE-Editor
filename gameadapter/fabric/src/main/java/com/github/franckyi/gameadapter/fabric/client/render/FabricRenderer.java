@@ -9,6 +9,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.item.TooltipContext;
+import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
@@ -52,8 +53,9 @@ public class FabricRenderer implements Renderer {
 
     @Override
     public void drawTexture(Matrices matrices, String id, int x, int y, int width, int height, int imageX, int imageY, int imageWidth, int imageHeight) {
-        MinecraftClient.getInstance().getTextureManager().bindTexture(new Identifier(id));
-        RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderTexture(0, new Identifier(id));
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
         RenderSystem.enableDepthTest();
@@ -63,8 +65,8 @@ public class FabricRenderer implements Renderer {
     @Override
     public void drawSprite(Matrices matrices, Object spriteObj, int x, int y, int imageWidth, int imageHeight) {
         Sprite sprite = (Sprite) spriteObj;
-        MinecraftClient.getInstance().getTextureManager().bindTexture(sprite.getAtlas().getId());
-        RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.setShaderTexture(0, sprite.getAtlas().getId());
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         DrawableHelper.drawSprite(matrices.get(), x, y, 0, imageWidth, imageHeight, sprite);
     }
 

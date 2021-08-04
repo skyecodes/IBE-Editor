@@ -29,7 +29,7 @@ public class FabricWorld implements World {
     public void setBlockData(BlockPos blockPos, Block block) {
         BlockEntity blockEntity = world.getBlockEntity(blockPos.get());
         if (blockEntity != null) {
-            blockEntity.fromTag(world.getBlockState(blockPos.get()), block.getData().get());
+            blockEntity.readNbt(block.getData().get());
         }
     }
 

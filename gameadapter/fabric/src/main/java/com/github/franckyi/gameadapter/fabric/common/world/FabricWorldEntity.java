@@ -14,7 +14,7 @@ public class FabricWorldEntity implements WorldEntity {
 
     @Override
     public int getEntityId() {
-        return entity.getEntityId();
+        return entity.getId();
     }
 
     @Override

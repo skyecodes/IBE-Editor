@@ -22,9 +22,9 @@
     "guapi-vanilla-theme-fabric.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.7.4",
-    "fabric": ">=0.30.0",
-    "minecraft": "1.16.x",
+    "fabricloader": ">=0.11.3",
+    "fabric": "*",
+    "minecraft": "1.17.x",
     "gameadapter": "${version}",
     "guapi": "${version}"
   }

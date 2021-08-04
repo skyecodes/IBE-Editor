@@ -20,7 +20,7 @@ public class FabricPlayer extends FabricWorldEntity implements Player {
 
     @Override
     public Item getItemMainHand() {
-        net.minecraft.item.ItemStack item = entity.inventory.getMainHandStack();
+        net.minecraft.item.ItemStack item = entity.getInventory().getMainHandStack();
         return item.isEmpty() ? null : new FabricItem(item);
     }
 
@@ -31,7 +31,7 @@ public class FabricPlayer extends FabricWorldEntity implements Player {
 
     @Override
     public void setInventoryItem(int slotId, Item item) {
-        entity.inventory.setStack(slotId, item.get());
+        entity.getInventory().setStack(slotId, item.get());
     }
 
     @Override
@@ -61,12 +61,12 @@ public class FabricPlayer extends FabricWorldEntity implements Player {
 
     @Override
     public void updateMainHandItem(Item item) {
-        updateInventoryItem(item, entity.inventory.selectedSlot + entity.inventory.main.size());
+        updateInventoryItem(item, entity.getInventory().selectedSlot + entity.getInventory().main.size());
     }
 
     @Override
     public void updateCreativeInventoryItem(Item item, int slotId) {
-        entity.inventory.setStack(slotId, item.get());
+        entity.getInventory().setStack(slotId, item.get());
     }
 
     @Override
