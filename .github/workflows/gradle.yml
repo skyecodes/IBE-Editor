@@ -29,13 +29,12 @@ jobs:
       
     - name: Unzip built zip
       run:   |
-             if [ matrix-os == 'ubuntu-latest' ]; then
+             if [ "$RUNNER_OS" == "Linux" ]; then
                 unzip *.zip -d build/libs
-             elif [ matrix-os == 'windows-latest' ]; then
+             elif [ "$RUNNER_OS" == "Windows" ]; then
                 7z e *.zip -oc:\temp\destination
              else
                 echo "Haven't implememted anything for $RUNNER_OS yet."
-                exit 1
              fi
       shell: bash
       
