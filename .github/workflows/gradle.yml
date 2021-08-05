@@ -27,19 +27,19 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew build
       
-      
     - name: Unzip built zip
       run:   |
-         if [ "matris-os" == "ubuntu-latest" ]; then
-              unzip *.zip -d build/libs
-         elif [ "matris-os" == "windows-latest" ]; then
-              7z e *.zip -oc:\temp\destination
-         else
-              echo "Haven't implememted anything for $RUNNER_OS yet."
-              exit 1
-  
-     - name: Upload the mods
-       uses: actions/upload-artifact@v2.2.1
-       with:
-         name: build
-         path: build/libs
+             if [ "matris-os == 'ubuntu-latest' ]; then
+                unzip *.zip -d build/libs
+             elif [ "matris-os" == "windows-latest" ]; then
+                7z e *.zip -oc:\temp\destination
+             else
+                echo "Haven't implememted anything for $RUNNER_OS yet."
+                exit 1
+             fi
+      shell: bash
+      
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v2.2.4
+      with:
+       path: builds/libs/*.jar
