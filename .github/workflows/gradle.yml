@@ -30,6 +30,7 @@ jobs:
     - name: Unzip built zip
       run:   |
              if [ "$RUNNER_OS" == "Linux" ]; then
+                ls –d */
                 cd builds/libs
                 unzip "*.zip" -d build/libs/
              elif [ "$RUNNER_OS" == "Windows" ]; then
