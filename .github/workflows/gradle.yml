@@ -27,18 +27,6 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew build
       
-    - name: Unzip built zip
-      run:   |
-             if [ "$RUNNER_OS" == "Linux" ]; then
-                cd libs
-                unzip "*.zip" -d build/libs/
-             elif [ "$RUNNER_OS" == "Windows" ]; then
-                7z e *.zip -oc:\build\libs
-             else
-                echo "Haven't implememted anything for $RUNNER_OS yet."
-             fi
-      shell: bash
-      
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v2.2.4
       with:
