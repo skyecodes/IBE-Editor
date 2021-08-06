@@ -30,7 +30,7 @@ jobs:
     - name: Unzip built zip
       run:   |
              if [ "$RUNNER_OS" == "Linux" ]; then
-                cod builds/libs
+                cd builds/libs
                 unzip "*.zip" -d build/libs/
              elif [ "$RUNNER_OS" == "Windows" ]; then
                 7z e *.zip -oc:\build\libs
