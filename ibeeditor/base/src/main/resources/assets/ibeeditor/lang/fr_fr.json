@@ -1,7 +1,7 @@
 {
   "ibeeditor.category": "IBE Editor",
   "ibeeditor.key.editor": "Ouvrir l'éditeur",
-  "ibeeditor.key.nbt_editor": "Ouvrir l'éditeur NBT (visuel)",
+  "ibeeditor.key.nbt_editor": "Ouvrir l'éditeur NBT",
   "ibeeditor.key.bookmarks": "Ouvrir les favoris",
   "ibeeditor.gui.editor_title": "Editeur de %s",
   "ibeeditor.gui.settings": "Paramètres",
@@ -114,5 +114,7 @@
   "ibeeditor.gui.show_icon": "Montrer l'icône",
   "ibeeditor.gui.armor_color": "Couleur de l'armure",
   "ibeeditor.message.prefix": "[IBE Editor] ",
-  "ibeeditor.message.error_generic": "Une erreur est survenue. Merci de regarder les logs pour plus de détails et de rapporter cette erreur au créateur du mod."
+  "ibeeditor.message.error_generic": "Une erreur est survenue. Merci de regarder les logs pour plus de détails et de rapporter cette erreur au créateur du mod.",
+  "ibeeditor.key.snbt_editor": "Ouvrir l'éditeur SNBT",
+  "ibeeditor.message.not_implemented": "L'éditeur de %s n'est pas encore implémenté et viendra dans une prochaine mise à jour."
 }

@@ -25,6 +25,10 @@ public final class ClientEditorLogic {
             .with(translated("ibeeditor.text.block"))).red();
     private static final Text ERROR_SERVERMOD_ENTITY = Messages.withPrefix(translated("ibeeditor.message.error_server_mod")
             .with(translated("ibeeditor.text.entity"))).red();
+    private static final Text ERROR_NOT_IMPLEMENTED_BLOCK = Messages.withPrefix(translated("ibeeditor.message.not_implemented")
+            .with(translated("ibeeditor.text.block"))).yellow();
+    private static final Text ERROR_NOT_IMPLEMENTED_ENTITY = Messages.withPrefix(translated("ibeeditor.message.not_implemented")
+            .with(translated("ibeeditor.text.entity"))).yellow();
 
     public static void openWorldEditor(EditorType target) {
         LOGGER.debug("Opening world editor with target={}", target);
@@ -119,13 +123,14 @@ public final class ClientEditorLogic {
         LOGGER.debug("Opening block editor for block {} at pos {} with target={}", block, blockPos, target);
         switch (target) {
             case STANDARD:
-                ModScreenHandler.openBlockEditorScreen(block, newBlock -> updateBlock(blockPos, newBlock), ClientContext.isModInstalledOnServer() ? null : ERROR_SERVERMOD_BLOCK);
+                //ModScreenHandler.openBlockEditorScreen(block, newBlock -> updateBlock(blockPos, newBlock), ClientContext.isModInstalledOnServer() ? null : ERROR_SERVERMOD_BLOCK);
+                getClientPlayer().sendMessage(ERROR_NOT_IMPLEMENTED_BLOCK);
                 break;
             case NBT:
                 ModScreenHandler.openNBTEditorScreen(block.getData(), tag -> updateBlock(blockPos, Game.getCommon().createBlock(block.getState(), tag)), ClientContext.isModInstalledOnServer() ? null : ERROR_SERVERMOD_BLOCK);
                 break;
             case SNBT:
-                // TODO
+                ModScreenHandler.openSNBTEditorScreen(block.getData().toString(), snbt -> updateBlock(blockPos, Game.getCommon().createBlock(block.getState(), CompoundTag.parse(snbt))), ClientContext.isModInstalledOnServer() ? null : ERROR_SERVERMOD_BLOCK);
                 break;
         }
     }
@@ -139,13 +144,14 @@ public final class ClientEditorLogic {
         LOGGER.debug("Opening entity editor for entity {} with id {} and target={}", entity, entityId, target);
         switch (target) {
             case STANDARD:
-                ModScreenHandler.openEntityEditorScreen(entity, entity1 -> updateEntity(entityId, entity1), ClientContext.isModInstalledOnServer() ? null : ERROR_SERVERMOD_ENTITY);
+                //ModScreenHandler.openEntityEditorScreen(entity, entity1 -> updateEntity(entityId, entity1), ClientContext.isModInstalledOnServer() ? null : ERROR_SERVERMOD_ENTITY);
+                getClientPlayer().sendMessage(ERROR_NOT_IMPLEMENTED_ENTITY);
                 break;
             case NBT:
                 ModScreenHandler.openNBTEditorScreen(entity.getData(), tag -> updateEntity(entityId, Game.getCommon().createEntity(tag)), ClientContext.isModInstalledOnServer() ? null : ERROR_SERVERMOD_ENTITY);
                 break;
             case SNBT:
-                // TODO
+                ModScreenHandler.openSNBTEditorScreen(entity.getData().toString(), snbt -> updateEntity(entityId, Game.getCommon().createEntity(CompoundTag.parse(snbt))), ClientContext.isModInstalledOnServer() ? null : ERROR_SERVERMOD_ENTITY);
                 break;
         }
     }
