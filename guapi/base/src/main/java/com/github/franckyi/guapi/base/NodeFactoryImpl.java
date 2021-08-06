@@ -1,7 +1,9 @@
 package com.github.franckyi.guapi.base;
 
+import com.github.franckyi.gameadapter.api.client.ISprite;
+import com.github.franckyi.gameadapter.api.common.IIdentifier;
+import com.github.franckyi.gameadapter.api.common.IItemStack;
 import com.github.franckyi.gameadapter.api.common.text.Text;
-import com.github.franckyi.gameadapter.api.common.world.Item;
 import com.github.franckyi.guapi.api.NodeFactory;
 import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.api.node.TreeView;
@@ -104,17 +106,17 @@ public class NodeFactoryImpl implements NodeFactory {
     }
 
     @Override
-    public ImageViewBuilder createImageView(String id) {
+    public ImageViewBuilder createImageView(IIdentifier id) {
         return new ImageViewImpl(id);
     }
 
     @Override
-    public ImageViewBuilder createImageView(String id, int imageWidth, int imageHeight) {
+    public ImageViewBuilder createImageView(IIdentifier id, int imageWidth, int imageHeight) {
         return new ImageViewImpl(id, imageWidth, imageHeight);
     }
 
     @Override
-    public ImageViewBuilder createImageView(String id, Consumer<ImageViewBuilder> with) {
+    public ImageViewBuilder createImageView(IIdentifier id, Consumer<ImageViewBuilder> with) {
         return createImageView(id).with(with);
     }
 
@@ -124,8 +126,8 @@ public class NodeFactoryImpl implements NodeFactory {
     }
 
     @Override
-    public ItemViewBuilder createItemView(Item item) {
-        return new ItemViewImpl(item);
+    public ItemViewBuilder createItemView(IItemStack itemStack) {
+        return new ItemViewImpl(itemStack);
     }
 
     @Override
@@ -214,12 +216,12 @@ public class NodeFactoryImpl implements NodeFactory {
     }
 
     @Override
-    public SpriteViewBuilder createSpriteView(Supplier<Object> spriteFactory) {
+    public SpriteViewBuilder createSpriteView(Supplier<ISprite> spriteFactory) {
         return new SpriteViewImpl(spriteFactory);
     }
 
     @Override
-    public SpriteViewBuilder createSpriteView(Supplier<Object> spriteFactory, int imageWidth, int imageHeight) {
+    public SpriteViewBuilder createSpriteView(Supplier<ISprite> spriteFactory, int imageWidth, int imageHeight) {
         return new SpriteViewImpl(spriteFactory, imageWidth, imageHeight);
     }
 
@@ -274,32 +276,32 @@ public class NodeFactoryImpl implements NodeFactory {
     }
 
     @Override
-    public TexturedButtonBuilder createTexturedButton(String id, boolean drawButton) {
+    public TexturedButtonBuilder createTexturedButton(IIdentifier id, boolean drawButton) {
         return new TexturedButtonImpl(id, drawButton);
     }
 
     @Override
-    public TexturedButtonBuilder createTexturedButton(String id, int imageWidth, int imageHeight, boolean drawButton) {
+    public TexturedButtonBuilder createTexturedButton(IIdentifier id, int imageWidth, int imageHeight, boolean drawButton) {
         return new TexturedButtonImpl(id, imageWidth, imageHeight, drawButton);
     }
 
     @Override
-    public TexturedButtonBuilder createTexturedButton(String id, boolean drawButton, Consumer<TexturedButtonBuilder> with) {
+    public TexturedButtonBuilder createTexturedButton(IIdentifier id, boolean drawButton, Consumer<TexturedButtonBuilder> with) {
         return createTexturedButton(id, drawButton).with(with);
     }
 
     @Override
-    public TexturedToggleButtonBuilder createTexturedToggleButton(String id, boolean drawButton) {
+    public TexturedToggleButtonBuilder createTexturedToggleButton(IIdentifier id, boolean drawButton) {
         return new TexturedToggleButtonImpl(id, drawButton);
     }
 
     @Override
-    public TexturedToggleButtonBuilder createTexturedToggleButton(String id, int imageWidth, int imageHeight, boolean drawButton) {
+    public TexturedToggleButtonBuilder createTexturedToggleButton(IIdentifier id, int imageWidth, int imageHeight, boolean drawButton) {
         return new TexturedToggleButtonImpl(id, imageWidth, imageHeight, drawButton);
     }
 
     @Override
-    public TexturedToggleButtonBuilder createTexturedToggleButton(String id, boolean drawButton, Consumer<TexturedToggleButtonBuilder> with) {
+    public TexturedToggleButtonBuilder createTexturedToggleButton(IIdentifier id, boolean drawButton, Consumer<TexturedToggleButtonBuilder> with) {
         return createTexturedToggleButton(id, drawButton).with(with);
     }
 

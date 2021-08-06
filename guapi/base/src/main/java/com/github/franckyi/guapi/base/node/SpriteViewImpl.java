@@ -1,5 +1,6 @@
 package com.github.franckyi.guapi.base.node;
 
+import com.github.franckyi.gameadapter.api.client.ISprite;
 import com.github.franckyi.guapi.api.node.SpriteView;
 import com.github.franckyi.guapi.api.node.builder.SpriteViewBuilder;
 import com.github.franckyi.guapi.api.util.NodeType;
@@ -10,11 +11,11 @@ public class SpriteViewImpl extends AbstractSpriteView implements SpriteViewBuil
     public SpriteViewImpl() {
     }
 
-    public SpriteViewImpl(Supplier<Object> spriteFactory) {
+    public SpriteViewImpl(Supplier<ISprite> spriteFactory) {
         super(spriteFactory);
     }
 
-    public SpriteViewImpl(Supplier<Object> spriteFactory, int imageWidth, int imageHeight) {
+    public SpriteViewImpl(Supplier<ISprite> spriteFactory, int imageWidth, int imageHeight) {
         super(spriteFactory, imageWidth, imageHeight);
     }
 

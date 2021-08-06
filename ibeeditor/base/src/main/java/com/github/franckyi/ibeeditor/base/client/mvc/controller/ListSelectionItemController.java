@@ -14,6 +14,6 @@ public class ListSelectionItemController<M extends ListSelectionItemModel, V ext
     @Override
     public void bind() {
         view.getNameLabel().setLabel(translated(model.getName()).bold());
-        view.getIdLabel().setLabel(text(model.getId()).italic());
+        view.getIdLabel().setLabel(text(model.getId().toString()).italic());
     }
 }

@@ -1,16 +1,17 @@
 package com.github.franckyi.guapi.api.node;
 
 import com.github.franckyi.databindings.api.IntegerProperty;
-import com.github.franckyi.databindings.api.StringProperty;
+import com.github.franckyi.databindings.api.ObjectProperty;
+import com.github.franckyi.gameadapter.api.common.IIdentifier;
 
 public interface ImageView extends Control {
-    default String getTextureId() {
+    default IIdentifier getTextureId() {
         return textureIdProperty().getValue();
     }
 
-    StringProperty textureIdProperty();
+    ObjectProperty<IIdentifier> textureIdProperty();
 
-    default void setTextureId(String value) {
+    default void setTextureId(IIdentifier value) {
         textureIdProperty().setValue(value);
     }
 

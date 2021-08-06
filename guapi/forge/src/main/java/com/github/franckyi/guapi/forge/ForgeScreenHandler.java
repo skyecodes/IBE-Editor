@@ -1,11 +1,13 @@
 package com.github.franckyi.guapi.forge;
 
-import com.github.franckyi.gameadapter.Game;
+import com.github.franckyi.gameadapter.api.client.IMatrices;
 import com.github.franckyi.guapi.base.AbstractScreenHandler;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.util.text.StringTextComponent;
+
+import javax.annotation.Nonnull;
 
 public final class ForgeScreenHandler extends AbstractScreenHandler {
     public static final ForgeScreenHandler INSTANCE = new ForgeScreenHandler();
@@ -31,19 +33,19 @@ public final class ForgeScreenHandler extends AbstractScreenHandler {
     }
 
     private final class ScreenImpl extends Screen {
-        protected ScreenImpl() {
+        private ScreenImpl() {
             super(new StringTextComponent(""));
         }
 
         @Override
-        public void render(MatrixStack matrices, int mouseX, int mouseY, float partialTicks) {
+        public void render(@Nonnull MatrixStack matrices, int mouseX, int mouseY, float partialTicks) {
             if (getCurrentScene() == null) return;
             if (getCurrentScene().isTexturedBackground()) {
                 renderDirtBackground(0);
             } else {
                 renderBackground(matrices);
             }
-            ForgeScreenHandler.this.render(Game.getClient().getMatricesFactory().createMatrices(matrices), mouseX, mouseY, partialTicks);
+            ForgeScreenHandler.this.render((IMatrices) matrices, mouseX, mouseY, partialTicks);
         }
 
         @Override
@@ -52,7 +54,7 @@ public final class ForgeScreenHandler extends AbstractScreenHandler {
         }
 
         @Override
-        public void init(Minecraft client, int width, int height) {
+        public void init(@Nonnull Minecraft client, int width, int height) {
             super.init(client, width, height);
             ForgeScreenHandler.this.updateSize(width, height);
         }

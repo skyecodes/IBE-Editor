@@ -1,13 +1,13 @@
 package com.github.franckyi.ibeeditor.base.client;
 
 import com.github.franckyi.gameadapter.Game;
-import com.github.franckyi.gameadapter.api.client.KeyBinding;
+import com.github.franckyi.gameadapter.api.client.IKeyBinding;
 import org.lwjgl.glfw.GLFW;
 
 public final class KeyBindings {
-    public static KeyBinding editorKey;
-    public static KeyBinding nbtEditorKey;
-    public static KeyBinding snbtEditorKey;
+    public static IKeyBinding editorKey;
+    public static IKeyBinding nbtEditorKey;
+    public static IKeyBinding snbtEditorKey;
     //public static KeyBinding clipboardKey;
 
     public static void init() {

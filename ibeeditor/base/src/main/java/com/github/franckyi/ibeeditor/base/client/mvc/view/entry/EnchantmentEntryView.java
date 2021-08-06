@@ -1,6 +1,8 @@
 package com.github.franckyi.ibeeditor.base.client.mvc.view.entry;
 
 import com.github.franckyi.guapi.api.node.TexturedButton;
+import com.github.franckyi.ibeeditor.base.client.ModTextures;
+import com.github.franckyi.ibeeditor.base.common.ModTexts;
 
 import static com.github.franckyi.guapi.GuapiHelper.*;
 
@@ -11,10 +13,10 @@ public class EnchantmentEntryView extends IntegerEntryView {
     public void build() {
         super.build();
         getRight().getChildren().add(1, vBox(2,
-                plusButton = texturedButton("ibeeditor:textures/gui/level_add.png", 11, 7, false)
-                        .tooltip(translated("ibeeditor.gui.level_add").with(text("+1")).green()),
-                minusButton = texturedButton("ibeeditor:textures/gui/level_remove.png", 11, 7, false)
-                        .tooltip(translated("ibeeditor.gui.level_add").with(text("-1")).red())
+                plusButton = texturedButton(ModTextures.LEVEL_ADD, 11, 7, false)
+                        .tooltip(ModTexts.LEVEL_ADD),
+                minusButton = texturedButton(ModTextures.LEVEL_REMOVE, 11, 7, false)
+                        .tooltip(ModTexts.LEVEL_REMOVE)
         ));
         getRoot().setWeight(getLabel(), 2);
     }

@@ -1,10 +1,11 @@
 package com.github.franckyi.ibeeditor.base.client.mvc.model.category;
 
-import com.github.franckyi.gameadapter.Game;
-import com.github.franckyi.gameadapter.api.common.registry.Enchantment;
-import com.github.franckyi.gameadapter.api.common.tag.CompoundTag;
-import com.github.franckyi.gameadapter.api.common.tag.ListTag;
-import com.github.franckyi.gameadapter.api.common.tag.Tag;
+import com.github.franckyi.gameadapter.api.common.IEnchantment;
+import com.github.franckyi.gameadapter.api.common.IIdentifier;
+import com.github.franckyi.gameadapter.api.common.RegistryHandler;
+import com.github.franckyi.gameadapter.api.common.tag.ICompoundTag;
+import com.github.franckyi.gameadapter.api.common.tag.IListTag;
+import com.github.franckyi.gameadapter.api.common.tag.ITag;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.ItemEditorModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.EnchantmentEntryModel;
 
@@ -13,7 +14,7 @@ import java.util.Map;
 
 public class ItemEnchantmentsCategoryModel extends ItemCategoryModel {
     private Map<String, Integer> baseEnchMap;
-    private ListTag newEnch;
+    private IListTag newEnch;
 
     public ItemEnchantmentsCategoryModel(ItemEditorModel editor) {
         super("ibeeditor.gui.enchantments", editor);
@@ -21,26 +22,26 @@ public class ItemEnchantmentsCategoryModel extends ItemCategoryModel {
 
     @Override
     protected void setupEntries() {
-        ListTag enchantments = getBaseTag().getList("Enchantments", Tag.COMPOUND_ID);
+        IListTag enchantments = getBaseTag().getList("Enchantments", ITag.COMPOUND_ID);
         baseEnchMap = new HashMap<>(enchantments.size());
         for (int i = 0; i < enchantments.size(); i++) {
-            CompoundTag compound = enchantments.getCompound(i);
+            ICompoundTag compound = enchantments.getCompound(i);
             baseEnchMap.put(compound.getString("id"), compound.getInt("lvl"));
         }
-        Game.getCommon().getRegistries().getEnchantments()
+        RegistryHandler.get().getEnchantmentRegistry().getEntries()
                 .stream()
-                .sorted(this::sortEnchantments)
-                .forEachOrdered(this::addBaseEnchantment);
+                .sorted((e0, e1) -> sortEnchantments(e0.getValue(), e1.getValue()))
+                .forEachOrdered(e -> addBaseEnchantment(e.getKey().getId(), e.getValue()));
     }
 
-    private void addBaseEnchantment(Enchantment enchantment) {
+    private void addBaseEnchantment(IIdentifier id, IEnchantment enchantment) {
         getEntries().add(new EnchantmentEntryModel(this, enchantment, enchantment.canApply(getEditor().getTarget()),
-                baseEnchMap.getOrDefault(enchantment.getId(), 0), lvl -> addNewEnchantment(enchantment.getId(), lvl)));
+                baseEnchMap.getOrDefault(id.toString(), 0), lvl -> addNewEnchantment(id.toString(), lvl)));
     }
 
     @Override
-    public void apply(CompoundTag nbt) {
-        newEnch = ListTag.create();
+    public void apply(ICompoundTag nbt) {
+        newEnch = IListTag.create();
         super.apply(nbt);
         if (!newEnch.isEmpty()) {
             getNewTag().putTag("Enchantments", newEnch);
@@ -49,14 +50,14 @@ public class ItemEnchantmentsCategoryModel extends ItemCategoryModel {
 
     private void addNewEnchantment(String id, int lvl) {
         if (lvl != 0) {
-            CompoundTag tag = CompoundTag.create();
+            ICompoundTag tag = ICompoundTag.create();
             tag.putString("id", id);
             tag.putInt("lvl", lvl);
             newEnch.addTag(tag);
         }
     }
 
-    private int sortEnchantments(Enchantment e1, Enchantment e2) {
+    private int sortEnchantments(IEnchantment e1, IEnchantment e2) {
         if (e1.isCurse()) {
             if (e2.isCurse()) {
                 return e1.getName().compareTo(e2.getName());

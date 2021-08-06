@@ -1,31 +1,31 @@
 package com.github.franckyi.guapi.base.theme.vanilla;
 
-import com.github.franckyi.gameadapter.Game;
-import com.github.franckyi.gameadapter.api.client.render.Matrices;
+import com.github.franckyi.gameadapter.api.client.IMatrices;
+import com.github.franckyi.gameadapter.api.client.IRenderer;
 import com.github.franckyi.guapi.api.node.ItemView;
 import com.github.franckyi.guapi.api.theme.Skin;
 import com.github.franckyi.guapi.base.theme.AbstractSkin;
 
-public final class VanillaItemViewSkin extends AbstractSkin<ItemView> {
+public class VanillaItemViewSkin extends AbstractSkin<ItemView> {
     public static final Skin<ItemView> INSTANCE = new VanillaItemViewSkin();
 
     private VanillaItemViewSkin() {
     }
 
     @Override
-    public void render(ItemView node, Matrices matrices, int mouseX, int mouseY, float delta) {
+    public void render(ItemView node, IMatrices matrices, int mouseX, int mouseY, float delta) {
         super.render(node, matrices, mouseX, mouseY, delta);
         if (node.getItem() != null) {
-            Game.getClient().getRenderer().drawItem(node.getItem(),
+            IRenderer.get().drawItem(node.getItem(),
                     node.getX() + (node.getWidth() - node.getComputedWidth()) / 2,
                     node.getY() + (node.getHeight() - node.getComputedHeight()) / 2);
         }
     }
 
     @Override
-    public void postRender(ItemView node, Matrices matrices, int mouseX, int mouseY, float delta) {
+    public void postRender(ItemView node, IMatrices matrices, int mouseX, int mouseY, float delta) {
         if (node.isHovered() && node.getItem() != null) {
-            Game.getClient().getRenderer().drawTooltip(matrices, node.getItem(), mouseX, mouseY);
+            IRenderer.get().drawTooltip(matrices, node.getItem(), mouseX, mouseY);
         }
         super.postRender(node, matrices, mouseX, mouseY, delta);
     }

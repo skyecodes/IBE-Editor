@@ -1,9 +1,9 @@
 package com.github.franckyi.ibeeditor.base.client.mvc.model.category;
 
 import com.github.franckyi.gameadapter.Color;
-import com.github.franckyi.gameadapter.api.common.tag.CompoundTag;
-import com.github.franckyi.gameadapter.api.common.tag.ListTag;
-import com.github.franckyi.gameadapter.api.common.tag.Tag;
+import com.github.franckyi.gameadapter.api.common.tag.ICompoundTag;
+import com.github.franckyi.gameadapter.api.common.tag.IListTag;
+import com.github.franckyi.gameadapter.api.common.tag.ITag;
 import com.github.franckyi.gameadapter.api.common.text.Text;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.ItemEditorModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.EntryModel;
@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 import static com.github.franckyi.guapi.GuapiHelper.*;
 
 public class ItemPotionEffectsCategoryModel extends ItemCategoryModel {
-    private ListTag potionEffectList;
+    private IListTag potionEffectList;
 
     public ItemPotionEffectsCategoryModel(ItemEditorModel editor) {
         super("ibeeditor.gui.potion_effects", editor);
@@ -26,9 +26,9 @@ public class ItemPotionEffectsCategoryModel extends ItemCategoryModel {
         getEntries().add(new PotionSelectionEntryModel(this, translated("ibeeditor.gui.default_potion"),
                 getBaseTag().getString("Potion"), getCustomPotionColor(),
                 p -> getNewTag().putString("Potion", p), this::setCustomPotionColor));
-        getEntries().addAll(getBaseTag().getList("CustomPotionEffects", Tag.COMPOUND_ID)
+        getEntries().addAll(getBaseTag().getList("CustomPotionEffects", ITag.COMPOUND_ID)
                 .stream()
-                .map(CompoundTag.class::cast)
+                .map(ICompoundTag.class::cast)
                 .map(this::createPotionEffectEntry)
                 .collect(Collectors.toList()));
     }
@@ -54,7 +54,7 @@ public class ItemPotionEffectsCategoryModel extends ItemCategoryModel {
     }
 
     private int getCustomPotionColor() {
-        return getBaseTag().contains("CustomPotionColor", Tag.INT_ID) ? getBaseTag().getInt("CustomPotionColor") : Color.NONE;
+        return getBaseTag().contains("CustomPotionColor", ITag.INT_ID) ? getBaseTag().getInt("CustomPotionColor") : Color.NONE;
     }
 
     private void setCustomPotionColor(int color) {
@@ -65,22 +65,22 @@ public class ItemPotionEffectsCategoryModel extends ItemCategoryModel {
         }
     }
 
-    private EntryModel createPotionEffectEntry(CompoundTag tag) {
+    private EntryModel createPotionEffectEntry(ICompoundTag tag) {
         if (tag != null) {
             int id = tag.getInt("Id");
             int amplifier = tag.getInt("Amplifier"); // defaults to 0
-            int duration = tag.contains("Duration", Tag.INT_ID) ? tag.getInt("Duration") : 1;
+            int duration = tag.contains("Duration", ITag.INT_ID) ? tag.getInt("Duration") : 1;
             boolean ambient = tag.getBoolean("Ambient"); // defaults to false
-            boolean showParticles = !tag.contains("ShowParticles", Tag.BYTE_ID) || tag.getBoolean("ShowParticles");
+            boolean showParticles = !tag.contains("ShowParticles", ITag.BYTE_ID) || tag.getBoolean("ShowParticles");
             boolean showIcon = tag.getBoolean("ShowIcon");
             return new PotionEffectEntryModel(this, id, amplifier, duration, ambient, showParticles, showIcon, this::addPotionEffect);
         }
-        return new PotionEffectEntryModel(this, 0, 0, 1, false, true, true, this::addPotionEffect);
+        return new PotionEffectEntryModel(this, 1, 0, 1, false, true, true, this::addPotionEffect);
     }
 
     @Override
-    public void apply(CompoundTag nbt) {
-        potionEffectList = ListTag.create();
+    public void apply(ICompoundTag nbt) {
+        potionEffectList = IListTag.create();
         super.apply(nbt);
         if (!potionEffectList.isEmpty()) {
             getNewTag().putTag("CustomPotionEffects", potionEffectList);
@@ -90,7 +90,7 @@ public class ItemPotionEffectsCategoryModel extends ItemCategoryModel {
     }
 
     private void addPotionEffect(int id, int amplifier, int duration, boolean ambient, boolean showParticles, boolean showIcon) {
-        CompoundTag tag = CompoundTag.create();
+        ICompoundTag tag = ICompoundTag.create();
         tag.putInt("Id", id);
         tag.putInt("Amplifier", amplifier);
         tag.putInt("Duration", duration);

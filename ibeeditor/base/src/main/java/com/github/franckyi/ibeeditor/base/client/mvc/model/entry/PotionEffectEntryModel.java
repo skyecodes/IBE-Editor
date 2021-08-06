@@ -2,7 +2,8 @@ package com.github.franckyi.ibeeditor.base.client.mvc.model.entry;
 
 import com.github.franckyi.databindings.api.BooleanProperty;
 import com.github.franckyi.databindings.api.IntegerProperty;
-import com.github.franckyi.gameadapter.Game;
+import com.github.franckyi.gameadapter.api.common.IIdentifier;
+import com.github.franckyi.gameadapter.api.common.RegistryHandler;
 import com.github.franckyi.ibeeditor.base.client.ClientCache;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.CategoryModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.ListSelectionItemModel;
@@ -15,7 +16,7 @@ public class PotionEffectEntryModel extends SelectionEntryModel {
     private final PotionEffectConsumer callback;
 
     public PotionEffectEntryModel(CategoryModel category, int id, int amplifier, int duration, boolean ambient, boolean showParticles, boolean showIcon, PotionEffectConsumer callback) {
-        super(category, null, Game.getCommon().getRegistries().getEffectFromId(id), s -> {
+        super(category, null, RegistryHandler.get().getEffectRegistry().getKeyFromId(id).toString(), s -> {
         });
         amplifierProperty = IntegerProperty.create(amplifier);
         durationProperty = IntegerProperty.create(duration);
@@ -27,7 +28,7 @@ public class PotionEffectEntryModel extends SelectionEntryModel {
 
     @Override
     public void apply() {
-        callback.consume(Game.getCommon().getRegistries().getEffectId(getValue()), getAmplifier(), getDuration(), isAmbient(), isShowParticles(), isShowIcon());
+        callback.consume(RegistryHandler.get().getEffectRegistry().getIdFromKey(IIdentifier.parse(getValue())), getAmplifier(), getDuration(), isAmbient(), isShowParticles(), isShowIcon());
     }
 
     public int getAmplifier() {

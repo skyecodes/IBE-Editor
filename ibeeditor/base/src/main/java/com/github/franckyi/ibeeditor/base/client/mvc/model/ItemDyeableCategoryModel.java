@@ -1,8 +1,8 @@
 package com.github.franckyi.ibeeditor.base.client.mvc.model;
 
 import com.github.franckyi.gameadapter.Color;
-import com.github.franckyi.gameadapter.api.common.tag.CompoundTag;
-import com.github.franckyi.gameadapter.api.common.tag.Tag;
+import com.github.franckyi.gameadapter.api.common.tag.ICompoundTag;
+import com.github.franckyi.gameadapter.api.common.tag.ITag;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.category.ItemCategoryModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.ArmorColorEntryModel;
 
@@ -17,8 +17,8 @@ public class ItemDyeableCategoryModel extends ItemCategoryModel {
     }
 
     private int getColor() {
-        CompoundTag display = getBaseTag().getCompound("display");
-        return display.contains("color", Tag.INT_ID) ? display.getInt("color") : Color.NONE;
+        ICompoundTag display = getBaseTag().getCompound("display");
+        return display.contains("color", ITag.INT_ID) ? display.getInt("color") : Color.NONE;
     }
 
     private void setColor(int value) {
@@ -28,10 +28,10 @@ public class ItemDyeableCategoryModel extends ItemCategoryModel {
                 getNewTag().remove("display");
             }
         } else {
-            if (getNewTag().contains("display", Tag.COMPOUND_ID)) {
+            if (getNewTag().contains("display", ITag.COMPOUND_ID)) {
                 getNewTag().getCompound("display").putInt("color", value);
             } else {
-                CompoundTag display = CompoundTag.create();
+                ICompoundTag display = ICompoundTag.create();
                 display.putInt("color", value);
                 getNewTag().put("display", display);
             }

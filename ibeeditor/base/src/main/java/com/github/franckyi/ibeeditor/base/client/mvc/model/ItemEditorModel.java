@@ -1,17 +1,17 @@
 package com.github.franckyi.ibeeditor.base.client.mvc.model;
 
 import com.github.franckyi.gameadapter.Game;
-import com.github.franckyi.gameadapter.api.common.tag.CompoundTag;
-import com.github.franckyi.gameadapter.api.common.tag.Tag;
+import com.github.franckyi.gameadapter.api.common.IItemStack;
+import com.github.franckyi.gameadapter.api.common.tag.ICompoundTag;
+import com.github.franckyi.gameadapter.api.common.tag.ITag;
 import com.github.franckyi.gameadapter.api.common.text.Text;
-import com.github.franckyi.gameadapter.api.common.world.Item;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.category.*;
 
 import java.util.function.Consumer;
 
-public class ItemEditorModel extends StandardEditorModel<Item, ItemCategoryModel> {
-    public ItemEditorModel(Item item, Consumer<Item> action, Text disabledTooltip) {
-        super(item, action, disabledTooltip, "ibeeditor.text.item");
+public class ItemEditorModel extends StandardEditorModel<IItemStack, ItemCategoryModel> {
+    public ItemEditorModel(IItemStack itemStack, Consumer<IItemStack> action, Text disabledTooltip) {
+        super(itemStack, action, disabledTooltip, "ibeeditor.text.item");
     }
 
     @Override
@@ -38,12 +38,12 @@ public class ItemEditorModel extends StandardEditorModel<Item, ItemCategoryModel
     }
 
     @Override
-    public Item applyChanges() {
-        CompoundTag nbt = getTarget().getData().copy();
+    public IItemStack applyChanges() {
+        ICompoundTag nbt = getTarget().getData().copy();
         getCategories().forEach(categoryModel -> categoryModel.apply(nbt));
-        if (nbt.contains("tag", Tag.COMPOUND_ID) && nbt.getCompound("tag").isEmpty()) {
+        if (nbt.contains("tag", ITag.COMPOUND_ID) && nbt.getCompound("tag").isEmpty()) {
             nbt.remove("tag");
         }
-        return Game.getCommon().createItem(nbt);
+        return Game.getCommon().createItemFromTag(nbt);
     }
 }

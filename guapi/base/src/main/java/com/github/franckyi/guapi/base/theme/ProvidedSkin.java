@@ -1,6 +1,6 @@
 package com.github.franckyi.guapi.base.theme;
 
-import com.github.franckyi.gameadapter.api.client.render.Matrices;
+import com.github.franckyi.gameadapter.api.client.IMatrices;
 import com.github.franckyi.guapi.base.node.AbstractNode;
 
 public abstract class ProvidedSkin<N extends AbstractNode> extends AbstractSkin<N> {
@@ -11,7 +11,7 @@ public abstract class ProvidedSkin<N extends AbstractNode> extends AbstractSkin<
     }
 
     @Override
-    public void render(N node, Matrices matrices, int mouseX, int mouseY, float delta) {
+    public void render(N node, IMatrices matrices, int mouseX, int mouseY, float delta) {
         super.render(node, matrices, mouseX, mouseY, delta);
         renderNode(matrices, mouseX, mouseY, delta);
     }

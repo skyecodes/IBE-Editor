@@ -5,6 +5,7 @@ import com.github.franckyi.guapi.api.mvc.View;
 import com.github.franckyi.guapi.api.node.HBox;
 import com.github.franckyi.guapi.api.node.Label;
 import com.github.franckyi.guapi.api.node.TextField;
+import com.github.franckyi.ibeeditor.base.client.ModTextures;
 
 import java.util.function.Predicate;
 
@@ -32,7 +33,7 @@ public class NBTTagView implements View {
     @Override
     public void build() {
         root = hBox(root -> {
-            root.add(imageView(String.format("ibeeditor:textures/gui/%s.png", texture), 16, 16).tooltip(tooltip));
+            root.add(imageView(ModTextures.gui(texture), 16, 16).tooltip(tooltip));
             root.add(nameField = textField().prefHeight(14).prefWidth(120));
             root.add(separator = label(":"));
             root.add(valueField = textField().prefHeight(14));

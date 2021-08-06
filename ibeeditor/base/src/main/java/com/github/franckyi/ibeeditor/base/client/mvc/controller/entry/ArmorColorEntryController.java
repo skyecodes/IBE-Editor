@@ -1,9 +1,7 @@
 package com.github.franckyi.ibeeditor.base.client.mvc.controller.entry;
 
 import com.github.franckyi.gameadapter.Color;
-import com.github.franckyi.gameadapter.Game;
-import com.github.franckyi.gameadapter.api.common.tag.CompoundTag;
-import com.github.franckyi.gameadapter.api.common.tag.Tag;
+import com.github.franckyi.gameadapter.api.common.IItemStack;
 import com.github.franckyi.guapi.api.node.ItemView;
 import com.github.franckyi.ibeeditor.base.client.ModScreenHandler;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.ColorSelectionScreenModel;
@@ -29,6 +27,6 @@ public class ArmorColorEntryController extends LabeledEntryController<ArmorColor
     }
 
     private void updateItemColor(ItemView itemView, int color) {
-        itemView.setItem(Game.getCommon().createArmorItem(itemView.getItem().getData(), color));
+        itemView.setItem(IItemStack.fromArmor(itemView.getItem().getData(), color));
     }
 }

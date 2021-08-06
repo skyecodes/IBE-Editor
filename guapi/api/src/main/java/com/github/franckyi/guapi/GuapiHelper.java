@@ -2,12 +2,14 @@ package com.github.franckyi.guapi;
 
 import com.github.franckyi.gameadapter.Color;
 import com.github.franckyi.gameadapter.TextHandler;
+import com.github.franckyi.gameadapter.api.client.ISprite;
+import com.github.franckyi.gameadapter.api.common.IIdentifier;
+import com.github.franckyi.gameadapter.api.common.IItemStack;
 import com.github.franckyi.gameadapter.api.common.text.Text;
 import com.github.franckyi.gameadapter.api.common.text.TextEvent;
 import com.github.franckyi.gameadapter.api.common.text.TextFactory;
 import com.github.franckyi.gameadapter.api.common.text.builder.PlainTextBuilder;
 import com.github.franckyi.gameadapter.api.common.text.builder.TranslatedTextBuilder;
-import com.github.franckyi.gameadapter.api.common.world.Item;
 import com.github.franckyi.guapi.api.NodeFactory;
 import com.github.franckyi.guapi.api.mvc.Controller;
 import com.github.franckyi.guapi.api.mvc.MVC;
@@ -132,15 +134,15 @@ public final class GuapiHelper {
         return node().createHBox(with);
     }
 
-    public static ImageViewBuilder imageView(String id) {
+    public static ImageViewBuilder imageView(IIdentifier id) {
         return node().createImageView(id);
     }
 
-    public static ImageViewBuilder imageView(String id, int imageWidth, int imageHeight) {
+    public static ImageViewBuilder imageView(IIdentifier id, int imageWidth, int imageHeight) {
         return node().createImageView(id, imageWidth, imageHeight);
     }
 
-    public static ImageViewBuilder imageView(String id, Consumer<ImageViewBuilder> with) {
+    public static ImageViewBuilder imageView(IIdentifier id, Consumer<ImageViewBuilder> with) {
         return node().createImageView(id, with);
     }
 
@@ -148,8 +150,8 @@ public final class GuapiHelper {
         return node().createItemView();
     }
 
-    public static ItemViewBuilder itemView(Item item) {
-        return node().createItemView(item);
+    public static ItemViewBuilder itemView(IItemStack itemStack) {
+        return node().createItemView(itemStack);
     }
 
     public static ItemViewBuilder itemView(Consumer<ItemViewBuilder> with) {
@@ -224,11 +226,11 @@ public final class GuapiHelper {
         return node().createSpriteView();
     }
 
-    public static SpriteViewBuilder spriteView(Supplier<Object> spriteFactory) {
+    public static SpriteViewBuilder spriteView(Supplier<ISprite> spriteFactory) {
         return node().createSpriteView(spriteFactory);
     }
 
-    public static SpriteViewBuilder spriteView(Supplier<Object> spriteFactory, int imageWidth, int imageHeight) {
+    public static SpriteViewBuilder spriteView(Supplier<ISprite> spriteFactory, int imageWidth, int imageHeight) {
         return node().createSpriteView(spriteFactory, imageWidth, imageHeight);
     }
 
@@ -276,27 +278,27 @@ public final class GuapiHelper {
         return node().createTextArea(with);
     }
 
-    public static TexturedButtonBuilder texturedButton(String id, boolean drawButton) {
+    public static TexturedButtonBuilder texturedButton(IIdentifier id, boolean drawButton) {
         return node().createTexturedButton(id, drawButton);
     }
 
-    public static TexturedButtonBuilder texturedButton(String id, int imageWidth, int imageHeight, boolean drawButton) {
+    public static TexturedButtonBuilder texturedButton(IIdentifier id, int imageWidth, int imageHeight, boolean drawButton) {
         return node().createTexturedButton(id, imageWidth, imageHeight, drawButton);
     }
 
-    public static TexturedButtonBuilder texturedButton(String id, boolean drawButton, Consumer<TexturedButtonBuilder> with) {
+    public static TexturedButtonBuilder texturedButton(IIdentifier id, boolean drawButton, Consumer<TexturedButtonBuilder> with) {
         return node().createTexturedButton(id, drawButton, with);
     }
 
-    public static TexturedToggleButtonBuilder texturedToggleButton(String id, boolean drawButton) {
+    public static TexturedToggleButtonBuilder texturedToggleButton(IIdentifier id, boolean drawButton) {
         return node().createTexturedToggleButton(id, drawButton);
     }
 
-    public static TexturedToggleButtonBuilder texturedToggleButton(String id, int imageWidth, int imageHeight, boolean drawButton) {
+    public static TexturedToggleButtonBuilder texturedToggleButton(IIdentifier id, int imageWidth, int imageHeight, boolean drawButton) {
         return node().createTexturedToggleButton(id, imageWidth, imageHeight, drawButton);
     }
 
-    public static TexturedToggleButtonBuilder texturedToggleButton(String id, boolean drawButton, Consumer<TexturedToggleButtonBuilder> with) {
+    public static TexturedToggleButtonBuilder texturedToggleButton(IIdentifier id, boolean drawButton, Consumer<TexturedToggleButtonBuilder> with) {
         return node().createTexturedToggleButton(id, drawButton, with);
     }
 

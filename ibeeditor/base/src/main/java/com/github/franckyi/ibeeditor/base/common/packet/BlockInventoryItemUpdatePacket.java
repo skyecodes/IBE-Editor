@@ -1,29 +1,29 @@
 package com.github.franckyi.ibeeditor.base.common.packet;
 
-import com.github.franckyi.gameadapter.api.common.BlockPos;
-import com.github.franckyi.gameadapter.api.common.network.Buffer;
-import com.github.franckyi.gameadapter.api.common.world.Item;
+import com.github.franckyi.gameadapter.api.common.IBlockPos;
+import com.github.franckyi.gameadapter.api.common.IItemStack;
+import com.github.franckyi.gameadapter.api.common.IPacketBuffer;
 
 public class BlockInventoryItemUpdatePacket extends PlayerInventoryItemUpdatePacket {
-    private final BlockPos blockPos;
+    private final IBlockPos blockPos;
 
-    public BlockInventoryItemUpdatePacket(Item item, int slotId, BlockPos blockPos) {
-        super(item, slotId);
+    public BlockInventoryItemUpdatePacket(IItemStack itemStack, int slotId, IBlockPos blockPos) {
+        super(itemStack, slotId);
         this.blockPos = blockPos;
     }
 
-    public BlockInventoryItemUpdatePacket(Buffer buffer) {
+    public BlockInventoryItemUpdatePacket(IPacketBuffer buffer) {
         super(buffer);
         blockPos = buffer.readPos();
     }
 
     @Override
-    public void write(Buffer buffer) {
+    public void write(IPacketBuffer buffer) {
         super.write(buffer);
         buffer.writePos(blockPos);
     }
 
-    public BlockPos getPos() {
+    public IBlockPos getPos() {
         return blockPos;
     }
 }

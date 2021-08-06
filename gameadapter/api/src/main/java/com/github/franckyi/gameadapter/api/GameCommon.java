@@ -1,16 +1,12 @@
 package com.github.franckyi.gameadapter.api;
 
-import com.github.franckyi.gameadapter.Color;
-import com.github.franckyi.gameadapter.api.common.Registries;
-import com.github.franckyi.gameadapter.api.common.network.Network;
-import com.github.franckyi.gameadapter.api.common.tag.CompoundTag;
-import com.github.franckyi.gameadapter.api.common.tag.Tag;
+import com.github.franckyi.gameadapter.api.common.IIdentifier;
+import com.github.franckyi.gameadapter.api.common.IItemStack;
+import com.github.franckyi.gameadapter.api.common.IPlayer;
+import com.github.franckyi.gameadapter.api.common.RegistryHandler;
+import com.github.franckyi.gameadapter.api.common.tag.ICompoundTag;
 import com.github.franckyi.gameadapter.api.common.tag.TagFactory;
 import com.github.franckyi.gameadapter.api.common.text.TextComponentFactory;
-import com.github.franckyi.gameadapter.api.common.world.Block;
-import com.github.franckyi.gameadapter.api.common.world.Entity;
-import com.github.franckyi.gameadapter.api.common.world.Item;
-import com.github.franckyi.gameadapter.api.common.world.Player;
 import com.mojang.brigadier.Command;
 
 import java.nio.file.Path;
@@ -21,57 +17,21 @@ public interface GameCommon {
 
     TagFactory getTagFactory();
 
-    Item createItem(CompoundTag data);
+    IItemStack createItemFromTag(ICompoundTag data);
 
-    Item createItem(String id);
-
-    Block createBlock(CompoundTag state, CompoundTag data);
-
-    Entity createEntity(CompoundTag data);
-
-    Network getNetwork();
+    IItemStack createItemFromId(IIdentifier id);
 
     Path getGameDir();
 
-    Command<?> createCommand(Function<Player, Integer> command);
+    Command<?> createCommand(Function<IPlayer, Integer> command);
 
-    Registries getRegistries();
-
-    <P> PlayerFactory<P> getPlayerFactory();
+    RegistryHandler getRegistryHandler();
 
     String translate(String translationKey);
 
-    interface PlayerFactory<P> {
-        Player createPlayer(P player);
-    }
+    IIdentifier createIdentifier(String namespace, String path);
 
-    default Item createPotionItem(String potionId, int color) {
-        CompoundTag data = CompoundTag.create();
-        CompoundTag tag = CompoundTag.create();
-        tag.putString("Potion", potionId);
-        if (color != Color.NONE) {
-            tag.putInt("CustomPotionColor", color);
-        }
-        data.putString("id", "minecraft:potion");
-        data.putInt("Count", 1);
-        data.putTag("tag", tag);
-        return createItem(data);
-    }
+    IIdentifier createIdentifier(String id);
 
-    default Item createArmorItem(CompoundTag data, int color) {
-        if (color == Color.NONE) {
-            data.getCompound("tag").remove("display");
-        } else {
-            if (!data.contains("tag", Tag.COMPOUND_ID)) {
-                data.put("tag", CompoundTag.create());
-            }
-            CompoundTag tag = data.getCompound("tag");
-            if (!tag.contains("display", Tag.COMPOUND_ID)) {
-                tag.put("display", CompoundTag.create());
-            }
-            CompoundTag display = tag.getCompound("display");
-            display.putInt("color", color);
-        }
-        return createItem(data);
-    }
+    IIdentifier parseIdentifier(String id);
 }

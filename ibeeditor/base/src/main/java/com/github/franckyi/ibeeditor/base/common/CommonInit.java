@@ -20,7 +20,7 @@ public final class CommonInit {
         TextHandler.setTextFactory(TextFactoryImpl.INSTANCE);
         TextHandler.setSerializer(TextSerializer.GSON);
         Guapi.setNodeFactory(NodeFactoryImpl.INSTANCE);
-        Networking.init();
+        ModNetwork.init();
         CommonConfiguration.load();
     }
 }

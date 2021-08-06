@@ -1,8 +1,8 @@
 package com.github.franckyi.ibeeditor.base.common.packet;
 
-import com.github.franckyi.gameadapter.api.common.network.Buffer;
-import com.github.franckyi.gameadapter.api.common.network.Packet;
+import com.github.franckyi.gameadapter.api.common.IPacketBuffer;
 import com.github.franckyi.ibeeditor.base.common.EditorType;
+import com.github.franckyi.ibeeditor.base.common.Packet;
 
 public class EntityEditorRequestPacket implements Packet {
     private final int entityId;
@@ -13,12 +13,12 @@ public class EntityEditorRequestPacket implements Packet {
         this.type = type;
     }
 
-    public EntityEditorRequestPacket(Buffer buffer) {
+    public EntityEditorRequestPacket(IPacketBuffer buffer) {
         this(buffer.readInt(), EditorType.from(buffer.readByte()));
     }
 
     @Override
-    public void write(Buffer buffer) {
+    public void write(IPacketBuffer buffer) {
         buffer.writeInt(entityId);
         buffer.writeByte(type.getId());
     }

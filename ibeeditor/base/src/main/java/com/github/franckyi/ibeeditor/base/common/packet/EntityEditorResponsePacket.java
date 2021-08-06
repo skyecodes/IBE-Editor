@@ -1,29 +1,28 @@
 package com.github.franckyi.ibeeditor.base.common.packet;
 
-import com.github.franckyi.gameadapter.Game;
-import com.github.franckyi.gameadapter.api.common.network.Buffer;
-import com.github.franckyi.gameadapter.api.common.world.Entity;
+import com.github.franckyi.gameadapter.api.common.IPacketBuffer;
+import com.github.franckyi.gameadapter.api.common.tag.ICompoundTag;
 
 public class EntityEditorResponsePacket extends EntityEditorRequestPacket {
-    private final Entity entity;
+    private final ICompoundTag entity;
 
-    public EntityEditorResponsePacket(EntityEditorRequestPacket request, Entity entity) {
+    public EntityEditorResponsePacket(EntityEditorRequestPacket request, ICompoundTag entity) {
         super(request.getEntityId(), request.getType());
         this.entity = entity;
     }
 
-    public EntityEditorResponsePacket(Buffer buffer) {
+    public EntityEditorResponsePacket(IPacketBuffer buffer) {
         super(buffer);
-        entity = Game.getCommon().createEntity(buffer.readTag());
+        entity = buffer.readTag();
     }
 
     @Override
-    public void write(Buffer buffer) {
+    public void write(IPacketBuffer buffer) {
         super.write(buffer);
-        buffer.writeTag(entity.getData());
+        buffer.writeTag(entity);
     }
 
-    public Entity getEntity() {
+    public ICompoundTag getEntity() {
         return entity;
     }
 }

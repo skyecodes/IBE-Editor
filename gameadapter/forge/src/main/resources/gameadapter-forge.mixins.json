@@ -1,0 +1,47 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.github.franckyi.gameadapter.forge.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "gameadapter-forge.refmap.json",
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "mixins": [
+    "common.ForgeAttributeMixin",
+    "common.ForgeBlockMixin",
+    "common.ForgeBlockPosMixin",
+    "common.ForgeBlockStateMixin",
+    "common.ForgeEffectMixin",
+    "common.ForgeEnchantmentMixin",
+    "common.ForgeEntityMixin",
+    "common.ForgeItemMixin",
+    "common.ForgeItemStackMixin",
+    "common.ForgePacketBufferMixin",
+    "common.ForgePlayerMixin",
+    "common.ForgePotionMixin",
+    "common.ForgeRegistryKeyMixin",
+    "common.ForgeRegistryMixin",
+    "common.ForgeResourceLocationMixin",
+    "common.ForgeSlotMixin",
+    "common.ForgeWorldMixin",
+    "common.tag.ForgeByteArrayNBTMixin",
+    "common.tag.ForgeByteNBTMixin",
+    "common.tag.ForgeCompoundNBTMixin",
+    "common.tag.ForgeDoubleNBTMixin",
+    "common.tag.ForgeFloatNBTMixin",
+    "common.tag.ForgeIntArrayNBTMixin",
+    "common.tag.ForgeIntNBTMixin",
+    "common.tag.ForgeListNBTMixin",
+    "common.tag.ForgeLongArrayNBTMixin",
+    "common.tag.ForgeLongNBTMixin",
+    "common.tag.ForgeShortNBTMixin",
+    "common.tag.ForgeStringNBTMixin"
+  ],
+  "client": [
+    "client.ForgeContainerScreenMixin",
+    "client.ForgeKeyBindingMixin",
+    "client.ForgeMatrixStackMixin",
+    "client.ForgeSpriteMixin"
+  ]
+}

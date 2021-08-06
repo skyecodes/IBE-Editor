@@ -5,7 +5,9 @@ import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.api.node.TextField;
 import com.github.franckyi.guapi.api.node.TexturedButton;
 import com.github.franckyi.guapi.api.util.Predicates;
+import com.github.franckyi.ibeeditor.base.client.ModTextures;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.AttributeModifierEntryModel;
+import com.github.franckyi.ibeeditor.base.common.ModTexts;
 
 import static com.github.franckyi.guapi.GuapiHelper.*;
 
@@ -32,19 +34,19 @@ public class AttributeModifierEntryView extends EntryView {
         return vBox(content -> {
             content.add(hBox(top -> {
                 top.add(attributeNameField = textField().prefHeight(16)
-                        .placeholder(translated("ibeeditor.gui.attribute_name")), 1);
-                top.add(attributeListButton = texturedButton("ibeeditor:textures/gui/search.png", 16, 16, false)
-                        .tooltip(translated("ibeeditor.gui.choose").with(translated("ibeeditor.gui.attribute"))));
+                        .placeholder(ModTexts.ATTRIBUTE_NAME), 1);
+                top.add(attributeListButton = texturedButton(ModTextures.SEARCH, 16, 16, false)
+                        .tooltip(ModTexts.choose(ModTexts.ATTRIBUTE)));
                 top.align(CENTER).spacing(2);
             }));
             content.add(hBox(bottom -> {
                 bottom.add(slotButton = enumButton(AttributeModifierEntryModel.Slot.class)
                         .textFactory(AttributeModifierEntryModel.Slot::getText)
-                        .tooltip(translated("ibeeditor.gui.slot")));
+                        .tooltip(ModTexts.SLOT));
                 bottom.add(operationButton = enumButton(AttributeModifierEntryModel.Operation.class)
                         .textFactory(AttributeModifierEntryModel.Operation::getText));
                 bottom.add(amountField = textField().validator(Predicates.IS_DOUBLE)
-                        .tooltip(translated("ibeeditor.gui.amount")).prefHeight(16), 1);
+                        .tooltip(ModTexts.AMOUNT).prefHeight(16), 1);
                 bottom.align(CENTER).spacing(2);
             }));
             content.spacing(2).align(CENTER).fillWidth();

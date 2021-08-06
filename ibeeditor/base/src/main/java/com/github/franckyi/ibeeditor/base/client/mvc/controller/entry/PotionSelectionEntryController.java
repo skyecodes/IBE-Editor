@@ -1,7 +1,8 @@
 package com.github.franckyi.ibeeditor.base.client.mvc.controller.entry;
 
 import com.github.franckyi.gameadapter.Color;
-import com.github.franckyi.gameadapter.Game;
+import com.github.franckyi.gameadapter.api.common.IIdentifier;
+import com.github.franckyi.gameadapter.api.common.IItemStack;
 import com.github.franckyi.ibeeditor.base.client.ModScreenHandler;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.ColorSelectionScreenModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.PotionSelectionEntryModel;
@@ -24,7 +25,7 @@ public class PotionSelectionEntryController extends SelectionEntryController<Pot
     }
 
     private void updatePotionItem() {
-        view.getPotionView().setItem(Game.getCommon().createPotionItem(model.getValue(), model.getCustomColor()));
+        view.getPotionView().setItem(IItemStack.fromPotion(IIdentifier.parse(model.getValue()), model.getCustomColor()));
     }
 
     private void updatePotionColor(String value) {

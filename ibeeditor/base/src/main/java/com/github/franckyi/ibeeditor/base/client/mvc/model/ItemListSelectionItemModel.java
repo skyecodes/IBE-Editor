@@ -1,17 +1,18 @@
 package com.github.franckyi.ibeeditor.base.client.mvc.model;
 
-import com.github.franckyi.gameadapter.api.common.world.Item;
+import com.github.franckyi.gameadapter.api.common.IIdentifier;
+import com.github.franckyi.gameadapter.api.common.IItemStack;
 
 public class ItemListSelectionItemModel extends ListSelectionItemModel {
-    private final Item item;
+    private final IItemStack itemStack;
 
-    public ItemListSelectionItemModel(String name, String id, Item item) {
+    public ItemListSelectionItemModel(String name, IIdentifier id, IItemStack itemStack) {
         super(name, id);
-        this.item = item;
+        this.itemStack = itemStack;
     }
 
-    public Item getItem() {
-        return item;
+    public IItemStack getItem() {
+        return itemStack;
     }
 
     @Override

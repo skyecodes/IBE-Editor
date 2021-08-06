@@ -1,14 +1,17 @@
 package com.github.franckyi.ibeeditor.base.client.mvc.view;
 
 import com.github.franckyi.databindings.api.ObservableList;
+import com.github.franckyi.gameadapter.api.common.IIdentifier;
+import com.github.franckyi.gameadapter.api.common.tag.ITag;
 import com.github.franckyi.gameadapter.api.common.text.Text;
-import com.github.franckyi.guapi.api.mvc.View;
 import com.github.franckyi.guapi.api.node.*;
 import com.github.franckyi.guapi.api.node.builder.TexturedButtonBuilder;
 import com.github.franckyi.guapi.api.node.builder.TexturedToggleButtonBuilder;
 import com.github.franckyi.ibeeditor.base.client.ModScreenHandler;
+import com.github.franckyi.ibeeditor.base.client.ModTextures;
 import com.github.franckyi.ibeeditor.base.client.mvc.NBTTagMVC;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.NBTTagModel;
+import com.github.franckyi.ibeeditor.base.common.ModTexts;
 
 import java.util.function.Consumer;
 
@@ -24,24 +27,25 @@ public class NBTEditorView extends EditorView {
             cutButton, copyButton, pasteButton;
     private TexturedToggleButton addButton;
     private final ObservableList<ButtonType> visibleButtons = ObservableList.create();
-    private Consumer<ButtonType> onButtonClick;
+    private Consumer<ButtonType> onButtonClick = b -> {
+    };
 
     @Override
     public void build() {
         super.build();
         addButtons = hBox(addBox -> {
-            addBox.add(addByteButton = createAddTagButton(ButtonType.BYTE, "ibeeditor:textures/gui/byte_tag_add.png", BLUE, "Byte"));
-            addBox.add(addShortButton = createAddTagButton(ButtonType.SHORT, "ibeeditor:textures/gui/short_tag_add.png", GREEN, "Short"));
-            addBox.add(addIntButton = createAddTagButton(ButtonType.INT, "ibeeditor:textures/gui/int_tag_add.png", AQUA, "Int"));
-            addBox.add(addLongButton = createAddTagButton(ButtonType.LONG, "ibeeditor:textures/gui/long_tag_add.png", RED, "Long"));
-            addBox.add(addFloatButton = createAddTagButton(ButtonType.FLOAT, "ibeeditor:textures/gui/float_tag_add.png", LIGHT_PURPLE, "Float"));
-            addBox.add(addDoubleButton = createAddTagButton(ButtonType.DOUBLE, "ibeeditor:textures/gui/double_tag_add.png", YELLOW, "Double"));
-            addBox.add(addByteArrayButton = createAddTagButton(ButtonType.BYTE_ARRAY, "ibeeditor:textures/gui/byte_array_tag_add.png", BLUE, "Byte Array"));
-            addBox.add(addStringButton = createAddTagButton(ButtonType.STRING, "ibeeditor:textures/gui/string_tag_add.png", GRAY, "String"));
-            addBox.add(addListButton = createAddTagButton(ButtonType.LIST, "ibeeditor:textures/gui/list_tag_add.png", GREEN, "List"));
-            addBox.add(addCompoundButton = createAddTagButton(ButtonType.COMPOUND, "ibeeditor:textures/gui/compound_tag_add.png", LIGHT_PURPLE, "Compound"));
-            addBox.add(addIntArrayButton = createAddTagButton(ButtonType.INT_ARRAY, "ibeeditor:textures/gui/int_array_tag_add.png", AQUA, "Int Array"));
-            addBox.add(addLongArrayButton = createAddTagButton(ButtonType.LONG_ARRAY, "ibeeditor:textures/gui/long_array_tag_add.png", RED, "Long Array"));
+            addBox.add(addByteButton = createAddTagButton(ButtonType.BYTE, BLUE, "Byte"));
+            addBox.add(addShortButton = createAddTagButton(ButtonType.SHORT, GREEN, "Short"));
+            addBox.add(addIntButton = createAddTagButton(ButtonType.INT, AQUA, "Int"));
+            addBox.add(addLongButton = createAddTagButton(ButtonType.LONG, RED, "Long"));
+            addBox.add(addFloatButton = createAddTagButton(ButtonType.FLOAT, LIGHT_PURPLE, "Float"));
+            addBox.add(addDoubleButton = createAddTagButton(ButtonType.DOUBLE, YELLOW, "Double"));
+            addBox.add(addByteArrayButton = createAddTagButton(ButtonType.BYTE_ARRAY, BLUE, "Byte Array"));
+            addBox.add(addStringButton = createAddTagButton(ButtonType.STRING, GRAY, "String"));
+            addBox.add(addListButton = createAddTagButton(ButtonType.LIST, GREEN, "List"));
+            addBox.add(addCompoundButton = createAddTagButton(ButtonType.COMPOUND, LIGHT_PURPLE, "Compound"));
+            addBox.add(addIntArrayButton = createAddTagButton(ButtonType.INT_ARRAY, AQUA, "Int Array"));
+            addBox.add(addLongArrayButton = createAddTagButton(ButtonType.LONG_ARRAY, RED, "Long Array"));
             addBox.spacing(2);
         });
         getEnabledButtons().addListener(this::updateEnabledButtons);
@@ -60,8 +64,8 @@ public class NBTEditorView extends EditorView {
     protected Node createHeader() {
         return hBox(header -> {
             header.add(hBox().prefWidth(16));
-            header.add(label(translated("ibeeditor.gui.editor_title").with(text("NBT")).aqua().bold(), true).textAlign(CENTER).prefHeight(20), 1);
-            header.add(createButton("ibeeditor:textures/gui/settings.png", "ibeeditor.gui.settings").action(ModScreenHandler::openSettingsScreen));
+            header.add(label(ModTexts.editorTitle("NBT"), true).textAlign(CENTER).prefHeight(20), 1);
+            header.add(createButton(ModTextures.SETTINGS, ModTexts.SETTINGS).action(ModScreenHandler::openSettingsScreen));
             header.align(CENTER);
         });
     }
@@ -75,24 +79,24 @@ public class NBTEditorView extends EditorView {
     protected Node createButtonBar() {
         return hBox(buttons -> {
             buttons.add(hBox(base -> {
-                base.add(moveUpButton = createButtonFromType(ButtonType.MOVE_UP, "ibeeditor:textures/gui/move_up.png", "ibeeditor.gui.move_up").disable());
-                base.add(moveDownButton = createButtonFromType(ButtonType.MOVE_DOWN, "ibeeditor:textures/gui/move_down.png", "ibeeditor.gui.move_down").disable());
-                base.add(addButton = createToggleButtonFromType(ButtonType.ADD, "ibeeditor:textures/gui/add.png", translated("ibeeditor.gui.add").green()).disable());
-                base.add(deleteButton = createButtonFromType(ButtonType.DELETE, "ibeeditor:textures/gui/remove.png", translated("ibeeditor.gui.remove").red()).disable());
+                base.add(moveUpButton = createButtonFromType(ButtonType.MOVE_UP).disable());
+                base.add(moveDownButton = createButtonFromType(ButtonType.MOVE_DOWN).disable());
+                base.add(addButton = createToggleButtonFromType(ButtonType.ADD).disable());
+                base.add(deleteButton = createButtonFromType(ButtonType.DELETE).disable());
                 base.spacing(2);
             }));
             buttons.add(hBox(copyBox -> {
-                copyBox.add(cutButton = createButtonFromType(ButtonType.CUT, "ibeeditor:textures/gui/cut.png", "ibeeditor.gui.cut").disable());
-                copyBox.add(copyButton = createButtonFromType(ButtonType.COPY, "ibeeditor:textures/gui/copy.png", "ibeeditor.gui.copy").disable());
-                copyBox.add(pasteButton = createButtonFromType(ButtonType.PASTE, "ibeeditor:textures/gui/paste.png", "ibeeditor.gui.paste").disable());
+                copyBox.add(cutButton = createButtonFromType(ButtonType.CUT).disable());
+                copyBox.add(copyButton = createButtonFromType(ButtonType.COPY).disable());
+                copyBox.add(pasteButton = createButtonFromType(ButtonType.PASTE).disable());
                 copyBox.spacing(2);
             }), 1);
             buttons.add(hBox(expand -> {
-                expand.add(createButton("ibeeditor:textures/gui/collapse_all.png", "ibeeditor.gui.collapse").action(this::collapseAll));
-                expand.add(createButton("ibeeditor:textures/gui/expand_all.png", "ibeeditor.gui.expand").action(this::expandAll));
+                expand.add(createButton(ModTextures.COLLAPSE, ModTexts.COLLAPSE).action(this::collapseAll));
+                expand.add(createButton(ModTextures.EXPAND, ModTexts.EXPAND).action(this::expandAll));
                 expand.spacing(2);
             }));
-            buttons.add(createButton("ibeeditor:textures/gui/scroll_focused.png", "ibeeditor.gui.scroll_focused").action(() -> tagTree.setScrollTo(getTagTree().getFocusedElement())));
+            buttons.add(createButton(ModTextures.SCROLL_FOCUSED, ModTexts.SCROLL_FOCUSED).action(() -> tagTree.setScrollTo(getTagTree().getFocusedElement())));
             buttons.add(super.createButtonBar());
             buttons.spacing(20).prefHeight(16);
         });
@@ -129,29 +133,21 @@ public class NBTEditorView extends EditorView {
         return addButton;
     }
 
-    private TexturedButtonBuilder createButtonFromType(ButtonType type, String id, String tooltipText) {
-        return createButtonFromType(type, id, translated(tooltipText));
+    private TexturedButtonBuilder createButtonFromType(ButtonType type) {
+        return createButtonFromType(type, type.getText());
     }
 
-    private TexturedButtonBuilder createButtonFromType(ButtonType type, String id, Text tooltipText) {
-        return createButton(id, tooltipText).action(() -> {
-            if (onButtonClick != null) {
-                onButtonClick.accept(type);
-            }
-        });
+    private TexturedButtonBuilder createButtonFromType(ButtonType type, Text tooltipText) {
+        return createButton(type.getTextureId(), tooltipText).action(() -> onButtonClick.accept(type));
     }
 
-    private TexturedToggleButtonBuilder createToggleButtonFromType(ButtonType type, String id, Text tooltipText) {
-        return texturedToggleButton(id, 16, 16, false)
-                .tooltip(tooltipText).action(() -> {
-                    if (onButtonClick != null) {
-                        onButtonClick.accept(type);
-                    }
-                });
+    private TexturedToggleButtonBuilder createToggleButtonFromType(ButtonType type) {
+        return texturedToggleButton(type.getTextureId(), 16, 16, false)
+                .tooltip(type.getText()).action(() -> onButtonClick.accept(type));
     }
 
-    private TexturedButtonBuilder createAddTagButton(ButtonType type, String id, String color, String with) {
-        return createButtonFromType(type, id, translated("ibeeditor.gui.add_tag").color(color).with(text(with)));
+    private TexturedButtonBuilder createAddTagButton(ButtonType type, String color, String with) {
+        return createButtonFromType(type, ModTexts.addTag(color, with));
     }
 
     private void updateEnabledButtons() {
@@ -205,25 +201,25 @@ public class NBTEditorView extends EditorView {
     }
 
     public enum ButtonType {
-        BYTE(1),
-        SHORT(2),
-        INT(3),
-        LONG(4),
-        FLOAT(5),
-        DOUBLE(6),
-        BYTE_ARRAY(7),
-        STRING(8),
-        LIST(9),
-        COMPOUND(10),
-        INT_ARRAY(11),
-        LONG_ARRAY(12),
-        MOVE_UP,
-        MOVE_DOWN,
-        ADD,
-        DELETE,
-        CUT,
-        COPY,
-        PASTE;
+        BYTE(ModTextures.BYTE_TAG_ADD, ITag.BYTE_ID),
+        SHORT(ModTextures.SHORT_TAG_ADD, ITag.SHORT_ID),
+        INT(ModTextures.INT_TAG_ADD, ITag.INT_ID),
+        LONG(ModTextures.LONG_TAG_ADD, ITag.LONG_ID),
+        FLOAT(ModTextures.FLOAT_TAG_ADD, ITag.FLOAT_ID),
+        DOUBLE(ModTextures.DOUBLE_TAG_ADD, ITag.DOUBLE_ID),
+        BYTE_ARRAY(ModTextures.BYTE_ARRAY_TAG_ADD, ITag.BYTE_ARRAY_ID),
+        STRING(ModTextures.STRING_TAG_ADD, ITag.STRING_ID),
+        LIST(ModTextures.LIST_TAG_ADD, ITag.LIST_ID),
+        COMPOUND(ModTextures.COMPOUND_TAG_ADD, ITag.COMPOUND_ID),
+        INT_ARRAY(ModTextures.INT_ARRAY_TAG_ADD, ITag.INT_ARRAY_ID),
+        LONG_ARRAY(ModTextures.LONG_ARRAY_TAG_ADD, ITag.LONG_ARRAY_ID),
+        MOVE_UP(ModTextures.MOVE_UP, ModTexts.MOVE_UP),
+        MOVE_DOWN(ModTextures.MOVE_DOWN, ModTexts.MOVE_DOWN),
+        ADD(ModTextures.ADD, ModTexts.ADD),
+        DELETE(ModTextures.REMOVE, ModTexts.REMOVE),
+        CUT(ModTextures.CUT, ModTexts.CUT),
+        COPY(ModTextures.COPY, ModTexts.COPY),
+        PASTE(ModTextures.PASTE, ModTexts.PASTE);
 
         public static final ButtonType[] CAN_DISABLE = new ButtonType[]{
                 MOVE_UP,
@@ -234,18 +230,34 @@ public class NBTEditorView extends EditorView {
                 COPY,
                 PASTE
         };
+        private final IIdentifier textureId;
         private final byte type;
+        private final Text text;
 
-        ButtonType(int type) {
+        ButtonType(IIdentifier textureId, int type, Text text) {
+            this.textureId = textureId;
             this.type = (byte) type;
+            this.text = text;
         }
 
-        ButtonType() {
-            this(-1);
+        ButtonType(IIdentifier textureId, int type) {
+            this(textureId, type, null);
+        }
+
+        ButtonType(IIdentifier textureId, Text text) {
+            this(textureId, -1, text);
         }
 
         public byte getType() {
             return type;
+        }
+
+        public IIdentifier getTextureId() {
+            return textureId;
+        }
+
+        public Text getText() {
+            return text;
         }
     }
 }

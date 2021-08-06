@@ -1,9 +1,10 @@
 package com.github.franckyi.guapi.api.node.builder.generic;
 
+import com.github.franckyi.gameadapter.api.common.IIdentifier;
 import com.github.franckyi.guapi.api.node.ImageView;
 
 public interface GenericImageViewBuilder<N extends ImageView> extends ImageView, GenericControlBuilder<N> {
-    default N textureId(String value) {
+    default N textureId(IIdentifier value) {
         return with(n -> n.setTextureId(value));
     }
 

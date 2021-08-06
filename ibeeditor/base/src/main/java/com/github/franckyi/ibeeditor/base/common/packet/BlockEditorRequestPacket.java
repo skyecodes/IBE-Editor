@@ -1,31 +1,31 @@
 package com.github.franckyi.ibeeditor.base.common.packet;
 
-import com.github.franckyi.gameadapter.api.common.BlockPos;
-import com.github.franckyi.gameadapter.api.common.network.Buffer;
-import com.github.franckyi.gameadapter.api.common.network.Packet;
+import com.github.franckyi.gameadapter.api.common.IBlockPos;
+import com.github.franckyi.gameadapter.api.common.IPacketBuffer;
 import com.github.franckyi.ibeeditor.base.common.EditorType;
+import com.github.franckyi.ibeeditor.base.common.Packet;
 
 public class BlockEditorRequestPacket implements Packet {
-    private final BlockPos blockPos;
+    private final IBlockPos pos;
     private final EditorType type;
 
-    public BlockEditorRequestPacket(BlockPos blockPos, EditorType type) {
-        this.blockPos = blockPos;
+    public BlockEditorRequestPacket(IBlockPos pos, EditorType type) {
+        this.pos = pos;
         this.type = type;
     }
 
-    public BlockEditorRequestPacket(Buffer buffer) {
+    public BlockEditorRequestPacket(IPacketBuffer buffer) {
         this(buffer.readPos(), EditorType.from(buffer.readByte()));
     }
 
     @Override
-    public void write(Buffer buffer) {
-        buffer.writePos(blockPos);
+    public void write(IPacketBuffer buffer) {
+        buffer.writePos(pos);
         buffer.writeByte(type.getId());
     }
 
-    public BlockPos getPos() {
-        return blockPos;
+    public IBlockPos getPos() {
+        return pos;
     }
 
     public EditorType getType() {

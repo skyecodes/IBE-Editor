@@ -1,6 +1,6 @@
 package com.github.franckyi.guapi.base.theme.vanilla;
 
-import com.github.franckyi.gameadapter.Game;
+import com.github.franckyi.gameadapter.api.client.IRenderer;
 import com.github.franckyi.guapi.api.node.CheckBox;
 import com.github.franckyi.guapi.api.theme.DelegatedRenderer;
 import com.github.franckyi.guapi.base.theme.DelegatedSkin;
@@ -17,6 +17,6 @@ public class VanillaCheckBoxSkin extends DelegatedSkin<CheckBox> {
 
     @Override
     public int computeWidth(CheckBox node) {
-        return (node.getLabel() == null || node.getLabel().getRawText().isEmpty()) ? 16 : Game.getClient().getRenderer().getFontWidth(node.getLabel()) + 20;
+        return (node.getLabel() == null || node.getLabel().getRawText().isEmpty()) ? 16 : IRenderer.get().getFontWidth(node.getLabel()) + 20;
     }
 }

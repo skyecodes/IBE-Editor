@@ -1,24 +1,13 @@
 package com.github.franckyi.gameadapter.forge;
 
 import com.github.franckyi.gameadapter.api.GameClient;
-import com.github.franckyi.gameadapter.api.client.KeyBinding;
-import com.github.franckyi.gameadapter.api.client.render.Renderer;
-import com.github.franckyi.gameadapter.api.client.screen.ScreenScaling;
-import com.github.franckyi.gameadapter.api.common.world.Player;
-import com.github.franckyi.gameadapter.api.common.world.World;
-import com.github.franckyi.gameadapter.api.common.world.WorldBlock;
-import com.github.franckyi.gameadapter.api.common.world.WorldEntity;
-import com.github.franckyi.gameadapter.forge.client.render.ForgeMatrices;
-import com.github.franckyi.gameadapter.forge.client.render.ForgeRenderer;
-import com.github.franckyi.gameadapter.forge.client.screen.ForgeScreen;
-import com.github.franckyi.gameadapter.forge.client.screen.ForgeScreenScaling;
-import com.github.franckyi.gameadapter.forge.common.ForgeBlockPos;
-import com.github.franckyi.gameadapter.forge.common.world.ForgePlayer;
-import com.github.franckyi.gameadapter.forge.common.world.ForgeWorld;
-import com.github.franckyi.gameadapter.forge.common.world.ForgeWorldEntity;
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.github.franckyi.gameadapter.api.client.IKeyBinding;
+import com.github.franckyi.gameadapter.api.client.IRenderer;
+import com.github.franckyi.gameadapter.api.client.ISprite;
+import com.github.franckyi.gameadapter.api.common.*;
+import com.github.franckyi.gameadapter.forge.client.ForgeRenderer;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.EntityRayTraceResult;
@@ -37,79 +26,58 @@ public final class ForgeGameClient implements GameClient {
     }
 
     @Override
-    public Renderer getRenderer() {
+    public IRenderer getRenderer() {
         return ForgeRenderer.INSTANCE;
     }
 
     @Override
-    public ScreenScaling getScreenScaling() {
-        return ForgeScreenScaling.INSTANCE;
-    }
-
-    @Override
-    public KeyBinding registerKeyBinding(String name, int keyCode, String category) {
+    public IKeyBinding registerKeyBinding(String name, int keyCode, String category) {
         net.minecraft.client.settings.KeyBinding keyBinding = new net.minecraft.client.settings.KeyBinding(name, keyCode, category);
         ClientRegistry.registerKeyBinding(keyBinding);
-        return new KeyBinding() {
-            @Override
-            public boolean isPressed() {
-                return keyBinding.isDown();
-            }
-
-            @Override
-            public int getKeyCode() {
-                return keyBinding.getKey().getValue();
-            }
-        };
+        return (IKeyBinding) keyBinding;
     }
 
     @Override
-    public Player getPlayer() {
-        return new ForgePlayer(mc().player);
+    public IPlayer getPlayer() {
+        return (IPlayer) mc().player;
     }
 
     @Override
-    public World getWorld() {
-        return new ForgeWorld(mc().level);
+    public IWorld getWorld() {
+        return (IWorld) mc().level;
     }
 
     @Override
-    public WorldEntity getEntityMouseOver() {
+    public IEntity getEntityMouseOver() {
         RayTraceResult result = mc().hitResult;
         if (result instanceof EntityRayTraceResult) {
-            return new ForgeWorldEntity(((EntityRayTraceResult) result).getEntity());
+            return (IEntity) ((EntityRayTraceResult) result).getEntity();
         }
         return null;
     }
 
     @Override
-    public WorldBlock getBlockMouseOver() {
+    public WorldBlockData getBlockMouseOver() {
         RayTraceResult result = mc().hitResult;
         if (result instanceof BlockRayTraceResult) {
             BlockRayTraceResult res = (BlockRayTraceResult) result;
             if (!mc().level.isEmptyBlock(res.getBlockPos())) {
-                return getWorld().getBlock(new ForgeBlockPos(res.getBlockPos()));
+                IBlockPos blockPos = (IBlockPos) res.getBlockPos();
+                return new WorldBlockData(getWorld().getBlockData(blockPos), blockPos);
             }
         }
         return null;
     }
 
     @Override
-    public Object getEffectSprite(String effectId) {
-        return Minecraft.getInstance().getMobEffectTextures()
-                .get(ForgeRegistries.POTIONS.getValue(ResourceLocation.tryParse(effectId)));
+    public ISprite getEffectSprite(IIdentifier effectId) {
+        return (ISprite) Minecraft.getInstance().getMobEffectTextures()
+                .get(ForgeRegistries.POTIONS.getValue((ResourceLocation) effectId));
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public MatricesFactory<MatrixStack> getMatricesFactory() {
-        return ForgeMatrices::of;
-    }
-
-    @Override
-    @SuppressWarnings("unchecked")
-    public ScreenFactory<Screen> getScreenFactory() {
-        return ForgeScreen::new;
+    public void updateInventoryItem(IItemStack itemStack, int slotId) {
+        mc().gameMode.handleCreativeModeItemAdd(ItemStack.class.cast(itemStack), slotId);
     }
 
     @Override

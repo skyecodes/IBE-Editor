@@ -1,6 +1,6 @@
 package com.github.franckyi.guapi.fabric.theme.vanilla;
 
-import com.github.franckyi.gameadapter.api.client.render.Matrices;
+import com.github.franckyi.gameadapter.api.client.IMatrices;
 import com.github.franckyi.guapi.api.event.*;
 import com.github.franckyi.guapi.api.node.Labeled;
 import com.github.franckyi.guapi.api.node.Node;
@@ -53,8 +53,8 @@ public interface FabricVanillaDelegateRenderer extends DelegatedRenderer, Elemen
     }
 
     @Override
-    default void render(Matrices matrices, int mouseX, int mouseY, float delta) {
-        render((MatrixStack) matrices.get(), mouseX, mouseY, delta);
+    default void render(IMatrices matrices, int mouseX, int mouseY, float delta) {
+        render((MatrixStack) matrices, mouseX, mouseY, delta);
     }
 
     default void initNode(Node node, ClickableWidget widget) {

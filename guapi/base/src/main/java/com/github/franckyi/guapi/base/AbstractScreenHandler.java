@@ -3,7 +3,7 @@ package com.github.franckyi.guapi.base;
 import com.github.franckyi.databindings.api.IntegerProperty;
 import com.github.franckyi.databindings.api.ObjectProperty;
 import com.github.franckyi.gameadapter.Game;
-import com.github.franckyi.gameadapter.api.client.render.Matrices;
+import com.github.franckyi.gameadapter.api.client.IMatrices;
 import com.github.franckyi.guapi.Guapi;
 import com.github.franckyi.guapi.api.ScreenHandler;
 import com.github.franckyi.guapi.api.event.ScreenEvent;
@@ -74,7 +74,7 @@ public abstract class AbstractScreenHandler implements ScreenHandler {
 
     protected abstract void closeScreen();
 
-    public void render(Matrices matrices, int mouseX, int mouseY, float delta) {
+    public void render(IMatrices matrices, int mouseX, int mouseY, float delta) {
         try {
             getCurrentScene().render(matrices, mouseX, mouseY, delta);
         } catch (Exception e) {

@@ -23,6 +23,7 @@ minecraft {
             property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
             property 'forge.logging.console.level', 'debug'
             arg '-mixin.config=guapi-vanilla-theme-forge.mixins.json'
+            arg '-mixin.config=gameadapter-forge.mixins.json'
             mods {
                 'ibeeditor-forge' {
                     source sourceSets.main
@@ -44,6 +45,7 @@ minecraft {
             property 'mixin.env.remapRefMap', 'true'
             property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
             property 'forge.logging.console.level', 'debug'
+            arg '-mixin.config=gameadapter-forge.mixins.json'
             mods {
                 'ibeeditor-forge' {
                     source sourceSets.main

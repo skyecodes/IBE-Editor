@@ -2,7 +2,7 @@ package com.github.franckyi.guapi.base.node;
 
 import com.github.franckyi.databindings.api.*;
 import com.github.franckyi.gameadapter.Game;
-import com.github.franckyi.gameadapter.api.client.render.Matrices;
+import com.github.franckyi.gameadapter.api.client.IMatrices;
 import com.github.franckyi.guapi.Guapi;
 import com.github.franckyi.guapi.api.event.MouseButtonEvent;
 import com.github.franckyi.guapi.api.event.ScreenEvent;
@@ -142,7 +142,7 @@ public abstract class AbstractScene implements Scene {
     }
 
     @Override
-    public void render(Matrices matrices, int mouseX, int mouseY, float delta) {
+    public void render(IMatrices matrices, int mouseX, int mouseY, float delta) {
         if (shouldUpdateChildrenPos) {
             updateChildrenPos();
             shouldUpdateChildrenPos = false;

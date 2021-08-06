@@ -1,7 +1,6 @@
 package com.github.franckyi.guapi.fabric.theme.vanilla;
 
-import com.github.franckyi.gameadapter.Game;
-import com.github.franckyi.gameadapter.api.client.render.Matrices;
+import com.github.franckyi.gameadapter.api.client.IMatrices;
 import com.github.franckyi.guapi.api.node.ListView;
 import com.github.franckyi.guapi.api.node.Node;
 import net.minecraft.client.util.math.MatrixStack;
@@ -32,7 +31,7 @@ public class FabricVanillaListViewRenderer<E> extends AbstractFabricVanillaListN
 
         @Override
         public void render(MatrixStack matrixStack, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
-            Matrices matrices = Game.getClient().getMatricesFactory().createMatrices(matrixStack);
+            IMatrices matrices = (IMatrices) matrixStack;
             entryWidth = getList().getMaxScroll() == 0 ? entryWidth + 6 : entryWidth;
             getNode().setX(x);
             getNode().setY(y);

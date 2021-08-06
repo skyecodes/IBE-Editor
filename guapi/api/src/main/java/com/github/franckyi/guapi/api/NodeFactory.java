@@ -1,7 +1,9 @@
 package com.github.franckyi.guapi.api;
 
+import com.github.franckyi.gameadapter.api.client.ISprite;
+import com.github.franckyi.gameadapter.api.common.IIdentifier;
+import com.github.franckyi.gameadapter.api.common.IItemStack;
 import com.github.franckyi.gameadapter.api.common.text.Text;
-import com.github.franckyi.gameadapter.api.common.world.Item;
 import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.api.node.TreeView;
 import com.github.franckyi.guapi.api.node.builder.*;
@@ -45,15 +47,15 @@ public interface NodeFactory {
 
     HBoxBuilder createHBox(Consumer<HBoxBuilder> with);
 
-    ImageViewBuilder createImageView(String id);
+    ImageViewBuilder createImageView(IIdentifier id);
 
-    ImageViewBuilder createImageView(String id, int imageWidth, int imageHeight);
+    ImageViewBuilder createImageView(IIdentifier id, int imageWidth, int imageHeight);
 
-    ImageViewBuilder createImageView(String id, Consumer<ImageViewBuilder> with);
+    ImageViewBuilder createImageView(IIdentifier id, Consumer<ImageViewBuilder> with);
 
     ItemViewBuilder createItemView();
 
-    ItemViewBuilder createItemView(Item id);
+    ItemViewBuilder createItemView(IItemStack id);
 
     ItemViewBuilder createItemView(Consumer<ItemViewBuilder> with);
 
@@ -89,9 +91,9 @@ public interface NodeFactory {
 
     SpriteViewBuilder createSpriteView();
 
-    SpriteViewBuilder createSpriteView(Supplier<Object> spriteFactory);
+    SpriteViewBuilder createSpriteView(Supplier<ISprite> spriteFactory);
 
-    SpriteViewBuilder createSpriteView(Supplier<Object> spriteFactory, int imageWidth, int imageHeight);
+    SpriteViewBuilder createSpriteView(Supplier<ISprite> spriteFactory, int imageWidth, int imageHeight);
 
     TextFieldBuilder createTextField();
 
@@ -113,17 +115,17 @@ public interface NodeFactory {
 
     TextAreaBuilder createTextArea(Consumer<TextAreaBuilder> with);
 
-    TexturedButtonBuilder createTexturedButton(String id, boolean drawButton);
+    TexturedButtonBuilder createTexturedButton(IIdentifier id, boolean drawButton);
 
-    TexturedButtonBuilder createTexturedButton(String id, int imageWidth, int imageHeight, boolean drawButton);
+    TexturedButtonBuilder createTexturedButton(IIdentifier id, int imageWidth, int imageHeight, boolean drawButton);
 
-    TexturedButtonBuilder createTexturedButton(String id, boolean drawButton, Consumer<TexturedButtonBuilder> with);
+    TexturedButtonBuilder createTexturedButton(IIdentifier id, boolean drawButton, Consumer<TexturedButtonBuilder> with);
 
-    TexturedToggleButtonBuilder createTexturedToggleButton(String id, boolean drawButton);
+    TexturedToggleButtonBuilder createTexturedToggleButton(IIdentifier id, boolean drawButton);
 
-    TexturedToggleButtonBuilder createTexturedToggleButton(String id, int imageWidth, int imageHeight, boolean drawButton);
+    TexturedToggleButtonBuilder createTexturedToggleButton(IIdentifier id, int imageWidth, int imageHeight, boolean drawButton);
 
-    TexturedToggleButtonBuilder createTexturedToggleButton(String id, boolean drawButton, Consumer<TexturedToggleButtonBuilder> with);
+    TexturedToggleButtonBuilder createTexturedToggleButton(IIdentifier id, boolean drawButton, Consumer<TexturedToggleButtonBuilder> with);
 
     ToggleButtonBuilder createToggleButton();
 

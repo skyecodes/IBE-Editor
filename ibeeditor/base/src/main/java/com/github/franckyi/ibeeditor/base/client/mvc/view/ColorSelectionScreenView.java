@@ -5,6 +5,8 @@ import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.api.node.Slider;
 import com.github.franckyi.guapi.api.node.TextField;
 import com.github.franckyi.ibeeditor.base.client.ModScreenHandler;
+import com.github.franckyi.ibeeditor.base.client.ModTextures;
+import com.github.franckyi.ibeeditor.base.common.ModTexts;
 
 import static com.github.franckyi.guapi.GuapiHelper.*;
 
@@ -17,8 +19,8 @@ public abstract class ColorSelectionScreenView extends EditorView {
     protected Node createHeader() {
         return hBox(header -> {
             header.add(hBox().prefWidth(16));
-            header.add(label(translated("ibeeditor.gui.choose_custom_color").aqua().bold(), true).textAlign(CENTER).prefHeight(20), 1);
-            header.add(createButton("ibeeditor:textures/gui/settings.png", "ibeeditor.gui.settings").action(ModScreenHandler::openSettingsScreen));
+            header.add(label(ModTexts.CHOOSE_CUSTOM_COLOR, true).textAlign(CENTER).prefHeight(20), 1);
+            header.add(createButton(ModTextures.SETTINGS, ModTexts.SETTINGS).action(ModScreenHandler::openSettingsScreen));
             header.align(CENTER);
         });
     }
@@ -30,9 +32,9 @@ public abstract class ColorSelectionScreenView extends EditorView {
             editor.add(vBox(center -> {
                 center.add(vBox(rgb -> {
                     rgb.add(hBox(labels -> {
-                        labels.add(label(translated("ibeeditor.gui.red")), 1);
-                        labels.add(label(translated("ibeeditor.gui.green")), 1);
-                        labels.add(label(translated("ibeeditor.gui.blue")), 1);
+                        labels.add(label(ModTexts.RED_COLOR), 1);
+                        labels.add(label(ModTexts.GREEN_COLOR), 1);
+                        labels.add(label(ModTexts.BLUE_COLOR), 1);
                         labels.spacing(4);
                     }));
                     rgb.add(hBox(fields -> {
@@ -45,7 +47,7 @@ public abstract class ColorSelectionScreenView extends EditorView {
                 }));
                 center.add(vBox(hex -> {
                     hex.add(hBox(labels -> {
-                        labels.add(label(text("Hex")), 1);
+                        labels.add(label(ModTexts.Literal.HEX), 1);
                         labels.add(hBox(), 1);
                         labels.add(hBox(), 1);
                         labels.spacing(4);

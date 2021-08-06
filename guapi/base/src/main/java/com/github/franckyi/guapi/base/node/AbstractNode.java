@@ -1,7 +1,7 @@
 package com.github.franckyi.guapi.base.node;
 
 import com.github.franckyi.databindings.api.*;
-import com.github.franckyi.gameadapter.api.client.render.Matrices;
+import com.github.franckyi.gameadapter.api.client.IMatrices;
 import com.github.franckyi.gameadapter.api.common.text.Text;
 import com.github.franckyi.guapi.Guapi;
 import com.github.franckyi.guapi.api.event.ScreenEvent;
@@ -249,7 +249,7 @@ public abstract class AbstractNode implements Node {
     }
 
     @Override
-    public boolean preRender(Matrices matrices, int mouseX, int mouseY, float delta) {
+    public boolean preRender(IMatrices matrices, int mouseX, int mouseY, float delta) {
         boolean res = checkRender();
         if (isVisible()) {
             res |= getSkin().preRender(this, matrices, mouseX, mouseY, delta);
@@ -258,14 +258,14 @@ public abstract class AbstractNode implements Node {
     }
 
     @Override
-    public void render(Matrices matrices, int mouseX, int mouseY, float delta) {
+    public void render(IMatrices matrices, int mouseX, int mouseY, float delta) {
         if (isVisible()) {
             getSkin().render(this, matrices, mouseX, mouseY, delta);
         }
     }
 
     @Override
-    public void postRender(Matrices matrices, int mouseX, int mouseY, float delta) {
+    public void postRender(IMatrices matrices, int mouseX, int mouseY, float delta) {
         if (isVisible()) {
             getSkin().postRender(this, matrices, mouseX, mouseY, delta);
         }

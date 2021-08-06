@@ -1,8 +1,8 @@
 package com.github.franckyi.ibeeditor.base.server;
 
 import com.github.franckyi.gameadapter.Game;
+import com.github.franckyi.gameadapter.api.common.IPlayer;
 import com.github.franckyi.gameadapter.api.common.text.Text;
-import com.github.franckyi.gameadapter.api.common.world.Player;
 import com.github.franckyi.ibeeditor.base.common.EditorType;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
@@ -27,11 +27,11 @@ public final class ServerCommandHandler {
         ENTITY("entity", ServerCommandHandler::commandOpenEntityEditor),
         SELF("self", ServerCommandHandler::commandOpenSelfEditor);
 
-        private static final BiFunction<Player, EditorType, Integer> DEFAULT = ServerCommandHandler::commandOpenWorldEditor;
+        private static final BiFunction<IPlayer, EditorType, Integer> DEFAULT = ServerCommandHandler::commandOpenWorldEditor;
         private final String literal;
-        private final BiFunction<Player, EditorType, Integer> target;
+        private final BiFunction<IPlayer, EditorType, Integer> target;
 
-        EditorTargetArgument(String literal, BiFunction<Player, EditorType, Integer> target) {
+        EditorTargetArgument(String literal, BiFunction<IPlayer, EditorType, Integer> target) {
             this.literal = literal;
             this.target = target;
         }
@@ -77,36 +77,36 @@ public final class ServerCommandHandler {
     }
 
     @SuppressWarnings("unchecked")
-    private static <S> Command<S> createCommand(Function<Player, Integer> command) {
+    private static <S> Command<S> createCommand(Function<IPlayer, Integer> command) {
         return (Command<S>) Game.getCommon().createCommand(command);
     }
 
-    private static int commandOpenWorldEditor(Player player, EditorType type) {
-        LOGGER.debug("{} issued a world editor command with type={}", player, type);
+    private static int commandOpenWorldEditor(IPlayer player, EditorType type) {
+        LOGGER.debug("{} issued a world editor command with type={}", player.getProfileName(), type);
         return commandOpenEditor(player, type, ServerNetworkEmitter::sendWorldEditorCommand);
     }
 
-    private static int commandOpenItemEditor(Player player, EditorType type) {
-        LOGGER.debug("{} issued an item editor command with type={}", player, type);
+    private static int commandOpenItemEditor(IPlayer player, EditorType type) {
+        LOGGER.debug("{} issued an item editor command with type={}", player.getProfileName(), type);
         return commandOpenEditor(player, type, ServerNetworkEmitter::sendItemEditorCommand);
     }
 
-    private static int commandOpenBlockEditor(Player player, EditorType type) {
-        LOGGER.debug("{} issued a block editor command with type={}", player, type);
+    private static int commandOpenBlockEditor(IPlayer player, EditorType type) {
+        LOGGER.debug("{} issued a block editor command with type={}", player.getProfileName(), type);
         return commandOpenEditor(player, type, ServerNetworkEmitter::sendBlockEditorCommand);
     }
 
-    private static int commandOpenEntityEditor(Player player, EditorType type) {
-        LOGGER.debug("{} issued an entity editor command with type={}", player, type);
+    private static int commandOpenEntityEditor(IPlayer player, EditorType type) {
+        LOGGER.debug("{} issued an entity editor command with type={}", player.getProfileName(), type);
         return commandOpenEditor(player, type, ServerNetworkEmitter::sendEntityEditorCommand);
     }
 
-    private static int commandOpenSelfEditor(Player player, EditorType type) {
-        LOGGER.debug("{} issued a self editor command with type={}", player, type);
+    private static int commandOpenSelfEditor(IPlayer player, EditorType type) {
+        LOGGER.debug("{} issued a self editor command with type={}", player.getProfileName(), type);
         return commandOpenEditor(player, type, ServerNetworkEmitter::sendSelfEditorCommand);
     }
 
-    private static int commandOpenEditor(Player player, EditorType type, BiConsumer<Player, EditorType> action) {
+    private static int commandOpenEditor(IPlayer player, EditorType type, BiConsumer<IPlayer, EditorType> action) {
         if (ServerContext.isClientModded(player)) {
             action.accept(player, type);
             return 0;

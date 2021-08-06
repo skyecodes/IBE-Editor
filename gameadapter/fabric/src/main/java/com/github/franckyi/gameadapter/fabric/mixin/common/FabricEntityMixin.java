@@ -1,0 +1,28 @@
+package com.github.franckyi.gameadapter.fabric.mixin.common;
+
+import com.github.franckyi.gameadapter.api.common.IEntity;
+import com.github.franckyi.gameadapter.api.common.tag.ICompoundTag;
+import net.minecraft.entity.Entity;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.server.command.CommandOutput;
+import net.minecraft.util.Nameable;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
+
+@Mixin(Entity.class)
+public abstract class FabricEntityMixin implements Nameable, CommandOutput, IEntity {
+    @Shadow
+    public abstract boolean saveSelfNbt(NbtCompound nbt);
+
+    @Shadow
+    public abstract NbtCompound writeNbt(NbtCompound nbt);
+
+    @Override
+    public ICompoundTag getData() {
+        NbtCompound compound = new NbtCompound();
+        if (!saveSelfNbt(compound)) {
+            writeNbt(compound);
+        }
+        return (ICompoundTag) compound;
+    }
+}

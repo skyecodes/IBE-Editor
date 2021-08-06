@@ -1,13 +1,16 @@
 package com.github.franckyi.ibeeditor.base.client;
 
 import com.github.franckyi.gameadapter.Color;
-import com.github.franckyi.gameadapter.Game;
-import com.github.franckyi.gameadapter.api.common.Registries;
-import com.github.franckyi.gameadapter.api.common.registry.RegistryEntry;
+import com.github.franckyi.gameadapter.api.client.ISprite;
+import com.github.franckyi.gameadapter.api.common.IItemStack;
+import com.github.franckyi.gameadapter.api.common.IRegistry;
+import com.github.franckyi.gameadapter.api.common.IRegistryValue;
+import com.github.franckyi.gameadapter.api.common.RegistryHandler;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.ItemListSelectionItemModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.ListSelectionItemModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.SpriteListSelectionItemModel;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,16 +27,16 @@ public final class ClientCache {
     private static List<SpriteListSelectionItemModel> effectSelectionItems;
 
     public static void init() {
-        itemSuggestions = getSuggestions(Registries.get().getItems());
-        itemSelectionItems = getItemSelectionItems(Registries.get().getItems());
-        blockSuggestions = getSuggestions(Registries.get().getBlocks());
-        blockSelectionItems = getItemSelectionItems(Registries.get().getBlocks());
-        attributeSuggestions = getSuggestions(Registries.get().getAttributes());
-        attributeSelectionItems = getSelectionItems(Registries.get().getAttributes());
-        potionSuggestions = getSuggestions(Registries.get().getPotions());
-        potionSelectionItems = getPotionSelectionItems(Registries.get().getPotions());
-        effectSuggestions = getSuggestions(Registries.get().getEffects());
-        effectSelectionItems = getEffectSelectionItems(Registries.get().getEffects());
+        itemSuggestions = getSuggestions(RegistryHandler.get().getItemRegistry());
+        itemSelectionItems = getItemSelectionItems(RegistryHandler.get().getItemRegistry());
+        blockSuggestions = getSuggestions(RegistryHandler.get().getBlockRegistry());
+        blockSelectionItems = getItemSelectionItems(RegistryHandler.get().getBlockRegistry());
+        attributeSuggestions = getSuggestions(RegistryHandler.get().getAttributeRegistry());
+        attributeSelectionItems = getSelectionItems(RegistryHandler.get().getAttributeRegistry());
+        potionSuggestions = getSuggestions(RegistryHandler.get().getPotionRegistry());
+        potionSelectionItems = getPotionSelectionItems(RegistryHandler.get().getPotionRegistry());
+        effectSuggestions = getSuggestions(RegistryHandler.get().getEffectRegistry());
+        effectSelectionItems = getEffectSelectionItems(RegistryHandler.get().getEffectRegistry());
     }
 
     public static List<String> getItemSuggestions() {
@@ -76,37 +79,41 @@ public final class ClientCache {
         return effectSelectionItems;
     }
 
-    private static List<String> getSuggestions(List<? extends RegistryEntry> list) {
-        List<String> suggestions = list.stream().map(RegistryEntry::getId).collect(Collectors.toList());
-        list.forEach(e -> {
-            if (e.getId().startsWith("minecraft:")) {
-                suggestions.add(e.getId().substring(10));
-            }
-        });
+    private static List<String> getSuggestions(IRegistry<IRegistryValue> registry) {
+        List<String> suggestions = new ArrayList<>();
+        registry.getEntries().stream()
+                .map(e -> e.getKey().getId().toString())
+                .forEach(id -> {
+                    suggestions.add(id);
+                    if (id.startsWith("minecraft:")) {
+                        suggestions.add(id.substring(10));
+                    }
+                })
+        ;
         return suggestions;
     }
 
-    private static List<ListSelectionItemModel> getSelectionItems(List<? extends RegistryEntry> list) {
-        return list.stream()
-                .map(attribute -> new ListSelectionItemModel(attribute.getName(), attribute.getId()))
+    private static List<ListSelectionItemModel> getSelectionItems(IRegistry<IRegistryValue> registry) {
+        return registry.getEntries().stream()
+                .map(e -> new ListSelectionItemModel(e.getValue().getName(), e.getKey().getId()))
                 .collect(Collectors.toList());
     }
 
-    private static List<ItemListSelectionItemModel> getItemSelectionItems(List<? extends RegistryEntry> list) {
-        return list.stream()
-                .map(attribute -> new ItemListSelectionItemModel(attribute.getName(), attribute.getId(), Game.getCommon().createItem(attribute.getId())))
+    private static List<ItemListSelectionItemModel> getItemSelectionItems(IRegistry<IRegistryValue> registry) {
+        return registry.getEntries().stream()
+                .map(e -> new ItemListSelectionItemModel(e.getValue().getName(), e.getKey().getId(), IItemStack.fromId(e.getKey().getId())))
                 .collect(Collectors.toList());
     }
 
-    private static List<ItemListSelectionItemModel> getPotionSelectionItems(List<? extends RegistryEntry> list) {
-        return list.stream()
-                .map(attribute -> new ItemListSelectionItemModel(attribute.getName(), attribute.getId(), Game.getCommon().createPotionItem(attribute.getId(), Color.NONE)))
+    private static List<ItemListSelectionItemModel> getPotionSelectionItems(IRegistry<IRegistryValue> registry) {
+        return registry.getEntries().stream()
+                .map(e -> new ItemListSelectionItemModel(e.getValue().getName(), e.getKey().getId(), IItemStack.fromPotion(e.getKey().getId(), Color.NONE)))
                 .collect(Collectors.toList());
     }
 
-    private static List<SpriteListSelectionItemModel> getEffectSelectionItems(List<? extends RegistryEntry> list) {
-        return list.stream()
-                .map(attribute -> new SpriteListSelectionItemModel(attribute.getName(), attribute.getId(), () -> Game.getClient().getEffectSprite(attribute.getId())))
+    private static List<SpriteListSelectionItemModel> getEffectSelectionItems(IRegistry<IRegistryValue> registry) {
+        return registry.getEntries().stream()
+                .map(e -> new SpriteListSelectionItemModel(e.getValue().getName(), e.getKey().getId(), () -> ISprite.fromEffect(e.getKey().getId())))
                 .collect(Collectors.toList());
     }
 }

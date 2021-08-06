@@ -1,8 +1,8 @@
 package com.github.franckyi.guapi.base.theme.vanilla;
 
 import com.github.franckyi.gameadapter.Color;
-import com.github.franckyi.gameadapter.Game;
-import com.github.franckyi.gameadapter.api.client.render.Matrices;
+import com.github.franckyi.gameadapter.api.client.IMatrices;
+import com.github.franckyi.gameadapter.api.client.IRenderer;
 import com.github.franckyi.guapi.api.node.TexturedButton;
 import com.github.franckyi.guapi.api.theme.DelegatedRenderer;
 
@@ -12,14 +12,14 @@ public class VanillaTexturedButtonSkin<N extends TexturedButton> extends Abstrac
     }
 
     @Override
-    public void render(N node, Matrices matrices, int mouseX, int mouseY, float delta) {
+    public void render(N node, IMatrices matrices, int mouseX, int mouseY, float delta) {
         super.render(node, matrices, mouseX, mouseY, delta);
         if (node.getTextureId() != null) {
-            Game.getClient().getRenderer().drawTexture(matrices, node.getTextureId(), node.getX(), node.getY(), node.getWidth(), node.getHeight(),
+            IRenderer.get().drawTexture(matrices, node.getTextureId(), node.getX(), node.getY(), node.getWidth(), node.getHeight(),
                     node.getImageX(), node.getImageY(), node.getImageWidth(), node.getImageHeight());
         }
         if (!node.isDrawButton() && node.isDisabled()) {
-            Game.getClient().getRenderer().fillRectangle(matrices, node.getX(), node.getY(), node.getX() + node.getWidth(), node.getY() + node.getHeight(), Color.fromRGBA(0, 0, 0, 191));
+            IRenderer.get().fillRectangle(matrices, node.getX(), node.getY(), node.getX() + node.getWidth(), node.getY() + node.getHeight(), Color.fromRGBA(0, 0, 0, 191));
         }
     }
 

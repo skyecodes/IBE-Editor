@@ -1,25 +1,14 @@
 package com.github.franckyi.gameadapter.fabric;
 
 import com.github.franckyi.gameadapter.api.GameClient;
-import com.github.franckyi.gameadapter.api.client.KeyBinding;
-import com.github.franckyi.gameadapter.api.client.render.Renderer;
-import com.github.franckyi.gameadapter.api.client.screen.ScreenScaling;
-import com.github.franckyi.gameadapter.api.common.world.Player;
-import com.github.franckyi.gameadapter.api.common.world.World;
-import com.github.franckyi.gameadapter.api.common.world.WorldBlock;
-import com.github.franckyi.gameadapter.api.common.world.WorldEntity;
-import com.github.franckyi.gameadapter.fabric.client.render.FabricMatrices;
-import com.github.franckyi.gameadapter.fabric.client.render.FabricRenderer;
-import com.github.franckyi.gameadapter.fabric.client.screen.FabricScreen;
-import com.github.franckyi.gameadapter.fabric.client.screen.FabricScreenScaling;
-import com.github.franckyi.gameadapter.fabric.common.FabricBlockPos;
-import com.github.franckyi.gameadapter.fabric.common.world.FabricPlayer;
-import com.github.franckyi.gameadapter.fabric.common.world.FabricWorld;
-import com.github.franckyi.gameadapter.fabric.common.world.FabricWorldEntity;
+import com.github.franckyi.gameadapter.api.client.IKeyBinding;
+import com.github.franckyi.gameadapter.api.client.IRenderer;
+import com.github.franckyi.gameadapter.api.client.ISprite;
+import com.github.franckyi.gameadapter.api.common.*;
+import com.github.franckyi.gameadapter.fabric.client.FabricRenderer;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
@@ -37,79 +26,57 @@ public final class FabricGameClient implements GameClient {
     }
 
     @Override
-    public Renderer getRenderer() {
+    public IRenderer getRenderer() {
         return FabricRenderer.INSTANCE;
     }
 
     @Override
-    public ScreenScaling getScreenScaling() {
-        return FabricScreenScaling.INSTANCE;
-    }
-
-    @Override
-    public KeyBinding registerKeyBinding(String name, int keyCode, String category) {
-        net.minecraft.client.option.KeyBinding keyBinding = KeyBindingHelper.registerKeyBinding(
+    public IKeyBinding registerKeyBinding(String name, int keyCode, String category) {
+        return (IKeyBinding) KeyBindingHelper.registerKeyBinding(
                 new net.minecraft.client.option.KeyBinding(name, keyCode, category));
-        return new KeyBinding() {
-            @Override
-            public boolean isPressed() {
-                return keyBinding.wasPressed();
-            }
-
-            @Override
-            public int getKeyCode() {
-                return KeyBindingHelper.getBoundKeyOf(keyBinding).getCode();
-            }
-        };
     }
 
     @Override
-    public Player getPlayer() {
-        return new FabricPlayer(mc().player);
+    public IPlayer getPlayer() {
+        return (IPlayer) mc().player;
     }
 
     @Override
-    public World getWorld() {
-        return new FabricWorld(mc().world);
+    public IWorld getWorld() {
+        return (IWorld) mc().world;
     }
 
     @Override
-    public WorldEntity getEntityMouseOver() {
+    public IEntity getEntityMouseOver() {
         HitResult result = mc().crosshairTarget;
         if (result instanceof EntityHitResult) {
-            return new FabricWorldEntity(((EntityHitResult) result).getEntity());
+            return (IEntity) ((EntityHitResult) result).getEntity();
         }
         return null;
     }
 
     @Override
-    public WorldBlock getBlockMouseOver() {
+    public WorldBlockData getBlockMouseOver() {
         HitResult result = mc().crosshairTarget;
         if (result instanceof BlockHitResult) {
             BlockHitResult res = (BlockHitResult) result;
             if (!mc().world.isAir(res.getBlockPos())) {
-                return getWorld().getBlock(new FabricBlockPos(res.getBlockPos()));
+                IBlockPos blockPos = (IBlockPos) res.getBlockPos();
+                return new WorldBlockData(getWorld().getBlockData(blockPos), blockPos);
             }
         }
         return null;
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public MatricesFactory<MatrixStack> getMatricesFactory() {
-        return FabricMatrices::of;
+    public ISprite getEffectSprite(IIdentifier effectId) {
+        return (ISprite) MinecraftClient.getInstance().getStatusEffectSpriteManager()
+                .getSprite(Registry.STATUS_EFFECT.get((Identifier) effectId));
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public ScreenFactory<Screen> getScreenFactory() {
-        return FabricScreen::new;
-    }
-
-    @Override
-    public Object getEffectSprite(String effectId) {
-        return MinecraftClient.getInstance().getStatusEffectSpriteManager()
-                .getSprite(Registry.STATUS_EFFECT.get(Identifier.tryParse(effectId)));
+    public void updateInventoryItem(IItemStack itemStack, int slotId) {
+        mc().interactionManager.clickCreativeStack(ItemStack.class.cast(itemStack), slotId);
     }
 
     @Override

@@ -1,13 +1,18 @@
 package com.github.franckyi.ibeeditor;
 
-import com.github.franckyi.gameadapter.Game;
+import com.github.franckyi.gameadapter.api.client.IScreen;
+import com.github.franckyi.gameadapter.api.common.IPlayer;
 import com.github.franckyi.ibeeditor.base.client.ClientContext;
 import com.github.franckyi.ibeeditor.base.client.ClientEventHandler;
 import com.github.franckyi.ibeeditor.base.client.ClientInit;
 import com.github.franckyi.ibeeditor.base.client.ModScreenHandler;
+import com.github.franckyi.ibeeditor.base.client.util.ScreenScalingManager;
 import com.github.franckyi.ibeeditor.base.common.CommonInit;
+import com.github.franckyi.ibeeditor.base.common.ModNetwork;
 import com.github.franckyi.ibeeditor.base.server.ServerCommandHandler;
 import com.github.franckyi.ibeeditor.base.server.ServerEventHandler;
+import com.github.franckyi.ibeeditor.forge.client.util.ForgeScreenScalingManager;
+import com.github.franckyi.ibeeditor.forge.common.ForgeNetwork;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraftforge.client.event.GuiScreenEvent;
@@ -34,6 +39,7 @@ public final class ForgeIBEEditorMod {
         MinecraftForge.EVENT_BUS.addListener(this::onServerStarting);
         MinecraftForge.EVENT_BUS.addListener(this::onPlayerLoggedIn);
         MinecraftForge.EVENT_BUS.addListener(this::onPlayerLoggedOut);
+        ModNetwork.set(ForgeNetwork.INSTANCE);
         event.enqueueWork(CommonInit::init);
     }
 
@@ -45,6 +51,7 @@ public final class ForgeIBEEditorMod {
             ModScreenHandler.openSettingsScreen();
             return minecraft.screen;
         });
+        ScreenScalingManager.init(ForgeScreenScalingManager.INSTANCE);
         event.enqueueWork(ClientInit::init);
     }
 
@@ -56,7 +63,7 @@ public final class ForgeIBEEditorMod {
 
     private void onKeyPressed(GuiScreenEvent.KeyboardKeyPressedEvent.Pre e) {
         if (e.getGui() instanceof ContainerScreen) {
-            ClientEventHandler.onScreenEvent(Game.getClient().getScreenFactory().createScreen(e.getGui()), e.getKeyCode());
+            ClientEventHandler.onScreenEvent((IScreen) e.getGui(), e.getKeyCode());
         }
     }
 
@@ -65,11 +72,11 @@ public final class ForgeIBEEditorMod {
     }
 
     private void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
-        ServerEventHandler.onPlayerJoin(Game.getCommon().getPlayerFactory().createPlayer(event.getPlayer()));
+        ServerEventHandler.onPlayerJoin((IPlayer) event.getPlayer());
     }
 
     private void onPlayerLoggedOut(PlayerEvent.PlayerLoggedOutEvent event) {
-        ServerEventHandler.onPlayerLeave(Game.getCommon().getPlayerFactory().createPlayer(event.getPlayer()));
+        ServerEventHandler.onPlayerLeave((IPlayer) event.getPlayer());
     }
 
     private void onWorldUnload(WorldEvent.Unload event) {

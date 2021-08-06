@@ -2,9 +2,9 @@ package com.github.franckyi.ibeeditor.base.client.mvc.model.category;
 
 import com.github.franckyi.gameadapter.Color;
 import com.github.franckyi.gameadapter.TextHandler;
-import com.github.franckyi.gameadapter.api.common.tag.CompoundTag;
-import com.github.franckyi.gameadapter.api.common.tag.ListTag;
-import com.github.franckyi.gameadapter.api.common.tag.Tag;
+import com.github.franckyi.gameadapter.api.common.tag.ICompoundTag;
+import com.github.franckyi.gameadapter.api.common.tag.IListTag;
+import com.github.franckyi.gameadapter.api.common.tag.ITag;
 import com.github.franckyi.gameadapter.api.common.text.PlainText;
 import com.github.franckyi.gameadapter.api.common.text.Text;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.ItemEditorModel;
@@ -14,7 +14,7 @@ import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.TextEntryModel;
 import static com.github.franckyi.guapi.GuapiHelper.*;
 
 public class ItemDisplayCategoryModel extends ItemCategoryModel {
-    private ListTag newLore;
+    private IListTag newLore;
 
     public ItemDisplayCategoryModel(ItemEditorModel editor) {
         super("ibeeditor.gui.display", editor);
@@ -23,7 +23,7 @@ public class ItemDisplayCategoryModel extends ItemCategoryModel {
     @Override
     protected void setupEntries() {
         getEntries().add(new TextEntryModel(this, translated("ibeeditor.gui.custom_name"), getItemName(), this::setItemName));
-        ListTag loreList = getBaseDisplay().getList("Lore", Tag.STRING_ID);
+        IListTag loreList = getBaseDisplay().getList("Lore", ITag.STRING_ID);
         for (int i = 0; i < loreList.size(); i++) {
             getEntries().add(createLoreEntry((PlainText) TextHandler.getSerializer().fromJson(loreList.getString(i), Text.class)));
         }
@@ -51,11 +51,11 @@ public class ItemDisplayCategoryModel extends ItemCategoryModel {
     }
 
     @Override
-    public void apply(CompoundTag nbt) {
-        newLore = ListTag.create();
+    public void apply(ICompoundTag nbt) {
+        newLore = IListTag.create();
         super.apply(nbt);
         getNewDisplay().putTag("Lore", newLore);
-        if (getNewDisplay().getList("Lore", Tag.STRING_ID).isEmpty()) {
+        if (getNewDisplay().getList("Lore", ITag.STRING_ID).isEmpty()) {
             getNewDisplay().remove("Lore");
         }
         if (getNewDisplay().isEmpty()) {
@@ -74,7 +74,7 @@ public class ItemDisplayCategoryModel extends ItemCategoryModel {
                 value.getExtra().get(0).setItalic(false);
             }
             getNewDisplay().putString("Name", TextHandler.getSerializer().toJson(value));
-        } else if (getNewTag().contains("display", Tag.COMPOUND_ID)) {
+        } else if (getNewTag().contains("display", ITag.COMPOUND_ID)) {
             getNewDisplay().remove("Name");
         }
     }
@@ -90,11 +90,11 @@ public class ItemDisplayCategoryModel extends ItemCategoryModel {
         newLore.addString(TextHandler.getSerializer().toJson(value));
     }
 
-    private CompoundTag getBaseDisplay() {
+    private ICompoundTag getBaseDisplay() {
         return getBaseTag().getCompound("display");
     }
 
-    private CompoundTag getNewDisplay() {
+    private ICompoundTag getNewDisplay() {
         return getNewTag().getOrCreateCompound("display");
     }
 }

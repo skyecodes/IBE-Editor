@@ -20,14 +20,14 @@ public class ListSelectionScreenController extends AbstractController<ListSelect
         view.getTitleLabel().setLabel(translated("ibeeditor.gui.choose").with(translated(model.getTitle())).gold().bold());
         view.getSearchField().textProperty().addListener(this::filter);
         model.getItems().forEach(item -> {
-            if (item.getId().equals(model.getInitialValue())) {
+            if (item.getId().toString().equals(model.getInitialValue())) {
                 view.getListView().setFocusedElement(item);
             }
         });
         view.getListView().focusedElementProperty().addListener(this::refreshButton);
         view.getCancelButton().onAction(Guapi.getScreenHandler()::hideScene);
         view.getDoneButton().onAction(() -> {
-            model.getAction().accept(view.getListView().getFocusedElement().getId());
+            model.getAction().accept(view.getListView().getFocusedElement().getId().toString());
             Guapi.getScreenHandler().hideScene();
         });
         refreshButton();

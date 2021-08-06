@@ -5,6 +5,8 @@ import com.github.franckyi.guapi.api.node.Box;
 import com.github.franckyi.guapi.api.node.HBox;
 import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.api.node.TexturedButton;
+import com.github.franckyi.ibeeditor.base.client.ModTextures;
+import com.github.franckyi.ibeeditor.base.common.ModTexts;
 
 import static com.github.franckyi.guapi.GuapiHelper.*;
 
@@ -15,20 +17,20 @@ public abstract class EntryView implements View {
     @Override
     public void build() {
         listButtons = hBox(listButtons -> {
-            listButtons.add(upButton = texturedButton("ibeeditor:textures/gui/move_up.png", 16, 16, false)
-                    .tooltip(translated("ibeeditor.gui.move_up")));
-            listButtons.add(downButton = texturedButton("ibeeditor:textures/gui/move_down.png", 16, 16, false)
-                    .tooltip(translated("ibeeditor.gui.move_down")));
-            listButtons.add(deleteButton = texturedButton("ibeeditor:textures/gui/remove.png", 16, 16, false)
-                    .tooltip(translated("ibeeditor.gui.remove").red()));
+            listButtons.add(upButton = texturedButton(ModTextures.MOVE_UP, 16, 16, false)
+                    .tooltip(ModTexts.MOVE_UP));
+            listButtons.add(downButton = texturedButton(ModTextures.MOVE_DOWN, 16, 16, false)
+                    .tooltip(ModTexts.MOVE_DOWN));
+            listButtons.add(deleteButton = texturedButton(ModTextures.REMOVE, 16, 16, false)
+                    .tooltip(ModTexts.REMOVE));
             listButtons.spacing(2);
         });
         root = hBox(root -> {
             root.add(createContent(), 1);
             root.add(right = hBox(right -> {
                 right.add(buttons = hBox(buttons -> {
-                    buttons.add(resetButton = texturedButton("ibeeditor:textures/gui/reset.png", 16, 16, false)
-                            .tooltip(translated("ibeeditor.gui.reset").yellow()));
+                    buttons.add(resetButton = texturedButton(ModTextures.RESET, 16, 16, false)
+                            .tooltip(ModTexts.RESET));
                     buttons.spacing(2);
                 }));
                 right.spacing(5).align(CENTER_RIGHT);

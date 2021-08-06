@@ -1,8 +1,8 @@
 package com.github.franckyi.ibeeditor.base.common.packet;
 
-import com.github.franckyi.gameadapter.api.common.network.Buffer;
-import com.github.franckyi.gameadapter.api.common.network.Packet;
+import com.github.franckyi.gameadapter.api.common.IPacketBuffer;
 import com.github.franckyi.ibeeditor.base.common.EditorType;
+import com.github.franckyi.ibeeditor.base.common.Packet;
 
 public class EditorCommandPacket implements Packet {
     public static final byte TARGET_WORLD = 0;
@@ -18,12 +18,12 @@ public class EditorCommandPacket implements Packet {
         this.type = type;
     }
 
-    public EditorCommandPacket(Buffer buffer) {
+    public EditorCommandPacket(IPacketBuffer buffer) {
         this(buffer.readByte(), EditorType.from(buffer.readByte()));
     }
 
     @Override
-    public void write(Buffer buffer) {
+    public void write(IPacketBuffer buffer) {
         buffer.writeByte(target);
         buffer.writeByte(type.getId());
     }

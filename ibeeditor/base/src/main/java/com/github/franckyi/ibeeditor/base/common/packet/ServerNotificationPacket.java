@@ -1,16 +1,16 @@
 package com.github.franckyi.ibeeditor.base.common.packet;
 
-import com.github.franckyi.gameadapter.api.common.network.Buffer;
-import com.github.franckyi.gameadapter.api.common.network.Packet;
+import com.github.franckyi.gameadapter.api.common.IPacketBuffer;
+import com.github.franckyi.ibeeditor.base.common.Packet;
 
 public class ServerNotificationPacket implements Packet {
     public ServerNotificationPacket() {
     }
 
-    public ServerNotificationPacket(Buffer buffer) {
+    public ServerNotificationPacket(IPacketBuffer buffer) {
     }
 
     @Override
-    public void write(Buffer buffer) {
+    public void write(IPacketBuffer buffer) {
     }
 }

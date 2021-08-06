@@ -5,8 +5,10 @@ import com.github.franckyi.guapi.api.node.ListView;
 import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.api.node.TextField;
 import com.github.franckyi.ibeeditor.base.client.ModScreenHandler;
+import com.github.franckyi.ibeeditor.base.client.ModTextures;
 import com.github.franckyi.ibeeditor.base.client.mvc.ListSelectionItemMVC;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.ListSelectionItemModel;
+import com.github.franckyi.ibeeditor.base.common.ModTexts;
 
 import static com.github.franckyi.guapi.GuapiHelper.*;
 
@@ -20,7 +22,7 @@ public class ListSelectionScreenView extends EditorView {
         return hBox(header -> {
             header.add(hBox().prefWidth(16));
             header.add(titleLabel = label().textAlign(CENTER).prefHeight(20), 1);
-            header.add(createButton("ibeeditor:textures/gui/settings.png", "ibeeditor.gui.settings").action(ModScreenHandler::openSettingsScreen));
+            header.add(createButton(ModTextures.SETTINGS, ModTexts.SETTINGS).action(ModScreenHandler::openSettingsScreen));
             header.align(CENTER);
         });
     }

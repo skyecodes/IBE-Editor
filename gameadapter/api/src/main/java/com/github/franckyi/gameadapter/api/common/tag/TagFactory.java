@@ -5,84 +5,98 @@ import java.util.List;
 import java.util.Map;
 
 public interface TagFactory {
-    default Tag createEmptyTag(byte type) {
+    default ITag createEmptyTag(byte type) {
         switch (type) {
-            case Tag.BYTE_ID:
+            case ITag.BYTE_ID:
                 return createByteTag();
-            case Tag.SHORT_ID:
+            case ITag.SHORT_ID:
                 return createShortTag();
-            case Tag.INT_ID:
+            case ITag.INT_ID:
                 return createIntTag();
-            case Tag.LONG_ID:
+            case ITag.LONG_ID:
                 return createLongTag();
-            case Tag.FLOAT_ID:
+            case ITag.FLOAT_ID:
                 return createFloatTag();
-            case Tag.DOUBLE_ID:
+            case ITag.DOUBLE_ID:
                 return createDoubleTag();
-            case Tag.BYTE_ARRAY_ID:
+            case ITag.BYTE_ARRAY_ID:
                 return createByteArrayTag();
-            case Tag.STRING_ID:
+            case ITag.STRING_ID:
                 return createStringTag();
-            case Tag.LIST_ID:
+            case ITag.LIST_ID:
                 return createListTag();
-            case Tag.COMPOUND_ID:
+            case ITag.COMPOUND_ID:
                 return createCompoundTag();
-            case Tag.INT_ARRAY_ID:
+            case ITag.INT_ARRAY_ID:
                 return createIntArrayTag();
-            case Tag.LONG_ARRAY_ID:
+            case ITag.LONG_ARRAY_ID:
                 return createLongArrayTag();
             default:
                 return null;
         }
     }
 
-    ByteTag createByteTag();
+    default IByteTag createByteTag() {
+        return createByteTag((byte) 0);
+    }
 
-    ByteTag createByteTag(byte value);
+    IByteTag createByteTag(byte value);
 
-    ShortTag createShortTag();
+    default IShortTag createShortTag() {
+        return createShortTag((short) 0);
+    }
 
-    ShortTag createShortTag(short value);
+    IShortTag createShortTag(short value);
 
-    IntTag createIntTag();
+    default IIntTag createIntTag() {
+        return createIntTag(0);
+    }
 
-    IntTag createIntTag(int value);
+    IIntTag createIntTag(int value);
 
-    LongTag createLongTag();
+    default ILongTag createLongTag() {
+        return createLongTag(0);
+    }
 
-    LongTag createLongTag(long value);
+    ILongTag createLongTag(long value);
 
-    FloatTag createFloatTag();
+    default IFloatTag createFloatTag() {
+        return createFloatTag(0);
+    }
 
-    FloatTag createFloatTag(float value);
+    IFloatTag createFloatTag(float value);
 
-    DoubleTag createDoubleTag();
+    default IDoubleTag createDoubleTag() {
+        return createDoubleTag(0);
+    }
 
-    DoubleTag createDoubleTag(double value);
+    IDoubleTag createDoubleTag(double value);
 
-    ByteArrayTag createByteArrayTag();
+    IByteArrayTag createByteArrayTag();
 
-    ByteArrayTag createByteArrayTag(List<Byte> value);
+    IByteArrayTag createByteArrayTag(List<Byte> value);
 
-    StringTag createStringTag();
+    default IStringTag createStringTag() {
+        return createStringTag("");
+    }
 
-    StringTag createStringTag(String value);
+    IStringTag createStringTag(String value);
 
-    ListTag createListTag();
+    IListTag createListTag();
 
-    ListTag createListTag(Collection<Tag> value);
+    IListTag createListTag(Collection<ITag> value);
 
-    CompoundTag createCompoundTag();
+    ICompoundTag createCompoundTag();
 
-    CompoundTag createCompoundTag(Map<String, Tag> value);
+    ICompoundTag createCompoundTag(Map<String, ITag> value);
 
-    CompoundTag parseCompoundTag(String snbt);
+    ICompoundTag parseCompoundTag(String snbt);
 
-    IntArrayTag createIntArrayTag();
+    IIntArrayTag createIntArrayTag();
 
-    IntArrayTag createIntArrayTag(List<Integer> value);
+    IIntArrayTag createIntArrayTag(List<Integer> value);
 
-    LongArrayTag createLongArrayTag();
+    ILongArrayTag createLongArrayTag();
 
-    LongArrayTag createLongArrayTag(List<Long> value);
+    ILongArrayTag createLongArrayTag(List<Long> value);
 }

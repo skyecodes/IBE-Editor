@@ -1,30 +1,29 @@
 package com.github.franckyi.ibeeditor.base.common.packet;
 
-import com.github.franckyi.gameadapter.Game;
-import com.github.franckyi.gameadapter.api.common.network.Buffer;
-import com.github.franckyi.gameadapter.api.common.world.Block;
+import com.github.franckyi.gameadapter.api.common.BlockData;
+import com.github.franckyi.gameadapter.api.common.IPacketBuffer;
 
 public class BlockEditorResponsePacket extends BlockEditorRequestPacket {
-    private final Block block;
+    private final BlockData block;
 
-    public BlockEditorResponsePacket(BlockEditorRequestPacket request, Block block) {
+    public BlockEditorResponsePacket(BlockEditorRequestPacket request, BlockData block) {
         super(request.getPos(), request.getType());
         this.block = block;
     }
 
-    public BlockEditorResponsePacket(Buffer buffer) {
+    public BlockEditorResponsePacket(IPacketBuffer buffer) {
         super(buffer);
-        block = Game.getCommon().createBlock(buffer.readTag(), buffer.readTag());
+        block = new BlockData(buffer.readBlockState(), buffer.readTag());
     }
 
     @Override
-    public void write(Buffer buffer) {
+    public void write(IPacketBuffer buffer) {
         super.write(buffer);
-        buffer.writeTag(block.getState());
-        buffer.writeTag(block.getData());
+        buffer.writeBlockState(block.getState());
+        buffer.writeTag(block.getTag());
     }
 
-    public Block getBlock() {
+    public BlockData getBlock() {
         return block;
     }
 }

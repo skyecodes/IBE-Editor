@@ -60,7 +60,7 @@ task buildCommon(type: Jar) {
                 "Implementation-Version"  : "${mod_version}",
                 "Implementation-Vendor"   : "Franckyi",
                 "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
-                "MixinConfigs"            : "guapi-vanilla-theme-forge.mixins.json"
+                "MixinConfigs"            : "guapi-vanilla-theme-forge.mixins.json,gameadapter-forge.mixins.json"
         ])
     }
 }
@@ -144,7 +144,7 @@ task buildForge(type: Jar) {
                 "Implementation-Version"  : "${mod_version}",
                 "Implementation-Vendor"   : "Franckyi",
                 "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
-                "MixinConfigs"            : "guapi-vanilla-theme-forge.mixins.json"
+                "MixinConfigs"            : "guapi-vanilla-theme-forge.mixins.json,gameadapter-forge.mixins.json"
         ])
     }
 }

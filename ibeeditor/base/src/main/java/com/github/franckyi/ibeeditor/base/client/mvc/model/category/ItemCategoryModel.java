@@ -1,20 +1,20 @@
 package com.github.franckyi.ibeeditor.base.client.mvc.model.category;
 
-import com.github.franckyi.gameadapter.api.common.tag.CompoundTag;
+import com.github.franckyi.gameadapter.api.common.tag.ICompoundTag;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.CategoryModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.ItemEditorModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.EntryModel;
 
 public abstract class ItemCategoryModel extends CategoryModel {
-    private final CompoundTag baseData;
-    private CompoundTag newData;
+    private final ICompoundTag baseData;
+    private ICompoundTag newData;
 
     public ItemCategoryModel(String name, ItemEditorModel editor) {
         super(name, editor);
         baseData = editor.getTarget().getData();
     }
 
-    public void apply(CompoundTag nbt) {
+    public void apply(ICompoundTag nbt) {
         this.newData = nbt;
         getEntries().forEach(EntryModel::apply);
     }
@@ -24,19 +24,19 @@ public abstract class ItemCategoryModel extends CategoryModel {
         return (ItemEditorModel) super.getEditor();
     }
 
-    protected CompoundTag getBaseData() {
+    protected ICompoundTag getBaseData() {
         return baseData;
     }
 
-    protected CompoundTag getBaseTag() {
+    protected ICompoundTag getBaseTag() {
         return getBaseData().getCompound("tag");
     }
 
-    protected CompoundTag getNewData() {
+    protected ICompoundTag getNewData() {
         return newData;
     }
 
-    protected CompoundTag getNewTag() {
+    protected ICompoundTag getNewTag() {
         return getNewData().getOrCreateCompound("tag");
     }
 }

@@ -1,6 +1,6 @@
 package com.github.franckyi.guapi.base.theme;
 
-import com.github.franckyi.gameadapter.api.client.render.Matrices;
+import com.github.franckyi.gameadapter.api.client.IMatrices;
 import com.github.franckyi.guapi.api.event.ScreenEvent;
 import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.api.theme.DelegatedRenderer;
@@ -14,18 +14,18 @@ public abstract class DelegatedSkin<N extends Node> extends AbstractSkin<N> {
     }
 
     @Override
-    public boolean preRender(N node, Matrices matrices, int mouseX, int mouseY, float delta) {
+    public boolean preRender(N node, IMatrices matrices, int mouseX, int mouseY, float delta) {
         return getRendererDelegate().preRender(matrices, mouseX, mouseY, delta);
     }
 
     @Override
-    public void render(N node, Matrices matrices, int mouseX, int mouseY, float delta) {
+    public void render(N node, IMatrices matrices, int mouseX, int mouseY, float delta) {
         super.render(node, matrices, mouseX, mouseY, delta);
         getRendererDelegate().render(matrices, mouseX, mouseY, delta);
     }
 
     @Override
-    public void postRender(N node, Matrices matrices, int mouseX, int mouseY, float delta) {
+    public void postRender(N node, IMatrices matrices, int mouseX, int mouseY, float delta) {
         super.postRender(node, matrices, mouseX, mouseY, delta);
         getRendererDelegate().postRender(matrices, mouseX, mouseY, delta);
     }

@@ -4,6 +4,8 @@ import com.github.franckyi.guapi.api.node.Box;
 import com.github.franckyi.guapi.api.node.ItemView;
 import com.github.franckyi.guapi.api.node.TexturedButton;
 import com.github.franckyi.guapi.api.node.VBox;
+import com.github.franckyi.ibeeditor.base.client.ModTextures;
+import com.github.franckyi.ibeeditor.base.common.ModTexts;
 
 import static com.github.franckyi.guapi.GuapiHelper.*;
 
@@ -29,8 +31,8 @@ public class PotionSelectionEntryView extends SelectionEntryView {
                 potion.add(hBox(right -> {
                     right.add(createLabeledContent(), 1);
                     right.add(hBox(buttons -> {
-                        buttons.add(resetPotionButton = texturedButton("ibeeditor:textures/gui/reset.png", 16, 16, false)
-                                .tooltip(translated("ibeeditor.gui.reset").yellow()));
+                        buttons.add(resetPotionButton = texturedButton(ModTextures.RESET, 16, 16, false)
+                                .tooltip(ModTexts.RESET));
                         buttons.spacing(2);
                     }));
                     right.spacing(5).align(CENTER_RIGHT);
@@ -38,19 +40,19 @@ public class PotionSelectionEntryView extends SelectionEntryView {
                 potion.fillHeight().spacing(5).align(CENTER);
             }), 1);
             root.add(hBox(color -> {
-                color.add(label(translated("ibeeditor.gui.potion_color")).padding(right(5)).textAlign(CENTER_RIGHT), 1);
+                color.add(label(ModTexts.POTION_COLOR).padding(right(5)).textAlign(CENTER_RIGHT), 1);
                 color.add(hBox(right -> {
                     right.add(hBox(content -> {
-                        content.add(chooseColorButton = texturedButton("ibeeditor:textures/gui/color_custom.png", 16, 16, false)
-                                .tooltip(translated("ibeeditor.gui.choose_custom_color")));
-                        content.add(removeColorButton = texturedButton("ibeeditor:textures/gui/remove.png", 16, 16, false)
-                                .tooltip(translated("ibeeditor.gui.remove_custom_color").red()));
+                        content.add(chooseColorButton = texturedButton(ModTextures.COLOR_CUSTOM, 16, 16, false)
+                                .tooltip(ModTexts.CHOOSE_CUSTOM_COLOR));
+                        content.add(removeColorButton = texturedButton(ModTextures.REMOVE, 16, 16, false)
+                                .tooltip(ModTexts.REMOVE_CUSTOM_COLOR));
                         content.add(potionView = itemView());
                         content.spacing(5);
                     }), 1);
                     right.add(hBox(buttons -> {
-                        buttons.add(resetColorButton = texturedButton("ibeeditor:textures/gui/reset.png", 16, 16, false)
-                                .tooltip(translated("ibeeditor.gui.reset").yellow()));
+                        buttons.add(resetColorButton = texturedButton(ModTextures.RESET, 16, 16, false)
+                                .tooltip(ModTexts.RESET));
                         buttons.spacing(2);
                     }));
                     right.spacing(5).align(CENTER_RIGHT);

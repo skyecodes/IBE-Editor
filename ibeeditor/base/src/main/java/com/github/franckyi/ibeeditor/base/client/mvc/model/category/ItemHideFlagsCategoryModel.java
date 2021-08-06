@@ -1,6 +1,6 @@
 package com.github.franckyi.ibeeditor.base.client.mvc.model.category;
 
-import com.github.franckyi.gameadapter.api.common.tag.CompoundTag;
+import com.github.franckyi.gameadapter.api.common.tag.ICompoundTag;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.ItemEditorModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.HideFlagEntryModel;
 
@@ -23,7 +23,7 @@ public class ItemHideFlagsCategoryModel extends ItemCategoryModel {
     }
 
     @Override
-    public void apply(CompoundTag nbt) {
+    public void apply(ICompoundTag nbt) {
         newHideFlags = 0;
         super.apply(nbt);
         if (newHideFlags > 0) {

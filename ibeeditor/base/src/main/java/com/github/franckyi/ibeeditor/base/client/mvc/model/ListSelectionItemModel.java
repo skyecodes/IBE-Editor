@@ -1,15 +1,16 @@
 package com.github.franckyi.ibeeditor.base.client.mvc.model;
 
 import com.github.franckyi.gameadapter.Game;
+import com.github.franckyi.gameadapter.api.common.IIdentifier;
 import com.github.franckyi.guapi.api.mvc.Model;
 
 import java.util.Locale;
 
 public class ListSelectionItemModel implements Model {
     private final String name;
-    private final String id;
+    private final IIdentifier id;
 
-    public ListSelectionItemModel(String name, String id) {
+    public ListSelectionItemModel(String name, IIdentifier id) {
         this.name = name;
         this.id = id;
     }
@@ -18,7 +19,7 @@ public class ListSelectionItemModel implements Model {
         return name;
     }
 
-    public String getId() {
+    public IIdentifier getId() {
         return id;
     }
 
@@ -27,7 +28,7 @@ public class ListSelectionItemModel implements Model {
             return true;
         }
         String lower = s.toLowerCase(Locale.ROOT);
-        return id.toLowerCase(Locale.ROOT).contains(lower) || Game.getCommon().translate(name).toLowerCase(Locale.ROOT).contains(lower);
+        return id.toString().toLowerCase(Locale.ROOT).contains(lower) || Game.getCommon().translate(name).toLowerCase(Locale.ROOT).contains(lower);
     }
 
     public Type getType() {
@@ -35,6 +36,6 @@ public class ListSelectionItemModel implements Model {
     }
 
     public enum Type {
-        DEFAULT, ITEM, IMAGE, SPRITE;
+        DEFAULT, ITEM, IMAGE, SPRITE
     }
 }

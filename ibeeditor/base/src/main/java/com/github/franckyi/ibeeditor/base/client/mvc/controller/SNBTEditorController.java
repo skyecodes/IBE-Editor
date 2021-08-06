@@ -1,6 +1,6 @@
 package com.github.franckyi.ibeeditor.base.client.mvc.controller;
 
-import com.github.franckyi.gameadapter.api.common.tag.CompoundTag;
+import com.github.franckyi.gameadapter.api.common.tag.ICompoundTag;
 import com.github.franckyi.guapi.Guapi;
 import com.github.franckyi.guapi.api.mvc.AbstractController;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.SNBTEditorModel;
@@ -14,7 +14,7 @@ public class SNBTEditorController extends AbstractController<SNBTEditorModel, SN
     @Override
     public void bind() {
         view.getTextArea().setText(model.getValue());
-        view.getTextArea().setValidator(s -> CompoundTag.parse(s) != null);
+        view.getTextArea().setValidator(s -> ICompoundTag.parse(s) != null);
         softBind(view.getTextArea().textProperty(), model.valueProperty());
         if (model.canSave()) {
             view.getDoneButton().disableProperty().bind(view.getTextArea().validProperty().not());

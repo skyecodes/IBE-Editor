@@ -1,8 +1,8 @@
 package com.github.franckyi.guapi.fabric.theme.vanilla;
 
 import com.github.franckyi.gameadapter.Color;
-import com.github.franckyi.gameadapter.api.client.render.Matrices;
-import com.github.franckyi.gameadapter.fabric.client.render.FabricRenderer;
+import com.github.franckyi.gameadapter.api.client.IMatrices;
+import com.github.franckyi.gameadapter.fabric.client.FabricRenderer;
 import com.github.franckyi.guapi.api.event.MouseButtonEvent;
 import com.github.franckyi.guapi.api.event.MouseDragEvent;
 import com.github.franckyi.guapi.api.event.MouseEvent;
@@ -13,6 +13,7 @@ import com.github.franckyi.guapi.api.util.ScreenEventType;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.widget.EntryListWidget;
+import net.minecraft.client.util.math.MatrixStack;
 import org.jetbrains.annotations.Nullable;
 
 public abstract class AbstractFabricVanillaListNodeRenderer<N extends ListNode<E>, E, T extends AbstractFabricVanillaListNodeRenderer.NodeEntry<N, E, T>> extends EntryListWidget<T> implements FabricVanillaDelegateRenderer {
@@ -78,7 +79,7 @@ public abstract class AbstractFabricVanillaListNodeRenderer<N extends ListNode<E
     }
 
     @Override
-    public boolean preRender(Matrices matrices, int mouseX, int mouseY, float delta) {
+    public boolean preRender(IMatrices matrices, int mouseX, int mouseY, float delta) {
         boolean res = false;
         if (shouldRefreshSize) {
             refreshSize();
@@ -96,12 +97,12 @@ public abstract class AbstractFabricVanillaListNodeRenderer<N extends ListNode<E
             changeFocus();
             res = true;
         }
-        super.render(matrices.get(), mouseX, mouseY, delta); // doing the actual rendering here to not hide the other elements
+        super.render((MatrixStack) matrices, mouseX, mouseY, delta); // doing the actual rendering here to not hide the other elements
         return res;
     }
 
     @Override
-    public void render(Matrices matrices, int mouseX, int mouseY, float delta) {
+    public void render(IMatrices matrices, int mouseX, int mouseY, float delta) {
         for (T entry : children()) {
             entry.getNode().postRender(matrices, mouseX, mouseY, delta);
         }
@@ -237,7 +238,7 @@ public abstract class AbstractFabricVanillaListNodeRenderer<N extends ListNode<E
             this.node = node;
         }
 
-        protected void renderBackground(Matrices matrices, int x, int y, int entryWidth, int entryHeight) {
+        protected void renderBackground(IMatrices matrices, int x, int y, int entryWidth, int entryHeight) {
             if (getList().getFocused() == this) {
                 FabricRenderer.INSTANCE.fillRectangle(matrices, x - 2, y - 2,
                         x + entryWidth + 3, y + entryHeight + 2, Color.fromRGBA(255, 255, 255, 79));

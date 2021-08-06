@@ -1,10 +1,11 @@
 package com.github.franckyi.guapi.forge.theme.vanilla;
 
-import com.github.franckyi.gameadapter.Game;
-import com.github.franckyi.gameadapter.api.client.render.Matrices;
+import com.github.franckyi.gameadapter.api.client.IMatrices;
 import com.github.franckyi.guapi.api.node.ListView;
 import com.github.franckyi.guapi.api.node.Node;
 import com.mojang.blaze3d.matrix.MatrixStack;
+
+import javax.annotation.Nonnull;
 
 public class ForgeVanillaListViewRenderer<E> extends AbstractForgeVanillaListNodeRenderer<ListView<E>, E, ForgeVanillaListViewRenderer.NodeEntry<E>> {
     public ForgeVanillaListViewRenderer(ListView<E> node) {
@@ -31,8 +32,8 @@ public class ForgeVanillaListViewRenderer<E> extends AbstractForgeVanillaListNod
         }
 
         @Override
-        public void render(MatrixStack matrixStack, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
-            Matrices matrices = Game.getClient().getMatricesFactory().createMatrices(matrixStack);
+        public void render(@Nonnull MatrixStack matrixStack, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
+            IMatrices matrices = (IMatrices) matrixStack;
             entryWidth = getList().getMaxScroll() == 0 ? entryWidth + 6 : entryWidth;
             getNode().setX(x);
             getNode().setY(y);

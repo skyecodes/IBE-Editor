@@ -1,7 +1,7 @@
 package com.github.franckyi.guapi.base.theme;
 
-import com.github.franckyi.gameadapter.Game;
-import com.github.franckyi.gameadapter.api.client.render.Matrices;
+import com.github.franckyi.gameadapter.api.client.IMatrices;
+import com.github.franckyi.gameadapter.api.client.IRenderer;
 import com.github.franckyi.guapi.Guapi;
 import com.github.franckyi.guapi.api.event.ScreenEvent;
 import com.github.franckyi.guapi.api.node.Node;
@@ -18,12 +18,12 @@ public abstract class AbstractSkin<N extends Node> implements Skin<N> {
     }
 
     @Override
-    public void render(N node, Matrices matrices, int mouseX, int mouseY, float delta) {
+    public void render(N node, IMatrices matrices, int mouseX, int mouseY, float delta) {
         renderBackground(node, matrices);
     }
 
     @Override
-    public void postRender(N node, Matrices matrices, int mouseX, int mouseY, float delta) {
+    public void postRender(N node, IMatrices matrices, int mouseX, int mouseY, float delta) {
         switch (Guapi.getDebugMode()) {
             case OFF:
                 break;
@@ -41,13 +41,13 @@ public abstract class AbstractSkin<N extends Node> implements Skin<N> {
         type.onEvent(this, event);
     }
 
-    protected void renderDebug(N node, Matrices matrices) {
-        Game.getClient().getRenderer().drawRectangle(matrices, node.getLeft(), node.getTop(),
+    protected void renderDebug(N node, IMatrices matrices) {
+        IRenderer.get().drawRectangle(matrices, node.getLeft(), node.getTop(),
                 node.getRight(), node.getBottom(), debugColor);
     }
 
-    protected void renderBackground(N node, Matrices matrices) {
-        Game.getClient().getRenderer().fillRectangle(matrices, node.getLeft(), node.getTop(),
+    protected void renderBackground(N node, IMatrices matrices) {
+        IRenderer.get().fillRectangle(matrices, node.getLeft(), node.getTop(),
                 node.getRight(), node.getBottom(), node.getBackgroundColor());
     }
 }

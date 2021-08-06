@@ -1,7 +1,7 @@
 package com.github.franckyi.guapi.fabric.theme.vanilla;
 
-import com.github.franckyi.gameadapter.Game;
-import com.github.franckyi.gameadapter.api.client.render.Matrices;
+import com.github.franckyi.gameadapter.api.client.IMatrices;
+import com.github.franckyi.gameadapter.api.common.IIdentifier;
 import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.api.node.TexturedButton;
 import com.github.franckyi.guapi.api.node.TreeView;
@@ -50,6 +50,7 @@ public class FabricVanillaTreeViewRenderer<E extends TreeView.TreeItem<E>> exten
     }
 
     protected static class NodeEntry<E extends TreeView.TreeItem<E>> extends AbstractFabricVanillaListNodeRenderer.NodeEntry<TreeView<E>, E, NodeEntry<E>> {
+        private static final IIdentifier TREE_VIEW_WIDGETS = IIdentifier.of("guapi-vanilla-theme", "textures/gui/tree_view_widgets.png");
         private TexturedButton button;
         private final int increment;
 
@@ -59,7 +60,7 @@ public class FabricVanillaTreeViewRenderer<E extends TreeView.TreeItem<E>> exten
                 if (item.getChildren().isEmpty()) {
                     root.add(hBox().prefSize(16, 16));
                 } else {
-                    root.add(button = texturedButton("ibeeditor:textures/gui/tree_view_widgets.png", 32, 32, false).prefSize(16, 16).action(() -> {
+                    root.add(button = texturedButton(TREE_VIEW_WIDGETS, 32, 32, false).prefSize(16, 16).action(() -> {
                         if (!item.isExpanded()) {
                             chainExpand(item);
                         } else {
@@ -86,7 +87,7 @@ public class FabricVanillaTreeViewRenderer<E extends TreeView.TreeItem<E>> exten
 
         @Override
         public void render(MatrixStack matrixStack, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
-            Matrices matrices = Game.getClient().getMatricesFactory().createMatrices(matrixStack);
+            IMatrices matrices = (IMatrices) matrixStack;
             int incr = increment * getList().node.getChildrenIncrement();
             entryWidth = getList().getMaxScroll() == 0 ? entryWidth + 6 : entryWidth;
             getNode().setX(x + incr);

@@ -1,14 +1,16 @@
 package com.github.franckyi.ibeeditor.base.client.mvc.model;
 
-public class ImageListSelectionItemModel extends ListSelectionItemModel {
-    private final String textureId;
+import com.github.franckyi.gameadapter.api.common.IIdentifier;
 
-    public ImageListSelectionItemModel(String name, String id, String textureId) {
+public class ImageListSelectionItemModel extends ListSelectionItemModel {
+    private final IIdentifier textureId;
+
+    public ImageListSelectionItemModel(String name, IIdentifier id, IIdentifier textureId) {
         super(name, id);
         this.textureId = textureId;
     }
 
-    public String getTextureId() {
+    public IIdentifier getTextureId() {
         return textureId;
     }
 

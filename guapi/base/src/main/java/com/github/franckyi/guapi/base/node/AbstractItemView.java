@@ -1,21 +1,21 @@
 package com.github.franckyi.guapi.base.node;
 
 import com.github.franckyi.databindings.api.ObjectProperty;
-import com.github.franckyi.gameadapter.api.common.world.Item;
+import com.github.franckyi.gameadapter.api.common.IItemStack;
 import com.github.franckyi.guapi.api.node.ItemView;
 
 public abstract class AbstractItemView extends AbstractControl implements ItemView {
-    private final ObjectProperty<Item> itemProperty = ObjectProperty.create();
+    private final ObjectProperty<IItemStack> itemProperty = ObjectProperty.create();
 
     protected AbstractItemView() {
     }
 
-    protected AbstractItemView(Item item) {
-        setItem(item);
+    protected AbstractItemView(IItemStack itemStack) {
+        setItem(itemStack);
     }
 
     @Override
-    public ObjectProperty<Item> itemProperty() {
+    public ObjectProperty<IItemStack> itemProperty() {
         return itemProperty;
     }
 }

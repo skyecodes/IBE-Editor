@@ -1,6 +1,6 @@
 package com.github.franckyi.guapi.fabric;
 
-import com.github.franckyi.gameadapter.Game;
+import com.github.franckyi.gameadapter.api.client.IMatrices;
 import com.github.franckyi.guapi.api.ScreenHandler;
 import com.github.franckyi.guapi.base.AbstractScreenHandler;
 import net.minecraft.client.MinecraftClient;
@@ -28,7 +28,7 @@ public final class FabricScreenHandler extends AbstractScreenHandler {
     }
 
     private final class ScreenImpl extends Screen {
-        protected ScreenImpl() {
+        private ScreenImpl() {
             super(new LiteralText(""));
         }
 
@@ -40,7 +40,7 @@ public final class FabricScreenHandler extends AbstractScreenHandler {
             } else {
                 renderBackground(matrices);
             }
-            FabricScreenHandler.this.render(Game.getClient().getMatricesFactory().createMatrices(matrices), mouseX, mouseY, partialTicks);
+            FabricScreenHandler.this.render((IMatrices) matrices, mouseX, mouseY, partialTicks);
         }
 
         @Override

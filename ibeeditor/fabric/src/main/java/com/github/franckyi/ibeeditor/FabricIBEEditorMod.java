@@ -1,10 +1,14 @@
 package com.github.franckyi.ibeeditor;
 
-import com.github.franckyi.gameadapter.Game;
+import com.github.franckyi.gameadapter.api.client.IScreen;
 import com.github.franckyi.ibeeditor.base.client.ClientEventHandler;
 import com.github.franckyi.ibeeditor.base.client.ClientInit;
+import com.github.franckyi.ibeeditor.base.client.util.ScreenScalingManager;
 import com.github.franckyi.ibeeditor.base.common.CommonInit;
+import com.github.franckyi.ibeeditor.base.common.ModNetwork;
 import com.github.franckyi.ibeeditor.base.server.ServerCommandHandler;
+import com.github.franckyi.ibeeditor.fabric.client.util.FabricScreenScalingManager;
+import com.github.franckyi.ibeeditor.fabric.common.FabricNetwork;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
@@ -17,6 +21,7 @@ import net.minecraft.client.gui.screen.ingame.HandledScreen;
 public final class FabricIBEEditorMod implements ModInitializer, ClientModInitializer {
     @Override
     public void onInitialize() {
+        ModNetwork.set(FabricNetwork.INSTANCE);
         CommonInit.init();
         CommandRegistrationCallback.EVENT.register((dispatcher, dedicated) -> ServerCommandHandler.registerCommand(dispatcher));
     }
@@ -24,6 +29,7 @@ public final class FabricIBEEditorMod implements ModInitializer, ClientModInitia
     @Override
     public void onInitializeClient() {
         ClientInit.init();
+        ScreenScalingManager.init(FabricScreenScalingManager.INSTANCE);
         ScreenEvents.AFTER_INIT.register(this::afterScreenInit);
     }
 
@@ -34,6 +40,6 @@ public final class FabricIBEEditorMod implements ModInitializer, ClientModInitia
     }
 
     private void handledScreenKeyPressed(Screen screen, int key, int scancode, int modifiers) {
-        ClientEventHandler.onScreenEvent(Game.getClient().getScreenFactory().createScreen(screen), key);
+        ClientEventHandler.onScreenEvent((IScreen) screen, key);
     }
 }

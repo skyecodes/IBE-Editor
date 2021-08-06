@@ -3,11 +3,44 @@
   "minVersion": "0.8",
   "package": "com.github.franckyi.gameadapter.fabric.mixin",
   "compatibilityLevel": "JAVA_8",
-  "client": [
-    "FabricHandledScreenMixin",
-    "FabricSlotMixin"
-  ],
   "injectors": {
     "defaultRequire": 1
-  }
+  },
+  "mixins": [
+    "common.FabricBlockMixin",
+    "common.FabricBlockPosMixin",
+    "common.FabricBlockStateMixin",
+    "common.FabricEnchantmentMixin",
+    "common.FabricEntityAttributeMixin",
+    "common.FabricEntityMixin",
+    "common.FabricIdentifierMixin",
+    "common.FabricItemMixin",
+    "common.FabricItemStackMixin",
+    "common.FabricPacketByteBufMixin",
+    "common.FabricPlayerMixin",
+    "common.FabricPotionMixin",
+    "common.FabricRegistryKeyMixin",
+    "common.FabricRegistryMixin",
+    "common.FabricSlotMixin",
+    "common.FabricStatusEffectMixin",
+    "common.FabricWorldMixin",
+    "common.tag.FabricNbtByteArrayMixin",
+    "common.tag.FabricNbtByteMixin",
+    "common.tag.FabricNbtCompoundMixin",
+    "common.tag.FabricNbtDoubleMixin",
+    "common.tag.FabricNbtFloatMixin",
+    "common.tag.FabricNbtIntArrayMixin",
+    "common.tag.FabricNbtIntMixin",
+    "common.tag.FabricNbtListMixin",
+    "common.tag.FabricNbtLongArrayMixin",
+    "common.tag.FabricNbtLongMixin",
+    "common.tag.FabricNbtShortMixin",
+    "common.tag.FabricNbtStringMixin"
+  ],
+  "client": [
+    "client.FabricHandledScreenMixin",
+    "client.FabricKeyBindingMixin",
+    "client.FabricMatrixStackMixin",
+    "client.FabricSpriteMixin"
+  ]
 }

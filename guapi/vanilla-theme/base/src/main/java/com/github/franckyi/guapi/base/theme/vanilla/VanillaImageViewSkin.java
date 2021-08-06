@@ -1,22 +1,22 @@
 package com.github.franckyi.guapi.base.theme.vanilla;
 
-import com.github.franckyi.gameadapter.Game;
-import com.github.franckyi.gameadapter.api.client.render.Matrices;
+import com.github.franckyi.gameadapter.api.client.IMatrices;
+import com.github.franckyi.gameadapter.api.client.IRenderer;
 import com.github.franckyi.guapi.api.node.ImageView;
 import com.github.franckyi.guapi.api.theme.Skin;
 import com.github.franckyi.guapi.base.theme.AbstractSkin;
 
-public final class VanillaImageViewSkin extends AbstractSkin<ImageView> {
+public class VanillaImageViewSkin extends AbstractSkin<ImageView> {
     public static final Skin<ImageView> INSTANCE = new VanillaImageViewSkin();
 
     private VanillaImageViewSkin() {
     }
 
     @Override
-    public void render(ImageView node, Matrices matrices, int mouseX, int mouseY, float delta) {
+    public void render(ImageView node, IMatrices matrices, int mouseX, int mouseY, float delta) {
         super.render(node, matrices, mouseX, mouseY, delta);
         if (node.getTextureId() != null) {
-            Game.getClient().getRenderer().drawTexture(matrices, node.getTextureId(),
+            IRenderer.get().drawTexture(matrices, node.getTextureId(),
                     node.getX(), node.getY(), node.getWidth(), node.getHeight(),
                     node.getImageX(), node.getImageY(), node.getImageWidth(), node.getImageHeight());
         }

@@ -1,9 +1,9 @@
 package com.github.franckyi.ibeeditor.base.client.mvc.model.category;
 
-import com.github.franckyi.gameadapter.api.common.tag.CompoundTag;
-import com.github.franckyi.gameadapter.api.common.tag.ListTag;
-import com.github.franckyi.gameadapter.api.common.tag.StringTag;
-import com.github.franckyi.gameadapter.api.common.tag.Tag;
+import com.github.franckyi.gameadapter.api.common.tag.ICompoundTag;
+import com.github.franckyi.gameadapter.api.common.tag.IListTag;
+import com.github.franckyi.gameadapter.api.common.tag.IStringTag;
+import com.github.franckyi.gameadapter.api.common.tag.ITag;
 import com.github.franckyi.gameadapter.api.common.text.Text;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.ItemEditorModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.BlockSelectionEntryModel;
@@ -15,7 +15,7 @@ import static com.github.franckyi.guapi.GuapiHelper.*;
 
 public class ItemBlockListCategoryModel extends ItemCategoryModel {
     private final String tagName;
-    private ListTag newBlocks;
+    private IListTag newBlocks;
 
     public ItemBlockListCategoryModel(String name, ItemEditorModel editor, String tagName) {
         super(name, editor);
@@ -24,9 +24,9 @@ public class ItemBlockListCategoryModel extends ItemCategoryModel {
 
     @Override
     protected void setupEntries() {
-        getEntries().setAll(getBaseTag().getList(tagName, Tag.STRING_ID).stream()
-                .map(StringTag.class::cast)
-                .map(StringTag::getValue)
+        getEntries().setAll(getBaseTag().getList(tagName, ITag.STRING_ID).stream()
+                .map(IStringTag.class::cast)
+                .map(IStringTag::getValue)
                 .map(this::createBlockEntry)
                 .collect(Collectors.toList()));
     }
@@ -51,8 +51,8 @@ public class ItemBlockListCategoryModel extends ItemCategoryModel {
     }
 
     @Override
-    public void apply(CompoundTag nbt) {
-        newBlocks = ListTag.create();
+    public void apply(ICompoundTag nbt) {
+        newBlocks = IListTag.create();
         super.apply(nbt);
         if (!newBlocks.isEmpty()) {
             getNewTag().putTag(tagName, newBlocks);

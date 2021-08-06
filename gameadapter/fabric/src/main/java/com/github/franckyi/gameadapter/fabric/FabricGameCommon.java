@@ -1,27 +1,20 @@
 package com.github.franckyi.gameadapter.fabric;
 
 import com.github.franckyi.gameadapter.api.GameCommon;
-import com.github.franckyi.gameadapter.api.common.Registries;
-import com.github.franckyi.gameadapter.api.common.network.Network;
-import com.github.franckyi.gameadapter.api.common.tag.CompoundTag;
+import com.github.franckyi.gameadapter.api.common.IIdentifier;
+import com.github.franckyi.gameadapter.api.common.IItemStack;
+import com.github.franckyi.gameadapter.api.common.IPlayer;
+import com.github.franckyi.gameadapter.api.common.RegistryHandler;
+import com.github.franckyi.gameadapter.api.common.tag.ICompoundTag;
 import com.github.franckyi.gameadapter.api.common.tag.TagFactory;
 import com.github.franckyi.gameadapter.api.common.text.TextComponentFactory;
-import com.github.franckyi.gameadapter.api.common.world.Block;
-import com.github.franckyi.gameadapter.api.common.world.Entity;
-import com.github.franckyi.gameadapter.api.common.world.Item;
-import com.github.franckyi.gameadapter.api.common.world.Player;
-import com.github.franckyi.gameadapter.fabric.common.FabricRegistries;
-import com.github.franckyi.gameadapter.fabric.common.nbt.FabricTagFactory;
-import com.github.franckyi.gameadapter.fabric.common.network.FabricNetwork;
-import com.github.franckyi.gameadapter.fabric.common.text.FabricTextComponentFactory;
-import com.github.franckyi.gameadapter.fabric.common.world.FabricBlock;
-import com.github.franckyi.gameadapter.fabric.common.world.FabricEntity;
-import com.github.franckyi.gameadapter.fabric.common.world.FabricItem;
-import com.github.franckyi.gameadapter.fabric.common.world.FabricPlayer;
+import com.github.franckyi.gameadapter.fabric.common.FabricRegistryHandler;
+import com.github.franckyi.gameadapter.fabric.common.FabricTagFactory;
+import com.github.franckyi.gameadapter.fabric.common.FabricTextComponentFactory;
 import com.mojang.brigadier.Command;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -49,28 +42,13 @@ public final class FabricGameCommon implements GameCommon {
     }
 
     @Override
-    public Item createItem(CompoundTag data) {
-        return new FabricItem(data);
+    public IItemStack createItemFromTag(ICompoundTag data) {
+        return IItemStack.class.cast(ItemStack.fromNbt((NbtCompound) data));
     }
 
     @Override
-    public Item createItem(String id) {
-        return new FabricItem(new ItemStack(Registry.ITEM.get(Identifier.tryParse(id))));
-    }
-
-    @Override
-    public Block createBlock(CompoundTag state, CompoundTag data) {
-        return new FabricBlock(state, data);
-    }
-
-    @Override
-    public Entity createEntity(CompoundTag data) {
-        return new FabricEntity(data);
-    }
-
-    @Override
-    public Network getNetwork() {
-        return FabricNetwork.INSTANCE;
+    public IItemStack createItemFromId(IIdentifier id) {
+        return IItemStack.class.cast(new ItemStack(Registry.ITEM.get((Identifier) id)));
     }
 
     @Override
@@ -79,23 +57,32 @@ public final class FabricGameCommon implements GameCommon {
     }
 
     @Override
-    public Command<ServerCommandSource> createCommand(Function<Player, Integer> command) {
-        return ctx -> command.apply(new FabricPlayer(ctx.getSource().getPlayer()));
+    public Command<ServerCommandSource> createCommand(Function<IPlayer, Integer> command) {
+        return ctx -> command.apply((IPlayer) ctx.getSource().getPlayer());
     }
 
     @Override
-    public Registries getRegistries() {
-        return FabricRegistries.INSTANCE;
-    }
-
-    @Override
-    @SuppressWarnings("unchecked")
-    public PlayerFactory<PlayerEntity> getPlayerFactory() {
-        return FabricPlayer::new;
+    public RegistryHandler getRegistryHandler() {
+        return FabricRegistryHandler.INSTANCE;
     }
 
     @Override
     public String translate(String key) {
         return Language.getInstance().get(key);
+    }
+
+    @Override
+    public IIdentifier createIdentifier(String namespace, String path) {
+        return (IIdentifier) new Identifier(namespace, path);
+    }
+
+    @Override
+    public IIdentifier createIdentifier(String id) {
+        return (IIdentifier) new Identifier(id);
+    }
+
+    @Override
+    public IIdentifier parseIdentifier(String id) {
+        return (IIdentifier) Identifier.tryParse(id);
     }
 }

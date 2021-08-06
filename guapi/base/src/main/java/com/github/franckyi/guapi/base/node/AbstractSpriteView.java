@@ -2,26 +2,27 @@ package com.github.franckyi.guapi.base.node;
 
 import com.github.franckyi.databindings.api.IntegerProperty;
 import com.github.franckyi.databindings.api.ObjectProperty;
+import com.github.franckyi.gameadapter.api.client.ISprite;
 import com.github.franckyi.guapi.api.node.SpriteView;
 
 import java.util.function.Supplier;
 
 public abstract class AbstractSpriteView extends AbstractControl implements SpriteView {
-    private final ObjectProperty<Supplier<Object>> spriteFactoryProperty = ObjectProperty.create();
+    private final ObjectProperty<Supplier<ISprite>> spriteFactoryProperty = ObjectProperty.create();
     private final IntegerProperty imageWidthProperty = IntegerProperty.create();
     private final IntegerProperty imageHeightProperty = IntegerProperty.create();
-    private Object cachedSprite;
+    private ISprite cachedSprite;
 
     protected AbstractSpriteView() {
         spriteFactoryProperty().addListener(() -> cachedSprite = null);
     }
 
-    protected AbstractSpriteView(Supplier<Object> spriteFactory) {
+    protected AbstractSpriteView(Supplier<ISprite> spriteFactory) {
         this();
         setSpriteFactory(spriteFactory);
     }
 
-    protected AbstractSpriteView(Supplier<Object> spriteFactory, int imageWidth, int imageHeight) {
+    protected AbstractSpriteView(Supplier<ISprite> spriteFactory, int imageWidth, int imageHeight) {
         this(spriteFactory);
         setImageWidth(imageWidth);
         setImageHeight(imageHeight);
@@ -30,12 +31,12 @@ public abstract class AbstractSpriteView extends AbstractControl implements Spri
     }
 
     @Override
-    public ObjectProperty<Supplier<Object>> spriteFactoryProperty() {
+    public ObjectProperty<Supplier<ISprite>> spriteFactoryProperty() {
         return spriteFactoryProperty;
     }
 
     @Override
-    public Object getSprite() {
+    public ISprite getSprite() {
         if (cachedSprite == null) {
             cachedSprite = getSpriteFactory().get();
         }

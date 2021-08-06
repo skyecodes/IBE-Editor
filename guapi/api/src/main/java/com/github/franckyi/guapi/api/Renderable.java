@@ -1,14 +1,14 @@
 package com.github.franckyi.guapi.api;
 
-import com.github.franckyi.gameadapter.api.client.render.Matrices;
+import com.github.franckyi.gameadapter.api.client.IMatrices;
 
 public interface Renderable {
-    default boolean preRender(Matrices matrices, int mouseX, int mouseY, float delta) {
+    default boolean preRender(IMatrices matrices, int mouseX, int mouseY, float delta) {
         return false;
     }
 
-    void render(Matrices matrices, int mouseX, int mouseY, float delta);
+    void render(IMatrices matrices, int mouseX, int mouseY, float delta);
 
-    default void postRender(Matrices matrices, int mouseX, int mouseY, float delta) {
+    default void postRender(IMatrices matrices, int mouseX, int mouseY, float delta) {
     }
 }

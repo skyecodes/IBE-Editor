@@ -1,9 +1,8 @@
 package com.github.franckyi.ibeeditor.base.client.mvc.controller;
 
-import com.github.franckyi.gameadapter.api.common.tag.Tag;
+import com.github.franckyi.gameadapter.api.common.tag.ITag;
 import com.github.franckyi.guapi.Guapi;
 import com.github.franckyi.guapi.api.mvc.AbstractController;
-import com.github.franckyi.guapi.api.mvc.Controller;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.NBTEditorModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.NBTTagModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.view.NBTEditorView;
@@ -48,7 +47,7 @@ public class NBTEditorController extends AbstractController<NBTEditorModel, NBTE
             case COMPOUND:
             case INT_ARRAY:
             case LONG_ARRAY:
-                addChildTag(tag, Tag.fromType(target.getType()));
+                addChildTag(tag, ITag.fromType(target.getType()));
                 break;
             case MOVE_UP:
                 int index0 = parent.getChildren().indexOf(tag);
@@ -62,18 +61,18 @@ public class NBTEditorController extends AbstractController<NBTEditorModel, NBTE
                 break;
             case ADD:
                 switch (tag.getTagType()) {
-                    case Tag.BYTE_ARRAY_ID:
-                        addChildTag(tag, Tag.BYTE_ID, "0");
+                    case ITag.BYTE_ARRAY_ID:
+                        addChildTag(tag, ITag.BYTE_ID, "0");
                         break;
-                    case Tag.INT_ARRAY_ID:
-                        addChildTag(tag, Tag.INT_ID, "0");
+                    case ITag.INT_ARRAY_ID:
+                        addChildTag(tag, ITag.INT_ID, "0");
                         break;
-                    case Tag.LONG_ARRAY_ID:
-                        addChildTag(tag, Tag.LONG_ID, "0");
+                    case ITag.LONG_ARRAY_ID:
+                        addChildTag(tag, ITag.LONG_ID, "0");
                         break;
-                    case Tag.LIST_ID:
+                    case ITag.LIST_ID:
                         if (!tag.getChildren().isEmpty()) {
-                            addChildTag(tag, Tag.fromType(tag.getChildren().get(0).getTagType()));
+                            addChildTag(tag, ITag.fromType(tag.getChildren().get(0).getTagType()));
                         }
                         break;
                 }
@@ -105,31 +104,31 @@ public class NBTEditorController extends AbstractController<NBTEditorModel, NBTE
         NBTTagModel clipboardTag = model.getClipboardTag();
         if (newVal != null) {
             switch (newVal.getTagType()) {
-                case Tag.COMPOUND_ID:
+                case ITag.COMPOUND_ID:
                     buttons.add(NBTEditorView.ButtonType.ADD);
                     if (clipboardTag != null && clipboardTag.canBuild()) {
                         buttons.add(NBTEditorView.ButtonType.PASTE);
                     }
                     break;
-                case Tag.BYTE_ARRAY_ID:
-                    if (clipboardTag != null && !clipboardTag.canBuild() && clipboardTag.getTagType() == Tag.BYTE_ID) {
+                case ITag.BYTE_ARRAY_ID:
+                    if (clipboardTag != null && !clipboardTag.canBuild() && clipboardTag.getTagType() == ITag.BYTE_ID) {
                         buttons.add(NBTEditorView.ButtonType.PASTE);
                     }
                     buttons.add(NBTEditorView.ButtonType.ADD);
                     break;
-                case Tag.INT_ARRAY_ID:
-                    if (clipboardTag != null && !clipboardTag.canBuild() && clipboardTag.getTagType() == Tag.INT_ID) {
+                case ITag.INT_ARRAY_ID:
+                    if (clipboardTag != null && !clipboardTag.canBuild() && clipboardTag.getTagType() == ITag.INT_ID) {
                         buttons.add(NBTEditorView.ButtonType.PASTE);
                     }
                     buttons.add(NBTEditorView.ButtonType.ADD);
                     break;
-                case Tag.LONG_ARRAY_ID:
-                    if (clipboardTag != null && !clipboardTag.canBuild() && clipboardTag.getTagType() == Tag.LONG_ID) {
+                case ITag.LONG_ARRAY_ID:
+                    if (clipboardTag != null && !clipboardTag.canBuild() && clipboardTag.getTagType() == ITag.LONG_ID) {
                         buttons.add(NBTEditorView.ButtonType.PASTE);
                     }
                     buttons.add(NBTEditorView.ButtonType.ADD);
                     break;
-                case Tag.LIST_ID:
+                case ITag.LIST_ID:
                     if (newVal.getChildren().isEmpty()) {
                         buttons.add(NBTEditorView.ButtonType.ADD);
                         if (clipboardTag != null && clipboardTag.canBuild()) {
@@ -158,12 +157,12 @@ public class NBTEditorController extends AbstractController<NBTEditorModel, NBTE
         view.getEnabledButtons().setAll(buttons);
     }
 
-    private void addChildTag(NBTTagModel parent, Tag newTag) {
+    private void addChildTag(NBTTagModel parent, ITag newTag) {
         addChildTag(parent, newTag, "");
     }
 
-    private void addChildTag(NBTTagModel parent, Tag newTag, String name) {
-        addChildTag(parent, new NBTTagModel(newTag, parent, parent.getTagType() != Tag.LIST_ID ? name : null, null));
+    private void addChildTag(NBTTagModel parent, ITag newTag, String name) {
+        addChildTag(parent, new NBTTagModel(newTag, parent, parent.getTagType() != ITag.LIST_ID ? name : null, null));
     }
 
     private void addChildTag(NBTTagModel parent, byte target, String value) {
