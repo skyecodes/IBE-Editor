@@ -39,7 +39,8 @@
     "common.text.FabricBaseTextMixin",
     "common.text.FabricClickEventMixin",
     "common.text.FabricLiteralTextMixin",
-    "common.text.FabricStyleMixin"
+    "common.text.FabricStyleMixin",
+    "common.text.FabricTranslatableTextMixin"
   ],
   "client": [
     "client.FabricHandledScreenMixin",

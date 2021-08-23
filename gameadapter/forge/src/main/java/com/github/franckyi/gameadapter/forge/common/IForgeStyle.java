@@ -1,8 +1,9 @@
-package com.github.franckyi.gameadapter.fabric.mixin.common.text;
-import com.github.franckyi.gameadapter.api.internal.IStyle;
-import net.minecraft.text.Style;
+package com.github.franckyi.gameadapter.forge.common;
 
-public interface IFabricStyle extends IStyle {
+import com.github.franckyi.gameadapter.api.internal.IStyle;
+import net.minecraft.util.text.Style;
+
+public interface IForgeStyle extends IStyle {
     Style withStrikethrough(Boolean strikethrough);
 
     Style withObfuscated(Boolean obfuscated);

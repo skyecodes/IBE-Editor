@@ -179,23 +179,6 @@ public class TextEntryController extends ValueEntryController<TextEntryModel, Te
             }
         }
         return true;
-        /*boolean[] add = {true};
-        formattings.stream()
-                .filter(formattingClass::isInstance)
-                .map(formattingClass::cast)
-                .filter(identicalPredicate)
-                .forEach(other -> {
-                    if (formatting.getStart() >= other.getStart() && formatting.getStart() <= other.getEnd() && formatting.getEnd() > other.getEnd()) {
-                        other.setEnd(formatting.getEnd());
-                        add[0] = false;
-                    }
-                    if (formatting.getEnd() >= other.getStart() && formatting.getEnd() <= other.getEnd() && formatting.getStart() < other.getStart()) {
-                        other.setStart(formatting.getStart());
-                        add[0] = false;
-                    }
-                });
-        return add[0];
-       */
     }
 
     private void resizeOtherColorFormattings(ColorFormatting formatting, boolean add) {

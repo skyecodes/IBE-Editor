@@ -1,16 +1,24 @@
-package com.github.franckyi.gameadapter.fabric.mixin.common.text;
+package com.github.franckyi.gameadapter.forge.mixin.common.text;
 
 import com.github.franckyi.gameadapter.api.common.text.IText;
 import com.github.franckyi.gameadapter.api.common.text.ITextEvent;
 import com.github.franckyi.gameadapter.api.internal.IStyle;
-import com.github.franckyi.gameadapter.fabric.common.IFabricStyle;
-import net.minecraft.text.*;
+import com.github.franckyi.gameadapter.forge.common.IForgeStyle;
+import net.minecraft.util.text.IFormattableTextComponent;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponent;
+import net.minecraft.util.text.event.ClickEvent;
+import net.minecraft.util.text.event.HoverEvent;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 
 import java.util.List;
 
-@Mixin(BaseText.class)
-public abstract class FabricBaseTextMixin implements MutableText, IText {
+@Mixin(TextComponent.class)
+public abstract class ForgeTextComponentMixin implements IFormattableTextComponent, IText {
+    @Shadow
+    public abstract List<ITextComponent> getSiblings();
+
     @Override
     @SuppressWarnings({"unchecked", "rawtypes"})
     public List<IText> getExtra() {
@@ -19,18 +27,18 @@ public abstract class FabricBaseTextMixin implements MutableText, IText {
 
     @Override
     public void addExtra(IText extra) {
-        append((Text) extra);
+        append((ITextComponent) extra);
     }
 
     @Override
     public String getColor() {
-        TextColor color = getStyle().getColor();
-        return color == null ? null : color.getName();
+        net.minecraft.util.text.Color color = getStyle().getColor();
+        return color == null ? null : color.serialize();
     }
 
     @Override
     public void setColor(String color) {
-        styled(style -> style.withColor(TextColor.parse(color)));
+        withStyle(style -> style.withColor(net.minecraft.util.text.Color.parseColor(color)));
     }
 
     @Override
@@ -40,7 +48,7 @@ public abstract class FabricBaseTextMixin implements MutableText, IText {
 
     @Override
     public void setBold(Boolean bold) {
-        styled(style -> style.withBold(bold));
+        withStyle(style -> style.withBold(bold));
     }
 
     @Override
@@ -50,7 +58,7 @@ public abstract class FabricBaseTextMixin implements MutableText, IText {
 
     @Override
     public void setItalic(Boolean italic) {
-        styled(style -> style.withItalic(italic));
+        withStyle(style -> style.withItalic(italic));
     }
 
     @Override
@@ -60,7 +68,7 @@ public abstract class FabricBaseTextMixin implements MutableText, IText {
 
     @Override
     public void setUnderlined(Boolean underlined) {
-        styled(style -> style.withUnderline(underlined));
+        withStyle(style -> style.withUnderlined(underlined));
     }
 
     @Override
@@ -70,7 +78,7 @@ public abstract class FabricBaseTextMixin implements MutableText, IText {
 
     @Override
     public void setStrikethrough(Boolean strikethrough) {
-        styled(style -> ((IFabricStyle) style).withStrikethrough(strikethrough));
+        withStyle(style -> ((IForgeStyle) style).withStrikethrough(strikethrough));
     }
 
     @Override
@@ -80,7 +88,7 @@ public abstract class FabricBaseTextMixin implements MutableText, IText {
 
     @Override
     public void setObfuscated(Boolean obfuscated) {
-        styled(style -> ((IFabricStyle) style).withObfuscated(obfuscated));
+        withStyle(style -> ((IForgeStyle) style).withObfuscated(obfuscated));
     }
 
     @Override
@@ -90,7 +98,7 @@ public abstract class FabricBaseTextMixin implements MutableText, IText {
 
     @Override
     public void setClickEvent(ITextEvent clickEvent) {
-        styled(style -> style.withClickEvent((ClickEvent) clickEvent));
+        withStyle(style -> style.withClickEvent((ClickEvent) clickEvent));
     }
 
     @Override
@@ -100,7 +108,7 @@ public abstract class FabricBaseTextMixin implements MutableText, IText {
 
     @Override
     public void setHoverEvent(ITextEvent hoverEvent) {
-        styled(style -> style.withHoverEvent((HoverEvent) hoverEvent));
+        withStyle(style -> style.withHoverEvent((HoverEvent) hoverEvent));
     }
 
     @Override
@@ -110,6 +118,6 @@ public abstract class FabricBaseTextMixin implements MutableText, IText {
 
     @Override
     public String toJson() {
-        return Text.Serializer.toJson(this);
+        return ITextComponent.Serializer.toJson(this);
     }
 }

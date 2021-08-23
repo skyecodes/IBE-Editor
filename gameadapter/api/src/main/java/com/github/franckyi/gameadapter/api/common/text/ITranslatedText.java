@@ -15,11 +15,5 @@ public interface ITranslatedText extends IText {
 
     String getTranslate();
 
-    @Deprecated
-    void setTranslate(String translate);
-
     List<IText> getWith();
-
-    @Deprecated
-    void setWith(List<IText> with);
 }

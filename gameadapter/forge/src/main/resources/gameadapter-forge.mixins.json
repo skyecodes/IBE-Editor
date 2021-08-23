@@ -36,7 +36,12 @@
     "common.tag.ForgeLongArrayNBTMixin",
     "common.tag.ForgeLongNBTMixin",
     "common.tag.ForgeShortNBTMixin",
-    "common.tag.ForgeStringNBTMixin"
+    "common.tag.ForgeStringNBTMixin",
+    "common.text.ForgeClickEventMixin",
+    "common.text.ForgeStringTextComponentMixin",
+    "common.text.ForgeStyleMixin",
+    "common.text.ForgeTextComponentMixin",
+    "common.text.ForgeTranslationTextComponentMixin"
   ],
   "client": [
     "client.ForgeContainerScreenMixin",

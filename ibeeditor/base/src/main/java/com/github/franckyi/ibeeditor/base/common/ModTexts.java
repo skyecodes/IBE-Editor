@@ -24,6 +24,7 @@ public final class ModTexts {
     public static final IText BLUE_COLOR = translated("ibeeditor.gui.blue");
     public static final IText CANCEL = translated("gui.cancel").red();
     public static final IText DONE = translated("gui.done").green();
+    public static final IText SAVE = translated("ibeeditor.gui.save").green();
     public static final IText RESET = translated("ibeeditor.gui.reset").yellow();
     public static final IText POTION_COLOR = translated("ibeeditor.gui.potion_color");
     public static final IText REMOVE_CUSTOM_COLOR = translated("ibeeditor.gui.remove_custom_color").red();

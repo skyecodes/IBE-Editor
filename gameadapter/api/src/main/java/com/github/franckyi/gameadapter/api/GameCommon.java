@@ -46,4 +46,6 @@ public interface GameCommon {
     ITextEvent createTextClickEvent(String action, String value);
 
     IText createTextFromJson(String json);
+
+    IText getEmptyText();
 }

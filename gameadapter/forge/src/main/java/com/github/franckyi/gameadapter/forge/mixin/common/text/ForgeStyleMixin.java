@@ -1,38 +1,69 @@
-package com.github.franckyi.gameadapter.fabric.mixin.common.text;
+package com.github.franckyi.gameadapter.forge.mixin.common.text;
 
-import com.github.franckyi.gameadapter.fabric.common.IFabricStyle;
-import net.minecraft.text.ClickEvent;
-import net.minecraft.text.HoverEvent;
-import net.minecraft.text.Style;
-import net.minecraft.text.TextColor;
-import net.minecraft.util.Identifier;
-import org.jetbrains.annotations.Nullable;
+import com.github.franckyi.gameadapter.forge.common.IForgeStyle;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.Color;
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.event.ClickEvent;
+import net.minecraft.util.text.event.HoverEvent;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.gen.Invoker;
 
+import javax.annotation.Nullable;
+
 @Mixin(Style.class)
-public abstract class FabricStyleMixin implements IFabricStyle {
-    @Shadow @Final @Nullable private TextColor color;
+public abstract class ForgeStyleMixin implements IForgeStyle {
+    @Shadow
+    @Final
+    @Nullable
+    private Color color;
 
-    @Shadow @Final @Nullable private Boolean bold;
+    @Shadow
+    @Final
+    @Nullable
+    private Boolean bold;
 
-    @Shadow @Final @Nullable private Boolean italic;
+    @Shadow
+    @Final
+    @Nullable
+    private Boolean italic;
 
-    @Shadow @Final @Nullable private Boolean underlined;
+    @Shadow
+    @Final
+    @Nullable
+    private Boolean underlined;
 
-    @Shadow @Final @Nullable private Boolean strikethrough;
+    @Shadow
+    @Final
+    @Nullable
+    private Boolean strikethrough;
 
-    @Shadow @Final @Nullable private Boolean obfuscated;
+    @Shadow
+    @Final
+    @Nullable
+    private Boolean obfuscated;
 
-    @Shadow @Final @Nullable private ClickEvent clickEvent;
+    @Shadow
+    @Final
+    @Nullable
+    private ClickEvent clickEvent;
 
-    @Shadow @Final @Nullable private HoverEvent hoverEvent;
+    @Shadow
+    @Final
+    @Nullable
+    private HoverEvent hoverEvent;
 
-    @Shadow @Final @Nullable private String insertion;
+    @Shadow
+    @Final
+    @Nullable
+    private String insertion;
 
-    @Shadow @Final @Nullable private Identifier font;
+    @Shadow
+    @Final
+    @Nullable
+    private ResourceLocation font;
 
     @Override
     public Boolean getBold() {
@@ -60,11 +91,11 @@ public abstract class FabricStyleMixin implements IFabricStyle {
     }
 
     @Invoker("<init>")
-    static Style create(@Nullable TextColor color, @Nullable Boolean bold,
+    static Style create(@Nullable Color color, @Nullable Boolean bold,
                         @Nullable Boolean italic, @Nullable Boolean underlined,
                         @Nullable Boolean strikethrough, @Nullable Boolean obfuscated,
                         @Nullable ClickEvent clickEvent, @Nullable HoverEvent hoverEvent,
-                        @Nullable String insertion, @Nullable Identifier font) {
+                        @Nullable String insertion, @Nullable ResourceLocation font) {
         throw new AssertionError();
     }
 

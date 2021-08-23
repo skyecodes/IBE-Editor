@@ -6,11 +6,13 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public interface IText {
-    IText EMPTY = IPlainText.create("");
-
     @SuppressWarnings("unchecked")
     static <T extends IText> T fromJson(String json) {
         return (T) Game.getCommon().createTextFromJson(json);
+    }
+
+    static IText empty() {
+        return Game.getCommon().getEmptyText();
     }
 
     List<IText> getExtra();
@@ -78,11 +80,11 @@ public interface IText {
     }
 
     default <T extends IText> T black() {
-        return color("black");
+        return color(Color.BLACK);
     }
 
     default <T extends IText> T darkBlue() {
-        return color("dark_blue");
+        return color(Color.DARK_BLUE);
     }
 
     default <T extends IText> T darkGreen() {
@@ -185,12 +187,9 @@ public interface IText {
         return with(t -> t.setClickEvent(clickEvent));
     }
 
+    @Deprecated // not implemented into mixin
     default <T extends IText> T hover(ITextEvent hoverEvent) {
         return with(t -> t.setHoverEvent(hoverEvent));
-    }
-
-    default <T extends IText> T extra(IText extra) {
-        return with(t -> t.addExtra(extra));
     }
 
     default <T extends IText> T extra(IText... extra) {

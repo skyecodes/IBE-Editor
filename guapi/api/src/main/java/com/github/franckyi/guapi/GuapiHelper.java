@@ -376,10 +376,10 @@ public final class GuapiHelper {
         return node().createScene(with);
     }
 
-    public static IText EMPTY_TEXT = IText.EMPTY;
+    public static IText EMPTY_TEXT = IText.empty();
 
     public static IPlainText text() {
-        return text(null);
+        return text("");
     }
 
     public static IPlainText text(String text) {

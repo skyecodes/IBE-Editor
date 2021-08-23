@@ -8,7 +8,4 @@ public interface IPlainText extends IText {
     }
 
     String getText();
-
-    @Deprecated
-    void setText(String text);
 }

@@ -18,7 +18,11 @@ import net.minecraft.command.CommandSource;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.LanguageMap;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.util.text.event.ClickEvent;
 import net.minecraftforge.fml.loading.FMLPaths;
 
 import java.nio.file.Path;
@@ -82,26 +86,31 @@ public final class ForgeGameCommon implements GameCommon {
 
     @Override
     public IPlainText createPlainText(String text) {
-        return null;
+        return (IPlainText) new StringTextComponent(text);
     }
 
     @Override
     public ITranslatedText createTranslatedText(String key) {
-        return null;
+        return (ITranslatedText) new TranslationTextComponent(key);
     }
 
     @Override
     public ITranslatedText createTranslatedText(String key, Object... args) {
-        return null;
+        return (ITranslatedText) new TranslationTextComponent(key, args);
     }
 
     @Override
     public ITextEvent createTextClickEvent(String action, String value) {
-        return null;
+        return (ITextEvent) new ClickEvent(ClickEvent.Action.getByName(action), value);
     }
 
     @Override
     public IText createTextFromJson(String json) {
-        return null;
+        return (IText) ITextComponent.Serializer.fromJson(json);
+    }
+
+    @Override
+    public IText getEmptyText() {
+        return (IText) StringTextComponent.EMPTY;
     }
 }

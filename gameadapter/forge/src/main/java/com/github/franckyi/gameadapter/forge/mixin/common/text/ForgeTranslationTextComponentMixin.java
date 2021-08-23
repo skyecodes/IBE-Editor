@@ -1,9 +1,8 @@
-package com.github.franckyi.gameadapter.fabric.mixin.common.text;
+package com.github.franckyi.gameadapter.forge.mixin.common.text;
 
 import com.github.franckyi.gameadapter.api.common.text.IText;
 import com.github.franckyi.gameadapter.api.common.text.ITranslatedText;
-import net.minecraft.text.ParsableText;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.util.text.TranslationTextComponent;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -11,8 +10,8 @@ import org.spongepowered.asm.mixin.Shadow;
 import java.util.Arrays;
 import java.util.List;
 
-@Mixin(TranslatableText.class)
-public abstract class FabricTranslatableTextMixin extends FabricBaseTextMixin implements ParsableText, ITranslatedText {
+@Mixin(TranslationTextComponent.class)
+public abstract class ForgeTranslationTextComponentMixin extends ForgeTextComponentMixin implements ITranslatedText {
     @Shadow
     @Final
     private String key;

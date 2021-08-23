@@ -109,4 +109,9 @@ public final class FabricGameCommon implements GameCommon {
     public IText createTextFromJson(String json) {
         return (IText) Text.Serializer.fromJson(json);
     }
+
+    @Override
+    public IText getEmptyText() {
+        return (IText) LiteralText.EMPTY;
+    }
 }
