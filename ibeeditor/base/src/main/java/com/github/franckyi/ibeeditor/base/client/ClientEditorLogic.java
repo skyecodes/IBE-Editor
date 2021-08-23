@@ -1,9 +1,13 @@
 package com.github.franckyi.ibeeditor.base.client;
 
 import com.github.franckyi.gameadapter.Game;
-import com.github.franckyi.gameadapter.api.common.*;
+import com.github.franckyi.gameadapter.api.common.IPlayer;
+import com.github.franckyi.gameadapter.api.common.item.IItemStack;
 import com.github.franckyi.gameadapter.api.common.tag.ICompoundTag;
-import com.github.franckyi.gameadapter.api.common.text.Text;
+import com.github.franckyi.gameadapter.api.common.text.IText;
+import com.github.franckyi.gameadapter.api.common.world.IBlockPos;
+import com.github.franckyi.gameadapter.api.common.world.IEntity;
+import com.github.franckyi.gameadapter.api.common.world.WorldBlockData;
 import com.github.franckyi.guapi.Guapi;
 import com.github.franckyi.ibeeditor.base.common.EditorType;
 import com.github.franckyi.ibeeditor.base.common.ModTexts;
@@ -16,18 +20,12 @@ import static com.github.franckyi.guapi.GuapiHelper.*;
 
 public final class ClientEditorLogic {
     private static final Logger LOGGER = LogManager.getLogger();
-    private static final Text ERROR_CREATIVE_ITEM = ModTexts.prefixed(translated("ibeeditor.message.error_creative_mode")
-            .with(translated("ibeeditor.text.item"))).red();
-    private static final Text ERROR_SERVERMOD_ITEM = ModTexts.prefixed(translated("ibeeditor.message.error_server_mod")
-            .with(translated("ibeeditor.text.item"))).red();
-    private static final Text ERROR_SERVERMOD_BLOCK = ModTexts.prefixed(translated("ibeeditor.message.error_server_mod")
-            .with(translated("ibeeditor.text.block"))).red();
-    private static final Text ERROR_SERVERMOD_ENTITY = ModTexts.prefixed(translated("ibeeditor.message.error_server_mod")
-            .with(translated("ibeeditor.text.entity"))).red();
-    private static final Text ERROR_NOT_IMPLEMENTED_BLOCK = Messages.withPrefix(translated("ibeeditor.message.not_implemented")
-            .with(translated("ibeeditor.text.block"))).yellow();
-    private static final Text ERROR_NOT_IMPLEMENTED_ENTITY = Messages.withPrefix(translated("ibeeditor.message.not_implemented")
-            .with(translated("ibeeditor.text.entity"))).yellow();
+    private static final IText ERROR_CREATIVE_ITEM = ModTexts.prefixed(translated("ibeeditor.message.error_creative_mode", translated("ibeeditor.text.item"))).red();
+    private static final IText ERROR_SERVERMOD_ITEM = ModTexts.prefixed(translated("ibeeditor.message.error_server_mod", translated("ibeeditor.text.item"))).red();
+    private static final IText ERROR_SERVERMOD_BLOCK = ModTexts.prefixed(translated("ibeeditor.message.error_server_mod", translated("ibeeditor.text.block"))).red();
+    private static final IText ERROR_SERVERMOD_ENTITY = ModTexts.prefixed(translated("ibeeditor.message.error_server_mod", translated("ibeeditor.text.entity"))).red();
+    private static final IText ERROR_NOT_IMPLEMENTED_BLOCK = ModTexts.prefixed(translated("ibeeditor.message.not_implemented", translated("ibeeditor.text.block"))).yellow();
+    private static final IText ERROR_NOT_IMPLEMENTED_ENTITY = ModTexts.prefixed(translated("ibeeditor.message.not_implemented", translated("ibeeditor.text.entity"))).yellow();
 
     public static void openWorldEditor(EditorType target) {
         LOGGER.debug("Opening world editor with target={}", target);
@@ -101,7 +99,7 @@ public final class ClientEditorLogic {
                 ClientContext.isModInstalledOnServer() ? null : ClientEditorLogic.ERROR_SERVERMOD_ITEM);
     }
 
-    public static void openItemEditor(IItemStack itemStack, EditorType target, Consumer<IItemStack> action, Text disabledTooltip) {
+    public static void openItemEditor(IItemStack itemStack, EditorType target, Consumer<IItemStack> action, IText disabledTooltip) {
         LOGGER.debug("Opening item editor for item {} with target={})", itemStack, target);
         switch (target) {
             case STANDARD:
@@ -130,7 +128,7 @@ public final class ClientEditorLogic {
                 /*ModScreenHandler.openBlockEditorScreen(block,
                         newBlock -> updateBlock(new WorldBlockData(newBlock, block.getPos())),
                         ClientContext.isModInstalledOnServer() ? null : ERROR_SERVERMOD_BLOCK);*/
-                getClientPlayer().sendMessage(ERROR_NOT_IMPLEMENTED_BLOCK);
+                player().sendMessage(ERROR_NOT_IMPLEMENTED_BLOCK);
                 break;
             case NBT:
                 ModScreenHandler.openNBTEditorScreen(block.getTag(),
@@ -157,7 +155,7 @@ public final class ClientEditorLogic {
                 /*ModScreenHandler.openEntityEditorScreen(entity,
                         entity1 -> updateEntity(entityId, entity1),
                         ClientContext.isModInstalledOnServer() ? null : ERROR_SERVERMOD_ENTITY);*/
-                getClientPlayer().sendMessage(ERROR_NOT_IMPLEMENTED_ENTITY);
+                player().sendMessage(ERROR_NOT_IMPLEMENTED_ENTITY);
                 break;
             case NBT:
                 ModScreenHandler.openNBTEditorScreen(entity,

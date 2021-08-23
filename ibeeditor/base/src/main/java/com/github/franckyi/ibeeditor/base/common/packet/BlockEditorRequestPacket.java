@@ -1,7 +1,7 @@
 package com.github.franckyi.ibeeditor.base.common.packet;
 
-import com.github.franckyi.gameadapter.api.common.IBlockPos;
 import com.github.franckyi.gameadapter.api.common.IPacketBuffer;
+import com.github.franckyi.gameadapter.api.common.world.IBlockPos;
 import com.github.franckyi.ibeeditor.base.common.EditorType;
 import com.github.franckyi.ibeeditor.base.common.Packet;
 

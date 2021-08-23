@@ -2,8 +2,8 @@ package com.github.franckyi.ibeeditor.base.client;
 
 import com.github.franckyi.gameadapter.Game;
 import com.github.franckyi.gameadapter.api.client.IScreen;
-import com.github.franckyi.gameadapter.api.common.ISlot;
-import com.github.franckyi.gameadapter.api.common.WorldBlockData;
+import com.github.franckyi.gameadapter.api.common.item.ISlot;
+import com.github.franckyi.gameadapter.api.common.world.WorldBlockData;
 import com.github.franckyi.ibeeditor.base.common.EditorType;
 
 public final class ClientEventHandler {

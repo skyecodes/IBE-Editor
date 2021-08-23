@@ -1,7 +1,7 @@
 package com.github.franckyi.guapi.base.node;
 
 import com.github.franckyi.databindings.api.BooleanProperty;
-import com.github.franckyi.gameadapter.api.common.text.Text;
+import com.github.franckyi.gameadapter.api.common.text.IText;
 import com.github.franckyi.guapi.api.node.CheckBox;
 
 import static com.github.franckyi.guapi.GuapiHelper.*;
@@ -10,14 +10,14 @@ public abstract class AbstractCheckBox extends AbstractLabeled implements CheckB
     private final BooleanProperty checkedProperty = BooleanProperty.create();
 
     protected AbstractCheckBox() {
-        this(emptyText());
+        this(EMPTY_TEXT);
     }
 
     protected AbstractCheckBox(String label) {
         this(text(label));
     }
 
-    protected AbstractCheckBox(Text label) {
+    protected AbstractCheckBox(IText label) {
         super(label);
         labelProperty().addListener(this::shouldComputeSize);
     }

@@ -2,9 +2,9 @@ package com.github.franckyi.ibeeditor.base.client.mvc.view;
 
 import com.github.franckyi.databindings.api.BooleanProperty;
 import com.github.franckyi.gameadapter.api.common.IIdentifier;
-import com.github.franckyi.gameadapter.api.common.text.Text;
-import com.github.franckyi.gameadapter.api.common.text.builder.TranslatedTextBuilder;
+import com.github.franckyi.gameadapter.api.common.text.IText;
 import com.github.franckyi.guapi.api.node.HBox;
+import com.github.franckyi.guapi.api.node.Label;
 import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.api.node.TexturedButton;
 import com.github.franckyi.guapi.api.node.builder.TexturedButtonBuilder;
@@ -25,7 +25,7 @@ public class StandardEditorView extends ListEditorView {
     private TexturedButton customColorButton;
     private TexturedButtonBuilder chooseCustomColorButton;
     private HBox textButtons;
-    private TranslatedTextBuilder headerText;
+    private Label headerLabel;
     private HBox buttons;
     private final BooleanProperty showTextButtonsProperty = BooleanProperty.create();
     private Supplier<TextEditorActionHandler> textEditorSupplier;
@@ -97,7 +97,7 @@ public class StandardEditorView extends ListEditorView {
     protected Node createHeader() {
         return hBox(header -> {
             header.add(hBox().prefWidth(16));
-            header.add(label(headerText = ModTexts.editorTitle(), true).textAlign(CENTER).prefHeight(20), 1);
+            header.add(headerLabel = label(EMPTY_TEXT, true).textAlign(CENTER).prefHeight(20), 1);
             header.add(createButton(ModTextures.SETTINGS, ModTexts.SETTINGS).action(ModScreenHandler::openSettingsScreen));
             header.align(CENTER);
         });
@@ -108,7 +108,7 @@ public class StandardEditorView extends ListEditorView {
         return buttons = (HBox) super.createButtonBar();
     }
 
-    private TexturedButtonBuilder createTextButton(StyleType target, IIdentifier id, Text tooltipText) {
+    private TexturedButtonBuilder createTextButton(StyleType target, IIdentifier id, IText tooltipText) {
         return texturedButton(id, 16, 16, false)
                 .tooltip(tooltipText)
                 .action(e -> {
@@ -119,7 +119,7 @@ public class StandardEditorView extends ListEditorView {
                 });
     }
 
-    private TexturedButtonBuilder createTextColorButton(String color, IIdentifier id, Text tooltipText) {
+    private TexturedButtonBuilder createTextColorButton(String color, IIdentifier id, IText tooltipText) {
         return texturedButton(id, 7, 7, false)
                 .tooltip(tooltipText)
                 .action(e -> {
@@ -138,8 +138,8 @@ public class StandardEditorView extends ListEditorView {
         return chooseCustomColorButton;
     }
 
-    public TranslatedTextBuilder getHeaderText() {
-        return headerText;
+    public Label getHeaderLabel() {
+        return headerLabel;
     }
 
     public boolean isShowTextButtons() {

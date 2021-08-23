@@ -1,7 +1,7 @@
 package com.github.franckyi.gameadapter.forge.mixin.common;
 
-import com.github.franckyi.gameadapter.api.common.IItemStack;
-import com.github.franckyi.gameadapter.api.common.ISlot;
+import com.github.franckyi.gameadapter.api.common.item.IItemStack;
+import com.github.franckyi.gameadapter.api.common.item.ISlot;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.container.Slot;

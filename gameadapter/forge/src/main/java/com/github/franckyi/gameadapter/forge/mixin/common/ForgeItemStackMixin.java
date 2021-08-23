@@ -1,6 +1,6 @@
 package com.github.franckyi.gameadapter.forge.mixin.common;
 
-import com.github.franckyi.gameadapter.api.common.IItemStack;
+import com.github.franckyi.gameadapter.api.common.item.IItemStack;
 import com.github.franckyi.gameadapter.api.common.tag.ICompoundTag;
 import net.minecraft.item.*;
 import net.minecraft.nbt.CompoundNBT;

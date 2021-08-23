@@ -1,16 +1,17 @@
 package com.github.franckyi.gameadapter.fabric.mixin.common;
 
 import com.github.franckyi.gameadapter.Game;
-import com.github.franckyi.gameadapter.api.common.IItemStack;
 import com.github.franckyi.gameadapter.api.common.IPlayer;
-import com.github.franckyi.gameadapter.api.common.IWorld;
-import com.github.franckyi.gameadapter.api.common.text.Text;
+import com.github.franckyi.gameadapter.api.common.item.IItemStack;
+import com.github.franckyi.gameadapter.api.common.text.IText;
+import com.github.franckyi.gameadapter.api.common.world.IWorld;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Final;
@@ -66,8 +67,8 @@ public abstract class FabricPlayerMixin extends LivingEntity implements IPlayer 
     }
 
     @Override
-    public void sendMessage(Text message, boolean actionBar) {
-        shadow$sendMessage(message.get(), actionBar);
+    public void sendMessage(IText message, boolean actionBar) {
+        shadow$sendMessage((Text) message, actionBar);
     }
 
     @Override

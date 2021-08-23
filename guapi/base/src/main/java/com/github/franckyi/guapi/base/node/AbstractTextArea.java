@@ -1,6 +1,6 @@
 package com.github.franckyi.guapi.base.node;
 
-import com.github.franckyi.gameadapter.api.common.text.Text;
+import com.github.franckyi.gameadapter.api.common.text.IText;
 import com.github.franckyi.guapi.api.node.TextArea;
 
 public abstract class AbstractTextArea extends AbstractTextField implements TextArea {
@@ -15,7 +15,7 @@ public abstract class AbstractTextArea extends AbstractTextField implements Text
         super(label, value);
     }
 
-    protected AbstractTextArea(Text label, String value) {
+    protected AbstractTextArea(IText label, String value) {
         super(label, value);
     }
 }

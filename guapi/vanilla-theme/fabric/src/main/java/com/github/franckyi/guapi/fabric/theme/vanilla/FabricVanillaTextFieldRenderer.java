@@ -17,7 +17,7 @@ public class FabricVanillaTextFieldRenderer extends TextFieldWidget implements F
     private final TextField node;
 
     public FabricVanillaTextFieldRenderer(TextField node) {
-        super(MinecraftClient.getInstance().textRenderer, node.getX(), node.getY(), node.getWidth(), node.getHeight(), node.getLabel().get());
+        super(MinecraftClient.getInstance().textRenderer, node.getX(), node.getY(), node.getWidth(), node.getHeight(), (Text) node.getLabel());
         this.node = node;
         active = !node.isDisabled();
         setMaxLength(node.getMaxLength());
@@ -29,7 +29,7 @@ public class FabricVanillaTextFieldRenderer extends TextFieldWidget implements F
         node.widthProperty().addListener(newVal -> setWidth(newVal - 2));
         node.heightProperty().addListener(newVal -> ((FabricClickableWidgetMixin) this).setHeight(newVal - 2));
         node.disabledProperty().addListener(newVal -> active = !newVal);
-        node.labelProperty().addListener(newVal -> setMessage(newVal.get()));
+        node.labelProperty().addListener(newVal -> setMessage((Text) newVal));
         node.maxLengthProperty().addListener(this::setMaxLength);
         node.textProperty().addListener(this::updateText);
         node.focusedProperty().addListener(this::setFocused);
@@ -82,7 +82,7 @@ public class FabricVanillaTextFieldRenderer extends TextFieldWidget implements F
     }
 
     public Text renderText(String str, int firstCharacterIndex) {
-        return node.getTextRenderer() == null ? new LiteralText(str) : node.getTextRenderer().render(str, firstCharacterIndex).get();
+        return node.getTextRenderer() == null ? new LiteralText(str) : (Text) node.getTextRenderer().render(str, firstCharacterIndex);
     }
 
     @Override

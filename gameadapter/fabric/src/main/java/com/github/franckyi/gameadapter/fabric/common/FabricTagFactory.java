@@ -1,5 +1,6 @@
 package com.github.franckyi.gameadapter.fabric.common;
 
+import com.github.franckyi.gameadapter.api.common.TagFactory;
 import com.github.franckyi.gameadapter.api.common.tag.*;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.nbt.*;

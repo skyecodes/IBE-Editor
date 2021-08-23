@@ -1,6 +1,6 @@
 package com.github.franckyi.ibeeditor.base.client.util.texteditor;
 
-import com.github.franckyi.gameadapter.api.common.text.Text;
+import com.github.franckyi.gameadapter.api.common.text.IText;
 
 import java.util.Objects;
 
@@ -28,7 +28,7 @@ public abstract class Formatting {
         this.end = end;
     }
 
-    public abstract void apply(Text text);
+    public abstract void apply(IText text);
 
     @Override
     public boolean equals(Object o) {

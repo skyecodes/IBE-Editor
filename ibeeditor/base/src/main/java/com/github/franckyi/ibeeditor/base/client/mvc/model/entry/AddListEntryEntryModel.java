@@ -1,17 +1,17 @@
 package com.github.franckyi.ibeeditor.base.client.mvc.model.entry;
 
-import com.github.franckyi.gameadapter.api.common.text.Text;
+import com.github.franckyi.gameadapter.api.common.text.IText;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.CategoryModel;
 
 public class AddListEntryEntryModel extends EntryModel {
-    private final Text tooltip;
+    private final IText tooltip;
 
-    public AddListEntryEntryModel(CategoryModel category, Text tooltip) {
+    public AddListEntryEntryModel(CategoryModel category, IText tooltip) {
         super(category);
         this.tooltip = tooltip;
     }
 
-    public Text getTooltip() {
+    public IText getTooltip() {
         return tooltip;
     }
 

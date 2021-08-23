@@ -2,21 +2,22 @@ package com.github.franckyi.gameadapter.forge;
 
 import com.github.franckyi.gameadapter.api.GameCommon;
 import com.github.franckyi.gameadapter.api.common.IIdentifier;
-import com.github.franckyi.gameadapter.api.common.IItemStack;
 import com.github.franckyi.gameadapter.api.common.IPlayer;
 import com.github.franckyi.gameadapter.api.common.RegistryHandler;
+import com.github.franckyi.gameadapter.api.common.TagFactory;
+import com.github.franckyi.gameadapter.api.common.item.IItemStack;
 import com.github.franckyi.gameadapter.api.common.tag.ICompoundTag;
-import com.github.franckyi.gameadapter.api.common.tag.TagFactory;
-import com.github.franckyi.gameadapter.api.common.text.TextComponentFactory;
+import com.github.franckyi.gameadapter.api.common.text.IPlainText;
+import com.github.franckyi.gameadapter.api.common.text.IText;
+import com.github.franckyi.gameadapter.api.common.text.ITextEvent;
+import com.github.franckyi.gameadapter.api.common.text.ITranslatedText;
 import com.github.franckyi.gameadapter.forge.common.ForgeRegistryHandler;
 import com.github.franckyi.gameadapter.forge.common.ForgeTagFactory;
-import com.github.franckyi.gameadapter.forge.common.ForgeTextComponentFactory;
 import com.mojang.brigadier.Command;
 import net.minecraft.command.CommandSource;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.LanguageMap;
 import net.minecraftforge.fml.loading.FMLPaths;
 
@@ -27,12 +28,6 @@ public final class ForgeGameCommon implements GameCommon {
     public static final GameCommon INSTANCE = new ForgeGameCommon();
 
     private ForgeGameCommon() {
-    }
-
-    @Override
-    @SuppressWarnings("unchecked")
-    public TextComponentFactory<ITextComponent> getTextComponentFactory() {
-        return ForgeTextComponentFactory.INSTANCE;
     }
 
     @Override
@@ -83,5 +78,30 @@ public final class ForgeGameCommon implements GameCommon {
     @Override
     public IIdentifier parseIdentifier(String id) {
         return (IIdentifier) ResourceLocation.tryParse(id);
+    }
+
+    @Override
+    public IPlainText createPlainText(String text) {
+        return null;
+    }
+
+    @Override
+    public ITranslatedText createTranslatedText(String key) {
+        return null;
+    }
+
+    @Override
+    public ITranslatedText createTranslatedText(String key, Object... args) {
+        return null;
+    }
+
+    @Override
+    public ITextEvent createTextClickEvent(String action, String value) {
+        return null;
+    }
+
+    @Override
+    public IText createTextFromJson(String json) {
+        return null;
     }
 }

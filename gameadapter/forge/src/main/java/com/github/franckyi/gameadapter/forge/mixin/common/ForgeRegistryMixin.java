@@ -1,9 +1,9 @@
 package com.github.franckyi.gameadapter.forge.mixin.common;
 
 import com.github.franckyi.gameadapter.api.common.IIdentifier;
-import com.github.franckyi.gameadapter.api.common.IRegistry;
-import com.github.franckyi.gameadapter.api.common.IRegistryKey;
-import com.github.franckyi.gameadapter.api.common.IRegistryValue;
+import com.github.franckyi.gameadapter.api.common.registry.IRegistry;
+import com.github.franckyi.gameadapter.api.common.registry.IRegistryKey;
+import com.github.franckyi.gameadapter.api.common.registry.IRegistryValue;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.Keyable;
 import net.minecraft.util.IObjectIntIterable;

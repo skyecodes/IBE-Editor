@@ -2,7 +2,7 @@ package com.github.franckyi.guapi.base.theme.vanilla;
 
 import com.github.franckyi.gameadapter.api.client.IMatrices;
 import com.github.franckyi.gameadapter.api.client.IRenderer;
-import com.github.franckyi.gameadapter.api.common.text.Text;
+import com.github.franckyi.gameadapter.api.common.text.IText;
 import com.github.franckyi.guapi.api.node.Label;
 import com.github.franckyi.guapi.api.theme.Skin;
 import com.github.franckyi.guapi.api.util.Align;
@@ -22,7 +22,7 @@ public class VanillaLabelSkin extends AbstractSkin<Label> {
 
     protected void renderText(Label node, IMatrices matrices, int mouseX, int mouseY, float delta) {
         IRenderer renderer = IRenderer.get();
-        Text text = node.getLabel();
+        IText text = node.getLabel();
         int x = Align.getAlignedX(node.getTextAlign().getHorizontalAlign(), node, renderer.getFontWidth(text));
         int y = Align.getAlignedY(node.getTextAlign().getVerticalAlign(), node, renderer.getFontHeight(text));
         renderer.drawString(matrices, text, x, y, 0xffffff, node.hasShadow());

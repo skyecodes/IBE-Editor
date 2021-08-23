@@ -1,7 +1,7 @@
 package com.github.franckyi.gameadapter.forge.mixin.common;
 
-import com.github.franckyi.gameadapter.api.common.IEnchantment;
-import com.github.franckyi.gameadapter.api.common.IItemStack;
+import com.github.franckyi.gameadapter.api.common.item.IEnchantment;
+import com.github.franckyi.gameadapter.api.common.item.IItemStack;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.registries.ForgeRegistryEntry;

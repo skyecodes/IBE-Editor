@@ -4,7 +4,7 @@ import com.github.franckyi.gameadapter.api.common.tag.ICompoundTag;
 import com.github.franckyi.gameadapter.api.common.tag.IListTag;
 import com.github.franckyi.gameadapter.api.common.tag.IStringTag;
 import com.github.franckyi.gameadapter.api.common.tag.ITag;
-import com.github.franckyi.gameadapter.api.common.text.Text;
+import com.github.franckyi.gameadapter.api.common.text.IText;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.ItemEditorModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.BlockSelectionEntryModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.EntryModel;
@@ -46,7 +46,7 @@ public class ItemBlockListCategoryModel extends ItemCategoryModel {
     }
 
     @Override
-    protected Text getAddListEntryButtonTooltip() {
+    protected IText getAddListEntryButtonTooltip() {
         return translated("ibeeditor.text.block");
     }
 

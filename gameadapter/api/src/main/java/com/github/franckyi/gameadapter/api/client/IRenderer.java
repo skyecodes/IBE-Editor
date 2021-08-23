@@ -2,8 +2,8 @@ package com.github.franckyi.gameadapter.api.client;
 
 import com.github.franckyi.gameadapter.Game;
 import com.github.franckyi.gameadapter.api.common.IIdentifier;
-import com.github.franckyi.gameadapter.api.common.IItemStack;
-import com.github.franckyi.gameadapter.api.common.text.Text;
+import com.github.franckyi.gameadapter.api.common.item.IItemStack;
+import com.github.franckyi.gameadapter.api.common.text.IText;
 
 import java.util.List;
 
@@ -12,11 +12,11 @@ public interface IRenderer {
         return Game.getClient().getRenderer();
     }
 
-    int getFontHeight(Text text);
+    int getFontHeight(IText text);
 
-    int getFontWidth(Text text);
+    int getFontWidth(IText text);
 
-    void drawString(IMatrices matrices, Text text, float x, float y, int color, boolean shadow);
+    void drawString(IMatrices matrices, IText text, float x, float y, int color, boolean shadow);
 
     void fillRectangle(IMatrices matrices, int x0, int y0, int x1, int y1, int color);
 
@@ -24,7 +24,7 @@ public interface IRenderer {
 
     void drawSprite(IMatrices matrices, ISprite sprite, int x, int y, int imageWidth, int imageHeight);
 
-    void drawTooltip(IMatrices matrices, List<Text> text, int x, int y);
+    void drawTooltip(IMatrices matrices, List<IText> text, int x, int y);
 
     void drawTooltip(IMatrices matrices, IItemStack itemStack, int x, int y);
 

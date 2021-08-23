@@ -1,8 +1,8 @@
 package com.github.franckyi.ibeeditor.base.client.mvc.controller.entry;
 
 import com.github.franckyi.databindings.api.ObservableList;
-import com.github.franckyi.gameadapter.api.common.text.PlainText;
-import com.github.franckyi.gameadapter.api.common.text.Text;
+import com.github.franckyi.gameadapter.api.common.text.IPlainText;
+import com.github.franckyi.gameadapter.api.common.text.IText;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.TextEntryModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.view.entry.TextEntryView;
 import com.github.franckyi.ibeeditor.base.client.util.texteditor.*;
@@ -81,22 +81,22 @@ public class TextEntryController extends ValueEntryController<TextEntryModel, Te
         }
     }
 
-    private Text renderText(String str, int firstCharacterIndex) {
+    private IText renderText(String str, int firstCharacterIndex) {
         if (!str.isEmpty()) {
             TextEditorOutputFormatter formatter = new TextEditorOutputFormatter(text().extra(text("")));
             formatter.format(str, firstCharacterIndex, formattings);
             return formatter.getText();
         }
-        return emptyText();
+        return EMPTY_TEXT;
     }
 
-    private PlainText createText() {
+    private IPlainText createText() {
         TextEditorOutputFormatter formatter = new TextEditorOutputFormatter(text().extra(text("")));
         formatter.format(view.getTextField().getText(), 0, formattings);
         return formatter.getText();
     }
 
-    private void initFormattings(PlainText text) {
+    private void initFormattings(IPlainText text) {
         TextEditorInputParser parser = new TextEditorInputParser();
         parser.parse(text);
         formattings.setAll(parser.getFormattings());

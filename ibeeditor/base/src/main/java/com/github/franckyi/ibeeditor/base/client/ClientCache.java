@@ -2,10 +2,10 @@ package com.github.franckyi.ibeeditor.base.client;
 
 import com.github.franckyi.gameadapter.Color;
 import com.github.franckyi.gameadapter.api.client.ISprite;
-import com.github.franckyi.gameadapter.api.common.IItemStack;
-import com.github.franckyi.gameadapter.api.common.IRegistry;
-import com.github.franckyi.gameadapter.api.common.IRegistryValue;
 import com.github.franckyi.gameadapter.api.common.RegistryHandler;
+import com.github.franckyi.gameadapter.api.common.item.IItemStack;
+import com.github.franckyi.gameadapter.api.common.registry.IRegistry;
+import com.github.franckyi.gameadapter.api.common.registry.IRegistryValue;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.ItemListSelectionItemModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.ListSelectionItemModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.SpriteListSelectionItemModel;

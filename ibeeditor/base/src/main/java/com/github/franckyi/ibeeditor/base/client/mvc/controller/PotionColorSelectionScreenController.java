@@ -2,7 +2,7 @@ package com.github.franckyi.ibeeditor.base.client.mvc.controller;
 
 import com.github.franckyi.gameadapter.Color;
 import com.github.franckyi.gameadapter.api.common.IIdentifier;
-import com.github.franckyi.gameadapter.api.common.IItemStack;
+import com.github.franckyi.gameadapter.api.common.item.IItemStack;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.ColorSelectionScreenModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.view.PotionColorSelectionScreenView;
 

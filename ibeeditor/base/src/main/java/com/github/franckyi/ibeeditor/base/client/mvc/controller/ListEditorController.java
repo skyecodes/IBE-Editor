@@ -2,7 +2,7 @@ package com.github.franckyi.ibeeditor.base.client.mvc.controller;
 
 import com.github.franckyi.databindings.api.event.ObservableListChangeEvent;
 import com.github.franckyi.databindings.api.event.ObservableListChangeListener;
-import com.github.franckyi.gameadapter.api.common.text.Text;
+import com.github.franckyi.gameadapter.api.common.text.IText;
 import com.github.franckyi.guapi.Guapi;
 import com.github.franckyi.guapi.api.mvc.AbstractController;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.CategoryModel;
@@ -13,7 +13,7 @@ import com.github.franckyi.ibeeditor.base.client.mvc.view.ListEditorView;
 import static com.github.franckyi.guapi.GuapiHelper.*;
 
 public abstract class ListEditorController<M extends ListEditorModel<?>, V extends ListEditorView> extends AbstractController<M, V> {
-    private static final Text FIX_ERRORS = translated("ibeeditor.gui.fix_errors").red();
+    private static final IText FIX_ERRORS = translated("ibeeditor.gui.fix_errors").red();
     private final ObservableListChangeListener<EntryModel> listener = this::onSelectedCategoryEntryChange;
 
     public ListEditorController(M model, V view) {

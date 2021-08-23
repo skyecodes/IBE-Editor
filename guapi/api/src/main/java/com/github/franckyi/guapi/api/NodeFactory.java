@@ -2,8 +2,8 @@ package com.github.franckyi.guapi.api;
 
 import com.github.franckyi.gameadapter.api.client.ISprite;
 import com.github.franckyi.gameadapter.api.common.IIdentifier;
-import com.github.franckyi.gameadapter.api.common.IItemStack;
-import com.github.franckyi.gameadapter.api.common.text.Text;
+import com.github.franckyi.gameadapter.api.common.item.IItemStack;
+import com.github.franckyi.gameadapter.api.common.text.IText;
 import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.api.node.TreeView;
 import com.github.franckyi.guapi.api.node.builder.*;
@@ -17,7 +17,7 @@ public interface NodeFactory {
 
     ButtonBuilder createButton(String text);
 
-    ButtonBuilder createButton(Text text);
+    ButtonBuilder createButton(IText text);
 
     ButtonBuilder createButton(Consumer<ButtonBuilder> with);
 
@@ -25,7 +25,7 @@ public interface NodeFactory {
 
     CheckBoxBuilder createCheckBox(String text);
 
-    CheckBoxBuilder createCheckBox(Text text);
+    CheckBoxBuilder createCheckBox(IText text);
 
     CheckBoxBuilder createCheckBox(Consumer<CheckBoxBuilder> with);
 
@@ -63,11 +63,11 @@ public interface NodeFactory {
 
     LabelBuilder createLabel(String text);
 
-    LabelBuilder createLabel(Text text);
+    LabelBuilder createLabel(IText text);
 
     LabelBuilder createLabel(String text, boolean shadow);
 
-    LabelBuilder createLabel(Text text, boolean shadow);
+    LabelBuilder createLabel(IText text, boolean shadow);
 
     LabelBuilder createLabel(Consumer<LabelBuilder> with);
 
@@ -101,7 +101,7 @@ public interface NodeFactory {
 
     TextFieldBuilder createTextField(String label, String value);
 
-    TextFieldBuilder createTextField(Text label, String value);
+    TextFieldBuilder createTextField(IText label, String value);
 
     TextFieldBuilder createTextField(Consumer<TextFieldBuilder> with);
 
@@ -111,7 +111,7 @@ public interface NodeFactory {
 
     TextAreaBuilder createTextArea(String label, String value);
 
-    TextAreaBuilder createTextArea(Text label, String value);
+    TextAreaBuilder createTextArea(IText label, String value);
 
     TextAreaBuilder createTextArea(Consumer<TextAreaBuilder> with);
 
@@ -131,7 +131,7 @@ public interface NodeFactory {
 
     ToggleButtonBuilder createToggleButton(String text);
 
-    ToggleButtonBuilder createToggleButton(Text text);
+    ToggleButtonBuilder createToggleButton(IText text);
 
     ToggleButtonBuilder createToggleButton(Consumer<ToggleButtonBuilder> with);
 

@@ -1,6 +1,6 @@
 package com.github.franckyi.gameadapter.forge.mixin.common;
 
-import com.github.franckyi.gameadapter.api.common.IBlockState;
+import com.github.franckyi.gameadapter.api.common.world.IBlockState;
 import com.google.common.collect.ImmutableMap;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.block.AbstractBlock;

@@ -1,7 +1,7 @@
 package com.github.franckyi.gameadapter.fabric.mixin.client;
 
 import com.github.franckyi.gameadapter.api.client.IScreen;
-import com.github.franckyi.gameadapter.api.common.ISlot;
+import com.github.franckyi.gameadapter.api.common.item.ISlot;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;

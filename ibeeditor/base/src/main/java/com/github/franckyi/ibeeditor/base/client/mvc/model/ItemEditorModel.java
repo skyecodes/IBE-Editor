@@ -1,16 +1,16 @@
 package com.github.franckyi.ibeeditor.base.client.mvc.model;
 
 import com.github.franckyi.gameadapter.Game;
-import com.github.franckyi.gameadapter.api.common.IItemStack;
+import com.github.franckyi.gameadapter.api.common.item.IItemStack;
 import com.github.franckyi.gameadapter.api.common.tag.ICompoundTag;
 import com.github.franckyi.gameadapter.api.common.tag.ITag;
-import com.github.franckyi.gameadapter.api.common.text.Text;
+import com.github.franckyi.gameadapter.api.common.text.IText;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.category.*;
 
 import java.util.function.Consumer;
 
 public class ItemEditorModel extends StandardEditorModel<IItemStack, ItemCategoryModel> {
-    public ItemEditorModel(IItemStack itemStack, Consumer<IItemStack> action, Text disabledTooltip) {
+    public ItemEditorModel(IItemStack itemStack, Consumer<IItemStack> action, IText disabledTooltip) {
         super(itemStack, action, disabledTooltip, "ibeeditor.text.item");
     }
 

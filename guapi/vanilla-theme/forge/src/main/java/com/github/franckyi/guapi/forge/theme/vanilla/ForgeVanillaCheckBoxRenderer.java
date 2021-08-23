@@ -8,13 +8,14 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.widget.button.CheckboxButton;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.text.ITextComponent;
 
 public class ForgeVanillaCheckBoxRenderer extends CheckboxButton implements ForgeVanillaDelegateRenderer {
     private static final ResourceLocation TEXTURE = new ResourceLocation("guapi-vanilla-theme", "textures/gui/checkbox.png");
     private final CheckBox node;
 
     public ForgeVanillaCheckBoxRenderer(CheckBox node) {
-        super(node.getX(), node.getY(), node.getWidth(), node.getHeight(), node.getLabel().get(), node.isChecked());
+        super(node.getX(), node.getY(), node.getWidth(), node.getHeight(), (ITextComponent) node.getLabel(), node.isChecked());
         this.node = node;
         initLabeled(node, this);
         node.checkedProperty().addListener(this::onModelChange);

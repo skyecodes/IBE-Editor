@@ -2,21 +2,26 @@ package com.github.franckyi.gameadapter.fabric;
 
 import com.github.franckyi.gameadapter.api.GameCommon;
 import com.github.franckyi.gameadapter.api.common.IIdentifier;
-import com.github.franckyi.gameadapter.api.common.IItemStack;
 import com.github.franckyi.gameadapter.api.common.IPlayer;
 import com.github.franckyi.gameadapter.api.common.RegistryHandler;
+import com.github.franckyi.gameadapter.api.common.TagFactory;
+import com.github.franckyi.gameadapter.api.common.item.IItemStack;
 import com.github.franckyi.gameadapter.api.common.tag.ICompoundTag;
-import com.github.franckyi.gameadapter.api.common.tag.TagFactory;
-import com.github.franckyi.gameadapter.api.common.text.TextComponentFactory;
+import com.github.franckyi.gameadapter.api.common.text.IPlainText;
+import com.github.franckyi.gameadapter.api.common.text.IText;
+import com.github.franckyi.gameadapter.api.common.text.ITextEvent;
+import com.github.franckyi.gameadapter.api.common.text.ITranslatedText;
 import com.github.franckyi.gameadapter.fabric.common.FabricRegistryHandler;
 import com.github.franckyi.gameadapter.fabric.common.FabricTagFactory;
-import com.github.franckyi.gameadapter.fabric.common.FabricTextComponentFactory;
 import com.mojang.brigadier.Command;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.command.ServerCommandSource;
+import net.minecraft.text.ClickEvent;
+import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Language;
 import net.minecraft.util.registry.Registry;
@@ -28,12 +33,6 @@ public final class FabricGameCommon implements GameCommon {
     public static final GameCommon INSTANCE = new FabricGameCommon();
 
     private FabricGameCommon() {
-    }
-
-    @Override
-    @SuppressWarnings("unchecked")
-    public TextComponentFactory<Text> getTextComponentFactory() {
-        return FabricTextComponentFactory.INSTANCE;
     }
 
     @Override
@@ -84,5 +83,30 @@ public final class FabricGameCommon implements GameCommon {
     @Override
     public IIdentifier parseIdentifier(String id) {
         return (IIdentifier) Identifier.tryParse(id);
+    }
+
+    @Override
+    public IPlainText createPlainText(String text) {
+        return (IPlainText) new LiteralText(text);
+    }
+
+    @Override
+    public ITranslatedText createTranslatedText(String key) {
+        return (ITranslatedText) new TranslatableText(key);
+    }
+
+    @Override
+    public ITranslatedText createTranslatedText(String key, Object... args) {
+        return (ITranslatedText) new TranslatableText(key, args);
+    }
+
+    @Override
+    public ITextEvent createTextClickEvent(String action, String value) {
+        return (ITextEvent) new ClickEvent(ClickEvent.Action.byName(action), value);
+    }
+
+    @Override
+    public IText createTextFromJson(String json) {
+        return (IText) Text.Serializer.fromJson(json);
     }
 }

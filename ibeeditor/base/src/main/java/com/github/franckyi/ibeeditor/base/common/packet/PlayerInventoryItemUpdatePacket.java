@@ -1,7 +1,7 @@
 package com.github.franckyi.ibeeditor.base.common.packet;
 
-import com.github.franckyi.gameadapter.api.common.IItemStack;
 import com.github.franckyi.gameadapter.api.common.IPacketBuffer;
+import com.github.franckyi.gameadapter.api.common.item.IItemStack;
 
 public class PlayerInventoryItemUpdatePacket extends PlayerMainHandItemUpdatePacket {
     private final int slotId;

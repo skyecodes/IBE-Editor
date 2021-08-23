@@ -1,11 +1,11 @@
 package com.github.franckyi.ibeeditor.base.server;
 
-import com.github.franckyi.gameadapter.api.common.IBlockPos;
-import com.github.franckyi.gameadapter.api.common.IItemStack;
 import com.github.franckyi.gameadapter.api.common.IPlayer;
-import com.github.franckyi.gameadapter.api.common.WorldBlockData;
+import com.github.franckyi.gameadapter.api.common.item.IItemStack;
 import com.github.franckyi.gameadapter.api.common.tag.ICompoundTag;
-import com.github.franckyi.gameadapter.api.common.text.Text;
+import com.github.franckyi.gameadapter.api.common.text.IText;
+import com.github.franckyi.gameadapter.api.common.world.IBlockPos;
+import com.github.franckyi.gameadapter.api.common.world.WorldBlockData;
 import com.github.franckyi.ibeeditor.base.common.ModTexts;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,12 +14,9 @@ import static com.github.franckyi.guapi.GuapiHelper.*;
 
 public final class ServerEditorLogic {
     private static final Logger LOGGER = LogManager.getLogger();
-    private static final Text ITEM_UPDATED = ModTexts.prefixed(translated("ibeeditor.message.success_update")
-            .with(translated("ibeeditor.text.item"))).green();
-    private static final Text BLOCK_UPDATED = ModTexts.prefixed(translated("ibeeditor.message.success_update")
-            .with(translated("ibeeditor.text.block"))).green();
-    private static final Text ENTITY_UPDATED = ModTexts.prefixed(translated("ibeeditor.message.success_update")
-            .with(translated("ibeeditor.text.entity"))).green();
+    private static final IText ITEM_UPDATED = ModTexts.prefixed(translated("ibeeditor.message.success_update", translated("ibeeditor.text.item"))).green();
+    private static final IText BLOCK_UPDATED = ModTexts.prefixed(translated("ibeeditor.message.success_update", translated("ibeeditor.text.block"))).green();
+    private static final IText ENTITY_UPDATED = ModTexts.prefixed(translated("ibeeditor.message.success_update", translated("ibeeditor.text.entity"))).green();
 
     public static void updatePlayerMainHandItem(IPlayer player, IItemStack itemStack) {
         LOGGER.debug("Updating {}'s main hand item to {}", player.getProfileName(), itemStack);

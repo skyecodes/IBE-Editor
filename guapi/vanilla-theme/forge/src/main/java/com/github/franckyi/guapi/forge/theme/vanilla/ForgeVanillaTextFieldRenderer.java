@@ -20,7 +20,7 @@ public class ForgeVanillaTextFieldRenderer extends TextFieldWidget implements Fo
     private final TextField node;
 
     public ForgeVanillaTextFieldRenderer(TextField node) {
-        super(Minecraft.getInstance().font, node.getX(), node.getY(), node.getWidth(), node.getHeight(), node.getLabel().get());
+        super(Minecraft.getInstance().font, node.getX(), node.getY(), node.getWidth(), node.getHeight(), (ITextComponent) node.getLabel());
         this.node = node;
         active = !node.isDisabled();
         setMaxLength(node.getMaxLength());
@@ -32,7 +32,7 @@ public class ForgeVanillaTextFieldRenderer extends TextFieldWidget implements Fo
         node.widthProperty().addListener(newVal -> setWidth(newVal - 2));
         node.heightProperty().addListener(newVal -> setHeight(newVal - 2));
         node.disabledProperty().addListener(newVal -> active = !newVal);
-        node.labelProperty().addListener(newVal -> setMessage(newVal.get()));
+        node.labelProperty().addListener(newVal -> setMessage((ITextComponent) newVal));
         node.maxLengthProperty().addListener(this::setMaxLength);
         node.textProperty().addListener(this::updateText);
         node.focusedProperty().addListener(this::setFocused);
@@ -85,7 +85,7 @@ public class ForgeVanillaTextFieldRenderer extends TextFieldWidget implements Fo
     }
 
     public ITextComponent renderText(String str, int firstCharacterIndex) {
-        return node.getTextRenderer() == null ? new StringTextComponent(str) : node.getTextRenderer().render(str, firstCharacterIndex).get();
+        return node.getTextRenderer() == null ? new StringTextComponent(str) : (ITextComponent) node.getTextRenderer().render(str, firstCharacterIndex);
     }
 
     @Override

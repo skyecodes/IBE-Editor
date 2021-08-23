@@ -3,7 +3,7 @@ package com.github.franckyi.ibeeditor.base.client.mvc.model;
 import com.github.franckyi.databindings.api.BooleanProperty;
 import com.github.franckyi.databindings.api.ObservableList;
 import com.github.franckyi.databindings.api.StringProperty;
-import com.github.franckyi.gameadapter.api.common.text.Text;
+import com.github.franckyi.gameadapter.api.common.text.IText;
 import com.github.franckyi.guapi.api.mvc.Model;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.AddListEntryEntryModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.EntryModel;
@@ -28,7 +28,7 @@ public abstract class CategoryModel implements Model {
     public void initalize() {
         setupEntries();
         if (hasEntryList()) {
-            getEntries().add(new AddListEntryEntryModel(this, translated("ibeeditor.gui.add").green().with(getAddListEntryButtonTooltip())));
+            getEntries().add(new AddListEntryEntryModel(this, translated("ibeeditor.gui.add", getAddListEntryButtonTooltip()).green()));
         }
         updateValidity();
         validProperty().addListener(getEditor()::updateValidity);
@@ -116,8 +116,8 @@ public abstract class CategoryModel implements Model {
         return null;
     }
 
-    protected Text getAddListEntryButtonTooltip() {
-        return emptyText();
+    protected IText getAddListEntryButtonTooltip() {
+        return EMPTY_TEXT;
     }
 
     public void moveEntryUp(int index) {

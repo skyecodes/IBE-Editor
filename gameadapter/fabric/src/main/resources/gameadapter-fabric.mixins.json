@@ -35,7 +35,11 @@
     "common.tag.FabricNbtLongArrayMixin",
     "common.tag.FabricNbtLongMixin",
     "common.tag.FabricNbtShortMixin",
-    "common.tag.FabricNbtStringMixin"
+    "common.tag.FabricNbtStringMixin",
+    "common.text.FabricBaseTextMixin",
+    "common.text.FabricClickEventMixin",
+    "common.text.FabricLiteralTextMixin",
+    "common.text.FabricStyleMixin"
   ],
   "client": [
     "client.FabricHandledScreenMixin",

@@ -22,7 +22,6 @@ dependencies {
     implementation project(':databindings:api')
     implementation project(':databindings:base')
     implementation project(':gameadapter:api')
-    implementation project(':gameadapter:base')
     implementation project(':gameadapter:fabric')
     implementation project(':guapi:api')
     implementation project(':guapi:base')

@@ -3,7 +3,7 @@ package com.github.franckyi.ibeeditor.base.client.mvc.model.category;
 import com.github.franckyi.gameadapter.api.common.tag.ICompoundTag;
 import com.github.franckyi.gameadapter.api.common.tag.IListTag;
 import com.github.franckyi.gameadapter.api.common.tag.ITag;
-import com.github.franckyi.gameadapter.api.common.text.Text;
+import com.github.franckyi.gameadapter.api.common.text.IText;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.ItemEditorModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.AttributeModifierEntryModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.EntryModel;
@@ -57,7 +57,7 @@ public class ItemAttributeModifiersCategoryModel extends ItemCategoryModel {
     }
 
     @Override
-    protected Text getAddListEntryButtonTooltip() {
+    protected IText getAddListEntryButtonTooltip() {
         return translated("ibeeditor.gui.modifier");
     }
 

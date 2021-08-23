@@ -1,6 +1,6 @@
 package com.github.franckyi.ibeeditor.base.client.util.texteditor;
 
-import com.github.franckyi.gameadapter.api.common.text.PlainText;
+import com.github.franckyi.gameadapter.api.common.text.IPlainText;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -8,12 +8,12 @@ import java.util.stream.Collectors;
 import static com.github.franckyi.guapi.GuapiHelper.*;
 
 public class TextEditorOutputFormatter {
-    private final PlainText rootText;
+    private final IPlainText rootText;
     private int currentFormattingIndex;
     private int previousTextIndex;
     private List<Formatting> currentFormattings;
 
-    public TextEditorOutputFormatter(PlainText rootText) {
+    public TextEditorOutputFormatter(IPlainText rootText) {
         this.rootText = rootText;
     }
 
@@ -55,12 +55,12 @@ public class TextEditorOutputFormatter {
     }
 
     private void appendText(String s) {
-        PlainText text = text(s);
+        IPlainText text = text(s);
         currentFormattings.forEach(formatting -> formatting.apply(text));
         rootText.addExtra(text);
     }
 
-    public PlainText getText() {
+    public IPlainText getText() {
         return rootText;
     }
 }

@@ -2,7 +2,7 @@ package com.github.franckyi.ibeeditor.base.client.mvc.model.entry;
 
 import com.github.franckyi.databindings.api.ObjectProperty;
 import com.github.franckyi.databindings.api.StringProperty;
-import com.github.franckyi.gameadapter.api.common.text.Text;
+import com.github.franckyi.gameadapter.api.common.text.IText;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.CategoryModel;
 
 import java.util.Locale;
@@ -119,7 +119,7 @@ public class AttributeModifierEntryModel extends EntryModel {
     public enum Slot {
         MAINHAND, OFFHAND, FEET, LEGS, CHEST, HEAD;
 
-        private final Text text;
+        private final IText text;
 
         Slot() {
             text = translated("ibeeditor.gui." + getValue());
@@ -138,7 +138,7 @@ public class AttributeModifierEntryModel extends EntryModel {
             return name().toLowerCase(Locale.ROOT);
         }
 
-        public Text getText() {
+        public IText getText() {
             return text;
         }
     }
@@ -146,11 +146,11 @@ public class AttributeModifierEntryModel extends EntryModel {
     public enum Operation {
         ADD, MULTIPLY_BASE, MULTIPLY;
 
-        private final Text text, tooltip;
+        private final IText text, tooltip;
 
         Operation() {
             text = text("OP: " + getValue());
-            tooltip = translated("ibeeditor.gui.operation").with(translated("ibeeditor.gui.operation_" + getValue()));
+            tooltip = translated("ibeeditor.gui.operation", translated("ibeeditor.gui.operation_" + getValue()));
         }
 
         public static Operation from(int value) {
@@ -166,11 +166,11 @@ public class AttributeModifierEntryModel extends EntryModel {
             return ordinal();
         }
 
-        public Text getText() {
+        public IText getText() {
             return text;
         }
 
-        public Text getTooltip() {
+        public IText getTooltip() {
             return tooltip;
         }
     }

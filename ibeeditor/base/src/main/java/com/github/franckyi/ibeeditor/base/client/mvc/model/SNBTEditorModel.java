@@ -1,7 +1,7 @@
 package com.github.franckyi.ibeeditor.base.client.mvc.model;
 
 import com.github.franckyi.databindings.api.StringProperty;
-import com.github.franckyi.gameadapter.api.common.text.Text;
+import com.github.franckyi.gameadapter.api.common.text.IText;
 import com.github.franckyi.guapi.api.mvc.Model;
 
 import java.util.function.Consumer;
@@ -9,9 +9,9 @@ import java.util.function.Consumer;
 public class SNBTEditorModel implements Model {
     private final StringProperty valueProperty;
     private final Consumer<String> action;
-    private final Text disabledTooltip;
+    private final IText disabledTooltip;
 
-    public SNBTEditorModel(String value, Consumer<String> action, Text disabledTooltip) {
+    public SNBTEditorModel(String value, Consumer<String> action, IText disabledTooltip) {
         valueProperty = StringProperty.create(value);
         this.action = action;
         this.disabledTooltip = disabledTooltip;
@@ -33,7 +33,7 @@ public class SNBTEditorModel implements Model {
         return action;
     }
 
-    public Text getDisabledTooltip() {
+    public IText getDisabledTooltip() {
         return disabledTooltip;
     }
 

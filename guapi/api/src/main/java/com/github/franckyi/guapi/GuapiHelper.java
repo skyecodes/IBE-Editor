@@ -1,15 +1,13 @@
 package com.github.franckyi.guapi;
 
 import com.github.franckyi.gameadapter.Color;
-import com.github.franckyi.gameadapter.TextHandler;
 import com.github.franckyi.gameadapter.api.client.ISprite;
 import com.github.franckyi.gameadapter.api.common.IIdentifier;
-import com.github.franckyi.gameadapter.api.common.IItemStack;
-import com.github.franckyi.gameadapter.api.common.text.Text;
-import com.github.franckyi.gameadapter.api.common.text.TextEvent;
-import com.github.franckyi.gameadapter.api.common.text.TextFactory;
-import com.github.franckyi.gameadapter.api.common.text.builder.PlainTextBuilder;
-import com.github.franckyi.gameadapter.api.common.text.builder.TranslatedTextBuilder;
+import com.github.franckyi.gameadapter.api.common.item.IItemStack;
+import com.github.franckyi.gameadapter.api.common.text.IPlainText;
+import com.github.franckyi.gameadapter.api.common.text.IText;
+import com.github.franckyi.gameadapter.api.common.text.ITextEvent;
+import com.github.franckyi.gameadapter.api.common.text.ITranslatedText;
 import com.github.franckyi.guapi.api.NodeFactory;
 import com.github.franckyi.guapi.api.mvc.Controller;
 import com.github.franckyi.guapi.api.mvc.MVC;
@@ -62,10 +60,6 @@ public final class GuapiHelper {
         return Guapi.getNodeFactory();
     }
 
-    private static TextFactory textFactory() {
-        return TextHandler.getTextFactory();
-    }
-
     public static ButtonBuilder button() {
         return node().createButton();
     }
@@ -74,7 +68,7 @@ public final class GuapiHelper {
         return node().createButton(text);
     }
 
-    public static ButtonBuilder button(Text text) {
+    public static ButtonBuilder button(IText text) {
         return node().createButton(text);
     }
 
@@ -90,7 +84,7 @@ public final class GuapiHelper {
         return node().createCheckBox(text);
     }
 
-    public static CheckBoxBuilder checkBox(Text text) {
+    public static CheckBoxBuilder checkBox(IText text) {
         return node().createCheckBox(text);
     }
 
@@ -166,7 +160,7 @@ public final class GuapiHelper {
         return node().createLabel(text);
     }
 
-    public static LabelBuilder label(Text text) {
+    public static LabelBuilder label(IText text) {
         return node().createLabel(text);
     }
 
@@ -174,7 +168,7 @@ public final class GuapiHelper {
         return node().createLabel(text, shadow);
     }
 
-    public static LabelBuilder label(Text text, boolean shadow) {
+    public static LabelBuilder label(IText text, boolean shadow) {
         return node().createLabel(text, shadow);
     }
 
@@ -250,7 +244,7 @@ public final class GuapiHelper {
         return node().createTextField(label, value);
     }
 
-    public static TextFieldBuilder textField(Text label, String value) {
+    public static TextFieldBuilder textField(IText label, String value) {
         return node().createTextField(label, value);
     }
 
@@ -270,7 +264,7 @@ public final class GuapiHelper {
         return node().createTextArea(label, value);
     }
 
-    public static TextAreaBuilder textArea(Text label, String value) {
+    public static TextAreaBuilder textArea(IText label, String value) {
         return node().createTextArea(label, value);
     }
 
@@ -310,7 +304,7 @@ public final class GuapiHelper {
         return node().createToggleButton(text);
     }
 
-    public static ToggleButtonBuilder toggleButton(Text text) {
+    public static ToggleButtonBuilder toggleButton(IText text) {
         return node().createToggleButton(text);
     }
 
@@ -382,32 +376,34 @@ public final class GuapiHelper {
         return node().createScene(with);
     }
 
-    public static Text emptyText() {
-        return textFactory().createEmptyText();
+    public static IText EMPTY_TEXT = IText.EMPTY;
+
+    public static IPlainText text() {
+        return text(null);
     }
 
-    public static PlainTextBuilder text() {
-        return textFactory().createPlainText();
+    public static IPlainText text(String text) {
+        return IPlainText.create(text);
     }
 
-    public static PlainTextBuilder text(String text) {
-        return textFactory().createPlainText(text);
+    public static ITranslatedText translated() {
+        return ITranslatedText.create(null);
     }
 
-    public static TranslatedTextBuilder translated() {
-        return textFactory().createTranslatedText();
+    public static ITranslatedText translated(String key) {
+        return ITranslatedText.create(key);
     }
 
-    public static TranslatedTextBuilder translated(String translate) {
-        return textFactory().createTranslatedText(translate);
+    public static ITranslatedText translated(String key, Object... args) {
+        return ITranslatedText.create(key, args);
     }
 
-    public static TextEvent event(String action, String value) {
-        return textFactory().createEvent(action, value);
+    public static ITextEvent event(String action, String value) {
+        return ITextEvent.click(action, value);
     }
 
-    public static TextEvent link(String url) {
-        return textFactory().createLink(url);
+    public static ITextEvent link(String url) {
+        return ITextEvent.click("open_url", url);
     }
 
     public static int rgb(int r, int g, int b) {

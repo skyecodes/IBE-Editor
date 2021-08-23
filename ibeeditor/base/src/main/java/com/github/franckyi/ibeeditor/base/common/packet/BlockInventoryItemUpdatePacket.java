@@ -1,8 +1,8 @@
 package com.github.franckyi.ibeeditor.base.common.packet;
 
-import com.github.franckyi.gameadapter.api.common.IBlockPos;
-import com.github.franckyi.gameadapter.api.common.IItemStack;
 import com.github.franckyi.gameadapter.api.common.IPacketBuffer;
+import com.github.franckyi.gameadapter.api.common.item.IItemStack;
+import com.github.franckyi.gameadapter.api.common.world.IBlockPos;
 
 public class BlockInventoryItemUpdatePacket extends PlayerInventoryItemUpdatePacket {
     private final IBlockPos blockPos;

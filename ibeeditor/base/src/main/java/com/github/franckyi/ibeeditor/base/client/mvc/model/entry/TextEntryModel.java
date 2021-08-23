@@ -1,15 +1,15 @@
 package com.github.franckyi.ibeeditor.base.client.mvc.model.entry;
 
-import com.github.franckyi.gameadapter.api.common.text.PlainText;
-import com.github.franckyi.gameadapter.api.common.text.Text;
+import com.github.franckyi.gameadapter.api.common.text.IPlainText;
+import com.github.franckyi.gameadapter.api.common.text.IText;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.CategoryModel;
 
 import java.util.function.Consumer;
 
 import static com.github.franckyi.guapi.GuapiHelper.*;
 
-public class TextEntryModel extends ValueEntryModel<PlainText> {
-    public TextEntryModel(CategoryModel category, Text label, PlainText value, Consumer<PlainText> action) {
+public class TextEntryModel extends ValueEntryModel<IPlainText> {
+    public TextEntryModel(CategoryModel category, IText label, IPlainText value, Consumer<IPlainText> action) {
         super(category, label, value == null ? text() : value, action);
     }
 

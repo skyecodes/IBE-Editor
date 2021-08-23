@@ -3,7 +3,7 @@ package com.github.franckyi.guapi.base.node;
 import com.github.franckyi.databindings.api.BooleanProperty;
 import com.github.franckyi.databindings.api.IntegerProperty;
 import com.github.franckyi.gameadapter.Color;
-import com.github.franckyi.gameadapter.api.common.text.Text;
+import com.github.franckyi.gameadapter.api.common.text.IText;
 import com.github.franckyi.guapi.api.event.MouseButtonEvent;
 import com.github.franckyi.guapi.api.node.ToggleButton;
 
@@ -18,7 +18,7 @@ public abstract class AbstractToggleButton extends AbstractButton implements Tog
         super(text);
     }
 
-    protected AbstractToggleButton(Text label) {
+    protected AbstractToggleButton(IText label) {
         super(label);
     }
 

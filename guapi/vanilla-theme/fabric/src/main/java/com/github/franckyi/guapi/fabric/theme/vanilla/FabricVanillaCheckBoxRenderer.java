@@ -6,6 +6,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.widget.CheckboxWidget;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 
@@ -14,7 +15,7 @@ public class FabricVanillaCheckBoxRenderer extends CheckboxWidget implements Fab
     private final CheckBox node;
 
     public FabricVanillaCheckBoxRenderer(CheckBox node) {
-        super(node.getX(), node.getY(), node.getWidth(), node.getHeight(), node.getLabel().get(), node.isChecked());
+        super(node.getX(), node.getY(), node.getWidth(), node.getHeight(), (Text) node.getLabel(), node.isChecked());
         this.node = node;
         initLabeled(node, this);
         node.checkedProperty().addListener(this::onModelChange);

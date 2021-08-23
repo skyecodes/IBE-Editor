@@ -1,6 +1,6 @@
 package com.github.franckyi.guapi.base.node;
 
-import com.github.franckyi.gameadapter.api.common.text.Text;
+import com.github.franckyi.gameadapter.api.common.text.IText;
 import com.github.franckyi.guapi.api.node.builder.ToggleButtonBuilder;
 import com.github.franckyi.guapi.api.util.NodeType;
 
@@ -12,7 +12,7 @@ public class ToggleButtonImpl extends AbstractToggleButton implements ToggleButt
         super(text);
     }
 
-    public ToggleButtonImpl(Text label) {
+    public ToggleButtonImpl(IText label) {
         super(label);
     }
 

@@ -1,6 +1,6 @@
 package com.github.franckyi.guapi.base.node;
 
-import com.github.franckyi.gameadapter.api.common.text.Text;
+import com.github.franckyi.gameadapter.api.common.text.IText;
 import com.github.franckyi.guapi.api.node.builder.LabelBuilder;
 import com.github.franckyi.guapi.api.util.NodeType;
 
@@ -12,7 +12,7 @@ public class LabelImpl extends AbstractLabel implements LabelBuilder {
         super(text);
     }
 
-    public LabelImpl(Text text) {
+    public LabelImpl(IText text) {
         super(text);
     }
 
@@ -20,7 +20,7 @@ public class LabelImpl extends AbstractLabel implements LabelBuilder {
         super(text, shadow);
     }
 
-    public LabelImpl(Text label, boolean shadow) {
+    public LabelImpl(IText label, boolean shadow) {
         super(label, shadow);
     }
 

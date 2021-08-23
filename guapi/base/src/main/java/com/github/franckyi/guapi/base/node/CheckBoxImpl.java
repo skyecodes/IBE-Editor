@@ -1,6 +1,6 @@
 package com.github.franckyi.guapi.base.node;
 
-import com.github.franckyi.gameadapter.api.common.text.Text;
+import com.github.franckyi.gameadapter.api.common.text.IText;
 import com.github.franckyi.guapi.api.node.builder.CheckBoxBuilder;
 import com.github.franckyi.guapi.api.util.NodeType;
 
@@ -12,7 +12,7 @@ public class CheckBoxImpl extends AbstractCheckBox implements CheckBoxBuilder {
         super(label);
     }
 
-    public CheckBoxImpl(Text label) {
+    public CheckBoxImpl(IText label) {
         super(label);
     }
 

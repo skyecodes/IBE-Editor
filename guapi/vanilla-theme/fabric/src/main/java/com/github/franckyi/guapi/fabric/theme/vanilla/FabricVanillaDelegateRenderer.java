@@ -10,6 +10,7 @@ import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.text.Text;
 
 public interface FabricVanillaDelegateRenderer extends DelegatedRenderer, Element, Drawable {
     @Override
@@ -70,6 +71,6 @@ public interface FabricVanillaDelegateRenderer extends DelegatedRenderer, Elemen
 
     default void initLabeled(Labeled node, ClickableWidget widget) {
         initNode(node, widget);
-        node.labelProperty().addListener(label -> widget.setMessage(label.get()));
+        node.labelProperty().addListener(label -> widget.setMessage((Text) label));
     }
 }

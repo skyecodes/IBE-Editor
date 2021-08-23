@@ -1,7 +1,7 @@
 package com.github.franckyi.guapi.api.node;
 
 import com.github.franckyi.databindings.api.*;
-import com.github.franckyi.gameadapter.api.common.text.Text;
+import com.github.franckyi.gameadapter.api.common.text.IText;
 
 import java.util.function.Predicate;
 
@@ -95,19 +95,19 @@ public interface TextField extends Labeled {
 
     ObservableBooleanValue suggestedProperty();
 
-    default Text getPlaceholder() {
+    default IText getPlaceholder() {
         return placeholderProperty().getValue();
     }
 
-    ObjectProperty<Text> placeholderProperty();
+    ObjectProperty<IText> placeholderProperty();
 
-    default void setPlaceholder(Text value) {
+    default void setPlaceholder(IText value) {
         placeholderProperty().setValue(value);
     }
 
     @FunctionalInterface
     interface TextRenderer {
-        Text render(String text, int firstCharacterIndex);
+        IText render(String text, int firstCharacterIndex);
     }
 
     @FunctionalInterface

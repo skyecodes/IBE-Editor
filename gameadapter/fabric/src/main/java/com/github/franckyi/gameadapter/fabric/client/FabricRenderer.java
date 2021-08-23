@@ -4,8 +4,8 @@ import com.github.franckyi.gameadapter.api.client.IMatrices;
 import com.github.franckyi.gameadapter.api.client.IRenderer;
 import com.github.franckyi.gameadapter.api.client.ISprite;
 import com.github.franckyi.gameadapter.api.common.IIdentifier;
-import com.github.franckyi.gameadapter.api.common.IItemStack;
-import com.github.franckyi.gameadapter.api.common.text.Text;
+import com.github.franckyi.gameadapter.api.common.item.IItemStack;
+import com.github.franckyi.gameadapter.api.common.text.IText;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
@@ -16,7 +16,6 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class FabricRenderer implements IRenderer {
     public static final FabricRenderer INSTANCE = new FabricRenderer();
@@ -29,21 +28,21 @@ public class FabricRenderer implements IRenderer {
     }
 
     @Override
-    public int getFontHeight(Text text) {
+    public int getFontHeight(IText text) {
         return font().fontHeight;
     }
 
     @Override
-    public int getFontWidth(Text text) {
-        return font().getWidth((net.minecraft.text.Text) text.get());
+    public int getFontWidth(IText text) {
+        return font().getWidth((net.minecraft.text.Text) text);
     }
 
     @Override
-    public void drawString(IMatrices matrices, Text text, float x, float y, int color, boolean shadow) {
+    public void drawString(IMatrices matrices, IText text, float x, float y, int color, boolean shadow) {
         if (shadow) {
-            font().drawWithShadow((MatrixStack) matrices, (net.minecraft.text.Text) text.get(), x, y, color);
+            font().drawWithShadow((MatrixStack) matrices, (net.minecraft.text.Text) text, x, y, color);
         } else {
-            font().draw((MatrixStack) matrices, (net.minecraft.text.Text) text.get(), x, y, color);
+            font().draw((MatrixStack) matrices, (net.minecraft.text.Text) text, x, y, color);
         }
     }
 
@@ -71,8 +70,9 @@ public class FabricRenderer implements IRenderer {
     }
 
     @Override
-    public void drawTooltip(IMatrices matrices, List<Text> text, int x, int y) {
-        MinecraftClient.getInstance().currentScreen.renderTooltip((MatrixStack) matrices, text.stream().<net.minecraft.text.Text>map(Text::get).collect(Collectors.toList()), x, y);
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    public void drawTooltip(IMatrices matrices, List<IText> text, int x, int y) {
+        MinecraftClient.getInstance().currentScreen.renderTooltip((MatrixStack) matrices, (List) text, x, y);
     }
 
     @Override

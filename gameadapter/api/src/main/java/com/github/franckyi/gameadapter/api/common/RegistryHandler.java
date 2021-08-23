@@ -1,6 +1,9 @@
 package com.github.franckyi.gameadapter.api.common;
 
 import com.github.franckyi.gameadapter.Game;
+import com.github.franckyi.gameadapter.api.common.item.IEnchantment;
+import com.github.franckyi.gameadapter.api.common.registry.IRegistry;
+import com.github.franckyi.gameadapter.api.common.registry.IRegistryValue;
 
 public interface RegistryHandler {
     static RegistryHandler get() {

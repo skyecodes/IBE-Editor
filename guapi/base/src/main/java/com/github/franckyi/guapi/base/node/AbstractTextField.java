@@ -1,7 +1,7 @@
 package com.github.franckyi.guapi.base.node;
 
 import com.github.franckyi.databindings.api.*;
-import com.github.franckyi.gameadapter.api.common.text.Text;
+import com.github.franckyi.gameadapter.api.common.text.IText;
 import com.github.franckyi.guapi.api.node.TextField;
 
 import java.util.function.Predicate;
@@ -22,21 +22,21 @@ public abstract class AbstractTextField extends AbstractLabeled implements TextF
     private final ObservableList<String> suggestions = ObservableList.create();
     private final BooleanProperty suggestedProperty = BooleanProperty.create();
     private final ObservableBooleanValue suggestedPropertyReadOnly = ObservableBooleanValue.readOnly(suggestedProperty);
-    private final ObjectProperty<Text> placeholderProperty = ObjectProperty.create(emptyText());
+    private final ObjectProperty<IText> placeholderProperty = ObjectProperty.create(EMPTY_TEXT);
 
     protected AbstractTextField() {
         this("");
     }
 
     protected AbstractTextField(String value) {
-        this(emptyText(), value);
+        this(EMPTY_TEXT, value);
     }
 
     protected AbstractTextField(String label, String value) {
         this(text(label), value);
     }
 
-    protected AbstractTextField(Text label, String value) {
+    protected AbstractTextField(IText label, String value) {
         super(label);
         setText(value);
         textProperty().addListener(this::updateValid);
@@ -109,7 +109,7 @@ public abstract class AbstractTextField extends AbstractLabeled implements TextF
     }
 
     @Override
-    public ObjectProperty<Text> placeholderProperty() {
+    public ObjectProperty<IText> placeholderProperty() {
         return placeholderProperty;
     }
 

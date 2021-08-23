@@ -2,7 +2,7 @@ package com.github.franckyi.guapi.base.node;
 
 import com.github.franckyi.databindings.api.IntegerProperty;
 import com.github.franckyi.databindings.api.ObjectProperty;
-import com.github.franckyi.gameadapter.api.common.text.Text;
+import com.github.franckyi.gameadapter.api.common.text.IText;
 import com.github.franckyi.guapi.api.event.MouseButtonEvent;
 import com.github.franckyi.guapi.api.node.EnumButton;
 
@@ -13,7 +13,7 @@ import static com.github.franckyi.guapi.GuapiHelper.*;
 public abstract class AbstractEnumButton<E extends Enum<E>> extends AbstractButton implements EnumButton<E> {
     private final ObjectProperty<E> valueProperty = ObjectProperty.create();
     private final IntegerProperty valueIndexProperty = IntegerProperty.create();
-    private final ObjectProperty<Function<E, Text>> textFactoryProperty = ObjectProperty.create(e -> text(e.name()));
+    private final ObjectProperty<Function<E, IText>> textFactoryProperty = ObjectProperty.create(e -> text(e.name()));
     private final E[] values;
     private boolean indexUpdated, valueUpdated;
 
@@ -47,7 +47,7 @@ public abstract class AbstractEnumButton<E extends Enum<E>> extends AbstractButt
     }
 
     @Override
-    public ObjectProperty<Function<E, Text>> textFactoryProperty() {
+    public ObjectProperty<Function<E, IText>> textFactoryProperty() {
         return textFactoryProperty;
     }
 

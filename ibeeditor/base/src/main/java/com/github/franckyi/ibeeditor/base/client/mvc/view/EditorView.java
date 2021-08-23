@@ -1,7 +1,7 @@
 package com.github.franckyi.ibeeditor.base.client.mvc.view;
 
 import com.github.franckyi.gameadapter.api.common.IIdentifier;
-import com.github.franckyi.gameadapter.api.common.text.Text;
+import com.github.franckyi.gameadapter.api.common.text.IText;
 import com.github.franckyi.guapi.api.mvc.View;
 import com.github.franckyi.guapi.api.node.*;
 import com.github.franckyi.guapi.api.node.builder.TexturedButtonBuilder;
@@ -67,7 +67,7 @@ public abstract class EditorView implements View {
         return createButton(id, translated(tooltipText));
     }
 
-    protected TexturedButtonBuilder createButton(IIdentifier id, Text tooltipText) {
+    protected TexturedButtonBuilder createButton(IIdentifier id, IText tooltipText) {
         return texturedButton(id, 16, 16, false).tooltip(tooltipText);
     }
 

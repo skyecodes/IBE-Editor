@@ -1,6 +1,6 @@
 package com.github.franckyi.gameadapter.forge.mixin.common;
 
-import com.github.franckyi.gameadapter.api.common.IRegistryValue;
+import com.github.franckyi.gameadapter.api.common.registry.IRegistryValue;
 import net.minecraft.item.Item;
 import net.minecraft.util.IItemProvider;
 import net.minecraftforge.common.extensions.IForgeItem;

@@ -2,7 +2,7 @@ package com.github.franckyi.ibeeditor.base.server;
 
 import com.github.franckyi.gameadapter.Game;
 import com.github.franckyi.gameadapter.api.common.IPlayer;
-import com.github.franckyi.gameadapter.api.common.text.Text;
+import com.github.franckyi.gameadapter.api.common.text.IText;
 import com.github.franckyi.ibeeditor.base.common.EditorType;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
@@ -18,8 +18,8 @@ import static com.github.franckyi.guapi.GuapiHelper.*;
 
 public final class ServerCommandHandler {
     private static final Logger LOGGER = LogManager.getLogger();
-    private static final Text MUST_INSTALL = text("You must install IBE Editor in order to use this command.").red();
-    private static final Text DOWNLOAD = text("Click here to download the mod!").click(link("https://www.curseforge.com/minecraft/mc-mods/ibe-editor")).aqua().underlined();
+    private static final IText MUST_INSTALL = text("You must install IBE Editor in order to use this command.").red();
+    private static final IText DOWNLOAD = text("Click here to download the mod!").click(link("https://www.curseforge.com/minecraft/mc-mods/ibe-editor")).aqua().underlined();
 
     private enum EditorTargetArgument {
         ITEM("item", ServerCommandHandler::commandOpenItemEditor),

@@ -1,9 +1,9 @@
 package com.github.franckyi.gameadapter.forge.mixin.common;
 
-import com.github.franckyi.gameadapter.api.common.IBlockPos;
-import com.github.franckyi.gameadapter.api.common.IBlockState;
 import com.github.franckyi.gameadapter.api.common.IPacketBuffer;
 import com.github.franckyi.gameadapter.api.common.tag.ICompoundTag;
+import com.github.franckyi.gameadapter.api.common.world.IBlockPos;
+import com.github.franckyi.gameadapter.api.common.world.IBlockState;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;

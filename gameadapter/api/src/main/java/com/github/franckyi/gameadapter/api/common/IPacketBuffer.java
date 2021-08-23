@@ -1,6 +1,8 @@
 package com.github.franckyi.gameadapter.api.common;
 
 import com.github.franckyi.gameadapter.api.common.tag.ICompoundTag;
+import com.github.franckyi.gameadapter.api.common.world.IBlockPos;
+import com.github.franckyi.gameadapter.api.common.world.IBlockState;
 import io.netty.buffer.ByteBuf;
 
 public interface IPacketBuffer {

@@ -1,6 +1,6 @@
 package com.github.franckyi.guapi.api.node.builder.generic;
 
-import com.github.franckyi.gameadapter.api.common.text.Text;
+import com.github.franckyi.gameadapter.api.common.text.IText;
 import com.github.franckyi.guapi.api.event.*;
 import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.api.node.builder.Builder;
@@ -71,7 +71,7 @@ public interface GenericNodeBuilder<N extends Node> extends Node, Builder<N> {
         return padding(new Insets(top, right, bottom, left));
     }
 
-    default N tooltip(Text... value) {
+    default N tooltip(IText... value) {
         return with(n -> n.getTooltip().setAll(value));
     }
 

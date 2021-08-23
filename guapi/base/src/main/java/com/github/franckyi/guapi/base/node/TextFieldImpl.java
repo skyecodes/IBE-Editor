@@ -1,6 +1,6 @@
 package com.github.franckyi.guapi.base.node;
 
-import com.github.franckyi.gameadapter.api.common.text.Text;
+import com.github.franckyi.gameadapter.api.common.text.IText;
 import com.github.franckyi.guapi.api.node.builder.TextFieldBuilder;
 import com.github.franckyi.guapi.api.util.NodeType;
 
@@ -16,7 +16,7 @@ public class TextFieldImpl extends AbstractTextField implements TextFieldBuilder
         super(label, value);
     }
 
-    public TextFieldImpl(Text label, String value) {
+    public TextFieldImpl(IText label, String value) {
         super(label, value);
     }
 

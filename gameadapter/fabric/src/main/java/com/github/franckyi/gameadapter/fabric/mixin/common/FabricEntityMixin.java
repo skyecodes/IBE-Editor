@@ -1,7 +1,7 @@
 package com.github.franckyi.gameadapter.fabric.mixin.common;
 
-import com.github.franckyi.gameadapter.api.common.IEntity;
 import com.github.franckyi.gameadapter.api.common.tag.ICompoundTag;
+import com.github.franckyi.gameadapter.api.common.world.IEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.command.CommandOutput;

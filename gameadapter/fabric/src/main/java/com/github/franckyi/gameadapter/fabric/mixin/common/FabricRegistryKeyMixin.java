@@ -1,7 +1,7 @@
 package com.github.franckyi.gameadapter.fabric.mixin.common;
 
 import com.github.franckyi.gameadapter.api.common.IIdentifier;
-import com.github.franckyi.gameadapter.api.common.IRegistryKey;
+import com.github.franckyi.gameadapter.api.common.registry.IRegistryKey;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.RegistryKey;
 import org.spongepowered.asm.mixin.Mixin;

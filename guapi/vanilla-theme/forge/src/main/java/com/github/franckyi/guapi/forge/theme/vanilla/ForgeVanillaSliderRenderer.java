@@ -3,6 +3,7 @@ package com.github.franckyi.guapi.forge.theme.vanilla;
 import com.github.franckyi.guapi.api.node.Slider;
 import net.minecraft.client.gui.widget.AbstractSlider;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import org.lwjgl.glfw.GLFW;
 
@@ -69,7 +70,7 @@ public class ForgeVanillaSliderRenderer extends AbstractSlider implements ForgeV
 
     @Override
     protected void updateMessage() {
-        setMessage(node.getLabelFactory().apply(node.getValue()).get());
+        setMessage((ITextComponent) node.getLabelFactory().apply(node.getValue()));
     }
 
     @Override

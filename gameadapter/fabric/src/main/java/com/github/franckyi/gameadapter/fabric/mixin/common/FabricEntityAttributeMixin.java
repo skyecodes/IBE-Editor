@@ -1,6 +1,6 @@
 package com.github.franckyi.gameadapter.fabric.mixin.common;
 
-import com.github.franckyi.gameadapter.api.common.IRegistryValue;
+import com.github.franckyi.gameadapter.api.common.registry.IRegistryValue;
 import net.minecraft.entity.attribute.EntityAttribute;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;

@@ -1,8 +1,8 @@
 package com.github.franckyi.ibeeditor.base.client;
 
 import com.github.franckyi.gameadapter.api.common.IPlayer;
-import com.github.franckyi.gameadapter.api.common.WorldBlockData;
-import com.github.franckyi.gameadapter.api.common.text.Text;
+import com.github.franckyi.gameadapter.api.common.text.IText;
+import com.github.franckyi.gameadapter.api.common.world.WorldBlockData;
 import com.github.franckyi.ibeeditor.base.common.ModNetwork;
 import com.github.franckyi.ibeeditor.base.common.ModTexts;
 import com.github.franckyi.ibeeditor.base.common.packet.BlockEditorResponsePacket;
@@ -16,12 +16,12 @@ import static com.github.franckyi.guapi.GuapiHelper.*;
 
 public final class ClientNetworkReceiver {
     private static final Logger LOGGER = LogManager.getLogger();
-    private static final Text NO_ITEM_FOUND_TEXT = ModTexts.prefixed(translated("ibeeditor.message.no_target_found")
-            .with(translated("ibeeditor.text.item"))).red();
-    private static final Text NO_BLOCK_FOUND_TEXT = ModTexts.prefixed(translated("ibeeditor.message.no_target_found")
-            .with(translated("ibeeditor.text.block"))).red();
-    private static final Text NO_ENTITY_FOUND_TEXT = ModTexts.prefixed(translated("ibeeditor.message.no_target_found")
-            .with(translated("ibeeditor.text.entity"))).red();
+    private static final IText NO_ITEM_FOUND_TEXT = ModTexts.prefixed(translated("ibeeditor.message.no_target_found",
+            translated("ibeeditor.text.item"))).red();
+    private static final IText NO_BLOCK_FOUND_TEXT = ModTexts.prefixed(translated("ibeeditor.message.no_target_found",
+            translated("ibeeditor.text.block"))).red();
+    private static final IText NO_ENTITY_FOUND_TEXT = ModTexts.prefixed(translated("ibeeditor.message.no_target_found",
+            translated("ibeeditor.text.entity"))).red();
 
     public static void onBlockEditorResponse(BlockEditorResponsePacket packet) {
         log(ModNetwork.BLOCK_EDITOR_RESPONSE);

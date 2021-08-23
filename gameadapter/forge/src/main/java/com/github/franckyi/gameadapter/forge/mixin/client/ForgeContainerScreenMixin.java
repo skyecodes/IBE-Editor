@@ -1,7 +1,7 @@
 package com.github.franckyi.gameadapter.forge.mixin.client;
 
 import com.github.franckyi.gameadapter.api.client.IScreen;
-import com.github.franckyi.gameadapter.api.common.ISlot;
+import com.github.franckyi.gameadapter.api.common.item.ISlot;
 import net.minecraft.client.gui.IHasContainer;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;

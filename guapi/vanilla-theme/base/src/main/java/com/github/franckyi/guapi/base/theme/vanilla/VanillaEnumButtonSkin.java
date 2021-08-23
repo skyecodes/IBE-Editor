@@ -1,7 +1,7 @@
 package com.github.franckyi.guapi.base.theme.vanilla;
 
 import com.github.franckyi.gameadapter.api.client.IRenderer;
-import com.github.franckyi.gameadapter.api.common.text.Text;
+import com.github.franckyi.gameadapter.api.common.text.IText;
 import com.github.franckyi.guapi.api.node.EnumButton;
 import com.github.franckyi.guapi.api.theme.DelegatedRenderer;
 
@@ -17,7 +17,7 @@ public class VanillaEnumButtonSkin extends AbstractVanillaButtonSkin<EnumButton>
     @SuppressWarnings("unchecked")
     public int computeWidth(EnumButton node) {
         return Arrays.stream(node.getValues())
-                .mapToInt(e -> IRenderer.get().getFontWidth((Text) node.getTextFactory().apply(e)))
+                .mapToInt(e -> IRenderer.get().getFontWidth((IText) node.getTextFactory().apply(e)))
                 .max().orElse(0) + 20;
     }
 }

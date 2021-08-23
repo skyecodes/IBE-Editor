@@ -1,9 +1,9 @@
 package com.github.franckyi.gameadapter.fabric.common;
 
-import com.github.franckyi.gameadapter.api.common.IEnchantment;
-import com.github.franckyi.gameadapter.api.common.IRegistry;
-import com.github.franckyi.gameadapter.api.common.IRegistryValue;
 import com.github.franckyi.gameadapter.api.common.RegistryHandler;
+import com.github.franckyi.gameadapter.api.common.item.IEnchantment;
+import com.github.franckyi.gameadapter.api.common.registry.IRegistry;
+import com.github.franckyi.gameadapter.api.common.registry.IRegistryValue;
 import net.minecraft.util.registry.Registry;
 
 public final class FabricRegistryHandler implements RegistryHandler {

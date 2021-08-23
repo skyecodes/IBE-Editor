@@ -11,8 +11,7 @@ public class HideFlagEntryModel extends BooleanEntryModel {
     private final ItemHideFlagsCategoryModel.HideFlag hideFlag;
 
     public HideFlagEntryModel(CategoryModel category, ItemHideFlagsCategoryModel.HideFlag hideFlag, boolean value, Consumer<Boolean> action) {
-        super(category, translated("ibeeditor.gui.hide").with(label -> {
-            label.with(translated(hideFlag.getName()));
+        super(category, translated("ibeeditor.gui.hide", translated(hideFlag.getName())).with(label -> {
             if (hideFlag == ItemHideFlagsCategoryModel.HideFlag.OTHER) {
                 label.extra(text("*"));
             }

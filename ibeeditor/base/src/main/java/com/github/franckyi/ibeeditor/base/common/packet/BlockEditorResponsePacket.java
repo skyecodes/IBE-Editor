@@ -1,7 +1,7 @@
 package com.github.franckyi.ibeeditor.base.common.packet;
 
-import com.github.franckyi.gameadapter.api.common.BlockData;
 import com.github.franckyi.gameadapter.api.common.IPacketBuffer;
+import com.github.franckyi.gameadapter.api.common.world.BlockData;
 
 public class BlockEditorResponsePacket extends BlockEditorRequestPacket {
     private final BlockData block;

@@ -1,7 +1,8 @@
 package com.github.franckyi.gameadapter.fabric.mixin.common;
 
-import com.github.franckyi.gameadapter.api.common.*;
+import com.github.franckyi.gameadapter.api.common.item.IItemStack;
 import com.github.franckyi.gameadapter.api.common.tag.ICompoundTag;
+import com.github.franckyi.gameadapter.api.common.world.*;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;

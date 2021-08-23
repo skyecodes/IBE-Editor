@@ -1,6 +1,6 @@
 package com.github.franckyi.gameadapter.fabric.mixin.common;
 
-import com.github.franckyi.gameadapter.api.common.IBlockPos;
+import com.github.franckyi.gameadapter.api.common.world.IBlockPos;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
 import org.spongepowered.asm.mixin.Mixin;

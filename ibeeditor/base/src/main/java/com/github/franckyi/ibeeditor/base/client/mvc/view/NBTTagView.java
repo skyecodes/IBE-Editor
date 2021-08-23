@@ -1,6 +1,6 @@
 package com.github.franckyi.ibeeditor.base.client.mvc.view;
 
-import com.github.franckyi.gameadapter.api.common.text.Text;
+import com.github.franckyi.gameadapter.api.common.text.IText;
 import com.github.franckyi.guapi.api.mvc.View;
 import com.github.franckyi.guapi.api.node.HBox;
 import com.github.franckyi.guapi.api.node.Label;
@@ -13,19 +13,19 @@ import static com.github.franckyi.guapi.GuapiHelper.*;
 
 public class NBTTagView implements View {
     private final String texture;
-    private final Text tooltip;
+    private final IText tooltip;
     private Predicate<String> validator;
     private HBox root;
     private TextField nameField;
     private Label separator;
     private TextField valueField;
 
-    public NBTTagView(String texture, Text tooltip, Predicate<String> validator) {
+    public NBTTagView(String texture, IText tooltip, Predicate<String> validator) {
         this(texture, tooltip);
         this.validator = validator;
     }
 
-    public NBTTagView(String texture, Text tooltip) {
+    public NBTTagView(String texture, IText tooltip) {
         this.texture = texture;
         this.tooltip = tooltip;
     }

@@ -2,7 +2,7 @@ package com.github.franckyi.ibeeditor.base.client.mvc.model;
 
 import com.github.franckyi.databindings.api.ObjectProperty;
 import com.github.franckyi.gameadapter.api.common.tag.ICompoundTag;
-import com.github.franckyi.gameadapter.api.common.text.Text;
+import com.github.franckyi.gameadapter.api.common.text.IText;
 import com.github.franckyi.guapi.api.mvc.Model;
 
 import java.util.function.Consumer;
@@ -11,9 +11,9 @@ public class NBTEditorModel implements Model {
     private final ObjectProperty<NBTTagModel> rootTagProperty;
     private final ObjectProperty<NBTTagModel> clipboardTagProperty = ObjectProperty.create();
     private final Consumer<ICompoundTag> action;
-    private final Text disabledTooltip;
+    private final IText disabledTooltip;
 
-    public NBTEditorModel(ICompoundTag tag, Consumer<ICompoundTag> action, Text disabledTooltip) {
+    public NBTEditorModel(ICompoundTag tag, Consumer<ICompoundTag> action, IText disabledTooltip) {
         rootTagProperty = ObjectProperty.create(new NBTTagModel(tag));
         this.action = action;
         this.disabledTooltip = disabledTooltip;
@@ -47,7 +47,7 @@ public class NBTEditorModel implements Model {
         return getDisabledTooltip() == null;
     }
 
-    public Text getDisabledTooltip() {
+    public IText getDisabledTooltip() {
         return disabledTooltip;
     }
 

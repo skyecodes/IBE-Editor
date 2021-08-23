@@ -1,6 +1,6 @@
 package com.github.franckyi.ibeeditor.base.client.util.texteditor;
 
-import com.github.franckyi.gameadapter.api.common.text.Text;
+import com.github.franckyi.gameadapter.api.common.text.IText;
 
 import java.util.Objects;
 
@@ -21,7 +21,7 @@ public class ColorFormatting extends Formatting {
     }
 
     @Override
-    public void apply(Text text) {
+    public void apply(IText text) {
         text.setColor(color);
     }
 

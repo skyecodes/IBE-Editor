@@ -1,6 +1,6 @@
 package com.github.franckyi.guapi.base.node;
 
-import com.github.franckyi.gameadapter.api.common.text.Text;
+import com.github.franckyi.gameadapter.api.common.text.IText;
 import com.github.franckyi.guapi.api.node.TextArea;
 import com.github.franckyi.guapi.api.node.builder.TextAreaBuilder;
 import com.github.franckyi.guapi.api.util.NodeType;
@@ -17,7 +17,7 @@ public class TextAreaImpl extends AbstractTextArea implements TextAreaBuilder {
         super(label, value);
     }
 
-    public TextAreaImpl(Text label, String value) {
+    public TextAreaImpl(IText label, String value) {
         super(label, value);
     }
 

@@ -2,8 +2,8 @@ package com.github.franckyi.guapi.base;
 
 import com.github.franckyi.gameadapter.api.client.ISprite;
 import com.github.franckyi.gameadapter.api.common.IIdentifier;
-import com.github.franckyi.gameadapter.api.common.IItemStack;
-import com.github.franckyi.gameadapter.api.common.text.Text;
+import com.github.franckyi.gameadapter.api.common.item.IItemStack;
+import com.github.franckyi.gameadapter.api.common.text.IText;
 import com.github.franckyi.guapi.api.NodeFactory;
 import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.api.node.TreeView;
@@ -31,7 +31,7 @@ public class NodeFactoryImpl implements NodeFactory {
     }
 
     @Override
-    public ButtonBuilder createButton(Text text) {
+    public ButtonBuilder createButton(IText text) {
         return new ButtonImpl(text);
     }
 
@@ -51,7 +51,7 @@ public class NodeFactoryImpl implements NodeFactory {
     }
 
     @Override
-    public CheckBoxBuilder createCheckBox(Text text) {
+    public CheckBoxBuilder createCheckBox(IText text) {
         return new CheckBoxImpl(text);
     }
 
@@ -146,7 +146,7 @@ public class NodeFactoryImpl implements NodeFactory {
     }
 
     @Override
-    public LabelBuilder createLabel(Text text) {
+    public LabelBuilder createLabel(IText text) {
         return new LabelImpl(text);
     }
 
@@ -156,7 +156,7 @@ public class NodeFactoryImpl implements NodeFactory {
     }
 
     @Override
-    public LabelBuilder createLabel(Text text, boolean shadow) {
+    public LabelBuilder createLabel(IText text, boolean shadow) {
         return new LabelImpl(text, shadow);
     }
 
@@ -241,7 +241,7 @@ public class NodeFactoryImpl implements NodeFactory {
     }
 
     @Override
-    public TextFieldBuilder createTextField(Text label, String value) {
+    public TextFieldBuilder createTextField(IText label, String value) {
         return new TextFieldImpl(label, value);
     }
 
@@ -266,7 +266,7 @@ public class NodeFactoryImpl implements NodeFactory {
     }
 
     @Override
-    public TextAreaBuilder createTextArea(Text label, String value) {
+    public TextAreaBuilder createTextArea(IText label, String value) {
         return new TextAreaImpl(label, value);
     }
 
@@ -316,7 +316,7 @@ public class NodeFactoryImpl implements NodeFactory {
     }
 
     @Override
-    public ToggleButtonBuilder createToggleButton(Text text) {
+    public ToggleButtonBuilder createToggleButton(IText text) {
         return new ToggleButtonImpl(text);
     }
 

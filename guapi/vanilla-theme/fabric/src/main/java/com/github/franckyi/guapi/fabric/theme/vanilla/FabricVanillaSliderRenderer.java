@@ -3,6 +3,7 @@ package com.github.franckyi.guapi.fabric.theme.vanilla;
 import com.github.franckyi.guapi.api.node.Slider;
 import net.minecraft.client.gui.widget.SliderWidget;
 import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 import net.minecraft.util.math.MathHelper;
 import org.lwjgl.glfw.GLFW;
 
@@ -69,7 +70,7 @@ public class FabricVanillaSliderRenderer extends SliderWidget implements FabricV
 
     @Override
     protected void updateMessage() {
-        setMessage(node.getLabelFactory().apply(node.getValue()).get());
+        setMessage((Text) node.getLabelFactory().apply(node.getValue()));
     }
 
     @Override

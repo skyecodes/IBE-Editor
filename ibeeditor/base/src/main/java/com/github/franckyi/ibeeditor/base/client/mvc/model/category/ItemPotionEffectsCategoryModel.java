@@ -4,7 +4,7 @@ import com.github.franckyi.gameadapter.Color;
 import com.github.franckyi.gameadapter.api.common.tag.ICompoundTag;
 import com.github.franckyi.gameadapter.api.common.tag.IListTag;
 import com.github.franckyi.gameadapter.api.common.tag.ITag;
-import com.github.franckyi.gameadapter.api.common.text.Text;
+import com.github.franckyi.gameadapter.api.common.text.IText;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.ItemEditorModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.EntryModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.PotionEffectEntryModel;
@@ -49,7 +49,7 @@ public class ItemPotionEffectsCategoryModel extends ItemCategoryModel {
     }
 
     @Override
-    protected Text getAddListEntryButtonTooltip() {
+    protected IText getAddListEntryButtonTooltip() {
         return translated("ibeeditor.gui.effect");
     }
 

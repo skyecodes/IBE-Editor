@@ -1,8 +1,8 @@
 package com.github.franckyi.ibeeditor.base.server;
 
-import com.github.franckyi.gameadapter.api.common.BlockData;
 import com.github.franckyi.gameadapter.api.common.IPlayer;
 import com.github.franckyi.gameadapter.api.common.tag.ICompoundTag;
+import com.github.franckyi.gameadapter.api.common.world.BlockData;
 import com.github.franckyi.ibeeditor.base.common.EditorType;
 import com.github.franckyi.ibeeditor.base.common.ModNetwork;
 import com.github.franckyi.ibeeditor.base.common.Packet;

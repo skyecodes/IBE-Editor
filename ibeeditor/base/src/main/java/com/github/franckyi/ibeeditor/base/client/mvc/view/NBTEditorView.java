@@ -3,7 +3,7 @@ package com.github.franckyi.ibeeditor.base.client.mvc.view;
 import com.github.franckyi.databindings.api.ObservableList;
 import com.github.franckyi.gameadapter.api.common.IIdentifier;
 import com.github.franckyi.gameadapter.api.common.tag.ITag;
-import com.github.franckyi.gameadapter.api.common.text.Text;
+import com.github.franckyi.gameadapter.api.common.text.IText;
 import com.github.franckyi.guapi.api.node.*;
 import com.github.franckyi.guapi.api.node.builder.TexturedButtonBuilder;
 import com.github.franckyi.guapi.api.node.builder.TexturedToggleButtonBuilder;
@@ -137,7 +137,7 @@ public class NBTEditorView extends EditorView {
         return createButtonFromType(type, type.getText());
     }
 
-    private TexturedButtonBuilder createButtonFromType(ButtonType type, Text tooltipText) {
+    private TexturedButtonBuilder createButtonFromType(ButtonType type, IText tooltipText) {
         return createButton(type.getTextureId(), tooltipText).action(() -> onButtonClick.accept(type));
     }
 
@@ -232,9 +232,9 @@ public class NBTEditorView extends EditorView {
         };
         private final IIdentifier textureId;
         private final byte type;
-        private final Text text;
+        private final IText text;
 
-        ButtonType(IIdentifier textureId, int type, Text text) {
+        ButtonType(IIdentifier textureId, int type, IText text) {
             this.textureId = textureId;
             this.type = (byte) type;
             this.text = text;
@@ -244,7 +244,7 @@ public class NBTEditorView extends EditorView {
             this(textureId, type, null);
         }
 
-        ButtonType(IIdentifier textureId, Text text) {
+        ButtonType(IIdentifier textureId, IText text) {
             this(textureId, -1, text);
         }
 
@@ -256,7 +256,7 @@ public class NBTEditorView extends EditorView {
             return textureId;
         }
 
-        public Text getText() {
+        public IText getText() {
             return text;
         }
     }

@@ -1,12 +1,12 @@
 package com.github.franckyi.ibeeditor.base.client.mvc.view;
 
-import com.github.franckyi.gameadapter.api.common.text.Text;
+import com.github.franckyi.gameadapter.api.common.text.IText;
 import com.github.franckyi.guapi.api.node.Node;
 
 import static com.github.franckyi.guapi.GuapiHelper.*;
 
 public class TextColorSelectionScreenView extends ColorSelectionScreenView {
-    private Text exampleText;
+    private IText exampleText;
 
     @Override
     protected Node createExample() {
@@ -14,7 +14,7 @@ public class TextColorSelectionScreenView extends ColorSelectionScreenView {
         return label(exampleText).tooltip(exampleText).textAlign(CENTER);
     }
 
-    public Text getExampleText() {
+    public IText getExampleText() {
         return exampleText;
     }
 }

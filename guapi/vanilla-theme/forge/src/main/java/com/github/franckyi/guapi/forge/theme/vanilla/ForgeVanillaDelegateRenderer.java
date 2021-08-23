@@ -9,6 +9,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.gui.IGuiEventListener;
 import net.minecraft.client.gui.IRenderable;
 import net.minecraft.client.gui.widget.Widget;
+import net.minecraft.util.text.ITextComponent;
 
 public interface ForgeVanillaDelegateRenderer extends DelegatedRenderer, IGuiEventListener, IRenderable {
     @Override
@@ -69,6 +70,6 @@ public interface ForgeVanillaDelegateRenderer extends DelegatedRenderer, IGuiEve
 
     default void initLabeled(Labeled node, Widget widget) {
         initNode(node, widget);
-        node.labelProperty().addListener(label -> widget.setMessage(label.get()));
+        node.labelProperty().addListener(label -> widget.setMessage((ITextComponent) label));
     }
 }

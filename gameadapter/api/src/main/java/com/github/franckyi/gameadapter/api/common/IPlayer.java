@@ -1,7 +1,10 @@
 package com.github.franckyi.gameadapter.api.common;
 
 import com.github.franckyi.gameadapter.Game;
-import com.github.franckyi.gameadapter.api.common.text.Text;
+import com.github.franckyi.gameadapter.api.common.item.IItemStack;
+import com.github.franckyi.gameadapter.api.common.text.IText;
+import com.github.franckyi.gameadapter.api.common.world.IEntity;
+import com.github.franckyi.gameadapter.api.common.world.IWorld;
 
 import java.util.UUID;
 
@@ -22,9 +25,9 @@ public interface IPlayer extends IEntity {
 
     String getProfileName();
 
-    void sendMessage(Text message, boolean actionBar);
+    void sendMessage(IText message, boolean actionBar);
 
-    default void sendMessage(Text message) {
+    default void sendMessage(IText message) {
         sendMessage(message, false);
     }
 

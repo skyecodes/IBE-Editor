@@ -1,10 +1,10 @@
 package com.github.franckyi.gameadapter.forge.mixin.common;
 
 import com.github.franckyi.gameadapter.Game;
-import com.github.franckyi.gameadapter.api.common.IItemStack;
 import com.github.franckyi.gameadapter.api.common.IPlayer;
-import com.github.franckyi.gameadapter.api.common.IWorld;
-import com.github.franckyi.gameadapter.api.common.text.Text;
+import com.github.franckyi.gameadapter.api.common.item.IItemStack;
+import com.github.franckyi.gameadapter.api.common.text.IText;
+import com.github.franckyi.gameadapter.api.common.world.IWorld;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -67,8 +67,8 @@ public abstract class ForgePlayerMixin extends LivingEntity implements IPlayer {
     }
 
     @Override
-    public void sendMessage(Text message, boolean actionBar) {
-        displayClientMessage(message.get(), actionBar);
+    public void sendMessage(IText message, boolean actionBar) {
+        displayClientMessage((ITextComponent) message, actionBar);
     }
 
     @Override

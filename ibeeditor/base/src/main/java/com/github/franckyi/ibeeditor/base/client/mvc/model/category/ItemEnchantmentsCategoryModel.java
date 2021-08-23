@@ -1,8 +1,8 @@
 package com.github.franckyi.ibeeditor.base.client.mvc.model.category;
 
-import com.github.franckyi.gameadapter.api.common.IEnchantment;
 import com.github.franckyi.gameadapter.api.common.IIdentifier;
 import com.github.franckyi.gameadapter.api.common.RegistryHandler;
+import com.github.franckyi.gameadapter.api.common.item.IEnchantment;
 import com.github.franckyi.gameadapter.api.common.tag.ICompoundTag;
 import com.github.franckyi.gameadapter.api.common.tag.IListTag;
 import com.github.franckyi.gameadapter.api.common.tag.ITag;

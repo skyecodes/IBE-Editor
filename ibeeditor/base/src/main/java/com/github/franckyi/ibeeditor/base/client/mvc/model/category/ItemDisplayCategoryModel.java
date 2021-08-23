@@ -1,12 +1,11 @@
 package com.github.franckyi.ibeeditor.base.client.mvc.model.category;
 
 import com.github.franckyi.gameadapter.Color;
-import com.github.franckyi.gameadapter.TextHandler;
 import com.github.franckyi.gameadapter.api.common.tag.ICompoundTag;
 import com.github.franckyi.gameadapter.api.common.tag.IListTag;
 import com.github.franckyi.gameadapter.api.common.tag.ITag;
-import com.github.franckyi.gameadapter.api.common.text.PlainText;
-import com.github.franckyi.gameadapter.api.common.text.Text;
+import com.github.franckyi.gameadapter.api.common.text.IPlainText;
+import com.github.franckyi.gameadapter.api.common.text.IText;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.ItemEditorModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.EntryModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.TextEntryModel;
@@ -25,7 +24,7 @@ public class ItemDisplayCategoryModel extends ItemCategoryModel {
         getEntries().add(new TextEntryModel(this, translated("ibeeditor.gui.custom_name"), getItemName(), this::setItemName));
         IListTag loreList = getBaseDisplay().getList("Lore", ITag.STRING_ID);
         for (int i = 0; i < loreList.size(); i++) {
-            getEntries().add(createLoreEntry((PlainText) TextHandler.getSerializer().fromJson(loreList.getString(i), Text.class)));
+            getEntries().add(createLoreEntry(IText.fromJson(loreList.getString(i))));
         }
     }
 
@@ -35,7 +34,7 @@ public class ItemDisplayCategoryModel extends ItemCategoryModel {
     }
 
     @Override
-    public Text getAddListEntryButtonTooltip() {
+    public IText getAddListEntryButtonTooltip() {
         return translated("ibeeditor.gui.lore_add");
     }
 
@@ -44,9 +43,9 @@ public class ItemDisplayCategoryModel extends ItemCategoryModel {
         return createLoreEntry(null);
     }
 
-    private EntryModel createLoreEntry(PlainText value) {
+    private EntryModel createLoreEntry(IPlainText value) {
         TextEntryModel entry = new TextEntryModel(this, null, value, this::addLore);
-        entry.listIndexProperty().addListener(index -> entry.setLabel(translated("ibeeditor.gui.lore").with(text(Integer.toString(index + 1)))));
+        entry.listIndexProperty().addListener(index -> entry.setLabel(translated("ibeeditor.gui.lore", text(Integer.toString(index + 1)))));
         return entry;
     }
 
@@ -63,31 +62,31 @@ public class ItemDisplayCategoryModel extends ItemCategoryModel {
         }
     }
 
-    private PlainText getItemName() {
+    private IPlainText getItemName() {
         String s = getBaseDisplay().getString("Name");
-        return s.isEmpty() ? null : (PlainText) TextHandler.getSerializer().fromJson(s, Text.class);
+        return s.isEmpty() ? null : IText.fromJson(s);
     }
 
-    private void setItemName(PlainText value) {
+    private void setItemName(IPlainText value) {
         if (!value.getRawText().isEmpty()) {
             if (value.getExtra() != null && !value.getExtra().isEmpty()) {
                 value.getExtra().get(0).setItalic(false);
             }
-            getNewDisplay().putString("Name", TextHandler.getSerializer().toJson(value));
+            getNewDisplay().putString("Name", value.toJson());
         } else if (getNewTag().contains("display", ITag.COMPOUND_ID)) {
             getNewDisplay().remove("Name");
         }
     }
 
-    private void addLore(PlainText value) {
+    private void addLore(IPlainText value) {
         if (!value.getRawText().isEmpty()) {
             if (value.getExtra() != null && !value.getExtra().isEmpty()) {
-                Text firstText = value.getExtra().get(0);
+                IText firstText = value.getExtra().get(0);
                 firstText.setItalic(false);
                 firstText.setColor(Color.WHITE);
             }
         }
-        newLore.addString(TextHandler.getSerializer().toJson(value));
+        newLore.addString(value.toJson());
     }
 
     private ICompoundTag getBaseDisplay() {

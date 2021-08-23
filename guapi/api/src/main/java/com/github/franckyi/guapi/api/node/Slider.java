@@ -2,7 +2,7 @@ package com.github.franckyi.guapi.api.node;
 
 import com.github.franckyi.databindings.api.DoubleProperty;
 import com.github.franckyi.databindings.api.ObjectProperty;
-import com.github.franckyi.gameadapter.api.common.text.Text;
+import com.github.franckyi.gameadapter.api.common.text.IText;
 
 public interface Slider extends Control {
     default double getValue() {
@@ -69,6 +69,6 @@ public interface Slider extends Control {
 
     @FunctionalInterface
     interface LabelFactory {
-        Text apply(double value);
+        IText apply(double value);
     }
 }

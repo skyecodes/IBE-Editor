@@ -2,7 +2,7 @@ package com.github.franckyi.guapi.base.node;
 
 import com.github.franckyi.databindings.api.BooleanProperty;
 import com.github.franckyi.databindings.api.ObjectProperty;
-import com.github.franckyi.gameadapter.api.common.text.Text;
+import com.github.franckyi.gameadapter.api.common.text.IText;
 import com.github.franckyi.guapi.api.node.Label;
 import com.github.franckyi.guapi.api.util.Align;
 
@@ -13,14 +13,14 @@ public abstract class AbstractLabel extends AbstractLabeled implements Label {
     private final BooleanProperty shadowProperty = BooleanProperty.create(false);
 
     protected AbstractLabel() {
-        this(emptyText());
+        this(EMPTY_TEXT);
     }
 
     protected AbstractLabel(String text) {
         this(text, false);
     }
 
-    protected AbstractLabel(Text text) {
+    protected AbstractLabel(IText text) {
         this(text, false);
     }
 
@@ -28,7 +28,7 @@ public abstract class AbstractLabel extends AbstractLabeled implements Label {
         this(text(text), shadow);
     }
 
-    protected AbstractLabel(Text label, boolean shadow) {
+    protected AbstractLabel(IText label, boolean shadow) {
         super(label);
         setShadow(shadow);
         labelProperty().addListener(this::shouldComputeSize);

@@ -1,7 +1,7 @@
 package com.github.franckyi.ibeeditor.base.client.mvc.model.entry;
 
 import com.github.franckyi.databindings.api.IntegerProperty;
-import com.github.franckyi.gameadapter.api.common.text.Text;
+import com.github.franckyi.gameadapter.api.common.text.IText;
 import com.github.franckyi.ibeeditor.base.client.ClientCache;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.CategoryModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.ListSelectionItemModel;
@@ -14,7 +14,7 @@ public class PotionSelectionEntryModel extends SelectionEntryModel {
     private final IntegerProperty customColorProperty;
     private final Consumer<Integer> customColorAction;
 
-    public PotionSelectionEntryModel(CategoryModel category, Text label, String potionName, int customColor, Consumer<String> action, Consumer<Integer> customColorAction) {
+    public PotionSelectionEntryModel(CategoryModel category, IText label, String potionName, int customColor, Consumer<String> action, Consumer<Integer> customColorAction) {
         super(category, label, potionName, action);
         defaultCustomColor = customColor;
         customColorProperty = IntegerProperty.create(customColor);

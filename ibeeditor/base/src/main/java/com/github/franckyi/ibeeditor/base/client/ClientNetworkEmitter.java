@@ -1,9 +1,9 @@
 package com.github.franckyi.ibeeditor.base.client;
 
-import com.github.franckyi.gameadapter.api.common.IBlockPos;
-import com.github.franckyi.gameadapter.api.common.IItemStack;
-import com.github.franckyi.gameadapter.api.common.WorldBlockData;
+import com.github.franckyi.gameadapter.api.common.item.IItemStack;
 import com.github.franckyi.gameadapter.api.common.tag.ICompoundTag;
+import com.github.franckyi.gameadapter.api.common.world.IBlockPos;
+import com.github.franckyi.gameadapter.api.common.world.WorldBlockData;
 import com.github.franckyi.ibeeditor.base.common.EditorType;
 import com.github.franckyi.ibeeditor.base.common.ModNetwork;
 import com.github.franckyi.ibeeditor.base.common.Packet;

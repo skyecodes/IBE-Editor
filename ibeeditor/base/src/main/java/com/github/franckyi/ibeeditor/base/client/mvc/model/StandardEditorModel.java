@@ -1,18 +1,18 @@
 package com.github.franckyi.ibeeditor.base.client.mvc.model;
 
 import com.github.franckyi.databindings.api.StringProperty;
-import com.github.franckyi.gameadapter.api.common.text.Text;
+import com.github.franckyi.gameadapter.api.common.text.IText;
 
 import java.util.function.Consumer;
 
 public abstract class StandardEditorModel<T, C extends CategoryModel> extends ListEditorModel<C> {
     private final T target;
     private final Consumer<T> action;
-    private final Text disabledTooltip;
+    private final IText disabledTooltip;
     private final String title;
     private final StringProperty currentCustomColorProperty;
 
-    protected StandardEditorModel(T target, Consumer<T> action, Text disabledTooltip, String title) {
+    protected StandardEditorModel(T target, Consumer<T> action, IText disabledTooltip, String title) {
         this.target = target;
         this.action = action;
         this.disabledTooltip = disabledTooltip;
@@ -28,7 +28,7 @@ public abstract class StandardEditorModel<T, C extends CategoryModel> extends Li
         return action;
     }
 
-    public Text getDisabledTooltip() {
+    public IText getDisabledTooltip() {
         return disabledTooltip;
     }
 

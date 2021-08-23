@@ -1,6 +1,6 @@
 package com.github.franckyi.guapi.base.node;
 
-import com.github.franckyi.gameadapter.api.common.IItemStack;
+import com.github.franckyi.gameadapter.api.common.item.IItemStack;
 import com.github.franckyi.guapi.api.node.ItemView;
 import com.github.franckyi.guapi.api.node.builder.ItemViewBuilder;
 import com.github.franckyi.guapi.api.util.NodeType;

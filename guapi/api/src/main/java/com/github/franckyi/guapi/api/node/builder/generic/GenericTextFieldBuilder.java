@@ -1,6 +1,6 @@
 package com.github.franckyi.guapi.api.node.builder.generic;
 
-import com.github.franckyi.gameadapter.api.common.text.Text;
+import com.github.franckyi.gameadapter.api.common.text.IText;
 import com.github.franckyi.guapi.api.node.TextField;
 
 import java.util.Collection;
@@ -31,7 +31,7 @@ public interface GenericTextFieldBuilder<N extends TextField> extends TextField,
         return with(n -> n.getSuggestions().setAll(value));
     }
 
-    default N placeholder(Text value) {
+    default N placeholder(IText value) {
         return with(n -> n.setPlaceholder(value));
     }
 }
