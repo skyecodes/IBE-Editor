@@ -116,5 +116,6 @@
   "ibeeditor.message.prefix": "[IBE Editor] ",
   "ibeeditor.message.error_generic": "Une erreur est survenue. Merci de regarder les logs pour plus de détails et de rapporter cette erreur au créateur du mod.",
   "ibeeditor.key.snbt_editor": "Ouvrir l'éditeur SNBT",
-  "ibeeditor.message.not_implemented": "L'éditeur de %s n'est pas encore implémenté et viendra dans une prochaine mise à jour."
+  "ibeeditor.message.not_implemented": "L'éditeur de %s n'est pas encore implémenté et viendra dans une prochaine mise à jour.",
+  "ibeeditor.gui.all": "Tous"
 }

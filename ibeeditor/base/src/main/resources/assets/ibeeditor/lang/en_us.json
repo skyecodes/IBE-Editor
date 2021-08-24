@@ -73,6 +73,7 @@
   "ibeeditor.gui.legs": "Legs",
   "ibeeditor.gui.chest": "Chest",
   "ibeeditor.gui.head": "Head",
+  "ibeeditor.gui.all": "All",
   "ibeeditor.gui.operation": "Operation: %s",
   "ibeeditor.gui.operation_0": "Add (0)",
   "ibeeditor.gui.operation_1": "Multiply base (1)",

@@ -6,6 +6,7 @@ import com.github.franckyi.gameadapter.api.common.text.IText;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.CategoryModel;
 
 import java.util.Locale;
+import java.util.Objects;
 import java.util.UUID;
 
 import static com.github.franckyi.guapi.GuapiHelper.*;
@@ -117,7 +118,7 @@ public class AttributeModifierEntryModel extends EntryModel {
     }
 
     public enum Slot {
-        MAINHAND, OFFHAND, FEET, LEGS, CHEST, HEAD;
+        MAINHAND, OFFHAND, FEET, LEGS, CHEST, HEAD, ALL;
 
         private final IText text;
 
@@ -127,11 +128,11 @@ public class AttributeModifierEntryModel extends EntryModel {
 
         public static Slot from(String value) {
             for (Slot slot : values()) {
-                if (slot.getValue().equals(value)) {
+                if (Objects.equals(slot.getValue(), value)) {
                     return slot;
                 }
             }
-            return null;
+            return ALL;
         }
 
         public String getValue() {

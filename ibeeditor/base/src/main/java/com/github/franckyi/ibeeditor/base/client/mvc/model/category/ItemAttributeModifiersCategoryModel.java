@@ -75,7 +75,9 @@ public class ItemAttributeModifiersCategoryModel extends ItemCategoryModel {
     private void addAttributeModifier(String attributeName, String slot, int operation, double amount, UUID uuid) {
         ICompoundTag tag = ICompoundTag.create();
         tag.putString("AttributeName", attributeName);
-        tag.putString("Slot", slot);
+        if (!"all".equals(slot)) {
+            tag.putString("Slot", slot);
+        }
         tag.putInt("Operation", operation);
         tag.putDouble("Amount", amount);
         tag.putUUID("UUID", uuid);
