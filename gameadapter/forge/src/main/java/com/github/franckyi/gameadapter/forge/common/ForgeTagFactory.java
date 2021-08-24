@@ -62,7 +62,7 @@ public final class ForgeTagFactory implements TagFactory {
 
     @Override
     public IListTag createListTag() {
-        return (IListTag) new ListNBT();
+        return IListTag.class.cast(new ListNBT());
     }
 
     @Override

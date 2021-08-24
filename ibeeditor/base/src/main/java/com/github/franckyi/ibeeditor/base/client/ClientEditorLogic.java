@@ -18,12 +18,6 @@ import java.util.function.Consumer;
 
 public final class ClientEditorLogic {
     private static final Logger LOGGER = LogManager.getLogger();
-    private static final IText ERROR_CREATIVE_ITEM = ModTexts.prefixed(translated("ibeeditor.message.error_creative_mode", translated("ibeeditor.text.item"))).red();
-    private static final IText ERROR_SERVERMOD_ITEM = ModTexts.prefixed(translated("ibeeditor.message.error_server_mod", translated("ibeeditor.text.item"))).red();
-    private static final IText ERROR_SERVERMOD_BLOCK = ModTexts.prefixed(translated("ibeeditor.message.error_server_mod", translated("ibeeditor.text.block"))).red();
-    private static final IText ERROR_SERVERMOD_ENTITY = ModTexts.prefixed(translated("ibeeditor.message.error_server_mod", translated("ibeeditor.text.entity"))).red();
-    private static final IText ERROR_NOT_IMPLEMENTED_BLOCK = ModTexts.prefixed(translated("ibeeditor.message.not_implemented", translated("ibeeditor.text.block"))).yellow();
-    private static final IText ERROR_NOT_IMPLEMENTED_ENTITY = ModTexts.prefixed(translated("ibeeditor.message.not_implemented", translated("ibeeditor.text.entity"))).yellow();
 
     public static void openWorldEditor(EditorType target) {
         LOGGER.debug("Opening world editor with target={}", target);
@@ -65,7 +59,7 @@ public final class ClientEditorLogic {
         IItemStack itemStack = player().getItemMainHand();
         if (itemStack != null && !itemStack.isEmpty()) {
             openItemEditor(itemStack, target, ClientEditorLogic::updatePlayerMainHandItem,
-                    ClientContext.isModInstalledOnServer() || player().isCreative() ? null : Messages.ERROR_CREATIVE_ITEM);
+                    ClientContext.isModInstalledOnServer() || player().isCreative() ? null : ModTexts.ERROR_CREATIVE_ITEM);
             return true;
         }
         return false;
@@ -88,13 +82,13 @@ public final class ClientEditorLogic {
     public static void openPlayerInventoryItemEditor(IItemStack itemStack, EditorType target, int slotId, boolean isCreativeInventoryScreen) {
         openItemEditor(itemStack, target,
                 newItem -> updatePlayerInventoryItem(newItem, slotId, isCreativeInventoryScreen),
-                ClientContext.isModInstalledOnServer() || player().isCreative() ? null : Messages.ERROR_CREATIVE_ITEM);
+                ClientContext.isModInstalledOnServer() || player().isCreative() ? null : ModTexts.ERROR_CREATIVE_ITEM);
     }
 
     public static void openBlockInventoryItemEditor(IItemStack itemStack, EditorType target, int slotId, IBlockPos blockPos) {
         openItemEditor(itemStack, target,
                 newItem -> updateBlockInventoryItem(newItem, slotId, blockPos),
-                ClientContext.isModInstalledOnServer() ? null : Messages.ERROR_SERVERMOD_ITEM);
+                ClientContext.isModInstalledOnServer() ? null : ModTexts.ERROR_SERVERMOD_ITEM);
     }
 
     public static void openItemEditor(IItemStack itemStack, EditorType target, Consumer<IItemStack> action, IText disabledTooltip) {
@@ -126,25 +120,25 @@ public final class ClientEditorLogic {
                 /*ModScreenHandler.openBlockEditorScreen(block,
                         newBlock -> updateBlock(new WorldBlockData(newBlock, block.getPos())),
                         ClientContext.isModInstalledOnServer() ? null : ERROR_SERVERMOD_BLOCK);*/
-                player().sendMessage(Messages.ERROR_NOT_IMPLEMENTED_BLOCK);
+                player().sendMessage(ModTexts.ERROR_NOT_IMPLEMENTED_BLOCK);
                 break;
             case NBT:
-                if (block.getData() == null) {
-                    getClientPlayer().sendMessage(Messages.NO_BLOCK_FOUND_TEXT);
+                if (block.getTag() == null) {
+                    player().sendMessage(ModTexts.NO_BLOCK_FOUND_TEXT);
                     break;
                 }
                 ModScreenHandler.openNBTEditorScreen(block.getTag(),
                         tag -> updateBlock(new WorldBlockData(block.getState(), tag, block.getPos())),
-                        ClientContext.isModInstalledOnServer() ? null : Messages.ERROR_SERVERMOD_BLOCK);
+                        ClientContext.isModInstalledOnServer() ? null : ModTexts.ERROR_SERVERMOD_BLOCK);
                 break;
             case SNBT:
-                if (block.getData() == null) {
-                    getClientPlayer().sendMessage(Messages.NO_BLOCK_FOUND_TEXT);
+                if (block.getTag() == null) {
+                    player().sendMessage(ModTexts.NO_BLOCK_FOUND_TEXT);
                     break;
                 }
                 ModScreenHandler.openSNBTEditorScreen(block.getTag().toString(),
                         snbt -> updateBlock(new WorldBlockData(block.getState(), ICompoundTag.parse(snbt), block.getPos())),
-                        ClientContext.isModInstalledOnServer() ? null : Messages.ERROR_SERVERMOD_BLOCK);
+                        ClientContext.isModInstalledOnServer() ? null : ModTexts.ERROR_SERVERMOD_BLOCK);
                 break;
         }
     }
@@ -161,17 +155,17 @@ public final class ClientEditorLogic {
                 /*ModScreenHandler.openEntityEditorScreen(entity,
                         entity1 -> updateEntity(entityId, entity1),
                         ClientContext.isModInstalledOnServer() ? null : ERROR_SERVERMOD_ENTITY);*/
-                player().sendMessage(Messages.ERROR_NOT_IMPLEMENTED_ENTITY);
+                player().sendMessage(ModTexts.ERROR_NOT_IMPLEMENTED_ENTITY);
                 break;
             case NBT:
                 ModScreenHandler.openNBTEditorScreen(entity,
                         tag -> updateEntity(entityId, tag),
-                        ClientContext.isModInstalledOnServer() ? null : Messages.ERROR_SERVERMOD_ENTITY);
+                        ClientContext.isModInstalledOnServer() ? null : ModTexts.ERROR_SERVERMOD_ENTITY);
                 break;
             case SNBT:
                 ModScreenHandler.openSNBTEditorScreen(entity.toString(),
                         snbt -> updateEntity(entityId, ICompoundTag.parse(snbt)),
-                        ClientContext.isModInstalledOnServer() ? null : Messages.ERROR_SERVERMOD_ENTITY);
+                        ClientContext.isModInstalledOnServer() ? null : ModTexts.ERROR_SERVERMOD_ENTITY);
                 break;
         }
     }
@@ -184,7 +178,7 @@ public final class ClientEditorLogic {
             if (player().isCreative()) {
                 player().updateMainHandItem(itemStack);
             } else {
-                player().sendMessage(Messages.ERROR_CREATIVE_ITEM);
+                player().sendMessage(ModTexts.ERROR_CREATIVE_ITEM);
             }
         }
         Guapi.getScreenHandler().hideScene();
@@ -202,7 +196,7 @@ public final class ClientEditorLogic {
                     Game.getClient().updateInventoryItem(itemStack, slotId);
                 }
             } else {
-                player().sendMessage(Messages.ERROR_CREATIVE_ITEM);
+                player().sendMessage(ModTexts.ERROR_CREATIVE_ITEM);
             }
         }
         Guapi.getScreenHandler().hideScene();
@@ -213,7 +207,7 @@ public final class ClientEditorLogic {
         if (ClientContext.isModInstalledOnServer()) {
             ClientNetworkEmitter.sendBlockInventoryItemUpdate(itemStack, slotId, blockPos);
         } else {
-            player().sendMessage(Messages.ERROR_SERVERMOD_ITEM);
+            player().sendMessage(ModTexts.ERROR_SERVERMOD_ITEM);
         }
         Guapi.getScreenHandler().hideScene();
     }
@@ -223,7 +217,7 @@ public final class ClientEditorLogic {
         if (ClientContext.isModInstalledOnServer()) {
             ClientNetworkEmitter.sendBlockUpdate(block);
         } else {
-            player().sendMessage(Messages.ERROR_SERVERMOD_BLOCK);
+            player().sendMessage(ModTexts.ERROR_SERVERMOD_BLOCK);
         }
         Guapi.getScreenHandler().hideScene();
     }
@@ -233,7 +227,7 @@ public final class ClientEditorLogic {
         if (ClientContext.isModInstalledOnServer()) {
             ClientNetworkEmitter.sendEntityUpdate(entityId, tag);
         } else {
-            player().sendMessage(Messages.ERROR_SERVERMOD_ENTITY);
+            player().sendMessage(ModTexts.ERROR_SERVERMOD_ENTITY);
         }
         Guapi.getScreenHandler().hideScene();
     }

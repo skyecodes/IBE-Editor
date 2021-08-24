@@ -6,7 +6,6 @@ import com.github.franckyi.gameadapter.api.common.text.ITranslatedText;
 import static com.github.franckyi.guapi.GuapiHelper.*;
 
 public final class ModTexts {
-    public static final ITranslatedText EDITOR_TITLE = translated("ibeeditor.gui.editor_title").aqua().bold();
     public static final IText SETTINGS = translated("ibeeditor.gui.settings");
     public static final IText MOVE_UP = translated("ibeeditor.gui.move_up");
     public static final IText MOVE_DOWN = translated("ibeeditor.gui.move_down");
@@ -57,6 +56,19 @@ public final class ModTexts {
     public static final IText UNDERLINED = translated("ibeeditor.gui.underline");
     public static final IText STRIKETHROUGH = translated("ibeeditor.gui.strikethough");
     public static final IText OBFUSCATED = translated("ibeeditor.gui.obfuscated");
+
+    public static final IText NO_ITEM_FOUND_TEXT = prefixed(translated("ibeeditor.message.no_target_found", translated("ibeeditor.text.item"))).red();
+    public static final IText NO_BLOCK_FOUND_TEXT = prefixed(translated("ibeeditor.message.no_target_found", translated("ibeeditor.text.block"))).red();
+    public static final IText NO_ENTITY_FOUND_TEXT = prefixed(translated("ibeeditor.message.no_target_found", translated("ibeeditor.text.entity"))).red();
+    public static final IText ERROR_CREATIVE_ITEM = prefixed(translated("ibeeditor.message.error_creative_mode", translated("ibeeditor.text.item"))).red();
+    public static final IText ERROR_SERVERMOD_ITEM = prefixed(translated("ibeeditor.message.error_server_mod", translated("ibeeditor.text.item"))).red();
+    public static final IText ERROR_SERVERMOD_BLOCK = prefixed(translated("ibeeditor.message.error_server_mod", translated("ibeeditor.text.block"))).red();
+    public static final IText ERROR_SERVERMOD_ENTITY = prefixed(translated("ibeeditor.message.error_server_mod", translated("ibeeditor.text.entity"))).red();
+    public static final IText ERROR_NOT_IMPLEMENTED_BLOCK = prefixed(translated("ibeeditor.message.not_implemented", translated("ibeeditor.text.block"))).yellow();
+    public static final IText ERROR_NOT_IMPLEMENTED_ENTITY = prefixed(translated("ibeeditor.message.not_implemented", translated("ibeeditor.text.entity"))).yellow();
+    public static final IText ITEM_UPDATED = prefixed(translated("ibeeditor.message.success_update", translated("ibeeditor.text.item"))).green();
+    public static final IText BLOCK_UPDATED = prefixed(translated("ibeeditor.message.success_update", translated("ibeeditor.text.block"))).green();
+    public static final IText ENTITY_UPDATED = prefixed(translated("ibeeditor.message.success_update", translated("ibeeditor.text.entity"))).green();
 
     public static ITranslatedText prefixed(IText text) {
         return translated("ibeeditor.message.prefix").extra(text);

@@ -48,7 +48,7 @@ public abstract class FabricNbtCompoundMixin implements ICompoundTag {
 
     @Override
     public IListTag getList(String key, byte type) {
-        return (IListTag) shadow$getList(key, type);
+        return IListTag.class.cast(shadow$getList(key, type));
     }
 
     @Override

@@ -62,7 +62,7 @@ public final class FabricTagFactory implements TagFactory {
 
     @Override
     public IListTag createListTag() {
-        return (IListTag) new NbtList();
+        return IListTag.class.cast(new NbtList());
     }
 
     @Override
