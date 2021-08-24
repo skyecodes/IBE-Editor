@@ -12,8 +12,6 @@ import com.github.franckyi.ibeeditor.base.common.packet.ServerNotificationPacket
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import static com.github.franckyi.guapi.GuapiHelper.*;
-
 public final class ClientNetworkReceiver {
     private static final Logger LOGGER = LogManager.getLogger();
     private static final IText NO_ITEM_FOUND_TEXT = ModTexts.prefixed(translated("ibeeditor.message.no_target_found",
@@ -28,7 +26,7 @@ public final class ClientNetworkReceiver {
         if (packet.getBlock().getTag() != null || (!packet.getType().isNBT() && packet.getBlock().getState() != null)) {
             ClientEditorLogic.openBlockEditor(new WorldBlockData(packet.getBlock(), packet.getPos()), packet.getType());
         } else {
-            player().sendMessage(NO_BLOCK_FOUND_TEXT);
+            player().sendMessage(Messages.NO_BLOCK_FOUND_TEXT);
         }
     }
 
@@ -37,7 +35,7 @@ public final class ClientNetworkReceiver {
         if (packet.getEntity() != null) {
             ClientEditorLogic.openEntityEditor(packet.getEntity(), packet.getEntityId(), packet.getType());
         } else {
-            player().sendMessage(NO_ENTITY_FOUND_TEXT);
+            player().sendMessage(Messages.NO_ENTITY_FOUND_TEXT);
         }
     }
 
@@ -55,17 +53,17 @@ public final class ClientNetworkReceiver {
                 break;
             case EditorCommandPacket.TARGET_ITEM:
                 if (!ClientEditorLogic.tryOpenItemEditor(packet.getType())) {
-                    player().sendMessage(NO_ITEM_FOUND_TEXT);
+                    player().sendMessage(Messages.NO_ITEM_FOUND_TEXT);
                 }
                 break;
             case EditorCommandPacket.TARGET_BLOCK:
                 if (!ClientEditorLogic.tryOpenBlockEditor(packet.getType())) {
-                    player().sendMessage(NO_BLOCK_FOUND_TEXT);
+                    player().sendMessage(Messages.NO_BLOCK_FOUND_TEXT);
                 }
                 break;
             case EditorCommandPacket.TARGET_ENTITY:
                 if (!ClientEditorLogic.tryOpenEntityEditor(packet.getType())) {
-                    player().sendMessage(NO_ENTITY_FOUND_TEXT);
+                    player().sendMessage(Messages.NO_ENTITY_FOUND_TEXT);
                 }
                 break;
             case EditorCommandPacket.TARGET_SELF:
