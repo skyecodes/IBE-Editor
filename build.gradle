@@ -35,7 +35,6 @@ task buildCommon(type: Jar) {
     from zipTree("databindings/api/build/libs/databindings-api.jar"),
             zipTree("databindings/base/build/libs/databindings-base.jar"),
             zipTree("gameadapter/api/build/libs/gameadapter-api.jar"),
-            zipTree("gameadapter/base/build/libs/gameadapter-base.jar"),
             //zipTree("gameadapter/fabric/build/libs/gameadapter-fabric.jar"), JIJ
             zipTree("gameadapter/forge/build/libs/gameadapter-forge.jar"),
             zipTree("guapi/api/build/libs/guapi-api.jar"),
@@ -81,7 +80,6 @@ task buildFabric(type: Jar) {
     from zipTree("databindings/api/build/libs/databindings-api.jar"),
             zipTree("databindings/base/build/libs/databindings-base.jar"),
             zipTree("gameadapter/api/build/libs/gameadapter-api.jar"),
-            zipTree("gameadapter/base/build/libs/gameadapter-base.jar"),
             //zipTree("gameadapter/fabric/build/libs/gameadapter-fabric.jar"), JIJ
             zipTree("guapi/api/build/libs/guapi-api.jar"),
             zipTree("guapi/base/build/libs/guapi-base.jar"),
@@ -121,7 +119,6 @@ task buildForge(type: Jar) {
     from zipTree("databindings/api/build/libs/databindings-api.jar"),
             zipTree("databindings/base/build/libs/databindings-base.jar"),
             zipTree("gameadapter/api/build/libs/gameadapter-api.jar"),
-            zipTree("gameadapter/base/build/libs/gameadapter-base.jar"),
             zipTree("gameadapter/forge/build/libs/gameadapter-forge.jar"),
             zipTree("guapi/api/build/libs/guapi-api.jar"),
             zipTree("guapi/base/build/libs/guapi-base.jar"),
