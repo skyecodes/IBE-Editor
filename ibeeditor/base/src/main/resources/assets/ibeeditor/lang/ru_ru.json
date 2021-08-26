@@ -63,6 +63,7 @@
   "ibeeditor.gui.custom_name": "Название",
   "ibeeditor.gui.lore": "Описание №%s",
   "ibeeditor.gui.lore_add": "описание",
+  "ibeeditor.gui.level": "Уровень",
   "ibeeditor.gui.level_add": "%s уровень",
   "ibeeditor.gui.attribute_name": "Имя атрибута",
   "ibeeditor.gui.attribute": "атрибут",

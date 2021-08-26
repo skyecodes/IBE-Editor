@@ -1,7 +1,7 @@
 package com.github.franckyi.ibeeditor.base.client.util.texteditor;
 
 import com.github.franckyi.gameadapter.api.common.text.IPlainText;
-import jdk.nashorn.internal.ir.annotations.Ignore;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -15,7 +15,7 @@ import static com.github.franckyi.guapi.GuapiHelper.*;
 class TextEditorOutputFormatterTest {
     @ParameterizedTest
     @MethodSource("provideTestFormat")
-    @Ignore
+    @Disabled
     void testFormat(IPlainText rootText, String text, int firstCharacterIndex, List<Formatting> formattings, String expected) {
         /*TextEditorOutputFormatter formatter = new TextEditorOutputFormatter(rootText);
         formatter.format(text, firstCharacterIndex, formattings);

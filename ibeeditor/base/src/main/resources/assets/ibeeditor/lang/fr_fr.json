@@ -55,6 +55,8 @@
   "ibeeditor.gui.custom_name": "Nom Custom",
   "ibeeditor.gui.lore": "Description #%s",
   "ibeeditor.gui.lore_add": "une ligne",
+  "ibeeditor.gui.enchantment": "Enchantement",
+  "ibeeditor.gui.level": "Niveau",
   "ibeeditor.gui.level_add": "%s niveau",
   "ibeeditor.gui.client": "Client",
   "ibeeditor.gui.theme": "Thème",

@@ -1,25 +1,76 @@
 package com.github.franckyi.ibeeditor.base.client.mvc.model.entry;
 
-import com.github.franckyi.gameadapter.Color;
+import com.github.franckyi.databindings.api.IntegerProperty;
+import com.github.franckyi.databindings.api.StringProperty;
 import com.github.franckyi.gameadapter.api.common.item.IEnchantment;
-import com.github.franckyi.ibeeditor.base.client.mvc.model.CategoryModel;
+import com.github.franckyi.gameadapter.api.common.item.IItemStack;
+import com.github.franckyi.ibeeditor.base.client.ClientCache;
+import com.github.franckyi.ibeeditor.base.client.mvc.model.*;
+import com.github.franckyi.ibeeditor.base.client.mvc.model.category.ItemCategoryModel;
 
-import java.util.function.Consumer;
+import java.util.Comparator;
+import java.util.List;
+import java.util.function.BiConsumer;
 
-import static com.github.franckyi.guapi.GuapiHelper.*;
+public class EnchantmentEntryModel extends SelectionEntryModel {
+    private final IntegerProperty levelProperty;
+    private final BiConsumer<String, Integer> action;
+    protected int defaultLevel;
 
-public class EnchantmentEntryModel extends IntegerEntryModel {
-    public EnchantmentEntryModel(CategoryModel category, IEnchantment enchantment, boolean canApply, int value, Consumer<Integer> action) {
-        super(category, translated(enchantment.getName()), value, action);
-        if (enchantment.isCurse()) {
-            getLabel().setColor(Color.RED);
-        } else if (canApply) {
-            getLabel().setColor(Color.GREEN);
-        }
+    public EnchantmentEntryModel(CategoryModel category, String id, int level, BiConsumer<String, Integer> action) {
+        super(category, null, id, null);
+        levelProperty = IntegerProperty.create(level);
+        this.action = action;
+        defaultLevel = level;
+    }
+
+    public int getLevel() {
+        return levelProperty().getValue();
+    }
+
+    public IntegerProperty levelProperty() {
+        return levelProperty;
+    }
+
+    public void setLevel(int value) {
+        levelProperty().setValue(value);
+    }
+
+    @Override
+    public void apply() {
+        action.accept(getValue(), getLevel());
+        defaultValue = getValue();
+        defaultLevel = getLevel();
+    }
+
+    @Override
+    public void reset() {
+        super.reset();
+        setLevel(defaultLevel);
+    }
+
+    @Override
+    public ItemCategoryModel getCategory() {
+        return (ItemCategoryModel) super.getCategory();
     }
 
     @Override
     public Type getType() {
         return Type.ENCHANTMENT;
+    }
+
+    @Override
+    public List<String> getSuggestions() {
+        return ClientCache.getEnchantmentSuggestions();
+    }
+
+    @Override
+    public String getSuggestionScreenTitle() {
+        return "ibeeditor.gui.enchantment";
+    }
+
+    @Override
+    public List<? extends ListSelectionItemModel> getSelectionItems() {
+        return ClientCache.getSortedEnchantmentSelectionItems(getCategory().getEditor().getTarget());
     }
 }

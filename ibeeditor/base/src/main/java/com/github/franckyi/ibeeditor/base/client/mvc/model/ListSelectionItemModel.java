@@ -36,6 +36,6 @@ public class ListSelectionItemModel implements Model {
     }
 
     public enum Type {
-        DEFAULT, ITEM, IMAGE, SPRITE
+        DEFAULT, ITEM, IMAGE, SPRITE, ENCHANTMENT
     }
 }

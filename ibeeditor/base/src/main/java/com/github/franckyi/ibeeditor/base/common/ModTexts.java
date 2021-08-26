@@ -56,6 +56,7 @@ public final class ModTexts {
     public static final IText UNDERLINED = translated("ibeeditor.gui.underline");
     public static final IText STRIKETHROUGH = translated("ibeeditor.gui.strikethough");
     public static final IText OBFUSCATED = translated("ibeeditor.gui.obfuscated");
+    public static final IText LEVEL = translated("ibeeditor.gui.level");
 
     public static final IText NO_ITEM_FOUND_TEXT = prefixed(translated("ibeeditor.message.no_target_found", translated("ibeeditor.text.item"))).red();
     public static final IText NO_BLOCK_FOUND_TEXT = prefixed(translated("ibeeditor.message.no_target_found", translated("ibeeditor.text.block"))).red();

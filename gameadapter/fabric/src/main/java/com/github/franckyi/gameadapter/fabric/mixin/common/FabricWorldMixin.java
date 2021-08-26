@@ -51,7 +51,7 @@ public abstract class FabricWorldMixin implements WorldAccess, AutoCloseable, IW
         setBlockState(pos, state);
         BlockEntity blockEntity = getBlockEntity(pos);
         if (blockEntity != null) {
-            blockEntity.fromTag(state, (NbtCompound) data.getTag());
+            blockEntity.readNbt((NbtCompound) data.getTag());
         }
     }
 

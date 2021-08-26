@@ -63,6 +63,8 @@
   "ibeeditor.gui.custom_name": "Custom Name",
   "ibeeditor.gui.lore": "Lore #%s",
   "ibeeditor.gui.lore_add": "Lore",
+  "ibeeditor.gui.enchantment": "Enchantment",
+  "ibeeditor.gui.level": "Level",
   "ibeeditor.gui.level_add": "%s level",
   "ibeeditor.gui.attribute_name": "Attribute name",
   "ibeeditor.gui.attribute": "Attribute",
