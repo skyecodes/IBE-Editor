@@ -20,7 +20,7 @@ public abstract class ForgeContainerScreenMixin<T extends Container> extends Scr
         super(title);
     }
 
-    @Shadow
+    @Shadow(remap = false)
     @Nullable
     public abstract Slot getSlotUnderMouse();
 
