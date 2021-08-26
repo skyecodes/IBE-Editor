@@ -12,6 +12,13 @@ plugins {
     id "fabric-loom" version "$loom_version"
 }
 
+repositories {
+    maven {
+        name = "TerraformersMC"
+        url = "https://maven.terraformersmc.com/releases/"
+    }
+}
+
 archivesBaseName = 'ibeeditor-fabric'
 
 dependencies {
@@ -19,6 +26,9 @@ dependencies {
     mappings "net.fabricmc:yarn:$yarn_mappings:v2"
     modImplementation "net.fabricmc:fabric-loader:$loader_version"
     modImplementation "net.fabricmc.fabric-api:fabric-api:$fabric_version"
+    modImplementation("com.terraformersmc:modmenu:1.16.12") {
+        exclude(group: "net.fabricmc.fabric-api")
+    }
     implementation project(':databindings:api')
     implementation project(':databindings:base')
     implementation project(':gameadapter:api')

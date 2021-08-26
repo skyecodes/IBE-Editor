@@ -2,6 +2,7 @@ modLoader = "javafml"
 loaderVersion = "[36,)"
 license = "MIT"
 issueTrackerURL = "https://github.com/Franckyi/IBE-Editor/issues"
+logoFile = "logo.png"
 
 [[mods]]
 modId = "guapi-vanilla-theme"
@@ -9,7 +10,7 @@ version = "${file.jarVersion}"
 displayName = "GUAPI: Vanilla Theme"
 displayURL = "https://www.curseforge.com/minecraft/mc-mods/ibe-editor"
 authors = "Franckyi"
-description = "GUAPI extension to register the 'Vanilla' theme"
+description = "Provides the vanilla (default) theme for GUAPI screens"
 
 [[dependencies.guapi-vanilla-theme]]
 modId = "forge"

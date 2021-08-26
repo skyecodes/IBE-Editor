@@ -2,6 +2,7 @@ modLoader = "javafml"
 loaderVersion = "[36,)"
 license = "MIT"
 issueTrackerURL = "https://github.com/Franckyi/IBE-Editor/issues"
+logoFile = "logo.png"
 
 [[mods]]
 modId = "gameadapter"
@@ -9,7 +10,7 @@ version = "${file.jarVersion}"
 displayName = "GameAdapter"
 displayURL = "https://www.curseforge.com/minecraft/mc-mods/ibe-editor"
 authors = "Franckyi"
-description = "Dependency for GUAPI and IBE Editor"
+description = "Dependency for GUAPI and IBE Editor to ensure compability between different Modding APIs"
 
 [[dependencies.gameadapter]]
 modId = "forge"

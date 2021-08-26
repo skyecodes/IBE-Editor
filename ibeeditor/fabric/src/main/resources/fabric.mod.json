@@ -9,10 +9,11 @@
   ],
   "contact": {
     "homepage": "https://www.curseforge.com/minecraft/mc-mods/ibe-editor",
-    "sources": "https://github.com/Franckyi/IBE-Editor"
+    "sources": "https://github.com/Franckyi/IBE-Editor",
+    "issues": "https://github.com/Franckyi/IBE-Editor/issues"
   },
   "license": "MIT",
-  "icon": "icon.png",
+  "icon": "logo.png",
   "environment": "*",
   "entrypoints": {
     "main": [
@@ -20,6 +21,9 @@
     ],
     "client": [
       "com.github.franckyi.ibeeditor.FabricIBEEditorMod"
+    ],
+    "modmenu": [
+      "com.github.franckyi.ibeeditor.FabricIBEEditorModMenuApiImpl"
     ]
   },
   "mixins": [
@@ -31,5 +35,12 @@
     "minecraft": "1.16.x",
     "gameadapter": "${version}",
     "guapi": "${version}"
+  },
+  "custom": {
+    "modmenu": {
+      "links": {
+        "modmenu.discord": "https://discord.gg/upWJQGd"
+      }
+    }
   }
 }

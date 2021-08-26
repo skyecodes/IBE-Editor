@@ -20,7 +20,7 @@ version = "${file.jarVersion}"
 displayName = "GUAPI: Vanilla Theme"
 displayURL = "https://www.curseforge.com/minecraft/mc-mods/ibe-editor"
 authors = "Franckyi"
-description = "GUAPI extension to register the 'Vanilla' theme"
+description = "Provides the vanilla (default) theme for GUAPI screens"
 
 [[mods]]
 modId = "guapi"
@@ -36,7 +36,7 @@ version = "${file.jarVersion}"
 displayName = "GameAdapter"
 displayURL = "https://www.curseforge.com/minecraft/mc-mods/ibe-editor"
 authors = "Franckyi"
-description = "Dependency for GUAPI and IBE Editor"
+description = "Dependency for GUAPI and IBE Editor to ensure compability between different Modding APIs"
 
 [[dependencies.ibeeditor]]
 modId = "forge"

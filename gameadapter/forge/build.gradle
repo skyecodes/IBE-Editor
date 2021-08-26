@@ -26,6 +26,10 @@ minecraft {
 dependencies {
     minecraft "net.minecraftforge:forge:$forge_version"
     annotationProcessor 'org.spongepowered:mixin:0.8.2:processor'
-    implementation project(':databindings:api')
     implementation project(':gameadapter:api')
+    implementation project(':gameadapter:base')
+}
+
+processResources {
+    from 'src/main/resources', '../base/src/main/resources'
 }
