@@ -7,11 +7,7 @@ import org.spongepowered.asm.mixin.Mixin;
 
 @Mixin(BlockPos.class)
 public abstract class ForgeBlockPosMixin extends Vector3i implements IBlockPos {
-    public ForgeBlockPosMixin(int p_i46007_1_, int p_i46007_2_, int p_i46007_3_) {
+    protected ForgeBlockPosMixin(int p_i46007_1_, int p_i46007_2_, int p_i46007_3_) {
         super(p_i46007_1_, p_i46007_2_, p_i46007_3_);
-    }
-
-    public ForgeBlockPosMixin(double p_i46008_1_, double p_i46008_3_, double p_i46008_5_) {
-        super(p_i46008_1_, p_i46008_3_, p_i46008_5_);
     }
 }

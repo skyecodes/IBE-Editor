@@ -10,8 +10,4 @@ public abstract class FabricBlockPosMixin extends Vec3i implements IBlockPos {
     protected FabricBlockPosMixin(int x, int y, int z) {
         super(x, y, z);
     }
-
-    protected FabricBlockPosMixin(double x, double y, double z) {
-        super(x, y, z);
-    }
 }

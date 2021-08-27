@@ -4,30 +4,35 @@ import com.github.franckyi.gameadapter.api.common.tag.ICompoundTag;
 import com.github.franckyi.gameadapter.api.common.tag.IListTag;
 import com.github.franckyi.gameadapter.api.common.tag.ITag;
 import net.minecraft.nbt.*;
-import org.spongepowered.asm.mixin.Implements;
-import org.spongepowered.asm.mixin.Interface;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.*;
 
 @Mixin(ListNBT.class)
-@Implements(@Interface(iface = IListTag.class, prefix = "list$"))
+@Implements(@Interface(iface = IListTag.class, prefix = "proxy$"))
 public abstract class ForgeListNBTMixin extends CollectionNBT<INBT> {
+    @Shadow
+    public abstract String getString(int p_150307_1_);
+
     @Shadow
     public abstract CompoundNBT getCompound(int index);
 
-    public byte list$getType() {
+    public byte proxy$getType() {
         return getId();
     }
 
-    public ICompoundTag list$getCompound(int index) {
+    @Intrinsic
+    public String proxy$getString(int index) {
+        return getString(index);
+    }
+
+    public ICompoundTag proxy$getCompound(int index) {
         return (ICompoundTag) getCompound(index);
     }
 
-    public void list$addString(String string) {
+    public void proxy$addString(String string) {
         add(StringNBT.valueOf(string));
     }
 
-    public void list$addTag(ITag tag) {
+    public void proxy$addTag(ITag tag) {
         add((INBT) tag);
     }
 }
