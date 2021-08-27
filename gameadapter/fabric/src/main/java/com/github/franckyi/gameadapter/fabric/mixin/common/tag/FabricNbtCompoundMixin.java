@@ -58,6 +58,9 @@ public abstract class FabricNbtCompoundMixin implements NbtElement, Map<String, 
     public abstract boolean contains(String key, int type);
 
     @Shadow
+    public abstract boolean shadow$isEmpty();
+
+    @Shadow
     public abstract NbtCompound copy();
 
     @Shadow
@@ -135,7 +138,7 @@ public abstract class FabricNbtCompoundMixin implements NbtElement, Map<String, 
 
     @Intrinsic
     public boolean proxy$isEmpty() {
-        return isEmpty();
+        return shadow$isEmpty();
     }
 
     public ICompoundTag proxy$copy() {
