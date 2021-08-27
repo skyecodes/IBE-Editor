@@ -12,6 +12,7 @@ rootProject.name = "IBE-Editor"
 include 'databindings:api'
 include 'databindings:base'
 include 'gameadapter:api'
+include 'gameadapter:base'
 include 'gameadapter:fabric'
 //include 'gameadapter:forge'
 include 'guapi:api'

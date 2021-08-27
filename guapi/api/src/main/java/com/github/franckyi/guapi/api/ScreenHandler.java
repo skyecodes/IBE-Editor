@@ -7,6 +7,8 @@ public interface ScreenHandler {
 
     void hideScene();
 
+    Object getScreen();
+
     boolean mouseClicked(double mouseX, double mouseY, int button);
 
     boolean mouseReleased(double mouseX, double mouseY, int button);

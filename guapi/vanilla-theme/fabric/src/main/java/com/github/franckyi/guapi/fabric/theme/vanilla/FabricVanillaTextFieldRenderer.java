@@ -144,7 +144,7 @@ public class FabricVanillaTextFieldRenderer extends TextFieldWidget implements F
             return false;
         } else {
             boolean bl = mouseX >= x && mouseX < x + width && mouseY >= y && mouseY < y + height;
-            if (self.isFocusUnlocked()) {
+            if (self.isFocusUnlocked() && button == 0) {
                 setTextFieldFocused(bl);
             }
 

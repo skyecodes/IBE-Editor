@@ -17,7 +17,7 @@ dependencies {
 }
 
 processResources {
-    from "src/main/resources"
+    from "src/main/resources", "../base/src/main/resources"
 
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 

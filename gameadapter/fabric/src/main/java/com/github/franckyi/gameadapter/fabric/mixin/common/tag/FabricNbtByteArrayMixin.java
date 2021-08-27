@@ -2,16 +2,21 @@ package com.github.franckyi.gameadapter.fabric.mixin.common.tag;
 
 import com.github.franckyi.gameadapter.api.common.tag.IByteArrayTag;
 import net.minecraft.nbt.NbtByteArray;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
+import net.minecraft.nbt.NbtElement;
+import org.spongepowered.asm.mixin.*;
 
 @Mixin(NbtByteArray.class)
-public abstract class FabricNbtByteArrayMixin implements IByteArrayTag {
+@Implements(@Interface(iface = IByteArrayTag.class, prefix = "proxy$"))
+public abstract class FabricNbtByteArrayMixin implements NbtElement {
     @Shadow
     public abstract byte[] getByteArray();
 
-    @Override
-    public byte[] getValue() {
+    public byte[] proxy$getValue() {
         return getByteArray();
+    }
+
+    @Intrinsic
+    public byte proxy$getType() {
+        return getType();
     }
 }

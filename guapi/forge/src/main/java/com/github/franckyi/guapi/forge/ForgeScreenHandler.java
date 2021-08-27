@@ -28,6 +28,7 @@ public final class ForgeScreenHandler extends AbstractScreenHandler {
         Minecraft.getInstance().setScreen(oldScreen);
     }
 
+    @Override
     public Screen getScreen() {
         return screen;
     }

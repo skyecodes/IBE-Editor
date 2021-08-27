@@ -4,34 +4,38 @@ import com.github.franckyi.gameadapter.api.common.item.IItemStack;
 import com.github.franckyi.gameadapter.api.common.tag.ICompoundTag;
 import net.minecraft.item.*;
 import net.minecraft.nbt.NbtCompound;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.*;
 
 @Mixin(ItemStack.class)
-public abstract class FabricItemStackMixin implements IItemStack {
+@Implements(@Interface(iface = IItemStack.class, prefix = "proxy$"))
+public abstract class FabricItemStackMixin {
+    @Shadow
+    public abstract boolean isEmpty();
+
     @Shadow
     public abstract NbtCompound writeNbt(NbtCompound nbt);
 
     @Shadow
     public abstract Item getItem();
 
-    @Override
-    public ICompoundTag getData() {
+    @Intrinsic
+    public boolean proxy$isEmpty() {
+        return isEmpty();
+    }
+
+    public ICompoundTag proxy$getData() {
         return (ICompoundTag) writeNbt(new NbtCompound());
     }
 
-    @Override
-    public boolean isBlockItem() {
+    public boolean proxy$isBlockItem() {
         return getItem() instanceof BlockItem;
     }
 
-    @Override
-    public boolean isPotionItem() {
+    public boolean proxy$isPotionItem() {
         return getItem() instanceof PotionItem;
     }
 
-    @Override
-    public boolean isDyeableItem() {
+    public boolean proxy$isDyeableItem() {
         return getItem() instanceof DyeableItem;
     }
 }

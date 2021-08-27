@@ -27,6 +27,11 @@ public final class FabricScreenHandler extends AbstractScreenHandler {
         MinecraftClient.getInstance().setScreen(oldScreen);
     }
 
+    @Override
+    public Screen getScreen() {
+        return screen;
+    }
+
     private final class ScreenImpl extends Screen {
         private ScreenImpl() {
             super(new LiteralText(""));

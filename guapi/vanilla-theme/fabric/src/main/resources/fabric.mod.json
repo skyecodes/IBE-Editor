@@ -3,15 +3,17 @@
   "id": "guapi-vanilla-theme",
   "version": "${version}",
   "name": "GUAPI: Vanilla Theme",
-  "description": "GUAPI extension to register the 'Vanilla' theme",
+  "description": "Provides the vanilla (default) theme for GUAPI screens",
   "authors": [
     "Franckyi"
   ],
   "contact": {
     "homepage": "https://www.curseforge.com/minecraft/mc-mods/ibe-editor",
-    "sources": "https://github.com/Franckyi/IBE-Editor"
+    "sources": "https://github.com/Franckyi/IBE-Editor",
+    "issues": "https://github.com/Franckyi/IBE-Editor/issues"
   },
   "license": "MIT",
+  "icon": "logo.png",
   "environment": "client",
   "entrypoints": {
     "client": [
@@ -27,5 +29,16 @@
     "minecraft": "1.17.x",
     "gameadapter": "${version}",
     "guapi": "${version}"
+  },
+  "custom": {
+    "modmenu": {
+      "parent": "ibeeditor",
+      "badges": [
+        "library"
+      ],
+      "links": {
+        "modmenu.discord": "https://discord.gg/upWJQGd"
+      }
+    }
   }
 }

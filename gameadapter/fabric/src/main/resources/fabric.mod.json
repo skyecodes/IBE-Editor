@@ -3,15 +3,17 @@
   "id": "gameadapter",
   "version": "${version}",
   "name": "GameAdapter",
-  "description": "Dependency for GUAPI and IBE Editor",
+  "description": "Dependency for GUAPI and IBE Editor to ensure compability between different Modding APIs",
   "authors": [
     "Franckyi"
   ],
   "contact": {
     "homepage": "https://www.curseforge.com/minecraft/mc-mods/ibe-editor",
-    "sources": "https://github.com/Franckyi/IBE-Editor"
+    "sources": "https://github.com/Franckyi/IBE-Editor",
+    "issues": "https://github.com/Franckyi/IBE-Editor/issues"
   },
   "license": "MIT",
+  "icon": "logo.png",
   "environment": "*",
   "entrypoints": {
     "main": [
@@ -28,5 +30,16 @@
     "fabricloader": ">=0.11.3",
     "fabric": "*",
     "minecraft": "1.17.x"
+  },
+  "custom": {
+    "modmenu": {
+      "parent": "ibeeditor",
+      "badges": [
+        "library"
+      ],
+      "links": {
+        "modmenu.discord": "https://discord.gg/upWJQGd"
+      }
+    }
   }
 }

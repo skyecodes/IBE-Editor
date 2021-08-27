@@ -1,17 +1,22 @@
 package com.github.franckyi.gameadapter.fabric.mixin.common.tag;
 
 import com.github.franckyi.gameadapter.api.common.tag.ILongArrayTag;
+import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtLongArray;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.*;
 
 @Mixin(NbtLongArray.class)
-public abstract class FabricNbtLongArrayMixin implements ILongArrayTag {
+@Implements(@Interface(iface = ILongArrayTag.class, prefix = "proxy$"))
+public abstract class FabricNbtLongArrayMixin implements NbtElement {
     @Shadow
     public abstract long[] getLongArray();
 
-    @Override
-    public long[] getValue() {
+    public long[] proxy$getValue() {
         return getLongArray();
+    }
+
+    @Intrinsic
+    public byte proxy$getType() {
+        return getType();
     }
 }

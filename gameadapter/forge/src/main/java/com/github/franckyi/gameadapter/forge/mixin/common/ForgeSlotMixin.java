@@ -22,7 +22,7 @@ public abstract class ForgeSlotMixin implements ISlot {
     @Final
     public IInventory container;
 
-    @Shadow
+    @Shadow(remap = false)
     public abstract int getSlotIndex();
 
     @Override

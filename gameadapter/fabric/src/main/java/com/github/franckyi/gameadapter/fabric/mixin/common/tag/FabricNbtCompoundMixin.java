@@ -8,9 +8,7 @@ import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.spongepowered.asm.mixin.Final;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.*;
 
 import java.util.Collection;
 import java.util.Map;
@@ -18,62 +16,135 @@ import java.util.Set;
 import java.util.UUID;
 
 @Mixin(NbtCompound.class)
-public abstract class FabricNbtCompoundMixin implements ICompoundTag {
+@Implements(@Interface(iface = ICompoundTag.class, prefix = "proxy$"))
+public abstract class FabricNbtCompoundMixin implements NbtElement, Map<String, ITag> {
+    @Shadow
+    public abstract int getInt(String key);
+
+    @Shadow
+    public abstract String getString(String key);
+
+    @Shadow
+    public abstract boolean getBoolean(String key);
+
+    @Shadow
+    public abstract double getDouble(String key);
+
     @Shadow
     public abstract UUID getUuid(String key);
 
     @Shadow
-    public abstract NbtList shadow$getList(String key, int type);
+    public abstract NbtList getList(String key, int type);
 
     @Shadow
-    public abstract NbtCompound shadow$getCompound(String key);
+    public abstract NbtCompound getCompound(String key);
+
+    @Shadow
+    public abstract void putString(String key, String value);
+
+    @Shadow
+    public abstract void putInt(String key, int value);
+
+    @Shadow
+    public abstract void putBoolean(String key, boolean value);
+
+    @Shadow
+    public abstract void putDouble(String key, double value);
 
     @Shadow
     public abstract void putUuid(String key, UUID value);
 
     @Shadow
-    public abstract boolean shadow$contains(String key, int type);
+    public abstract boolean contains(String key, int type);
 
     @Shadow
-    public abstract NbtCompound shadow$copy();
+    public abstract NbtCompound copy();
 
     @Shadow
     @Final
     private Map<String, NbtElement> entries;
 
-    @Override
-    public UUID getUUID(String key) {
+    @Intrinsic
+    public int proxy$getInt(String key) {
+        return getInt(key);
+    }
+
+    @Intrinsic
+    public String proxy$getString(String key) {
+        return getString(key);
+    }
+
+    @Intrinsic
+    public boolean proxy$getBoolean(String key) {
+        return getBoolean(key);
+    }
+
+    @Intrinsic
+    public double proxy$getDouble(String key) {
+        return getDouble(key);
+    }
+
+    public UUID proxy$getUUID(String key) {
         return getUuid(key);
     }
 
-    @Override
-    public IListTag getList(String key, byte type) {
-        return IListTag.class.cast(shadow$getList(key, type));
+    public IListTag proxy$getList(String key, byte type) {
+        return IListTag.class.cast(getList(key, type));
     }
 
-    @Override
-    public ICompoundTag getCompound(String key) {
-        return (ICompoundTag) shadow$getCompound(key);
+    public ICompoundTag proxy$getCompound(String key) {
+        return (ICompoundTag) getCompound(key);
     }
 
-    @Override
-    public void putUUID(String key, UUID value) {
+    @Intrinsic
+    public void proxy$putString(String key, String value) {
+        putString(key, value);
+    }
+
+    @Intrinsic
+    public void proxy$putInt(String key, int value) {
+        putInt(key, value);
+    }
+
+    @Intrinsic
+    public void proxy$putBoolean(String key, boolean value) {
+        putBoolean(key, value);
+    }
+
+    @Intrinsic
+    public void proxy$putDouble(String key, double value) {
+        putDouble(key, value);
+    }
+
+    public void proxy$putUUID(String key, UUID value) {
         putUuid(key, value);
     }
 
-    @Override
-    public void putTag(String key, ITag tag) {
+    public void proxy$putTag(String key, ITag tag) {
         put(key, tag);
     }
 
-    @Override
-    public boolean contains(String key, byte type) {
-        return shadow$contains(key, type);
+    public boolean proxy$contains(String key, byte type) {
+        return contains(key, type);
     }
 
-    @Override
-    public ICompoundTag copy() {
-        return (ICompoundTag) shadow$copy();
+    @Intrinsic
+    public void proxy$remove(String key) {
+        remove(key);
+    }
+
+    @Intrinsic
+    public boolean proxy$isEmpty() {
+        return isEmpty();
+    }
+
+    public ICompoundTag proxy$copy() {
+        return (ICompoundTag) copy();
+    }
+
+    @Intrinsic
+    public byte proxy$getType() {
+        return getType();
     }
 
     @Override

@@ -4,10 +4,19 @@ import com.github.franckyi.gameadapter.api.common.text.IPlainText;
 import com.google.gson.JsonArray;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
-import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.*;
 
 @Mixin(StringTextComponent.class)
-public abstract class ForgeStringTextComponentMixin extends ForgeTextComponentMixin implements IPlainText {
+@Implements(@Interface(iface = IPlainText.class, prefix = "proxy$"))
+public abstract class ForgeStringTextComponentMixin extends ForgeTextComponentMixin {
+    @Shadow
+    public abstract String getText();
+
+    @Intrinsic
+    public String proxy$getText() {
+        return getText();
+    }
+
     @Override
     public String toJson() {
         if (getText().isEmpty() && getColor() == null && getBold() == null && getItalic() == null &&

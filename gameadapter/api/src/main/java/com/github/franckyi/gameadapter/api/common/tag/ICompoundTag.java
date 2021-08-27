@@ -58,31 +58,4 @@ public interface ICompoundTag extends ITag, Map<String, ITag> {
     boolean isEmpty();
 
     ICompoundTag copy();
-
-    class CompoundTagEntry implements Entry<String, ITag> {
-        private final String key;
-        private ITag value;
-
-        public CompoundTagEntry(String key, ITag value) {
-            this.key = key;
-            this.value = value;
-        }
-
-        @Override
-        public String getKey() {
-            return key;
-        }
-
-        @Override
-        public ITag getValue() {
-            return value;
-        }
-
-        @Override
-        public ITag setValue(ITag value) {
-            ITag old = this.value;
-            this.value = value;
-            return old;
-        }
-    }
 }

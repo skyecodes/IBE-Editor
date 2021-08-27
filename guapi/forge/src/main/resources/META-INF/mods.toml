@@ -2,6 +2,7 @@ modLoader = "javafml"
 loaderVersion = "[36,)"
 license = "MIT"
 issueTrackerURL = "https://github.com/Franckyi/IBE-Editor/issues"
+logoFile = "logo.png"
 
 [[mods]]
 modId = "guapi"

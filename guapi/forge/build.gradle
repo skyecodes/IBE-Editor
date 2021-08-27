@@ -24,3 +24,7 @@ dependencies {
     implementation project(':guapi:api')
     implementation project(':guapi:base')
 }
+
+processResources {
+    from "src/main/resources", "../base/src/main/resources"
+}

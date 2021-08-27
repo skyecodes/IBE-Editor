@@ -21,6 +21,7 @@
   "ibeeditor.gui.zoom_out": "Zoom Out",
   "ibeeditor.gui.zoom_in": "Zoom In",
   "ibeeditor.gui.add_tag": "Add %s Tag",
+  "ibeeditor.gui.close_without_saving": "Close without saving",
   "ibeeditor.gui.save": "Save",
   "ibeeditor.gui.bold": "Bold",
   "ibeeditor.gui.italic": "Italic",
