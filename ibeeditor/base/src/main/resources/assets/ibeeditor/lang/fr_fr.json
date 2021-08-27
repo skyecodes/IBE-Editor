@@ -20,6 +20,7 @@
   "ibeeditor.gui.zoom_out": "Dézoomer",
   "ibeeditor.gui.zoom_in": "Zoomer",
   "ibeeditor.gui.add_tag": "Ajouter un tag %s",
+  "ibeeditor.gui.close_without_saving": "Fermer sans sauvegarder",
   "ibeeditor.gui.save": "Sauvegarder",
   "ibeeditor.gui.bold": "Gras",
   "ibeeditor.gui.italic": "Italique",

@@ -10,7 +10,10 @@ public class ConfigEditorView extends ListEditorView {
     @Override
     public void build() {
         super.build();
+        getCancelButton().setLabel(ModTexts.CLOSE);
+        getCancelButton().setPrefWidth(150);
         getDoneButton().setLabel(ModTexts.SAVE);
+        getDoneButton().setPrefWidth(150);
     }
 
     @Override
