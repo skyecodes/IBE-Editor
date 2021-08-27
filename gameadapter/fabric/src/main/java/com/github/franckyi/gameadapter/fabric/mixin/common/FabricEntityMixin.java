@@ -6,23 +6,30 @@ import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.command.CommandOutput;
 import net.minecraft.util.Nameable;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.*;
 
 @Mixin(Entity.class)
-public abstract class FabricEntityMixin implements Nameable, CommandOutput, IEntity {
+@Implements(@Interface(iface = IEntity.class, prefix = "proxy$"))
+public abstract class FabricEntityMixin implements Nameable, CommandOutput {
     @Shadow
     public abstract boolean saveSelfNbt(NbtCompound nbt);
 
     @Shadow
     public abstract NbtCompound writeNbt(NbtCompound nbt);
 
-    @Override
-    public ICompoundTag getData() {
+    @Shadow
+    public abstract int getEntityId();
+
+    public ICompoundTag proxy$getData() {
         NbtCompound compound = new NbtCompound();
         if (!saveSelfNbt(compound)) {
             writeNbt(compound);
         }
         return (ICompoundTag) compound;
+    }
+
+    @Intrinsic
+    public int proxy$getEntityId() {
+        return getEntityId();
     }
 }
