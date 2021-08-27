@@ -141,19 +141,19 @@ public class ForgeVanillaTextFieldRenderer extends TextFieldWidget implements Fo
     }
 
     @Override
-    public boolean mouseClicked(double p_231044_1_, double p_231044_3_, int p_231044_5_) {
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
         ForgeTextFieldWidgetMixin self = (ForgeTextFieldWidgetMixin) this;
         FontRenderer font = Minecraft.getInstance().font;
         if (!isVisible()) {
             return false;
         } else {
-            boolean flag = p_231044_1_ >= x && p_231044_1_ < x + width && p_231044_3_ >= y && p_231044_3_ < y + height;
-            if (self.canLoseFocus()) {
+            boolean flag = mouseX >= x && mouseX < x + width && mouseY >= y && mouseY < y + height;
+            if (self.canLoseFocus() && button == 0) {
                 setFocus(flag);
             }
 
-            if (isFocused() && flag && p_231044_5_ == 0) {
-                int i = MathHelper.floor(p_231044_1_) - x;
+            if (isFocused() && flag && button == 0) {
+                int i = MathHelper.floor(mouseX) - x;
                 if (self.isBordered()) {
                     i -= 4;
                 }
