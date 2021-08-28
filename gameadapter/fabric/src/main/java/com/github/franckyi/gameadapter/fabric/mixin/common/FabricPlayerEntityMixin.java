@@ -14,14 +14,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
-import org.spongepowered.asm.mixin.Final;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.*;
 
 import java.util.UUID;
 
 @Mixin(PlayerEntity.class)
-public abstract class FabricPlayerMixin extends LivingEntity implements IPlayer {
+@Implements(@Interface(iface = IPlayer.class, prefix = "proxy$"))
+public abstract class FabricPlayerEntityMixin extends LivingEntity {
     @Shadow
     @Final
     public PlayerInventory inventory;
@@ -32,47 +31,44 @@ public abstract class FabricPlayerMixin extends LivingEntity implements IPlayer 
     @Shadow
     public abstract void shadow$sendMessage(net.minecraft.text.Text message, boolean actionBar);
 
-    protected FabricPlayerMixin(EntityType<? extends LivingEntity> entityType, World world) {
+    protected FabricPlayerEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
         super(entityType, world);
     }
 
-    @Override
-    public IItemStack getItemMainHand() {
+    public IItemStack proxy$getItemMainHand() {
         return IItemStack.class.cast(inventory.getMainHandStack());
     }
 
-    @Override
-    public void setItemMainHand(IItemStack itemStack) {
+    public void proxy$setItemMainHand(IItemStack itemStack) {
         setStackInHand(Hand.MAIN_HAND, ItemStack.class.cast(itemStack));
     }
 
-    @Override
-    public void setInventoryItem(IItemStack itemStack, int slotId) {
+    public void proxy$setInventoryItem(IItemStack itemStack, int slotId) {
         inventory.setStack(slotId, ItemStack.class.cast(itemStack));
     }
 
-    @Override
-    public IWorld getWorld() {
+    public IWorld proxy$getWorld() {
         return (IWorld) getEntityWorld();
     }
 
-    @Override
-    public UUID getProfileId() {
+    public UUID proxy$getProfileId() {
         return getGameProfile().getId();
     }
 
-    @Override
-    public String getProfileName() {
+    public String proxy$getProfileName() {
         return getGameProfile().getName();
     }
 
-    @Override
-    public void sendMessage(IText message, boolean actionBar) {
+    public void proxy$sendMessage(IText message, boolean actionBar) {
         shadow$sendMessage((Text) message, actionBar);
     }
 
-    @Override
-    public void updateMainHandItem(IItemStack itemStack) {
+    @Intrinsic
+    public boolean proxy$isCreative() {
+        return PlayerEntity.class.cast(this).isCreative();
+    }
+
+    public void proxy$updateMainHandItem(IItemStack itemStack) {
         Game.getClient().updateInventoryItem(itemStack, inventory.selectedSlot + inventory.main.size());
     }
 }
