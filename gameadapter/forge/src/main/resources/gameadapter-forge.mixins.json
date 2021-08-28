@@ -18,7 +18,7 @@
     "common.ForgeItemMixin",
     "common.ForgeItemStackMixin",
     "common.ForgePacketBufferMixin",
-    "common.ForgePlayerMixin",
+    "common.ForgePlayerEntityMixin",
     "common.ForgePotionMixin",
     "common.ForgeRegistryKeyMixin",
     "common.ForgeRegistryMixin",

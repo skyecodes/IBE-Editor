@@ -17,7 +17,7 @@
     "common.FabricItemMixin",
     "common.FabricItemStackMixin",
     "common.FabricPacketByteBufMixin",
-    "common.FabricPlayerMixin",
+    "common.FabricPlayerEntityMixin",
     "common.FabricPotionMixin",
     "common.FabricRegistryKeyMixin",
     "common.FabricRegistryMixin",
