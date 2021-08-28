@@ -1,47 +1,53 @@
 {
   "homepage": "https://www.curseforge.com/minecraft/mc-mods/ibe-editor",
   "promos": {
-    "1.17.1-latest": "2.0.2",
-    "1.17.1-recommended": "2.0.2",
-    "1.16.5-latest": "2.0.2",
-    "1.16.5-recommended": "2.0.2",
-    "1.16.4-latest": "2.0.2",
-    "1.16.4-recommended": "2.0.2",
-    "1.16.3-latest": "2.0.2",
-    "1.16.3-recommended": "2.0.2",
-    "1.16.2-latest": "2.0.2",
-    "1.16.2-recommended": "2.0.2",
-    "1.16.1-latest": "2.0.2",
-    "1.16.1-recommended": "2.0.2"
+    "1.17.1-latest": "2.0.3",
+    "1.17.1-recommended": "2.0.3",
+    "1.16.5-latest": "2.0.3",
+    "1.16.5-recommended": "2.0.3",
+    "1.16.4-latest": "2.0.3",
+    "1.16.4-recommended": "2.0.3",
+    "1.16.3-latest": "2.0.3",
+    "1.16.3-recommended": "2.0.3",
+    "1.16.2-latest": "2.0.3",
+    "1.16.2-recommended": "2.0.3",
+    "1.16.1-latest": "2.0.3",
+    "1.16.1-recommended": "2.0.3"
   },
   "1.17.1": {
+    "2.0.3": "Fixed a crash when pressing IBE Editor keys in an inventory screen without hovering a slot",
     "2.0.2": "Fixed a crash when opening the player editor",
-    "2.0.1": "Bugfixes",
+    "2.0.1": "Various bugfixes, improved enchantment category",
     "2.0.0": "Rewrite to support Forge & Fabric"
   },
   "1.16.5": {
+    "2.0.3": "Fixed a crash when pressing IBE Editor keys in an inventory screen without hovering a slot",
     "2.0.2": "Fixed a crash when opening the player editor",
-    "2.0.1": "Bugfixes",
+    "2.0.1": "Various bugfixes",
     "2.0.0": "Rewrite to support Forge & Fabric"
   },
   "1.16.4": {
+    "2.0.3": "Fixed a crash when pressing IBE Editor keys in an inventory screen without hovering a slot",
     "2.0.2": "Fixed a crash when opening the player editor",
-    "2.0.1": "Bugfixes",
+    "2.0.1": "Various bugfixes",
     "2.0.0": "Rewrite to support Forge & Fabric"
   },
   "1.16.3": {
+    "2.0.3": "Fixed a crash when pressing IBE Editor keys in an inventory screen without hovering a slot",
     "2.0.2": "Fixed a crash when opening the player editor",
-    "2.0.1": "Bugfixes",
+    "2.0.1": "Various bugfixes",
     "2.0.0": "Rewrite to support Forge & Fabric"
   },
   "1.16.2": {
+    "2.0.3": "Fixed a crash when pressing IBE Editor keys in an inventory screen without hovering a slot",
     "2.0.2": "Fixed a crash when opening the player editor",
-    "2.0.1": "Bugfixes",
+    "2.0.1": "Various bugfixes",
     "2.0.0": "Rewrite to support Forge & Fabric"
   },
   "1.16.1": {
+    "2.0.3": "Fixed a crash when pressing IBE Editor keys in an inventory screen without hovering a slot",
     "2.0.2": "Fixed a crash when opening the player editor",
-    "2.0.1": "Bugfixes",
+    "2.0.1": "Various bugfixes",
     "2.0.0": "Rewrite to support Forge & Fabric"
   }
 }
