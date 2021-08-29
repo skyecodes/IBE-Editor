@@ -59,7 +59,7 @@ public final class ClientEditorLogic {
         IItemStack itemStack = player().getItemMainHand();
         if (itemStack != null && !itemStack.isEmpty()) {
             openItemEditor(itemStack, target, ClientEditorLogic::updatePlayerMainHandItem,
-                    ClientContext.isModInstalledOnServer() || player().isCreative() ? null : ModTexts.ERROR_CREATIVE_ITEM);
+                    getDisabledTooltipCreativeMode(ModTexts.ITEM));
             return true;
         }
         return false;
@@ -74,21 +74,21 @@ public final class ClientEditorLogic {
         }
     }
 
-    public static void openClipboard() {
-        //LOGGER.debug("Opening clipboard");
-        //GameHooks.client().getScreenHandler().showScene(scene(mvc(EditorView.class, new EditorModelImpl()), true, true));
+    public static void openVault() {
+        //LOGGER.debug("Opening vault");
+        //ModScreenHandler.openVault();
     }
 
     public static void openPlayerInventoryItemEditor(IItemStack itemStack, EditorType target, int slotId, boolean isCreativeInventoryScreen) {
         openItemEditor(itemStack, target,
                 newItem -> updatePlayerInventoryItem(newItem, slotId, isCreativeInventoryScreen),
-                ClientContext.isModInstalledOnServer() || player().isCreative() ? null : ModTexts.ERROR_CREATIVE_ITEM);
+                getDisabledTooltipCreativeMode(ModTexts.ITEM));
     }
 
     public static void openBlockInventoryItemEditor(IItemStack itemStack, EditorType target, int slotId, IBlockPos blockPos) {
         openItemEditor(itemStack, target,
                 newItem -> updateBlockInventoryItem(newItem, slotId, blockPos),
-                ClientContext.isModInstalledOnServer() ? null : ModTexts.ERROR_SERVERMOD_ITEM);
+                getDisabledTooltipServerMod(ModTexts.ITEM));
     }
 
     public static void openItemEditor(IItemStack itemStack, EditorType target, Consumer<IItemStack> action, IText disabledTooltip) {
@@ -119,26 +119,26 @@ public final class ClientEditorLogic {
             case STANDARD:
                 /*ModScreenHandler.openBlockEditorScreen(block,
                         newBlock -> updateBlock(new WorldBlockData(newBlock, block.getPos())),
-                        ClientContext.isModInstalledOnServer() ? null : ERROR_SERVERMOD_BLOCK);*/
-                player().sendMessage(ModTexts.ERROR_NOT_IMPLEMENTED_BLOCK);
+                        getDisabledTooltipServerMod(ModTexts.BLOCK));*/
+                player().sendMessage(ModTexts.Messages.warnNotImplemented(ModTexts.BLOCK));
                 break;
             case NBT:
                 if (block.getTag() == null) {
-                    player().sendMessage(ModTexts.NO_BLOCK_FOUND_TEXT);
+                    player().sendMessage(ModTexts.Messages.errorNoTargetFound(ModTexts.BLOCK));
                     break;
                 }
                 ModScreenHandler.openNBTEditorScreen(block.getTag(),
                         tag -> updateBlock(new WorldBlockData(block.getState(), tag, block.getPos())),
-                        ClientContext.isModInstalledOnServer() ? null : ModTexts.ERROR_SERVERMOD_BLOCK);
+                        getDisabledTooltipServerMod(ModTexts.BLOCK));
                 break;
             case SNBT:
                 if (block.getTag() == null) {
-                    player().sendMessage(ModTexts.NO_BLOCK_FOUND_TEXT);
+                    player().sendMessage(ModTexts.Messages.errorNoTargetFound(ModTexts.BLOCK));
                     break;
                 }
                 ModScreenHandler.openSNBTEditorScreen(block.getTag().toString(),
                         snbt -> updateBlock(new WorldBlockData(block.getState(), ICompoundTag.parse(snbt), block.getPos())),
-                        ClientContext.isModInstalledOnServer() ? null : ModTexts.ERROR_SERVERMOD_BLOCK);
+                        getDisabledTooltipServerMod(ModTexts.BLOCK));
                 break;
         }
     }
@@ -154,18 +154,18 @@ public final class ClientEditorLogic {
             case STANDARD:
                 /*ModScreenHandler.openEntityEditorScreen(entity,
                         entity1 -> updateEntity(entityId, entity1),
-                        ClientContext.isModInstalledOnServer() ? null : ERROR_SERVERMOD_ENTITY);*/
-                player().sendMessage(ModTexts.ERROR_NOT_IMPLEMENTED_ENTITY);
+                        getDisabledTooltipServerMod(ModTexts.ENTITY));*/
+                player().sendMessage(ModTexts.Messages.warnNotImplemented(ModTexts.ENTITY));
                 break;
             case NBT:
                 ModScreenHandler.openNBTEditorScreen(entity,
                         tag -> updateEntity(entityId, tag),
-                        ClientContext.isModInstalledOnServer() ? null : ModTexts.ERROR_SERVERMOD_ENTITY);
+                        getDisabledTooltipServerMod(ModTexts.ENTITY));
                 break;
             case SNBT:
                 ModScreenHandler.openSNBTEditorScreen(entity.toString(),
                         snbt -> updateEntity(entityId, ICompoundTag.parse(snbt)),
-                        ClientContext.isModInstalledOnServer() ? null : ModTexts.ERROR_SERVERMOD_ENTITY);
+                        getDisabledTooltipServerMod(ModTexts.ENTITY));
                 break;
         }
     }
@@ -178,7 +178,7 @@ public final class ClientEditorLogic {
             if (player().isCreative()) {
                 player().updateMainHandItem(itemStack);
             } else {
-                player().sendMessage(ModTexts.ERROR_CREATIVE_ITEM);
+                player().sendMessage(ModTexts.Messages.errorCreativeMode(ModTexts.ITEM));
             }
         }
         Guapi.getScreenHandler().hideScene();
@@ -196,7 +196,7 @@ public final class ClientEditorLogic {
                     Game.getClient().updateInventoryItem(itemStack, slotId);
                 }
             } else {
-                player().sendMessage(ModTexts.ERROR_CREATIVE_ITEM);
+                player().sendMessage(ModTexts.Messages.errorServerMod(ModTexts.ITEM));
             }
         }
         Guapi.getScreenHandler().hideScene();
@@ -207,7 +207,7 @@ public final class ClientEditorLogic {
         if (ClientContext.isModInstalledOnServer()) {
             ClientNetworkEmitter.sendBlockInventoryItemUpdate(itemStack, slotId, blockPos);
         } else {
-            player().sendMessage(ModTexts.ERROR_SERVERMOD_ITEM);
+            player().sendMessage(ModTexts.Messages.errorServerMod(ModTexts.ITEM));
         }
         Guapi.getScreenHandler().hideScene();
     }
@@ -217,7 +217,7 @@ public final class ClientEditorLogic {
         if (ClientContext.isModInstalledOnServer()) {
             ClientNetworkEmitter.sendBlockUpdate(block);
         } else {
-            player().sendMessage(ModTexts.ERROR_SERVERMOD_BLOCK);
+            player().sendMessage(ModTexts.Messages.errorServerMod(ModTexts.BLOCK));
         }
         Guapi.getScreenHandler().hideScene();
     }
@@ -227,12 +227,20 @@ public final class ClientEditorLogic {
         if (ClientContext.isModInstalledOnServer()) {
             ClientNetworkEmitter.sendEntityUpdate(entityId, tag);
         } else {
-            player().sendMessage(ModTexts.ERROR_SERVERMOD_ENTITY);
+            player().sendMessage(ModTexts.Messages.errorServerMod(ModTexts.ENTITY));
         }
         Guapi.getScreenHandler().hideScene();
     }
 
     private static IPlayer player() {
         return IPlayer.client();
+    }
+
+    private static IText getDisabledTooltipServerMod(IText arg) {
+        return ClientContext.isModInstalledOnServer() ? null : ModTexts.serverMod(arg);
+    }
+
+    private static IText getDisabledTooltipCreativeMode(IText arg) {
+        return ClientContext.isModInstalledOnServer() || player().isCreative() ? null : ModTexts.creativeMode(arg);
     }
 }

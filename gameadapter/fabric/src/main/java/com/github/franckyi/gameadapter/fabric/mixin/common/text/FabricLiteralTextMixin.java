@@ -4,30 +4,30 @@ import com.github.franckyi.gameadapter.api.common.text.IPlainText;
 import com.google.gson.JsonArray;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
-import org.spongepowered.asm.mixin.Final;
+import org.spongepowered.asm.mixin.Implements;
+import org.spongepowered.asm.mixin.Interface;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(LiteralText.class)
-public abstract class FabricLiteralTextMixin extends FabricBaseTextMixin implements IPlainText {
+@Implements(@Interface(iface = IPlainText.class, prefix = "proxy$"))
+public abstract class FabricLiteralTextMixin extends FabricBaseTextMixin {
     @Shadow
-    @Final
-    private String string;
+    public abstract String getRawString();
 
-    @Override
-    public String getText() {
-        return string;
+    public String proxy$getText() {
+        return getRawString();
     }
 
     @Override
-    public String toJson() {
-        if (getText().isEmpty() && getColor() == null && getBold() == null && getItalic() == null &&
-                getUnderlined() == null && getStrikethrough() == null && getObfuscated() == null &&
-                getClickEvent() == null && getHoverEvent() == null) {
+    public String proxy$toJson() {
+        if (getRawString().isEmpty() && proxy$getColor() == null && proxy$getBold() == null &&
+                proxy$getItalic() == null && proxy$getUnderlined() == null && proxy$getStrikethrough() == null &&
+                proxy$getObfuscated() == null && proxy$getClickEvent() == null && proxy$getHoverEvent() == null) {
             JsonArray array = new JsonArray();
             getSiblings().forEach(text -> array.add(Text.Serializer.toJsonTree(text)));
             return array.toString();
         }
-        return super.toJson();
+        return super.proxy$toJson();
     }
 }

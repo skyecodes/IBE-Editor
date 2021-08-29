@@ -18,14 +18,14 @@ public abstract class ForgeStringTextComponentMixin extends ForgeTextComponentMi
     }
 
     @Override
-    public String toJson() {
-        if (getText().isEmpty() && getColor() == null && getBold() == null && getItalic() == null &&
-                getUnderlined() == null && getStrikethrough() == null && getObfuscated() == null &&
-                getClickEvent() == null && getHoverEvent() == null) {
+    public String proxy$toJson() {
+        if (getText().isEmpty() && proxy$getColor() == null && proxy$getBold() == null && proxy$getItalic() == null &&
+                proxy$getUnderlined() == null && proxy$getStrikethrough() == null && proxy$getObfuscated() == null &&
+                proxy$getClickEvent() == null && proxy$getHoverEvent() == null) {
             JsonArray array = new JsonArray();
             getSiblings().forEach(text -> array.add(ITextComponent.Serializer.toJsonTree(text)));
             return array.toString();
         }
-        return super.toJson();
+        return super.proxy$toJson();
     }
 }

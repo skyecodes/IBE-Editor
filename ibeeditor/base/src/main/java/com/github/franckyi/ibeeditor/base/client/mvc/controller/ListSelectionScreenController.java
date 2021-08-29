@@ -5,10 +5,9 @@ import com.github.franckyi.guapi.api.mvc.AbstractController;
 import com.github.franckyi.ibeeditor.base.client.ClientConfiguration;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.ListSelectionScreenModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.view.ListSelectionScreenView;
+import com.github.franckyi.ibeeditor.base.common.ModTexts;
 
 import java.util.stream.Collectors;
-
-import static com.github.franckyi.guapi.GuapiHelper.*;
 
 public class ListSelectionScreenController extends AbstractController<ListSelectionScreenModel, ListSelectionScreenView> {
     public ListSelectionScreenController(ListSelectionScreenModel model, ListSelectionScreenView view) {
@@ -17,7 +16,7 @@ public class ListSelectionScreenController extends AbstractController<ListSelect
 
     @Override
     public void bind() {
-        view.getTitleLabel().setLabel(translated("ibeeditor.gui.choose", translated(model.getTitle())).gold().bold());
+        view.getHeaderLabel().setLabel(ModTexts.title(ModTexts.choose(model.getTitle())));
         view.getSearchField().textProperty().addListener(this::filter);
         model.getItems().forEach(item -> {
             if (item.getId().toString().equals(model.getInitialValue())) {

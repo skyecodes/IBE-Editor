@@ -5,6 +5,7 @@ import com.github.franckyi.gameadapter.api.common.text.IText;
 import com.github.franckyi.guapi.api.mvc.View;
 import com.github.franckyi.guapi.api.node.*;
 import com.github.franckyi.guapi.api.node.builder.TexturedButtonBuilder;
+import com.github.franckyi.ibeeditor.base.client.ModScreenHandler;
 import com.github.franckyi.ibeeditor.base.client.ModTextures;
 import com.github.franckyi.ibeeditor.base.client.util.ScreenScalingManager;
 import com.github.franckyi.ibeeditor.base.common.ModTexts;
@@ -13,6 +14,7 @@ import static com.github.franckyi.guapi.GuapiHelper.*;
 
 public abstract class EditorView implements View {
     private VBox root;
+    private Label headerLabel;
     private TexturedButton zoomResetButton;
     private TexturedButton zoomOutButton;
     private TexturedButton zoomInButton;
@@ -33,7 +35,18 @@ public abstract class EditorView implements View {
         onZoomUpdated();
     }
 
-    protected abstract Node createHeader();
+    protected Node createHeader() {
+        return hBox(header -> {
+            header.add(hBox().prefWidth(16));
+            header.add(headerLabel = label(getHeaderLabelText()).textAlign(CENTER).prefHeight(20), 1);
+            header.add(createButton(ModTextures.SETTINGS, ModTexts.SETTINGS).action(ModScreenHandler::openSettingsScreen));
+            header.align(CENTER);
+        });
+    }
+
+    protected IText getHeaderLabelText() {
+        return EMPTY_TEXT;
+    }
 
     protected Node createMain() {
         return vBox(main -> {
@@ -45,10 +58,10 @@ public abstract class EditorView implements View {
 
     protected Node createButtonBar() {
         return hBox(buttons -> {
-            buttons.add(zoomResetButton = createButton(ModTextures.ZOOM_RESET, "ibeeditor.gui.zoom_reset").action(ScreenScalingManager.get()::restoreScale));
-            buttons.add(zoomOutButton = createButton(ModTextures.ZOOM_OUT, "ibeeditor.gui.zoom_out").action(ScreenScalingManager.get()::scaleDown));
+            buttons.add(zoomResetButton = createButton(ModTextures.ZOOM_RESET, ModTexts.ZOOM_RESET).action(ScreenScalingManager.get()::restoreScale));
+            buttons.add(zoomOutButton = createButton(ModTextures.ZOOM_OUT, ModTexts.ZOOM_OUT).action(ScreenScalingManager.get()::scaleDown));
             buttons.add(zoomLabel = label().prefWidth(25).textAlign(CENTER).padding(0, 3));
-            buttons.add(zoomInButton = createButton(ModTextures.ZOOM_IN, "ibeeditor.gui.zoom_in").action(ScreenScalingManager.get()::scaleUp));
+            buttons.add(zoomInButton = createButton(ModTextures.ZOOM_IN, ModTexts.ZOOM_IN).action(ScreenScalingManager.get()::scaleUp));
             buttons.fillHeight().spacing(2).prefHeight(16).align(CENTER_RIGHT);
         });
     }
@@ -80,6 +93,10 @@ public abstract class EditorView implements View {
     @Override
     public VBox getRoot() {
         return root;
+    }
+
+    public Label getHeaderLabel() {
+        return headerLabel;
     }
 
     public Button getCancelButton() {

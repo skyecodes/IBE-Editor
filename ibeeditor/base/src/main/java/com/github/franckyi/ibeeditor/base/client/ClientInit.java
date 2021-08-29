@@ -1,6 +1,7 @@
 package com.github.franckyi.ibeeditor.base.client;
 
 import com.github.franckyi.guapi.Guapi;
+import com.github.franckyi.guapi.base.NodeFactoryImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -11,6 +12,8 @@ public final class ClientInit {
         LOGGER.info("Initializing IBE Editor - client");
         ClientConfiguration.load();
         syncGuapiConfig();
+        Guapi.setNodeFactory(NodeFactoryImpl.INSTANCE);
+        Guapi.setExceptionHandler(ModGuapiExceptionHandler.INSTANCE);
         KeyBindings.init();
         ClientCache.init();
     }

@@ -8,6 +8,7 @@ import com.github.franckyi.gameadapter.api.common.tag.IListTag;
 import com.github.franckyi.gameadapter.api.common.tag.ITag;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.ItemEditorModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.EnchantmentEntryModel;
+import com.github.franckyi.ibeeditor.base.common.ModTexts;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,7 +18,7 @@ public class ItemEnchantmentsCategoryModel extends ItemCategoryModel {
     private IListTag newEnch;
 
     public ItemEnchantmentsCategoryModel(ItemEditorModel editor) {
-        super("ibeeditor.gui.enchantments", editor);
+        super(ModTexts.ENCHANTMENTS, editor);
     }
 
     @Override

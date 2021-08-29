@@ -7,8 +7,6 @@ import com.github.franckyi.ibeeditor.base.client.mvc.model.StandardEditorModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.view.StandardEditorView;
 import com.github.franckyi.ibeeditor.base.common.ModTexts;
 
-import static com.github.franckyi.guapi.GuapiHelper.*;
-
 public class StandardEditorController extends ListEditorController<StandardEditorModel<?, ?>, StandardEditorView> {
     public StandardEditorController(StandardEditorModel<?, ?> model, StandardEditorView view) {
         super(model, view);
@@ -17,7 +15,7 @@ public class StandardEditorController extends ListEditorController<StandardEdito
     @Override
     public void bind() {
         super.bind();
-        view.getHeaderLabel().setLabel(ModTexts.editorTitle(translated(model.getTitle())));
+        view.getHeaderLabel().setLabel(ModTexts.editorTitle(model.getTitle()));
         model.activeTextEditorProperty().addListener(value -> view.setShowTextButtons(value != null));
         view.setTextEditorSupplier(model::getActiveTextEditor);
         if (model.isDisabled()) {

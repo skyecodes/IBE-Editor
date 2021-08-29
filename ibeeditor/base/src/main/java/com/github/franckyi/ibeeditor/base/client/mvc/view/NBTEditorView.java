@@ -7,7 +7,6 @@ import com.github.franckyi.gameadapter.api.common.text.IText;
 import com.github.franckyi.guapi.api.node.*;
 import com.github.franckyi.guapi.api.node.builder.TexturedButtonBuilder;
 import com.github.franckyi.guapi.api.node.builder.TexturedToggleButtonBuilder;
-import com.github.franckyi.ibeeditor.base.client.ModScreenHandler;
 import com.github.franckyi.ibeeditor.base.client.ModTextures;
 import com.github.franckyi.ibeeditor.base.client.mvc.NBTTagMVC;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.NBTTagModel;
@@ -61,13 +60,8 @@ public class NBTEditorView extends EditorView {
     }
 
     @Override
-    protected Node createHeader() {
-        return hBox(header -> {
-            header.add(hBox().prefWidth(16));
-            header.add(label(ModTexts.editorTitle("NBT"), true).textAlign(CENTER).prefHeight(20), 1);
-            header.add(createButton(ModTextures.SETTINGS, ModTexts.SETTINGS).action(ModScreenHandler::openSettingsScreen));
-            header.align(CENTER);
-        });
+    protected IText getHeaderLabelText() {
+        return ModTexts.editorTitle("NBT");
     }
 
     @Override

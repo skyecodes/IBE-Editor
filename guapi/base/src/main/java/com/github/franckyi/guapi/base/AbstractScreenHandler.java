@@ -78,6 +78,7 @@ public abstract class AbstractScreenHandler implements ScreenHandler {
         try {
             getCurrentScene().render(matrices, mouseX, mouseY, delta);
         } catch (Exception e) {
+            Guapi.getExceptionHandler().handleRenderException(e, matrices, mouseX, mouseY, delta, getCurrentScene());
             Game.getDefaultLogger().error(Guapi.LOG_MARKER, "Error while rendering GUAPI Scene", e);
             hideScene();
         }
@@ -88,6 +89,7 @@ public abstract class AbstractScreenHandler implements ScreenHandler {
             try {
                 getCurrentScene().tick();
             } catch (Exception e) {
+                Guapi.getExceptionHandler().handleTickException(e, getCurrentScene());
                 Game.getDefaultLogger().error(Guapi.LOG_MARKER, "Error while ticking GUAPI Scene", e);
                 hideScene();
             }
@@ -144,6 +146,7 @@ public abstract class AbstractScreenHandler implements ScreenHandler {
         try {
             getCurrentScene().handleEvent(type, event);
         } catch (Exception e) {
+            Guapi.getExceptionHandler().handleEventException(e, type, event, getCurrentScene());
             Game.getDefaultLogger().error(Guapi.LOG_MARKER, "Error while handling " + type.getName() + " event on GUAPI Scene", e);
             hideScene();
         }

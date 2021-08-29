@@ -5,10 +5,11 @@ import com.github.franckyi.gameadapter.api.common.tag.ICompoundTag;
 import com.github.franckyi.gameadapter.api.common.tag.ITag;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.category.ItemCategoryModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.ArmorColorEntryModel;
+import com.github.franckyi.ibeeditor.base.common.ModTexts;
 
 public class ItemDyeableCategoryModel extends ItemCategoryModel {
     public ItemDyeableCategoryModel(ItemEditorModel editor) {
-        super("ibeeditor.gui.armor_color", editor);
+        super(ModTexts.ARMOR_COLOR, editor);
     }
 
     @Override

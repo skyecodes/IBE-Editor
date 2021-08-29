@@ -1,26 +1,27 @@
 package com.github.franckyi.ibeeditor.base.client.mvc.model;
 
 import com.github.franckyi.databindings.api.BooleanProperty;
+import com.github.franckyi.databindings.api.ObjectProperty;
 import com.github.franckyi.databindings.api.ObservableList;
-import com.github.franckyi.databindings.api.StringProperty;
 import com.github.franckyi.gameadapter.api.common.text.IText;
 import com.github.franckyi.guapi.api.mvc.Model;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.AddListEntryEntryModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.EntryModel;
+import com.github.franckyi.ibeeditor.base.common.ModTexts;
 
 import java.util.Collections;
 
-import static com.github.franckyi.guapi.GuapiHelper.*;
+import static com.github.franckyi.guapi.GuapiHelper.EMPTY_TEXT;
 
 public abstract class CategoryModel implements Model {
-    private final StringProperty nameProperty;
+    private final ObjectProperty<IText> nameProperty;
     private final BooleanProperty selectedProperty = BooleanProperty.create(false);
     private final BooleanProperty validProperty = BooleanProperty.create(true);
     private final ObservableList<EntryModel> entries = ObservableList.create();
     private final ListEditorModel<?> editor;
 
-    protected CategoryModel(String name, ListEditorModel<?> editor) {
-        nameProperty = StringProperty.create(name);
+    protected CategoryModel(IText name, ListEditorModel<?> editor) {
+        this.nameProperty = ObjectProperty.create(name);
         this.editor = editor;
     }
 
@@ -28,7 +29,7 @@ public abstract class CategoryModel implements Model {
     public void initalize() {
         setupEntries();
         if (hasEntryList()) {
-            getEntries().add(new AddListEntryEntryModel(this, translated("ibeeditor.gui.add", getAddListEntryButtonTooltip()).green()));
+            getEntries().add(new AddListEntryEntryModel(this, ModTexts.addListEntry(getAddListEntryButtonTooltip()).green()));
         }
         updateValidity();
         validProperty().addListener(getEditor()::updateValidity);
@@ -37,15 +38,15 @@ public abstract class CategoryModel implements Model {
 
     protected abstract void setupEntries();
 
-    public String getName() {
+    public IText getName() {
         return nameProperty().getValue();
     }
 
-    public StringProperty nameProperty() {
+    public ObjectProperty<IText> nameProperty() {
         return nameProperty;
     }
 
-    public void setName(String value) {
+    public void setName(IText value) {
         nameProperty().setValue(value);
     }
 

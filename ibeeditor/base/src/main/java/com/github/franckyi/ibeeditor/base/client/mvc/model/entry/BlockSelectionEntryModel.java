@@ -4,6 +4,7 @@ import com.github.franckyi.gameadapter.api.common.text.IText;
 import com.github.franckyi.ibeeditor.base.client.ClientCache;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.CategoryModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.ListSelectionItemModel;
+import com.github.franckyi.ibeeditor.base.common.ModTexts;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -19,8 +20,8 @@ public class BlockSelectionEntryModel extends SelectionEntryModel {
     }
 
     @Override
-    public String getSuggestionScreenTitle() {
-        return "ibeeditor.text.block";
+    public IText getSuggestionScreenTitle() {
+        return ModTexts.BLOCK;
     }
 
     @Override

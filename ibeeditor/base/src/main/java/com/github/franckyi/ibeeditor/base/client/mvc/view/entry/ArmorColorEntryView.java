@@ -34,7 +34,7 @@ public class ArmorColorEntryView extends LabeledEntryView {
         );
         return hBox(root -> {
             root.add(chooseColorButton = texturedButton(ModTextures.COLOR_CUSTOM, 16, 16, false)
-                    .tooltip(ModTexts.CHOOSE_CUSTOM_COLOR));
+                    .tooltip(ModTexts.choose(ModTexts.CUSTOM_COLOR)));
             root.add(removeColorButton = texturedButton(ModTextures.REMOVE, 16, 16, false)
                     .tooltip(ModTexts.REMOVE_CUSTOM_COLOR));
             root.getChildren().addAll(itemViews);

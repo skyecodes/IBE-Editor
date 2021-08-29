@@ -7,17 +7,16 @@ import com.github.franckyi.gameadapter.api.common.text.IText;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.ItemEditorModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.AttributeModifierEntryModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.EntryModel;
+import com.github.franckyi.ibeeditor.base.common.ModTexts;
 
 import java.util.UUID;
 import java.util.stream.Collectors;
-
-import static com.github.franckyi.guapi.GuapiHelper.*;
 
 public class ItemAttributeModifiersCategoryModel extends ItemCategoryModel {
     private IListTag newAttributeModifiers;
 
     public ItemAttributeModifiersCategoryModel(ItemEditorModel editor) {
-        super("ibeeditor.gui.attribute_modifiers", editor);
+        super(ModTexts.ATTRIBUTE_MODIFIERS, editor);
     }
 
     @Override
@@ -58,7 +57,7 @@ public class ItemAttributeModifiersCategoryModel extends ItemCategoryModel {
 
     @Override
     protected IText getAddListEntryButtonTooltip() {
-        return translated("ibeeditor.gui.modifier");
+        return ModTexts.MODIFIER;
     }
 
     @Override

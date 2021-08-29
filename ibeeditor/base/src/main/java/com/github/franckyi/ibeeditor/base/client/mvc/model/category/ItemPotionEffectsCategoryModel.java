@@ -9,21 +9,20 @@ import com.github.franckyi.ibeeditor.base.client.mvc.model.ItemEditorModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.EntryModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.PotionEffectEntryModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.PotionSelectionEntryModel;
+import com.github.franckyi.ibeeditor.base.common.ModTexts;
 
 import java.util.stream.Collectors;
-
-import static com.github.franckyi.guapi.GuapiHelper.*;
 
 public class ItemPotionEffectsCategoryModel extends ItemCategoryModel {
     private IListTag potionEffectList;
 
     public ItemPotionEffectsCategoryModel(ItemEditorModel editor) {
-        super("ibeeditor.gui.potion_effects", editor);
+        super(ModTexts.POTION_EFFECTS, editor);
     }
 
     @Override
     protected void setupEntries() {
-        getEntries().add(new PotionSelectionEntryModel(this, translated("ibeeditor.gui.default_potion"),
+        getEntries().add(new PotionSelectionEntryModel(this, ModTexts.DEFAULT_POTION,
                 getBaseTag().getString("Potion"), getCustomPotionColor(),
                 p -> getNewTag().putString("Potion", p), this::setCustomPotionColor));
         getEntries().addAll(getBaseTag().getList("CustomPotionEffects", ITag.COMPOUND_ID)
@@ -50,7 +49,7 @@ public class ItemPotionEffectsCategoryModel extends ItemCategoryModel {
 
     @Override
     protected IText getAddListEntryButtonTooltip() {
-        return translated("ibeeditor.gui.effect");
+        return ModTexts.EFFECT;
     }
 
     private int getCustomPotionColor() {

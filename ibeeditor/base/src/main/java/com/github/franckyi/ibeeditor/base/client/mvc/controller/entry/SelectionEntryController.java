@@ -5,8 +5,6 @@ import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.SelectionEntryM
 import com.github.franckyi.ibeeditor.base.client.mvc.view.entry.SelectionEntryView;
 import com.github.franckyi.ibeeditor.base.common.ModTexts;
 
-import static com.github.franckyi.guapi.GuapiHelper.*;
-
 public class SelectionEntryController<M extends SelectionEntryModel, V extends SelectionEntryView> extends StringEntryController<M, V> {
     public SelectionEntryController(M model, V view) {
         super(model, view);
@@ -15,9 +13,9 @@ public class SelectionEntryController<M extends SelectionEntryModel, V extends S
     @Override
     public void bind() {
         super.bind();
-        view.getTextField().setPlaceholder(translated(model.getSuggestionScreenTitle()));
+        view.getTextField().setPlaceholder(model.getSuggestionScreenTitle());
         view.getTextField().getSuggestions().setAll(model.getSuggestions());
-        view.getItemListButton().getTooltip().add(ModTexts.choose(translated(model.getSuggestionScreenTitle())));
+        view.getItemListButton().getTooltip().add(ModTexts.choose(model.getSuggestionScreenTitle()));
         view.getItemListButton().onAction(this::openItemList);
         if (model.getLabel() == null) {
             view.getRoot().getChildren().remove(view.getLabel());

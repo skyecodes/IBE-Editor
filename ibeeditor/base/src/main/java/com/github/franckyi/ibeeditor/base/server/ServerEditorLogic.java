@@ -16,34 +16,34 @@ public final class ServerEditorLogic {
         LOGGER.debug("Updating {}'s main hand item to {}", player.getProfileName(), itemStack);
         LOGGER.debug(itemStack.getData());
         player.setItemMainHand(itemStack);
-        player.sendMessage(ModTexts.ITEM_UPDATED);
+        player.sendMessage(ModTexts.Messages.successUpdate(ModTexts.ITEM));
     }
 
     public static void updatePlayerInventoryItem(IPlayer player, IItemStack itemStack, int slotId) {
         LOGGER.debug("Updating {}'s inventory item at slot {} to {}", player.getProfileName(), slotId, itemStack);
         LOGGER.debug(itemStack.getData());
         player.setInventoryItem(itemStack, slotId);
-        player.sendMessage(ModTexts.ITEM_UPDATED);
+        player.sendMessage(ModTexts.Messages.successUpdate(ModTexts.ITEM));
     }
 
     public static void updateBlockInventoryItem(IPlayer sender, IItemStack itemStack, int slotId, IBlockPos blockPos) {
         LOGGER.debug("Updating block inventory item at pos {} and slot {} to {}", blockPos, slotId, itemStack);
         LOGGER.debug(itemStack.getData());
         sender.getWorld().setBlockInventoryItem(blockPos, slotId, itemStack);
-        sender.sendMessage(ModTexts.ITEM_UPDATED);
+        sender.sendMessage(ModTexts.Messages.successUpdate(ModTexts.ITEM));
     }
 
     public static void updateBlock(IPlayer sender, WorldBlockData block) {
         LOGGER.debug("Updating block {} at pos {}", block, block.getPos());
         LOGGER.debug(block.getTag());
         sender.getWorld().setBlockData(block);
-        sender.sendMessage(ModTexts.BLOCK_UPDATED);
+        sender.sendMessage(ModTexts.Messages.successUpdate(ModTexts.BLOCK));
     }
 
     public static void updateEntity(IPlayer sender, ICompoundTag entity, int entityId) {
         LOGGER.debug("Updating entity {} with id {}", entity, entityId);
         LOGGER.debug(entity);
         sender.getWorld().setEntityData(entityId, entity);
-        sender.sendMessage(ModTexts.ENTITY_UPDATED);
+        sender.sendMessage(ModTexts.Messages.successUpdate(ModTexts.ENTITY));
     }
 }

@@ -4,6 +4,7 @@ import com.github.franckyi.guapi.api.node.CheckBox;
 import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.api.node.TextField;
 import com.github.franckyi.guapi.api.util.Predicates;
+import com.github.franckyi.ibeeditor.base.common.ModTexts;
 
 import static com.github.franckyi.guapi.GuapiHelper.*;
 
@@ -17,7 +18,7 @@ public class PotionEffectEntryView extends SelectionEntryView {
     @Override
     public void build() {
         super.build();
-        getTextField().setPlaceholder(translated("ibeeditor.gui.effect"));
+        getTextField().setPlaceholder(ModTexts.EFFECT);
     }
 
     @Override
@@ -26,13 +27,13 @@ public class PotionEffectEntryView extends SelectionEntryView {
             root.add(super.createLabeledContent());
             root.add(hBox(bottom -> {
                 bottom.add(amplifierField = textField().prefHeight(16).validator(Predicates.range(0, Integer.MAX_VALUE))
-                        .tooltip(translated("ibeeditor.gui.amplifier")), 1);
+                        .tooltip(ModTexts.AMPLIFIER), 1);
                 bottom.add(durationField = textField().prefHeight(16).validator(Predicates.range(1, Integer.MAX_VALUE))
-                        .tooltip(translated("ibeeditor.gui.duration")), 1);
+                        .tooltip(ModTexts.DURATION), 1);
                 bottom.add(hBox(boxes -> {
-                    boxes.add(ambientBox = checkBox().tooltip(translated("ibeeditor.gui.ambient")));
-                    boxes.add(showParticlesBox = checkBox().tooltip(translated("ibeeditor.gui.show_particles")));
-                    boxes.add(showIconBox = checkBox().tooltip(translated("ibeeditor.gui.show_icon")));
+                    boxes.add(ambientBox = checkBox().tooltip(ModTexts.AMBIENT));
+                    boxes.add(showParticlesBox = checkBox().tooltip(ModTexts.SHOW_PARTICLES));
+                    boxes.add(showIconBox = checkBox().tooltip(ModTexts.SHOW_ICON));
                     boxes.spacing(5);
                 }));
                 bottom.spacing(5);

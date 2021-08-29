@@ -9,115 +9,98 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponent;
 import net.minecraft.util.text.event.ClickEvent;
 import net.minecraft.util.text.event.HoverEvent;
+import org.spongepowered.asm.mixin.Implements;
+import org.spongepowered.asm.mixin.Interface;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 
 import java.util.List;
 
 @Mixin(TextComponent.class)
-public abstract class ForgeTextComponentMixin implements IFormattableTextComponent, IText {
-    @Shadow
-    public abstract List<ITextComponent> getSiblings();
-
-    @Override
+@Implements(@Interface(iface = IText.class, prefix = "proxy$"))
+public abstract class ForgeTextComponentMixin implements IFormattableTextComponent {
     @SuppressWarnings({"unchecked", "rawtypes"})
-    public List<IText> getExtra() {
+    public List<IText> proxy$getExtra() {
         return (List) getSiblings();
     }
 
-    @Override
-    public void addExtra(IText extra) {
+    public void proxy$addExtra(IText extra) {
         append((ITextComponent) extra);
     }
 
-    @Override
-    public String getColor() {
+    public String proxy$getColor() {
         net.minecraft.util.text.Color color = getStyle().getColor();
         return color == null ? null : color.serialize();
     }
 
-    @Override
-    public void setColor(String color) {
-        withStyle(style -> style.withColor(net.minecraft.util.text.Color.parseColor(color)));
+    public void proxy$setColor(String color) {
+        withStyle(style -> style.withColor(color == null ? null : net.minecraft.util.text.Color.parseColor(color)));
     }
 
-    @Override
-    public Boolean getBold() {
+    public Boolean proxy$getBold() {
         return ((IStyle) getStyle()).getBold();
     }
 
-    @Override
-    public void setBold(Boolean bold) {
+    public void proxy$setBold(Boolean bold) {
         withStyle(style -> style.withBold(bold));
     }
 
-    @Override
-    public Boolean getItalic() {
+    public Boolean proxy$getItalic() {
         return ((IStyle) getStyle()).getItalic();
     }
 
-    @Override
-    public void setItalic(Boolean italic) {
+    public void proxy$setItalic(Boolean italic) {
         withStyle(style -> style.withItalic(italic));
     }
 
-    @Override
-    public Boolean getUnderlined() {
+    public Boolean proxy$getUnderlined() {
         return ((IStyle) getStyle()).getUnderlined();
     }
 
-    @Override
-    public void setUnderlined(Boolean underlined) {
+    public void proxy$setUnderlined(Boolean underlined) {
         withStyle(style -> style.withUnderlined(underlined));
     }
 
-    @Override
-    public Boolean getStrikethrough() {
+    public Boolean proxy$getStrikethrough() {
         return ((IStyle) getStyle()).getStrikethrough();
     }
 
-    @Override
-    public void setStrikethrough(Boolean strikethrough) {
+    public void proxy$setStrikethrough(Boolean strikethrough) {
         withStyle(style -> ((IForgeStyle) style).withStrikethrough(strikethrough));
     }
 
-    @Override
-    public Boolean getObfuscated() {
+    public Boolean proxy$getObfuscated() {
         return ((IStyle) getStyle()).getObfuscated();
     }
 
-    @Override
-    public void setObfuscated(Boolean obfuscated) {
+    public void proxy$setObfuscated(Boolean obfuscated) {
         withStyle(style -> ((IForgeStyle) style).withObfuscated(obfuscated));
     }
 
-    @Override
-    public ITextEvent getClickEvent() {
+    public ITextEvent proxy$getClickEvent() {
         return (ITextEvent) getStyle().getClickEvent();
     }
 
-    @Override
-    public void setClickEvent(ITextEvent clickEvent) {
+    public void proxy$setClickEvent(ITextEvent clickEvent) {
         withStyle(style -> style.withClickEvent((ClickEvent) clickEvent));
     }
 
-    @Override
-    public ITextEvent getHoverEvent() {
+    public ITextEvent proxy$getHoverEvent() {
         return (ITextEvent) getStyle().getHoverEvent();
     }
 
-    @Override
-    public void setHoverEvent(ITextEvent hoverEvent) {
+    public void proxy$setHoverEvent(ITextEvent hoverEvent) {
         withStyle(style -> style.withHoverEvent((HoverEvent) hoverEvent));
     }
 
-    @Override
-    public String getRawText() {
+    public String proxy$getRawText() {
         return getString();
     }
 
-    @Override
-    public String toJson() {
+    public String proxy$toJson() {
         return ITextComponent.Serializer.toJson(this);
+    }
+
+    public IText proxy$copy() {
+        return (IText) plainCopy();
     }
 }

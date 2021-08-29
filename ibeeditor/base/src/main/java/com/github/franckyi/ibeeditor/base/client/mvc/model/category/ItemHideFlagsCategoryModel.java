@@ -1,8 +1,10 @@
 package com.github.franckyi.ibeeditor.base.client.mvc.model.category;
 
 import com.github.franckyi.gameadapter.api.common.tag.ICompoundTag;
+import com.github.franckyi.gameadapter.api.common.text.IText;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.ItemEditorModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.HideFlagEntryModel;
+import com.github.franckyi.ibeeditor.base.common.ModTexts;
 
 import java.util.Locale;
 
@@ -10,7 +12,7 @@ public class ItemHideFlagsCategoryModel extends ItemCategoryModel {
     private int newHideFlags;
 
     public ItemHideFlagsCategoryModel(ItemEditorModel editor) {
-        super("ibeeditor.gui.hide_flags", editor);
+        super(ModTexts.HIDE_FLAGS, editor);
     }
 
     @Override
@@ -42,8 +44,8 @@ public class ItemHideFlagsCategoryModel extends ItemCategoryModel {
     public enum HideFlag {
         ENCHANTMENTS, ATTRIBUTE_MODIFIERS, UNBREAKABLE, CAN_DESTROY, CAN_PLACE_ON, OTHER, DYED;
 
-        public String getName() {
-            return "ibeeditor.gui." + name().toLowerCase(Locale.ROOT);
+        public IText getName() {
+            return ModTexts.gui(name().toLowerCase(Locale.ROOT));
         }
 
         public int getValue() {
