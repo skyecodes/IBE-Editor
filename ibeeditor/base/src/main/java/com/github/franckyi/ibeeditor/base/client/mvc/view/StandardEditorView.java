@@ -4,11 +4,9 @@ import com.github.franckyi.databindings.api.BooleanProperty;
 import com.github.franckyi.gameadapter.api.common.IIdentifier;
 import com.github.franckyi.gameadapter.api.common.text.IText;
 import com.github.franckyi.guapi.api.node.HBox;
-import com.github.franckyi.guapi.api.node.Label;
 import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.api.node.TexturedButton;
 import com.github.franckyi.guapi.api.node.builder.TexturedButtonBuilder;
-import com.github.franckyi.ibeeditor.base.client.ModScreenHandler;
 import com.github.franckyi.ibeeditor.base.client.ModTextures;
 import com.github.franckyi.ibeeditor.base.client.util.texteditor.StyleType;
 import com.github.franckyi.ibeeditor.base.client.util.texteditor.TextEditorActionHandler;
@@ -25,7 +23,6 @@ public class StandardEditorView extends ListEditorView {
     private TexturedButton customColorButton;
     private TexturedButtonBuilder chooseCustomColorButton;
     private HBox textButtons;
-    private Label headerLabel;
     private HBox buttons;
     private final BooleanProperty showTextButtonsProperty = BooleanProperty.create();
     private Supplier<TextEditorActionHandler> textEditorSupplier;
@@ -78,7 +75,7 @@ public class StandardEditorView extends ListEditorView {
                         .prefSize(7, 16).visible(false)
                         .tooltip(ModTexts.CUSTOM_COLOR));
                 right.add(chooseCustomColorButton = texturedButton(ModTextures.COLOR_CUSTOM, 16, 16, false)
-                        .tooltip(ModTexts.CHOOSE_CUSTOM_COLOR));
+                        .tooltip(ModTexts.choose(ModTexts.CUSTOM_COLOR)));
                 right.spacing(2);
             }));
             buttons.spacing(12).padding(right(20));
@@ -90,16 +87,6 @@ public class StandardEditorView extends ListEditorView {
             } else {
                 buttons.getChildren().remove(textButtons);
             }
-        });
-    }
-
-    @Override
-    protected Node createHeader() {
-        return hBox(header -> {
-            header.add(hBox().prefWidth(16));
-            header.add(headerLabel = label(EMPTY_TEXT, true).textAlign(CENTER).prefHeight(20), 1);
-            header.add(createButton(ModTextures.SETTINGS, ModTexts.SETTINGS).action(ModScreenHandler::openSettingsScreen));
-            header.align(CENTER);
         });
     }
 
@@ -136,10 +123,6 @@ public class StandardEditorView extends ListEditorView {
 
     public TexturedButton getChooseCustomColorButton() {
         return chooseCustomColorButton;
-    }
-
-    public Label getHeaderLabel() {
-        return headerLabel;
     }
 
     public boolean isShowTextButtons() {

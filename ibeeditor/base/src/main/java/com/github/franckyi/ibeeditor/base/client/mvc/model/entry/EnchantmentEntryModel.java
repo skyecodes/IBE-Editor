@@ -4,9 +4,11 @@ import com.github.franckyi.databindings.api.IntegerProperty;
 import com.github.franckyi.databindings.api.StringProperty;
 import com.github.franckyi.gameadapter.api.common.item.IEnchantment;
 import com.github.franckyi.gameadapter.api.common.item.IItemStack;
+import com.github.franckyi.gameadapter.api.common.text.IText;
 import com.github.franckyi.ibeeditor.base.client.ClientCache;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.*;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.category.ItemCategoryModel;
+import com.github.franckyi.ibeeditor.base.common.ModTexts;
 
 import java.util.Comparator;
 import java.util.List;
@@ -65,8 +67,8 @@ public class EnchantmentEntryModel extends SelectionEntryModel {
     }
 
     @Override
-    public String getSuggestionScreenTitle() {
-        return "ibeeditor.gui.enchantment";
+    public IText getSuggestionScreenTitle() {
+        return ModTexts.ENCHANTMENT;
     }
 
     @Override

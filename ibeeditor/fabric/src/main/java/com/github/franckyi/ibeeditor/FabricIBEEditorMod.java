@@ -21,7 +21,7 @@ import net.minecraft.client.gui.screen.ingame.HandledScreen;
 public final class FabricIBEEditorMod implements ModInitializer, ClientModInitializer {
     @Override
     public void onInitialize() {
-        ModNetwork.set(FabricNetwork.INSTANCE);
+        ModNetwork.init(FabricNetwork.INSTANCE);
         CommonInit.init();
         CommandRegistrationCallback.EVENT.register((dispatcher, dedicated) -> ServerCommandHandler.registerCommand(dispatcher));
     }

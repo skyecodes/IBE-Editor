@@ -19,7 +19,7 @@ public final class ClientNetworkReceiver {
         if (packet.getBlock().getTag() != null || (!packet.getType().isNBT() && packet.getBlock().getState() != null)) {
             ClientEditorLogic.openBlockEditor(new WorldBlockData(packet.getBlock(), packet.getPos()), packet.getType());
         } else {
-            player().sendMessage(ModTexts.NO_BLOCK_FOUND_TEXT);
+            player().sendMessage(ModTexts.Messages.errorNoTargetFound(ModTexts.BLOCK));
         }
     }
 
@@ -28,7 +28,7 @@ public final class ClientNetworkReceiver {
         if (packet.getEntity() != null) {
             ClientEditorLogic.openEntityEditor(packet.getEntity(), packet.getEntityId(), packet.getType());
         } else {
-            player().sendMessage(ModTexts.NO_ENTITY_FOUND_TEXT);
+            player().sendMessage(ModTexts.Messages.errorNoTargetFound(ModTexts.ENTITY));
         }
     }
 
@@ -46,17 +46,17 @@ public final class ClientNetworkReceiver {
                 break;
             case EditorCommandPacket.TARGET_ITEM:
                 if (!ClientEditorLogic.tryOpenItemEditor(packet.getType())) {
-                    player().sendMessage(ModTexts.NO_ITEM_FOUND_TEXT);
+                    player().sendMessage(ModTexts.Messages.errorNoTargetFound(ModTexts.ITEM));
                 }
                 break;
             case EditorCommandPacket.TARGET_BLOCK:
                 if (!ClientEditorLogic.tryOpenBlockEditor(packet.getType())) {
-                    player().sendMessage(ModTexts.NO_BLOCK_FOUND_TEXT);
+                    player().sendMessage(ModTexts.Messages.errorNoTargetFound(ModTexts.BLOCK));
                 }
                 break;
             case EditorCommandPacket.TARGET_ENTITY:
                 if (!ClientEditorLogic.tryOpenEntityEditor(packet.getType())) {
-                    player().sendMessage(ModTexts.NO_ENTITY_FOUND_TEXT);
+                    player().sendMessage(ModTexts.Messages.errorNoTargetFound(ModTexts.ENTITY));
                 }
                 break;
             case EditorCommandPacket.TARGET_SELF:

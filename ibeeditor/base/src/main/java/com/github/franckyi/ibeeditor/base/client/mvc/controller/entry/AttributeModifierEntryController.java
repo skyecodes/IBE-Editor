@@ -4,6 +4,7 @@ import com.github.franckyi.ibeeditor.base.client.ClientCache;
 import com.github.franckyi.ibeeditor.base.client.ModScreenHandler;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.AttributeModifierEntryModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.view.entry.AttributeModifierEntryView;
+import com.github.franckyi.ibeeditor.base.common.ModTexts;
 
 public class AttributeModifierEntryController extends EntryController<AttributeModifierEntryModel, AttributeModifierEntryView> {
 
@@ -33,7 +34,7 @@ public class AttributeModifierEntryController extends EntryController<AttributeM
     }
 
     private void openAttributeList() {
-        ModScreenHandler.openListSelectionScreen("ibeeditor.gui.attribute",
+        ModScreenHandler.openListSelectionScreen(ModTexts.ATTRIBUTE,
                 model.getAttributeName().contains(":") ? model.getAttributeName() : "minecraft:" + model.getAttributeName(),
                 ClientCache.getAttributeSelectionItems(), model::setAttributeName);
     }

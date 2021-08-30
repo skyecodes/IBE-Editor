@@ -9,19 +9,18 @@ import com.github.franckyi.gameadapter.api.common.text.IText;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.ItemEditorModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.EntryModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.TextEntryModel;
-
-import static com.github.franckyi.guapi.GuapiHelper.*;
+import com.github.franckyi.ibeeditor.base.common.ModTexts;
 
 public class ItemDisplayCategoryModel extends ItemCategoryModel {
     private IListTag newLore;
 
     public ItemDisplayCategoryModel(ItemEditorModel editor) {
-        super("ibeeditor.gui.display", editor);
+        super(ModTexts.DISPLAY, editor);
     }
 
     @Override
     protected void setupEntries() {
-        getEntries().add(new TextEntryModel(this, translated("ibeeditor.gui.custom_name"), getItemName(), this::setItemName));
+        getEntries().add(new TextEntryModel(this, ModTexts.CUSTOM_NAME, getItemName(), this::setItemName));
         IListTag loreList = getBaseDisplay().getList("Lore", ITag.STRING_ID);
         for (int i = 0; i < loreList.size(); i++) {
             getEntries().add(createLoreEntry(IText.fromJson(loreList.getString(i))));
@@ -35,7 +34,7 @@ public class ItemDisplayCategoryModel extends ItemCategoryModel {
 
     @Override
     public IText getAddListEntryButtonTooltip() {
-        return translated("ibeeditor.gui.lore_add");
+        return ModTexts.LORE_ADD;
     }
 
     @Override
@@ -45,7 +44,7 @@ public class ItemDisplayCategoryModel extends ItemCategoryModel {
 
     private EntryModel createLoreEntry(IPlainText value) {
         TextEntryModel entry = new TextEntryModel(this, null, value, this::addLore);
-        entry.listIndexProperty().addListener(index -> entry.setLabel(translated("ibeeditor.gui.lore", text(Integer.toString(index + 1)))));
+        entry.listIndexProperty().addListener(index -> entry.setLabel(ModTexts.lore(index + 1)));
         return entry;
     }
 

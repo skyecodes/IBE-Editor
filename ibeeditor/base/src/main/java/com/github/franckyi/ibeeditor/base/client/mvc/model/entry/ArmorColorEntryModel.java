@@ -1,14 +1,13 @@
 package com.github.franckyi.ibeeditor.base.client.mvc.model.entry;
 
 import com.github.franckyi.ibeeditor.base.client.mvc.model.CategoryModel;
+import com.github.franckyi.ibeeditor.base.common.ModTexts;
 
 import java.util.function.Consumer;
 
-import static com.github.franckyi.guapi.GuapiHelper.*;
-
 public class ArmorColorEntryModel extends IntegerEntryModel {
     public ArmorColorEntryModel(CategoryModel category, int color, Consumer<Integer> action) {
-        super(category, translated("ibeeditor.gui.armor_color"), color, action);
+        super(category, ModTexts.ARMOR_COLOR, color, action);
     }
 
     @Override

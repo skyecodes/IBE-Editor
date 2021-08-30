@@ -75,6 +75,8 @@ public interface IText {
 
     String toJson();
 
+    IText copy();
+
     default <T extends IText> T color(String color) {
         return with(t -> t.setColor(color));
     }

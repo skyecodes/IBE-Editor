@@ -44,7 +44,7 @@ public class PotionSelectionEntryView extends SelectionEntryView {
                 color.add(hBox(right -> {
                     right.add(hBox(content -> {
                         content.add(chooseColorButton = texturedButton(ModTextures.COLOR_CUSTOM, 16, 16, false)
-                                .tooltip(ModTexts.CHOOSE_CUSTOM_COLOR));
+                                .tooltip(ModTexts.choose(ModTexts.CUSTOM_COLOR)));
                         content.add(removeColorButton = texturedButton(ModTextures.REMOVE, 16, 16, false)
                                 .tooltip(ModTexts.REMOVE_CUSTOM_COLOR));
                         content.add(potionView = itemView());

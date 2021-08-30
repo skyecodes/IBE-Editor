@@ -3,15 +3,14 @@ package com.github.franckyi.gameadapter.forge.mixin.common.text;
 import com.github.franckyi.gameadapter.api.common.text.IText;
 import com.github.franckyi.gameadapter.api.common.text.ITranslatedText;
 import net.minecraft.util.text.TranslationTextComponent;
-import org.spongepowered.asm.mixin.Final;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.*;
 
 import java.util.Arrays;
 import java.util.List;
 
 @Mixin(TranslationTextComponent.class)
-public abstract class ForgeTranslationTextComponentMixin extends ForgeTextComponentMixin implements ITranslatedText {
+@Implements(@Interface(iface = ITranslatedText.class, prefix = "proxy$"))
+public abstract class ForgeTranslationTextComponentMixin extends ForgeTextComponentMixin {
     @Shadow
     @Final
     private String key;
@@ -22,14 +21,12 @@ public abstract class ForgeTranslationTextComponentMixin extends ForgeTextCompon
 
     private List<?> with;
 
-    @Override
-    public String getTranslate() {
+    public String proxy$getTranslate() {
         return key;
     }
 
-    @Override
     @SuppressWarnings("unchecked")
-    public List<IText> getWith() {
+    public List<IText> proxy$getWith() {
         if (with == null) {
             with = Arrays.asList(args);
         }

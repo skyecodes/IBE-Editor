@@ -8,16 +8,15 @@ import com.github.franckyi.gameadapter.api.common.text.IText;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.ItemEditorModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.BlockSelectionEntryModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.EntryModel;
+import com.github.franckyi.ibeeditor.base.common.ModTexts;
 
 import java.util.stream.Collectors;
-
-import static com.github.franckyi.guapi.GuapiHelper.*;
 
 public class ItemBlockListCategoryModel extends ItemCategoryModel {
     private final String tagName;
     private IListTag newBlocks;
 
-    public ItemBlockListCategoryModel(String name, ItemEditorModel editor, String tagName) {
+    public ItemBlockListCategoryModel(IText name, ItemEditorModel editor, String tagName) {
         super(name, editor);
         this.tagName = tagName;
     }
@@ -47,7 +46,7 @@ public class ItemBlockListCategoryModel extends ItemCategoryModel {
 
     @Override
     protected IText getAddListEntryButtonTooltip() {
-        return translated("ibeeditor.text.block");
+        return ModTexts.BLOCK;
     }
 
     @Override

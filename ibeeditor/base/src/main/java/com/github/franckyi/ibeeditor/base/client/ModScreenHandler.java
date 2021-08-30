@@ -17,7 +17,8 @@ import org.apache.logging.log4j.Logger;
 import java.util.List;
 import java.util.function.Consumer;
 
-import static com.github.franckyi.guapi.GuapiHelper.*;
+import static com.github.franckyi.guapi.GuapiHelper.mvc;
+import static com.github.franckyi.guapi.GuapiHelper.scene;
 
 public final class ModScreenHandler {
     private static final Logger LOGGER = LogManager.getLogger();
@@ -26,10 +27,12 @@ public final class ModScreenHandler {
         openScaledScreen(mvc(StandardEditorMVC.INSTANCE, new ItemEditorModel(itemStack, action, disabledTooltip)));
     }
 
+    @Deprecated
     public static void openBlockEditorScreen(BlockData block, Consumer<BlockData> action, IText disabledTooltip) {
         openScaledScreen(mvc(StandardEditorMVC.INSTANCE, new BlockEditorModel(block, action, disabledTooltip)));
     }
 
+    @Deprecated
     public static void openEntityEditorScreen(ICompoundTag entity, Consumer<ICompoundTag> action, IText disabledTooltip) {
         openScaledScreen(mvc(StandardEditorMVC.INSTANCE, new EntityEditorModel(entity, action, disabledTooltip)));
     }
@@ -46,7 +49,7 @@ public final class ModScreenHandler {
         openScaledScreen(mvc(ConfigEditorMVC.INSTANCE, new ConfigEditorModel()));
     }
 
-    public static void openListSelectionScreen(String title, String attributeName, List<? extends ListSelectionItemModel> items, Consumer<String> action) {
+    public static void openListSelectionScreen(IText title, String attributeName, List<? extends ListSelectionItemModel> items, Consumer<String> action) {
         openScaledScreen(mvc(ListSelectionScreenMVC.INSTANCE, new ListSelectionScreenModel(title, attributeName, items, action)));
     }
 
@@ -66,7 +69,7 @@ public final class ModScreenHandler {
             }));
         } catch (Exception e) {
             LOGGER.error("Error while opening screen", e);
-            IPlayer.client().sendMessage(ModTexts.prefixed(translated("ibeeditor.message.error_generic")).red());
+            IPlayer.client().sendMessage(ModTexts.Messages.ERROR_GENERIC);
         }
     }
 }

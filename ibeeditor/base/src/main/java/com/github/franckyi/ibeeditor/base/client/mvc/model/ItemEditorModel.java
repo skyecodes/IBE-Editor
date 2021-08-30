@@ -6,12 +6,13 @@ import com.github.franckyi.gameadapter.api.common.tag.ICompoundTag;
 import com.github.franckyi.gameadapter.api.common.tag.ITag;
 import com.github.franckyi.gameadapter.api.common.text.IText;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.category.*;
+import com.github.franckyi.ibeeditor.base.common.ModTexts;
 
 import java.util.function.Consumer;
 
 public class ItemEditorModel extends StandardEditorModel<IItemStack, ItemCategoryModel> {
     public ItemEditorModel(IItemStack itemStack, Consumer<IItemStack> action, IText disabledTooltip) {
-        super(itemStack, action, disabledTooltip, "ibeeditor.text.item");
+        super(itemStack, action, disabledTooltip, ModTexts.ITEM);
     }
 
     @Override
@@ -30,10 +31,10 @@ public class ItemEditorModel extends StandardEditorModel<IItemStack, ItemCategor
                 new ItemEnchantmentsCategoryModel(this),
                 new ItemAttributeModifiersCategoryModel(this),
                 new ItemHideFlagsCategoryModel(this),
-                new ItemBlockListCategoryModel("ibeeditor.gui.can_destroy", this, "CanDestroy")
+                new ItemBlockListCategoryModel(ModTexts.CAN_DESTROY, this, "CanDestroy")
         );
         if (getTarget().isBlockItem()) {
-            getCategories().add(new ItemBlockListCategoryModel("ibeeditor.gui.can_place_on", this, "CanPlaceOn"));
+            getCategories().add(new ItemBlockListCategoryModel(ModTexts.CAN_PLACE_ON, this, "CanPlaceOn"));
         }
     }
 

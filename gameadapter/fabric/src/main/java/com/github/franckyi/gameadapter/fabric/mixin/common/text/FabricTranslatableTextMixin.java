@@ -4,15 +4,14 @@ import com.github.franckyi.gameadapter.api.common.text.IText;
 import com.github.franckyi.gameadapter.api.common.text.ITranslatedText;
 import net.minecraft.text.ParsableText;
 import net.minecraft.text.TranslatableText;
-import org.spongepowered.asm.mixin.Final;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.*;
 
 import java.util.Arrays;
 import java.util.List;
 
 @Mixin(TranslatableText.class)
-public abstract class FabricTranslatableTextMixin extends FabricBaseTextMixin implements ParsableText, ITranslatedText {
+@Implements(@Interface(iface = ITranslatedText.class, prefix = "proxy$"))
+public abstract class FabricTranslatableTextMixin extends FabricBaseTextMixin implements ParsableText {
     @Shadow
     @Final
     private String key;
@@ -23,14 +22,12 @@ public abstract class FabricTranslatableTextMixin extends FabricBaseTextMixin im
 
     private List<?> with;
 
-    @Override
-    public String getTranslate() {
+    public String proxy$getTranslate() {
         return key;
     }
 
-    @Override
     @SuppressWarnings("unchecked")
-    public List<IText> getWith() {
+    public List<IText> proxy$getWith() {
         if (with == null) {
             with = Arrays.asList(args);
         }

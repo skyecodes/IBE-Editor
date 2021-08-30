@@ -39,7 +39,7 @@ public final class ForgeIBEEditorMod {
         MinecraftForge.EVENT_BUS.addListener(this::onServerStarting);
         MinecraftForge.EVENT_BUS.addListener(this::onPlayerLoggedIn);
         MinecraftForge.EVENT_BUS.addListener(this::onPlayerLoggedOut);
-        ModNetwork.set(ForgeNetwork.INSTANCE);
+        ModNetwork.init(ForgeNetwork.INSTANCE);
         event.enqueueWork(CommonInit::init);
     }
 

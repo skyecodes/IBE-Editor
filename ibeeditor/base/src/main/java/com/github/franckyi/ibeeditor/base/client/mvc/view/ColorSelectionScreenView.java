@@ -1,11 +1,10 @@
 package com.github.franckyi.ibeeditor.base.client.mvc.view;
 
+import com.github.franckyi.gameadapter.api.common.text.IText;
 import com.github.franckyi.guapi.api.node.HBox;
 import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.api.node.Slider;
 import com.github.franckyi.guapi.api.node.TextField;
-import com.github.franckyi.ibeeditor.base.client.ModScreenHandler;
-import com.github.franckyi.ibeeditor.base.client.ModTextures;
 import com.github.franckyi.ibeeditor.base.common.ModTexts;
 
 import static com.github.franckyi.guapi.GuapiHelper.*;
@@ -16,13 +15,8 @@ public abstract class ColorSelectionScreenView extends EditorView {
     private HBox exampleBox;
 
     @Override
-    protected Node createHeader() {
-        return hBox(header -> {
-            header.add(hBox().prefWidth(16));
-            header.add(label(ModTexts.CHOOSE_CUSTOM_COLOR, true).textAlign(CENTER).prefHeight(20), 1);
-            header.add(createButton(ModTextures.SETTINGS, ModTexts.SETTINGS).action(ModScreenHandler::openSettingsScreen));
-            header.align(CENTER);
-        });
+    protected IText getHeaderLabelText() {
+        return ModTexts.title(ModTexts.choose(ModTexts.CUSTOM_COLOR));
     }
 
     @Override

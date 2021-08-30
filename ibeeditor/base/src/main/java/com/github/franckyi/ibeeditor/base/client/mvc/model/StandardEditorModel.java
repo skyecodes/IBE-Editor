@@ -9,10 +9,10 @@ public abstract class StandardEditorModel<T, C extends CategoryModel> extends Li
     private final T target;
     private final Consumer<T> action;
     private final IText disabledTooltip;
-    private final String title;
+    private final IText title;
     private final StringProperty currentCustomColorProperty;
 
-    protected StandardEditorModel(T target, Consumer<T> action, IText disabledTooltip, String title) {
+    protected StandardEditorModel(T target, Consumer<T> action, IText disabledTooltip, IText title) {
         this.target = target;
         this.action = action;
         this.disabledTooltip = disabledTooltip;
@@ -36,7 +36,7 @@ public abstract class StandardEditorModel<T, C extends CategoryModel> extends Li
         return getDisabledTooltip() != null;
     }
 
-    public String getTitle() {
+    public IText getTitle() {
         return title;
     }
 

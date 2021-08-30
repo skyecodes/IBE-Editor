@@ -4,9 +4,11 @@ import com.github.franckyi.databindings.api.BooleanProperty;
 import com.github.franckyi.databindings.api.IntegerProperty;
 import com.github.franckyi.gameadapter.api.common.IIdentifier;
 import com.github.franckyi.gameadapter.api.common.RegistryHandler;
+import com.github.franckyi.gameadapter.api.common.text.IText;
 import com.github.franckyi.ibeeditor.base.client.ClientCache;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.CategoryModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.ListSelectionItemModel;
+import com.github.franckyi.ibeeditor.base.common.ModTexts;
 
 import java.util.List;
 
@@ -102,8 +104,8 @@ public class PotionEffectEntryModel extends SelectionEntryModel {
     }
 
     @Override
-    public String getSuggestionScreenTitle() {
-        return "ibeeditor.gui.effect";
+    public IText getSuggestionScreenTitle() {
+        return ModTexts.EFFECTS;
     }
 
     @Override

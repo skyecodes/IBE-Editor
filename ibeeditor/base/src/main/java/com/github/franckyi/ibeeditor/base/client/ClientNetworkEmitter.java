@@ -47,7 +47,7 @@ public final class ClientNetworkEmitter {
     }
 
     private static void send(String id, Packet packet) {
-        LOGGER.debug("Sending packet {}", id);
+        LOGGER.debug("Sending packet {} to the server", id);
         ModNetwork.get().sendToServer(id, packet);
     }
 }

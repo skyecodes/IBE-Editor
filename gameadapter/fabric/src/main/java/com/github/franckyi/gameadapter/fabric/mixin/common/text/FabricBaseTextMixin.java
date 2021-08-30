@@ -5,111 +5,98 @@ import com.github.franckyi.gameadapter.api.common.text.ITextEvent;
 import com.github.franckyi.gameadapter.api.internal.IStyle;
 import com.github.franckyi.gameadapter.fabric.common.IFabricStyle;
 import net.minecraft.text.*;
+import org.spongepowered.asm.mixin.Implements;
+import org.spongepowered.asm.mixin.Interface;
 import org.spongepowered.asm.mixin.Mixin;
 
 import java.util.List;
 
 @Mixin(BaseText.class)
-public abstract class FabricBaseTextMixin implements MutableText, IText {
-    @Override
+@Implements(@Interface(iface = IText.class, prefix = "proxy$"))
+public abstract class FabricBaseTextMixin implements MutableText {
     @SuppressWarnings({"unchecked", "rawtypes"})
-    public List<IText> getExtra() {
+    public List<IText> proxy$getExtra() {
         return (List) getSiblings();
     }
 
-    @Override
-    public void addExtra(IText extra) {
+    public void proxy$addExtra(IText extra) {
         append((Text) extra);
     }
 
-    @Override
-    public String getColor() {
+    public String proxy$getColor() {
         TextColor color = getStyle().getColor();
         return color == null ? null : color.getName();
     }
 
-    @Override
-    public void setColor(String color) {
-        styled(style -> style.withColor(TextColor.parse(color)));
+    public void proxy$setColor(String color) {
+        styled(style -> style.withColor(color == null ? null : TextColor.parse(color)));
     }
 
-    @Override
-    public Boolean getBold() {
+    public Boolean proxy$getBold() {
         return ((IStyle) getStyle()).getBold();
     }
 
-    @Override
-    public void setBold(Boolean bold) {
+    public void proxy$setBold(Boolean bold) {
         styled(style -> style.withBold(bold));
     }
 
-    @Override
-    public Boolean getItalic() {
+    public Boolean proxy$getItalic() {
         return ((IStyle) getStyle()).getItalic();
     }
 
-    @Override
-    public void setItalic(Boolean italic) {
+    public void proxy$setItalic(Boolean italic) {
         styled(style -> style.withItalic(italic));
     }
 
-    @Override
-    public Boolean getUnderlined() {
+    public Boolean proxy$getUnderlined() {
         return ((IStyle) getStyle()).getUnderlined();
     }
 
-    @Override
-    public void setUnderlined(Boolean underlined) {
+    public void proxy$setUnderlined(Boolean underlined) {
         styled(style -> style.withUnderline(underlined));
     }
 
-    @Override
-    public Boolean getStrikethrough() {
+    public Boolean proxy$getStrikethrough() {
         return ((IStyle) getStyle()).getStrikethrough();
     }
 
-    @Override
-    public void setStrikethrough(Boolean strikethrough) {
+    public void proxy$setStrikethrough(Boolean strikethrough) {
         styled(style -> ((IFabricStyle) style).withStrikethrough(strikethrough));
     }
 
-    @Override
-    public Boolean getObfuscated() {
+    public Boolean proxy$getObfuscated() {
         return ((IStyle) getStyle()).getObfuscated();
     }
 
-    @Override
-    public void setObfuscated(Boolean obfuscated) {
+    public void proxy$setObfuscated(Boolean obfuscated) {
         styled(style -> ((IFabricStyle) style).withObfuscated(obfuscated));
     }
 
-    @Override
-    public ITextEvent getClickEvent() {
+    public ITextEvent proxy$getClickEvent() {
         return (ITextEvent) getStyle().getClickEvent();
     }
 
-    @Override
-    public void setClickEvent(ITextEvent clickEvent) {
+    public void proxy$setClickEvent(ITextEvent clickEvent) {
         styled(style -> style.withClickEvent((ClickEvent) clickEvent));
     }
 
-    @Override
-    public ITextEvent getHoverEvent() {
+    public ITextEvent proxy$getHoverEvent() {
         return (ITextEvent) getStyle().getHoverEvent();
     }
 
-    @Override
-    public void setHoverEvent(ITextEvent hoverEvent) {
+    public void proxy$setHoverEvent(ITextEvent hoverEvent) {
         styled(style -> style.withHoverEvent((HoverEvent) hoverEvent));
     }
 
-    @Override
-    public String getRawText() {
+    public String proxy$getRawText() {
         return getString();
     }
 
-    @Override
-    public String toJson() {
+    public String proxy$toJson() {
         return Text.Serializer.toJson(this);
+    }
+
+    public IText proxy$copy() {
+        return (IText) copy();
     }
 }

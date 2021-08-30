@@ -4,12 +4,11 @@ import com.github.franckyi.databindings.api.ObjectProperty;
 import com.github.franckyi.databindings.api.StringProperty;
 import com.github.franckyi.gameadapter.api.common.text.IText;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.CategoryModel;
+import com.github.franckyi.ibeeditor.base.common.ModTexts;
 
 import java.util.Locale;
 import java.util.Objects;
 import java.util.UUID;
-
-import static com.github.franckyi.guapi.GuapiHelper.*;
 
 public class AttributeModifierEntryModel extends EntryModel {
     private final StringProperty attributeNameProperty;
@@ -123,7 +122,7 @@ public class AttributeModifierEntryModel extends EntryModel {
         private final IText text;
 
         Slot() {
-            text = translated("ibeeditor.gui." + getValue());
+            text = ModTexts.gui(getValue());
         }
 
         public static Slot from(String value) {
@@ -150,8 +149,8 @@ public class AttributeModifierEntryModel extends EntryModel {
         private final IText text, tooltip;
 
         Operation() {
-            text = text("OP: " + getValue());
-            tooltip = translated("ibeeditor.gui.operation", translated("ibeeditor.gui.operation_" + getValue()));
+            text = ModTexts.attributeModifierOperationText(getValue());
+            tooltip = ModTexts.attributeModifierOperationTooltip(getValue());
         }
 
         public static Operation from(int value) {

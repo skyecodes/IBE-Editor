@@ -2,18 +2,15 @@ package com.github.franckyi.ibeeditor.base.client.mvc.controller;
 
 import com.github.franckyi.databindings.api.event.ObservableListChangeEvent;
 import com.github.franckyi.databindings.api.event.ObservableListChangeListener;
-import com.github.franckyi.gameadapter.api.common.text.IText;
 import com.github.franckyi.guapi.Guapi;
 import com.github.franckyi.guapi.api.mvc.AbstractController;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.CategoryModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.ListEditorModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.EntryModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.view.ListEditorView;
-
-import static com.github.franckyi.guapi.GuapiHelper.*;
+import com.github.franckyi.ibeeditor.base.common.ModTexts;
 
 public abstract class ListEditorController<M extends ListEditorModel<?>, V extends ListEditorView> extends AbstractController<M, V> {
-    private static final IText FIX_ERRORS = translated("ibeeditor.gui.fix_errors").red();
     private final ObservableListChangeListener<EntryModel> listener = this::onSelectedCategoryEntryChange;
 
     public ListEditorController(M model, V view) {
@@ -54,9 +51,9 @@ public abstract class ListEditorController<M extends ListEditorModel<?>, V exten
         view.getDoneButton().setDisable(!newVal);
         if (!newVal) {
             if (view.getDoneButton().getTooltip().isEmpty()) {
-                view.getDoneButton().getTooltip().add(FIX_ERRORS);
+                view.getDoneButton().getTooltip().add(ModTexts.FIX_ERRORS);
             } else {
-                view.getDoneButton().getTooltip().set(0, FIX_ERRORS);
+                view.getDoneButton().getTooltip().set(0, ModTexts.FIX_ERRORS);
             }
         } else {
             view.getDoneButton().getTooltip().clear();

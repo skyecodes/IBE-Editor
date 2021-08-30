@@ -2,9 +2,11 @@ package com.github.franckyi.ibeeditor.base.client;
 
 import com.github.franckyi.gameadapter.Game;
 import com.github.franckyi.gameadapter.api.client.IScreen;
+import com.github.franckyi.gameadapter.api.common.IPlayer;
 import com.github.franckyi.gameadapter.api.common.item.ISlot;
 import com.github.franckyi.gameadapter.api.common.world.WorldBlockData;
 import com.github.franckyi.ibeeditor.base.common.EditorType;
+import com.github.franckyi.ibeeditor.base.common.ModTexts;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -19,13 +21,13 @@ public final class ClientEventHandler {
                 ClientEditorLogic.openWorldEditor(EditorType.NBT);
             } else if (KeyBindings.snbtEditorKey.wasPressed()) {
                 ClientEditorLogic.openWorldEditor(EditorType.SNBT);
-            }/* else if (KeyBindings.clipboardKey.isPressed()) {
-            ClientEditorLogic.openClipboard();
+            }/* else if (KeyBindings.vaultKey.isPressed()) {
+                ClientEditorLogic.openVault();
             }*/
         } catch (Exception e) {
+            IPlayer.client().sendMessage(ModTexts.Messages.ERROR_GENERIC);
             LOGGER.error("Error while handling ingame key input for IBE Editor mod", e);
         }
-
     }
 
     public static void onScreenEvent(IScreen screen, int keyCode) {
@@ -52,6 +54,7 @@ public final class ClientEventHandler {
                 }
             }
         } catch (Exception e) {
+            IPlayer.client().sendMessage(ModTexts.Messages.ERROR_GENERIC);
             LOGGER.error("Error while handling screen key input for IBE Editor mod", e);
         }
     }

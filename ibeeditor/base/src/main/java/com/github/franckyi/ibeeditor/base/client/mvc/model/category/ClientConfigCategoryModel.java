@@ -7,23 +7,22 @@ import com.github.franckyi.ibeeditor.base.client.mvc.model.ConfigEditorModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.ActionEntryModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.EnumEntryModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.StringEntryModel;
-
-import static com.github.franckyi.guapi.GuapiHelper.*;
+import com.github.franckyi.ibeeditor.base.common.ModTexts;
 
 public class ClientConfigCategoryModel extends ConfigCategoryModel {
     private StringEntryModel guapiThemeEntry;
     private EnumEntryModel<DebugMode> guapiDebugModeEntry;
 
     public ClientConfigCategoryModel(ConfigEditorModel editor) {
-        super("ibeeditor.gui.client", editor);
+        super(ModTexts.CLIENT, editor);
     }
 
     @Override
     protected void setupEntries() {
         getEntries().addAll(
-                guapiThemeEntry = new StringEntryModel(this, translated("ibeeditor.gui.theme"), ClientConfiguration.INSTANCE.getGuapiTheme(), ClientConfiguration.INSTANCE::setGuapiTheme),
-                guapiDebugModeEntry = new EnumEntryModel<>(this, translated("ibeeditor.gui.debug_mode"), ClientConfiguration.INSTANCE.getGuapiDebugMode(), ClientConfiguration.INSTANCE::setGuapiDebugMode),
-                new ActionEntryModel(this, translated("ibeeditor.gui.reload_config").yellow(), this::reload)
+                guapiThemeEntry = new StringEntryModel(this, ModTexts.THEME, ClientConfiguration.INSTANCE.getGuapiTheme(), ClientConfiguration.INSTANCE::setGuapiTheme),
+                guapiDebugModeEntry = new EnumEntryModel<>(this, ModTexts.DEBUG_MODE, ClientConfiguration.INSTANCE.getGuapiDebugMode(), ClientConfiguration.INSTANCE::setGuapiDebugMode),
+                new ActionEntryModel(this, ModTexts.RELOAD_CONFIG, this::reload)
         );
     }
 

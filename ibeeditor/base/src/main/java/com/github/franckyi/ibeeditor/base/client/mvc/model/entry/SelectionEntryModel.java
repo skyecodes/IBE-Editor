@@ -20,7 +20,7 @@ public abstract class SelectionEntryModel extends StringEntryModel {
 
     public abstract List<String> getSuggestions();
 
-    public abstract String getSuggestionScreenTitle();
+    public abstract IText getSuggestionScreenTitle();
 
     public abstract List<? extends ListSelectionItemModel> getSelectionItems();
 }

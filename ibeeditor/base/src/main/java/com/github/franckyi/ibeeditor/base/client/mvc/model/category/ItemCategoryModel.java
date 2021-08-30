@@ -1,6 +1,7 @@
 package com.github.franckyi.ibeeditor.base.client.mvc.model.category;
 
 import com.github.franckyi.gameadapter.api.common.tag.ICompoundTag;
+import com.github.franckyi.gameadapter.api.common.text.IText;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.CategoryModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.ItemEditorModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.EntryModel;
@@ -9,7 +10,7 @@ public abstract class ItemCategoryModel extends CategoryModel {
     private final ICompoundTag baseData;
     private ICompoundTag newData;
 
-    public ItemCategoryModel(String name, ItemEditorModel editor) {
+    public ItemCategoryModel(IText name, ItemEditorModel editor) {
         super(name, editor);
         baseData = editor.getTarget().getData();
     }

@@ -19,6 +19,7 @@ public final class Guapi {
     private static NodeFactory nodeFactory;
     private static ScreenHandler screenHandler;
     private static DebugMode debugMode = DebugMode.OFF;
+    private static GuapiExceptionHandler exceptionHandler = GuapiExceptionHandler.NONE;
 
     public static Theme getTheme() {
         return theme;
@@ -29,10 +30,10 @@ public final class Guapi {
             Optional<String> defaultTheme = themeRegistry.keySet().stream().findFirst();
             if (defaultTheme.isPresent()) {
                 String defaultThemeName = defaultTheme.get();
-                Game.getDefaultLogger().error("\"{}\" theme isn't registered, using default \"{}\" theme", theme, defaultThemeName);
+                Game.getDefaultLogger().error(LOG_MARKER, "\"{}\" theme isn't registered, using default \"{}\" theme", theme, defaultThemeName);
                 theme = defaultThemeName;
             } else {
-                Game.getDefaultLogger().error("\"{}\" theme isn't registered, and no other theme is registered!", theme);
+                Game.getDefaultLogger().error(LOG_MARKER, "\"{}\" theme isn't registered, and no other theme is registered!", theme);
             }
         }
         Guapi.theme = themeRegistry.get(theme);
@@ -64,5 +65,13 @@ public final class Guapi {
 
     public static void setDebugMode(DebugMode debugMode) {
         Guapi.debugMode = debugMode;
+    }
+
+    public static void setExceptionHandler(GuapiExceptionHandler exceptionHandler) {
+        Guapi.exceptionHandler = exceptionHandler;
+    }
+
+    public static GuapiExceptionHandler getExceptionHandler() {
+        return exceptionHandler;
     }
 }
