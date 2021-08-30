@@ -5,12 +5,14 @@ import com.github.franckyi.gameadapter.api.common.item.ISlot;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
-import org.spongepowered.asm.mixin.Final;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.*;
 
 @Mixin(net.minecraft.screen.slot.Slot.class)
-public abstract class FabricSlotMixin implements ISlot {
+@Implements(@Interface(iface = ISlot.class, prefix = "proxy$"))
+public abstract class FabricSlotMixin {
+    @Shadow
+    public abstract boolean hasStack();
+
     @Shadow
     @Final
     public Inventory inventory;
@@ -20,20 +22,22 @@ public abstract class FabricSlotMixin implements ISlot {
     private int index;
 
     @Shadow
-    public abstract ItemStack shadow$getStack();
+    public abstract ItemStack getStack();
 
-    @Override
-    public boolean isInPlayerInventory() {
+    @Intrinsic
+    public boolean proxy$hasStack() {
+        return hasStack();
+    }
+
+    public boolean proxy$isInPlayerInventory() {
         return inventory instanceof PlayerInventory;
     }
 
-    @Override
-    public int getIndex() {
+    public int proxy$getIndex() {
         return index;
     }
 
-    @Override
-    public IItemStack getStack() {
-        return IItemStack.class.cast(shadow$getStack());
+    public IItemStack proxy$getStack() {
+        return IItemStack.class.cast(getStack());
     }
 }

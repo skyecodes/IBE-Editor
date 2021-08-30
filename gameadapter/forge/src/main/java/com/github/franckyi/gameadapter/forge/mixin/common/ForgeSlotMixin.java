@@ -6,12 +6,11 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
-import org.spongepowered.asm.mixin.Final;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.*;
 
 @Mixin(Slot.class)
-public abstract class ForgeSlotMixin implements ISlot {
+@Implements(@Interface(iface = ISlot.class, prefix = "proxy$"))
+public abstract class ForgeSlotMixin {
     @Shadow
     public abstract boolean hasItem();
 
@@ -22,26 +21,22 @@ public abstract class ForgeSlotMixin implements ISlot {
     @Final
     public IInventory container;
 
-    @Shadow(remap = false)
+    @Shadow(remap = false) // method added by Forge
     public abstract int getSlotIndex();
 
-    @Override
-    public boolean hasStack() {
+    public boolean proxy$hasStack() {
         return hasItem();
     }
 
-    @Override
-    public boolean isInPlayerInventory() {
+    public boolean proxy$isInPlayerInventory() {
         return container instanceof PlayerInventory;
     }
 
-    @Override
-    public int getIndex() {
+    public int proxy$getIndex() {
         return getSlotIndex();
     }
 
-    @Override
-    public IItemStack getStack() {
+    public IItemStack proxy$getStack() {
         return IItemStack.class.cast(getItem());
     }
 }
