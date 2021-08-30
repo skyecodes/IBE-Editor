@@ -8,12 +8,12 @@ public final class ServerEventHandler {
     private static final Logger LOGGER = LogManager.getLogger();
 
     public static void onPlayerJoin(IPlayer player) {
-        LOGGER.debug("Notifying {} that this server has IBE Editor", player);
+        LOGGER.debug("Notifying {} that this server has IBE Editor", player.getProfileName());
         ServerNetworkEmitter.sendServerNotification(player);
     }
 
     public static void onPlayerLeave(IPlayer player) {
-        LOGGER.debug("Player {} left the server", player);
+        LOGGER.debug("Player {} left the server", player.getProfileName());
         ServerContext.removeModdedClient(player);
     }
 }

@@ -14,6 +14,7 @@ import com.github.franckyi.gameadapter.api.common.text.ITranslatedText;
 import com.github.franckyi.gameadapter.fabric.common.FabricRegistryHandler;
 import com.github.franckyi.gameadapter.fabric.common.FabricTagFactory;
 import com.mojang.brigadier.Command;
+import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
@@ -113,5 +114,10 @@ public final class FabricGameCommon implements GameCommon {
     @Override
     public IText getEmptyText() {
         return (IText) LiteralText.EMPTY;
+    }
+
+    @Override
+    public boolean isClient() {
+        return FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT;
     }
 }

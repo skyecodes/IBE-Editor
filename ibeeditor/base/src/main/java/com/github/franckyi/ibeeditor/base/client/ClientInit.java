@@ -10,10 +10,14 @@ public final class ClientInit {
 
     public static void init() {
         LOGGER.info("Initializing IBE Editor - client");
-        ClientConfiguration.load();
-        syncGuapiConfig();
         Guapi.setNodeFactory(NodeFactoryImpl.INSTANCE);
         Guapi.setExceptionHandler(ModGuapiExceptionHandler.INSTANCE);
+    }
+
+    public static void setup() {
+        LOGGER.info("Setting up IBE Editor - client");
+        ClientConfiguration.load();
+        syncGuapiConfig();
         KeyBindings.init();
         ClientCache.init();
     }

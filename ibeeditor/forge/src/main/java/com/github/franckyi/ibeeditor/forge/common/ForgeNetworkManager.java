@@ -2,7 +2,7 @@ package com.github.franckyi.ibeeditor.forge.common;
 
 import com.github.franckyi.gameadapter.api.common.IPacketBuffer;
 import com.github.franckyi.gameadapter.api.common.IPlayer;
-import com.github.franckyi.ibeeditor.base.common.Network;
+import com.github.franckyi.ibeeditor.base.common.NetworkManager;
 import com.github.franckyi.ibeeditor.base.common.Packet;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.ResourceLocation;
@@ -14,8 +14,8 @@ import net.minecraftforge.fml.network.simple.SimpleChannel;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
-public final class ForgeNetwork implements Network {
-    public static final Network INSTANCE = new ForgeNetwork();
+public final class ForgeNetworkManager extends NetworkManager {
+    public static final NetworkManager INSTANCE = new ForgeNetworkManager();
 
     private final String VERSION = "2";
     private final SimpleChannel channel = NetworkRegistry.newSimpleChannel(
@@ -25,7 +25,7 @@ public final class ForgeNetwork implements Network {
             VERSION::equals
     );
 
-    private ForgeNetwork() {
+    private ForgeNetworkManager() {
     }
 
     @Override

@@ -2,7 +2,7 @@ package com.github.franckyi.ibeeditor.fabric.common;
 
 import com.github.franckyi.gameadapter.api.common.IPacketBuffer;
 import com.github.franckyi.gameadapter.api.common.IPlayer;
-import com.github.franckyi.ibeeditor.base.common.Network;
+import com.github.franckyi.ibeeditor.base.common.NetworkManager;
 import com.github.franckyi.ibeeditor.base.common.Packet;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
@@ -13,10 +13,10 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 
-public final class FabricNetwork implements Network {
-    public static final Network INSTANCE = new FabricNetwork();
+public final class FabricNetworkManager extends NetworkManager {
+    public static final NetworkManager INSTANCE = new FabricNetworkManager();
 
-    private FabricNetwork() {
+    private FabricNetworkManager() {
     }
 
     @Override

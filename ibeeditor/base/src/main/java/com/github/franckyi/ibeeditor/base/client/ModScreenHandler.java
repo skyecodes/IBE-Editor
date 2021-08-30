@@ -1,5 +1,7 @@
 package com.github.franckyi.ibeeditor.base.client;
 
+import com.github.franckyi.gameadapter.api.client.IMatrices;
+import com.github.franckyi.gameadapter.api.common.IIdentifier;
 import com.github.franckyi.gameadapter.api.common.IPlayer;
 import com.github.franckyi.gameadapter.api.common.item.IItemStack;
 import com.github.franckyi.gameadapter.api.common.tag.ICompoundTag;
@@ -71,5 +73,10 @@ public final class ModScreenHandler {
             LOGGER.error("Error while opening screen", e);
             IPlayer.client().sendMessage(ModTexts.Messages.ERROR_GENERIC);
         }
+    }
+
+    public static void optimize(IMatrices matrices) {
+        scene(mvc(StandardEditorMVC.INSTANCE, new ItemEditorModel(IItemStack.fromId(IIdentifier.of("air")), item -> {
+        }, null)), true, true).render(matrices, 0, 0, 0);
     }
 }

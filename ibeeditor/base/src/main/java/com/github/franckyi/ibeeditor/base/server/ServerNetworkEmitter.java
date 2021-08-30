@@ -4,7 +4,7 @@ import com.github.franckyi.gameadapter.api.common.IPlayer;
 import com.github.franckyi.gameadapter.api.common.tag.ICompoundTag;
 import com.github.franckyi.gameadapter.api.common.world.BlockData;
 import com.github.franckyi.ibeeditor.base.common.EditorType;
-import com.github.franckyi.ibeeditor.base.common.ModNetwork;
+import com.github.franckyi.ibeeditor.base.common.NetworkManager;
 import com.github.franckyi.ibeeditor.base.common.Packet;
 import com.github.franckyi.ibeeditor.base.common.packet.*;
 import org.apache.logging.log4j.LogManager;
@@ -14,15 +14,15 @@ public final class ServerNetworkEmitter {
     private static final Logger LOGGER = LogManager.getLogger();
 
     public static void sendServerNotification(IPlayer sender) {
-        send(ModNetwork.SERVER_NOTIFICATION, sender, new ServerNotificationPacket());
+        send(NetworkManager.SERVER_NOTIFICATION, sender, new ServerNotificationPacket());
     }
 
     public static void sendBlockEditorResponse(IPlayer sender, BlockEditorRequestPacket packet, BlockData block) {
-        send(ModNetwork.BLOCK_EDITOR_RESPONSE, sender, new BlockEditorResponsePacket(packet, block));
+        send(NetworkManager.BLOCK_EDITOR_RESPONSE, sender, new BlockEditorResponsePacket(packet, block));
     }
 
     public static void sendEntityEditorResponse(IPlayer sender, EntityEditorRequestPacket packet, ICompoundTag entity) {
-        send(ModNetwork.ENTITY_EDITOR_RESPONSE, sender, new EntityEditorResponsePacket(packet, entity));
+        send(NetworkManager.ENTITY_EDITOR_RESPONSE, sender, new EntityEditorResponsePacket(packet, entity));
     }
 
     public static void sendWorldEditorCommand(IPlayer sender, EditorType type) {
@@ -46,11 +46,11 @@ public final class ServerNetworkEmitter {
     }
 
     private static void sendEditorCommand(IPlayer sender, byte target, EditorType type) {
-        send(ModNetwork.EDITOR_COMMAND, sender, new EditorCommandPacket(target, type));
+        send(NetworkManager.EDITOR_COMMAND, sender, new EditorCommandPacket(target, type));
     }
 
     private static void send(String id, IPlayer player, Packet packet) {
         LOGGER.debug("Sending packet {} to player {}", id, player.getProfileName());
-        ModNetwork.get().sendToClient(id, player, packet);
+        NetworkManager.get().sendToClient(id, player, packet);
     }
 }

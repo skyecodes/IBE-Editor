@@ -48,4 +48,6 @@ public interface GameCommon {
     IText createTextFromJson(String json);
 
     IText getEmptyText();
+
+    boolean isClient();
 }

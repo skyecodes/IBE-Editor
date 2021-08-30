@@ -2,8 +2,8 @@ package com.github.franckyi.ibeeditor.base.client;
 
 import com.github.franckyi.gameadapter.api.common.IPlayer;
 import com.github.franckyi.gameadapter.api.common.world.WorldBlockData;
-import com.github.franckyi.ibeeditor.base.common.ModNetwork;
 import com.github.franckyi.ibeeditor.base.common.ModTexts;
+import com.github.franckyi.ibeeditor.base.common.NetworkManager;
 import com.github.franckyi.ibeeditor.base.common.packet.BlockEditorResponsePacket;
 import com.github.franckyi.ibeeditor.base.common.packet.EditorCommandPacket;
 import com.github.franckyi.ibeeditor.base.common.packet.EntityEditorResponsePacket;
@@ -15,7 +15,7 @@ public final class ClientNetworkReceiver {
     private static final Logger LOGGER = LogManager.getLogger();
 
     public static void onBlockEditorResponse(BlockEditorResponsePacket packet) {
-        log(ModNetwork.BLOCK_EDITOR_RESPONSE);
+        log(NetworkManager.BLOCK_EDITOR_RESPONSE);
         if (packet.getBlock().getTag() != null || (!packet.getType().isNBT() && packet.getBlock().getState() != null)) {
             ClientEditorLogic.openBlockEditor(new WorldBlockData(packet.getBlock(), packet.getPos()), packet.getType());
         } else {
@@ -24,7 +24,7 @@ public final class ClientNetworkReceiver {
     }
 
     public static void onEntityEditorResponse(EntityEditorResponsePacket packet) {
-        log(ModNetwork.ENTITY_EDITOR_RESPONSE);
+        log(NetworkManager.ENTITY_EDITOR_RESPONSE);
         if (packet.getEntity() != null) {
             ClientEditorLogic.openEntityEditor(packet.getEntity(), packet.getEntityId(), packet.getType());
         } else {
@@ -33,13 +33,13 @@ public final class ClientNetworkReceiver {
     }
 
     public static void onServerNotification(ServerNotificationPacket packet) {
-        log(ModNetwork.SERVER_NOTIFICATION);
+        log(NetworkManager.SERVER_NOTIFICATION);
         ClientContext.setModInstalledOnServer(true);
         ClientNetworkEmitter.sendClientNotification();
     }
 
     public static void onEditorCommand(EditorCommandPacket packet) {
-        log(ModNetwork.EDITOR_COMMAND);
+        log(NetworkManager.EDITOR_COMMAND);
         switch (packet.getTarget()) {
             case EditorCommandPacket.TARGET_WORLD:
                 ClientEditorLogic.openWorldEditor(packet.getType());
