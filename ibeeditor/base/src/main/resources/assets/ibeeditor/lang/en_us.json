@@ -107,6 +107,7 @@
   "ibeeditor.gui.client": "Client",
   "ibeeditor.gui.theme": "Theme",
   "ibeeditor.gui.debug_mode": "Debug Mode",
+  "ibeeditor.gui.selection_screen_max_items": "Selection screen max items",
   "ibeeditor.gui.reload_config": "Reload configuration from disk",
   "ibeeditor.text.item": "Item",
   "ibeeditor.text.block": "Block",

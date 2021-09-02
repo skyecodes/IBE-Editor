@@ -18,6 +18,7 @@ public class HideFlagEntryModel extends BooleanEntryModel {
             }
         }), value, action);
         this.hideFlag = hideFlag;
+        withWeight(2);
     }
 
     public ItemHideFlagsCategoryModel.HideFlag getHideFlag() {

@@ -6,7 +6,7 @@ import com.github.franckyi.ibeeditor.base.client.mvc.model.CategoryModel;
 
 import java.util.function.Consumer;
 
-import static com.github.franckyi.guapi.GuapiHelper.*;
+import static com.github.franckyi.guapi.GuapiHelper.translated;
 
 public class EnchantmentEntryModel extends IntegerEntryModel {
     public EnchantmentEntryModel(CategoryModel category, IEnchantment enchantment, boolean canApply, int value, Consumer<Integer> action) {
@@ -16,6 +16,7 @@ public class EnchantmentEntryModel extends IntegerEntryModel {
         } else if (canApply) {
             getLabel().setColor(Color.GREEN);
         }
+        withWeight(2);
     }
 
     @Override

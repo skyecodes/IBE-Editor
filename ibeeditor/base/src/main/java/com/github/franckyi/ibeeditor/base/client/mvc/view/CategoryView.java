@@ -4,14 +4,15 @@ import com.github.franckyi.guapi.api.mvc.View;
 import com.github.franckyi.guapi.api.node.Label;
 import com.github.franckyi.guapi.api.node.Node;
 
-import static com.github.franckyi.guapi.GuapiHelper.*;
+import static com.github.franckyi.guapi.GuapiHelper.CENTER;
+import static com.github.franckyi.guapi.GuapiHelper.label;
 
 public class CategoryView implements View {
     private Label root;
 
     @Override
     public void build() {
-        root = label().shadow().textAlign(CENTER);
+        root = label().textAlign(CENTER);
     }
 
     public Label getLabel() {

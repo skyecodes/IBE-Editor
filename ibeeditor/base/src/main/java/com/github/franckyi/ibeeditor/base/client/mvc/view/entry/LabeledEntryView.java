@@ -7,11 +7,12 @@ import static com.github.franckyi.guapi.GuapiHelper.*;
 
 public abstract class LabeledEntryView extends EntryView {
     private Label label;
+    private Node labeledContent;
 
     @Override
     public void build() {
         super.build();
-        Node labeledContent = createLabeledContent();
+        labeledContent = createLabeledContent();
         getRight().getChildren().add(0, labeledContent);
         getRight().setWeight(labeledContent, 1);
         getRoot().setWeight(getRight(), 2);
@@ -26,5 +27,9 @@ public abstract class LabeledEntryView extends EntryView {
 
     public Label getLabel() {
         return label;
+    }
+
+    public Node getLabeledContent() {
+        return labeledContent;
     }
 }

@@ -9,6 +9,7 @@ import com.github.franckyi.guapi.api.util.Align;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public abstract class AbstractBox extends AbstractGroup implements Box {
     private final IntegerProperty spacingProperty = IntegerProperty.create();
@@ -61,7 +62,7 @@ public abstract class AbstractBox extends AbstractGroup implements Box {
             throw new IllegalArgumentException("This WeightedVBox doesn't contain the Node " + node);
         }
         Integer old = weightMap.put(node, value);
-        if (old != null && old == value) {
+        if (!Objects.equals(old, value)) {
             shouldUpdateChildren();
         }
     }
