@@ -2,11 +2,12 @@ package com.github.franckyi.guapi.api.node;
 
 import com.github.franckyi.databindings.api.IntegerProperty;
 import com.github.franckyi.databindings.api.ObjectProperty;
+import com.github.franckyi.databindings.api.ObservableList;
 import net.minecraft.network.chat.Component;
 
 import java.util.function.Function;
 
-public interface EnumButton<E extends Enum<E>> extends Button {
+public interface EnumButton<E> extends Button {
     default E getValue() {
         return valueProperty().getValue();
     }
@@ -37,5 +38,5 @@ public interface EnumButton<E extends Enum<E>> extends Button {
         textFactoryProperty().setValue(value);
     }
 
-    E[] getValues();
+    ObservableList<E> getValues();
 }

@@ -11,6 +11,10 @@ public interface ObservableList<E> extends List<E> {
         return DataBindings.getObservableListFactory().createObservableArrayList();
     }
 
+    static <E> ObservableList<E> create(Collection<? extends E> c) {
+        return DataBindings.getObservableListFactory().createObservableArrayList(c);
+    }
+
     void addListener(ObservableListChangeListener<? super E> listener);
 
     void removeListener(ObservableListChangeListener<? super E> listener);

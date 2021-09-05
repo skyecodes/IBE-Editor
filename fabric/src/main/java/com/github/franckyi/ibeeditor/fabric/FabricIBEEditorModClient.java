@@ -20,7 +20,7 @@ import org.apache.commons.lang3.time.StopWatch;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public final class FabricIBEEditorModClient implements ClientModInitializer {
+public class FabricIBEEditorModClient implements ClientModInitializer {
     private static final Logger LOGGER = LogManager.getLogger();
 
     public FabricIBEEditorModClient() {

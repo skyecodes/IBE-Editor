@@ -135,10 +135,9 @@ public final class ClientEditorLogic {
         LOGGER.debug("Opening block editor for block {} at pos {} with target={}", state, pos, target);
         switch (target) {
             case STANDARD:
-                /*ModScreenHandler.openBlockEditorScreen(block,
+                ModScreenHandler.openBlockEditorScreen(block,
                         newBlock -> updateBlock(new WorldBlockData(newBlock, block.getPos())),
-                        getDisabledTooltipServerMod(ModTexts.BLOCK));*/
-                player().displayClientMessage(ModTexts.Messages.warnNotImplemented(ModTexts.BLOCK), false);
+                        getDisabledTooltipServerMod(ModTexts.BLOCK));
                 break;
             case NBT:
                 if (tag == null) {

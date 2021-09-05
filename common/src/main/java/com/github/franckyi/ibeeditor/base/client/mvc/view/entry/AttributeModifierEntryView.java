@@ -40,10 +40,10 @@ public class AttributeModifierEntryView extends EntryView {
                 top.align(CENTER).spacing(2);
             }));
             content.add(hBox(bottom -> {
-                bottom.add(slotButton = enumButton(AttributeModifierEntryModel.Slot.class)
+                bottom.add(slotButton = enumButton(AttributeModifierEntryModel.Slot.values())
                         .textFactory(AttributeModifierEntryModel.Slot::getText)
                         .tooltip(ModTexts.SLOT));
-                bottom.add(operationButton = enumButton(AttributeModifierEntryModel.Operation.class)
+                bottom.add(operationButton = enumButton(AttributeModifierEntryModel.Operation.values())
                         .textFactory(AttributeModifierEntryModel.Operation::getText));
                 bottom.add(amountField = textField().validator(Predicates.IS_DOUBLE)
                         .tooltip(ModTexts.AMOUNT).prefHeight(16), 1);

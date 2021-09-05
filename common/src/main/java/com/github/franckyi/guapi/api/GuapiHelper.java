@@ -87,8 +87,28 @@ public final class GuapiHelper {
         return node().createCheckBox(with);
     }
 
-    public static <E extends Enum<E>> EnumButtonBuilder<E> enumButton(Class<? extends E> enumClass) {
-        return node().createEnumButton(enumClass);
+    public static <E> EnumButtonBuilder<E> enumButton() {
+        return node().createEnumButton();
+    }
+
+    public static <E> EnumButtonBuilder<E> enumButton(E[] values) {
+        return node().createEnumButton(values);
+    }
+
+    public static <E> EnumButtonBuilder<E> enumButton(Collection<? extends E> values) {
+        return node().createEnumButton(values);
+    }
+
+    public static <E> EnumButtonBuilder<E> enumButton(E[] values, E value) {
+        return node().createEnumButton(values, value);
+    }
+
+    public static <E> EnumButtonBuilder<E> enumButton(Collection<? extends E> values, E value) {
+        return node().createEnumButton(values, value);
+    }
+
+    public static <E> EnumButtonBuilder<E> enumButton(Consumer<EnumButtonBuilder<E>> with) {
+        return node().createEnumButton(with);
     }
 
     public static <E extends Enum<E>> EnumButtonBuilder<E> enumButton(E value) {

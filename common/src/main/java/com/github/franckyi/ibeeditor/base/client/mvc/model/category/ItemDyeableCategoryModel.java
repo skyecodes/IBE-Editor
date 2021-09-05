@@ -1,11 +1,11 @@
-package com.github.franckyi.ibeeditor.base.client.mvc.model;
+package com.github.franckyi.ibeeditor.base.client.mvc.model.category;
 
-import com.github.franckyi.guapi.api.Color;
-import com.github.franckyi.ibeeditor.base.client.mvc.model.category.ItemCategoryModel;
+import com.github.franckyi.gameadapter.api.Color;
+import com.github.franckyi.gameadapter.api.common.tag.ICompoundTag;
+import com.github.franckyi.gameadapter.api.common.tag.ITag;
+import com.github.franckyi.ibeeditor.base.client.mvc.model.ItemEditorModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.ArmorColorEntryModel;
 import com.github.franckyi.ibeeditor.base.common.ModTexts;
-import com.github.franckyi.ibeeditor.base.common.TagHelper;
-import net.minecraft.nbt.CompoundTag;
 
 public class ItemDyeableCategoryModel extends ItemCategoryModel {
     public ItemDyeableCategoryModel(ItemEditorModel editor) {
@@ -18,8 +18,8 @@ public class ItemDyeableCategoryModel extends ItemCategoryModel {
     }
 
     private int getColor() {
-        CompoundTag display = getBaseTag().getCompound("display");
-        return display.contains("color", TagHelper.INT_ID) ? display.getInt("color") : Color.NONE;
+        ICompoundTag display = getBaseTag().getCompound("display");
+        return display.contains("color", ITag.INT_ID) ? display.getInt("color") : Color.NONE;
     }
 
     private void setColor(int value) {
@@ -29,10 +29,10 @@ public class ItemDyeableCategoryModel extends ItemCategoryModel {
                 getNewTag().remove("display");
             }
         } else {
-            if (getNewTag().contains("display", TagHelper.COMPOUND_ID)) {
+            if (getNewTag().contains("display", ITag.COMPOUND_ID)) {
                 getNewTag().getCompound("display").putInt("color", value);
             } else {
-                CompoundTag display = new CompoundTag();
+                ICompoundTag display = ICompoundTag.create();
                 display.putInt("color", value);
                 getNewTag().put("display", display);
             }

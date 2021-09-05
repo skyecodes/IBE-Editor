@@ -5,6 +5,8 @@ import com.github.franckyi.ibeeditor.base.client.mvc.controller.entry.*;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.*;
 import com.github.franckyi.ibeeditor.base.client.mvc.view.entry.*;
 
+import java.util.function.Supplier;
+
 public final class EntryMVC implements MVC<EntryModel, EntryView, EntryController<EntryModel, EntryView>> {
     public static final EntryMVC INSTANCE = new EntryMVC();
 
@@ -44,7 +46,7 @@ public final class EntryMVC implements MVC<EntryModel, EntryView, EntryControlle
         }
     }
 
-    private <E extends Enum<E>> EntryView createEnumViewAndBind(EnumEntryModel<E> model) {
-        return MVC.createViewAndBind(model, () -> new EnumEntryView<>(model.getValue().getDeclaringClass()), EnumEntryController::new);
+    private <E> EntryView createEnumViewAndBind(EnumEntryModel<E> model) {
+        return MVC.createViewAndBind(model, (Supplier<EnumEntryView<E>>) EnumEntryView::new, EnumEntryController::new);
     }
 }

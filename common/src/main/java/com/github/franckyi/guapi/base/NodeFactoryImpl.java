@@ -61,13 +61,38 @@ public class NodeFactoryImpl implements NodeFactory {
     }
 
     @Override
-    public <E extends Enum<E>> EnumButtonBuilder<E> createEnumButton(Class<? extends E> enumClass) {
-        return new EnumButtonImpl<>(enumClass);
+    public <E> EnumButtonBuilder<E> createEnumButton() {
+        return new EnumButtonImpl<>();
+    }
+
+    @Override
+    public <E> EnumButtonBuilder<E> createEnumButton(E[] values) {
+        return new EnumButtonImpl<>(values);
+    }
+
+    @Override
+    public <E> EnumButtonBuilder<E> createEnumButton(Collection<? extends E> values) {
+        return new EnumButtonImpl<>(values);
+    }
+
+    @Override
+    public <E> EnumButtonBuilder<E> createEnumButton(E[] values, E value) {
+        return new EnumButtonImpl<>(values, value);
+    }
+
+    @Override
+    public <E> EnumButtonBuilder<E> createEnumButton(Collection<? extends E> values, E value) {
+        return new EnumButtonImpl<>(values, value);
+    }
+
+    @Override
+    public <E> EnumButtonBuilder<E> createEnumButton(Consumer<EnumButtonBuilder<E>> with) {
+        return this.<E>createEnumButton().with(with);
     }
 
     @Override
     public <E extends Enum<E>> EnumButtonBuilder<E> createEnumButton(E value) {
-        return new EnumButtonImpl<>(value);
+        return EnumButtonImpl.fromEnum(value);
     }
 
     @Override

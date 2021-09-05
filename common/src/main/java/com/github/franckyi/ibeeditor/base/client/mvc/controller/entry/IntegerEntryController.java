@@ -1,5 +1,6 @@
 package com.github.franckyi.ibeeditor.base.client.mvc.controller.entry;
 
+import com.github.franckyi.guapi.api.util.Predicates;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.IntegerEntryModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.view.entry.IntegerEntryView;
 
@@ -11,6 +12,7 @@ public class IntegerEntryController<M extends IntegerEntryModel, V extends Integ
     @Override
     public void bind() {
         super.bind();
+        view.getTextField().setValidator(Predicates.IS_INT.and(s -> getModel().validate(Integer.parseInt(s))));
         view.getTextField().textProperty().addListener(value -> {
             if (view.getTextField().isValid()) {
                 model.setValue(Integer.parseInt(value));
