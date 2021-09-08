@@ -141,7 +141,7 @@ public final class ModTexts {
     }
 
     public static IText attributeModifierOperationTooltip(int value) {
-        return translated("ibeeditor.gui.operation", translated("ibeeditor.gui.operation_" + value));
+        return translated("ibeeditor.gui.operation", translated("ibeeditor.gui.operation." + value));
     }
 
     public static IText hide(IText with) {
