@@ -57,7 +57,7 @@ public abstract class ForgeTextComponentMixin implements IFormattableTextCompone
     }
 
     public void proxy$setUnderlined(Boolean underlined) {
-        withStyle(style -> style.withUnderlined(underlined));
+        withStyle(style -> style.setUnderlined(underlined));
     }
 
     public Boolean proxy$getStrikethrough() {

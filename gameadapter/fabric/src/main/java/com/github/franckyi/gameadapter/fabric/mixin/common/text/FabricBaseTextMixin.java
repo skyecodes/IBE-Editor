@@ -53,7 +53,7 @@ public abstract class FabricBaseTextMixin implements MutableText {
     }
 
     public void proxy$setUnderlined(Boolean underlined) {
-        styled(style -> style.withUnderline(underlined));
+        styled(style -> ((IFabricStyle) style).withUnderlineCommon(underlined));
     }
 
     public Boolean proxy$getStrikethrough() {

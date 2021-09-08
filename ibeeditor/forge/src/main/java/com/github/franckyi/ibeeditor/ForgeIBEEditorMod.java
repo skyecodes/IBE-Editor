@@ -1,9 +1,11 @@
 package com.github.franckyi.ibeeditor;
 
-import com.github.franckyi.gameadapter.api.client.IMatrices;
 import com.github.franckyi.gameadapter.api.client.IScreen;
 import com.github.franckyi.gameadapter.api.common.IPlayer;
-import com.github.franckyi.ibeeditor.base.client.*;
+import com.github.franckyi.ibeeditor.base.client.ClientContext;
+import com.github.franckyi.ibeeditor.base.client.ClientEventHandler;
+import com.github.franckyi.ibeeditor.base.client.ClientInit;
+import com.github.franckyi.ibeeditor.base.client.ModScreenHandler;
 import com.github.franckyi.ibeeditor.base.client.util.ScreenScalingManager;
 import com.github.franckyi.ibeeditor.base.common.CommonInit;
 import com.github.franckyi.ibeeditor.base.common.NetworkManager;
@@ -11,11 +13,8 @@ import com.github.franckyi.ibeeditor.base.server.ServerCommandHandler;
 import com.github.franckyi.ibeeditor.base.server.ServerEventHandler;
 import com.github.franckyi.ibeeditor.forge.client.util.ForgeScreenScalingManager;
 import com.github.franckyi.ibeeditor.forge.common.ForgeNetworkManager;
-import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
-import net.minecraft.client.renderer.texture.SimpleTexture;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.InputEvent;
@@ -30,16 +29,9 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLLoader;
-import org.apache.commons.lang3.time.StopWatch;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import java.util.Arrays;
 
 @Mod("ibeeditor")
 public final class ForgeIBEEditorMod {
-    private static final Logger LOGGER = LogManager.getLogger();
-
     public ForgeIBEEditorMod() {
         CommonInit.init();
         if (FMLLoader.getDist() == Dist.CLIENT) {
@@ -66,21 +58,7 @@ public final class ForgeIBEEditorMod {
             ModScreenHandler.openSettingsScreen();
             return minecraft.screen;
         });
-        event.enqueueWork(() -> {
-            ClientInit.setup();
-            StopWatch watch = StopWatch.createStarted();
-            Arrays.stream(ModTextures.class.getDeclaredFields()).map(field -> {
-                try {
-                    return (ResourceLocation) field.get(null);
-                } catch (IllegalAccessException e) {
-                    LOGGER.error(e);
-                    return null;
-                }
-            }).forEach(id -> Minecraft.getInstance().getTextureManager().register(id, new SimpleTexture(id)));
-            ModScreenHandler.optimize((IMatrices) new MatrixStack());
-            watch.stop();
-            LOGGER.info("Optimized IBE Editor (took {} s)", watch.getTime() / 1000.);
-        });
+        event.enqueueWork(ForgeIBEEditorClientInit::setup);
     }
 
     private void onKeyInput(InputEvent.KeyInputEvent e) {
