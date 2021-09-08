@@ -12,6 +12,10 @@ public final class CommonInit {
         LOGGER.info("Initializing IBE Editor - common");
         DataBindingsImpl.init();
         Game.setDefaultLogger(LogManager.getLogger("IBE Editor"));
+    }
+
+    public static void setup() {
+        LOGGER.info("Setting up IBE Editor - common");
         CommonConfiguration.load();
     }
 }

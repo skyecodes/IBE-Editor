@@ -1,0 +1,9 @@
+{
+  "2.0.6": "Fixed missing translated text in the attribute modifier operation tooltip, optimizations to improve editor loading time",
+  "2.0.5": "Fixed a crash when opening the editor from the inventory in an obfuscated environment",
+  "2.0.4": "Fixed a crash when opening the editor in an obfuscated environment while playing on a non-modded server",
+  "2.0.3": "Fixed a crash when pressing IBE Editor keys in an inventory screen without hovering a slot",
+  "2.0.2": "Fixed a crash when opening the player editor",
+  "2.0.1": "Various bugfixes, improved enchantment category",
+  "2.0.0": "Rewrite to support Forge & Fabric"
+}

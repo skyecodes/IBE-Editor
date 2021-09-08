@@ -6,22 +6,23 @@ import com.github.franckyi.gameadapter.api.common.text.IText;
 import com.github.franckyi.guapi.api.node.Label;
 import com.github.franckyi.guapi.api.util.Align;
 
-import static com.github.franckyi.guapi.GuapiHelper.*;
+import static com.github.franckyi.guapi.GuapiHelper.EMPTY_TEXT;
+import static com.github.franckyi.guapi.GuapiHelper.text;
 
 public abstract class AbstractLabel extends AbstractLabeled implements Label {
     private final ObjectProperty<Align> textAlignProperty = ObjectProperty.create(Align.TOP_LEFT);
-    private final BooleanProperty shadowProperty = BooleanProperty.create(false);
+    private final BooleanProperty shadowProperty = BooleanProperty.create(true);
 
     protected AbstractLabel() {
         this(EMPTY_TEXT);
     }
 
     protected AbstractLabel(String text) {
-        this(text, false);
+        this(text, true);
     }
 
     protected AbstractLabel(IText text) {
-        this(text, false);
+        this(text, true);
     }
 
     protected AbstractLabel(String text, boolean shadow) {

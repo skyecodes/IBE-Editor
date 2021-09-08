@@ -35,27 +35,27 @@ public abstract class FabricStyleMixin implements IFabricStyle {
     @Shadow @Final @Nullable private Identifier font;
 
     @Override
-    public Boolean getBold() {
+    public @Nullable Boolean getBold() {
         return bold;
     }
 
     @Override
-    public Boolean getItalic() {
+    public @Nullable Boolean getItalic() {
         return italic;
     }
 
     @Override
-    public Boolean getUnderlined() {
+    public @Nullable Boolean getUnderlined() {
         return underlined;
     }
 
     @Override
-    public Boolean getStrikethrough() {
+    public @Nullable Boolean getStrikethrough() {
         return strikethrough;
     }
 
     @Override
-    public Boolean getObfuscated() {
+    public @Nullable Boolean getObfuscated() {
         return obfuscated;
     }
 
@@ -66,6 +66,11 @@ public abstract class FabricStyleMixin implements IFabricStyle {
                         @Nullable ClickEvent clickEvent, @Nullable HoverEvent hoverEvent,
                         @Nullable String insertion, @Nullable Identifier font) {
         throw new AssertionError();
+    }
+
+    @Override
+    public Style withUnderlineCommon(Boolean underlined) {
+        return create(color, bold, italic, underlined, strikethrough, obfuscated, clickEvent, hoverEvent, insertion, font);
     }
 
     @Override

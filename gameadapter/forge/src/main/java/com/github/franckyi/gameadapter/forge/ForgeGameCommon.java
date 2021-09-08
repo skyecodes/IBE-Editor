@@ -23,6 +23,7 @@ import net.minecraft.util.text.LanguageMap;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.util.text.event.ClickEvent;
+import net.minecraftforge.fml.loading.FMLLoader;
 import net.minecraftforge.fml.loading.FMLPaths;
 
 import java.nio.file.Path;
@@ -112,5 +113,10 @@ public final class ForgeGameCommon implements GameCommon {
     @Override
     public IText getEmptyText() {
         return (IText) StringTextComponent.EMPTY;
+    }
+
+    @Override
+    public boolean isClient() {
+        return FMLLoader.getDist().isClient();
     }
 }

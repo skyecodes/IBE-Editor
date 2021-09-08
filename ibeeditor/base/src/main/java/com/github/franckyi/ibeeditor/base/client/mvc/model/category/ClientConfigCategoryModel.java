@@ -6,12 +6,14 @@ import com.github.franckyi.ibeeditor.base.client.ClientInit;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.ConfigEditorModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.ActionEntryModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.EnumEntryModel;
+import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.IntegerEntryModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.StringEntryModel;
 import com.github.franckyi.ibeeditor.base.common.ModTexts;
 
 public class ClientConfigCategoryModel extends ConfigCategoryModel {
     private StringEntryModel guapiThemeEntry;
     private EnumEntryModel<DebugMode> guapiDebugModeEntry;
+    private IntegerEntryModel selectionScreenMaxItemsEntry;
 
     public ClientConfigCategoryModel(ConfigEditorModel editor) {
         super(ModTexts.CLIENT, editor);
@@ -20,8 +22,9 @@ public class ClientConfigCategoryModel extends ConfigCategoryModel {
     @Override
     protected void setupEntries() {
         getEntries().addAll(
-                guapiThemeEntry = new StringEntryModel(this, ModTexts.THEME, ClientConfiguration.INSTANCE.getGuapiTheme(), ClientConfiguration.INSTANCE::setGuapiTheme),
-                guapiDebugModeEntry = new EnumEntryModel<>(this, ModTexts.DEBUG_MODE, ClientConfiguration.INSTANCE.getGuapiDebugMode(), ClientConfiguration.INSTANCE::setGuapiDebugMode),
+                guapiThemeEntry = new StringEntryModel(this, ModTexts.THEME, ClientConfiguration.INSTANCE.getGuapiTheme(), ClientConfiguration.INSTANCE::setGuapiTheme).withWeight(2),
+                guapiDebugModeEntry = new EnumEntryModel<>(this, ModTexts.DEBUG_MODE, ClientConfiguration.INSTANCE.getGuapiDebugMode(), ClientConfiguration.INSTANCE::setGuapiDebugMode).withWeight(2),
+                selectionScreenMaxItemsEntry = new IntegerEntryModel(this, ModTexts.SELECTION_SCREEN_MAX_ITEMS, ClientConfiguration.INSTANCE.getSelectionScreenMaxItems(), ClientConfiguration.INSTANCE::setSelectionScreenMaxItems).withWeight(2),
                 new ActionEntryModel(this, ModTexts.RELOAD_CONFIG, this::reload)
         );
     }
@@ -40,6 +43,7 @@ public class ClientConfigCategoryModel extends ConfigCategoryModel {
     public void syncEntries() {
         guapiThemeEntry.setValue(ClientConfiguration.INSTANCE.getGuapiTheme());
         guapiDebugModeEntry.setValue(ClientConfiguration.INSTANCE.getGuapiDebugMode());
+        selectionScreenMaxItemsEntry.setValue(ClientConfiguration.INSTANCE.getSelectionScreenMaxItems());
     }
 
     @Override

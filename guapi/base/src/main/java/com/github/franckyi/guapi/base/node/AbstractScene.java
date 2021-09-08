@@ -23,6 +23,8 @@ public abstract class AbstractScene implements Scene {
     protected final ObjectProperty<Node> focusedProperty = ObjectProperty.create();
     protected final ObjectProperty<Node> hoveredProperty = ObjectProperty.create();
     protected final ScreenEventHandler eventHandlerDelegate = new ScreenEventHandlerDelegate();
+    protected final List<Consumer<Scene>> onShowListeners = new ArrayList<>();
+    protected final List<Consumer<Scene>> onHideListeners = new ArrayList<>();
     private final ObjectProperty<Node> rootProperty = ObjectProperty.create();
     private final BooleanProperty fullScreenProperty = BooleanProperty.create();
     private final IntegerProperty widthProperty = IntegerProperty.create(Integer.MAX_VALUE);
@@ -35,8 +37,6 @@ public abstract class AbstractScene implements Scene {
     private final ObservableValue<Scene> sceneProperty = ObservableValue.unmodifiable(this);
     private final ObservableValue<Boolean> disabledProperty = ObservableValue.unmodifiable(false);
     protected boolean shouldUpdateChildrenPos;
-    protected final List<Consumer<Scene>> onShowListeners = new ArrayList<>();
-    protected final List<Consumer<Scene>> onHideListeners = new ArrayList<>();
 
     protected AbstractScene() {
         this(null);

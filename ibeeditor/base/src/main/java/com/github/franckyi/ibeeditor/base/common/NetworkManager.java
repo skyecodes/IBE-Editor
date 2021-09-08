@@ -1,10 +1,12 @@
 package com.github.franckyi.ibeeditor.base.common;
 
+import com.github.franckyi.gameadapter.api.common.IPacketBuffer;
+import com.github.franckyi.gameadapter.api.common.IPlayer;
 import com.github.franckyi.ibeeditor.base.client.ClientNetworkReceiver;
 import com.github.franckyi.ibeeditor.base.common.packet.*;
 import com.github.franckyi.ibeeditor.base.server.ServerNetworkReceiver;
 
-public final class ModNetwork {
+public abstract class NetworkManager {
     private static int i = 0;
     public static final String SERVER_NOTIFICATION = "ibeeditor:network/server_notification";
     public static final String CLIENT_NOTIFICATION = "ibeeditor:network/client_notification";
@@ -22,14 +24,14 @@ public final class ModNetwork {
 
     public static final String EDITOR_COMMAND = "ibeeditor:network/editor_command";
 
-    private static Network network;
+    private static NetworkManager instance;
 
-    public static Network get() {
-        return network;
+    public static NetworkManager get() {
+        return instance;
     }
 
-    public static void init(Network network) {
-        ModNetwork.network = network;
+    public static void setup(NetworkManager network) {
+        instance = network;
         network.registerClientHandler(SERVER_NOTIFICATION, i++, ServerNotificationPacket.class, ServerNotificationPacket::new, ClientNetworkReceiver::onServerNotification);
         network.registerServerHandler(CLIENT_NOTIFICATION, i++, ClientNotificationPacket.class, ClientNotificationPacket::new, ServerNetworkReceiver::onClientNotification);
         network.registerServerHandler(PLAYER_MAIN_HAND_ITEM_UPDATE, i++, PlayerMainHandItemUpdatePacket.class, PlayerMainHandItemUpdatePacket::new, ServerNetworkReceiver::onPlayerMainHandItemUpdate);
@@ -42,5 +44,28 @@ public final class ModNetwork {
         network.registerServerHandler(ENTITY_EDITOR_REQUEST, i++, EntityEditorRequestPacket.class, EntityEditorRequestPacket::new, ServerNetworkReceiver::onEntityEditorRequest);
         network.registerClientHandler(ENTITY_EDITOR_RESPONSE, i++, EntityEditorResponsePacket.class, EntityEditorResponsePacket::new, ClientNetworkReceiver::onEntityEditorResponse);
         network.registerClientHandler(EDITOR_COMMAND, i++, EditorCommandPacket.class, EditorCommandPacket::new, ClientNetworkReceiver::onEditorCommand);
+    }
+
+    public abstract void sendToServer(String id, Packet packet);
+
+    public abstract void sendToClient(String id, IPlayer player, Packet packet);
+
+    public abstract <P extends Packet> void registerServerHandler(String id, int id1, Class<P> msgClass, PacketReader<P> reader, ServerPacketHandler<P> handler);
+
+    public abstract <P extends Packet> void registerClientHandler(String id, int id1, Class<P> msgClass, PacketReader<P> reader, ClientPacketHandler<P> handler);
+
+    @FunctionalInterface
+    public interface PacketReader<P> {
+        P read(IPacketBuffer buffer);
+    }
+
+    @FunctionalInterface
+    public interface ClientPacketHandler<P> {
+        void accept(P packet);
+    }
+
+    @FunctionalInterface
+    public interface ServerPacketHandler<P> {
+        void accept(P packet, IPlayer sender);
     }
 }

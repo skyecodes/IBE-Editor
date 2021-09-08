@@ -96,6 +96,7 @@ public final class ModTexts {
     public static final IText ZOOM_IN = translated("ibeeditor.gui.zoom_in");
     public static final IText ZOOM_OUT = translated("ibeeditor.gui.zoom_out");
     public static final IText ZOOM_RESET = translated("ibeeditor.gui.zoom_reset");
+    public static final IText SELECTION_SCREEN_MAX_ITEMS = translated("ibeeditor.gui.selection_screen_max_items");
 
     public static IText serverMod(IText with) {
         return translated("ibeeditor.message.error_server_mod", with).red();
@@ -142,7 +143,7 @@ public final class ModTexts {
     }
 
     public static IText attributeModifierOperationTooltip(int value) {
-        return translated("ibeeditor.gui.operation", translated("ibeeditor.gui.operation_" + value));
+        return translated("ibeeditor.gui.operation", translated("ibeeditor.gui.operation." + value));
     }
 
     public static IText hide(IText with) {

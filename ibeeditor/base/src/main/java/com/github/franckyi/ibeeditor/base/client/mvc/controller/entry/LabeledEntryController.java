@@ -12,5 +12,6 @@ public abstract class LabeledEntryController<M extends LabeledEntryModel, V exte
     public void bind() {
         super.bind();
         view.getLabel().labelProperty().bind(model.labelProperty());
+        view.getRoot().setWeight(view.getLabel(), model.getLabelWeight());
     }
 }
