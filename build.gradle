@@ -13,85 +13,23 @@ allprojects {
 group = "com.github.franckyi"
 version = project.mod_version
 
-task buildCommon(type: Jar) {
-    dependsOn ":databindings:api:jar",
-            ":databindings:base:jar",
-            ":gameadapter:api:jar",
-            ":gameadapter:base:jar",
-            ":gameadapter:fabric:build",
-            ":gameadapter:forge:build",
-            ":guapi:api:jar",
-            ":guapi:base:jar",
-            ":guapi:fabric:build",
-            ":guapi:forge:build",
-            ":guapi:vanilla-theme:base:jar",
-            ":guapi:vanilla-theme:fabric:build",
-            ":guapi:vanilla-theme:forge:build",
-            ":ibeeditor:base:jar",
-            ":ibeeditor:fabric:build",
-            ":ibeeditor:forge:build"
-    finalizedBy ":ibeeditor:forge:signCommonJar"
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    archiveBaseName.set("IBEEditor-$minecraft_version")
-    from zipTree("databindings/api/build/libs/databindings-api.jar"),
-            zipTree("databindings/base/build/libs/databindings-base.jar"),
-            zipTree("gameadapter/api/build/libs/gameadapter-api.jar"),
-            zipTree("gameadapter/base/build/libs/gameadapter-base.jar"),
-            //zipTree("gameadapter/fabric/build/libs/gameadapter-fabric.jar"), JIJ
-            zipTree("gameadapter/forge/build/libs/gameadapter-forge.jar"),
-            zipTree("guapi/api/build/libs/guapi-api.jar"),
-            zipTree("guapi/base/build/libs/guapi-base.jar"),
-            //zipTree("guapi/fabric/build/libs/guapi-fabric.jar"), JIJ
-            zipTree("guapi/forge/build/libs/guapi-forge.jar"),
-            zipTree("guapi/vanilla-theme/base/build/libs/guapi-vanilla-theme-base.jar"),
-            //zipTree("guapi/vanilla-theme/fabric/build/libs/guapi-vanilla-theme-fabric.jar"), JIJ
-            zipTree("guapi/vanilla-theme/forge/build/libs/guapi-vanilla-theme-forge.jar"),
-            zipTree("ibeeditor/base/build/libs/ibeeditor-base.jar"),
-            zipTree("ibeeditor/fabric/build/libs/ibeeditor-fabric.jar"),
-            zipTree("ibeeditor/forge/build/libs/ibeeditor-forge.jar")
-    exclude("META-INF/mods.toml")
-    rename("build.mods.toml", "mods.toml")
-    manifest {
-        attributes([
-                "Specification-Title"     : "ibeeditor",
-                "Specification-Vendor"    : "Franckyi",
-                "Specification-Version"   : "1",
-                "Implementation-Title"    : "ibeeditor",
-                "Implementation-Version"  : "${mod_version}",
-                "Implementation-Vendor"   : "Franckyi",
-                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
-                "MixinConfigs"            : "guapi-vanilla-theme-forge.mixins.json,gameadapter-forge.mixins.json"
-        ])
-    }
-}
-
 task buildFabric(type: Jar) {
-    dependsOn ":databindings:api:jar",
-            ":databindings:base:jar",
-            ":gameadapter:api:jar",
-            ":gameadapter:base:jar",
-            ":gameadapter:fabric:build",
-            ":guapi:api:jar",
-            ":guapi:base:jar",
-            ":guapi:fabric:build",
-            ":guapi:vanilla-theme:base:jar",
-            ":guapi:vanilla-theme:fabric:build",
-            ":ibeeditor:base:jar",
-            ":ibeeditor:fabric:build"
+    dependsOn buildDep("gameadapter-fabric"),
+            buildDep("guapi-fabric"),
+            buildDep("guapivanillatheme-fabric"),
+            buildDep("ibeeditor-fabric")
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     archiveBaseName.set("IBEEditor-Fabric-$minecraft_version")
-    from zipTree("databindings/api/build/libs/databindings-api.jar"),
-            zipTree("databindings/base/build/libs/databindings-base.jar"),
-            zipTree("gameadapter/api/build/libs/gameadapter-api.jar"),
-            zipTree("gameadapter/base/build/libs/gameadapter-base.jar"),
-            //zipTree("gameadapter/fabric/build/libs/gameadapter-fabric.jar"), JIJ
-            zipTree("guapi/api/build/libs/guapi-api.jar"),
-            zipTree("guapi/base/build/libs/guapi-base.jar"),
-            //zipTree("guapi/fabric/build/libs/guapi-fabric.jar"), JIJ
-            zipTree("guapi/vanilla-theme/base/build/libs/guapi-vanilla-theme-base.jar"),
-            //zipTree("guapi/vanilla-theme/fabric/build/libs/guapi-vanilla-theme-fabric.jar"), JIJ
-            zipTree("ibeeditor/base/build/libs/ibeeditor-base.jar"),
-            zipTree("ibeeditor/fabric/build/libs/ibeeditor-fabric.jar")
+    from buildJar("databindings-api"),
+            buildJar("databindings-base"),
+            buildJar("gameadapter-api"),
+            buildJar("gameadapter-base"),
+            buildJar("guapi-api"),
+            buildJar("guapi-base"),
+            buildJar("guapivanillatheme-base"),
+            buildJar("ibeeditor-base"),
+            buildJar("ibeeditor-fabric")
+    exclude("assets/guapivanillatheme/")
     manifest {
         attributes([
                 "Specification-Title"     : "ibeeditor",
@@ -106,33 +44,24 @@ task buildFabric(type: Jar) {
 }
 
 task buildForge(type: Jar) {
-    dependsOn ":databindings:api:jar",
-            ":databindings:base:jar",
-            ":gameadapter:api:jar",
-            ":gameadapter:base:jar",
-            ":gameadapter:forge:build",
-            ":guapi:api:jar",
-            ":guapi:base:jar",
-            ":guapi:forge:build",
-            ":guapi:vanilla-theme:base:jar",
-            ":guapi:vanilla-theme:forge:build",
-            ":ibeeditor:base:jar",
-            ":ibeeditor:forge:build"
-    finalizedBy ":ibeeditor:forge:signForgeJar"
+    dependsOn buildDep("gameadapter-forge"),
+            buildDep("guapi-forge"),
+            buildDep("guapivanillatheme-forge"),
+            buildDep("ibeeditor-forge")
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     archiveBaseName.set("IBEEditor-Forge-$minecraft_version")
-    from zipTree("databindings/api/build/libs/databindings-api.jar"),
-            zipTree("databindings/base/build/libs/databindings-base.jar"),
-            zipTree("gameadapter/api/build/libs/gameadapter-api.jar"),
-            zipTree("gameadapter/base/build/libs/gameadapter-base.jar"),
-            zipTree("gameadapter/forge/build/libs/gameadapter-forge.jar"),
-            zipTree("guapi/api/build/libs/guapi-api.jar"),
-            zipTree("guapi/base/build/libs/guapi-base.jar"),
-            zipTree("guapi/forge/build/libs/guapi-forge.jar"),
-            zipTree("guapi/vanilla-theme/base/build/libs/guapi-vanilla-theme-base.jar"),
-            zipTree("guapi/vanilla-theme/forge/build/libs/guapi-vanilla-theme-forge.jar"),
-            zipTree("ibeeditor/base/build/libs/ibeeditor-base.jar"),
-            zipTree("ibeeditor/forge/build/libs/ibeeditor-forge.jar")
+    from buildJar("databindings-api"),
+            buildJar("databindings-base"),
+            buildJar("gameadapter-api"),
+            buildJar("gameadapter-base"),
+            buildJar("gameadapter-forge"),
+            buildJar("guapi-api"),
+            buildJar("guapi-base"),
+            buildJar("guapi-forge"),
+            buildJar("guapivanillatheme-base"),
+            buildJar("guapivanillatheme-forge"),
+            buildJar("ibeeditor-base"),
+            buildJar("ibeeditor-forge")
     exclude("META-INF/mods.toml")
     rename("build.mods.toml", "mods.toml")
     manifest {
@@ -144,12 +73,21 @@ task buildForge(type: Jar) {
                 "Implementation-Version"  : "${mod_version}",
                 "Implementation-Vendor"   : "Franckyi",
                 "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
-                "MixinConfigs"            : "guapi-vanilla-theme-forge.mixins.json,gameadapter-forge.mixins.json"
+                "MixinConfigs"            : "guapivanillatheme-forge.mixins.json,gameadapter-forge.mixins.json"
         ])
     }
+    finalizedBy ":ibeeditor-forge:signForgeJar"
 }
 
-task build(overwrite: true) {
+task buildAll() {
     dependsOn allprojects.clean
-    finalizedBy buildCommon, buildFabric, buildForge
+    finalizedBy buildForge, buildFabric
+}
+
+Task buildDep(String dependency) {
+    return project(":" + dependency).build
+}
+
+FileTree buildJar(String dependency) {
+    return project(":" + dependency).zipTree("build/libs/" + dependency + ".jar")
 }

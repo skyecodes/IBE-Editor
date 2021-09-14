@@ -1,0 +1,34 @@
+{
+  "2.0.7": {
+    "type": "beta",
+    "changelog": "Refactorings, updated for Forge 1.17.1"
+  },
+  "2.0.6": {
+    "type": "beta",
+    "changelog": "Fixed missing translated text in the attribute modifier operation tooltip, optimizations to improve editor loading time"
+  },
+  "2.0.5": {
+    "type": "beta",
+    "changelog": "Fixed a crash when opening the editor from the inventory in an obfuscated environment"
+  },
+  "2.0.4": {
+    "type": "beta",
+    "changelog": "Fixed a crash when opening the editor in an obfuscated environment while playing on a non-modded server"
+  },
+  "2.0.3": {
+    "type": "beta",
+    "changelog": "Fixed a crash when pressing IBE Editor keys in an inventory screen without hovering a slot"
+  },
+  "2.0.2": {
+    "type": "beta",
+    "changelog": "Fixed a crash when opening the player editor"
+  },
+  "2.0.1": {
+    "type": "beta",
+    "changelog": "Various bugfixes, improved enchantment category"
+  },
+  "2.0.0": {
+    "type": "beta",
+    "changelog": "Rewrite to support Forge & Fabric"
+  }
+}
