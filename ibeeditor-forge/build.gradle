@@ -1,0 +1,103 @@
+import net.minecraftforge.gradle.common.tasks.SignJar
+
+buildscript {
+    repositories {
+        maven { url = 'https://maven.minecraftforge.net' }
+        mavenCentral()
+    }
+    dependencies {
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
+    }
+}
+
+apply plugin: 'net.minecraftforge.gradle'
+
+archivesBaseName = 'ibeeditor-forge'
+
+minecraft {
+    mappings channel: mappings_channel, version: mappings_version
+    runs {
+        client {
+            workingDirectory rootProject.file('run')
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
+            property 'forge.logging.console.level', 'debug'
+            arg '-mixin.config=guapivanillatheme-forge.mixins.json'
+            arg '-mixin.config=gameadapter-forge.mixins.json'
+            mods {
+                'ibeeditor-forge' {
+                    source sourceSets.main
+                }
+                'gameadapter-forge' {
+                    source project(':gameadapter-forge').sourceSets.main
+                }
+                'guapi-forge' {
+                    source project(':guapi-forge').sourceSets.main
+                }
+                'guapivanillatheme-forge' {
+                    source project(':guapivanillatheme-forge').sourceSets.main
+                }
+            }
+        }
+
+        server {
+            workingDirectory rootProject.file('run')
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
+            property 'forge.logging.console.level', 'debug'
+            arg '-mixin.config=gameadapter-forge.mixins.json'
+            mods {
+                'ibeeditor-forge' {
+                    source sourceSets.main
+                }
+                'gameadapter-forge' {
+                    source project(':gameadapter-forge').sourceSets.main
+                }
+            }
+        }
+    }
+}
+
+configurations {
+    library
+    implementation.extendsFrom library
+}
+
+minecraft.runs.all {
+    lazyToken('minecraft_classpath') {
+        configurations.library.copyRecursive().resolve().collect { it.absolutePath }.join(File.pathSeparator)
+    }
+}
+
+dependencies {
+    minecraft "net.minecraftforge:forge:$forge_version"
+    library project(':databindings-api')
+    library project(':databindings-base')
+    library project(':gameadapter-api')
+    implementation project(':gameadapter-forge')
+    library project(':guapi-api')
+    library project(':guapi-base')
+    implementation project(':guapi-forge')
+    library project(':guapivanillatheme-base')
+    implementation project(':guapivanillatheme-forge')
+    library project(':ibeeditor-base')
+}
+
+processResources {
+    from 'src/main/resources', '../ibeeditor-base/src/main/resources'
+
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+task signForgeJar(type: SignJar) {
+    onlyIf {
+        project.hasProperty('keyStore')
+    }
+
+    keyStore = project.findProperty('keyStore')
+    alias = project.findProperty('keyStoreAlias')
+    storePass = project.findProperty('keyStorePass')
+    keyPass = project.findProperty('keyStoreKeyPass')
+    inputFile = rootProject.buildForge.archivePath
+    outputFile = rootProject.buildForge.archivePath
+}
