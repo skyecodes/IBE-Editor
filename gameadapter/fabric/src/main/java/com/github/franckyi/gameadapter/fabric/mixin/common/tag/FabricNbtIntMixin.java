@@ -1,6 +1,7 @@
 package com.github.franckyi.gameadapter.fabric.mixin.common.tag;
 
 import com.github.franckyi.gameadapter.api.common.tag.IIntTag;
+import com.github.franckyi.gameadapter.api.common.text.IText;
 import net.minecraft.nbt.AbstractNbtNumber;
 import net.minecraft.nbt.NbtInt;
 import org.spongepowered.asm.mixin.Implements;
@@ -18,5 +19,9 @@ public abstract class FabricNbtIntMixin extends AbstractNbtNumber {
     @Intrinsic
     public byte proxy$getType() {
         return getType();
+    }
+
+    public IText proxy$toText() {
+        return (IText) toText();
     }
 }

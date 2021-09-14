@@ -1,6 +1,7 @@
 package com.github.franckyi.gameadapter.api.common.tag;
 
 import com.github.franckyi.gameadapter.Game;
+import com.github.franckyi.gameadapter.api.common.text.IText;
 
 public interface ITag {
     static ITag fromType(byte type) {
@@ -25,4 +26,6 @@ public interface ITag {
     default String getStringValue() {
         return toString();
     }
+
+    IText toText();
 }

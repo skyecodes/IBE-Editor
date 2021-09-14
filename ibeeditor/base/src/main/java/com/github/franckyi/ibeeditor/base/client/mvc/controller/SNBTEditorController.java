@@ -16,6 +16,7 @@ public class SNBTEditorController extends AbstractController<SNBTEditorModel, SN
         view.getTextArea().setText(model.getValue());
         view.getTextArea().setValidator(s -> ICompoundTag.parse(s) != null);
         softBind(view.getTextArea().textProperty(), model.valueProperty());
+        model.valueProperty().addListener(this::updateTextRenderer);
         if (model.canSave()) {
             view.getDoneButton().disableProperty().bind(view.getTextArea().validProperty().not());
             view.getDoneButton().onAction(event -> model.apply());
@@ -24,5 +25,15 @@ public class SNBTEditorController extends AbstractController<SNBTEditorModel, SN
             view.getDoneButton().getTooltip().add(model.getDisabledTooltip());
         }
         view.getCancelButton().onAction(event -> Guapi.getScreenHandler().hideScene());
+        updateTextRenderer();
+    }
+
+    private void updateTextRenderer() {
+        /*ICompoundTag tag = ICompoundTag.parse(model.getValue());
+        if (tag != null) {
+            view.getTextArea().setTextRenderer((s, i) -> tag.toText());
+        } else {
+            view.getTextArea().setTextRenderer(null);
+        }*/
     }
 }

@@ -3,6 +3,7 @@ package com.github.franckyi.gameadapter.fabric.mixin.common.tag;
 import com.github.franckyi.gameadapter.api.common.tag.ICompoundTag;
 import com.github.franckyi.gameadapter.api.common.tag.IListTag;
 import com.github.franckyi.gameadapter.api.common.tag.ITag;
+import com.github.franckyi.gameadapter.api.common.text.IText;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
@@ -89,7 +90,7 @@ public abstract class FabricNbtCompoundMixin implements NbtElement, Map<String, 
     }
 
     public IListTag proxy$getList(String key, byte type) {
-        return IListTag.class.cast(getList(key, type));
+        return (IListTag) getList(key, type);
     }
 
     public ICompoundTag proxy$getCompound(String key) {
@@ -145,6 +146,10 @@ public abstract class FabricNbtCompoundMixin implements NbtElement, Map<String, 
     @Intrinsic
     public byte proxy$getType() {
         return getType();
+    }
+
+    public IText proxy$toText() {
+        return (IText) toText();
     }
 
     @Override

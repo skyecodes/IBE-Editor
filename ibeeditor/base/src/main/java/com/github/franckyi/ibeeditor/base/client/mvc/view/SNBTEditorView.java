@@ -17,7 +17,7 @@ public class SNBTEditorView extends EditorView {
 
     @Override
     protected Node createEditor() {
-        return textArea = textArea();
+        return textArea = textArea().wrapText();
     }
 
     public TextArea getTextArea() {

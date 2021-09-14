@@ -57,4 +57,7 @@ public interface FabricTextFieldWidgetMixin {
 
     @Invoker("drawSelectionHighlight")
     void invokeDrawSelectionHighlight(int x1, int y1, int x2, int y2);
+
+    @Invoker("erase")
+    void invokeErase(int offset);
 }

@@ -13,10 +13,10 @@ import net.minecraft.util.math.MathHelper;
 
 import java.util.Objects;
 
-public class FabricVanillaTextFieldRenderer extends TextFieldWidget implements FabricVanillaDelegateRenderer {
-    private final TextField node;
+public class FabricVanillaTextFieldRenderer<N extends TextField> extends TextFieldWidget implements FabricVanillaDelegateRenderer {
+    protected final N node;
 
-    public FabricVanillaTextFieldRenderer(TextField node) {
+    public FabricVanillaTextFieldRenderer(N node) {
         super(MinecraftClient.getInstance().textRenderer, node.getX(), node.getY(), node.getWidth(), node.getHeight(), (Text) node.getLabel());
         this.node = node;
         active = !node.isDisabled();

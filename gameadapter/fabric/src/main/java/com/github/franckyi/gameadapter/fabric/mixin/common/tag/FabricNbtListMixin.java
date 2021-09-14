@@ -3,6 +3,7 @@ package com.github.franckyi.gameadapter.fabric.mixin.common.tag;
 import com.github.franckyi.gameadapter.api.common.tag.ICompoundTag;
 import com.github.franckyi.gameadapter.api.common.tag.IListTag;
 import com.github.franckyi.gameadapter.api.common.tag.ITag;
+import com.github.franckyi.gameadapter.api.common.text.IText;
 import net.minecraft.nbt.*;
 import org.spongepowered.asm.mixin.*;
 
@@ -35,5 +36,9 @@ public abstract class FabricNbtListMixin extends AbstractNbtList<NbtElement> {
     @Intrinsic
     public byte proxy$getType() {
         return getType();
+    }
+
+    public IText proxy$toText() {
+        return (IText) toText();
     }
 }
