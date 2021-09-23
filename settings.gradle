@@ -1,17 +1,14 @@
 pluginManagement {
     repositories {
-        maven {
-            name = "Fabric"
-            url = "https://maven.fabricmc.net/"
-        }
+        maven { url "https://maven.fabricmc.net/" }
+        maven { url "https://maven.architectury.dev/" }
+        maven { url "https://maven.minecraftforge.net/" }
         gradlePluginPortal()
     }
 }
 
-rootProject.name = "IBE-Editor"
-include 'databindings-api',         'databindings-base'
-include 'gameadapter-api',          'gameadapter-base',         'gameadapter-fabric',       'gameadapter-forge'
-include 'guapi-api',                'guapi-base',               'guapi-fabric',             'guapi-forge'
-include                             'guapivanillatheme-base',   'guapivanillatheme-fabric', 'guapivanillatheme-forge'
-include                             'ibeeditor-base',           'ibeeditor-fabric',         'ibeeditor-forge'
+include("common")
+include("fabric")
+include("forge")
 
+rootProject.name = "IBE-Editor"

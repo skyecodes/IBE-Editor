@@ -19,3 +19,6 @@ bin/
 
 # minecraft
 run/
+
+.architectury-transformer/
+.github/
