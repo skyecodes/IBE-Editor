@@ -2,8 +2,8 @@ package com.github.franckyi.ibeeditor.base.client.mvc.controller;
 
 import com.github.franckyi.databindings.api.event.ObservableListChangeEvent;
 import com.github.franckyi.databindings.api.event.ObservableListChangeListener;
+import com.github.franckyi.guapi.api.Guapi;
 import com.github.franckyi.guapi.api.mvc.AbstractController;
-import com.github.franckyi.guapi.base.GuapiScreenHandler;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.CategoryModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.ListEditorModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.EntryModel;
@@ -25,7 +25,7 @@ public abstract class ListEditorController<M extends ListEditorModel<?>, V exten
         model.selectedCategoryProperty().addListener(this::updateEntryList);
         view.getDoneButton().onAction(event -> model.apply());
         model.validProperty().addListener(this::onValidationChange);
-        view.getCancelButton().onAction(GuapiScreenHandler.INSTANCE::hideScene);
+        view.getCancelButton().onAction(Guapi.getScreenHandler()::hideScene);
     }
 
     private void updateCategoryList() {

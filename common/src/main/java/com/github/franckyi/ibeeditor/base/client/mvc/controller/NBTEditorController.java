@@ -1,7 +1,7 @@
 package com.github.franckyi.ibeeditor.base.client.mvc.controller;
 
+import com.github.franckyi.guapi.api.Guapi;
 import com.github.franckyi.guapi.api.mvc.AbstractController;
-import com.github.franckyi.guapi.base.GuapiScreenHandler;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.NBTEditorModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.NBTTagModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.view.NBTEditorView;
@@ -27,7 +27,7 @@ public class NBTEditorController extends AbstractController<NBTEditorModel, NBTE
             view.getDoneButton().setDisable(true);
             view.getDoneButton().getTooltip().add(model.getDisabledTooltip());
         }
-        view.getCancelButton().onAction(event -> GuapiScreenHandler.INSTANCE.hideScene());
+        view.getCancelButton().onAction(event -> Guapi.getScreenHandler().hideScene());
         view.getTagTree().focusedElementProperty().addListener(this::updateEnabledButtons);
         view.setOnButtonClick(this::onButtonClick);
     }

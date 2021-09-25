@@ -1,6 +1,6 @@
 package com.github.franckyi.ibeeditor.base.client;
 
-import com.github.franckyi.guapi.base.GuapiScreenHandler;
+import com.github.franckyi.guapi.api.Guapi;
 import com.github.franckyi.ibeeditor.base.common.EditorType;
 import com.github.franckyi.ibeeditor.base.common.ModTexts;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
@@ -199,7 +199,7 @@ public final class ClientEditorLogic {
                 player().displayClientMessage(ModTexts.Messages.errorCreativeMode(ModTexts.ITEM), false);
             }
         }
-        GuapiScreenHandler.INSTANCE.hideScene();
+        Guapi.getScreenHandler().hideScene();
     }
 
     private static void updatePlayerInventoryItem(ItemStack itemStack, int slotId, boolean isCreativeInventoryScreen) {
@@ -217,7 +217,7 @@ public final class ClientEditorLogic {
                 player().displayClientMessage(ModTexts.Messages.errorServerMod(ModTexts.ITEM), false);
             }
         }
-        GuapiScreenHandler.INSTANCE.hideScene();
+        Guapi.getScreenHandler().hideScene();
     }
 
     private static void updateBlockInventoryItem(ItemStack itemStack, int slotId, BlockPos blockPos) {
@@ -227,7 +227,7 @@ public final class ClientEditorLogic {
         } else {
             player().displayClientMessage(ModTexts.Messages.errorServerMod(ModTexts.ITEM), false);
         }
-        GuapiScreenHandler.INSTANCE.hideScene();
+        Guapi.getScreenHandler().hideScene();
     }
 
     private static void updateBlock(BlockPos pos, BlockState state, CompoundTag tag) {
@@ -237,7 +237,7 @@ public final class ClientEditorLogic {
         } else {
             player().displayClientMessage(ModTexts.Messages.errorServerMod(ModTexts.BLOCK), false);
         }
-        GuapiScreenHandler.INSTANCE.hideScene();
+        Guapi.getScreenHandler().hideScene();
     }
 
     private static void updateEntity(int entityId, CompoundTag tag) {
@@ -247,7 +247,7 @@ public final class ClientEditorLogic {
         } else {
             player().displayClientMessage(ModTexts.Messages.errorServerMod(ModTexts.ENTITY), false);
         }
-        GuapiScreenHandler.INSTANCE.hideScene();
+        Guapi.getScreenHandler().hideScene();
     }
 
     private static CompoundTag parseTag(String snbt) {

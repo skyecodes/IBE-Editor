@@ -10,7 +10,6 @@ import com.github.franckyi.guapi.api.node.Scene;
 import com.github.franckyi.guapi.api.node.ScreenEventHandler;
 import com.github.franckyi.guapi.api.util.Insets;
 import com.github.franckyi.guapi.api.util.ScreenEventType;
-import com.github.franckyi.guapi.base.GuapiScreenHandler;
 import com.github.franckyi.guapi.base.event.ScreenEventHandlerDelegate;
 import com.mojang.blaze3d.vertex.PoseStack;
 import org.lwjgl.glfw.GLFW;
@@ -73,7 +72,7 @@ public abstract class AbstractScene implements Scene {
         });
         addListener(ScreenEventType.KEY_PRESSED, e -> {
             if (e.getKeyCode() == GLFW.GLFW_KEY_ESCAPE && isCloseOnEsc()) {
-                GuapiScreenHandler.INSTANCE.hideScene();
+                Guapi.getScreenHandler().hideScene();
                 e.consume();
             }
         });

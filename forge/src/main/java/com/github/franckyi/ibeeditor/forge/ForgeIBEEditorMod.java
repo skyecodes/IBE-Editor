@@ -37,13 +37,14 @@ public final class ForgeIBEEditorMod {
     }
 
     private void onCommonInit(FMLCommonSetupEvent event) {
+        CommonInit.setup();
         MinecraftForge.EVENT_BUS.addListener(this::onServerStarting);
         MinecraftForge.EVENT_BUS.addListener(this::onPlayerLoggedIn);
         MinecraftForge.EVENT_BUS.addListener(this::onPlayerLoggedOut);
-        event.enqueueWork(CommonInit::setup);
     }
 
     private void onClientInit(FMLClientSetupEvent event) {
+        ClientInit.setup();
         MinecraftForge.EVENT_BUS.addListener(this::onKeyInput);
         MinecraftForge.EVENT_BUS.addListener(this::onKeyPressed);
         MinecraftForge.EVENT_BUS.addListener(this::onWorldUnload);
@@ -51,19 +52,7 @@ public final class ForgeIBEEditorMod {
             ModScreenHandler.openSettingsScreen();
             return minecraft.screen;
         });
-        event.enqueueWork(ForgeIBEEditorClientInit::setup);
-    }
-
-    private void onKeyInput(InputEvent.KeyInputEvent e) {
-        if (Minecraft.getInstance().screen == null) {
-            ClientEventHandler.onKeyInput();
-        }
-    }
-
-    private void onKeyPressed(GuiScreenEvent.KeyboardKeyPressedEvent.Pre e) {
-        if (e.getGui() instanceof AbstractContainerScreen) {
-            ClientEventHandler.onScreenEvent((AbstractContainerScreen<?>) e.getGui(), e.getKeyCode());
-        }
+        event.enqueueWork(ForgeIBEEditorClientInit::optimize);
     }
 
     private void onServerStarting(FMLServerStartingEvent event) {
@@ -76,6 +65,18 @@ public final class ForgeIBEEditorMod {
 
     private void onPlayerLoggedOut(PlayerEvent.PlayerLoggedOutEvent event) {
         ServerEventHandler.onPlayerLeave((ServerPlayer) event.getPlayer());
+    }
+
+    private void onKeyInput(InputEvent.KeyInputEvent e) {
+        if (Minecraft.getInstance().screen == null) {
+            ClientEventHandler.onKeyInput();
+        }
+    }
+
+    private void onKeyPressed(GuiScreenEvent.KeyboardKeyPressedEvent.Pre e) {
+        if (e.getGui() instanceof AbstractContainerScreen) {
+            ClientEventHandler.onScreenEvent((AbstractContainerScreen<?>) e.getGui(), e.getKeyCode());
+        }
     }
 
     private void onWorldUnload(WorldEvent.Unload event) {

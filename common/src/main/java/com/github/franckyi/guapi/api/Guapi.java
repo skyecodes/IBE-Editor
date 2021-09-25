@@ -2,7 +2,6 @@ package com.github.franckyi.guapi.api;
 
 import com.github.franckyi.guapi.api.theme.Theme;
 import com.github.franckyi.guapi.api.util.DebugMode;
-import com.github.franckyi.guapi.base.GuapiScreenHandler;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
@@ -16,7 +15,7 @@ public final class Guapi {
     private static final Map<String, Theme> themeRegistry = new HashMap<>();
     private static Theme theme;
     private static NodeFactory nodeFactory;
-    private static GuapiScreenHandler screenHandler;
+    private static ScreenHandler screenHandler;
     private static DebugMode debugMode = DebugMode.OFF;
     private static GuapiExceptionHandler exceptionHandler = GuapiExceptionHandler.NONE;
     private static Logger logger;
@@ -51,8 +50,12 @@ public final class Guapi {
         Guapi.nodeFactory = nodeFactory;
     }
 
-    public static GuapiScreenHandler getScreenHandler() {
+    public static ScreenHandler getScreenHandler() {
         return screenHandler;
+    }
+
+    public static void setScreenHandler(ScreenHandler screenHandler) {
+        Guapi.screenHandler = screenHandler;
     }
 
     public static DebugMode getDebugMode() {

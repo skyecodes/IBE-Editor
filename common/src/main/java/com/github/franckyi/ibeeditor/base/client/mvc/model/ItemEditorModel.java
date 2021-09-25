@@ -21,7 +21,11 @@ public class ItemEditorModel extends StandardEditorModel<ItemStack, ItemCategory
     protected void setupCategories() {
         getCategories().addAll(
                 new ItemGeneralCategoryModel(this),
-                new ItemDisplayCategoryModel(this)
+                new ItemDisplayCategoryModel(this),
+                new ItemEnchantmentsCategoryModel(this),
+                new ItemAttributeModifiersCategoryModel(this),
+                new ItemHideFlagsCategoryModel(this),
+                new ItemBlockListCategoryModel(ModTexts.CAN_DESTROY, this, "CanDestroy")
         );
         if (getTarget().getItem() instanceof PotionItem) {
             getCategories().add(new ItemPotionEffectsCategoryModel(this));
@@ -29,12 +33,6 @@ public class ItemEditorModel extends StandardEditorModel<ItemStack, ItemCategory
         if (getTarget().getItem() instanceof DyeableLeatherItem) {
             getCategories().add(new ItemDyeableCategoryModel(this));
         }
-        getCategories().addAll(
-                new ItemEnchantmentsCategoryModel(this),
-                new ItemAttributeModifiersCategoryModel(this),
-                new ItemHideFlagsCategoryModel(this),
-                new ItemBlockListCategoryModel(ModTexts.CAN_DESTROY, this, "CanDestroy")
-        );
         if (getTarget().getItem() instanceof BlockItem) {
             getCategories().add(new ItemBlockListCategoryModel(ModTexts.CAN_PLACE_ON, this, "CanPlaceOn"));
         }

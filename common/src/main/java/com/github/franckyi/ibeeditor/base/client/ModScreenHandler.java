@@ -1,7 +1,7 @@
 package com.github.franckyi.ibeeditor.base.client;
 
+import com.github.franckyi.guapi.api.Guapi;
 import com.github.franckyi.guapi.api.node.Node;
-import com.github.franckyi.guapi.base.GuapiScreenHandler;
 import com.github.franckyi.ibeeditor.base.client.mvc.*;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.*;
 import com.github.franckyi.ibeeditor.base.client.util.ScreenScalingManager;
@@ -63,7 +63,7 @@ public final class ModScreenHandler {
 
     private static void openScaledScreen(Node root) {
         try {
-            GuapiScreenHandler.INSTANCE.showScene(scene(root, true, true).show(scene -> {
+            Guapi.getScreenHandler().showScene(scene(root, true, true).show(scene -> {
                 ScreenScalingManager.get().setBaseScale(ClientConfiguration.INSTANCE.getEditorScale());
                 scene.widthProperty().addListener(ScreenScalingManager.get()::refresh);
                 scene.heightProperty().addListener(ScreenScalingManager.get()::refresh);

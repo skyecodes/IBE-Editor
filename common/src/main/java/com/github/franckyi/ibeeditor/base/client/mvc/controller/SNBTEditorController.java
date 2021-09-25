@@ -1,7 +1,7 @@
 package com.github.franckyi.ibeeditor.base.client.mvc.controller;
 
+import com.github.franckyi.guapi.api.Guapi;
 import com.github.franckyi.guapi.api.mvc.AbstractController;
-import com.github.franckyi.guapi.base.GuapiScreenHandler;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.SNBTEditorModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.view.SNBTEditorView;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
@@ -30,6 +30,6 @@ public class SNBTEditorController extends AbstractController<SNBTEditorModel, SN
             view.getDoneButton().setDisable(true);
             view.getDoneButton().getTooltip().add(model.getDisabledTooltip());
         }
-        view.getCancelButton().onAction(event -> GuapiScreenHandler.INSTANCE.hideScene());
+        view.getCancelButton().onAction(event -> Guapi.getScreenHandler().hideScene());
     }
 }

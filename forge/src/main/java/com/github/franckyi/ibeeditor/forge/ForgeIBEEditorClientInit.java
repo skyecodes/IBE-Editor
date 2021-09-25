@@ -1,6 +1,5 @@
 package com.github.franckyi.ibeeditor.forge;
 
-import com.github.franckyi.ibeeditor.base.client.ClientInit;
 import com.github.franckyi.ibeeditor.base.client.ModScreenHandler;
 import com.github.franckyi.ibeeditor.base.client.ModTextures;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -16,8 +15,7 @@ import java.util.Arrays;
 public class ForgeIBEEditorClientInit {
     private static final Logger LOGGER = LogManager.getLogger();
 
-    public static void setup() {
-        ClientInit.setup();
+    public static void optimize() {
         StopWatch watch = StopWatch.createStarted();
         Arrays.stream(ModTextures.class.getDeclaredFields()).map(field -> {
             try {

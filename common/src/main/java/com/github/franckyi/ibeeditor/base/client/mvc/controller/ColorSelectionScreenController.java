@@ -1,8 +1,8 @@
 package com.github.franckyi.ibeeditor.base.client.mvc.controller;
 
 import com.github.franckyi.guapi.api.Color;
+import com.github.franckyi.guapi.api.Guapi;
 import com.github.franckyi.guapi.api.mvc.AbstractController;
-import com.github.franckyi.guapi.base.GuapiScreenHandler;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.ColorSelectionScreenModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.view.ColorSelectionScreenView;
 
@@ -25,10 +25,10 @@ public abstract class ColorSelectionScreenController<V extends ColorSelectionScr
         model.blueValueProperty().addListener(() -> updateColor(true));
         model.hexValueProperty().addListener(() -> updateColor(false));
         view.getHexField().setValidator(this::validateHexString);
-        view.getCancelButton().onAction(GuapiScreenHandler.INSTANCE::hideScene);
+        view.getCancelButton().onAction(Guapi.getScreenHandler()::hideScene);
         view.getDoneButton().onAction(() -> {
             getModel().apply();
-            GuapiScreenHandler.INSTANCE.hideScene();
+            Guapi.getScreenHandler().hideScene();
         });
         updateHexFromRGB();
     }

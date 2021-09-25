@@ -13,13 +13,16 @@ import net.minecraft.world.item.TooltipFlag;
 
 import java.util.List;
 
-@Deprecated
 public final class RenderHelper {
-    private static Font font() {
-        return Minecraft.getInstance().font;
+    private static Minecraft mc() {
+        return Minecraft.getInstance();
     }
 
-    public static int getFontHeight(Component text) {
+    private static Font font() {
+        return mc().font;
+    }
+
+    public static int getFontHeight() {
         return font().lineHeight;
     }
 
@@ -55,7 +58,7 @@ public final class RenderHelper {
     }
 
     public static void drawTexture(PoseStack matrices, ResourceLocation id, int x, int y, int width, int height, int imageX, int imageY, int imageWidth, int imageHeight) {
-        Minecraft.getInstance().getTextureManager().bind(id);
+        mc().getTextureManager().bind(id);
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
@@ -64,21 +67,21 @@ public final class RenderHelper {
     }
 
     public static void drawSprite(PoseStack matrices, TextureAtlasSprite sprite, int x, int y, int imageWidth, int imageHeight) {
-        Minecraft.getInstance().getTextureManager().bind(sprite.atlas().location());
+        mc().getTextureManager().bind(sprite.atlas().location());
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         GuiComponent.blit(matrices, x, y, 0, imageWidth, imageHeight, sprite);
     }
 
     public static void drawTooltip(PoseStack matrices, List<Component> text, int x, int y) {
-        Minecraft.getInstance().screen.renderComponentTooltip(matrices, text, x, y);
+        mc().screen.renderComponentTooltip(matrices, text, x, y);
     }
 
     public static void drawTooltip(PoseStack matrices, ItemStack itemStack, int x, int y) {
-        Minecraft.getInstance().screen.renderComponentTooltip(matrices,
+        mc().screen.renderComponentTooltip(matrices,
                 itemStack.getTooltipLines(Minecraft.getInstance().player, TooltipFlag.Default.NORMAL), x, y);
     }
 
     public static void drawItem(ItemStack itemStack, int x, int y) {
-        Minecraft.getInstance().getItemRenderer().renderAndDecorateFakeItem(itemStack, x, y);
+        mc().getItemRenderer().renderAndDecorateFakeItem(itemStack, x, y);
     }
 }

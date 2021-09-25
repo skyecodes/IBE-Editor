@@ -23,7 +23,7 @@ public class VanillaLabelSkin extends AbstractSkin<Label> {
     protected void renderText(Label node, PoseStack matrices, int mouseX, int mouseY, float delta) {
         Component text = node.getLabel();
         int x = Align.getAlignedX(node.getTextAlign().getHorizontalAlign(), node, RenderHelper.getFontWidth(text));
-        int y = Align.getAlignedY(node.getTextAlign().getVerticalAlign(), node, RenderHelper.getFontHeight(text));
+        int y = Align.getAlignedY(node.getTextAlign().getVerticalAlign(), node, RenderHelper.getFontHeight());
         RenderHelper.drawString(matrices, text, x, y, 0xffffff, node.hasShadow());
     }
 
@@ -34,6 +34,6 @@ public class VanillaLabelSkin extends AbstractSkin<Label> {
 
     @Override
     public int computeHeight(Label node) {
-        return RenderHelper.getFontHeight(node.getLabel()) - 1;
+        return RenderHelper.getFontHeight() - 1;
     }
 }

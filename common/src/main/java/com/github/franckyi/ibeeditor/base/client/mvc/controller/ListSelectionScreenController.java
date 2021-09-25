@@ -1,7 +1,7 @@
 package com.github.franckyi.ibeeditor.base.client.mvc.controller;
 
+import com.github.franckyi.guapi.api.Guapi;
 import com.github.franckyi.guapi.api.mvc.AbstractController;
-import com.github.franckyi.guapi.base.GuapiScreenHandler;
 import com.github.franckyi.ibeeditor.base.client.ClientConfiguration;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.ListSelectionScreenModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.view.ListSelectionScreenView;
@@ -24,10 +24,10 @@ public class ListSelectionScreenController extends AbstractController<ListSelect
             }
         });
         view.getListView().focusedElementProperty().addListener(this::refreshButton);
-        view.getCancelButton().onAction(GuapiScreenHandler.INSTANCE::hideScene);
+        view.getCancelButton().onAction(Guapi.getScreenHandler()::hideScene);
         view.getDoneButton().onAction(() -> {
             model.getAction().accept(view.getListView().getFocusedElement().getId().toString());
-            GuapiScreenHandler.INSTANCE.hideScene();
+            Guapi.getScreenHandler().hideScene();
         });
         refreshButton();
         filter("");

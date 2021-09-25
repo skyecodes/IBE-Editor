@@ -1,6 +1,6 @@
 package com.github.franckyi.ibeeditor.fabric;
 
-import com.github.franckyi.guapi.base.GuapiScreenHandler;
+import com.github.franckyi.guapi.api.Guapi;
 import com.github.franckyi.ibeeditor.base.client.ModScreenHandler;
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
@@ -38,7 +38,7 @@ public class FabricIBEEditorModMenuApiImpl implements ModMenuApi {
             } catch (IllegalAccessException e) {
                 logger.error("Error while opening IBE Editor settings screen from Mod Menu", e);
             }
-            return (Screen) GuapiScreenHandler.INSTANCE.getScreen();
+            return (Screen) Guapi.getScreenHandler().getGuapiScreen();
         };
     }
 }

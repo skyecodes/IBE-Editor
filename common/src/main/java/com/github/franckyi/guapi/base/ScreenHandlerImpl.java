@@ -3,6 +3,7 @@ package com.github.franckyi.guapi.base;
 import com.github.franckyi.databindings.api.IntegerProperty;
 import com.github.franckyi.databindings.api.ObjectProperty;
 import com.github.franckyi.guapi.api.Guapi;
+import com.github.franckyi.guapi.api.ScreenHandler;
 import com.github.franckyi.guapi.api.event.ScreenEvent;
 import com.github.franckyi.guapi.api.node.Scene;
 import com.github.franckyi.guapi.api.util.ScreenEventType;
@@ -15,16 +16,16 @@ import net.minecraft.network.chat.TextComponent;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
-public final class GuapiScreenHandler {
-    public static final GuapiScreenHandler INSTANCE = new GuapiScreenHandler();
+public final class ScreenHandlerImpl implements ScreenHandler {
+    public static final ScreenHandler INSTANCE = new ScreenHandlerImpl();
     private final Deque<Scene> scenes = new ArrayDeque<>();
     private final ObjectProperty<Scene> currentSceneProperty = ObjectProperty.create();
     private final IntegerProperty widthProperty = IntegerProperty.create();
     private final IntegerProperty heightProperty = IntegerProperty.create();
-    private final Screen screen = new ScreenImpl();
+    private final Screen screen = new GuapiScreen();
     private Screen oldScreen;
 
-    private GuapiScreenHandler() {
+    private ScreenHandlerImpl() {
         currentSceneProperty().addListener((oldVal, newVal) -> {
             if (newVal == null) {
                 if (oldVal != null) {
@@ -48,11 +49,13 @@ public final class GuapiScreenHandler {
         });
     }
 
+    @Override
     public void showScene(Scene scene) {
         scenes.push(scene);
         setCurrentScene(scene);
     }
 
+    @Override
     public void hideScene() {
         if (!scenes.isEmpty()) {
             scenes.pop();
@@ -60,15 +63,20 @@ public final class GuapiScreenHandler {
         }
     }
 
-    public Scene getCurrentScene() {
+    @Override
+    public Screen getGuapiScreen() {
+        return screen;
+    }
+
+    private Scene getCurrentScene() {
         return currentSceneProperty().getValue();
     }
 
-    public ObjectProperty<Scene> currentSceneProperty() {
+    private ObjectProperty<Scene> currentSceneProperty() {
         return currentSceneProperty;
     }
 
-    public void setCurrentScene(Scene value) {
+    private void setCurrentScene(Scene value) {
         currentSceneProperty().setValue(value);
     }
 
@@ -81,11 +89,7 @@ public final class GuapiScreenHandler {
         Minecraft.getInstance().setScreen(oldScreen);
     }
 
-    public Screen getScreen() {
-        return screen;
-    }
-
-    public void render(PoseStack matrices, int mouseX, int mouseY, float delta) {
+    private void render(PoseStack matrices, int mouseX, int mouseY, float delta) {
         try {
             getCurrentScene().render(matrices, mouseX, mouseY, delta);
         } catch (Exception e) {
@@ -95,7 +99,7 @@ public final class GuapiScreenHandler {
         }
     }
 
-    public void tick() {
+    private void tick() {
         if (currentSceneProperty().hasValue()) {
             try {
                 getCurrentScene().tick();
@@ -107,40 +111,40 @@ public final class GuapiScreenHandler {
         }
     }
 
-    public void updateSize(int width, int height) {
+    private void updateSize(int width, int height) {
         widthProperty.setValue(width);
         heightProperty.setValue(height);
     }
 
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+    private boolean mouseClicked(double mouseX, double mouseY, int button) {
         return handleEvent(ScreenEventType.MOUSE_CLICKED, new MouseButtonEventImpl(mouseX, mouseY, button));
     }
 
-    public boolean mouseReleased(double mouseX, double mouseY, int button) {
+    private boolean mouseReleased(double mouseX, double mouseY, int button) {
         return handleEvent(ScreenEventType.MOUSE_RELEASED, new MouseButtonEventImpl(mouseX, mouseY, button));
     }
 
-    public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
+    private boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
         return handleEvent(ScreenEventType.MOUSE_DRAGGED, new MouseDragEventImpl(mouseX, mouseY, button, deltaX, deltaY));
     }
 
-    public boolean mouseScrolled(double mouseX, double mouseY, double amount) {
+    private boolean mouseScrolled(double mouseX, double mouseY, double amount) {
         return handleEvent(ScreenEventType.MOUSE_SCOLLED, new MouseScrollEventImpl(mouseX, mouseY, amount));
     }
 
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+    private boolean keyPressed(int keyCode, int scanCode, int modifiers) {
         return handleEvent(ScreenEventType.KEY_PRESSED, new KeyEventImpl(keyCode, scanCode, modifiers));
     }
 
-    public boolean keyReleased(int keyCode, int scanCode, int modifiers) {
+    private boolean keyReleased(int keyCode, int scanCode, int modifiers) {
         return handleEvent(ScreenEventType.KEY_RELEASED, new KeyEventImpl(keyCode, scanCode, modifiers));
     }
 
-    public boolean charTyped(char chr, int modifiers) {
+    private boolean charTyped(char chr, int modifiers) {
         return handleEvent(ScreenEventType.CHAR_TYPED, new TypeEventImpl(chr, modifiers));
     }
 
-    public void mouseMoved(double mouseX, double mouseY) {
+    private void mouseMoved(double mouseX, double mouseY) {
         handleEvent(ScreenEventType.MOUSE_MOVED, new MouseEventImpl(mouseX, mouseY));
     }
 
@@ -156,8 +160,8 @@ public final class GuapiScreenHandler {
         return event.isConsumed();
     }
 
-    private final class ScreenImpl extends Screen {
-        private ScreenImpl() {
+    private final class GuapiScreen extends Screen {
+        private GuapiScreen() {
             super(TextComponent.EMPTY);
         }
 
@@ -169,58 +173,58 @@ public final class GuapiScreenHandler {
             } else {
                 renderBackground(matrices);
             }
-            GuapiScreenHandler.this.render(matrices, mouseX, mouseY, partialTicks);
+            ScreenHandlerImpl.this.render(matrices, mouseX, mouseY, partialTicks);
         }
 
         @Override
         public void tick() {
-            GuapiScreenHandler.this.tick();
+            ScreenHandlerImpl.this.tick();
         }
 
         @Override
         public void init(Minecraft client, int width, int height) {
             super.init(client, width, height);
-            GuapiScreenHandler.this.updateSize(width, height);
+            ScreenHandlerImpl.this.updateSize(width, height);
         }
 
         @Override
         public boolean mouseClicked(double mouseX, double mouseY, int button) {
-            return GuapiScreenHandler.this.mouseClicked(mouseX, mouseY, button);
+            return ScreenHandlerImpl.this.mouseClicked(mouseX, mouseY, button);
         }
 
         @Override
         public boolean mouseReleased(double mouseX, double mouseY, int button) {
-            return GuapiScreenHandler.this.mouseReleased(mouseX, mouseY, button);
+            return ScreenHandlerImpl.this.mouseReleased(mouseX, mouseY, button);
         }
 
         @Override
         public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
-            return GuapiScreenHandler.this.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
+            return ScreenHandlerImpl.this.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
         }
 
         @Override
         public boolean mouseScrolled(double mouseX, double mouseY, double amount) {
-            return GuapiScreenHandler.this.mouseScrolled(mouseX, mouseY, amount);
+            return ScreenHandlerImpl.this.mouseScrolled(mouseX, mouseY, amount);
         }
 
         @Override
         public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-            return GuapiScreenHandler.this.keyPressed(keyCode, scanCode, modifiers);
+            return ScreenHandlerImpl.this.keyPressed(keyCode, scanCode, modifiers);
         }
 
         @Override
         public boolean keyReleased(int keyCode, int scanCode, int modifiers) {
-            return GuapiScreenHandler.this.keyReleased(keyCode, scanCode, modifiers);
+            return ScreenHandlerImpl.this.keyReleased(keyCode, scanCode, modifiers);
         }
 
         @Override
         public boolean charTyped(char chr, int modifiers) {
-            return GuapiScreenHandler.this.charTyped(chr, modifiers);
+            return ScreenHandlerImpl.this.charTyped(chr, modifiers);
         }
 
         @Override
         public void mouseMoved(double mouseX, double mouseY) {
-            GuapiScreenHandler.this.mouseMoved(mouseX, mouseY);
+            ScreenHandlerImpl.this.mouseMoved(mouseX, mouseY);
         }
     }
 }
