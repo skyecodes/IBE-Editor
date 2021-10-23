@@ -34,4 +34,12 @@ jobs:
           
       - name: Upload to CurseForge
         uses: itsmeow/curseforge-upload@v3
-
+        with:
+          token: ${{ secrets.CURSEFORGE_TOKEN }}
+          project_id: ${{ secrets.PROJECT_ID }}
+          game_endpoint: minecraft
+          file_path: build/libs
+          changelog: Automatic github release
+          display_name: IBE_Editor_Github
+          game_versions: minecraft-1.16:1.16.5,Fabric,Java 8,minecraft-1.17,Fabric,Java 8
+          release_type: alpha
