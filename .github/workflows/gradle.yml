@@ -25,12 +25,13 @@ jobs:
         run: chmod +x gradlew
       - name: Build with Gradle
         run: ./gradlew buildAll
-        
-      - name: Upload to CurseForge
-        uses: itsmeow/curseforge-upload@v3
-
+   
       - name: Upload build artifact
         uses: actions/upload-artifact@v2.2.1
         with:
           name: build
           path: build/libs
+          
+      - name: Upload to CurseForge
+        uses: itsmeow/curseforge-upload@v3
+
