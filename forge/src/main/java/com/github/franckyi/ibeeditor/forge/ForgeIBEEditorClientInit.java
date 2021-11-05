@@ -1,7 +1,7 @@
 package com.github.franckyi.ibeeditor.forge;
 
-import com.github.franckyi.ibeeditor.base.client.ModScreenHandler;
-import com.github.franckyi.ibeeditor.base.client.ModTextures;
+import com.github.franckyi.ibeeditor.client.ModScreenHandler;
+import com.github.franckyi.ibeeditor.client.ModTextures;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.SimpleTexture;

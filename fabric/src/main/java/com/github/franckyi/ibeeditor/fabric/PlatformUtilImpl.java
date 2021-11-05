@@ -1,7 +1,9 @@
 package com.github.franckyi.ibeeditor.fabric;
 
-import com.github.franckyi.ibeeditor.base.common.NetworkManager;
-import com.github.franckyi.ibeeditor.base.common.Packet;
+import com.github.franckyi.ibeeditor.common.ClientPacketHandler;
+import com.github.franckyi.ibeeditor.common.Packet;
+import com.github.franckyi.ibeeditor.common.PacketReader;
+import com.github.franckyi.ibeeditor.common.ServerPacketHandler;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
@@ -38,7 +40,7 @@ public class PlatformUtilImpl {
         ServerPlayNetworking.send(player, new ResourceLocation(id), buf);
     }
 
-    public static <P extends Packet> void registerServerHandler(String id, int id1, Class<P> msgClass, NetworkManager.PacketReader<P> reader, NetworkManager.ServerPacketHandler<P> handler) {
+    public static <P extends Packet> void registerServerHandler(String id, int id1, Class<P> msgClass, PacketReader<P> reader, ServerPacketHandler<P> handler) {
         ServerPlayNetworking.registerGlobalReceiver(new ResourceLocation(id), (server, entity, networkHandler, buf, sender) -> {
             try {
                 P packet = reader.read(buf);
@@ -49,7 +51,7 @@ public class PlatformUtilImpl {
         });
     }
 
-    public static <P extends Packet> void registerClientHandler(String id, int id1, Class<P> msgClass, NetworkManager.PacketReader<P> reader, NetworkManager.ClientPacketHandler<P> handler) {
+    public static <P extends Packet> void registerClientHandler(String id, int id1, Class<P> msgClass, PacketReader<P> reader, ClientPacketHandler<P> handler) {
         if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
             ClientPlayNetworking.registerGlobalReceiver(new ResourceLocation(id), (client, networkHandler, buf, sender) -> {
                 try {

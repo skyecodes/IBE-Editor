@@ -18,7 +18,9 @@ public class VanillaItemViewSkin extends AbstractSkin<ItemView> {
         if (node.getItem() != null) {
             RenderHelper.drawItem(node.getItem(),
                     node.getX() + (node.getWidth() - node.getComputedWidth()) / 2,
-                    node.getY() + (node.getHeight() - node.getComputedHeight()) / 2);
+                    node.getY() + (node.getHeight() - node.getComputedHeight()) / 2,
+                    node.isRenderDecorations()
+            );
         }
     }
 

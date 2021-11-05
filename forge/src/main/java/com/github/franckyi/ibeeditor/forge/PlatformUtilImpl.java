@@ -1,7 +1,9 @@
 package com.github.franckyi.ibeeditor.forge;
 
-import com.github.franckyi.ibeeditor.base.common.NetworkManager;
-import com.github.franckyi.ibeeditor.base.common.Packet;
+import com.github.franckyi.ibeeditor.common.ClientPacketHandler;
+import com.github.franckyi.ibeeditor.common.Packet;
+import com.github.franckyi.ibeeditor.common.PacketReader;
+import com.github.franckyi.ibeeditor.common.ServerPacketHandler;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.fml.loading.FMLPaths;
@@ -35,15 +37,15 @@ public class PlatformUtilImpl {
         channel.send(PacketDistributor.PLAYER.with(() -> player), packet);
     }
 
-    public static <P extends Packet> void registerServerHandler(String id, int id1, Class<P> msgClass, NetworkManager.PacketReader<P> reader, NetworkManager.ServerPacketHandler<P> handler) {
+    public static <P extends Packet> void registerServerHandler(String id, int id1, Class<P> msgClass, PacketReader<P> reader, ServerPacketHandler<P> handler) {
         registerHandler(id1, msgClass, reader, (msg, ctx) -> handler.accept(msg, ctx.get().getSender()));
     }
 
-    public static <P extends Packet> void registerClientHandler(String id, int id1, Class<P> msgClass, NetworkManager.PacketReader<P> reader, NetworkManager.ClientPacketHandler<P> handler) {
+    public static <P extends Packet> void registerClientHandler(String id, int id1, Class<P> msgClass, PacketReader<P> reader, ClientPacketHandler<P> handler) {
         registerHandler(id1, msgClass, reader, (msg, ctx) -> handler.accept(msg));
     }
 
-    private static <P extends Packet> void registerHandler(int id, Class<P> msgClass, NetworkManager.PacketReader<P> reader, BiConsumer<P, Supplier<NetworkEvent.Context>> handler) {
+    private static <P extends Packet> void registerHandler(int id, Class<P> msgClass, PacketReader<P> reader, BiConsumer<P, Supplier<NetworkEvent.Context>> handler) {
         channel.messageBuilder(msgClass, id)
                 .decoder(buffer -> {
                     try {

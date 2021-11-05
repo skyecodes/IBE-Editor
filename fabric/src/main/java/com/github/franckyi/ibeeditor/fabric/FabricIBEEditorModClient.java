@@ -1,8 +1,8 @@
 package com.github.franckyi.ibeeditor.fabric;
 
-import com.github.franckyi.ibeeditor.base.client.ClientEventHandler;
-import com.github.franckyi.ibeeditor.base.client.ClientInit;
-import com.github.franckyi.ibeeditor.base.client.ModScreenHandler;
+import com.github.franckyi.ibeeditor.client.ClientEventHandler;
+import com.github.franckyi.ibeeditor.client.ClientInit;
+import com.github.franckyi.ibeeditor.client.ModScreenHandler;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;

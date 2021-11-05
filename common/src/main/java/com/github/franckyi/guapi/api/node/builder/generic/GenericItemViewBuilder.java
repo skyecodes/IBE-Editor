@@ -7,4 +7,12 @@ public interface GenericItemViewBuilder<N extends ItemView> extends ItemView, Ge
     default N item(ItemStack value) {
         return with(n -> n.setItem(value));
     }
+
+    default N renderDecorations(boolean value) {
+        return with(n -> n.setRenderDecorations(value));
+    }
+
+    default N renderDecorations() {
+        return renderDecorations(true);
+    }
 }

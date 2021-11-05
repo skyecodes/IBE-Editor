@@ -1,12 +1,12 @@
 package com.github.franckyi.ibeeditor.forge;
 
-import com.github.franckyi.ibeeditor.base.client.ClientContext;
-import com.github.franckyi.ibeeditor.base.client.ClientEventHandler;
-import com.github.franckyi.ibeeditor.base.client.ClientInit;
-import com.github.franckyi.ibeeditor.base.client.ModScreenHandler;
-import com.github.franckyi.ibeeditor.base.common.CommonInit;
-import com.github.franckyi.ibeeditor.base.server.ServerCommandHandler;
-import com.github.franckyi.ibeeditor.base.server.ServerEventHandler;
+import com.github.franckyi.ibeeditor.client.ClientContext;
+import com.github.franckyi.ibeeditor.client.ClientEventHandler;
+import com.github.franckyi.ibeeditor.client.ClientInit;
+import com.github.franckyi.ibeeditor.client.ModScreenHandler;
+import com.github.franckyi.ibeeditor.common.CommonInit;
+import com.github.franckyi.ibeeditor.server.ServerCommandHandler;
+import com.github.franckyi.ibeeditor.server.ServerEventHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.server.level.ServerPlayer;
