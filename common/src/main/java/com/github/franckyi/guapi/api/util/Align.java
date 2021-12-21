@@ -30,27 +30,19 @@ public enum Align {
     }
 
     public static int getAlignedX(Horizontal align, Node parent, int childWidth) {
-        switch (align) {
-            case CENTER:
-                return parent.getX() + parent.getPadding().getLeft() + ((parent.getWidth() - parent.getPadding().getHorizontal()) - childWidth) / 2;
-            case RIGHT:
-                return parent.getX() + parent.getPadding().getLeft() + (parent.getWidth() - parent.getPadding().getHorizontal()) - childWidth;
-            case LEFT:
-            default:
-                return parent.getX() + parent.getPadding().getLeft();
-        }
+        return switch (align) {
+            case CENTER -> parent.getX() + parent.getPadding().getLeft() + ((parent.getWidth() - parent.getPadding().getHorizontal()) - childWidth) / 2;
+            case RIGHT -> parent.getX() + parent.getPadding().getLeft() + (parent.getWidth() - parent.getPadding().getHorizontal()) - childWidth;
+            case LEFT -> parent.getX() + parent.getPadding().getLeft();
+        };
     }
 
     public static int getAlignedY(Vertical align, Node parent, int childHeight) {
-        switch (align) {
-            case CENTER:
-                return parent.getY() + parent.getPadding().getTop() + ((parent.getHeight() - parent.getPadding().getVertical()) - childHeight) / 2;
-            case BOTTOM:
-                return parent.getY() + parent.getPadding().getTop() + (parent.getHeight() - parent.getPadding().getVertical()) - childHeight;
-            case TOP:
-            default:
-                return parent.getY() + parent.getPadding().getTop();
-        }
+        return switch (align) {
+            case CENTER -> parent.getY() + parent.getPadding().getTop() + ((parent.getHeight() - parent.getPadding().getVertical()) - childHeight) / 2;
+            case BOTTOM -> parent.getY() + parent.getPadding().getTop() + (parent.getHeight() - parent.getPadding().getVertical()) - childHeight;
+            case TOP -> parent.getY() + parent.getPadding().getTop();
+        };
     }
 
     public enum Horizontal {

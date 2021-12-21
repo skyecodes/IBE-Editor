@@ -3,6 +3,7 @@ package com.github.franckyi.databindings.base;
 import com.github.franckyi.databindings.api.ObservableList;
 import com.github.franckyi.databindings.api.event.ObservableListChangeListener;
 import com.github.franckyi.databindings.base.event.ObservableListChangeEventImpl;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -69,7 +70,7 @@ public class ObservableArrayList<E> extends ArrayList<E> implements ObservableLi
     }
 
     @Override
-    public boolean addAll(Collection<? extends E> c) {
+    public boolean addAll(@NotNull Collection<? extends E> c) {
         c = canAddAll(c);
         int initialSize = size();
         if (super.addAll(c)) {
@@ -80,7 +81,7 @@ public class ObservableArrayList<E> extends ArrayList<E> implements ObservableLi
     }
 
     @Override
-    public boolean addAll(int index, Collection<? extends E> c) {
+    public boolean addAll(int index, @NotNull Collection<? extends E> c) {
         c = canAddAll(c);
         if (super.addAll(index, c)) {
             notify(ObservableListChangeEventImpl.<E>builder().addAll(index, c).build());
@@ -90,7 +91,7 @@ public class ObservableArrayList<E> extends ArrayList<E> implements ObservableLi
     }
 
     @Override
-    public boolean removeAll(Collection<?> c) {
+    public boolean removeAll(@NotNull Collection<?> c) {
         List<E> copy = new ArrayList<>(this);
         if (super.removeAll(c)) {
             computeRemoved(copy);
@@ -100,7 +101,7 @@ public class ObservableArrayList<E> extends ArrayList<E> implements ObservableLi
     }
 
     @Override
-    public boolean retainAll(Collection<?> c) {
+    public boolean retainAll(@NotNull Collection<?> c) {
         List<E> copy = new ArrayList<>(this);
         if (super.retainAll(c)) {
             computeRemoved(copy);
@@ -152,7 +153,7 @@ public class ObservableArrayList<E> extends ArrayList<E> implements ObservableLi
     }
 
     protected Collection<? extends E> canAddAll(Collection<? extends E> c) {
-        return c.stream().filter(this::canAdd).collect(Collectors.toList());
+        return c.stream().filter(this::canAdd).toList();
     }
 
     protected void computeRemoved(List<E> copy) {

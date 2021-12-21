@@ -19,14 +19,10 @@ public final class ColorSelectionScreenMVC implements MVC<ColorSelectionScreenMo
 
     @Override
     public ColorSelectionScreenView setup(ColorSelectionScreenModel model) {
-        switch (model.getTarget()) {
-            case TEXT:
-                return MVC.createViewAndBind(model, TextColorSelectionScreenView::new, TextColorSelectionScreenController::new);
-            case POTION:
-                return MVC.createViewAndBind(model, PotionColorSelectionScreenView::new, PotionColorSelectionScreenController::new);
-            case LEATHER_ARMOR:
-                return MVC.createViewAndBind(model, ArmorColorSelectionScreenView::new, ArmorColorSelectionScreenController::new);
-        }
-        return null;
+        return switch (model.getTarget()) {
+            case TEXT -> MVC.createViewAndBind(model, TextColorSelectionScreenView::new, TextColorSelectionScreenController::new);
+            case POTION -> MVC.createViewAndBind(model, PotionColorSelectionScreenView::new, PotionColorSelectionScreenController::new);
+            case LEATHER_ARMOR -> MVC.createViewAndBind(model, ArmorColorSelectionScreenView::new, ArmorColorSelectionScreenController::new);
+        };
     }
 }

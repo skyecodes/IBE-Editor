@@ -42,59 +42,35 @@ public class NBTTagModel implements TreeView.TreeItem<NBTTagModel>, Model {
         valueProperty = StringProperty.create(value);
         if (tag != null) {
             switch (tag.getId()) {
-                case TagHelper.COMPOUND_ID:
-                    children.setAll(((CompoundTagMixin) tag).getTags().entrySet()
-                            .stream()
-                            .map(entry -> new NBTTagModel(entry.getValue(), this, entry.getKey(), null))
-                            .collect(Collectors.toList())
-                    );
-                    break;
-                case TagHelper.LIST_ID:
-                    children.setAll(((ListTag) tag)
-                            .stream()
-                            .map(tag1 -> new NBTTagModel(tag1, this, null, null))
-                            .collect(Collectors.toList())
-                    );
-                    break;
-                case TagHelper.BYTE_ARRAY_ID:
-                    children.setAll(Stream.of(ArrayUtils.toObject(((ByteArrayTag) tag).getAsByteArray()))
-                            .map(b -> new NBTTagModel(TagHelper.BYTE_ID, this, Byte.toString(b)))
-                            .collect(Collectors.toList())
-                    );
-                    break;
-                case TagHelper.INT_ARRAY_ID:
-                    children.setAll(Stream.of(ArrayUtils.toObject(((IntArrayTag) tag).getAsIntArray()))
-                            .map(i -> new NBTTagModel(TagHelper.INT_ID, this, Integer.toString(i)))
-                            .collect(Collectors.toList())
-                    );
-                    break;
-                case TagHelper.LONG_ARRAY_ID:
-                    children.setAll(Stream.of(ArrayUtils.toObject(((LongArrayTag) tag).getAsLongArray()))
-                            .map(l -> new NBTTagModel(TagHelper.LONG_ID, this, Long.toString(l)))
-                            .collect(Collectors.toList())
-                    );
-                    break;
-                case TagHelper.BYTE_ID:
-                    setValue(Byte.toString(((ByteTag) tag).getAsByte()));
-                    break;
-                case TagHelper.SHORT_ID:
-                    setValue(Short.toString(((ShortTag) tag).getAsShort()));
-                    break;
-                case TagHelper.INT_ID:
-                    setValue(Integer.toString(((IntTag) tag).getAsInt()));
-                    break;
-                case TagHelper.LONG_ID:
-                    setValue(Long.toString(((LongTag) tag).getAsLong()));
-                    break;
-                case TagHelper.FLOAT_ID:
-                    setValue(Float.toString(((FloatTag) tag).getAsFloat()));
-                    break;
-                case TagHelper.DOUBLE_ID:
-                    setValue(Double.toString(((DoubleTag) tag).getAsDouble()));
-                    break;
-                default:
-                    setValue(tag.getAsString());
-                    break;
+                case TagHelper.COMPOUND_ID -> children.setAll(((CompoundTagMixin) tag).getTags().entrySet()
+                        .stream()
+                        .map(entry -> new NBTTagModel(entry.getValue(), this, entry.getKey(), null))
+                        .toList()
+                );
+                case TagHelper.LIST_ID -> children.setAll(((ListTag) tag)
+                        .stream()
+                        .map(tag1 -> new NBTTagModel(tag1, this, null, null))
+                        .toList()
+                );
+                case TagHelper.BYTE_ARRAY_ID -> children.setAll(Stream.of(ArrayUtils.toObject(((ByteArrayTag) tag).getAsByteArray()))
+                        .map(b -> new NBTTagModel(TagHelper.BYTE_ID, this, Byte.toString(b)))
+                        .toList()
+                );
+                case TagHelper.INT_ARRAY_ID -> children.setAll(Stream.of(ArrayUtils.toObject(((IntArrayTag) tag).getAsIntArray()))
+                        .map(i -> new NBTTagModel(TagHelper.INT_ID, this, Integer.toString(i)))
+                        .toList()
+                );
+                case TagHelper.LONG_ARRAY_ID -> children.setAll(Stream.of(ArrayUtils.toObject(((LongArrayTag) tag).getAsLongArray()))
+                        .map(l -> new NBTTagModel(TagHelper.LONG_ID, this, Long.toString(l)))
+                        .toList()
+                );
+                case TagHelper.BYTE_ID -> setValue(Byte.toString(((ByteTag) tag).getAsByte()));
+                case TagHelper.SHORT_ID -> setValue(Short.toString(((ShortTag) tag).getAsShort()));
+                case TagHelper.INT_ID -> setValue(Integer.toString(((IntTag) tag).getAsInt()));
+                case TagHelper.LONG_ID -> setValue(Long.toString(((LongTag) tag).getAsLong()));
+                case TagHelper.FLOAT_ID -> setValue(Float.toString(((FloatTag) tag).getAsFloat()));
+                case TagHelper.DOUBLE_ID -> setValue(Double.toString(((DoubleTag) tag).getAsDouble()));
+                default -> setValue(tag.getAsString());
             }
         }
         getChildren().addListener(() -> this.getRoot().setChildrenChanged(true));
@@ -185,7 +161,7 @@ public class NBTTagModel implements TreeView.TreeItem<NBTTagModel>, Model {
                             .stream()
                             .map(NBTTagModel::getValue)
                             .map(Byte::parseByte)
-                            .collect(Collectors.toList())
+                            .toList()
                     );
                 case TagHelper.STRING_ID:
                     return StringTag.valueOf(getValue());
@@ -194,7 +170,7 @@ public class NBTTagModel implements TreeView.TreeItem<NBTTagModel>, Model {
                     listTag.addAll(getChildren()
                             .stream()
                             .map(NBTTagModel::build)
-                            .collect(Collectors.toList()));
+                            .toList());
                     return listTag;
                 case TagHelper.COMPOUND_ID:
                     CompoundTag compoundTag = new CompoundTag();
@@ -205,14 +181,14 @@ public class NBTTagModel implements TreeView.TreeItem<NBTTagModel>, Model {
                             .stream()
                             .map(NBTTagModel::getValue)
                             .map(Integer::parseInt)
-                            .collect(Collectors.toList())
+                            .toList()
                     );
                 case TagHelper.LONG_ARRAY_ID:
                     return new LongArrayTag(getChildren()
                             .stream()
                             .map(NBTTagModel::getValue)
                             .map(Long::parseLong)
-                            .collect(Collectors.toList())
+                            .toList()
                     );
             }
         }

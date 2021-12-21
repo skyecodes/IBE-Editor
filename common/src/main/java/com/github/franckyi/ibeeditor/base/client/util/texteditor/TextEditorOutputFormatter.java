@@ -51,7 +51,7 @@ public class TextEditorOutputFormatter {
     private List<Formatting> getChangedFormattingsForCurrentIndex(List<Formatting> formattings) {
         return formattings.stream()
                 .filter(formatting -> formatting.getStart() == currentFormattingIndex || formatting.getEnd() == currentFormattingIndex)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     private void appendText(String s) {

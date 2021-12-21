@@ -47,6 +47,7 @@ public final class ModTexts {
     public static final MutableComponent DURATION = translated("ibeeditor.gui.duration");
     public static final MutableComponent EFFECT = translated("ibeeditor.gui.effect");
     public static final MutableComponent EFFECTS = translated("ibeeditor.gui.effect");
+    public static final MutableComponent ENCHANTMENT = translated("ibeeditor.gui.enchantment");
     public static final MutableComponent ENCHANTMENTS = translated("ibeeditor.gui.enchantments");
     public static final MutableComponent ENTITY = translated("ibeeditor.text.entity");
     public static final MutableComponent EXPAND = translated("ibeeditor.gui.expand");
@@ -97,6 +98,7 @@ public final class ModTexts {
     public static final MutableComponent ZOOM_OUT = translated("ibeeditor.gui.zoom_out");
     public static final MutableComponent ZOOM_RESET = translated("ibeeditor.gui.zoom_reset");
     public static final MutableComponent SELECTION_SCREEN_MAX_ITEMS = translated("ibeeditor.gui.selection_screen_max_items");
+    public static final MutableComponent LEVEL = translated("ibeeditor.gui.level");
 
     public static MutableComponent serverMod(MutableComponent with) {
         return translated("ibeeditor.message.error_server_mod", with).withStyle(ChatFormatting.RED);

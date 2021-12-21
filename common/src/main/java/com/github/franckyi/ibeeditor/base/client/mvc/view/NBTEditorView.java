@@ -151,47 +151,27 @@ public class NBTEditorView extends EditorView {
     }
 
     private TexturedButton getButton(ButtonType buttonType) {
-        switch (buttonType) {
-            case BYTE:
-                return addByteButton;
-            case SHORT:
-                return addShortButton;
-            case INT:
-                return addIntButton;
-            case LONG:
-                return addLongButton;
-            case FLOAT:
-                return addFloatButton;
-            case DOUBLE:
-                return addDoubleButton;
-            case BYTE_ARRAY:
-                return addByteArrayButton;
-            case STRING:
-                return addStringButton;
-            case LIST:
-                return addListButton;
-            case COMPOUND:
-                return addCompoundButton;
-            case INT_ARRAY:
-                return addIntArrayButton;
-            case LONG_ARRAY:
-                return addLongArrayButton;
-            case MOVE_UP:
-                return moveUpButton;
-            case MOVE_DOWN:
-                return moveDownButton;
-            case ADD:
-                return addButton;
-            case DELETE:
-                return deleteButton;
-            case CUT:
-                return cutButton;
-            case COPY:
-                return copyButton;
-            case PASTE:
-                return pasteButton;
-        }
-        return null;
+        return switch (buttonType) {
+            case BYTE -> addByteButton;
+            case SHORT -> addShortButton;
+            case INT -> addIntButton;
+            case LONG -> addLongButton;
+            case FLOAT -> addFloatButton;
+            case DOUBLE -> addDoubleButton;
+            case BYTE_ARRAY -> addByteArrayButton;
+            case STRING -> addStringButton;
+            case LIST -> addListButton;
+            case COMPOUND -> addCompoundButton;
+            case INT_ARRAY -> addIntArrayButton;
+            case LONG_ARRAY -> addLongArrayButton;
+            case MOVE_UP -> moveUpButton;
+            case MOVE_DOWN -> moveDownButton;
+            case ADD -> addButton;
+            case DELETE -> deleteButton;
+            case CUT -> cutButton;
+            case COPY -> copyButton;
+            case PASTE -> pasteButton;
+        };
     }
 
     public enum ButtonType {

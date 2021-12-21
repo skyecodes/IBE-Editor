@@ -53,8 +53,7 @@ public final class ClientEditorLogic {
     public static boolean tryOpenBlockEditor(EditorType target) {
         LOGGER.debug("Trying to open block editor with target={}", target);
         HitResult result = Minecraft.getInstance().hitResult;
-        if (result instanceof BlockHitResult) {
-            BlockHitResult res = (BlockHitResult) result;
+        if (result instanceof BlockHitResult res) {
             ClientLevel level = Minecraft.getInstance().level;
             if (!level.isEmptyBlock(res.getBlockPos())) {
                 BlockPos pos = res.getBlockPos();
@@ -63,7 +62,7 @@ public final class ClientEditorLogic {
                 } else {
                     BlockState state = level.getBlockState(pos);
                     BlockEntity entity = level.getBlockEntity(pos);
-                    CompoundTag tag = entity == null ? null : entity.save(new CompoundTag());
+                    CompoundTag tag = entity == null ? null : entity.saveWithoutMetadata();
                     openBlockEditor(pos, state, tag, target);
                 }
                 return true;
@@ -112,17 +111,11 @@ public final class ClientEditorLogic {
     public static void openItemEditor(ItemStack itemStack, EditorType target, Consumer<ItemStack> action, Component disabledTooltip) {
         LOGGER.debug("Opening item editor for item {} with target={})", itemStack, target);
         switch (target) {
-            case STANDARD:
-                ModScreenHandler.openItemEditorScreen(itemStack, action, disabledTooltip);
-                break;
-            case NBT:
-                ModScreenHandler.openNBTEditorScreen(itemStack.save(new CompoundTag()),
-                        tag -> action.accept(ItemStack.of(tag)), disabledTooltip);
-                break;
-            case SNBT:
-                ModScreenHandler.openSNBTEditorScreen(itemStack.save(new CompoundTag()).toString(),
-                        snbt -> action.accept(ItemStack.of(parseTag(snbt))), disabledTooltip);
-                break;
+            case STANDARD -> ModScreenHandler.openItemEditorScreen(itemStack, action, disabledTooltip);
+            case NBT -> ModScreenHandler.openNBTEditorScreen(itemStack.save(new CompoundTag()),
+                    tag -> action.accept(ItemStack.of(tag)), disabledTooltip);
+            case SNBT -> ModScreenHandler.openSNBTEditorScreen(itemStack.save(new CompoundTag()).toString(),
+                    snbt -> action.accept(ItemStack.of(parseTag(snbt))), disabledTooltip);
         }
     }
 
@@ -134,13 +127,12 @@ public final class ClientEditorLogic {
     public static void openBlockEditor(BlockPos pos, BlockState state, CompoundTag tag, EditorType target) {
         LOGGER.debug("Opening block editor for block {} at pos {} with target={}", state, pos, target);
         switch (target) {
-            case STANDARD:
+            case STANDARD ->
                 /*ModScreenHandler.openBlockEditorScreen(block,
                         newBlock -> updateBlock(new WorldBlockData(newBlock, block.getPos())),
                         getDisabledTooltipServerMod(ModTexts.BLOCK));*/
-                player().displayClientMessage(ModTexts.Messages.warnNotImplemented(ModTexts.BLOCK), false);
-                break;
-            case NBT:
+                    player().displayClientMessage(ModTexts.Messages.warnNotImplemented(ModTexts.BLOCK), false);
+            case NBT -> {
                 if (tag == null) {
                     player().displayClientMessage(ModTexts.Messages.errorNoTargetFound(ModTexts.BLOCK), false);
                     break;
@@ -148,8 +140,8 @@ public final class ClientEditorLogic {
                 ModScreenHandler.openNBTEditorScreen(tag,
                         newTag -> updateBlock(pos, state, newTag),
                         getDisabledTooltipServerMod(ModTexts.BLOCK));
-                break;
-            case SNBT:
+            }
+            case SNBT -> {
                 if (tag == null) {
                     player().displayClientMessage(ModTexts.Messages.errorNoTargetFound(ModTexts.BLOCK), false);
                     break;
@@ -157,7 +149,7 @@ public final class ClientEditorLogic {
                 ModScreenHandler.openSNBTEditorScreen(tag.toString(),
                         snbt -> updateBlock(pos, state, parseTag(snbt)),
                         getDisabledTooltipServerMod(ModTexts.BLOCK));
-                break;
+            }
         }
     }
 
@@ -169,22 +161,17 @@ public final class ClientEditorLogic {
     public static void openEntityEditor(CompoundTag entity, int entityId, EditorType target) {
         LOGGER.debug("Opening entity editor for entity {} with id {} and target={}", entity, entityId, target);
         switch (target) {
-            case STANDARD:
+            case STANDARD ->
                 /*ModScreenHandler.openEntityEditorScreen(entity,
                         entity1 -> updateEntity(entityId, entity1),
                         getDisabledTooltipServerMod(ModTexts.ENTITY));*/
-                player().displayClientMessage(ModTexts.Messages.warnNotImplemented(ModTexts.ENTITY), false);
-                break;
-            case NBT:
-                ModScreenHandler.openNBTEditorScreen(entity,
-                        tag -> updateEntity(entityId, tag),
-                        getDisabledTooltipServerMod(ModTexts.ENTITY));
-                break;
-            case SNBT:
-                ModScreenHandler.openSNBTEditorScreen(entity.toString(),
-                        snbt -> updateEntity(entityId, parseTag(snbt)),
-                        getDisabledTooltipServerMod(ModTexts.ENTITY));
-                break;
+                    player().displayClientMessage(ModTexts.Messages.warnNotImplemented(ModTexts.ENTITY), false);
+            case NBT -> ModScreenHandler.openNBTEditorScreen(entity,
+                    tag -> updateEntity(entityId, tag),
+                    getDisabledTooltipServerMod(ModTexts.ENTITY));
+            case SNBT -> ModScreenHandler.openSNBTEditorScreen(entity.toString(),
+                    snbt -> updateEntity(entityId, parseTag(snbt)),
+                    getDisabledTooltipServerMod(ModTexts.ENTITY));
         }
     }
 
@@ -209,7 +196,7 @@ public final class ClientEditorLogic {
         } else {
             if (player().isCreative()) {
                 if (isCreativeInventoryScreen) {
-                    player().inventory.setItem(slotId, itemStack);
+                    player().getInventory().setItem(slotId, itemStack);
                 } else {
                     Minecraft.getInstance().gameMode.handleCreativeModeItemAdd(itemStack, slotId);
                 }

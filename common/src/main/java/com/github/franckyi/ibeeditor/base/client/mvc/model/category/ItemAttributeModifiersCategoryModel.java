@@ -25,7 +25,7 @@ public class ItemAttributeModifiersCategoryModel extends ItemCategoryModel {
                 .stream()
                 .map(CompoundTag.class::cast)
                 .map(this::createModifierEntry)
-                .collect(Collectors.toList()));
+                .toList());
     }
 
     @Override

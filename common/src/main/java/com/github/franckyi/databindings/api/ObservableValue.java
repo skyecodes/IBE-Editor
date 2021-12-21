@@ -79,7 +79,7 @@ public interface ObservableValue<T> {
      * @return The unmodifiable {@link ObservableValue}
      */
     static <T> ObservableValue<T> unmodifiable(T value) {
-        return new ObservableValue<T>() {
+        return new ObservableValue<>() {
             @Override
             public T get() {
                 return value;

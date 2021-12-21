@@ -35,13 +35,13 @@ public class VanillaCheckBoxSkinDelegate extends Checkbox implements VanillaWidg
     @Override
     public void renderButton(PoseStack poseStack, int mouseX, int mouseY, float delta) {
         Minecraft mc = Minecraft.getInstance();
-        mc.getTextureManager().bind(TEXTURE);
+        RenderSystem.setShaderTexture(0, TEXTURE);
         RenderSystem.enableDepthTest();
-        RenderSystem.color4f(1.0F, 1.0F, 1.0F, alpha);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, this.alpha);
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
         RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-        blit(poseStack, x, y, isHovered() ? 16 : 0, selected() ? 16 : 0, 16, 16, 32, 32);
+        blit(poseStack, x, y, isHoveredOrFocused() ? 16 : 0, selected() ? 16 : 0, 16, 16, 32, 32);
         renderBg(poseStack, mc, mouseX, mouseY);
         drawString(poseStack, mc.font, getMessage(), x + 20, y + (height - mc.font.lineHeight - 1) / 2, 14737632 | Mth.ceil(alpha * 255.0F) << 24);
     }

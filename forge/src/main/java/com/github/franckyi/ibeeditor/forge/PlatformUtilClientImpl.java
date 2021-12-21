@@ -1,7 +1,7 @@
 package com.github.franckyi.ibeeditor.forge;
 
 import net.minecraft.client.KeyMapping;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
+import net.minecraftforge.client.ClientRegistry;
 
 public class PlatformUtilClientImpl {
     public static KeyMapping registerKeyBinding(String name, int code, String category) {

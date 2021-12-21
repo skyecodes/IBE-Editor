@@ -53,8 +53,7 @@ public final class ClientEventHandler {
                         ClientEditorLogic.openPlayerInventoryItemEditor(slot.getItem(), type, slot.index, screen instanceof CreativeModeInventoryScreen);
                     } else {
                         HitResult hitResult = Minecraft.getInstance().hitResult;
-                        if (hitResult instanceof BlockHitResult) {
-                            BlockHitResult blockHitResult = (BlockHitResult) hitResult;
+                        if (hitResult instanceof BlockHitResult blockHitResult) {
                             BlockEntity blockEntity = Minecraft.getInstance().level.getBlockEntity(blockHitResult.getBlockPos());
                             if (blockEntity instanceof Container) {
                                 ClientEditorLogic.openBlockInventoryItemEditor(slot.getItem(), type, slot.index, blockHitResult.getBlockPos());

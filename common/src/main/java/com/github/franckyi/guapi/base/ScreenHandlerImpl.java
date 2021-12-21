@@ -182,8 +182,7 @@ public final class ScreenHandlerImpl implements ScreenHandler {
         }
 
         @Override
-        public void init(Minecraft client, int width, int height) {
-            super.init(client, width, height);
+        protected void init() {
             ScreenHandlerImpl.this.updateSize(width, height);
         }
 

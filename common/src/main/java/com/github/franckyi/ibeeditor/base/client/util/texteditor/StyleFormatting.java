@@ -24,21 +24,11 @@ public class StyleFormatting extends Formatting {
     @Override
     public void apply(MutableComponent text) {
         switch (target) {
-            case BOLD:
-                text.withStyle(ChatFormatting.BOLD);
-                break;
-            case ITALIC:
-                text.withStyle(ChatFormatting.ITALIC);
-                break;
-            case UNDERLINED:
-                text.withStyle(ChatFormatting.UNDERLINE);
-                break;
-            case STRIKETHROUGH:
-                text.withStyle(ChatFormatting.STRIKETHROUGH);
-                break;
-            case OBFUSCATED:
-                text.withStyle(ChatFormatting.OBFUSCATED);
-                break;
+            case BOLD -> text.withStyle(ChatFormatting.BOLD);
+            case ITALIC -> text.withStyle(ChatFormatting.ITALIC);
+            case UNDERLINED -> text.withStyle(ChatFormatting.UNDERLINE);
+            case STRIKETHROUGH -> text.withStyle(ChatFormatting.STRIKETHROUGH);
+            case OBFUSCATED -> text.withStyle(ChatFormatting.OBFUSCATED);
         }
     }
 

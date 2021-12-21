@@ -13,6 +13,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.AbstractSelectionList;
 import net.minecraft.client.gui.components.events.GuiEventListener;
+import net.minecraft.client.gui.narration.NarrationElementOutput;
 import org.jetbrains.annotations.Nullable;
 
 public abstract class AbstractVanillaListNodeSkinDelegate<N extends ListNode<E>, E, T extends AbstractVanillaListNodeSkinDelegate.NodeEntry<N, E, T>> extends AbstractSelectionList<T> implements VanillaWidgetSkinDelegate {
@@ -37,6 +38,10 @@ public abstract class AbstractVanillaListNodeSkinDelegate<N extends ListNode<E>,
         node.rootProperty().addListener(this::shouldRefreshList);
         node.scrollToProperty().addListener(this::shouldScrollTo);
         node.focusedElementProperty().addListener(this::shouldChangeFocus);
+    }
+
+    @Override
+    public void updateNarration(NarrationElementOutput narrationElementOutput) {
     }
 
     public N getNode() {

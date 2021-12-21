@@ -18,15 +18,11 @@ public enum EditorType {
     }
 
     public static EditorType from(byte id) {
-        switch (id) {
-            case 0:
-                return STANDARD;
-            case 1:
-                return NBT;
-            case 2:
-                return SNBT;
-            default:
-                return null;
-        }
+        return switch (id) {
+            case 0 -> STANDARD;
+            case 1 -> NBT;
+            case 2 -> SNBT;
+            default -> null;
+        };
     }
 }

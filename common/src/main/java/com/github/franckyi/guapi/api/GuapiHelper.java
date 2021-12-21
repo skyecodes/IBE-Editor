@@ -371,7 +371,7 @@ public final class GuapiHelper {
         return node().createScene(with);
     }
 
-    public static MutableComponent EMPTY_TEXT = (MutableComponent) TextComponent.EMPTY;
+    public static final MutableComponent EMPTY_TEXT = (MutableComponent) TextComponent.EMPTY;
 
     public static TextComponent text() {
         return text("");

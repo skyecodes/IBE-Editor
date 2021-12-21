@@ -28,7 +28,7 @@ public final class ServerEditorLogic {
     public static void updatePlayerInventoryItem(ServerPlayer player, ItemStack itemStack, int slotId) {
         LOGGER.debug("Updating {}'s inventory item at slot {} to {}", player.getGameProfile().getName(), slotId, itemStack);
         LOGGER.debug(itemStack.save(new CompoundTag()));
-        player.inventory.setItem(slotId, itemStack);
+        player.getInventory().setItem(slotId, itemStack);
         player.displayClientMessage(ModTexts.Messages.successUpdate(ModTexts.ITEM), false);
     }
 
@@ -52,7 +52,7 @@ public final class ServerEditorLogic {
         level.setBlockAndUpdate(pos, state);
         BlockEntity blockEntity = level.getBlockEntity(pos);
         if (blockEntity != null) {
-            blockEntity.load(state, tag);
+            blockEntity.load(tag);
         }
         sender.displayClientMessage(ModTexts.Messages.successUpdate(ModTexts.BLOCK), false);
     }
@@ -73,7 +73,7 @@ public final class ServerEditorLogic {
         ServerLevel level = sender.getLevel();
         BlockState state = level.getBlockState(pos);
         BlockEntity blockEntity = level.getBlockEntity(pos);
-        CompoundTag tag = blockEntity == null ? null : blockEntity.save(new CompoundTag());
+        CompoundTag tag = blockEntity == null ? null : blockEntity.saveWithoutMetadata();
         ServerNetworkEmitter.sendBlockEditorResponse(sender, editorType, pos, state, tag);
     }
 

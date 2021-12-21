@@ -58,17 +58,17 @@ public final class RenderHelper {
     }
 
     public static void drawTexture(PoseStack matrices, ResourceLocation id, int x, int y, int width, int height, int imageX, int imageY, int imageWidth, int imageHeight) {
-        mc().getTextureManager().bind(id);
-        RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.setShaderTexture(0, id);
         RenderSystem.enableBlend();
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.defaultBlendFunc();
         RenderSystem.enableDepthTest();
-        GuiComponent.blit(matrices, x, y, 0, imageX, imageY, width, height, imageHeight, imageWidth);
+        GuiComponent.blit(matrices, x, y, 0, imageX, imageY, width, height, imageWidth, imageHeight);
     }
 
     public static void drawSprite(PoseStack matrices, TextureAtlasSprite sprite, int x, int y, int imageWidth, int imageHeight) {
-        mc().getTextureManager().bind(sprite.atlas().location());
-        RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.setShaderTexture(0, sprite.atlas().location());
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         GuiComponent.blit(matrices, x, y, 0, imageWidth, imageHeight, sprite);
     }
 

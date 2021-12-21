@@ -49,7 +49,7 @@ public class ObservableListChangeEventImpl<E> implements ObservableListChangeEve
         if (replaced == null) {
             replaced = allChanged.stream()
                     .filter(ChangeEntry::wasReplaced)
-                    .collect(Collectors.toList());
+                    .toList();
         }
         return replaced;
     }
@@ -58,16 +58,7 @@ public class ObservableListChangeEventImpl<E> implements ObservableListChangeEve
         return new Builder<>();
     }
 
-    public static class ChangeEntryImpl<E> implements ChangeEntry<E> {
-        private final int index;
-        private final E oldValue, newValue;
-
-        private ChangeEntryImpl(int index, E oldValue, E newValue) {
-            this.index = index;
-            this.oldValue = oldValue;
-            this.newValue = newValue;
-        }
-
+    public record ChangeEntryImpl<E>(int index, E oldValue, E newValue) implements ChangeEntry<E> {
         public int getIndex() {
             return index;
         }
@@ -81,15 +72,7 @@ public class ObservableListChangeEventImpl<E> implements ObservableListChangeEve
         }
     }
 
-    public static class SimpleChangeEntryImpl<E> implements SimpleChangeEntry<E> {
-        private final int index;
-        private final E value;
-
-        private SimpleChangeEntryImpl(int index, E value) {
-            this.index = index;
-            this.value = value;
-        }
-
+    public record SimpleChangeEntryImpl<E>(int index, E value) implements SimpleChangeEntry<E> {
         public int getIndex() {
             return index;
         }

@@ -128,8 +128,8 @@ public class TextEntryController extends ValueEntryController<TextEntryModel, Te
         if (formattings.contains(formatting)) {
             return;
         }
-        boolean add = mergeIdenticalFormattings(ColorFormatting.class, other -> other.getColor().equals(color), formatting);
-        resizeOtherColorFormattings(formatting, add);
+        mergeIdenticalFormattings(ColorFormatting.class, other -> other.getColor().equals(color), formatting);
+        resizeOtherColorFormattings(formatting, true);
     }
 
     @Override
@@ -146,14 +146,12 @@ public class TextEntryController extends ValueEntryController<TextEntryModel, Te
         if (surrounding.isPresent()) {
             removeStyleFormatting(formatting, surrounding.get());
         } else {
-            boolean add = mergeIdenticalFormattings(StyleFormatting.class, other -> other.getType().equals(target), formatting);
-            if (add) {
-                formattings.add(formatting);
-            }
+            mergeIdenticalFormattings(StyleFormatting.class, other -> other.getType().equals(target), formatting);
+            formattings.add(formatting);
         }
     }
 
-    private <T extends Formatting> boolean mergeIdenticalFormattings(Class<T> formattingClass, Predicate<T> identicalPredicate, T formatting) {
+    private <T extends Formatting> void mergeIdenticalFormattings(Class<T> formattingClass, Predicate<T> identicalPredicate, T formatting) {
         Iterator<Formatting> it = formattings.iterator();
         while (it.hasNext()) {
             Formatting f = it.next();
@@ -179,7 +177,6 @@ public class TextEntryController extends ValueEntryController<TextEntryModel, Te
                 }
             }
         }
-        return true;
     }
 
     private void resizeOtherColorFormattings(ColorFormatting formatting, boolean add) {
@@ -190,8 +187,7 @@ public class TextEntryController extends ValueEntryController<TextEntryModel, Te
         Iterator<Formatting> it = formattings.iterator();
         while (it.hasNext()) {
             Formatting f = it.next();
-            if (f instanceof ColorFormatting) {
-                ColorFormatting other = (ColorFormatting) f;
+            if (f instanceof ColorFormatting other) {
                 if (!other.getColor().equals(formatting.getColor())) {
                     if (formatting.getStart() <= other.getStart() && formatting.getEnd() >= other.getEnd()) {
                         it.remove();

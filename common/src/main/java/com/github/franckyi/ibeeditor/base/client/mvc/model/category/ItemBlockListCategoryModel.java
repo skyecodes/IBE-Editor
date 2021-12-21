@@ -28,7 +28,7 @@ public class ItemBlockListCategoryModel extends ItemCategoryModel {
                 .map(StringTag.class::cast)
                 .map(StringTag::getAsString)
                 .map(this::createBlockEntry)
-                .collect(Collectors.toList()));
+                .toList());
     }
 
     @Override

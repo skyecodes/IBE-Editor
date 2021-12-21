@@ -38,7 +38,7 @@ public class ListSelectionScreenController extends AbstractController<ListSelect
                 .stream()
                 .filter(item -> item.matches(filter))
                 .limit(ClientConfiguration.INSTANCE.getSelectionScreenMaxItems())
-                .collect(Collectors.toList()));
+                .toList());
     }
 
     private void refreshButton() {
