@@ -36,7 +36,7 @@ public final class ClientEventHandler {
         }
     }
 
-    public static void onScreenEvent(AbstractContainerScreen<?> screen, int keyCode) {
+    public static boolean onScreenEvent(AbstractContainerScreen<?> screen, int keyCode) {
         try {
             EditorType type = null;
             if (keyCode == PlatformUtilClient.getKeyCode(KeyBindings.editorKey)) {
@@ -47,24 +47,12 @@ public final class ClientEventHandler {
                 type = EditorType.SNBT;
             }
             if (type != null) {
-                Slot slot = ((AbstractContainerScreenMixin) screen).getHoveredSlot();
-                if (slot != null && slot.hasItem()) {
-                    if (slot.container instanceof Inventory) {
-                        ClientEditorLogic.openPlayerInventoryItemEditor(slot.getItem(), type, slot.index, screen instanceof CreativeModeInventoryScreen);
-                    } else {
-                        HitResult hitResult = Minecraft.getInstance().hitResult;
-                        if (hitResult instanceof BlockHitResult blockHitResult) {
-                            BlockEntity blockEntity = Minecraft.getInstance().level.getBlockEntity(blockHitResult.getBlockPos());
-                            if (blockEntity instanceof Container) {
-                                ClientEditorLogic.openBlockInventoryItemEditor(slot.getItem(), type, slot.index, blockHitResult.getBlockPos());
-                            }
-                        }
-                    }
-                }
+                return ClientEditorLogic.tryOpenItemEditorFromScreen(type, ((AbstractContainerScreenMixin) screen).getHoveredSlot(), screen instanceof CreativeModeInventoryScreen);
             }
         } catch (Exception e) {
             Minecraft.getInstance().player.displayClientMessage(ModTexts.Messages.ERROR_GENERIC, false);
             LOGGER.error("Error while handling screen key input for IBE Editor mod", e);
         }
+        return false;
     }
 }

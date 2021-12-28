@@ -18,6 +18,12 @@ public final class NetworkManager {
     public static final String BLOCK_UPDATE = "ibeeditor:network/block_update";
     public static final String ENTITY_UPDATE = "ibeeditor:network/entity_update";
 
+    public static final String MAIN_HAND_ITEM_EDITOR_REQUEST = "ibeeditor:network/main_hand_item_editor_request";
+    public static final String MAIN_HAND_ITEM_EDITOR_RESPONSE = "ibeeditor:network/main_hand_item_editor_response";
+    public static final String PLAYER_INVENTORY_ITEM_EDITOR_REQUEST = "ibeeditor:network/player_inventory_item_editor_request";
+    public static final String PLAYER_INVENTORY_ITEM_EDITOR_RESPONSE = "ibeeditor:network/player_inventory_item_editor_response";
+    public static final String BLOCK_INVENTORY_ITEM_EDITOR_REQUEST = "ibeeditor:network/block_inventory_item_editor_request";
+    public static final String BLOCK_INVENTORY_ITEM_EDITOR_RESPONSE = "ibeeditor:network/block_inventory_item_editor_response";
     public static final String BLOCK_EDITOR_REQUEST = "ibeeditor:network/block_editor_request";
     public static final String BLOCK_EDITOR_RESPONSE = "ibeeditor:network/block_editor_response";
     public static final String ENTITY_EDITOR_REQUEST = "ibeeditor:network/entity_editor_request";
@@ -38,6 +44,12 @@ public final class NetworkManager {
         PlatformUtil.registerServerHandler(ENTITY_EDITOR_REQUEST, i++, EntityEditorRequestPacket.class, EntityEditorRequestPacket::new, ServerNetworkReceiver::onEntityEditorRequest);
         PlatformUtil.registerClientHandler(ENTITY_EDITOR_RESPONSE, i++, EntityEditorResponsePacket.class, EntityEditorResponsePacket::new, ClientNetworkReceiver::onEntityEditorResponse);
         PlatformUtil.registerClientHandler(EDITOR_COMMAND, i++, EditorCommandPacket.class, EditorCommandPacket::new, ClientNetworkReceiver::onEditorCommand);
+        PlatformUtil.registerServerHandler(MAIN_HAND_ITEM_EDITOR_REQUEST, i++, MainHandItemEditorRequestPacket.class, MainHandItemEditorRequestPacket::new, ServerNetworkReceiver::onMainHandItemEditorRequest);
+        PlatformUtil.registerClientHandler(MAIN_HAND_ITEM_EDITOR_RESPONSE, i++, MainHandItemEditorResponsePacket.class, MainHandItemEditorResponsePacket::new, ClientNetworkReceiver::onMainHandItemEditorResponse);
+        PlatformUtil.registerServerHandler(PLAYER_INVENTORY_ITEM_EDITOR_REQUEST, i++, PlayerInventoryItemEditorRequestPacket.class, PlayerInventoryItemEditorRequestPacket::new, ServerNetworkReceiver::onPlayerInventoryItemEditorRequest);
+        PlatformUtil.registerClientHandler(PLAYER_INVENTORY_ITEM_EDITOR_RESPONSE, i++, PlayerInventoryItemEditorResponsePacket.class, PlayerInventoryItemEditorResponsePacket::new, ClientNetworkReceiver::onPlayerInventoryItemEditorResponse);
+        PlatformUtil.registerServerHandler(BLOCK_INVENTORY_ITEM_EDITOR_REQUEST, i++, BlockInventoryItemEditorRequestPacket.class, BlockInventoryItemEditorRequestPacket::new, ServerNetworkReceiver::onBlockInventoryItemEditorRequest);
+        PlatformUtil.registerClientHandler(BLOCK_INVENTORY_ITEM_EDITOR_RESPONSE, i++, BlockInventoryItemEditorResponsePacket.class, BlockInventoryItemEditorResponsePacket::new, ClientNetworkReceiver::onBlockInventoryItemEditorResponse);
     }
 
     public static void sendToServer(String id, Packet packet) {

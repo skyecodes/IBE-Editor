@@ -1,5 +1,6 @@
 package com.github.franckyi.ibeeditor.base.server;
 
+import com.github.franckyi.ibeeditor.base.common.CommonConfiguration;
 import com.github.franckyi.ibeeditor.base.common.EditorType;
 import com.github.franckyi.ibeeditor.base.common.ModTexts;
 import net.minecraft.core.BlockPos;
@@ -19,6 +20,7 @@ public final class ServerEditorLogic {
     private static final Logger LOGGER = LogManager.getLogger();
 
     public static void updatePlayerMainHandItem(ServerPlayer player, ItemStack itemStack) {
+        if (checkPermission(player)) return;
         LOGGER.debug("Updating {}'s main hand item to {}", player.getGameProfile().getName(), itemStack);
         LOGGER.debug(itemStack.save(new CompoundTag()));
         player.setItemInHand(InteractionHand.MAIN_HAND, itemStack);
@@ -26,63 +28,104 @@ public final class ServerEditorLogic {
     }
 
     public static void updatePlayerInventoryItem(ServerPlayer player, ItemStack itemStack, int slotId) {
+        if (checkPermission(player)) return;
         LOGGER.debug("Updating {}'s inventory item at slot {} to {}", player.getGameProfile().getName(), slotId, itemStack);
         LOGGER.debug(itemStack.save(new CompoundTag()));
         player.getInventory().setItem(slotId, itemStack);
         player.displayClientMessage(ModTexts.Messages.successUpdate(ModTexts.ITEM), false);
     }
 
-    public static void updateBlockInventoryItem(ServerPlayer sender, ItemStack itemStack, int slotId, BlockPos blockPos) {
+    public static void updateBlockInventoryItem(ServerPlayer player, ItemStack itemStack, int slotId, BlockPos blockPos) {
+        if (checkPermission(player)) return;
         LOGGER.debug("Updating block inventory item at pos {} and slot {} to {}", blockPos, slotId, itemStack);
         LOGGER.debug(itemStack.save(new CompoundTag()));
-        ServerLevel level = sender.getLevel();
+        ServerLevel level = player.getLevel();
         BlockEntity blockEntity = level.getBlockEntity(blockPos);
         if (blockEntity instanceof Container) {
             ((Container) blockEntity).setItem(slotId, itemStack);
-            sender.displayClientMessage(ModTexts.Messages.successUpdate(ModTexts.ITEM), false);
+            player.displayClientMessage(ModTexts.Messages.successUpdate(ModTexts.ITEM), false);
         } else {
-            sender.displayClientMessage(ModTexts.Messages.errorNoTargetFound(ModTexts.ITEM), false);
+            player.displayClientMessage(ModTexts.Messages.errorNoTargetFound(ModTexts.ITEM), false);
         }
     }
 
-    public static void updateBlock(ServerPlayer sender, BlockPos pos, BlockState state, CompoundTag tag) {
+    public static void updateBlock(ServerPlayer player, BlockPos pos, BlockState state, CompoundTag tag) {
+        if (checkPermission(player)) return;
         LOGGER.debug("Updating block {} at pos {}", state, pos);
         LOGGER.debug(tag);
-        ServerLevel level = sender.getLevel();
+        ServerLevel level = player.getLevel();
         level.setBlockAndUpdate(pos, state);
         BlockEntity blockEntity = level.getBlockEntity(pos);
         if (blockEntity != null) {
             blockEntity.load(tag);
         }
-        sender.displayClientMessage(ModTexts.Messages.successUpdate(ModTexts.BLOCK), false);
+        player.displayClientMessage(ModTexts.Messages.successUpdate(ModTexts.BLOCK), false);
     }
 
-    public static void updateEntity(ServerPlayer sender, CompoundTag tag, int entityId) {
+    public static void updateEntity(ServerPlayer player, CompoundTag tag, int entityId) {
+        if (checkPermission(player)) return;
         LOGGER.debug("Updating entity {} with id {}", tag, entityId);
         LOGGER.debug(tag);
-        Entity entity = sender.getLevel().getEntity(entityId);
+        Entity entity = player.getLevel().getEntity(entityId);
         if (entity != null) {
             entity.load(tag);
-            sender.displayClientMessage(ModTexts.Messages.successUpdate(ModTexts.ENTITY), false);
+            player.displayClientMessage(ModTexts.Messages.successUpdate(ModTexts.ENTITY), false);
         } else {
-            sender.displayClientMessage(ModTexts.Messages.errorNoTargetFound(ModTexts.ENTITY), false);
+            player.displayClientMessage(ModTexts.Messages.errorNoTargetFound(ModTexts.ENTITY), false);
         }
     }
 
-    public static void processBlockEditorRequest(ServerPlayer sender, EditorType editorType, BlockPos pos) {
-        ServerLevel level = sender.getLevel();
+    public static void processMainHandItemEditorRequest(ServerPlayer player, EditorType editorType) {
+        if (checkPermission(player)) return;
+        ServerNetworkEmitter.sendMainHandItemEditorResponse(player, editorType, player.getMainHandItem());
+    }
+
+    public static void processPlayerInventoryItemEditorRequest(ServerPlayer player, EditorType editorType, int slotIndex, boolean isCreativeInventoryScreen) {
+        if (checkPermission(player)) return;
+        ServerNetworkEmitter.sendPlayerInventoryItemEditorResponse(player, editorType, slotIndex, isCreativeInventoryScreen, player.getInventory().getItem(slotIndex));
+    }
+
+    public static void processBlockInventoryItemEditorRequest(ServerPlayer player, EditorType editorType, int slotIndex, BlockPos pos) {
+        if (checkPermission(player)) return;
+        BlockEntity blockEntity = player.getLevel().getBlockEntity(pos);
+        if (blockEntity instanceof Container) {
+            ServerNetworkEmitter.sendBlockInventoryItemEditorResponse(player, editorType, slotIndex, pos, ((Container) blockEntity).getItem(slotIndex));
+        } else {
+            player.displayClientMessage(ModTexts.Messages.errorNoTargetFound(ModTexts.ITEM), false);
+        }
+    }
+
+    public static void processBlockEditorRequest(ServerPlayer player, EditorType editorType, BlockPos pos) {
+        if (checkPermission(player)) return;
+        ServerLevel level = player.getLevel();
         BlockState state = level.getBlockState(pos);
         BlockEntity blockEntity = level.getBlockEntity(pos);
         CompoundTag tag = blockEntity == null ? null : blockEntity.saveWithoutMetadata();
-        ServerNetworkEmitter.sendBlockEditorResponse(sender, editorType, pos, state, tag);
+        if (tag != null || (!editorType.isNBT() && state != null)) {
+            ServerNetworkEmitter.sendBlockEditorResponse(player, editorType, pos, state, tag);
+        } else {
+            player.displayClientMessage(ModTexts.Messages.errorNoTargetFound(ModTexts.BLOCK), false);
+        }
     }
 
-    public static void processEntityEditorRequest(ServerPlayer sender, EditorType editorType, int entityId) {
-        ServerLevel level = sender.getLevel();
+    public static void processEntityEditorRequest(ServerPlayer player, EditorType editorType, int entityId) {
+        if (checkPermission(player)) return;
+        ServerLevel level = player.getLevel();
         Entity entity = level.getEntity(entityId);
         if (entity != null) {
             CompoundTag tag = entity.saveWithoutId(new CompoundTag());
-            ServerNetworkEmitter.sendEntityEditorResponse(sender, editorType, entityId, tag);
+            ServerNetworkEmitter.sendEntityEditorResponse(player, editorType, entityId, tag);
+        } else {
+            player.displayClientMessage(ModTexts.Messages.errorNoTargetFound(ModTexts.ENTITY), false);
         }
+    }
+
+    private static boolean checkPermission(ServerPlayer player) {
+        if (!player.hasPermissions(CommonConfiguration.INSTANCE.getPermissionLevel()) || (CommonConfiguration.INSTANCE.isCreativeOnly() && !player.isCreative())) {
+            LOGGER.warn("Player {} does not have the permission to use the editor", player.getGameProfile().getName());
+            player.displayClientMessage(ModTexts.Messages.NO_PERMISSION, false);
+            return true;
+        }
+        return false;
     }
 }

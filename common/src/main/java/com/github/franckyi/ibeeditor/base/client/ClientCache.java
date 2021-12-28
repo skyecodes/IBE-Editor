@@ -12,7 +12,6 @@ import net.minecraft.world.item.enchantment.Enchantment;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public final class ClientCache {
     private static List<String> itemSuggestions;
@@ -28,42 +27,28 @@ public final class ClientCache {
     private static List<String> effectSuggestions;
     private static List<SpriteListSelectionItemModel> effectSelectionItems;
 
-    public static void init() {
-        itemSuggestions = buildSuggestions(Registry.ITEM);
-        itemSelectionItems = buildItemSelectionItems();
-        blockSuggestions = buildSuggestions(Registry.BLOCK);
-        blockSelectionItems = buildBlockSelectionItems();
-        enchantmentSuggestions = buildSuggestions(Registry.ENCHANTMENT);
-        enchantmentSelectionItems = buildEnchantmentSelectionItems();
-        attributeSuggestions = buildSuggestions(Registry.ATTRIBUTE);
-        attributeSelectionItems = buildAttributeSelectionItems();
-        potionSuggestions = buildSuggestions(Registry.POTION);
-        potionSelectionItems = buildPotionSelectionItems();
-        effectSuggestions = buildSuggestions(Registry.MOB_EFFECT);
-        effectSelectionItems = buildEffectSelectionItems();
-    }
-
     public static List<String> getItemSuggestions() {
-        return itemSuggestions;
+        return itemSuggestions == null ? itemSuggestions = buildSuggestions(Registry.ITEM) : itemSuggestions;
     }
 
     public static List<ItemListSelectionItemModel> getItemSelectionItems() {
-        return itemSelectionItems;
+        return itemSelectionItems == null ? itemSelectionItems = buildItemSelectionItems() : itemSelectionItems;
     }
 
     public static List<String> getBlockSuggestions() {
-        return blockSuggestions;
+        return blockSuggestions == null ? blockSuggestions = buildSuggestions(Registry.BLOCK) : blockSuggestions;
     }
 
     public static List<ItemListSelectionItemModel> getBlockSelectionItems() {
-        return blockSelectionItems;
+        return blockSelectionItems == null ? blockSelectionItems = buildBlockSelectionItems() : blockSelectionItems;
     }
 
     public static List<String> getEnchantmentSuggestions() {
-        return enchantmentSuggestions;
+        return enchantmentSuggestions == null ? enchantmentSuggestions = buildSuggestions(Registry.ENCHANTMENT) : enchantmentSuggestions;
     }
 
     public static List<SortedEnchantmentListSelectionItemModel> getSortedEnchantmentSelectionItems(ItemStack target) {
+        if (enchantmentSelectionItems == null) enchantmentSelectionItems = buildEnchantmentSelectionItems();
         return enchantmentSelectionItems
                 .stream()
                 .map(item -> new SortedEnchantmentListSelectionItemModel(item, item.getEnchantment().isCurse(), item.getEnchantment().canEnchant(target)))
@@ -98,27 +83,27 @@ public final class ClientCache {
     }
 
     public static List<String> getAttributeSuggestions() {
-        return attributeSuggestions;
+        return attributeSuggestions == null ? attributeSuggestions = buildSuggestions(Registry.ATTRIBUTE) : attributeSuggestions;
     }
 
     public static List<ListSelectionItemModel> getAttributeSelectionItems() {
-        return attributeSelectionItems;
+        return attributeSelectionItems == null ? attributeSelectionItems = buildAttributeSelectionItems() : attributeSelectionItems;
     }
 
     public static List<String> getPotionSuggestions() {
-        return potionSuggestions;
+        return potionSuggestions == null ? potionSuggestions = buildSuggestions(Registry.POTION) : potionSuggestions;
     }
 
     public static List<ItemListSelectionItemModel> getPotionSelectionItems() {
-        return potionSelectionItems;
+        return potionSelectionItems == null ? potionSelectionItems = buildPotionSelectionItems() : potionSelectionItems;
     }
 
     public static List<String> getEffectSuggestions() {
-        return effectSuggestions;
+        return effectSuggestions == null ? effectSuggestions = buildSuggestions(Registry.MOB_EFFECT) : effectSuggestions;
     }
 
     public static List<SpriteListSelectionItemModel> getEffectSelectionItems() {
-        return effectSelectionItems;
+        return effectSelectionItems == null ? effectSelectionItems = buildEffectSelectionItems() : effectSelectionItems;
     }
 
     private static List<String> buildSuggestions(Registry<?> registry) {
