@@ -65,7 +65,7 @@ public final class ClientEditorLogic {
                 } else {
                     BlockState state = level.getBlockState(pos);
                     BlockEntity entity = level.getBlockEntity(pos);
-                    CompoundTag tag = entity == null ? null : entity.saveWithoutMetadata();
+                    CompoundTag tag = entity == null ? null : entity.save(new CompoundTag());
                     openBlockEditor(pos, state, tag, type);
                 }
                 return true;

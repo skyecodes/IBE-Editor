@@ -100,7 +100,7 @@ public final class ServerEditorLogic {
         ServerLevel level = player.getLevel();
         BlockState state = level.getBlockState(pos);
         BlockEntity blockEntity = level.getBlockEntity(pos);
-        CompoundTag tag = blockEntity == null ? null : blockEntity.saveWithoutMetadata();
+        CompoundTag tag = blockEntity == null ? null : blockEntity.save(new CompoundTag());
         if (tag != null || (!editorType.isNBT() && state != null)) {
             ServerNetworkEmitter.sendBlockEditorResponse(player, editorType, pos, state, tag);
         } else {

@@ -1,5 +1,5 @@
 modLoader = "javafml"
-loaderVersion = "[38,)"
+loaderVersion = "[37,)"
 license = "MIT"
 issueTrackerURL = "https://github.com/Franckyi/IBE-Editor/issues"
 logoFile = "logo.png"
@@ -17,13 +17,13 @@ description = "Simple GUI Mod to edit an item, a block or an entity in your curr
 [[dependencies.ibeeditor]]
 modId = "forge"
 mandatory = true
-versionRange = "[38,)"
+versionRange = "[37,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.ibeeditor]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[1.18,)"
+versionRange = "[1.17,)"
 ordering = "NONE"
 side = "BOTH"

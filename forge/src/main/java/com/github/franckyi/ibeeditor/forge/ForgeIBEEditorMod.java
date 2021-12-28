@@ -11,12 +11,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.ConfigGuiHandler;
+import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.client.event.InputEvent;
-import net.minecraftforge.client.event.ScreenEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
@@ -24,6 +22,8 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLLoader;
+import net.minecraftforge.fmlclient.ConfigGuiHandler;
+import net.minecraftforge.fmlserverevents.FMLServerStartingEvent;
 
 @Mod("ibeeditor")
 public final class ForgeIBEEditorMod {
@@ -55,7 +55,7 @@ public final class ForgeIBEEditorMod {
         //event.enqueueWork(ForgeIBEEditorClientInit::optimize);
     }
 
-    private void onServerStarting(ServerStartingEvent event) {
+    private void onServerStarting(FMLServerStartingEvent event) {
         ServerCommandHandler.registerCommand(event.getServer().getCommands().getDispatcher());
     }
 
@@ -73,9 +73,9 @@ public final class ForgeIBEEditorMod {
         }
     }
 
-    private void onKeyPressed(ScreenEvent.KeyboardKeyPressedEvent.Pre e) {
-        if (e.getScreen() instanceof AbstractContainerScreen) {
-            e.setCanceled(ClientEventHandler.onScreenEvent((AbstractContainerScreen<?>) e.getScreen(), e.getKeyCode()));
+    private void onKeyPressed(GuiScreenEvent.KeyboardKeyPressedEvent.Pre e) {
+        if (e.getGui() instanceof AbstractContainerScreen screen) {
+            e.setCanceled(ClientEventHandler.onScreenEvent(screen, e.getKeyCode()));
         }
     }
 
