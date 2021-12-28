@@ -108,6 +108,9 @@
   "ibeeditor.gui.theme": "Theme",
   "ibeeditor.gui.debug_mode": "Debug Mode",
   "ibeeditor.gui.selection_screen_max_items": "Selection screen max items",
+  "ibeeditor.gui.common": "Common",
+  "ibeeditor.gui.permission_level": "Permission level",
+  "ibeeditor.gui.creative_only": "Creative only",
   "ibeeditor.gui.reload_config": "Reload configuration from disk",
   "ibeeditor.text.item": "Item",
   "ibeeditor.text.block": "Block",
@@ -117,5 +120,6 @@
   "ibeeditor.message.success_update": "%s updated!",
   "ibeeditor.message.no_target_found": "No editable %s found",
   "ibeeditor.message.error_generic": "An error occured. Please check the logs for more details and report the issue to the mod author.",
-  "ibeeditor.message.not_implemented": "The %s Editor is not implemented yet and will come in a future release."
+  "ibeeditor.message.not_implemented": "The %s Editor is not implemented yet and will come in a future release.",
+  "ibeeditor.message.no_permission": "You don't have the permission to use the editor."
 }

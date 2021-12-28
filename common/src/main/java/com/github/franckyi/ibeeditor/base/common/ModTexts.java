@@ -1,6 +1,7 @@
 package com.github.franckyi.ibeeditor.base.common;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextColor;
 
@@ -97,6 +98,9 @@ public final class ModTexts {
     public static final MutableComponent ZOOM_OUT = translated("ibeeditor.gui.zoom_out");
     public static final MutableComponent ZOOM_RESET = translated("ibeeditor.gui.zoom_reset");
     public static final MutableComponent SELECTION_SCREEN_MAX_ITEMS = translated("ibeeditor.gui.selection_screen_max_items");
+    public static final MutableComponent COMMON = translated("ibeeditor.gui.common");
+    public static final MutableComponent PERMISSION_LEVEL = translated("ibeeditor.gui.permission_level");
+    public static final MutableComponent CREATIVE_ONLY = translated("ibeeditor.gui.creative_only");
 
     public static MutableComponent serverMod(MutableComponent with) {
         return translated("ibeeditor.message.error_server_mod", with).withStyle(ChatFormatting.RED);
@@ -160,6 +164,7 @@ public final class ModTexts {
 
     public static class Messages {
         public static final MutableComponent ERROR_GENERIC = prefixed(translated("ibeeditor.message.error_generic")).withStyle(ChatFormatting.RED);
+        public static final MutableComponent NO_PERMISSION = prefixed(translated("ibeeditor.message.no_permission")).withStyle(ChatFormatting.RED);
 
         public static MutableComponent successUpdate(MutableComponent arg) {
             return prefixed(translated("ibeeditor.message.success_update", arg)).withStyle(ChatFormatting.GREEN);

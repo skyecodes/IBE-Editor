@@ -38,6 +38,18 @@ public final class ClientNetworkEmitter {
         send(NetworkManager.ENTITY_UPDATE, new EntityUpdatePacket(entityId, tag));
     }
 
+    public static void sendMainHandItemEditorRequest(EditorType type) {
+        send(NetworkManager.MAIN_HAND_ITEM_EDITOR_REQUEST, new MainHandItemEditorRequestPacket(type));
+    }
+
+    public static void sendPlayerInventoryItemEditorRequest(EditorType type, int slotIndex, boolean isCreativeInventoryScreen) {
+        send(NetworkManager.PLAYER_INVENTORY_ITEM_EDITOR_REQUEST, new PlayerInventoryItemEditorRequestPacket(type, slotIndex, isCreativeInventoryScreen));
+    }
+
+    public static void sendBlockInventoryItemEditorRequest(EditorType type, int slotIndex, BlockPos pos) {
+        send(NetworkManager.BLOCK_INVENTORY_ITEM_EDITOR_REQUEST, new BlockInventoryItemEditorRequestPacket(type, slotIndex, pos));
+    }
+
     public static void sendBlockEditorRequest(BlockPos blockPos, EditorType type) {
         send(NetworkManager.BLOCK_EDITOR_REQUEST, new BlockEditorRequestPacket(type, blockPos));
     }

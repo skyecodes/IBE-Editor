@@ -1,5 +1,6 @@
 package com.github.franckyi.ibeeditor.base.server;
 
+import com.github.franckyi.ibeeditor.base.common.CommonConfiguration;
 import com.github.franckyi.ibeeditor.base.common.EditorType;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
@@ -23,6 +24,7 @@ public final class ServerCommandHandler {
     private static final Logger LOGGER = LogManager.getLogger();
     private static final MutableComponent MUST_INSTALL = text("You must install IBE Editor in order to use this command.").withStyle(ChatFormatting.RED);
     private static final MutableComponent DOWNLOAD = text("Click here to download the mod!").withStyle(style -> style.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://www.curseforge.com/minecraft/mc-mods/ibe-editor"))).withStyle(ChatFormatting.AQUA, ChatFormatting.UNDERLINE);
+    private static final MutableComponent NO_PERMISSION = text("You must be in creative mode to use this command.").withStyle(ChatFormatting.RED);
 
     private enum EditorTargetArgument {
         ITEM("item", ServerCommandHandler::commandOpenItemEditor),
@@ -76,6 +78,7 @@ public final class ServerCommandHandler {
             }
             command.then(subCommand);
         }
+        command.requires(source -> source.hasPermission(CommonConfiguration.INSTANCE.getPermissionLevel()));
         dispatcher.register(command);
     }
 
@@ -110,6 +113,10 @@ public final class ServerCommandHandler {
 
     private static int commandOpenEditor(ServerPlayer player, EditorType type, BiConsumer<ServerPlayer, EditorType> action) {
         if (ServerContext.isClientModded(player)) {
+            if (CommonConfiguration.INSTANCE.isCreativeOnly() && !player.isCreative()) {
+                player.displayClientMessage(NO_PERMISSION, false);
+                return 2;
+            }
             action.accept(player, type);
             return 0;
         }

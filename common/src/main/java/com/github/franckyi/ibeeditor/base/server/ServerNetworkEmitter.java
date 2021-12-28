@@ -3,13 +3,11 @@ package com.github.franckyi.ibeeditor.base.server;
 import com.github.franckyi.ibeeditor.base.common.EditorType;
 import com.github.franckyi.ibeeditor.base.common.NetworkManager;
 import com.github.franckyi.ibeeditor.base.common.Packet;
-import com.github.franckyi.ibeeditor.base.common.packet.BlockEditorResponsePacket;
-import com.github.franckyi.ibeeditor.base.common.packet.EditorCommandPacket;
-import com.github.franckyi.ibeeditor.base.common.packet.EntityEditorResponsePacket;
-import com.github.franckyi.ibeeditor.base.common.packet.ServerNotificationPacket;
+import com.github.franckyi.ibeeditor.base.common.packet.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,40 +15,52 @@ import org.apache.logging.log4j.Logger;
 public final class ServerNetworkEmitter {
     private static final Logger LOGGER = LogManager.getLogger();
 
-    public static void sendServerNotification(ServerPlayer sender) {
-        send(NetworkManager.SERVER_NOTIFICATION, sender, new ServerNotificationPacket());
+    public static void sendServerNotification(ServerPlayer player) {
+        send(NetworkManager.SERVER_NOTIFICATION, player, new ServerNotificationPacket());
     }
 
-    public static void sendBlockEditorResponse(ServerPlayer sender, EditorType editorType, BlockPos pos, BlockState state, CompoundTag tag) {
-        send(NetworkManager.BLOCK_EDITOR_RESPONSE, sender, new BlockEditorResponsePacket(editorType, pos, state, tag));
+    public static void sendMainHandItemEditorResponse(ServerPlayer player, EditorType editorType, ItemStack itemStack) {
+        send(NetworkManager.MAIN_HAND_ITEM_EDITOR_RESPONSE, player, new MainHandItemEditorResponsePacket(editorType, itemStack));
     }
 
-    public static void sendEntityEditorResponse(ServerPlayer sender, EditorType editorType, int entityId, CompoundTag tag) {
-        send(NetworkManager.ENTITY_EDITOR_RESPONSE, sender, new EntityEditorResponsePacket(editorType, entityId, tag));
+    public static void sendPlayerInventoryItemEditorResponse(ServerPlayer player, EditorType editorType, int slotIndex, boolean isCreativeInventoryScreen, ItemStack itemStack) {
+        send(NetworkManager.PLAYER_INVENTORY_ITEM_EDITOR_RESPONSE, player, new PlayerInventoryItemEditorResponsePacket(editorType, slotIndex, isCreativeInventoryScreen, itemStack));
     }
 
-    public static void sendWorldEditorCommand(ServerPlayer sender, EditorType type) {
-        sendEditorCommand(sender, EditorCommandPacket.TARGET_WORLD, type);
+    public static void sendBlockInventoryItemEditorResponse(ServerPlayer player, EditorType editorType, int slotIndex, BlockPos pos, ItemStack itemStack) {
+        send(NetworkManager.BLOCK_INVENTORY_ITEM_EDITOR_RESPONSE, player, new BlockInventoryItemEditorResponsePacket(editorType, slotIndex, pos, itemStack));
     }
 
-    public static void sendItemEditorCommand(ServerPlayer sender, EditorType type) {
-        sendEditorCommand(sender, EditorCommandPacket.TARGET_ITEM, type);
+    public static void sendBlockEditorResponse(ServerPlayer player, EditorType editorType, BlockPos pos, BlockState state, CompoundTag tag) {
+        send(NetworkManager.BLOCK_EDITOR_RESPONSE, player, new BlockEditorResponsePacket(editorType, pos, state, tag));
     }
 
-    public static void sendBlockEditorCommand(ServerPlayer sender, EditorType type) {
-        sendEditorCommand(sender, EditorCommandPacket.TARGET_BLOCK, type);
+    public static void sendEntityEditorResponse(ServerPlayer player, EditorType editorType, int entityId, CompoundTag tag) {
+        send(NetworkManager.ENTITY_EDITOR_RESPONSE, player, new EntityEditorResponsePacket(editorType, entityId, tag));
     }
 
-    public static void sendEntityEditorCommand(ServerPlayer sender, EditorType type) {
-        sendEditorCommand(sender, EditorCommandPacket.TARGET_ENTITY, type);
+    public static void sendWorldEditorCommand(ServerPlayer player, EditorType editorType) {
+        sendEditorCommand(player, EditorCommandPacket.TARGET_WORLD, editorType);
     }
 
-    public static void sendSelfEditorCommand(ServerPlayer sender, EditorType type) {
-        sendEditorCommand(sender, EditorCommandPacket.TARGET_SELF, type);
+    public static void sendItemEditorCommand(ServerPlayer player, EditorType editorType) {
+        sendEditorCommand(player, EditorCommandPacket.TARGET_ITEM, editorType);
     }
 
-    private static void sendEditorCommand(ServerPlayer sender, byte target, EditorType type) {
-        send(NetworkManager.EDITOR_COMMAND, sender, new EditorCommandPacket(target, type));
+    public static void sendBlockEditorCommand(ServerPlayer player, EditorType editorType) {
+        sendEditorCommand(player, EditorCommandPacket.TARGET_BLOCK, editorType);
+    }
+
+    public static void sendEntityEditorCommand(ServerPlayer player, EditorType editorType) {
+        sendEditorCommand(player, EditorCommandPacket.TARGET_ENTITY, editorType);
+    }
+
+    public static void sendSelfEditorCommand(ServerPlayer player, EditorType editorType) {
+        sendEditorCommand(player, EditorCommandPacket.TARGET_SELF, editorType);
+    }
+
+    private static void sendEditorCommand(ServerPlayer player, byte target, EditorType editorType) {
+        send(NetworkManager.EDITOR_COMMAND, player, new EditorCommandPacket(target, editorType));
     }
 
     private static void send(String id, ServerPlayer player, Packet packet) {
