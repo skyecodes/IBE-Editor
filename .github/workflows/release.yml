@@ -1,0 +1,35 @@
+name: Release the mod on CurseForge and GitHub for 1.18, 1.17 and 1.16
+
+on:
+  workflow_dispatch:
+
+jobs:
+  release_1_18:
+    name: Release the 1.18 version
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: ./.github/actions/release
+        with:
+          branch: master
+          java-version: 17
+
+  release_1_17:
+    name: Release the 1.17 version
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: ./.github/actions/release
+        with:
+          branch: 1.17-architectury
+          java-version: 16
+
+  release_1_16:
+    name: Release the 1.16 version
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: ./.github/actions/release
+        with:
+          branch: 1.16-architectury
+          java-version: 11
