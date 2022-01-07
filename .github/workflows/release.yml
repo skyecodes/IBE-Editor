@@ -1,35 +1,28 @@
-name: Release the mod on CurseForge and GitHub for 1.18, 1.17 and 1.16
+name: Release the mod on CurseForge and GitHub
 
 on:
   workflow_dispatch:
 
 jobs:
-  release_1_18:
-    name: Release the 1.18 version
+  release:
+    name: Release the mod
     runs-on: ubuntu-latest
 
     steps:
-      - uses: ./.github/actions/release
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
         with:
-          branch: master
           java-version: 17
+          distribution: 'adopt'
 
-  release_1_17:
-    name: Release the 1.17 version
-    runs-on: ubuntu-latest
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
 
-    steps:
-      - uses: ./.github/actions/release
-        with:
-          branch: 1.17-architectury
-          java-version: 16
-
-  release_1_16:
-    name: Release the 1.16 version
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: ./.github/actions/release
-        with:
-          branch: 1.16-architectury
-          java-version: 11
+      - name: Build and release mod
+        run: ./gradlew build curseforgeRelease githubRelease
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CURSEFORGE_TOKEN: ${{ secrets.CURSEFORGE_TOKEN }}
