@@ -41,8 +41,8 @@ public final class ClientEditorLogic {
     public static boolean tryOpenEntityEditor(EditorType type) {
         LOGGER.debug("Trying to open entity editor with type={}", type);
         HitResult result = Minecraft.getInstance().hitResult;
-        if (result instanceof EntityHitResult res) {
-            Entity entity = res.getEntity();
+        if (result instanceof EntityHitResult) {
+            Entity entity = ((EntityHitResult) result).getEntity();
             if (ClientContext.isModInstalledOnServer()) {
                 requestOpenEntityEditor(entity.getId(), type);
             } else {
@@ -56,10 +56,10 @@ public final class ClientEditorLogic {
     public static boolean tryOpenBlockEditor(EditorType type) {
         LOGGER.debug("Trying to open block editor with type={}", type);
         HitResult result = Minecraft.getInstance().hitResult;
-        if (result instanceof BlockHitResult res) {
+        if (result instanceof BlockHitResult) {
             ClientLevel level = Minecraft.getInstance().level;
-            if (!level.isEmptyBlock(res.getBlockPos())) {
-                BlockPos pos = res.getBlockPos();
+            BlockPos pos = ((BlockHitResult) result).getBlockPos();
+            if (!level.isEmptyBlock(pos)) {
                 if (ClientContext.isModInstalledOnServer()) {
                     requestOpenBlockEditor(pos, type);
                 } else {
@@ -123,13 +123,14 @@ public final class ClientEditorLogic {
                 return true;
             } else {
                 HitResult hitResult = Minecraft.getInstance().hitResult;
-                if (hitResult instanceof BlockHitResult res) {
-                    BlockEntity blockEntity = Minecraft.getInstance().level.getBlockEntity(res.getBlockPos());
+                if (hitResult instanceof BlockHitResult) {
+                    BlockPos pos = ((BlockHitResult) hitResult).getBlockPos();
+                    BlockEntity blockEntity = Minecraft.getInstance().level.getBlockEntity(pos);
                     if (blockEntity instanceof Container) {
                         if (ClientContext.isModInstalledOnServer()) {
-                            requestOpenBlockInventoryItemEditor(type, slot.index, res.getBlockPos());
+                            requestOpenBlockInventoryItemEditor(type, slot.index, pos);
                         } else {
-                            openBlockInventoryItemEditor(slot.getItem(), type, slot.index, res.getBlockPos());
+                            openBlockInventoryItemEditor(slot.getItem(), type, slot.index, pos);
                         }
                         return true;
                     }
@@ -164,11 +165,17 @@ public final class ClientEditorLogic {
     public static void openItemEditor(ItemStack itemStack, EditorType type, Consumer<ItemStack> action, Component disabledTooltip) {
         LOGGER.debug("Opening item editor for item {} with type={})", itemStack, type);
         switch (type) {
-            case STANDARD -> ModScreenHandler.openItemEditorScreen(itemStack, action, disabledTooltip);
-            case NBT -> ModScreenHandler.openNBTEditorScreen(itemStack.save(new CompoundTag()),
-                    tag -> action.accept(ItemStack.of(tag)), disabledTooltip);
-            case SNBT -> ModScreenHandler.openSNBTEditorScreen(itemStack.save(new CompoundTag()).toString(),
-                    snbt -> action.accept(ItemStack.of(parseTag(snbt))), disabledTooltip);
+            case STANDARD:
+                ModScreenHandler.openItemEditorScreen(itemStack, action, disabledTooltip);
+                break;
+            case NBT:
+                ModScreenHandler.openNBTEditorScreen(itemStack.save(new CompoundTag()),
+                        tag -> action.accept(ItemStack.of(tag)), disabledTooltip);
+                break;
+            case SNBT:
+                ModScreenHandler.openSNBTEditorScreen(itemStack.save(new CompoundTag()).toString(),
+                        snbt -> action.accept(ItemStack.of(parseTag(snbt))), disabledTooltip);
+                break;
         }
     }
 
@@ -180,12 +187,13 @@ public final class ClientEditorLogic {
     public static void openBlockEditor(BlockPos pos, BlockState state, CompoundTag tag, EditorType type) {
         LOGGER.debug("Opening block editor for block {} at pos {} with type={}", state, pos, type);
         switch (type) {
-            case STANDARD ->
+            case STANDARD:
                 /*ModScreenHandler.openBlockEditorScreen(block,
                         newBlock -> updateBlock(new WorldBlockData(newBlock, block.getPos())),
                         getDisabledTooltipServerMod(ModTexts.BLOCK));*/
-                    player().displayClientMessage(ModTexts.Messages.warnNotImplemented(ModTexts.BLOCK), false);
-            case NBT -> {
+                player().displayClientMessage(ModTexts.Messages.warnNotImplemented(ModTexts.BLOCK), false);
+                break;
+            case NBT:
                 if (tag == null) {
                     player().displayClientMessage(ModTexts.Messages.errorNoTargetFound(ModTexts.BLOCK), false);
                     break;
@@ -193,8 +201,8 @@ public final class ClientEditorLogic {
                 ModScreenHandler.openNBTEditorScreen(tag,
                         newTag -> updateBlock(pos, state, newTag),
                         getDisabledTooltipServerMod(ModTexts.BLOCK));
-            }
-            case SNBT -> {
+                break;
+            case SNBT:
                 if (tag == null) {
                     player().displayClientMessage(ModTexts.Messages.errorNoTargetFound(ModTexts.BLOCK), false);
                     break;
@@ -202,7 +210,7 @@ public final class ClientEditorLogic {
                 ModScreenHandler.openSNBTEditorScreen(tag.toString(),
                         snbt -> updateBlock(pos, state, parseTag(snbt)),
                         getDisabledTooltipServerMod(ModTexts.BLOCK));
-            }
+                break;
         }
     }
 
@@ -214,17 +222,22 @@ public final class ClientEditorLogic {
     public static void openEntityEditor(CompoundTag entity, int entityId, EditorType type) {
         LOGGER.debug("Opening entity editor for entity {} with id {} and type={}", entity, entityId, type);
         switch (type) {
-            case STANDARD ->
+            case STANDARD:
                 /*ModScreenHandler.openEntityEditorScreen(entity,
                         entity1 -> updateEntity(entityId, entity1),
                         getDisabledTooltipServerMod(ModTexts.ENTITY));*/
-                    player().displayClientMessage(ModTexts.Messages.warnNotImplemented(ModTexts.ENTITY), false);
-            case NBT -> ModScreenHandler.openNBTEditorScreen(entity,
-                    tag -> updateEntity(entityId, tag),
-                    getDisabledTooltipServerMod(ModTexts.ENTITY));
-            case SNBT -> ModScreenHandler.openSNBTEditorScreen(entity.toString(),
-                    snbt -> updateEntity(entityId, parseTag(snbt)),
-                    getDisabledTooltipServerMod(ModTexts.ENTITY));
+                player().displayClientMessage(ModTexts.Messages.warnNotImplemented(ModTexts.ENTITY), false);
+                break;
+            case NBT:
+                ModScreenHandler.openNBTEditorScreen(entity,
+                        tag -> updateEntity(entityId, tag),
+                        getDisabledTooltipServerMod(ModTexts.ENTITY));
+                break;
+            case SNBT:
+                ModScreenHandler.openSNBTEditorScreen(entity.toString(),
+                        snbt -> updateEntity(entityId, parseTag(snbt)),
+                        getDisabledTooltipServerMod(ModTexts.ENTITY));
+                break;
         }
     }
 
@@ -249,7 +262,7 @@ public final class ClientEditorLogic {
         } else {
             if (player().isCreative()) {
                 if (isCreativeInventoryScreen) {
-                    player().getInventory().setItem(slotId, itemStack);
+                    player().inventory.setItem(slotId, itemStack);
                 } else {
                     Minecraft.getInstance().gameMode.handleCreativeModeItemAdd(itemStack, slotId);
                 }

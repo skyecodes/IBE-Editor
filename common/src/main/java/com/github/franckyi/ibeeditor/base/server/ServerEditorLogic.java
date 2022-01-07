@@ -31,7 +31,7 @@ public final class ServerEditorLogic {
         if (checkPermission(player)) return;
         LOGGER.debug("Updating {}'s inventory item at slot {} to {}", player.getGameProfile().getName(), slotId, itemStack);
         LOGGER.debug(itemStack.save(new CompoundTag()));
-        player.getInventory().setItem(slotId, itemStack);
+        player.inventory.setItem(slotId, itemStack);
         player.displayClientMessage(ModTexts.Messages.successUpdate(ModTexts.ITEM), false);
     }
 
@@ -57,7 +57,7 @@ public final class ServerEditorLogic {
         level.setBlockAndUpdate(pos, state);
         BlockEntity blockEntity = level.getBlockEntity(pos);
         if (blockEntity != null) {
-            blockEntity.load(tag);
+            blockEntity.load(state, tag);
         }
         player.displayClientMessage(ModTexts.Messages.successUpdate(ModTexts.BLOCK), false);
     }
@@ -82,7 +82,7 @@ public final class ServerEditorLogic {
 
     public static void processPlayerInventoryItemEditorRequest(ServerPlayer player, EditorType editorType, int slotIndex, boolean isCreativeInventoryScreen) {
         if (checkPermission(player)) return;
-        ServerNetworkEmitter.sendPlayerInventoryItemEditorResponse(player, editorType, slotIndex, isCreativeInventoryScreen, player.getInventory().getItem(slotIndex));
+        ServerNetworkEmitter.sendPlayerInventoryItemEditorResponse(player, editorType, slotIndex, isCreativeInventoryScreen, player.inventory.getItem(slotIndex));
     }
 
     public static void processBlockInventoryItemEditorRequest(ServerPlayer player, EditorType editorType, int slotIndex, BlockPos pos) {

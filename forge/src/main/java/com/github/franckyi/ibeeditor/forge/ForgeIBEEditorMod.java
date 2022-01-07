@@ -16,14 +16,14 @@ import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.world.WorldEvent;
+import net.minecraftforge.fml.ExtensionPoint;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLLoader;
-import net.minecraftforge.fmlclient.ConfigGuiHandler;
-import net.minecraftforge.fmlserverevents.FMLServerStartingEvent;
 
 @Mod("ibeeditor")
 public final class ForgeIBEEditorMod {
@@ -48,10 +48,10 @@ public final class ForgeIBEEditorMod {
         MinecraftForge.EVENT_BUS.addListener(this::onKeyInput);
         MinecraftForge.EVENT_BUS.addListener(this::onKeyPressed);
         MinecraftForge.EVENT_BUS.addListener(this::onWorldUnload);
-        ModLoadingContext.get().registerExtensionPoint(ConfigGuiHandler.ConfigGuiFactory.class, () -> new ConfigGuiHandler.ConfigGuiFactory((minecraft, screen) -> {
+        ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.CONFIGGUIFACTORY, () -> (minecraft, screen) -> {
             ModScreenHandler.openSettingsScreen();
             return minecraft.screen;
-        }));
+        });
         //event.enqueueWork(ForgeIBEEditorClientInit::optimize);
     }
 
@@ -74,8 +74,8 @@ public final class ForgeIBEEditorMod {
     }
 
     private void onKeyPressed(GuiScreenEvent.KeyboardKeyPressedEvent.Pre e) {
-        if (e.getGui() instanceof AbstractContainerScreen screen) {
-            e.setCanceled(ClientEventHandler.onScreenEvent(screen, e.getKeyCode()));
+        if (e.getGui() instanceof AbstractContainerScreen) {
+            e.setCanceled(ClientEventHandler.onScreenEvent(((AbstractContainerScreen<?>) e.getGui()), e.getKeyCode()));
         }
     }
 

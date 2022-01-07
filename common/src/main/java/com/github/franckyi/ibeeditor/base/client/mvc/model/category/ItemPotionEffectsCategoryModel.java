@@ -29,7 +29,7 @@ public class ItemPotionEffectsCategoryModel extends ItemCategoryModel {
                 .stream()
                 .map(CompoundTag.class::cast)
                 .map(this::createPotionEffectEntry)
-                .toList());
+                .collect(Collectors.toList()));
     }
 
     @Override

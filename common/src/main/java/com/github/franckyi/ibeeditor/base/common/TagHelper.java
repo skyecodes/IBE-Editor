@@ -23,21 +23,34 @@ public final class TagHelper {
     public static final byte LONG_ARRAY_ID = 12;
 
     public static Tag createEmptyTag(byte type) {
-        return switch (type) {
-            case BYTE_ID -> ByteTag.ZERO;
-            case SHORT_ID -> ShortTag.valueOf((short) 0);
-            case INT_ID -> IntTag.valueOf(0);
-            case LONG_ID -> LongTag.valueOf(0);
-            case FLOAT_ID -> FloatTag.ZERO;
-            case DOUBLE_ID -> DoubleTag.ZERO;
-            case BYTE_ARRAY_ID -> new ByteArrayTag(new byte[0]);
-            case STRING_ID -> StringTag.valueOf("");
-            case LIST_ID -> new ListTag();
-            case COMPOUND_ID -> new CompoundTag();
-            case INT_ARRAY_ID -> new IntArrayTag(new int[0]);
-            case LONG_ARRAY_ID -> new LongArrayTag(new long[0]);
-            default -> null;
-        };
+        switch (type) {
+            case BYTE_ID:
+                return ByteTag.ZERO;
+            case SHORT_ID:
+                return ShortTag.valueOf((short) 0);
+            case INT_ID:
+                return IntTag.valueOf(0);
+            case LONG_ID:
+                return LongTag.valueOf(0);
+            case FLOAT_ID:
+                return FloatTag.ZERO;
+            case DOUBLE_ID:
+                return DoubleTag.ZERO;
+            case BYTE_ARRAY_ID:
+                return new ByteArrayTag(new byte[0]);
+            case STRING_ID:
+                return StringTag.valueOf("");
+            case LIST_ID:
+                return new ListTag();
+            case COMPOUND_ID:
+                return new CompoundTag();
+            case INT_ARRAY_ID:
+                return new IntArrayTag(new int[0]);
+            case LONG_ARRAY_ID:
+                return new LongArrayTag(new long[0]);
+            default:
+                return null;
+        }
     }
 
     public static ItemStack fromPotion(ResourceLocation id, int color) {

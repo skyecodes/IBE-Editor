@@ -2,7 +2,7 @@ package com.github.franckyi.guapi.api.util;
 
 import com.github.franckyi.guapi.api.node.*;
 
-public record NodeType<N extends Node>(String s) {
+public class NodeType<N extends Node> {
     public static final NodeType<Label> LABEL = new NodeType<>("Label");
     public static final NodeType<HBox> HBOX = new NodeType<>("HBox");
     public static final NodeType<VBox> VBOX = new NodeType<>("VBox");
@@ -20,6 +20,11 @@ public record NodeType<N extends Node>(String s) {
     public static final NodeType<Slider> SLIDER = new NodeType<>("Slider");
     public static final NodeType<SpriteView> SPRITE_VIEW = new NodeType<>("SpriteView");
     public static final NodeType<TextArea> TEXT_AREA = new NodeType<>("TextArea");
+    private final String s;
+
+    public NodeType(String s) {
+        this.s = s;
+    }
 
     @Override
     public String toString() {

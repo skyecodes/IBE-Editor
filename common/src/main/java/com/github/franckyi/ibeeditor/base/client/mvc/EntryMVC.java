@@ -10,22 +10,38 @@ public final class EntryMVC implements MVC<EntryModel, EntryView, EntryControlle
 
     @Override
     public EntryView setup(EntryModel model) {
-        return switch (model.getType()) {
-            case STRING -> MVC.createViewAndBind((StringEntryModel) model, StringEntryView::new, StringEntryController::new);
-            case INTEGER -> MVC.createViewAndBind((IntegerEntryModel) model, IntegerEntryView::new, IntegerEntryController::new);
-            case TEXT -> MVC.createViewAndBind((TextEntryModel) model, TextEntryView::new, TextEntryController::new);
-            case ENUM -> createEnumViewAndBind((EnumEntryModel<?>) model);
-            case ACTION -> MVC.createViewAndBind((ActionEntryModel) model, ActionEntryView::new, ActionEntryController::new);
-            case ADD_LIST_ENTRY -> MVC.createViewAndBind((AddListEntryEntryModel) model, AddListEntryEntryView::new, AddListEntryEntryController::new);
-            case BOOLEAN -> MVC.createViewAndBind((BooleanEntryModel) model, BooleanEntryView::new, BooleanEntryController::new);
-            case ENCHANTMENT -> MVC.createViewAndBind((EnchantmentEntryModel) model, EnchantmentEntryView::new, EnchantmentEntryController::new);
-            case HIDE_FLAG -> MVC.createViewAndBind((HideFlagEntryModel) model, HideFlagEntryView::new, HideFlagEntryController::new);
-            case ATTRIBUTE_MODIFIER -> MVC.createViewAndBind((AttributeModifierEntryModel) model, AttributeModifierEntryView::new, AttributeModifierEntryController::new);
-            case SELECTION -> MVC.createViewAndBind((SelectionEntryModel) model, SelectionEntryView::new, SelectionEntryController::new);
-            case SELECTION_POTION -> MVC.createViewAndBind(((PotionSelectionEntryModel) model), PotionSelectionEntryView::new, PotionSelectionEntryController::new);
-            case POTION_EFFECT -> MVC.createViewAndBind(((PotionEffectEntryModel) model), PotionEffectEntryView::new, PotionEffectEntryController::new);
-            case ARMOR_COLOR -> MVC.createViewAndBind((ArmorColorEntryModel) model, ArmorColorEntryView::new, ArmorColorEntryController::new);
-        };
+        switch (model.getType()) {
+            case STRING:
+                return MVC.createViewAndBind((StringEntryModel) model, StringEntryView::new, StringEntryController::new);
+            case INTEGER:
+                return MVC.createViewAndBind((IntegerEntryModel) model, IntegerEntryView::new, IntegerEntryController::new);
+            case TEXT:
+                return MVC.createViewAndBind((TextEntryModel) model, TextEntryView::new, TextEntryController::new);
+            case ENUM:
+                return createEnumViewAndBind((EnumEntryModel<?>) model);
+            case ACTION:
+                return MVC.createViewAndBind((ActionEntryModel) model, ActionEntryView::new, ActionEntryController::new);
+            case ADD_LIST_ENTRY:
+                return MVC.createViewAndBind((AddListEntryEntryModel) model, AddListEntryEntryView::new, AddListEntryEntryController::new);
+            case BOOLEAN:
+                return MVC.createViewAndBind((BooleanEntryModel) model, BooleanEntryView::new, BooleanEntryController::new);
+            case ENCHANTMENT:
+                return MVC.createViewAndBind((EnchantmentEntryModel) model, EnchantmentEntryView::new, EnchantmentEntryController::new);
+            case HIDE_FLAG:
+                return MVC.createViewAndBind((HideFlagEntryModel) model, HideFlagEntryView::new, HideFlagEntryController::new);
+            case ATTRIBUTE_MODIFIER:
+                return MVC.createViewAndBind((AttributeModifierEntryModel) model, AttributeModifierEntryView::new, AttributeModifierEntryController::new);
+            case SELECTION:
+                return MVC.createViewAndBind((SelectionEntryModel) model, SelectionEntryView::new, SelectionEntryController::new);
+            case SELECTION_POTION:
+                return MVC.createViewAndBind(((PotionSelectionEntryModel) model), PotionSelectionEntryView::new, PotionSelectionEntryController::new);
+            case POTION_EFFECT:
+                return MVC.createViewAndBind(((PotionEffectEntryModel) model), PotionEffectEntryView::new, PotionEffectEntryController::new);
+            case ARMOR_COLOR:
+                return MVC.createViewAndBind((ArmorColorEntryModel) model, ArmorColorEntryView::new, ArmorColorEntryController::new);
+            default:
+                throw new IllegalArgumentException();
+        }
     }
 
     private <E extends Enum<E>> EntryView createEnumViewAndBind(EnumEntryModel<E> model) {

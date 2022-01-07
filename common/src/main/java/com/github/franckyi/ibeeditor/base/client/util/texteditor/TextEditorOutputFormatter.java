@@ -5,7 +5,7 @@ import net.minecraft.network.chat.TextComponent;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.github.franckyi.guapi.api.GuapiHelper.text;
+import static com.github.franckyi.guapi.api.GuapiHelper.*;
 
 public class TextEditorOutputFormatter {
     private final TextComponent rootText;
@@ -51,7 +51,7 @@ public class TextEditorOutputFormatter {
     private List<Formatting> getChangedFormattingsForCurrentIndex(List<Formatting> formattings) {
         return formattings.stream()
                 .filter(formatting -> formatting.getStart() == currentFormattingIndex || formatting.getEnd() == currentFormattingIndex)
-                .toList();
+                .collect(Collectors.toList());
     }
 
     private void appendText(String s) {

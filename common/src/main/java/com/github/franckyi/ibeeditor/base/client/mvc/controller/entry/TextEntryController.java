@@ -187,7 +187,8 @@ public class TextEntryController extends ValueEntryController<TextEntryModel, Te
         Iterator<Formatting> it = formattings.iterator();
         while (it.hasNext()) {
             Formatting f = it.next();
-            if (f instanceof ColorFormatting other) {
+            if (f instanceof ColorFormatting) {
+                ColorFormatting other = (ColorFormatting) f;
                 if (!other.getColor().equals(formatting.getColor())) {
                     if (formatting.getStart() <= other.getStart() && formatting.getEnd() >= other.getEnd()) {
                         it.remove();

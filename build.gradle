@@ -47,7 +47,14 @@ allprojects {
 
     tasks.withType(JavaCompile) {
         options.encoding = "UTF-8"
-        options.release = 16
+
+        // The Minecraft launcher currently installs Java 8 for users, so your mod probably wants to target Java 8 too
+        // JDK 9 introduced a new way of specifying this that will make sure no newer classes or methods are used.
+        // We'll use that if it's available, but otherwise we'll use the older option.
+        def targetVersion = 8
+        if (JavaVersion.current().isJava9Compatible()) {
+            options.release = targetVersion
+        }
     }
 
     java {
@@ -67,9 +74,13 @@ task curseforgeRelease(type: TaskPublishCurseForge) {
         artifact.changelog = versionInfo.changelog
         artifact.changelogType = "markdown"
         artifact.addModLoader(modLoader)
-        artifact.addJavaVersion("Java 16")
-        artifact.addGameVersion("1.17")
-        artifact.addGameVersion("1.17.1")
+        artifact.addJavaVersion("Java 8")
+        artifact.addGameVersion("1.16")
+        artifact.addGameVersion("1.16.1")
+        artifact.addGameVersion("1.16.2")
+        artifact.addGameVersion("1.16.3")
+        artifact.addGameVersion("1.16.4")
+        artifact.addGameVersion("1.16.5")
     }
 
     uploadFile("Fabric", project(":fabric"))
@@ -80,8 +91,8 @@ githubRelease {
     setToken(findProperty("github_token") ?: System.getenv("GITHUB_TOKEN"))
     setOwner("Franckyi")
     setRepo("IBE-Editor")
-    setTagName("mc1.17-v" + version)
-    setTargetCommitish("1.17")
+    setTagName("mc1.16-v" + version)
+    setTargetCommitish("1.16")
     setReleaseName(archivesBaseName + "-" + version)
     setBody(versionInfo.changelog)
     setPrerelease(versionInfo.type == "alpha")

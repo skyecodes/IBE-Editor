@@ -19,12 +19,12 @@ public class BlockUpdatePacket implements Packet {
         this.tag = tag;
     }
 
-    public BlockUpdatePacket(FriendlyByteBuf buffer) {
+    public BlockUpdatePacket(FriendlyByteBuf buffer) throws IOException {
         this(buffer.readBlockPos(), buffer.readWithCodec(BlockState.CODEC), buffer.readNbt());
     }
 
     @Override
-    public void write(FriendlyByteBuf buffer) {
+    public void write(FriendlyByteBuf buffer) throws IOException {
         buffer.writeBlockPos(pos);
         buffer.writeWithCodec(BlockState.CODEC, state);
         buffer.writeNbt(tag);

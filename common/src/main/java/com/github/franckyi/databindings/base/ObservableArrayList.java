@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
+import java.util.stream.Collectors;
 
 public class ObservableArrayList<E> extends ArrayList<E> implements ObservableList<E> {
     protected final List<ObservableListChangeListener<? super E>> listeners = new ArrayList<>();
@@ -152,7 +153,7 @@ public class ObservableArrayList<E> extends ArrayList<E> implements ObservableLi
     }
 
     protected Collection<? extends E> canAddAll(Collection<? extends E> c) {
-        return c.stream().filter(this::canAdd).toList();
+        return c.stream().filter(this::canAdd).collect(Collectors.toList());
     }
 
     protected void computeRemoved(List<E> copy) {

@@ -125,7 +125,7 @@ public abstract class AbstractGroup extends AbstractNode implements Group {
 
         @Override
         protected Collection<? extends Node> canAddAll(Collection<? extends Node> c) {
-            return super.canAddAll(c).stream().distinct().filter(this::canAdd).toList();
+            return super.canAddAll(c).stream().distinct().filter(this::canAdd).collect(Collectors.toList());
         }
     }
 }

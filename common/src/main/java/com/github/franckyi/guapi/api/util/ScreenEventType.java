@@ -6,8 +6,7 @@ import com.github.franckyi.guapi.api.event.*;
 import java.util.Objects;
 import java.util.function.BiConsumer;
 
-public record ScreenEventType<E extends ScreenEvent>(String name, boolean mouseEvent,
-                                                     BiConsumer<EventTarget, E> onEvent) {
+public class ScreenEventType<E extends ScreenEvent> {
     public static final ScreenEventType<MouseButtonEvent> MOUSE_CLICKED = new ScreenEventType<>("MOUSE_CLICKED", true, EventTarget::mouseClicked);
     public static final ScreenEventType<MouseButtonEvent> MOUSE_RELEASED = new ScreenEventType<>("MOUSE_RELEASED", true, EventTarget::mouseReleased);
     public static final ScreenEventType<MouseDragEvent> MOUSE_DRAGGED = new ScreenEventType<>("MOUSE_DRAGGED", false, EventTarget::mouseDragged);
@@ -17,6 +16,15 @@ public record ScreenEventType<E extends ScreenEvent>(String name, boolean mouseE
     public static final ScreenEventType<TypeEvent> CHAR_TYPED = new ScreenEventType<>("CHAR_TYPED", false, EventTarget::charTyped);
     public static final ScreenEventType<MouseEvent> MOUSE_MOVED = new ScreenEventType<>("MOUSE_MOVED", true, EventTarget::mouseMoved);
     public static final ScreenEventType<MouseButtonEvent> ACTION = new ScreenEventType<>("ACTION", false, EventTarget::action);
+    private final String name;
+    private final boolean mouseEvent;
+    private final BiConsumer<EventTarget, E> onEvent;
+
+    public ScreenEventType(String name, boolean mouseEvent, BiConsumer<EventTarget, E> onEvent) {
+        this.name = name;
+        this.mouseEvent = mouseEvent;
+        this.onEvent = onEvent;
+    }
 
     public String getName() {
         return name;

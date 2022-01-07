@@ -58,17 +58,17 @@ public final class RenderHelper {
     }
 
     public static void drawTexture(PoseStack matrices, ResourceLocation id, int x, int y, int width, int height, int imageX, int imageY, int imageWidth, int imageHeight) {
-        RenderSystem.setShaderTexture(0, id);
+        Minecraft.getInstance().getTextureManager().bind(id);
         RenderSystem.enableBlend();
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.defaultBlendFunc();
         RenderSystem.enableDepthTest();
         GuiComponent.blit(matrices, x, y, 0, imageX, imageY, width, height, imageHeight, imageWidth);
     }
 
     public static void drawSprite(PoseStack matrices, TextureAtlasSprite sprite, int x, int y, int imageWidth, int imageHeight) {
-        RenderSystem.setShaderTexture(0, sprite.atlas().location());
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        Minecraft.getInstance().getTextureManager().bind(sprite.atlas().location());
+        RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         GuiComponent.blit(matrices, x, y, 0, imageWidth, imageHeight, sprite);
     }
 

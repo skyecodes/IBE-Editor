@@ -18,7 +18,7 @@ public class BlockEditorResponsePacket extends BlockEditorRequestPacket {
         this.tag = tag;
     }
 
-    public BlockEditorResponsePacket(FriendlyByteBuf buffer) {
+    public BlockEditorResponsePacket(FriendlyByteBuf buffer) throws IOException {
         super(buffer);
         state = buffer.readWithCodec(BlockState.CODEC);
         tag = buffer.readNbt();
