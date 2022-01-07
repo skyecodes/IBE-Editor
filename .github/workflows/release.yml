@@ -1,11 +1,14 @@
-name: Release the mod on CurseForge and GitHub
+name: Build & release mod on CurseForge & GitHub
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - '1.18'
 
 jobs:
   release:
-    name: Release the mod
+    name: Build & release
     runs-on: ubuntu-latest
 
     steps:
@@ -21,7 +24,7 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: Build and release mod
+      - name: Build & release mod
         run: ./gradlew build curseforgeRelease githubRelease
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

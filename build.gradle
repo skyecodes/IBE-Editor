@@ -72,18 +72,16 @@ task curseforgeRelease(type: TaskPublishCurseForge) {
         artifact.addGameVersion("1.18.1")
     }
 
-    doLast {
-        uploadFile("Fabric", project(":fabric"))
-        uploadFile("Forge", project(":forge"))
-    }
+    uploadFile("Fabric", project(":fabric"))
+    uploadFile("Forge", project(":forge"))
 }
 
 githubRelease {
     setToken(findProperty("github_token") ?: System.getenv("GITHUB_TOKEN"))
     setOwner("Franckyi")
     setRepo("IBE-Editor")
-    setTagName("mc" + minecraft_version + "-v" + version)
-    setTargetCommitish("master")
+    setTagName("mc1.18-v" + version)
+    setTargetCommitish("1.18")
     setReleaseName(archivesBaseName + "-" + version)
     setBody(versionInfo.changelog)
     setPrerelease(versionInfo.type == "alpha")
