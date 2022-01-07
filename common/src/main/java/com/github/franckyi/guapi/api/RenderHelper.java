@@ -63,7 +63,7 @@ public final class RenderHelper {
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.defaultBlendFunc();
         RenderSystem.enableDepthTest();
-        GuiComponent.blit(matrices, x, y, 0, imageX, imageY, width, height, imageWidth, imageHeight);
+        GuiComponent.blit(matrices, x, y, 0, imageX, imageY, width, height, imageHeight, imageWidth);
     }
 
     public static void drawSprite(PoseStack matrices, TextureAtlasSprite sprite, int x, int y, int imageWidth, int imageHeight) {
