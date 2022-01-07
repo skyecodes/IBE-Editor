@@ -20,7 +20,7 @@ public class ItemSelectionEntryModel extends SelectionEntryModel {
     }
 
     @Override
-    public MutableComponent getSuggestionScreenTitle() {
+    public MutableComponent getSelectionScreenTitle() {
         return ModTexts.ITEM;
     }
 

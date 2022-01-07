@@ -56,7 +56,7 @@ public class PotionSelectionEntryModel extends SelectionEntryModel {
     }
 
     @Override
-    public MutableComponent getSuggestionScreenTitle() {
+    public MutableComponent getSelectionScreenTitle() {
         return ModTexts.POTION;
     }
 

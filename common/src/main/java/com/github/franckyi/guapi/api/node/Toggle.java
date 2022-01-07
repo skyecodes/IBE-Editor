@@ -5,7 +5,7 @@ import com.github.franckyi.databindings.api.IntegerProperty;
 
 public interface Toggle {
     default boolean isActive() {
-        return activeProperty().get();
+        return activeProperty().getValue();
     }
 
     BooleanProperty activeProperty();

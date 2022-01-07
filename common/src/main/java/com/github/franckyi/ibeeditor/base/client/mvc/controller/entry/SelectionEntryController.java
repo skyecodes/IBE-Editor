@@ -13,17 +13,17 @@ public class SelectionEntryController<M extends SelectionEntryModel, V extends S
     @Override
     public void bind() {
         super.bind();
-        view.getTextField().setPlaceholder(model.getSuggestionScreenTitle());
+        view.getTextField().setPlaceholder(model.getSelectionScreenTitle());
         view.getTextField().getSuggestions().setAll(model.getSuggestions());
-        view.getItemListButton().getTooltip().add(ModTexts.choose(model.getSuggestionScreenTitle()));
-        view.getItemListButton().onAction(this::openItemList);
+        view.getSelectionScreenButton().getTooltip().add(ModTexts.choose(model.getSelectionScreenTitle()));
+        view.getSelectionScreenButton().onAction(this::openSelectionScreen);
         if (model.getLabel() == null) {
             view.getRoot().getChildren().remove(view.getLabel());
         }
     }
 
-    private void openItemList() {
-        ModScreenHandler.openListSelectionScreen(model.getSuggestionScreenTitle(),
+    private void openSelectionScreen() {
+        ModScreenHandler.openListSelectionScreen(model.getSelectionScreenTitle(),
                 model.getValue().contains(":") ? model.getValue() : "minecraft:" + model.getValue(),
                 model.getSelectionItems(), model::setValue);
     }

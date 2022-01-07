@@ -6,7 +6,7 @@ import net.minecraft.network.chat.TextComponent;
 
 import java.util.function.Consumer;
 
-import static com.github.franckyi.guapi.api.GuapiHelper.text;
+import static com.github.franckyi.guapi.api.GuapiHelper.*;
 
 public class TextEntryModel extends ValueEntryModel<TextComponent> {
     public TextEntryModel(CategoryModel category, MutableComponent label, TextComponent value, Consumer<TextComponent> action) {
@@ -16,5 +16,9 @@ public class TextEntryModel extends ValueEntryModel<TextComponent> {
     @Override
     public Type getType() {
         return Type.TEXT;
+    }
+
+    public void resetDefaultValue() {
+        defaultValue = getValue();
     }
 }

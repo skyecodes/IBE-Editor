@@ -19,7 +19,7 @@ public abstract class SelectionEntryModel extends StringEntryModel {
 
     public abstract List<String> getSuggestions();
 
-    public abstract MutableComponent getSuggestionScreenTitle();
+    public abstract MutableComponent getSelectionScreenTitle();
 
     public abstract List<? extends ListSelectionItemModel> getSelectionItems();
 }

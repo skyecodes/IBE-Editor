@@ -64,7 +64,7 @@ public class EnchantmentEntryModel extends SelectionEntryModel {
     }
 
     @Override
-    public MutableComponent getSuggestionScreenTitle() {
+    public MutableComponent getSelectionScreenTitle() {
         return ModTexts.ENCHANTMENT;
     }
 

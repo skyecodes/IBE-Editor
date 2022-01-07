@@ -1,4 +1,8 @@
 {
+  "2.0.9": {
+    "type": "beta",
+    "changelog": "* Fixed an issue with custom enchantments\n* Fixed an issue with enchantments not being removed\n* Disabled \"reset\" buttons when the value hasn't changed\n* Added automatic file upload to Curseforge & GitHub"
+  },
   "2.0.8": {
     "type": "beta",
     "changelog": "Added config option \"permissionLevel\", fixed a crash when opening the item editor from the survival inventory with the recipe book open"

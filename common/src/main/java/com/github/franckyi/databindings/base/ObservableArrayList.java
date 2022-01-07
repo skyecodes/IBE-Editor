@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
-import java.util.stream.Collectors;
 
 public class ObservableArrayList<E> extends ArrayList<E> implements ObservableList<E> {
     protected final List<ObservableListChangeListener<? super E>> listeners = new ArrayList<>();
@@ -172,6 +171,8 @@ public class ObservableArrayList<E> extends ArrayList<E> implements ObservableLi
     }
 
     protected void notify(ObservableListChangeEventImpl<E> event) {
-        listeners.forEach(listener -> listener.onListChange(event));
+        if (!event.getAllChanged().isEmpty()) {
+            listeners.forEach(listener -> listener.onListChange(event));
+        }
     }
 }

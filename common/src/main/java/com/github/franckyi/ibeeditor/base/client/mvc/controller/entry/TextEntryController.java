@@ -13,8 +13,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 
-import static com.github.franckyi.guapi.api.GuapiHelper.EMPTY_TEXT;
-import static com.github.franckyi.guapi.api.GuapiHelper.text;
+import static com.github.franckyi.guapi.api.GuapiHelper.*;
 
 public class TextEntryController extends ValueEntryController<TextEntryModel, TextEntryView> implements TextEditorActionHandler {
     private final ObservableList<Formatting> formattings = ObservableList.create();
@@ -35,6 +34,7 @@ public class TextEntryController extends ValueEntryController<TextEntryModel, Te
         formattings.addListener(this::updateModel);
         view.getTextField().validProperty().addListener(model::setValid);
         initFormattings(model.getValue());
+        model.resetDefaultValue();
     }
 
     private void updateModel() {

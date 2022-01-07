@@ -9,6 +9,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentCategory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -139,20 +140,34 @@ public final class ClientCache {
     }
 
     private static Item getEnchantmentTypeItem(Enchantment e) {
-        return switch (e.category) {
-            case ARMOR, WEARABLE -> Items.IRON_CHESTPLATE;
-            case ARMOR_FEET -> Items.DIAMOND_BOOTS;
-            case ARMOR_LEGS -> Items.DIAMOND_LEGGINGS;
-            case ARMOR_CHEST -> Items.DIAMOND_CHESTPLATE;
-            case ARMOR_HEAD -> Items.DIAMOND_HELMET;
-            case WEAPON -> Items.DIAMOND_SWORD;
-            case DIGGER -> Items.DIAMOND_PICKAXE;
-            case FISHING_ROD -> Items.FISHING_ROD;
-            case TRIDENT -> Items.TRIDENT;
-            case BOW -> Items.BOW;
-            case CROSSBOW -> Items.CROSSBOW;
-            case BREAKABLE, VANISHABLE -> Items.IRON_SHOVEL;
-        };
+        // Not using a switch statement: Forge extends the enum and allows new enchantment categories to be registered, therefore the switch statement throws an error.
+        var c = e.category;
+        if (c == EnchantmentCategory.ARMOR || c == EnchantmentCategory.WEARABLE) {
+            return Items.IRON_CHESTPLATE;
+        } else if (c == EnchantmentCategory.ARMOR_FEET) {
+            return Items.DIAMOND_BOOTS;
+        } else if (c == EnchantmentCategory.ARMOR_LEGS) {
+            return Items.DIAMOND_LEGGINGS;
+        } else if (c == EnchantmentCategory.ARMOR_CHEST) {
+            return Items.DIAMOND_CHESTPLATE;
+        } else if (c == EnchantmentCategory.ARMOR_HEAD) {
+            return Items.DIAMOND_HELMET;
+        } else if (c == EnchantmentCategory.WEAPON) {
+            return Items.DIAMOND_SWORD;
+        } else if (c == EnchantmentCategory.DIGGER) {
+            return Items.DIAMOND_PICKAXE;
+        } else if (c == EnchantmentCategory.FISHING_ROD) {
+            return Items.FISHING_ROD;
+        } else if (c == EnchantmentCategory.TRIDENT) {
+            return Items.TRIDENT;
+        } else if (c == EnchantmentCategory.BOW) {
+            return Items.BOW;
+        } else if (c == EnchantmentCategory.CROSSBOW) {
+            return Items.CROSSBOW;
+        } else if (c == EnchantmentCategory.BREAKABLE || c == EnchantmentCategory.VANISHABLE) {
+            return Items.IRON_SHOVEL;
+        }
+        return Items.AIR;
     }
 
     private static List<ListSelectionItemModel> buildAttributeSelectionItems() {
