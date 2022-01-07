@@ -61,6 +61,8 @@ public class ItemEnchantmentsCategoryModel extends ItemCategoryModel {
         super.apply(nbt);
         if (!newEnch.isEmpty()) {
             getNewTag().put("Enchantments", newEnch);
+        } else {
+            getNewTag().remove("Enchantments");
         }
     }
 }
