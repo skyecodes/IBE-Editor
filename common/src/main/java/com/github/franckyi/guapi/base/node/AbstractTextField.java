@@ -118,12 +118,17 @@ public abstract class AbstractTextField extends AbstractLabeled implements TextF
         validProperty.setValue(getValidator().test(getText()));
     }
 
-    private void updateCursorPos() {
-        if (getCursorPosition() > getText().length()) {
-            setCursorPosition(getText().length());
-        }
-        if (getHighlightPosition() > getText().length()) {
-            setHighlightPosition(getText().length());
+    private void updateCursorPos(String text) {
+        if (text == null) {
+            setCursorPosition(0);
+            setHighlightPosition(0);
+        } else {
+            if (getCursorPosition() > text.length()) {
+                setCursorPosition(getText().length());
+            }
+            if (getHighlightPosition() > text.length()) {
+                setHighlightPosition(getText().length());
+            }
         }
     }
 
