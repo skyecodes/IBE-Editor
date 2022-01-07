@@ -7,4 +7,10 @@ public abstract class ValueEntryController<M extends ValueEntryModel<?>, V exten
     public ValueEntryController(M model, V view) {
         super(model, view);
     }
+
+    @Override
+    public void bind() {
+        super.bind();
+        view.getResetButton().disableProperty().bind(model.valueChangedProperty().not());
+    }
 }
