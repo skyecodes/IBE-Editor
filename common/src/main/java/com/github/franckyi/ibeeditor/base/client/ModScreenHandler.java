@@ -21,8 +21,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.List;
 import java.util.function.Consumer;
 
-import static com.github.franckyi.guapi.api.GuapiHelper.mvc;
-import static com.github.franckyi.guapi.api.GuapiHelper.scene;
+import static com.github.franckyi.guapi.api.GuapiHelper.*;
 
 public final class ModScreenHandler {
     private static final Logger LOGGER = LogManager.getLogger();
