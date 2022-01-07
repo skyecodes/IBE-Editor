@@ -6,8 +6,7 @@ import net.minecraft.network.chat.Component;
 
 import java.util.function.Predicate;
 
-import static com.github.franckyi.guapi.api.GuapiHelper.EMPTY_TEXT;
-import static com.github.franckyi.guapi.api.GuapiHelper.text;
+import static com.github.franckyi.guapi.api.GuapiHelper.*;
 
 public abstract class AbstractTextField extends AbstractLabeled implements TextField {
     private final StringProperty textProperty = StringProperty.create("");
@@ -42,6 +41,7 @@ public abstract class AbstractTextField extends AbstractLabeled implements TextF
         setText(value);
         textProperty().addListener(this::updateValid);
         validatorProperty().addListener(this::updateValid);
+        textProperty().addListener(this::updateCursorPos);
         textProperty().addListener(this::updateSuggested);
         getSuggestions().addListener(this::updateSuggested);
         focusedProperty().addListener(this::resetSelection);
@@ -116,6 +116,15 @@ public abstract class AbstractTextField extends AbstractLabeled implements TextF
 
     private void updateValid() {
         validProperty.setValue(getValidator().test(getText()));
+    }
+
+    private void updateCursorPos() {
+        if (getCursorPosition() > getText().length()) {
+            setCursorPosition(getText().length());
+        }
+        if (getHighlightPosition() > getText().length()) {
+            setHighlightPosition(getText().length());
+        }
     }
 
     private void updateSuggested() {
