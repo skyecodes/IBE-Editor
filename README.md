@@ -19,9 +19,13 @@ You can also join us on [Discord](https://discord.gg/kv2YGxweUj)!
 The mod is available to download on [CurseForge](https://www.curseforge.com/minecraft/mc-mods/ibe-editor)
 , [Modrinth](https://modrinth.com/mod/ibe-editor) and [GitHub](https://github.com/Franckyi/IBE-Editor/releases).
 
+It is compatible with both Forge and Fabric mod loaders.
+
+The Fabric version of the mod requires [Fabric API](https://www.curseforge.com/minecraft/mc-mods/fabric-api).
+
 ### Build the mod
 
-This mod is built using the [Architectury](https://github.com/architectury) toolchain.
+The mod is built using the [Architectury](https://github.com/architectury) toolchain.
 
 Building the mod requires Java 17 (or higher) for the 1.18 version, or Java 16 (or higher) for the 1.17 and 1.16
 versions.
