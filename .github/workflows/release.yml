@@ -25,7 +25,8 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build & release mod
-        run: ./gradlew build curseforgeRelease githubRelease
+        run: ./gradlew build curseforgeRelease modrinthRelease githubRelease
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CURSEFORGE_TOKEN: ${{ secrets.CURSEFORGE_TOKEN }}
+          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

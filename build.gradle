@@ -1,15 +1,18 @@
+import com.modrinth.minotaur.TaskModrinthUpload
+import com.modrinth.minotaur.request.VersionType
 import groovy.json.JsonSlurper
 import net.darkhax.curseforgegradle.TaskPublishCurseForge
 
 plugins {
     id "architectury-plugin" version "3.4-SNAPSHOT"
     id "dev.architectury.loom" version "0.10.0-SNAPSHOT" apply false
-    id 'net.darkhax.curseforgegradle' version '1.0.7'
+    id 'net.darkhax.curseforgegradle' version "1.0.7"
+    id "com.modrinth.minotaur" version "1.2.1"
     id "com.github.breadmoirai.github-release" version "2.2.12"
 }
 
 architectury {
-    minecraft = rootProject.minecraft_version
+    minecraft = rootProject.property("minecraft_version")
 }
 
 subprojects {
@@ -20,7 +23,7 @@ subprojects {
     }
 
     dependencies {
-        minecraft "com.mojang:minecraft:${rootProject.minecraft_version}"
+        minecraft "com.mojang:minecraft:${rootProject.property("minecraft_version")}"
         // The following line declares the mojmap mappings, you may use other mappings as well
         mappings loom.officialMojangMappings()
         // The following line declares the yarn mappings you may select this one as well.
@@ -33,9 +36,9 @@ allprojects {
     apply plugin: "architectury-plugin"
     apply plugin: "maven-publish"
 
-    archivesBaseName = rootProject.archives_base_name
-    version = rootProject.mod_version
-    group = rootProject.maven_group
+    archivesBaseName = "${rootProject.property("archives_base_name")}-${rootProject.property("minecraft_version")}"
+    version = rootProject.property("mod_version")
+    group = rootProject.property("maven_group")
 
     repositories {
         // Add repositories to retrieve artifacts from in here.
@@ -47,7 +50,7 @@ allprojects {
 
     tasks.withType(JavaCompile) {
         options.encoding = "UTF-8"
-        options.release = 17
+        options.release.set(rootProject.property("java_version") as Integer)
     }
 
     java {
@@ -55,7 +58,11 @@ allprojects {
     }
 }
 
-def versionInfo = new JsonSlurper().parse(file("versions.json"))."${version}"
+def slurper = new JsonSlurper()
+def versionInfo = slurper.parse(file("versions.json"))."${version}"
+String versionInfoType = versionInfo.type
+String versionInfoChangelog = versionInfo.changelog
+List<String> compatibleGameVersions = slurper.parseText(rootProject.property("compatible_minecraft_versions") as String) as List<String>
 
 task curseforgeRelease(type: TaskPublishCurseForge) {
     disableVersionDetection()
@@ -63,27 +70,52 @@ task curseforgeRelease(type: TaskPublishCurseForge) {
 
     ext.uploadFile = { modLoader, project ->
         def artifact = upload(256822, project.remapJar)
-        artifact.releaseType = versionInfo.type
-        artifact.changelog = versionInfo.changelog
+        artifact.releaseType = versionInfoType
+        artifact.changelog = versionInfoChangelog
         artifact.changelogType = "markdown"
         artifact.addModLoader(modLoader)
-        artifact.addJavaVersion("Java 17")
-        artifact.addGameVersion("1.18")
-        artifact.addGameVersion("1.18.1")
+        artifact.addJavaVersion("Java ${rootProject.property("java_version")}")
+        compatibleGameVersions.each { artifact.addGameVersion(it) }
     }
 
-    uploadFile("Fabric", project(":fabric"))
     uploadFile("Forge", project(":forge"))
+    uploadFile("Fabric", project(":fabric"))
+}
+
+task modrinthReleaseForge(type: TaskModrinthUpload) {
+    uploadFile = project(":forge").remapJar
+    versionName = "${archivesBaseName}-${version}-forge"
+    versionNumber = "forge-mc${rootProject.property("major_minecraft_version")}-v${version}"
+    addLoader("forge")
+}
+
+task modrinthReleaseFabric(type: TaskModrinthUpload) {
+    uploadFile = project(":fabric").remapJar
+    versionName = "${archivesBaseName}-${version}-fabric"
+    versionNumber = "fabric-mc${rootProject.property("major_minecraft_version")}-v${version}"
+    addLoader("fabric")
+}
+
+task modrinthRelease {
+    dependsOn modrinthReleaseForge, modrinthReleaseFabric
+}
+
+tasks.withType(TaskModrinthUpload) {
+    token = findProperty("modrinth_token") ?: System.getenv("MODRINTH_TOKEN")
+    projectId = "E9sX1ncV"
+    versionType = VersionType.valueOf(versionInfoType.toUpperCase())
+    changelog = versionInfoChangelog
+    compatibleGameVersions.each { addGameVersion(it) }
 }
 
 githubRelease {
-    setToken(findProperty("github_token") ?: System.getenv("GITHUB_TOKEN"))
+    setToken(findProperty("github_token") as String ?: System.getenv("GITHUB_TOKEN"))
     setOwner("Franckyi")
     setRepo("IBE-Editor")
-    setTagName("mc1.18-v" + version)
-    setTargetCommitish("1.18")
-    setReleaseName(archivesBaseName + "-" + version)
-    setBody(versionInfo.changelog)
-    setPrerelease(versionInfo.type == "alpha")
+    setTagName("mc${rootProject.property("major_minecraft_version")}-v")
+    setTargetCommitish(rootProject.property("major_minecraft_version") as String)
+    setReleaseName("${archivesBaseName}-${version}")
+    setBody(versionInfoChangelog)
+    setPrerelease(versionInfoType == "alpha")
     setReleaseAssets(project(":fabric").remapJar, project(":forge").remapJar)
 }
