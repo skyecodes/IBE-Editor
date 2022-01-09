@@ -29,7 +29,7 @@ public abstract class AbstractProperty<T> implements Property<T> {
 
     @Override
     public void set(T value) {
-        if (isBound() && !(boundValue instanceof Property<?> && ((Property<?>) boundValue).isBound())) {
+        if (isBound() && !(boundValue instanceof Property<?> property && property.isBound())) {
             throw new IllegalStateException("Property is bound to a value and cannot be set");
         }
         doSet(value);

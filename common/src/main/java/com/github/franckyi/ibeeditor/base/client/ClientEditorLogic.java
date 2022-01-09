@@ -112,13 +112,23 @@ public final class ClientEditorLogic {
                 getDisabledTooltipCreativeMode(ModTexts.ITEM));
     }
 
-    public static boolean tryOpenItemEditorFromScreen(EditorType type, Slot slot, boolean isCreativeInventoryScreen) {
+    public static boolean tryOpenItemEditorFromScreen(EditorType type, Slot slot, boolean isCreativeInventoryScreen, boolean isCreativeSurvivalInventory) {
         if (slot != null && slot.hasItem()) {
             if (slot.container instanceof Inventory) {
+                int slotIndex = slot.getContainerSlot();
+                if (isCreativeSurvivalInventory) {
+                    if (slotIndex == 45) {
+                        slotIndex = 40;
+                    } else if (slotIndex >= 36) {
+                        slotIndex %= 36;
+                    } else if (slotIndex < 9) {
+                        slotIndex = 36 + 8 - slotIndex;
+                    }
+                }
                 if (ClientContext.isModInstalledOnServer()) {
-                    requestOpenPlayerInventoryItemEditor(type, slot.index, isCreativeInventoryScreen);
+                    requestOpenPlayerInventoryItemEditor(type, slotIndex, isCreativeInventoryScreen);
                 } else {
-                    openPlayerInventoryItemEditor(slot.getItem(), type, slot.index, isCreativeInventoryScreen);
+                    openPlayerInventoryItemEditor(slot.getItem(), type, slotIndex, isCreativeInventoryScreen);
                 }
                 return true;
             } else {
@@ -127,9 +137,9 @@ public final class ClientEditorLogic {
                     BlockEntity blockEntity = Minecraft.getInstance().level.getBlockEntity(res.getBlockPos());
                     if (blockEntity instanceof Container) {
                         if (ClientContext.isModInstalledOnServer()) {
-                            requestOpenBlockInventoryItemEditor(type, slot.index, res.getBlockPos());
+                            requestOpenBlockInventoryItemEditor(type, slot.getContainerSlot(), res.getBlockPos());
                         } else {
-                            openBlockInventoryItemEditor(slot.getItem(), type, slot.index, res.getBlockPos());
+                            openBlockInventoryItemEditor(slot.getItem(), type, slot.getContainerSlot(), res.getBlockPos());
                         }
                         return true;
                     }
