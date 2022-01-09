@@ -17,11 +17,11 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.state.BlockState;
-import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.List;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 import static com.github.franckyi.guapi.api.GuapiHelper.*;
@@ -33,9 +33,8 @@ public final class ModScreenHandler {
         openScaledScreen(mvc(StandardEditorMVC.INSTANCE, new ItemEditorModel(itemStack, action, disabledTooltip)));
     }
 
-    @Deprecated
-    public static void openBlockEditorScreen(Pair<BlockState, CompoundTag> block, Consumer<Pair<BlockState, CompoundTag>> action, Component disabledTooltip) {
-        openScaledScreen(mvc(StandardEditorMVC.INSTANCE, new BlockEditorModel(block, action, disabledTooltip)));
+    public static void openBlockEditorScreen(BlockState state, CompoundTag tag, BiConsumer<BlockState, CompoundTag> action, Component disabledTooltip) {
+        openScaledScreen(mvc(StandardEditorMVC.INSTANCE, new BlockEditorModel(state, tag, action, disabledTooltip)));
     }
 
     @Deprecated

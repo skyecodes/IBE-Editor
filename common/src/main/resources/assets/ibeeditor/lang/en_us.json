@@ -105,6 +105,8 @@
   "ibeeditor.gui.show_particles": "Show Particles",
   "ibeeditor.gui.show_icon": "Show Icon",
   "ibeeditor.gui.armor_color": "Armor Color",
+  "ibeeditor.gui.spawn_egg": "Spawn Egg",
+  "ibeeditor.gui.block_state": "Block State",
   "ibeeditor.gui.client": "Client",
   "ibeeditor.gui.theme": "Theme",
   "ibeeditor.gui.debug_mode": "Debug Mode",

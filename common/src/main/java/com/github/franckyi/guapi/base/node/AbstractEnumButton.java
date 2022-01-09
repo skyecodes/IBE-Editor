@@ -2,38 +2,53 @@ package com.github.franckyi.guapi.base.node;
 
 import com.github.franckyi.databindings.api.IntegerProperty;
 import com.github.franckyi.databindings.api.ObjectProperty;
+import com.github.franckyi.databindings.api.ObservableList;
 import com.github.franckyi.guapi.api.event.MouseButtonEvent;
 import com.github.franckyi.guapi.api.node.EnumButton;
 import net.minecraft.network.chat.Component;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.function.Function;
 
-import static com.github.franckyi.guapi.api.GuapiHelper.text;
+import static com.github.franckyi.guapi.api.GuapiHelper.*;
 
-public abstract class AbstractEnumButton<E extends Enum<E>> extends AbstractButton implements EnumButton<E> {
+public abstract class AbstractEnumButton<E> extends AbstractButton implements EnumButton<E> {
     private final ObjectProperty<E> valueProperty = ObjectProperty.create();
     private final IntegerProperty valueIndexProperty = IntegerProperty.create();
-    private final ObjectProperty<Function<E, Component>> textFactoryProperty = ObjectProperty.create(e -> text(e.name()));
-    private final E[] values;
+    private final ObjectProperty<Function<E, Component>> textFactoryProperty = ObjectProperty.create(e -> text(e.toString()));
+    private final ObservableList<E> values;
     private boolean indexUpdated, valueUpdated;
 
-    protected AbstractEnumButton(Class<? extends E> enumClass) {
-        values = enumClass.getEnumConstants();
-        setupListeners();
-        updateValue(0);
+    protected AbstractEnumButton() {
+        this(Collections.emptyList());
     }
 
-    protected AbstractEnumButton(E value) {
-        values = value.getDeclaringClass().getEnumConstants();
-        setupListeners();
-        setValue(value);
+    protected AbstractEnumButton(E[] values) {
+        this(Arrays.asList(values));
     }
 
-    private void setupListeners() {
-        valueProperty.addListener(this::updateValueIndex);
-        valueIndexProperty.addListener(this::updateValue);
+    protected AbstractEnumButton(Collection<? extends E> values) {
+        this(values, null);
+    }
+
+    protected AbstractEnumButton(E[] values, E value) {
+        this(Arrays.asList(values), value);
+    }
+
+    protected AbstractEnumButton(Collection<? extends E> values, E value) {
+        this.values = ObservableList.create(values);
+        valueProperty.addListener(this::updateIndexFromValue);
+        valueIndexProperty.addListener(this::updateValueFromIndex);
+        this.values.addListener(() -> updateValueFromIndex(getValueIndex()));
         valueProperty.addListener(this::updateText);
         textFactoryProperty.addListener(this::updateText);
+        if (value == null) {
+            updateValueFromIndex(0);
+        } else {
+            setValue(value);
+        }
     }
 
     @Override
@@ -52,7 +67,7 @@ public abstract class AbstractEnumButton<E extends Enum<E>> extends AbstractButt
     }
 
     @Override
-    public E[] getValues() {
+    public ObservableList<E> getValues() {
         return values;
     }
 
@@ -65,11 +80,11 @@ public abstract class AbstractEnumButton<E extends Enum<E>> extends AbstractButt
         }
     }
 
-    private void updateValueIndex(E value) {
+    private void updateIndexFromValue(E value) {
         valueUpdated = true;
         if (!indexUpdated) {
-            for (int i = 0; i < values.length; i++) {
-                if (values[i] == value) {
+            for (int i = 0; i < values.size(); i++) {
+                if (values.get(i) == value) {
                     setValueIndex(i);
                     break;
                 }
@@ -78,14 +93,14 @@ public abstract class AbstractEnumButton<E extends Enum<E>> extends AbstractButt
         valueUpdated = false;
     }
 
-    private void updateValue(int valueIndex) {
+    private void updateValueFromIndex(int valueIndex) {
         indexUpdated = true;
-        if (valueIndex >= values.length) {
+        if (valueIndex >= values.size()) {
             setValueIndex(0);
         } else if (valueIndex < 0) {
-            setValueIndex(values.length - 1);
+            setValueIndex(values.size() - 1);
         } else if (!valueUpdated) {
-            setValue(values[valueIndex]);
+            setValue(values.get(valueIndex));
         }
         indexUpdated = false;
     }

@@ -29,7 +29,17 @@ public interface NodeFactory {
 
     CheckBoxBuilder createCheckBox(Consumer<CheckBoxBuilder> with);
 
-    <E extends Enum<E>> EnumButtonBuilder<E> createEnumButton(Class<? extends E> enumClass);
+    <E> EnumButtonBuilder<E> createEnumButton();
+
+    <E> EnumButtonBuilder<E> createEnumButton(E[] values);
+
+    <E> EnumButtonBuilder<E> createEnumButton(Collection<? extends E> values);
+
+    <E> EnumButtonBuilder<E> createEnumButton(E[] values, E value);
+
+    <E> EnumButtonBuilder<E> createEnumButton(Collection<? extends E> values, E value);
+
+    <E> EnumButtonBuilder<E> createEnumButton(Consumer<EnumButtonBuilder<E>> with);
 
     <E extends Enum<E>> EnumButtonBuilder<E> createEnumButton(E value);
 

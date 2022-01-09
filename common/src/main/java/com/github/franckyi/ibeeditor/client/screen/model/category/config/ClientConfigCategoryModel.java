@@ -23,7 +23,7 @@ public class ClientConfigCategoryModel extends ConfigCategoryModel {
     protected void setupEntries() {
         getEntries().addAll(
                 guapiThemeEntry = new StringEntryModel(this, ModTexts.THEME, ClientConfiguration.INSTANCE.getGuapiTheme(), ClientConfiguration.INSTANCE::setGuapiTheme).withWeight(2),
-                guapiDebugModeEntry = new EnumEntryModel<>(this, ModTexts.DEBUG_MODE, ClientConfiguration.INSTANCE.getGuapiDebugMode(), ClientConfiguration.INSTANCE::setGuapiDebugMode).withWeight(2),
+                guapiDebugModeEntry = new EnumEntryModel<>(this, ModTexts.DEBUG_MODE, DebugMode.values(), ClientConfiguration.INSTANCE.getGuapiDebugMode(), ClientConfiguration.INSTANCE::setGuapiDebugMode).withWeight(2),
                 selectionScreenMaxItemsEntry = new IntegerEntryModel(this, ModTexts.SELECTION_SCREEN_MAX_ITEMS, ClientConfiguration.INSTANCE.getSelectionScreenMaxItems(), ClientConfiguration.INSTANCE::setSelectionScreenMaxItems).withWeight(2),
                 new ActionEntryModel(this, ModTexts.RELOAD_CONFIG, this::reload)
         );

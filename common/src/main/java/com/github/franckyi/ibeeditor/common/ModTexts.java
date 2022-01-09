@@ -101,6 +101,8 @@ public final class ModTexts {
     public static final MutableComponent COMMON = translated("ibeeditor.gui.common");
     public static final MutableComponent PERMISSION_LEVEL = translated("ibeeditor.gui.permission_level");
     public static final MutableComponent CREATIVE_ONLY = translated("ibeeditor.gui.creative_only");
+    public static final MutableComponent BLOCK_STATE = translated("ibeeditor.gui.block_state");
+    public static final MutableComponent SPAWN_EGG = translated("ibeeditor.gui.spawn_egg");
 
     public static MutableComponent serverMod(MutableComponent with) {
         return translated("ibeeditor.message.error_server_mod", with).withStyle(ChatFormatting.RED);

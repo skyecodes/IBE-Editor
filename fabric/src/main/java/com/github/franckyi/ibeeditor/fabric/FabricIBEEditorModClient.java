@@ -9,7 +9,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 
-public final class FabricIBEEditorModClient implements ClientModInitializer {
+public class FabricIBEEditorModClient implements ClientModInitializer {
     public FabricIBEEditorModClient() {
         ClientInit.init();
     }

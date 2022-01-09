@@ -8,6 +8,8 @@ import com.github.franckyi.ibeeditor.client.screen.model.entry.item.*;
 import com.github.franckyi.ibeeditor.client.screen.view.entry.*;
 import com.github.franckyi.ibeeditor.client.screen.view.entry.item.*;
 
+import java.util.function.Supplier;
+
 public final class EntryMVC implements MVC<EntryModel, EntryView, EntryController<EntryModel, EntryView>> {
     public static final EntryMVC INSTANCE = new EntryMVC();
 
@@ -31,7 +33,7 @@ public final class EntryMVC implements MVC<EntryModel, EntryView, EntryControlle
         };
     }
 
-    private <E extends Enum<E>> EntryView createEnumViewAndBind(EnumEntryModel<E> model) {
-        return MVC.createViewAndBind(model, () -> new EnumEntryView<>(model.getValue().getDeclaringClass()), EnumEntryController::new);
+    private <E> EntryView createEnumViewAndBind(EnumEntryModel<E> model) {
+        return MVC.createViewAndBind(model, (Supplier<EnumEntryView<E>>) EnumEntryView::new, EnumEntryController::new);
     }
 }

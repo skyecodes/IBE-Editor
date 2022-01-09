@@ -5,7 +5,7 @@ import net.minecraft.network.chat.Component;
 
 import java.util.function.Function;
 
-public interface GenericEnumButtonBuilder<E extends Enum<E>, N extends EnumButton<E>> extends EnumButton<E>, GenericButtonBuilder<N> {
+public interface GenericEnumButtonBuilder<E, N extends EnumButton<E>> extends EnumButton<E>, GenericButtonBuilder<N> {
     default N value(E value) {
         return with(n -> n.setValue(value));
     }

@@ -18,6 +18,10 @@ public class ObservableArrayList<E> extends ArrayList<E> implements ObservableLi
     public ObservableArrayList() {
     }
 
+    public ObservableArrayList(Collection<? extends E> c) {
+        super(c);
+    }
+
     @Override
     public E set(int index, E element) {
         if (!canAdd(element)) return null;

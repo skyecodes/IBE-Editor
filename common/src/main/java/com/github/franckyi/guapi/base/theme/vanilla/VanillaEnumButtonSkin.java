@@ -6,7 +6,6 @@ import com.github.franckyi.guapi.base.theme.vanilla.delegate.VanillaButtonSkinDe
 import com.github.franckyi.guapi.base.theme.vanilla.delegate.VanillaEnumButtonSkinDelegate;
 import net.minecraft.network.chat.Component;
 
-import java.util.Arrays;
 import java.util.function.Function;
 
 public class VanillaEnumButtonSkin extends VanillaButtonSkin<EnumButton<?>> {
@@ -20,7 +19,7 @@ public class VanillaEnumButtonSkin extends VanillaButtonSkin<EnumButton<?>> {
 
     @Override
     public int computeWidth(EnumButton<?> node) {
-        return Arrays.stream(node.getValues())
+        return node.getValues().stream()
                 .mapToInt(e -> RenderHelper.getFontWidth(((Function<Object, Component>) node.getTextFactory()).apply(e)))
                 .max().orElse(0) + 20;
     }

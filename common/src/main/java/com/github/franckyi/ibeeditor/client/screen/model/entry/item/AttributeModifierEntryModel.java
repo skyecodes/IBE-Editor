@@ -142,6 +142,11 @@ public class AttributeModifierEntryModel extends EntryModel {
         public MutableComponent getText() {
             return text;
         }
+
+        @Override
+        public String toString() {
+            return name();
+        }
     }
 
     public enum Operation {
@@ -173,6 +178,11 @@ public class AttributeModifierEntryModel extends EntryModel {
 
         public MutableComponent getTooltip() {
             return tooltip;
+        }
+
+        @Override
+        public String toString() {
+            return name();
         }
     }
 }
