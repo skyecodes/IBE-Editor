@@ -4,7 +4,8 @@
   "package": "com.github.franckyi.ibeeditor.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "CompoundTagMixin"
+    "CompoundTagMixin",
+    "SlotMixin"
   ],
   "client": [
     "AbstractContainerScreenMixin",

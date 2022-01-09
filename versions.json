@@ -1,4 +1,8 @@
 {
+  "2.0.10": {
+    "type": "beta",
+    "changelog": "* Fixed an issue while editing an item from the creative survival inventory screen or from a chest\n* Added automatic file upload to Modrinth"
+  },
   "2.0.9": {
     "type": "beta",
     "changelog": "* Fixed an issue with custom enchantments\n* Fixed an issue with enchantments not being removed\n* Disabled \"reset\" buttons when the value hasn't changed\n* Added automatic file upload to Curseforge & GitHub"

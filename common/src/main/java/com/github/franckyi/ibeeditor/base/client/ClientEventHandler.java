@@ -7,12 +7,7 @@ import com.github.franckyi.ibeeditor.mixin.AbstractContainerScreenMixin;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
-import net.minecraft.world.Container;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.Slot;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.item.CreativeModeTab;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -47,7 +42,8 @@ public final class ClientEventHandler {
                 type = EditorType.SNBT;
             }
             if (type != null) {
-                return ClientEditorLogic.tryOpenItemEditorFromScreen(type, ((AbstractContainerScreenMixin) screen).getHoveredSlot(), screen instanceof CreativeModeInventoryScreen);
+                return ClientEditorLogic.tryOpenItemEditorFromScreen(type, ((AbstractContainerScreenMixin) screen).getHoveredSlot(), screen instanceof CreativeModeInventoryScreen,
+                        screen instanceof CreativeModeInventoryScreen && ((CreativeModeInventoryScreen) screen).getSelectedTab() == CreativeModeTab.TAB_INVENTORY.getId());
             }
         } catch (Exception e) {
             Minecraft.getInstance().player.displayClientMessage(ModTexts.Messages.ERROR_GENERIC, false);

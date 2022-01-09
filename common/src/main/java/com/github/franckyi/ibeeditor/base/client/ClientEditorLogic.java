@@ -3,6 +3,7 @@ package com.github.franckyi.ibeeditor.base.client;
 import com.github.franckyi.guapi.api.Guapi;
 import com.github.franckyi.ibeeditor.base.common.EditorType;
 import com.github.franckyi.ibeeditor.base.common.ModTexts;
+import com.github.franckyi.ibeeditor.mixin.SlotMixin;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -112,13 +113,23 @@ public final class ClientEditorLogic {
                 getDisabledTooltipCreativeMode(ModTexts.ITEM));
     }
 
-    public static boolean tryOpenItemEditorFromScreen(EditorType type, Slot slot, boolean isCreativeInventoryScreen) {
+    public static boolean tryOpenItemEditorFromScreen(EditorType type, Slot slot, boolean isCreativeInventoryScreen, boolean isCreativeSurvivalInventory) {
         if (slot != null && slot.hasItem()) {
+            int slotIndex = ((SlotMixin) slot).getContainerSlot();
             if (slot.container instanceof Inventory) {
+                if (isCreativeSurvivalInventory) {
+                    if (slotIndex == 45) {
+                        slotIndex = 40;
+                    } else if (slotIndex >= 36) {
+                        slotIndex %= 36;
+                    } else if (slotIndex < 9) {
+                        slotIndex = 36 + 8 - slotIndex;
+                    }
+                }
                 if (ClientContext.isModInstalledOnServer()) {
-                    requestOpenPlayerInventoryItemEditor(type, slot.index, isCreativeInventoryScreen);
+                    requestOpenPlayerInventoryItemEditor(type, slotIndex, isCreativeInventoryScreen);
                 } else {
-                    openPlayerInventoryItemEditor(slot.getItem(), type, slot.index, isCreativeInventoryScreen);
+                    openPlayerInventoryItemEditor(slot.getItem(), type, slotIndex, isCreativeInventoryScreen);
                 }
                 return true;
             } else {
@@ -128,9 +139,9 @@ public final class ClientEditorLogic {
                     BlockEntity blockEntity = Minecraft.getInstance().level.getBlockEntity(pos);
                     if (blockEntity instanceof Container) {
                         if (ClientContext.isModInstalledOnServer()) {
-                            requestOpenBlockInventoryItemEditor(type, slot.index, pos);
+                            requestOpenBlockInventoryItemEditor(type, slotIndex, pos);
                         } else {
-                            openBlockInventoryItemEditor(slot.getItem(), type, slot.index, pos);
+                            openBlockInventoryItemEditor(slot.getItem(), type, slotIndex, pos);
                         }
                         return true;
                     }

@@ -21,11 +21,11 @@ jobs:
           java-version: 16
           distribution: 'adopt'
 
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
-
       - name: Build & release mod
-        run: ./gradlew build curseforgeRelease githubRelease
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: build curseforgeRelease modrinthRelease githubRelease --no-daemon
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CURSEFORGE_TOKEN: ${{ secrets.CURSEFORGE_TOKEN }}
+          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
