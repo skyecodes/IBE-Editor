@@ -23,6 +23,7 @@ public class BlockInventoryItemEditorResponsePacket extends BlockInventoryItemEd
     @Override
     public void write(FriendlyByteBuf buffer) throws IOException {
         super.write(buffer);
+        buffer.writeItem(itemStack);
     }
 
     public ItemStack getItemStack() {

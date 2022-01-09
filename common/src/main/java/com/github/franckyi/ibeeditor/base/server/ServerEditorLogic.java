@@ -41,8 +41,8 @@ public final class ServerEditorLogic {
         LOGGER.debug(itemStack.save(new CompoundTag()));
         ServerLevel level = player.getLevel();
         BlockEntity blockEntity = level.getBlockEntity(blockPos);
-        if (blockEntity instanceof Container) {
-            ((Container) blockEntity).setItem(slotId, itemStack);
+        if (blockEntity instanceof Container container) {
+            container.setItem(slotId, itemStack);
             player.displayClientMessage(ModTexts.Messages.successUpdate(ModTexts.ITEM), false);
         } else {
             player.displayClientMessage(ModTexts.Messages.errorNoTargetFound(ModTexts.ITEM), false);
@@ -88,8 +88,8 @@ public final class ServerEditorLogic {
     public static void processBlockInventoryItemEditorRequest(ServerPlayer player, EditorType editorType, int slotIndex, BlockPos pos) {
         if (checkPermission(player)) return;
         BlockEntity blockEntity = player.getLevel().getBlockEntity(pos);
-        if (blockEntity instanceof Container) {
-            ServerNetworkEmitter.sendBlockInventoryItemEditorResponse(player, editorType, slotIndex, pos, ((Container) blockEntity).getItem(slotIndex));
+        if (blockEntity instanceof Container container) {
+            ServerNetworkEmitter.sendBlockInventoryItemEditorResponse(player, editorType, slotIndex, pos, container.getItem(slotIndex));
         } else {
             player.displayClientMessage(ModTexts.Messages.errorNoTargetFound(ModTexts.ITEM), false);
         }

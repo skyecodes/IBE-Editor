@@ -12,7 +12,7 @@ plugins {
 }
 
 architectury {
-    minecraft = rootProject.property("minecraft_version")
+    minecraft = rootProject.minecraft_version
 }
 
 subprojects {
@@ -23,7 +23,7 @@ subprojects {
     }
 
     dependencies {
-        minecraft "com.mojang:minecraft:${rootProject.property("minecraft_version")}"
+        minecraft "com.mojang:minecraft:${rootProject.minecraft_version}"
         // The following line declares the mojmap mappings, you may use other mappings as well
         mappings loom.officialMojangMappings()
         // The following line declares the yarn mappings you may select this one as well.
@@ -36,9 +36,9 @@ allprojects {
     apply plugin: "architectury-plugin"
     apply plugin: "maven-publish"
 
-    archivesBaseName = "${rootProject.property("archives_base_name")}-${rootProject.property("minecraft_version")}"
-    version = rootProject.property("mod_version")
-    group = rootProject.property("maven_group")
+    archivesBaseName = "${rootProject.archives_base_name}-${rootProject.minecraft_version}"
+    version = rootProject.mod_version
+    group = rootProject.maven_group
 
     repositories {
         // Add repositories to retrieve artifacts from in here.
@@ -50,7 +50,7 @@ allprojects {
 
     tasks.withType(JavaCompile) {
         options.encoding = "UTF-8"
-        options.release.set(rootProject.property("java_version") as Integer)
+        options.release.set(rootProject.java_version as Integer)
     }
 
     java {
@@ -62,7 +62,7 @@ def slurper = new JsonSlurper()
 def versionInfo = slurper.parse(file("versions.json"))."${version}"
 String versionInfoType = versionInfo.type
 String versionInfoChangelog = versionInfo.changelog
-List<String> compatibleGameVersions = slurper.parseText(rootProject.property("compatible_minecraft_versions") as String) as List<String>
+List<String> compatibleGameVersions = slurper.parseText(rootProject.compatible_minecraft_versions as String) as List<String>
 
 task curseforgeRelease(type: TaskPublishCurseForge) {
     disableVersionDetection()
@@ -74,7 +74,7 @@ task curseforgeRelease(type: TaskPublishCurseForge) {
         artifact.changelog = versionInfoChangelog
         artifact.changelogType = "markdown"
         artifact.addModLoader(modLoader)
-        artifact.addJavaVersion("Java ${rootProject.property("java_version")}")
+        artifact.addJavaVersion("Java ${rootProject.java_version}")
         compatibleGameVersions.each { artifact.addGameVersion(it) }
     }
 
@@ -85,14 +85,14 @@ task curseforgeRelease(type: TaskPublishCurseForge) {
 task modrinthReleaseForge(type: TaskModrinthUpload) {
     uploadFile = project(":forge").remapJar
     versionName = "${archivesBaseName}-${version}-forge"
-    versionNumber = "forge-mc${rootProject.property("major_minecraft_version")}-v${version}"
+    versionNumber = "${version}+${rootProject.major_minecraft_version}-forge"
     addLoader("forge")
 }
 
 task modrinthReleaseFabric(type: TaskModrinthUpload) {
     uploadFile = project(":fabric").remapJar
     versionName = "${archivesBaseName}-${version}-fabric"
-    versionNumber = "fabric-mc${rootProject.property("major_minecraft_version")}-v${version}"
+    versionNumber = "${version}+${rootProject.major_minecraft_version}-fabric"
     addLoader("fabric")
 }
 
@@ -112,8 +112,8 @@ githubRelease {
     setToken(findProperty("github_token") as String ?: System.getenv("GITHUB_TOKEN"))
     setOwner("Franckyi")
     setRepo("IBE-Editor")
-    setTagName("mc${rootProject.property("major_minecraft_version")}-v")
-    setTargetCommitish(rootProject.property("major_minecraft_version") as String)
+    setTagName("${version}+${rootProject.major_minecraft_version}")
+    setTargetCommitish(rootProject.major_minecraft_version as String)
     setReleaseName("${archivesBaseName}-${version}")
     setBody(versionInfoChangelog)
     setPrerelease(versionInfoType == "alpha")

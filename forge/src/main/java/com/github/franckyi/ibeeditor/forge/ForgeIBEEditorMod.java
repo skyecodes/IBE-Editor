@@ -74,8 +74,8 @@ public final class ForgeIBEEditorMod {
     }
 
     private void onKeyPressed(ScreenEvent.KeyboardKeyPressedEvent.Pre e) {
-        if (e.getScreen() instanceof AbstractContainerScreen) {
-            e.setCanceled(ClientEventHandler.onScreenEvent((AbstractContainerScreen<?>) e.getScreen(), e.getKeyCode()));
+        if (e.getScreen() instanceof AbstractContainerScreen screen) {
+            e.setCanceled(ClientEventHandler.onScreenEvent(screen, e.getKeyCode()));
         }
     }
 
