@@ -96,10 +96,9 @@ public final class ServerEditorLogic {
         if (checkPermission(player)) return;
         ServerLevel level = player.getLevel();
         BlockState state = level.getBlockState(pos);
-        BlockEntity blockEntity = level.getBlockEntity(pos);
-        CompoundTag tag = blockEntity == null ? null : blockEntity.saveWithoutMetadata();
-        if (tag != null || (!editorType.isNBT() && state != null)) {
-            ServerNetworkEmitter.sendBlockEditorResponse(player, editorType, pos, state, tag);
+        BlockEntity entity = level.getBlockEntity(pos);
+        if (entity != null || (!editorType.isNBT() && state != null)) {
+            ServerNetworkEmitter.sendBlockEditorResponse(player, editorType, pos, state, entity);
         } else {
             player.displayClientMessage(ModTexts.Messages.errorNoTargetFound(ModTexts.BLOCK), false);
         }

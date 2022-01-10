@@ -1,7 +1,7 @@
-package com.github.franckyi.ibeeditor.base.client.mvc.model.category;
+package com.github.franckyi.ibeeditor.client.screen.model.category.item;
 
-import com.github.franckyi.ibeeditor.base.client.mvc.model.ItemEditorModel;
-import com.github.franckyi.ibeeditor.base.common.ModTexts;
+import com.github.franckyi.ibeeditor.client.screen.model.ItemEditorModel;
+import com.github.franckyi.ibeeditor.common.ModTexts;
 
 public class ItemSpawnEggCategoryModel extends ItemCategoryModel {
     public ItemSpawnEggCategoryModel(ItemEditorModel editor) {

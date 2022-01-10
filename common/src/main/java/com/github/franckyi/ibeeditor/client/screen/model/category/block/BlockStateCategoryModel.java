@@ -1,10 +1,10 @@
-package com.github.franckyi.ibeeditor.base.client.mvc.model.category;
+package com.github.franckyi.ibeeditor.client.screen.model.category.block;
 
-import com.github.franckyi.ibeeditor.base.client.mvc.model.BlockEditorModel;
-import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.BooleanEntryModel;
-import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.EnumEntryModel;
-import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.IntegerEntryModel;
-import com.github.franckyi.ibeeditor.base.common.ModTexts;
+import com.github.franckyi.ibeeditor.client.screen.model.BlockEditorModel;
+import com.github.franckyi.ibeeditor.client.screen.model.entry.BooleanEntryModel;
+import com.github.franckyi.ibeeditor.client.screen.model.entry.EnumEntryModel;
+import com.github.franckyi.ibeeditor.client.screen.model.entry.IntegerEntryModel;
+import com.github.franckyi.ibeeditor.common.ModTexts;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;

@@ -5,6 +5,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -28,8 +29,8 @@ public final class ServerNetworkEmitter {
         send(NetworkManager.BLOCK_INVENTORY_ITEM_EDITOR_RESPONSE, player, new BlockInventoryItemEditorResponsePacket(editorType, slotIndex, pos, itemStack));
     }
 
-    public static void sendBlockEditorResponse(ServerPlayer player, EditorType editorType, BlockPos pos, BlockState state, CompoundTag tag) {
-        send(NetworkManager.BLOCK_EDITOR_RESPONSE, player, new BlockEditorResponsePacket(editorType, pos, state, tag));
+    public static void sendBlockEditorResponse(ServerPlayer player, EditorType editorType, BlockPos pos, BlockState state, BlockEntity entity) {
+        send(NetworkManager.BLOCK_EDITOR_RESPONSE, player, new BlockEditorResponsePacket(editorType, pos, state, entity));
     }
 
     public static void sendEntityEditorResponse(ServerPlayer player, EditorType editorType, int entityId, CompoundTag tag) {

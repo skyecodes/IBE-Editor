@@ -16,6 +16,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -33,8 +34,8 @@ public final class ModScreenHandler {
         openScaledScreen(mvc(StandardEditorMVC.INSTANCE, new ItemEditorModel(itemStack, action, disabledTooltip)));
     }
 
-    public static void openBlockEditorScreen(BlockState state, CompoundTag tag, BiConsumer<BlockState, CompoundTag> action, Component disabledTooltip) {
-        openScaledScreen(mvc(StandardEditorMVC.INSTANCE, new BlockEditorModel(state, tag, action, disabledTooltip)));
+    public static void openBlockEditorScreen(BlockState state, BlockEntity entity, BiConsumer<BlockState, CompoundTag> action, Component disabledTooltip) {
+        openScaledScreen(mvc(StandardEditorMVC.INSTANCE, new BlockEditorModel(state, entity, action, disabledTooltip)));
     }
 
     @Deprecated

@@ -28,7 +28,7 @@ public final class ClientNetworkReceiver {
 
     public static void onBlockEditorResponse(BlockEditorResponsePacket packet) {
         log(NetworkManager.BLOCK_EDITOR_RESPONSE);
-        ClientEditorLogic.openBlockEditor(packet.getPos(), packet.getState(), packet.getTag(), packet.getEditorType());
+        ClientEditorLogic.openBlockEditor(packet.getPos(), packet.getState(), packet.getEntity(), packet.getEditorType());
     }
 
     public static void onEntityEditorResponse(EntityEditorResponsePacket packet) {

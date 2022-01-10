@@ -65,8 +65,7 @@ public final class ClientEditorLogic {
                 } else {
                     BlockState state = level.getBlockState(pos);
                     BlockEntity entity = level.getBlockEntity(pos);
-                    CompoundTag tag = entity == null ? null : entity.saveWithoutMetadata();
-                    openBlockEditor(pos, state, tag, type);
+                    openBlockEditor(pos, state, entity, type);
                 }
                 return true;
             }
@@ -187,27 +186,27 @@ public final class ClientEditorLogic {
         ClientNetworkEmitter.sendBlockEditorRequest(pos, type);
     }
 
-    public static void openBlockEditor(BlockPos pos, BlockState state, CompoundTag tag, EditorType type) {
+    public static void openBlockEditor(BlockPos pos, BlockState state, BlockEntity entity, EditorType type) {
         LOGGER.debug("Opening block editor for block {} at pos {} with type={}", state, pos, type);
         switch (type) {
-            case STANDARD -> ModScreenHandler.openBlockEditorScreen(state, tag,
+            case STANDARD -> ModScreenHandler.openBlockEditorScreen(state, entity,
                     (newState, newTag) -> updateBlock(pos, newState, newTag),
                     getDisabledTooltipServerMod(ModTexts.BLOCK));
             case NBT -> {
-                if (tag == null) {
+                if (entity == null) {
                     player().displayClientMessage(ModTexts.Messages.errorNoTargetFound(ModTexts.BLOCK), false);
                     break;
                 }
-                ModScreenHandler.openNBTEditorScreen(tag,
+                ModScreenHandler.openNBTEditorScreen(entity.saveWithId(),
                         newTag -> updateBlock(pos, state, newTag),
                         getDisabledTooltipServerMod(ModTexts.BLOCK));
             }
             case SNBT -> {
-                if (tag == null) {
+                if (entity == null) {
                     player().displayClientMessage(ModTexts.Messages.errorNoTargetFound(ModTexts.BLOCK), false);
                     break;
                 }
-                ModScreenHandler.openSNBTEditorScreen(tag.toString(),
+                ModScreenHandler.openSNBTEditorScreen(entity.saveWithId().toString(),
                         snbt -> updateBlock(pos, state, parseTag(snbt)),
                         getDisabledTooltipServerMod(ModTexts.BLOCK));
             }

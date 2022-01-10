@@ -103,6 +103,8 @@ public final class ModTexts {
     public static final MutableComponent CREATIVE_ONLY = translated("ibeeditor.gui.creative_only");
     public static final MutableComponent BLOCK_STATE = translated("ibeeditor.gui.block_state");
     public static final MutableComponent SPAWN_EGG = translated("ibeeditor.gui.spawn_egg");
+    public static final MutableComponent CONTAINER = translated("ibeeditor.gui.container");
+    public static final MutableComponent LOCK_CODE = translated("ibeeditor.gui.lock_code");
 
     public static MutableComponent serverMod(MutableComponent with) {
         return translated("ibeeditor.message.error_server_mod", with).withStyle(ChatFormatting.RED);
