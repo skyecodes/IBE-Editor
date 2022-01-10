@@ -3,13 +3,11 @@
   "minVersion": "0.8",
   "package": "com.github.franckyi.ibeeditor.mixin",
   "compatibilityLevel": "JAVA_17",
-  "mixins": [
-    "CompoundTagMixin"
-  ],
   "client": [
     "AbstractContainerScreenMixin",
     "AbstractSelectionListMixin",
     "AbstractWidgetMixin",
+    "CompoundTagMixin",
     "EditBoxMixin"
   ],
   "injectors": {

@@ -1,7 +1,7 @@
 package com.github.franckyi.ibeeditor.fabric;
 
-import com.github.franckyi.ibeeditor.base.common.CommonInit;
-import com.github.franckyi.ibeeditor.base.server.ServerCommandHandler;
+import com.github.franckyi.ibeeditor.common.CommonInit;
+import com.github.franckyi.ibeeditor.common.ServerCommandHandler;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
 

@@ -1,7 +1,7 @@
 package com.github.franckyi.ibeeditor.fabric;
 
-import com.github.franckyi.ibeeditor.base.common.NetworkManager;
-import com.github.franckyi.ibeeditor.base.common.Packet;
+import com.github.franckyi.ibeeditor.common.NetworkManager;
+import com.github.franckyi.ibeeditor.common.Packet;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;

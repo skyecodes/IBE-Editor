@@ -1,7 +1,7 @@
 package com.github.franckyi.ibeeditor;
 
-import com.github.franckyi.ibeeditor.base.common.NetworkManager;
-import com.github.franckyi.ibeeditor.base.common.Packet;
+import com.github.franckyi.ibeeditor.common.NetworkManager;
+import com.github.franckyi.ibeeditor.common.Packet;
 import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.server.level.ServerPlayer;
 

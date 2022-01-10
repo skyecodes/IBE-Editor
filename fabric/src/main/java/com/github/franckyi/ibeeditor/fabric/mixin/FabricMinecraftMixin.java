@@ -1,6 +1,6 @@
 package com.github.franckyi.ibeeditor.fabric.mixin;
 
-import com.github.franckyi.ibeeditor.base.client.ClientContext;
+import com.github.franckyi.ibeeditor.client.ClientContext;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import org.spongepowered.asm.mixin.Mixin;

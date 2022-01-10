@@ -1,7 +1,7 @@
 package com.github.franckyi.ibeeditor.fabric;
 
 import com.github.franckyi.guapi.api.Guapi;
-import com.github.franckyi.ibeeditor.base.client.ModScreenHandler;
+import com.github.franckyi.ibeeditor.client.ModScreenHandler;
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
 import com.terraformersmc.modmenu.gui.ModsScreen;

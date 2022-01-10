@@ -1,7 +1,7 @@
 package com.github.franckyi.ibeeditor.forge;
 
-import com.github.franckyi.ibeeditor.base.common.NetworkManager;
-import com.github.franckyi.ibeeditor.base.common.Packet;
+import com.github.franckyi.ibeeditor.common.NetworkManager;
+import com.github.franckyi.ibeeditor.common.Packet;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.fml.loading.FMLPaths;
