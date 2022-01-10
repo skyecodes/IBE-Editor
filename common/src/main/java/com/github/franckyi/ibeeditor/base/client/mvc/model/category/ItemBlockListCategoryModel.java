@@ -4,14 +4,12 @@ import com.github.franckyi.ibeeditor.base.client.mvc.model.ItemEditorModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.BlockSelectionEntryModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.EntryModel;
 import com.github.franckyi.ibeeditor.base.common.ModTexts;
-import com.github.franckyi.ibeeditor.base.common.TagHelper;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-
-import java.util.stream.Collectors;
 
 public class ItemBlockListCategoryModel extends ItemCategoryModel {
     private final String tagName;
@@ -24,7 +22,7 @@ public class ItemBlockListCategoryModel extends ItemCategoryModel {
 
     @Override
     protected void setupEntries() {
-        getEntries().setAll(getBaseTag().getList(tagName, TagHelper.STRING_ID).stream()
+        getEntries().setAll(getBaseTag().getList(tagName, Tag.TAG_STRING).stream()
                 .map(StringTag.class::cast)
                 .map(StringTag::getAsString)
                 .map(this::createBlockEntry)

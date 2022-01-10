@@ -4,11 +4,11 @@ import com.github.franckyi.ibeeditor.base.client.mvc.model.ItemEditorModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.EntryModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.TextEntryModel;
 import com.github.franckyi.ibeeditor.base.common.ModTexts;
-import com.github.franckyi.ibeeditor.base.common.TagHelper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextComponent;
@@ -23,7 +23,7 @@ public class ItemDisplayCategoryModel extends ItemCategoryModel {
     @Override
     protected void setupEntries() {
         getEntries().add(new TextEntryModel(this, ModTexts.CUSTOM_NAME, getItemName(), this::setItemName));
-        ListTag loreList = getBaseDisplay().getList("Lore", TagHelper.STRING_ID);
+        ListTag loreList = getBaseDisplay().getList("Lore", Tag.TAG_STRING);
         for (int i = 0; i < loreList.size(); i++) {
             getEntries().add(createLoreEntry((TextComponent) Component.Serializer.fromJson(loreList.getString(i))));
         }
@@ -55,7 +55,7 @@ public class ItemDisplayCategoryModel extends ItemCategoryModel {
         newLore = new ListTag();
         super.apply(nbt);
         getNewDisplay().put("Lore", newLore);
-        if (getNewDisplay().getList("Lore", TagHelper.STRING_ID).isEmpty()) {
+        if (getNewDisplay().getList("Lore", Tag.TAG_STRING).isEmpty()) {
             getNewDisplay().remove("Lore");
         }
         if (getNewDisplay().isEmpty()) {
@@ -74,7 +74,7 @@ public class ItemDisplayCategoryModel extends ItemCategoryModel {
                 value.withStyle(style -> style.withItalic(false));
             }
             getNewDisplay().putString("Name", Component.Serializer.toJson(value));
-        } else if (getNewTag().contains("display", TagHelper.COMPOUND_ID)) {
+        } else if (getNewTag().contains("display", Tag.TAG_COMPOUND)) {
             getNewDisplay().remove("Name");
         }
     }

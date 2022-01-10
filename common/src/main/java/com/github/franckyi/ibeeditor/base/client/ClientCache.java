@@ -2,7 +2,7 @@ package com.github.franckyi.ibeeditor.base.client;
 
 import com.github.franckyi.guapi.api.Color;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.*;
-import com.github.franckyi.ibeeditor.base.common.TagHelper;
+import com.github.franckyi.ibeeditor.base.common.ColoredItemHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.Registry;
 import net.minecraft.world.item.Item;
@@ -178,7 +178,7 @@ public final class ClientCache {
 
     private static List<ItemListSelectionItemModel> buildPotionSelectionItems() {
         return Registry.POTION.entrySet().stream()
-                .map(e -> new ItemListSelectionItemModel(e.getValue().getName(Items.POTION.getDescriptionId() + ".effect."), e.getKey().location(), TagHelper.fromPotion(e.getKey().location(), Color.NONE)))
+                .map(e -> new ItemListSelectionItemModel(e.getValue().getName(Items.POTION.getDescriptionId() + ".effect."), e.getKey().location(), ColoredItemHelper.createColoredPotionItem(e.getKey().location(), Color.NONE)))
                 .toList();
     }
 

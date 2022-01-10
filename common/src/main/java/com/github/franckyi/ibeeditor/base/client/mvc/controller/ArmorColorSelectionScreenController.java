@@ -4,8 +4,7 @@ import com.github.franckyi.guapi.api.Color;
 import com.github.franckyi.guapi.api.node.ItemView;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.ColorSelectionScreenModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.view.ArmorColorSelectionScreenView;
-import com.github.franckyi.ibeeditor.base.common.TagHelper;
-import net.minecraft.nbt.CompoundTag;
+import com.github.franckyi.ibeeditor.base.common.ColoredItemHelper;
 
 public class ArmorColorSelectionScreenController extends ColorSelectionScreenController<ArmorColorSelectionScreenView> {
     public ArmorColorSelectionScreenController(ColorSelectionScreenModel model, ArmorColorSelectionScreenView view) {
@@ -20,6 +19,6 @@ public class ArmorColorSelectionScreenController extends ColorSelectionScreenCon
     }
 
     private void updateItemColor(ItemView itemView, int color) {
-        itemView.setItem(TagHelper.fromArmor(itemView.getItem().save(new CompoundTag()), color));
+        itemView.setItem(ColoredItemHelper.createColoredArmorItem(itemView.getItem(), color));
     }
 }

@@ -4,13 +4,12 @@ import com.github.franckyi.ibeeditor.base.client.mvc.model.ItemEditorModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.AttributeModifierEntryModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.EntryModel;
 import com.github.franckyi.ibeeditor.base.common.ModTexts;
-import com.github.franckyi.ibeeditor.base.common.TagHelper;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.MutableComponent;
 
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 public class ItemAttributeModifiersCategoryModel extends ItemCategoryModel {
     private ListTag newAttributeModifiers;
@@ -21,7 +20,7 @@ public class ItemAttributeModifiersCategoryModel extends ItemCategoryModel {
 
     @Override
     protected void setupEntries() {
-        getEntries().addAll(getBaseTag().getList("AttributeModifiers", TagHelper.COMPOUND_ID)
+        getEntries().addAll(getBaseTag().getList("AttributeModifiers", Tag.TAG_COMPOUND)
                 .stream()
                 .map(CompoundTag.class::cast)
                 .map(this::createModifierEntry)

@@ -4,9 +4,9 @@ import com.github.franckyi.ibeeditor.base.client.mvc.model.ItemEditorModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.EnchantmentEntryModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.EntryModel;
 import com.github.franckyi.ibeeditor.base.common.ModTexts;
-import com.github.franckyi.ibeeditor.base.common.TagHelper;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.MutableComponent;
 
 public class ItemEnchantmentsCategoryModel extends ItemCategoryModel {
@@ -18,7 +18,7 @@ public class ItemEnchantmentsCategoryModel extends ItemCategoryModel {
 
     @Override
     protected void setupEntries() {
-        getEntries().addAll(getBaseTag().getList("Enchantments", TagHelper.COMPOUND_ID)
+        getEntries().addAll(getBaseTag().getList("Enchantments", Tag.TAG_COMPOUND)
                 .stream()
                 .map(CompoundTag.class::cast)
                 .map(this::createEnchantment)

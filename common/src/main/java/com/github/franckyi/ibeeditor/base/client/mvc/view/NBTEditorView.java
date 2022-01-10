@@ -8,7 +8,7 @@ import com.github.franckyi.ibeeditor.base.client.ModTextures;
 import com.github.franckyi.ibeeditor.base.client.mvc.NBTTagMVC;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.NBTTagModel;
 import com.github.franckyi.ibeeditor.base.common.ModTexts;
-import com.github.franckyi.ibeeditor.base.common.TagHelper;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 
@@ -175,18 +175,18 @@ public class NBTEditorView extends EditorView {
     }
 
     public enum ButtonType {
-        BYTE(ModTextures.BYTE_TAG_ADD, TagHelper.BYTE_ID),
-        SHORT(ModTextures.SHORT_TAG_ADD, TagHelper.SHORT_ID),
-        INT(ModTextures.INT_TAG_ADD, TagHelper.INT_ID),
-        LONG(ModTextures.LONG_TAG_ADD, TagHelper.LONG_ID),
-        FLOAT(ModTextures.FLOAT_TAG_ADD, TagHelper.FLOAT_ID),
-        DOUBLE(ModTextures.DOUBLE_TAG_ADD, TagHelper.DOUBLE_ID),
-        BYTE_ARRAY(ModTextures.BYTE_ARRAY_TAG_ADD, TagHelper.BYTE_ARRAY_ID),
-        STRING(ModTextures.STRING_TAG_ADD, TagHelper.STRING_ID),
-        LIST(ModTextures.LIST_TAG_ADD, TagHelper.LIST_ID),
-        COMPOUND(ModTextures.COMPOUND_TAG_ADD, TagHelper.COMPOUND_ID),
-        INT_ARRAY(ModTextures.INT_ARRAY_TAG_ADD, TagHelper.INT_ARRAY_ID),
-        LONG_ARRAY(ModTextures.LONG_ARRAY_TAG_ADD, TagHelper.LONG_ARRAY_ID),
+        BYTE(ModTextures.BYTE_TAG_ADD, Tag.TAG_BYTE),
+        SHORT(ModTextures.SHORT_TAG_ADD, Tag.TAG_SHORT),
+        INT(ModTextures.INT_TAG_ADD, Tag.TAG_INT),
+        LONG(ModTextures.LONG_TAG_ADD, Tag.TAG_LONG),
+        FLOAT(ModTextures.FLOAT_TAG_ADD, Tag.TAG_FLOAT),
+        DOUBLE(ModTextures.DOUBLE_TAG_ADD, Tag.TAG_DOUBLE),
+        BYTE_ARRAY(ModTextures.BYTE_ARRAY_TAG_ADD, Tag.TAG_BYTE_ARRAY),
+        STRING(ModTextures.STRING_TAG_ADD, Tag.TAG_STRING),
+        LIST(ModTextures.LIST_TAG_ADD, Tag.TAG_LIST),
+        COMPOUND(ModTextures.COMPOUND_TAG_ADD, Tag.TAG_COMPOUND),
+        INT_ARRAY(ModTextures.INT_ARRAY_TAG_ADD, Tag.TAG_INT_ARRAY),
+        LONG_ARRAY(ModTextures.LONG_ARRAY_TAG_ADD, Tag.TAG_LONG_ARRAY),
         MOVE_UP(ModTextures.MOVE_UP, ModTexts.MOVE_UP),
         MOVE_DOWN(ModTextures.MOVE_DOWN, ModTexts.MOVE_DOWN),
         ADD(ModTextures.ADD, ModTexts.ADD),

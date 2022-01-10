@@ -2,8 +2,8 @@ package com.github.franckyi.ibeeditor.base.client.mvc.model;
 
 import com.github.franckyi.ibeeditor.base.client.mvc.model.category.*;
 import com.github.franckyi.ibeeditor.base.common.ModTexts;
-import com.github.franckyi.ibeeditor.base.common.TagHelper;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.DyeableLeatherItem;
@@ -42,7 +42,7 @@ public class ItemEditorModel extends StandardEditorModel<ItemStack, ItemCategory
     public ItemStack applyChanges() {
         CompoundTag nbt = getTarget().save(new CompoundTag());
         getCategories().forEach(categoryModel -> categoryModel.apply(nbt));
-        if (nbt.contains("tag", TagHelper.COMPOUND_ID) && nbt.getCompound("tag").isEmpty()) {
+        if (nbt.contains("tag", Tag.TAG_COMPOUND) && nbt.getCompound("tag").isEmpty()) {
             nbt.remove("tag");
         }
         return ItemStack.of(nbt);

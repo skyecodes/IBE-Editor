@@ -5,7 +5,7 @@ import com.github.franckyi.ibeeditor.base.client.ModScreenHandler;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.ColorSelectionScreenModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.PotionSelectionEntryModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.view.entry.PotionSelectionEntryView;
-import com.github.franckyi.ibeeditor.base.common.TagHelper;
+import com.github.franckyi.ibeeditor.base.common.ColoredItemHelper;
 import net.minecraft.resources.ResourceLocation;
 
 public class PotionSelectionEntryController extends SelectionEntryController<PotionSelectionEntryModel, PotionSelectionEntryView> {
@@ -25,7 +25,7 @@ public class PotionSelectionEntryController extends SelectionEntryController<Pot
     }
 
     private void updatePotionItem() {
-        view.getPotionView().setItem(TagHelper.fromPotion(ResourceLocation.tryParse(model.getValue()), model.getCustomColor()));
+        view.getPotionView().setItem(ColoredItemHelper.createColoredPotionItem(ResourceLocation.tryParse(model.getValue()), model.getCustomColor()));
     }
 
     private void updatePotionColor(String value) {

@@ -4,8 +4,8 @@ import com.github.franckyi.guapi.api.Color;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.category.ItemCategoryModel;
 import com.github.franckyi.ibeeditor.base.client.mvc.model.entry.ArmorColorEntryModel;
 import com.github.franckyi.ibeeditor.base.common.ModTexts;
-import com.github.franckyi.ibeeditor.base.common.TagHelper;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
 
 public class ItemDyeableCategoryModel extends ItemCategoryModel {
     public ItemDyeableCategoryModel(ItemEditorModel editor) {
@@ -19,7 +19,7 @@ public class ItemDyeableCategoryModel extends ItemCategoryModel {
 
     private int getColor() {
         CompoundTag display = getBaseTag().getCompound("display");
-        return display.contains("color", TagHelper.INT_ID) ? display.getInt("color") : Color.NONE;
+        return display.contains("color", Tag.TAG_INT) ? display.getInt("color") : Color.NONE;
     }
 
     private void setColor(int value) {
@@ -29,7 +29,7 @@ public class ItemDyeableCategoryModel extends ItemCategoryModel {
                 getNewTag().remove("display");
             }
         } else {
-            if (getNewTag().contains("display", TagHelper.COMPOUND_ID)) {
+            if (getNewTag().contains("display", Tag.TAG_COMPOUND)) {
                 getNewTag().getCompound("display").putInt("color", value);
             } else {
                 CompoundTag display = new CompoundTag();

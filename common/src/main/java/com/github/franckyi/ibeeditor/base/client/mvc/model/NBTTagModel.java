@@ -6,12 +6,10 @@ import com.github.franckyi.databindings.api.ObservableList;
 import com.github.franckyi.databindings.api.StringProperty;
 import com.github.franckyi.guapi.api.mvc.Model;
 import com.github.franckyi.guapi.api.node.TreeView;
-import com.github.franckyi.ibeeditor.base.common.TagHelper;
 import com.github.franckyi.ibeeditor.mixin.CompoundTagMixin;
 import net.minecraft.nbt.*;
 import org.apache.commons.lang3.ArrayUtils;
 
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class NBTTagModel implements TreeView.TreeItem<NBTTagModel>, Model {
@@ -42,34 +40,34 @@ public class NBTTagModel implements TreeView.TreeItem<NBTTagModel>, Model {
         valueProperty = StringProperty.create(value);
         if (tag != null) {
             switch (tag.getId()) {
-                case TagHelper.COMPOUND_ID -> children.setAll(((CompoundTagMixin) tag).getTags().entrySet()
+                case Tag.TAG_COMPOUND -> children.setAll(((CompoundTagMixin) tag).getTags().entrySet()
                         .stream()
                         .map(entry -> new NBTTagModel(entry.getValue(), this, entry.getKey(), null))
                         .toList()
                 );
-                case TagHelper.LIST_ID -> children.setAll(((ListTag) tag)
+                case Tag.TAG_LIST -> children.setAll(((ListTag) tag)
                         .stream()
                         .map(tag1 -> new NBTTagModel(tag1, this, null, null))
                         .toList()
                 );
-                case TagHelper.BYTE_ARRAY_ID -> children.setAll(Stream.of(ArrayUtils.toObject(((ByteArrayTag) tag).getAsByteArray()))
-                        .map(b -> new NBTTagModel(TagHelper.BYTE_ID, this, Byte.toString(b)))
+                case Tag.TAG_BYTE_ARRAY -> children.setAll(Stream.of(ArrayUtils.toObject(((ByteArrayTag) tag).getAsByteArray()))
+                        .map(b -> new NBTTagModel(Tag.TAG_BYTE, this, Byte.toString(b)))
                         .toList()
                 );
-                case TagHelper.INT_ARRAY_ID -> children.setAll(Stream.of(ArrayUtils.toObject(((IntArrayTag) tag).getAsIntArray()))
-                        .map(i -> new NBTTagModel(TagHelper.INT_ID, this, Integer.toString(i)))
+                case Tag.TAG_INT_ARRAY -> children.setAll(Stream.of(ArrayUtils.toObject(((IntArrayTag) tag).getAsIntArray()))
+                        .map(i -> new NBTTagModel(Tag.TAG_INT, this, Integer.toString(i)))
                         .toList()
                 );
-                case TagHelper.LONG_ARRAY_ID -> children.setAll(Stream.of(ArrayUtils.toObject(((LongArrayTag) tag).getAsLongArray()))
-                        .map(l -> new NBTTagModel(TagHelper.LONG_ID, this, Long.toString(l)))
+                case Tag.TAG_LONG_ARRAY -> children.setAll(Stream.of(ArrayUtils.toObject(((LongArrayTag) tag).getAsLongArray()))
+                        .map(l -> new NBTTagModel(Tag.TAG_LONG, this, Long.toString(l)))
                         .toList()
                 );
-                case TagHelper.BYTE_ID -> setValue(Byte.toString(((ByteTag) tag).getAsByte()));
-                case TagHelper.SHORT_ID -> setValue(Short.toString(((ShortTag) tag).getAsShort()));
-                case TagHelper.INT_ID -> setValue(Integer.toString(((IntTag) tag).getAsInt()));
-                case TagHelper.LONG_ID -> setValue(Long.toString(((LongTag) tag).getAsLong()));
-                case TagHelper.FLOAT_ID -> setValue(Float.toString(((FloatTag) tag).getAsFloat()));
-                case TagHelper.DOUBLE_ID -> setValue(Double.toString(((DoubleTag) tag).getAsDouble()));
+                case Tag.TAG_BYTE -> setValue(Byte.toString(((ByteTag) tag).getAsByte()));
+                case Tag.TAG_SHORT -> setValue(Short.toString(((ShortTag) tag).getAsShort()));
+                case Tag.TAG_INT -> setValue(Integer.toString(((IntTag) tag).getAsInt()));
+                case Tag.TAG_LONG -> setValue(Long.toString(((LongTag) tag).getAsLong()));
+                case Tag.TAG_FLOAT -> setValue(Float.toString(((FloatTag) tag).getAsFloat()));
+                case Tag.TAG_DOUBLE -> setValue(Double.toString(((DoubleTag) tag).getAsDouble()));
                 default -> setValue(tag.getAsString());
             }
         }
@@ -144,46 +142,46 @@ public class NBTTagModel implements TreeView.TreeItem<NBTTagModel>, Model {
     public Tag build() {
         if (canBuild()) {
             switch (tag.getId()) {
-                case TagHelper.BYTE_ID:
+                case Tag.TAG_BYTE:
                     return ByteTag.valueOf(Byte.parseByte(getValue()));
-                case TagHelper.SHORT_ID:
+                case Tag.TAG_SHORT:
                     return ShortTag.valueOf(Short.parseShort(getValue()));
-                case TagHelper.INT_ID:
+                case Tag.TAG_INT:
                     return IntTag.valueOf(Integer.parseInt(getValue()));
-                case TagHelper.LONG_ID:
+                case Tag.TAG_LONG:
                     return LongTag.valueOf(Long.parseLong(getValue()));
-                case TagHelper.FLOAT_ID:
+                case Tag.TAG_FLOAT:
                     return FloatTag.valueOf(Float.parseFloat(getValue()));
-                case TagHelper.DOUBLE_ID:
+                case Tag.TAG_DOUBLE:
                     return DoubleTag.valueOf(Double.parseDouble(getValue()));
-                case TagHelper.BYTE_ARRAY_ID:
+                case Tag.TAG_BYTE_ARRAY:
                     return new ByteArrayTag(getChildren()
                             .stream()
                             .map(NBTTagModel::getValue)
                             .map(Byte::parseByte)
                             .toList()
                     );
-                case TagHelper.STRING_ID:
+                case Tag.TAG_STRING:
                     return StringTag.valueOf(getValue());
-                case TagHelper.LIST_ID:
+                case Tag.TAG_LIST:
                     ListTag listTag = new ListTag();
                     listTag.addAll(getChildren()
                             .stream()
                             .map(NBTTagModel::build)
                             .toList());
                     return listTag;
-                case TagHelper.COMPOUND_ID:
+                case Tag.TAG_COMPOUND:
                     CompoundTag compoundTag = new CompoundTag();
                     getChildren().forEach(childTag -> compoundTag.put(childTag.getName(), childTag.build()));
                     return compoundTag;
-                case TagHelper.INT_ARRAY_ID:
+                case Tag.TAG_INT_ARRAY:
                     return new IntArrayTag(getChildren()
                             .stream()
                             .map(NBTTagModel::getValue)
                             .map(Integer::parseInt)
                             .toList()
                     );
-                case TagHelper.LONG_ARRAY_ID:
+                case Tag.TAG_LONG_ARRAY:
                     return new LongArrayTag(getChildren()
                             .stream()
                             .map(NBTTagModel::getValue)
