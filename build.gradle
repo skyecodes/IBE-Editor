@@ -70,6 +70,7 @@ task curseforgeRelease(type: TaskPublishCurseForge) {
 
     ext.uploadFile = { modLoader, project ->
         def artifact = upload(256822, project.remapJar)
+        artifact.displayName = "IBE Editor v${version} for ${modLoader} ${rootProject.minecraft_version}"
         artifact.releaseType = versionInfoType
         artifact.changelog = versionInfoChangelog
         artifact.changelogType = "markdown"
@@ -84,14 +85,14 @@ task curseforgeRelease(type: TaskPublishCurseForge) {
 
 task modrinthReleaseForge(type: TaskModrinthUpload) {
     uploadFile = project(":forge").remapJar
-    versionName = "${archivesBaseName}-${version}-forge"
+    versionName = "IBE Editor v${version} for Forge ${rootProject.minecraft_version}"
     versionNumber = "${version}+${rootProject.major_minecraft_version}-forge"
     addLoader("forge")
 }
 
 task modrinthReleaseFabric(type: TaskModrinthUpload) {
     uploadFile = project(":fabric").remapJar
-    versionName = "${archivesBaseName}-${version}-fabric"
+    versionName = "IBE Editor v${version} for Fabric ${rootProject.minecraft_version}"
     versionNumber = "${version}+${rootProject.major_minecraft_version}-fabric"
     addLoader("fabric")
 }
@@ -114,7 +115,7 @@ githubRelease {
     setRepo("IBE-Editor")
     setTagName("${version}+${rootProject.major_minecraft_version}")
     setTargetCommitish(rootProject.major_minecraft_version as String)
-    setReleaseName("${archivesBaseName}-${version}")
+    setReleaseName("IBE Editor v${version} for Minecraft ${rootProject.minecraft_version}")
     setBody(versionInfoChangelog)
     setPrerelease(versionInfoType == "alpha")
     setReleaseAssets(project(":fabric").remapJar, project(":forge").remapJar)
