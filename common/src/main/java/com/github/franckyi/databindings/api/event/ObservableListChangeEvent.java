@@ -16,13 +16,13 @@ public interface ObservableListChangeEvent<E> {
     List<ChangeEntry<E>> getAllChanged();
 
     /**
-     * @param andReplaced Whether or not to include elements that were added by a "set" action
+     * @param andReplaced Whether to include elements that were added by a "set" action
      * @return The elements that were added in this update
      */
     List<SimpleChangeEntry<E>> getAdded(boolean andReplaced);
 
     /**
-     * @param andReplaced Whether or not to include elements that were removed by a "set" action
+     * @param andReplaced Whether to include elements that were removed by a "set" action
      * @return The elements that were removed in this update
      */
     List<SimpleChangeEntry<E>> getRemoved(boolean andReplaced);
@@ -55,35 +55,35 @@ public interface ObservableListChangeEvent<E> {
         E getNewValue();
 
         /**
-         * @return Whether or not the element was added to the list by an "add" action
+         * @return Whether the element was added to the list by an "add" action
          */
         default boolean wasAdded() {
             return getOldValue() == null && getNewValue() != null;
         }
 
         /**
-         * @return Whether or not the element was added to the list by an "add" or "set" action
+         * @return Whether the element was added to the list by an "add" or "set" action
          */
         default boolean wasAddedOrReplaced() {
             return wasAdded() || wasReplaced();
         }
 
         /**
-         * @return Whether or not the element was removed from the list by a "remove" action
+         * @return Whether the element was removed from the list by a "remove" action
          */
         default boolean wasRemoved() {
             return getOldValue() != null && getNewValue() == null;
         }
 
         /**
-         * @return Whether or not the element was removed from the list by a "removed" or "set" action
+         * @return Whether the element was removed from the list by a "removed" or "set" action
          */
         default boolean wasRemovedOrReplaced() {
             return wasRemoved() || wasReplaced();
         }
 
         /**
-         * @return Whether or not the element was replaced in the list by a "set" action
+         * @return Whether the element was replaced in the list by a "set" action
          */
         default boolean wasReplaced() {
             return getOldValue() != null && getNewValue() != null;

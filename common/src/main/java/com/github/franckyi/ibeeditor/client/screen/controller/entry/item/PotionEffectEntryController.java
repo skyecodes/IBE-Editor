@@ -14,9 +14,9 @@ public class PotionEffectEntryController extends SelectionEntryController<Potion
         super.bind();
         updateAmplifierView();
         updateDurationView();
-        view.getAmbientBox().setChecked(model.isAmbient());
-        view.getShowParticlesBox().setChecked(model.isShowParticles());
-        view.getShowIconBox().setChecked(model.isShowIcon());
+        view.getAmbientBox().checkedProperty().bindBidirectional(model.ambientProperty());
+        view.getShowParticlesBox().checkedProperty().bindBidirectional(model.showParticlesProperty());
+        view.getShowIconBox().checkedProperty().bindBidirectional(model.showIconProperty());
         view.getAmplifierField().textProperty().addListener(value -> {
             if (view.getAmplifierField().isValid()) {
                 model.setAmplifier(Integer.parseInt(value));
@@ -29,9 +29,6 @@ public class PotionEffectEntryController extends SelectionEntryController<Potion
             }
         });
         model.durationProperty().addListener(this::updateDurationView);
-        softBind(model.ambientProperty(), view.getAmbientBox().checkedProperty());
-        softBind(model.showParticlesProperty(), view.getShowParticlesBox().checkedProperty());
-        softBind(model.showIconProperty(), view.getShowIconBox().checkedProperty());
         view.getAmplifierField().validProperty().addListener(this::updateValidity);
         view.getDurationField().validProperty().addListener(this::updateValidity);
     }

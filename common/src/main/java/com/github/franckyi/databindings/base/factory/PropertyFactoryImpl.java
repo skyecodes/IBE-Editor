@@ -4,6 +4,8 @@ import com.github.franckyi.databindings.api.*;
 import com.github.franckyi.databindings.api.factory.PropertyFactory;
 import com.github.franckyi.databindings.base.*;
 
+import java.util.function.Supplier;
+
 public class PropertyFactoryImpl implements PropertyFactory {
     public static final PropertyFactory INSTANCE = new PropertyFactoryImpl();
 
@@ -83,5 +85,10 @@ public class PropertyFactoryImpl implements PropertyFactory {
     @Override
     public ObservableDoubleValue createReadOnlyProperty(DoubleProperty property) {
         return new ReadOnlyDoubleProperty(property);
+    }
+
+    @Override
+    public <T> ObservableValue<T> createObservedProperty(Supplier<T> valueSupplier, ObservableValue<?>... triggers) {
+        return new ObservedProperty<>(valueSupplier, triggers);
     }
 }

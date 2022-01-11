@@ -28,9 +28,9 @@ public interface ObservableBooleanValue extends ObservableValue<Boolean> {
 
     /**
      * Creates a new {@link ObservableBooleanValue} that is always equal to the result of an {@code OR} operation between
-     * this value and an other observable boolean value.
+     * this value and another observable boolean value.
      *
-     * @param other An other observable boolean value
+     * @param other Another observable boolean value
      * @return The new {@link ObservableBooleanValue}
      */
     default ObservableBooleanValue or(ObservableValue<Boolean> other) {
@@ -39,9 +39,9 @@ public interface ObservableBooleanValue extends ObservableValue<Boolean> {
 
     /**
      * Creates a new {@link ObservableBooleanValue} that is always equal to the result of an {@code AND} operation between
-     * this value and an other observable boolean value.
+     * this value and another observable boolean value.
      *
-     * @param value An other observable boolean value
+     * @param value Another observable boolean value
      * @return The new {@link ObservableBooleanValue}
      */
     default ObservableBooleanValue and(ObservableValue<Boolean> value) {

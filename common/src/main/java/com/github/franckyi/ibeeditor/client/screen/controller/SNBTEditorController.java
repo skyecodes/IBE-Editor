@@ -14,7 +14,7 @@ public class SNBTEditorController extends AbstractController<SNBTEditorModel, SN
 
     @Override
     public void bind() {
-        view.getTextArea().setText(model.getValue());
+        view.getTextArea().textProperty().bindBidirectional(model.valueProperty());
         view.getTextArea().setValidator(s -> {
             try {
                 return TagParser.parseTag(s) != null;
@@ -22,7 +22,6 @@ public class SNBTEditorController extends AbstractController<SNBTEditorModel, SN
                 return false;
             }
         });
-        softBind(view.getTextArea().textProperty(), model.valueProperty());
         if (model.canSave()) {
             view.getDoneButton().disableProperty().bind(view.getTextArea().validProperty().not());
             view.getDoneButton().onAction(event -> model.apply());

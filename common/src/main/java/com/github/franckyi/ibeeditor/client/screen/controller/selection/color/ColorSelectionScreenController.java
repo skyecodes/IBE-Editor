@@ -13,13 +13,11 @@ public abstract class ColorSelectionScreenController<V extends ColorSelectionScr
 
     @Override
     public void bind() {
-        view.getRedSlider().setValue(model.getRedValue());
-        view.getGreenSlider().setValue(model.getGreenValue());
-        view.getBlueSlider().setValue(model.getBlueValue());
-        softBind(view.getHexField().textProperty(), model.hexValueProperty());
-        softBind(view.getRedSlider().valueProperty(), model.redValueProperty());
-        softBind(view.getGreenSlider().valueProperty(), model.greenValueProperty());
-        softBind(view.getBlueSlider().valueProperty(), model.blueValueProperty());
+        view.getRedSlider().valueProperty().bindBidirectional(model.redValueProperty());
+        view.getGreenSlider().valueProperty().bindBidirectional(model.greenValueProperty());
+        view.getBlueSlider().valueProperty().bindBidirectional(model.blueValueProperty());
+        updateHexFromRGB();
+        view.getHexField().textProperty().bindBidirectional(model.hexValueProperty());
         model.redValueProperty().addListener(() -> updateColor(true));
         model.greenValueProperty().addListener(() -> updateColor(true));
         model.blueValueProperty().addListener(() -> updateColor(true));
@@ -30,7 +28,6 @@ public abstract class ColorSelectionScreenController<V extends ColorSelectionScr
             getModel().apply();
             Guapi.getScreenHandler().hideScene();
         });
-        updateHexFromRGB();
     }
 
     private void updateColor(boolean rgbChanged) {

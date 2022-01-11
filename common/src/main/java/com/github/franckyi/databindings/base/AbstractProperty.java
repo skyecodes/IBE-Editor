@@ -35,7 +35,7 @@ public abstract class AbstractProperty<T> implements Property<T> {
         doSet(value);
     }
 
-    protected void doSet(T value) {
+    private void doSet(T value) {
         if (!Objects.equals(this.value, value)) {
             T old = this.value;
             this.value = value;
@@ -60,12 +60,10 @@ public abstract class AbstractProperty<T> implements Property<T> {
 
     @Override
     public void bind(ObservableValue<? extends T> value) {
-        if (isBound()) {
-            throw new IllegalStateException("Cannot bind property: already bound");
-        }
+        unbind();
         set(value.get());
         value.addListener(valueListener);
-        this.boundValue = value;
+        boundValue = value;
     }
 
     @Override
@@ -78,21 +76,15 @@ public abstract class AbstractProperty<T> implements Property<T> {
 
     @Override
     public void bindBidirectional(Property<T> other) {
-        if (isBound() || other.isBound()) {
-            throw new IllegalStateException("Cannot bind property: already bound");
-        }
-        this.bind(other);
+        bind(other);
         other.bind(this);
     }
 
     @Override
-    public void unbindBidirectional(Property<T> other) {
-        if (boundValue != other) {
-            throw new IllegalArgumentException("Cannot unbind property: incorrect value");
-        }
-        if (isBound() && other.isBound()) {
-            this.unbind();
-            other.unbind();
+    public void unbindBidirectional() {
+        unbind();
+        if (boundValue instanceof Property<?> property) {
+            property.unbind();
         }
     }
 

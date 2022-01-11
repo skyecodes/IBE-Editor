@@ -8,6 +8,7 @@ import java.util.Objects;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 /**
  * An ObservableValue is a read-only wrapper of an {@link Object} that can be used to track the changes of this object
@@ -93,6 +94,18 @@ public interface ObservableValue<T> {
             public void removeListener(ObservableValueChangeListener<? super T> listener) {
             }
         };
+    }
+
+    /**
+     * Creates an {@link ObservableValue} that updates whenever other {@link ObservableValue}s are updated (these are called triggers).
+     *
+     * @param valueSupplier The supplier that is used to update the {@link ObservableValue}
+     * @param triggers      The other {@link ObservableValue}s that trigger an update of the {@link ObservableValue}
+     * @param <T>           The type of the {@link ObservableValue}
+     * @return The {@link ObservableValue}
+     */
+    static <T> ObservableValue<T> observe(Supplier<T> valueSupplier, ObservableValue<?>... triggers) {
+        return DataBindings.getPropertyFactory().createObservedProperty(valueSupplier, triggers);
     }
 
     default <X> ObservableObjectValue<X> map(Function<T, X> mapper) {

@@ -50,10 +50,9 @@ public interface Property<T> extends ObservableValue<T> {
     void bindBidirectional(Property<T> other);
 
     /**
-     * Unbinds this property if it was bidirectionally bound to this other property using {@link #bindBidirectional}.
+     * Unbinds this property if it was bidirectionally bound to another other property using {@link #bindBidirectional}.
      *
-     * @param other The other property to bidirectionally unbind to this property
      * @see #bindBidirectional(Property)
      */
-    void unbindBidirectional(Property<T> other);
+    void unbindBidirectional();
 }
