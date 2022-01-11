@@ -77,6 +77,9 @@ task curseforgeRelease(type: TaskPublishCurseForge) {
         artifact.addModLoader(modLoader)
         artifact.addJavaVersion("Java ${rootProject.java_version}")
         compatibleGameVersions.each { artifact.addGameVersion(it) }
+        if (modLoader == "Fabric") {
+            artifact.addRequirement("fabric-api")
+        }
     }
 
     uploadFile("Forge", project(":forge"))
@@ -95,6 +98,7 @@ task modrinthReleaseFabric(type: TaskModrinthUpload) {
     versionName = "IBE Editor v${version} for Fabric ${rootProject.minecraft_version}"
     versionNumber = "${version}+${rootProject.major_minecraft_version}-fabric"
     addLoader("fabric")
+    //addDependency does not support project IDs yet
 }
 
 task modrinthRelease {
