@@ -1,21 +1,19 @@
 package com.github.franckyi.ibeeditor.client.screen.view.selection.color;
 
+import com.github.franckyi.guapi.api.node.Label;
 import com.github.franckyi.guapi.api.node.Node;
-import net.minecraft.ChatFormatting;
-import net.minecraft.network.chat.MutableComponent;
 
 import static com.github.franckyi.guapi.api.GuapiHelper.*;
 
 public class TextColorSelectionScreenView extends ColorSelectionScreenView {
-    private MutableComponent exampleText;
+    private Label exampleLabel;
 
     @Override
     protected Node createExample() {
-        exampleText = text("Test ").append(text("Test").withStyle(ChatFormatting.BOLD)).append(text(" Test").withStyle(ChatFormatting.ITALIC));
-        return label(exampleText).tooltip(exampleText).textAlign(CENTER);
+        return exampleLabel = label().textAlign(CENTER);
     }
 
-    public MutableComponent getExampleText() {
-        return exampleText;
+    public Label getExampleLabel() {
+        return exampleLabel;
     }
 }
