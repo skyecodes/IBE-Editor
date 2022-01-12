@@ -8,13 +8,13 @@ public final class KeyBindings {
     private static KeyMapping editorKey;
     private static KeyMapping nbtEditorKey;
     private static KeyMapping snbtEditorKey;
-    //public static KeyBinding vaultKey;
+    private static KeyMapping vaultKey;
 
     public static void init() {
         editorKey = register("editor", GLFW.GLFW_KEY_I);
         nbtEditorKey = register("nbt_editor", GLFW.GLFW_KEY_N);
         snbtEditorKey = register("snbt_editor", GLFW.GLFW_KEY_R);
-        //vaultKey = register("vault", GLFW.GLFW_KEY_J);
+        vaultKey = register("vault", GLFW.GLFW_KEY_J);
     }
 
     private static KeyMapping register(String name, int code) {
@@ -31,5 +31,9 @@ public final class KeyBindings {
 
     public static KeyMapping getSNBTEditorKey() {
         return snbtEditorKey;
+    }
+
+    public static KeyMapping getVaultKey() {
+        return vaultKey;
     }
 }

@@ -5,7 +5,7 @@ import com.github.franckyi.ibeeditor.client.screen.model.category.config.ClientC
 import com.github.franckyi.ibeeditor.client.screen.model.category.config.CommonConfigCategoryModel;
 import com.github.franckyi.ibeeditor.client.screen.model.category.config.ConfigCategoryModel;
 
-public class ConfigEditorModel extends ListEditorModel<ConfigCategoryModel> {
+public class ConfigEditorScreenModel extends CategoryEntryScreenModel<ConfigCategoryModel> {
 
     @Override
     protected void setupCategories() {

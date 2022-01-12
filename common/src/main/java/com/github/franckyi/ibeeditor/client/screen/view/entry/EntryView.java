@@ -11,7 +11,7 @@ import com.github.franckyi.ibeeditor.common.ModTexts;
 import static com.github.franckyi.guapi.api.GuapiHelper.*;
 
 public abstract class EntryView implements View {
-    private HBox root, right, buttons, listButtons;
+    private HBox root, right, buttonBox, listButtons;
     private TexturedButton upButton, downButton, deleteButton, resetButton;
 
     @Override
@@ -28,7 +28,7 @@ public abstract class EntryView implements View {
         root = hBox(root -> {
             root.add(createContent(), 1);
             root.add(right = hBox(right -> {
-                right.add(buttons = hBox(buttons -> {
+                right.add(buttonBox = hBox(buttons -> {
                     buttons.add(resetButton = texturedButton(ModTextures.RESET, 16, 16, false)
                             .tooltip(ModTexts.RESET));
                     buttons.spacing(2);
@@ -42,10 +42,10 @@ public abstract class EntryView implements View {
     protected abstract Node createContent();
 
     public void setListButtonsVisible(boolean visible) {
-        if (visible && buttons.getChildren().size() <= 1) {
-            buttons.getChildren().add(0, listButtons);
-        } else if (!visible && buttons.getChildren().size() > 1) {
-            buttons.getChildren().remove(0);
+        if (visible && buttonBox.getChildren().size() <= 1) {
+            buttonBox.getChildren().add(0, listButtons);
+        } else if (!visible && buttonBox.getChildren().size() > 1) {
+            buttonBox.getChildren().remove(0);
         }
     }
 
@@ -56,6 +56,10 @@ public abstract class EntryView implements View {
     @Override
     public Box getRoot() {
         return root;
+    }
+
+    public HBox getButtonBox() {
+        return buttonBox;
     }
 
     public TexturedButton getUpButton() {

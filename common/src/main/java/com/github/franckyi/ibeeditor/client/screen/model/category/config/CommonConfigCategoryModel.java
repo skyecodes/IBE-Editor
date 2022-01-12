@@ -1,6 +1,6 @@
 package com.github.franckyi.ibeeditor.client.screen.model.category.config;
 
-import com.github.franckyi.ibeeditor.client.screen.model.ConfigEditorModel;
+import com.github.franckyi.ibeeditor.client.screen.model.ConfigEditorScreenModel;
 import com.github.franckyi.ibeeditor.client.screen.model.entry.ActionEntryModel;
 import com.github.franckyi.ibeeditor.client.screen.model.entry.BooleanEntryModel;
 import com.github.franckyi.ibeeditor.client.screen.model.entry.IntegerEntryModel;
@@ -11,7 +11,7 @@ public class CommonConfigCategoryModel extends ConfigCategoryModel {
     private IntegerEntryModel permissionLevelEntry;
     private BooleanEntryModel creativeOnly;
 
-    public CommonConfigCategoryModel(ConfigEditorModel editor) {
+    public CommonConfigCategoryModel(ConfigEditorScreenModel editor) {
         super(ModTexts.COMMON, editor);
     }
 

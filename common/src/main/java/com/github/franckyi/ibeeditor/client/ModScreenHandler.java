@@ -38,21 +38,20 @@ public final class ModScreenHandler {
         openScaledScreen(mvc(StandardEditorMVC.INSTANCE, new BlockEditorModel(state, entity, action, disabledTooltip)));
     }
 
-    @Deprecated
     public static void openEntityEditorScreen(CompoundTag entity, Consumer<CompoundTag> action, Component disabledTooltip) {
         openScaledScreen(mvc(StandardEditorMVC.INSTANCE, new EntityEditorModel(entity, action, disabledTooltip)));
     }
 
-    public static void openNBTEditorScreen(CompoundTag tag, Consumer<CompoundTag> action, Component disabledTooltip) {
-        openScaledScreen(mvc(NBTEditorMVC.INSTANCE, new NBTEditorModel(tag, action, disabledTooltip)));
+    public static void openNBTEditorScreen(CompoundTag tag, Consumer<CompoundTag> action, Component disabledTooltip, boolean canSaveToVault) {
+        openScaledScreen(mvc(NBTEditorMVC.INSTANCE, new NBTEditorModel(tag, action, disabledTooltip, canSaveToVault)));
     }
 
-    public static void openSNBTEditorScreen(String snbt, Consumer<String> action, Component disabledTooltip) {
-        openScaledScreen(mvc(SNBTEditorMVC.INSTANCE, new SNBTEditorModel(snbt, action, disabledTooltip)));
+    public static void openSNBTEditorScreen(CompoundTag tag, Consumer<CompoundTag> action, Component disabledTooltip, boolean canSaveToVault) {
+        openScaledScreen(mvc(SNBTEditorMVC.INSTANCE, new SNBTEditorModel(tag, action, disabledTooltip, canSaveToVault)));
     }
 
     public static void openSettingsScreen() {
-        openScaledScreen(mvc(ConfigEditorMVC.INSTANCE, new ConfigEditorModel()));
+        openScaledScreen(mvc(ConfigEditorMVC.INSTANCE, new ConfigEditorScreenModel()));
     }
 
     public static void openListSelectionScreen(MutableComponent title, String attributeName, List<? extends ListSelectionElementModel> items, Consumer<String> action) {
@@ -61,6 +60,10 @@ public final class ModScreenHandler {
 
     public static void openColorSelectionScreen(ColorSelectionScreenModel.Target target, int color, Consumer<String> action) {
         openScaledScreen(mvc(ColorSelectionScreenMVC.INSTANCE, new ColorSelectionScreenModel(target, action, color)));
+    }
+
+    public static void openVault() {
+        openScaledScreen(mvc(VaultScreenMVC.INSTANCE, new VaultScreenModel()));
     }
 
     private static void openScaledScreen(Node root) {

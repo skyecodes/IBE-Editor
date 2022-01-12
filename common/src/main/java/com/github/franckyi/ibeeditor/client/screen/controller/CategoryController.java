@@ -16,7 +16,7 @@ public class CategoryController extends AbstractController<CategoryModel, Catego
         model.selectedProperty().addListener(this::updateLabel);
         model.validProperty().addListener(this::updateLabel);
         view.getLabel().hoveredProperty().addListener(this::updateLabel);
-        view.getLabel().onAction(() -> model.getEditor().setSelectedCategory(model));
+        view.getLabel().onAction(() -> model.getParent().setSelectedCategory(model));
         view.getLabel().setLabel(model.getName());
         updateLabel();
     }

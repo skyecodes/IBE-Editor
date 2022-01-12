@@ -4,16 +4,20 @@ import com.github.franckyi.guapi.api.node.HBox;
 import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.api.node.Slider;
 import com.github.franckyi.guapi.api.node.TextField;
-import com.github.franckyi.ibeeditor.client.screen.view.EditorView;
+import com.github.franckyi.ibeeditor.client.screen.view.ScreenView;
 import com.github.franckyi.ibeeditor.common.ModTexts;
 import net.minecraft.network.chat.MutableComponent;
 
 import static com.github.franckyi.guapi.api.GuapiHelper.*;
 
-public abstract class ColorSelectionScreenView extends EditorView {
+public abstract class ColorSelectionScreenView extends ScreenView {
     private Slider redSlider, greenSlider, blueSlider;
     private TextField hexField;
     private HBox exampleBox;
+
+    public ColorSelectionScreenView() {
+        super(true);
+    }
 
     @Override
     protected MutableComponent getHeaderLabelText() {

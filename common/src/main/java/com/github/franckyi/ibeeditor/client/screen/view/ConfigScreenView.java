@@ -5,7 +5,11 @@ import com.github.franckyi.ibeeditor.common.ModTexts;
 
 import static com.github.franckyi.guapi.api.GuapiHelper.*;
 
-public class ConfigEditorView extends ListEditorView {
+public class ConfigScreenView extends CategoryEntryScreenView {
+    public ConfigScreenView() {
+        super(false);
+    }
+
     @Override
     public void build() {
         super.build();

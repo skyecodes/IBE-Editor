@@ -69,6 +69,10 @@ public class ModTextures {
     public static final ResourceLocation ZOOM_IN = gui("zoom_in");
     public static final ResourceLocation ZOOM_OUT = gui("zoom_out");
     public static final ResourceLocation ZOOM_RESET = gui("zoom_reset");
+    public static final ResourceLocation SAVE = gui("save");
+    public static final ResourceLocation EDITOR = gui("editor");
+    public static final ResourceLocation NBT_EDITOR = gui("nbt_editor");
+    public static final ResourceLocation SNBT_EDITOR = gui("snbt_editor");
 
     public static ResourceLocation gui(String textureName) {
         return new ResourceLocation("ibeeditor", String.format("textures/gui/%s.png", textureName));

@@ -22,9 +22,9 @@ public final class ClientEventHandler {
                 ClientEditorLogic.openWorldEditor(EditorType.NBT);
             } else if (KeyBindings.getSNBTEditorKey().consumeClick()) {
                 ClientEditorLogic.openWorldEditor(EditorType.SNBT);
-            }/* else if (KeyBindings.vaultKey.isPressed()) {
+            } else if (KeyBindings.getVaultKey().consumeClick()) {
                 ClientEditorLogic.openVault();
-            }*/
+            }
         } catch (Exception e) {
             Minecraft.getInstance().player.displayClientMessage(ModTexts.Messages.ERROR_GENERIC, false);
             LOGGER.error("Error while handling ingame key input for IBE Editor mod", e);

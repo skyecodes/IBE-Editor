@@ -24,6 +24,7 @@ public final class ClientInit {
         KeyBindings.init();
         ClientConfiguration.load();
         syncGuapiConfig();
+        Vault.load();
     }
 
     public static void syncGuapiConfig() {

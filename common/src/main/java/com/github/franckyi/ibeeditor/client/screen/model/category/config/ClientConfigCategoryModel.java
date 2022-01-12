@@ -3,7 +3,7 @@ package com.github.franckyi.ibeeditor.client.screen.model.category.config;
 import com.github.franckyi.guapi.api.util.DebugMode;
 import com.github.franckyi.ibeeditor.client.ClientConfiguration;
 import com.github.franckyi.ibeeditor.client.ClientInit;
-import com.github.franckyi.ibeeditor.client.screen.model.ConfigEditorModel;
+import com.github.franckyi.ibeeditor.client.screen.model.ConfigEditorScreenModel;
 import com.github.franckyi.ibeeditor.client.screen.model.entry.ActionEntryModel;
 import com.github.franckyi.ibeeditor.client.screen.model.entry.EnumEntryModel;
 import com.github.franckyi.ibeeditor.client.screen.model.entry.IntegerEntryModel;
@@ -15,7 +15,7 @@ public class ClientConfigCategoryModel extends ConfigCategoryModel {
     private EnumEntryModel<DebugMode> guapiDebugModeEntry;
     private IntegerEntryModel selectionScreenMaxItemsEntry;
 
-    public ClientConfigCategoryModel(ConfigEditorModel editor) {
+    public ClientConfigCategoryModel(ConfigEditorScreenModel editor) {
         super(ModTexts.CLIENT, editor);
     }
 

@@ -5,14 +5,18 @@ import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.api.node.TextField;
 import com.github.franckyi.ibeeditor.client.screen.model.selection.element.ListSelectionElementModel;
 import com.github.franckyi.ibeeditor.client.screen.mvc.ListSelectionElementMVC;
-import com.github.franckyi.ibeeditor.client.screen.view.EditorView;
+import com.github.franckyi.ibeeditor.client.screen.view.ScreenView;
 import com.github.franckyi.ibeeditor.common.ModTexts;
 
 import static com.github.franckyi.guapi.api.GuapiHelper.*;
 
-public class ListSelectionScreenView extends EditorView {
+public class ListSelectionScreenView extends ScreenView {
     private ListView<ListSelectionElementModel> listView;
     private TextField searchField;
+
+    public ListSelectionScreenView() {
+        super(false);
+    }
 
     @Override
     protected Node createEditor() {

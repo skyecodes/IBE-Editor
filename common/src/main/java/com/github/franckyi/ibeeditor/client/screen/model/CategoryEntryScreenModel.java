@@ -7,7 +7,7 @@ import com.github.franckyi.guapi.api.mvc.Model;
 import com.github.franckyi.ibeeditor.client.screen.model.category.CategoryModel;
 import com.github.franckyi.ibeeditor.client.util.texteditor.TextEditorActionHandler;
 
-public abstract class ListEditorModel<C extends CategoryModel> implements Model {
+public abstract class CategoryEntryScreenModel<C extends CategoryModel> implements Model {
     protected final BooleanProperty validProperty = BooleanProperty.create(true);
     protected final ObservableList<C> categories = ObservableList.create();
     protected final ObjectProperty<CategoryModel> selectedCategory = ObjectProperty.create();

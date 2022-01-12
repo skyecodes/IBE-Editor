@@ -35,7 +35,7 @@ public class ItemBlockListCategoryModel extends ItemCategoryModel {
     }
 
     @Override
-    public EntryModel createListEntry() {
+    public EntryModel createNewListEntry() {
         return createBlockEntry("");
     }
 

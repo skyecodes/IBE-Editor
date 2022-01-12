@@ -3,7 +3,7 @@
   "ibeeditor.key.editor": "Open Editor",
   "ibeeditor.key.nbt_editor": "Open NBT Editor",
   "ibeeditor.key.snbt_editor": "Open SNBT Editor",
-  "ibeeditor.key.bookmarks": "Open Clipboard",
+  "ibeeditor.key.vault": "Open Vault",
   "ibeeditor.gui.editor_title": "%s Editor",
   "ibeeditor.gui.settings": "Settings",
   "ibeeditor.gui.switch_nbt_editor": "Switch to NBT Editor",
@@ -109,6 +109,9 @@
   "ibeeditor.gui.block_state": "Block State",
   "ibeeditor.gui.container": "Container",
   "ibeeditor.gui.lock_code": "Lock Code",
+  "ibeeditor.gui.save_vault": "Save to Vault",
+  "ibeeditor.gui.saved_vault": "The item will be saved to the Vault after applying the changes. Press again to cancel.",
+  "ibeeditor.gui.edit": "Edit",
   "ibeeditor.gui.client": "Client",
   "ibeeditor.gui.theme": "Theme",
   "ibeeditor.gui.debug_mode": "Debug Mode",
@@ -124,8 +127,10 @@
   "ibeeditor.message.error_creative_mode": "You must be in creative mode to update this %s.",
   "ibeeditor.message.error_server_mod": "IBE Editor must be installed on the server to update this %s.",
   "ibeeditor.message.success_update": "%s updated!",
-  "ibeeditor.message.no_target_found": "No editable %s found",
+  "ibeeditor.message.no_target_found": "No editable %s found.",
   "ibeeditor.message.error_generic": "An error occured. Please check the logs for more details and report the issue to the mod author.",
   "ibeeditor.message.not_implemented": "The %s Editor is not implemented yet and will come in a future release.",
-  "ibeeditor.message.no_permission": "You don't have the permission to use the editor."
+  "ibeeditor.message.no_permission": "You don't have the permission to use the editor.",
+  "ibeeditor.message.saved_vault": "%s saved in the Vault!",
+  "ibeeditor.message.not_saved_vault": "%s already saved in the Vault."
 }

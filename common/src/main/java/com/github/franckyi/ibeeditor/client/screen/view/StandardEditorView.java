@@ -18,7 +18,7 @@ import java.util.function.Supplier;
 
 import static com.github.franckyi.guapi.api.GuapiHelper.*;
 
-public class StandardEditorView extends ListEditorView {
+public class StandardEditorView extends CategoryEntryScreenView {
     private List<TexturedButton> colorButtons;
     private TexturedButton customColorButton;
     private TexturedButtonBuilder chooseCustomColorButton;
@@ -26,6 +26,10 @@ public class StandardEditorView extends ListEditorView {
     private HBox buttons;
     private final BooleanProperty showTextButtonsProperty = BooleanProperty.create();
     private Supplier<TextEditorActionHandler> textEditorSupplier;
+
+    public StandardEditorView() {
+        super(true);
+    }
 
     @Override
     public void build() {

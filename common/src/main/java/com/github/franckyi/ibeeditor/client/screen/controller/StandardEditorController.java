@@ -1,13 +1,14 @@
 package com.github.franckyi.ibeeditor.client.screen.controller;
 
 import com.github.franckyi.guapi.api.Color;
+import com.github.franckyi.guapi.api.node.Group;
 import com.github.franckyi.ibeeditor.client.ModScreenHandler;
 import com.github.franckyi.ibeeditor.client.screen.model.StandardEditorModel;
 import com.github.franckyi.ibeeditor.client.screen.model.selection.ColorSelectionScreenModel;
 import com.github.franckyi.ibeeditor.client.screen.view.StandardEditorView;
 import com.github.franckyi.ibeeditor.common.ModTexts;
 
-public class StandardEditorController extends ListEditorController<StandardEditorModel<?, ?>, StandardEditorView> {
+public class StandardEditorController extends CategoryEntryScreenController<StandardEditorModel<?, ?>, StandardEditorView> {
     public StandardEditorController(StandardEditorModel<?, ?> model, StandardEditorView view) {
         super(model, view);
     }
@@ -15,6 +16,10 @@ public class StandardEditorController extends ListEditorController<StandardEdito
     @Override
     public void bind() {
         super.bind();
+        if (!model.canSaveToVault()) {
+            ((Group) view.getSaveVaultButton().getParent()).getChildren().remove(view.getSaveVaultButton());
+        }
+        model.saveToVaultProperty().bind(view.getSaveVaultButton().activeProperty());
         view.getHeaderLabel().setLabel(ModTexts.editorTitle(model.getTitle()));
         model.activeTextEditorProperty().addListener(value -> view.setShowTextButtons(value != null));
         view.setTextEditorSupplier(model::getActiveTextEditor);

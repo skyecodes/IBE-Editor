@@ -4,16 +4,16 @@ import com.github.franckyi.databindings.api.event.ObservableListChangeEvent;
 import com.github.franckyi.databindings.api.event.ObservableListChangeListener;
 import com.github.franckyi.guapi.api.Guapi;
 import com.github.franckyi.guapi.api.mvc.AbstractController;
-import com.github.franckyi.ibeeditor.client.screen.model.ListEditorModel;
+import com.github.franckyi.ibeeditor.client.screen.model.CategoryEntryScreenModel;
 import com.github.franckyi.ibeeditor.client.screen.model.category.CategoryModel;
 import com.github.franckyi.ibeeditor.client.screen.model.entry.EntryModel;
-import com.github.franckyi.ibeeditor.client.screen.view.ListEditorView;
+import com.github.franckyi.ibeeditor.client.screen.view.CategoryEntryScreenView;
 import com.github.franckyi.ibeeditor.common.ModTexts;
 
-public abstract class ListEditorController<M extends ListEditorModel<?>, V extends ListEditorView> extends AbstractController<M, V> {
+public abstract class CategoryEntryScreenController<M extends CategoryEntryScreenModel<?>, V extends CategoryEntryScreenView> extends AbstractController<M, V> {
     private final ObservableListChangeListener<EntryModel> listener = this::onSelectedCategoryEntryChange;
 
-    public ListEditorController(M model, V view) {
+    public CategoryEntryScreenController(M model, V view) {
         super(model, view);
     }
 
@@ -23,8 +23,11 @@ public abstract class ListEditorController<M extends ListEditorModel<?>, V exten
         updateEntryList(null, model.getSelectedCategory());
         model.getCategories().addListener(this::updateCategoryList);
         model.selectedCategoryProperty().addListener(this::updateEntryList);
-        view.getDoneButton().onAction(event -> model.apply());
         model.validProperty().addListener(this::onValidationChange);
+        view.getDoneButton().onAction(event -> {
+            model.apply();
+            Guapi.getScreenHandler().hideScene();
+        });
         view.getCancelButton().onAction(Guapi.getScreenHandler()::hideScene);
     }
 

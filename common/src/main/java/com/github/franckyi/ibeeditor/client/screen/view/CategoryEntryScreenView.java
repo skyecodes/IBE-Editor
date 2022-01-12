@@ -9,9 +9,13 @@ import com.github.franckyi.ibeeditor.client.screen.mvc.EntryMVC;
 
 import static com.github.franckyi.guapi.api.GuapiHelper.*;
 
-public abstract class ListEditorView extends EditorView {
+public abstract class CategoryEntryScreenView extends ScreenView {
     private ListView<CategoryModel> categoryList;
     private ListView<EntryModel> entryList;
+
+    protected CategoryEntryScreenView(boolean addSaveVaultButton) {
+        super(addSaveVaultButton);
+    }
 
     @Override
     protected Node createEditor() {

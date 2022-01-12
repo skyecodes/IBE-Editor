@@ -16,7 +16,7 @@ import java.util.function.Consumer;
 
 import static com.github.franckyi.guapi.api.GuapiHelper.*;
 
-public class NBTEditorView extends EditorView {
+public class NBTEditorView extends ScreenView {
     private VBox main;
     private TreeView<NBTTagModel> tagTree;
     private HBox addButtons;
@@ -28,6 +28,10 @@ public class NBTEditorView extends EditorView {
     private final ObservableList<ButtonType> visibleButtons = ObservableList.create();
     private Consumer<ButtonType> onButtonClick = b -> {
     };
+
+    public NBTEditorView() {
+        super(true);
+    }
 
     @Override
     public void build() {

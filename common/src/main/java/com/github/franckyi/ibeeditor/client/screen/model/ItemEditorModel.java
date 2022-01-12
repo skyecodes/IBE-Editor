@@ -1,5 +1,6 @@
 package com.github.franckyi.ibeeditor.client.screen.model;
 
+import com.github.franckyi.ibeeditor.client.Vault;
 import com.github.franckyi.ibeeditor.client.screen.model.category.item.*;
 import com.github.franckyi.ibeeditor.common.ModTexts;
 import net.minecraft.nbt.CompoundTag;
@@ -14,7 +15,7 @@ import java.util.function.Consumer;
 
 public class ItemEditorModel extends StandardEditorModel<ItemStack, ItemCategoryModel> {
     public ItemEditorModel(ItemStack itemStack, Consumer<ItemStack> action, Component disabledTooltip) {
-        super(itemStack, action, disabledTooltip, ModTexts.ITEM);
+        super(itemStack, action, disabledTooltip, ModTexts.ITEM, true);
     }
 
     @Override
@@ -46,5 +47,10 @@ public class ItemEditorModel extends StandardEditorModel<ItemStack, ItemCategory
             nbt.remove("tag");
         }
         return ItemStack.of(nbt);
+    }
+
+    @Override
+    protected boolean saveToVault(ItemStack item) {
+        return Vault.getInstance().saveItem(item.save(new CompoundTag()));
     }
 }

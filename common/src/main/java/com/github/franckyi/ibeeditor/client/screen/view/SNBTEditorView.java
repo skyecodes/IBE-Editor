@@ -7,8 +7,12 @@ import net.minecraft.network.chat.MutableComponent;
 
 import static com.github.franckyi.guapi.api.GuapiHelper.*;
 
-public class SNBTEditorView extends EditorView {
+public class SNBTEditorView extends ScreenView {
     private TextArea textArea;
+
+    public SNBTEditorView() {
+        super(true);
+    }
 
     @Override
     protected MutableComponent getHeaderLabelText() {

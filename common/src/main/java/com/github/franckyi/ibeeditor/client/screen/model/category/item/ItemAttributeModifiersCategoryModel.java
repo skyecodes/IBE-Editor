@@ -38,7 +38,7 @@ public class ItemAttributeModifiersCategoryModel extends ItemCategoryModel {
     }
 
     @Override
-    public EntryModel createListEntry() {
+    public EntryModel createNewListEntry() {
         return createModifierEntry(null);
     }
 

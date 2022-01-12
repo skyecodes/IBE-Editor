@@ -12,15 +12,21 @@ import net.minecraft.resources.ResourceLocation;
 
 import static com.github.franckyi.guapi.api.GuapiHelper.*;
 
-public abstract class EditorView implements View {
+public abstract class ScreenView implements View {
+    private final boolean addSaveVaultButton;
     private VBox root;
     private Label headerLabel;
     private TexturedButton zoomResetButton;
     private TexturedButton zoomOutButton;
     private TexturedButton zoomInButton;
+    private TexturedToggleButton saveVaultButton;
     private Button cancelButton;
     private Button doneButton;
     private Label zoomLabel;
+
+    protected ScreenView(boolean addSaveVaultButton) {
+        this.addSaveVaultButton = addSaveVaultButton;
+    }
 
     @Override
     public void build() {
@@ -58,11 +64,18 @@ public abstract class EditorView implements View {
 
     protected Node createButtonBar() {
         return hBox(buttons -> {
-            buttons.add(zoomResetButton = createButton(ModTextures.ZOOM_RESET, ModTexts.ZOOM_RESET).action(ScreenScalingManager.get()::restoreScale));
-            buttons.add(zoomOutButton = createButton(ModTextures.ZOOM_OUT, ModTexts.ZOOM_OUT).action(ScreenScalingManager.get()::scaleDown));
-            buttons.add(zoomLabel = label().prefWidth(25).textAlign(CENTER).padding(0, 3));
-            buttons.add(zoomInButton = createButton(ModTextures.ZOOM_IN, ModTexts.ZOOM_IN).action(ScreenScalingManager.get()::scaleUp));
-            buttons.fillHeight().spacing(2).prefHeight(16).align(CENTER_RIGHT);
+            buttons.add(hBox(zoom -> {
+                zoom.add(zoomResetButton = createButton(ModTextures.ZOOM_RESET, ModTexts.ZOOM_RESET).action(ScreenScalingManager.get()::restoreScale));
+                zoom.add(zoomOutButton = createButton(ModTextures.ZOOM_OUT, ModTexts.ZOOM_OUT).action(ScreenScalingManager.get()::scaleDown));
+                zoom.add(zoomLabel = label().prefWidth(25).textAlign(CENTER).padding(0, 3));
+                zoom.add(zoomInButton = createButton(ModTextures.ZOOM_IN, ModTexts.ZOOM_IN).action(ScreenScalingManager.get()::scaleUp));
+                zoom.spacing(2).prefHeight(16).align(CENTER_RIGHT);
+            }));
+            if (addSaveVaultButton) {
+                buttons.add(saveVaultButton = texturedToggleButton(ModTextures.SAVE, 16, 16, false).tooltip(ModTexts.SAVE_VAULT)
+                        .action(() -> saveVaultButton.getTooltip().setAll(saveVaultButton.isActive() ? ModTexts.SAVED_VAULT : ModTexts.SAVE_VAULT)));
+            }
+            buttons.spacing(20).prefHeight(16).align(CENTER_RIGHT);
         });
     }
 
@@ -97,6 +110,10 @@ public abstract class EditorView implements View {
 
     public Label getHeaderLabel() {
         return headerLabel;
+    }
+
+    public TexturedToggleButton getSaveVaultButton() {
+        return saveVaultButton;
     }
 
     public Button getCancelButton() {

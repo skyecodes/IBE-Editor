@@ -1,15 +1,12 @@
 package com.github.franckyi.ibeeditor.client;
 
-import com.github.franckyi.guapi.api.Guapi;
 import com.github.franckyi.ibeeditor.common.EditorType;
 import com.github.franckyi.ibeeditor.common.ModTexts;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.TagParser;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.Container;
@@ -97,8 +94,8 @@ public final class ClientEditorLogic {
     }
 
     public static void openVault() {
-        //LOGGER.debug("Opening vault");
-        //ModScreenHandler.openVault();
+        LOGGER.debug("Opening vault");
+        ModScreenHandler.openVault();
     }
 
     private static void requestOpenMainHandItemEditor(EditorType type) {
@@ -175,9 +172,9 @@ public final class ClientEditorLogic {
         switch (type) {
             case STANDARD -> ModScreenHandler.openItemEditorScreen(itemStack, action, disabledTooltip);
             case NBT -> ModScreenHandler.openNBTEditorScreen(itemStack.save(new CompoundTag()),
-                    tag -> action.accept(ItemStack.of(tag)), disabledTooltip);
-            case SNBT -> ModScreenHandler.openSNBTEditorScreen(itemStack.save(new CompoundTag()).toString(),
-                    snbt -> action.accept(ItemStack.of(parseTag(snbt))), disabledTooltip);
+                    tag -> action.accept(ItemStack.of(tag)), disabledTooltip, true);
+            case SNBT -> ModScreenHandler.openSNBTEditorScreen(itemStack.save(new CompoundTag()),
+                    tag -> action.accept(ItemStack.of(tag)), disabledTooltip, true);
         }
     }
 
@@ -199,16 +196,16 @@ public final class ClientEditorLogic {
                 }
                 ModScreenHandler.openNBTEditorScreen(entity.saveWithId(),
                         newTag -> updateBlock(pos, state, newTag),
-                        getDisabledTooltipServerMod(ModTexts.BLOCK));
+                        getDisabledTooltipServerMod(ModTexts.BLOCK), false);
             }
             case SNBT -> {
                 if (entity == null) {
                     player().displayClientMessage(ModTexts.Messages.errorNoTargetFound(ModTexts.BLOCK), false);
                     break;
                 }
-                ModScreenHandler.openSNBTEditorScreen(entity.saveWithId().toString(),
-                        snbt -> updateBlock(pos, state, parseTag(snbt)),
-                        getDisabledTooltipServerMod(ModTexts.BLOCK));
+                ModScreenHandler.openSNBTEditorScreen(entity.saveWithId(),
+                        newTag -> updateBlock(pos, state, newTag),
+                        getDisabledTooltipServerMod(ModTexts.BLOCK), false);
             }
         }
     }
@@ -221,17 +218,15 @@ public final class ClientEditorLogic {
     public static void openEntityEditor(CompoundTag entity, int entityId, EditorType type) {
         LOGGER.debug("Opening entity editor for entity {} with id {} and type={}", entity, entityId, type);
         switch (type) {
-            case STANDARD ->
-                /*ModScreenHandler.openEntityEditorScreen(entity,
-                        entity1 -> updateEntity(entityId, entity1),
-                        getDisabledTooltipServerMod(ModTexts.ENTITY));*/
-                    player().displayClientMessage(ModTexts.Messages.warnNotImplemented(ModTexts.ENTITY), false);
+            case STANDARD -> ModScreenHandler.openEntityEditorScreen(entity,
+                    entity1 -> updateEntity(entityId, entity1),
+                    getDisabledTooltipServerMod(ModTexts.ENTITY));
             case NBT -> ModScreenHandler.openNBTEditorScreen(entity,
                     tag -> updateEntity(entityId, tag),
-                    getDisabledTooltipServerMod(ModTexts.ENTITY));
-            case SNBT -> ModScreenHandler.openSNBTEditorScreen(entity.toString(),
-                    snbt -> updateEntity(entityId, parseTag(snbt)),
-                    getDisabledTooltipServerMod(ModTexts.ENTITY));
+                    getDisabledTooltipServerMod(ModTexts.ENTITY), true);
+            case SNBT -> ModScreenHandler.openSNBTEditorScreen(entity,
+                    tag -> updateEntity(entityId, tag),
+                    getDisabledTooltipServerMod(ModTexts.ENTITY), true);
         }
     }
 
@@ -246,7 +241,6 @@ public final class ClientEditorLogic {
                 player().displayClientMessage(ModTexts.Messages.errorCreativeMode(ModTexts.ITEM), false);
             }
         }
-        Guapi.getScreenHandler().hideScene();
     }
 
     private static void updatePlayerInventoryItem(ItemStack itemStack, int slotId, boolean isCreativeInventoryScreen) {
@@ -264,7 +258,6 @@ public final class ClientEditorLogic {
                 player().displayClientMessage(ModTexts.Messages.errorServerMod(ModTexts.ITEM), false);
             }
         }
-        Guapi.getScreenHandler().hideScene();
     }
 
     private static void updateBlockInventoryItem(ItemStack itemStack, int slotId, BlockPos blockPos) {
@@ -274,7 +267,6 @@ public final class ClientEditorLogic {
         } else {
             player().displayClientMessage(ModTexts.Messages.errorServerMod(ModTexts.ITEM), false);
         }
-        Guapi.getScreenHandler().hideScene();
     }
 
     private static void updateBlock(BlockPos pos, BlockState state, CompoundTag tag) {
@@ -284,7 +276,6 @@ public final class ClientEditorLogic {
         } else {
             player().displayClientMessage(ModTexts.Messages.errorServerMod(ModTexts.BLOCK), false);
         }
-        Guapi.getScreenHandler().hideScene();
     }
 
     private static void updateEntity(int entityId, CompoundTag tag) {
@@ -294,16 +285,8 @@ public final class ClientEditorLogic {
         } else {
             player().displayClientMessage(ModTexts.Messages.errorServerMod(ModTexts.ENTITY), false);
         }
-        Guapi.getScreenHandler().hideScene();
     }
 
-    private static CompoundTag parseTag(String snbt) {
-        try {
-            return TagParser.parseTag(snbt);
-        } catch (CommandSyntaxException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     private static LocalPlayer player() {
         return Minecraft.getInstance().player;

@@ -21,8 +21,8 @@ public abstract class ItemCategoryModel extends CategoryModel {
     }
 
     @Override
-    public ItemEditorModel getEditor() {
-        return (ItemEditorModel) super.getEditor();
+    public ItemEditorModel getParent() {
+        return (ItemEditorModel) super.getParent();
     }
 
     protected CompoundTag getBaseData() {

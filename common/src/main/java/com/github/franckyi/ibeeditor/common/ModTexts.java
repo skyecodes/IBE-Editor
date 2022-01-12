@@ -105,6 +105,11 @@ public final class ModTexts {
     public static final MutableComponent SPAWN_EGG = translated("ibeeditor.gui.spawn_egg");
     public static final MutableComponent CONTAINER = translated("ibeeditor.gui.container");
     public static final MutableComponent LOCK_CODE = translated("ibeeditor.gui.lock_code");
+    public static final MutableComponent SAVE_VAULT = translated("ibeeditor.gui.save_vault");
+    public static final MutableComponent SAVED_VAULT = translated("ibeeditor.gui.saved_vault");
+    public static final MutableComponent OPEN_EDITOR = translated("ibeeditor.key.editor");
+    public static final MutableComponent OPEN_NBT_EDITOR = translated("ibeeditor.key.nbt_editor");
+    public static final MutableComponent OPEN_SNBT_EDITOR = translated("ibeeditor.key.snbt_editor");
 
     public static MutableComponent serverMod(MutableComponent with) {
         return translated("ibeeditor.message.error_server_mod", with).withStyle(ChatFormatting.RED);
@@ -188,6 +193,14 @@ public final class ModTexts {
 
         public static MutableComponent warnNotImplemented(MutableComponent arg) {
             return prefixed(translated("ibeeditor.message.not_implemented", arg)).withStyle(ChatFormatting.YELLOW);
+        }
+
+        public static MutableComponent successSavedVault(MutableComponent arg) {
+            return prefixed(translated("ibeeditor.message.saved_vault", arg)).withStyle(ChatFormatting.GREEN);
+        }
+
+        public static MutableComponent warnNotSavedVault(MutableComponent arg) {
+            return prefixed(translated("ibeeditor.message.not_saved_vault", arg)).withStyle(ChatFormatting.YELLOW);
         }
 
         private static MutableComponent prefixed(MutableComponent arg) {

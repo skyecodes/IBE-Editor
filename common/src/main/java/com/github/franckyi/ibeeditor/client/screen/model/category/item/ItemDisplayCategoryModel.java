@@ -40,7 +40,7 @@ public class ItemDisplayCategoryModel extends ItemCategoryModel {
     }
 
     @Override
-    public EntryModel createListEntry() {
+    public EntryModel createNewListEntry() {
         return createLoreEntry(null);
     }
 

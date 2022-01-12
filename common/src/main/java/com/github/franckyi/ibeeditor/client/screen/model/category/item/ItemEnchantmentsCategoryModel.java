@@ -36,7 +36,7 @@ public class ItemEnchantmentsCategoryModel extends ItemCategoryModel {
     }
 
     @Override
-    public EntryModel createListEntry() {
+    public EntryModel createNewListEntry() {
         return createEnchantment("", 0);
     }
 

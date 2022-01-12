@@ -71,6 +71,6 @@ public class EnchantmentEntryModel extends SelectionEntryModel {
 
     @Override
     public List<? extends ListSelectionElementModel> getSelectionItems() {
-        return ClientCache.getSortedEnchantmentSelectionItems(getCategory().getEditor().getTarget());
+        return ClientCache.getSortedEnchantmentSelectionItems(getCategory().getParent().getTarget());
     }
 }

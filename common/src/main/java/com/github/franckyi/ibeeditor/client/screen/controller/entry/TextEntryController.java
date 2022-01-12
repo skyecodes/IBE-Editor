@@ -105,9 +105,9 @@ public class TextEntryController extends ValueEntryController<TextEntryModel, Te
 
     private void onTextFieldFocus(boolean focused) {
         if (focused) {
-            model.getCategory().getEditor().setActiveTextEditor(this);
-        } else if (model.getCategory().getEditor().getActiveTextEditor() == this) {
-            model.getCategory().getEditor().setActiveTextEditor(null);
+            model.getCategory().getParent().setActiveTextEditor(this);
+        } else if (model.getCategory().getParent().getActiveTextEditor() == this) {
+            model.getCategory().getParent().setActiveTextEditor(null);
         }
     }
 

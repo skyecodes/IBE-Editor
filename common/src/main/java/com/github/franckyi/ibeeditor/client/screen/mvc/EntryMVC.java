@@ -3,10 +3,13 @@ package com.github.franckyi.ibeeditor.client.screen.mvc;
 import com.github.franckyi.guapi.api.mvc.MVC;
 import com.github.franckyi.ibeeditor.client.screen.controller.entry.*;
 import com.github.franckyi.ibeeditor.client.screen.controller.entry.item.*;
+import com.github.franckyi.ibeeditor.client.screen.controller.entry.vault.VaultItemEntryController;
 import com.github.franckyi.ibeeditor.client.screen.model.entry.*;
 import com.github.franckyi.ibeeditor.client.screen.model.entry.item.*;
+import com.github.franckyi.ibeeditor.client.screen.model.entry.vault.VaultItemEntryModel;
 import com.github.franckyi.ibeeditor.client.screen.view.entry.*;
 import com.github.franckyi.ibeeditor.client.screen.view.entry.item.*;
+import com.github.franckyi.ibeeditor.client.screen.view.entry.vault.VaultItemEntryView;
 
 import java.util.function.Supplier;
 
@@ -30,6 +33,7 @@ public final class EntryMVC implements MVC<EntryModel, EntryView, EntryControlle
             case SELECTION_POTION -> MVC.createViewAndBind(((PotionSelectionEntryModel) model), PotionSelectionEntryView::new, PotionSelectionEntryController::new);
             case POTION_EFFECT -> MVC.createViewAndBind(((PotionEffectEntryModel) model), PotionEffectEntryView::new, PotionEffectEntryController::new);
             case ARMOR_COLOR -> MVC.createViewAndBind((ArmorColorEntryModel) model, ArmorColorEntryView::new, ArmorColorEntryController::new);
+            case VAULT_ITEM -> MVC.createViewAndBind((VaultItemEntryModel) model, VaultItemEntryView::new, VaultItemEntryController::new);
         };
     }
 
