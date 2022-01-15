@@ -1,22 +1,17 @@
 package com.github.franckyi.ibeeditor.common;
 
-import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.server.level.ServerLevel;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.state.BlockState;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public final class ServerEditorLogic {
     private static final Logger LOGGER = LogManager.getLogger();
 
-    public static void updatePlayerMainHandItem(ServerPlayer player, ItemStack itemStack) {
+    /*public static void updatePlayerMainHandItem(ServerPlayer player, ItemStack itemStack) {
         if (checkPermission(player)) return;
         LOGGER.debug("Updating {}'s main hand item to {}", player.getGameProfile().getName(), itemStack);
         LOGGER.debug(itemStack.save(new CompoundTag()));
@@ -42,7 +37,7 @@ public final class ServerEditorLogic {
             container.setItem(slotId, itemStack);
             player.displayClientMessage(ModTexts.Messages.successUpdate(ModTexts.ITEM), false);
         } else {
-            player.displayClientMessage(ModTexts.Messages.errorNoTargetFound(ModTexts.ITEM), false);
+            player.displayClientMessage(, false);
         }
     }
 
@@ -72,17 +67,17 @@ public final class ServerEditorLogic {
         }
     }
 
-    public static void processMainHandItemEditorRequest(ServerPlayer player, EditorType editorType) {
+    public static void processMainHandItemEditorRequest(ServerPlayer player, EditorContext.EditorType editorType) {
         if (checkPermission(player)) return;
         ServerNetworkEmitter.sendMainHandItemEditorResponse(player, editorType, player.getMainHandItem());
     }
 
-    public static void processPlayerInventoryItemEditorRequest(ServerPlayer player, EditorType editorType, int slotIndex, boolean isCreativeInventoryScreen) {
+    public static void processPlayerInventoryItemEditorRequest(ServerPlayer player, EditorContext.EditorType editorType, int slotIndex, boolean isCreativeInventoryScreen) {
         if (checkPermission(player)) return;
         ServerNetworkEmitter.sendPlayerInventoryItemEditorResponse(player, editorType, slotIndex, isCreativeInventoryScreen, player.getInventory().getItem(slotIndex));
     }
 
-    public static void processBlockInventoryItemEditorRequest(ServerPlayer player, EditorType editorType, int slotIndex, BlockPos pos) {
+    public static void processBlockInventoryItemEditorRequest(ServerPlayer player, EditorContext.EditorType editorType, int slotIndex, BlockPos pos) {
         if (checkPermission(player)) return;
         BlockEntity blockEntity = player.getLevel().getBlockEntity(pos);
         if (blockEntity instanceof Container container) {
@@ -92,7 +87,7 @@ public final class ServerEditorLogic {
         }
     }
 
-    public static void processBlockEditorRequest(ServerPlayer player, EditorType editorType, BlockPos pos) {
+    public static void processBlockEditorRequest(ServerPlayer player, EditorContext.EditorType editorType, BlockPos pos) {
         if (checkPermission(player)) return;
         ServerLevel level = player.getLevel();
         BlockState state = level.getBlockState(pos);
@@ -104,7 +99,7 @@ public final class ServerEditorLogic {
         }
     }
 
-    public static void processEntityEditorRequest(ServerPlayer player, EditorType editorType, int entityId) {
+    public static void processEntityEditorRequest(ServerPlayer player, EditorContext.EditorType editorType, int entityId) {
         if (checkPermission(player)) return;
         ServerLevel level = player.getLevel();
         Entity entity = level.getEntity(entityId);
@@ -113,6 +108,77 @@ public final class ServerEditorLogic {
             ServerNetworkEmitter.sendEntityEditorResponse(player, editorType, entityId, tag);
         } else {
             player.displayClientMessage(ModTexts.Messages.errorNoTargetFound(ModTexts.ENTITY), false);
+        }
+    }*/
+
+    public static void processEditorRequest(EditorContext ctx, ServerPlayer player) {
+        if (checkPermission(player)) {
+            ctx.setSaveable(false);
+            ServerNetworkEmitter.sendEditorResponse(player, ctx);
+            return;
+        }
+        switch (ctx.getTarget()) {
+            case ITEM -> ctx.setItemStack(switch (ctx.getItemInventory()) {
+                case MAIN_HAND -> player.getMainHandItem();
+                case PLAYER_INVENTORY -> player.getInventory().getItem(ctx.getSlotIndex());
+                case BLOCK_INVENTORY -> player.getLevel().getBlockEntity(ctx.getBlockPos()) instanceof Container container
+                        ? container.getItem(ctx.getSlotIndex()) : null;
+            });
+            case BLOCK -> {
+                var level = player.getLevel();
+                ctx.setBlockState(level.getBlockState(ctx.getBlockPos()));
+                ctx.setBlockEntity(level.getBlockEntity(ctx.getBlockPos()));
+            }
+            case ENTITY -> ctx.setEntity(player.getLevel().getEntity(ctx.getEntityId()));
+        }
+        if (ctx.getTarget() == EditorContext.Target.ITEM && ctx.getItemStack() == null) {
+            showTargetErrorMessage(player, ModTexts.ITEM);
+            return;
+        }
+        ServerNetworkEmitter.sendEditorResponse(player, ctx);
+    }
+
+    public static void update(EditorContext ctx, ServerPlayer player) {
+        if (checkPermission(player)) return;
+        switch (ctx.getTarget()) {
+            case ITEM -> {
+                switch (ctx.getItemInventory()) {
+                    case MAIN_HAND -> {
+                        player.setItemInHand(InteractionHand.MAIN_HAND, ctx.getItemStack());
+                        showUpdateSuccessMessage(player, ModTexts.ITEM);
+                    }
+                    case PLAYER_INVENTORY -> {
+                        player.getInventory().setItem(ctx.getSlotIndex(), ctx.getItemStack());
+                        showUpdateSuccessMessage(player, ModTexts.ITEM);
+                    }
+                    case BLOCK_INVENTORY -> {
+                        if (player.getLevel().getBlockEntity(ctx.getBlockPos()) instanceof Container container) {
+                            container.setItem(ctx.getSlotIndex(), ctx.getItemStack());
+                            showUpdateSuccessMessage(player, ModTexts.ITEM);
+                        } else {
+                            showTargetErrorMessage(player, ModTexts.ITEM);
+                        }
+                    }
+                }
+            }
+            case BLOCK -> {
+                var level = player.getLevel();
+                level.setBlockAndUpdate(ctx.getBlockPos(), ctx.getBlockState());
+                var blockEntity = level.getBlockEntity(ctx.getBlockPos());
+                if (blockEntity != null) {
+                    blockEntity.load(ctx.getBlockEntity().saveWithoutMetadata());
+                }
+                showUpdateSuccessMessage(player, ModTexts.BLOCK);
+            }
+            case ENTITY -> {
+                var entity = player.getLevel().getEntity(ctx.getEntityId());
+                if (entity != null) {
+                    entity.load(ctx.getEntity().saveWithoutId(new CompoundTag()));
+                    showUpdateSuccessMessage(player, ModTexts.ENTITY);
+                } else {
+                    showTargetErrorMessage(player, ModTexts.ENTITY);
+                }
+            }
         }
     }
 
@@ -123,5 +189,13 @@ public final class ServerEditorLogic {
             return true;
         }
         return false;
+    }
+
+    private static void showUpdateSuccessMessage(ServerPlayer player, MutableComponent arg) {
+        CommonUtil.showMessage(player, ModTexts.Messages.successUpdate(arg));
+    }
+
+    private static void showTargetErrorMessage(ServerPlayer player, MutableComponent arg) {
+        CommonUtil.showMessage(player, ModTexts.Messages.errorNoTargetFound(arg));
     }
 }

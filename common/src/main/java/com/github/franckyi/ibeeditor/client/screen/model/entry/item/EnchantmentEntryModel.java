@@ -3,7 +3,7 @@ package com.github.franckyi.ibeeditor.client.screen.model.entry.item;
 import com.github.franckyi.databindings.api.IntegerProperty;
 import com.github.franckyi.ibeeditor.client.ClientCache;
 import com.github.franckyi.ibeeditor.client.screen.model.category.CategoryModel;
-import com.github.franckyi.ibeeditor.client.screen.model.category.item.ItemCategoryModel;
+import com.github.franckyi.ibeeditor.client.screen.model.category.item.ItemEditorCategoryModel;
 import com.github.franckyi.ibeeditor.client.screen.model.entry.SelectionEntryModel;
 import com.github.franckyi.ibeeditor.client.screen.model.selection.element.ListSelectionElementModel;
 import com.github.franckyi.ibeeditor.common.ModTexts;
@@ -50,8 +50,8 @@ public class EnchantmentEntryModel extends SelectionEntryModel {
     }
 
     @Override
-    public ItemCategoryModel getCategory() {
-        return (ItemCategoryModel) super.getCategory();
+    public ItemEditorCategoryModel getCategory() {
+        return (ItemEditorCategoryModel) super.getCategory();
     }
 
     @Override
@@ -71,6 +71,6 @@ public class EnchantmentEntryModel extends SelectionEntryModel {
 
     @Override
     public List<? extends ListSelectionElementModel> getSelectionItems() {
-        return ClientCache.getSortedEnchantmentSelectionItems(getCategory().getParent().getTarget());
+        return ClientCache.getSortedEnchantmentSelectionItems(getCategory().getParent().getContext().getItemStack());
     }
 }

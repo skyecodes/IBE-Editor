@@ -15,7 +15,7 @@ public class ListSelectionScreenView extends ScreenView {
     private TextField searchField;
 
     public ListSelectionScreenView() {
-        super(false);
+        super();
     }
 
     @Override

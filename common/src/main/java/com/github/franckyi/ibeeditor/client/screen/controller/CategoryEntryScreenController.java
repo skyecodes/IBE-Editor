@@ -50,9 +50,9 @@ public abstract class CategoryEntryScreenController<M extends CategoryEntryScree
         view.getEntryList().setItemHeight(model.getSelectedCategory().getEntryHeight());
     }
 
-    protected void onValidationChange(boolean newVal) {
-        view.getDoneButton().setDisable(!newVal);
-        if (!newVal) {
+    protected void onValidationChange(boolean modelValid) {
+        view.getDoneButton().setDisable(!modelValid);
+        if (!modelValid) {
             if (view.getDoneButton().getTooltip().isEmpty()) {
                 view.getDoneButton().getTooltip().add(ModTexts.FIX_ERRORS);
             } else {

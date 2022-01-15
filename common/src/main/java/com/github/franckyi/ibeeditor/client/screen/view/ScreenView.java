@@ -13,20 +13,19 @@ import net.minecraft.resources.ResourceLocation;
 import static com.github.franckyi.guapi.api.GuapiHelper.*;
 
 public abstract class ScreenView implements View {
-    private final boolean addSaveVaultButton;
     private VBox root;
     private Label headerLabel;
+    private TexturedToggleButton saveVaultButton;
+    private TexturedButton openEditorButton;
+    private TexturedButton openNBTEditorButton;
+    private TexturedButton openSNBTEditorButton;
     private TexturedButton zoomResetButton;
     private TexturedButton zoomOutButton;
     private TexturedButton zoomInButton;
-    private TexturedToggleButton saveVaultButton;
     private Button cancelButton;
     private Button doneButton;
     private Label zoomLabel;
-
-    protected ScreenView(boolean addSaveVaultButton) {
-        this.addSaveVaultButton = addSaveVaultButton;
-    }
+    protected HBox buttonBar, buttonBarLeft, editorButtons, buttonBarCenter, buttonBarRight;
 
     @Override
     public void build() {
@@ -63,19 +62,18 @@ public abstract class ScreenView implements View {
     }
 
     protected Node createButtonBar() {
-        return hBox(buttons -> {
-            buttons.add(hBox(zoom -> {
+        return buttonBar = hBox(buttons -> {
+            buttons.add(buttonBarLeft = hBox(editorButtons = hBox().spacing(2)).align(CENTER_LEFT).spacing(10));
+            buttons.add(buttonBarCenter = hBox().align(CENTER).spacing(10), 1);
+            buttons.add(buttonBarRight = hBox().align(CENTER_RIGHT).spacing(10));
+            buttonBarRight.getChildren().add(hBox(zoom -> {
                 zoom.add(zoomResetButton = createButton(ModTextures.ZOOM_RESET, ModTexts.ZOOM_RESET).action(ScreenScalingManager.get()::restoreScale));
                 zoom.add(zoomOutButton = createButton(ModTextures.ZOOM_OUT, ModTexts.ZOOM_OUT).action(ScreenScalingManager.get()::scaleDown));
                 zoom.add(zoomLabel = label().prefWidth(25).textAlign(CENTER).padding(0, 3));
                 zoom.add(zoomInButton = createButton(ModTextures.ZOOM_IN, ModTexts.ZOOM_IN).action(ScreenScalingManager.get()::scaleUp));
-                zoom.spacing(2).prefHeight(16).align(CENTER_RIGHT);
+                zoom.spacing(2).align(CENTER);
             }));
-            if (addSaveVaultButton) {
-                buttons.add(saveVaultButton = texturedToggleButton(ModTextures.SAVE, 16, 16, false).tooltip(ModTexts.SAVE_VAULT)
-                        .action(() -> saveVaultButton.getTooltip().setAll(saveVaultButton.isActive() ? ModTexts.SAVED_VAULT : ModTexts.SAVE_VAULT)));
-            }
-            buttons.spacing(20).prefHeight(16).align(CENTER_RIGHT);
+            buttons.spacing(20).prefHeight(16);
         });
     }
 
@@ -116,11 +114,43 @@ public abstract class ScreenView implements View {
         return saveVaultButton;
     }
 
+    public TexturedButton getOpenEditorButton() {
+        return openEditorButton;
+    }
+
+    public TexturedButton getOpenNBTEditorButton() {
+        return openNBTEditorButton;
+    }
+
+    public TexturedButton getOpenSNBTEditorButton() {
+        return openSNBTEditorButton;
+    }
+
     public Button getCancelButton() {
         return cancelButton;
     }
 
     public Button getDoneButton() {
         return doneButton;
+    }
+
+    public void addSaveVaultButton() {
+        editorButtons.getChildren().add(saveVaultButton = texturedToggleButton(ModTextures.SAVE, 16, 16, false).tooltip(ModTexts.SAVE_VAULT)
+                .action(() -> saveVaultButton.getTooltip().setAll(saveVaultButton.isActive() ? ModTexts.SAVED_VAULT : ModTexts.SAVE_VAULT)));
+    }
+
+    public void addOpenEditorButton(Runnable action) {
+        editorButtons.getChildren().add(openEditorButton = texturedButton(ModTextures.EDITOR, 16, 16, false)
+                .tooltip(ModTexts.OPEN_EDITOR).action(action));
+    }
+
+    public void addOpenNBTEditorButton(Runnable action) {
+        editorButtons.getChildren().add(openNBTEditorButton = texturedButton(ModTextures.NBT_EDITOR, 16, 16, false)
+                .tooltip(ModTexts.OPEN_NBT_EDITOR).action(action));
+    }
+
+    public void addOpenSNBTEditorButton(Runnable action) {
+        editorButtons.getChildren().add(openSNBTEditorButton = texturedButton(ModTextures.SNBT_EDITOR, 16, 16, false)
+                .tooltip(ModTexts.OPEN_SNBT_EDITOR).action(action));
     }
 }

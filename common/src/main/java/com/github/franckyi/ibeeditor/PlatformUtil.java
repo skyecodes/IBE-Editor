@@ -1,7 +1,7 @@
 package com.github.franckyi.ibeeditor;
 
-import com.github.franckyi.ibeeditor.common.NetworkManager;
-import com.github.franckyi.ibeeditor.common.Packet;
+import com.github.franckyi.ibeeditor.common.network.ClientNetworkHandler;
+import com.github.franckyi.ibeeditor.common.network.ServerNetworkHandler;
 import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.server.level.ServerPlayer;
 
@@ -14,22 +14,22 @@ public final class PlatformUtil {
     }
 
     @ExpectPlatform
-    public static void sendToServer(String id, Packet packet) {
+    public static <P> void sendToServer(ServerNetworkHandler<P> handler, P packet) {
         throw new AssertionError();
     }
 
     @ExpectPlatform
-    public static void sendToClient(String id, ServerPlayer player, Packet packet) {
+    public static <P> void sendToClient(ClientNetworkHandler<P> handler, ServerPlayer player, P packet) {
         throw new AssertionError();
     }
 
     @ExpectPlatform
-    public static <P extends Packet> void registerServerHandler(String id, int id1, Class<P> msgClass, NetworkManager.PacketReader<P> reader, NetworkManager.ServerPacketHandler<P> handler) {
+    public static <P> void registerServerHandler(ServerNetworkHandler<P> handler) {
         throw new AssertionError();
     }
 
     @ExpectPlatform
-    public static <P extends Packet> void registerClientHandler(String id, int id1, Class<P> msgClass, NetworkManager.PacketReader<P> reader, NetworkManager.ClientPacketHandler<P> handler) {
+    public static <P> void registerClientHandler(ClientNetworkHandler<P> handler) {
         throw new AssertionError();
     }
 }

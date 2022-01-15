@@ -3,12 +3,12 @@ package com.github.franckyi.ibeeditor.client.screen.model.category.item;
 import com.github.franckyi.ibeeditor.client.screen.model.ItemEditorModel;
 import com.github.franckyi.ibeeditor.client.screen.model.entry.item.HideFlagEntryModel;
 import com.github.franckyi.ibeeditor.common.ModTexts;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.MutableComponent;
 
+import java.util.Arrays;
 import java.util.Locale;
 
-public class ItemHideFlagsCategoryModel extends ItemCategoryModel {
+public class ItemHideFlagsCategoryModel extends ItemEditorCategoryModel {
     private int newHideFlags;
 
     public ItemHideFlagsCategoryModel(ItemEditorModel editor) {
@@ -17,21 +17,20 @@ public class ItemHideFlagsCategoryModel extends ItemCategoryModel {
 
     @Override
     protected void setupEntries() {
-        int hideFlags = getBaseTag().getInt("HideFlags");
-        for (HideFlag flag : HideFlag.values()) {
-            getEntries().add(new HideFlagEntryModel(this, flag,
-                    (hideFlags & flag.getValue()) > 0, value -> setFlag(flag, value)));
-        }
+        int hideFlags = getTag().getInt("HideFlags");
+        Arrays.stream(HideFlag.values())
+                .map(flag -> new HideFlagEntryModel(this, flag, (hideFlags & flag.getValue()) > 0, value -> setFlag(flag, value)))
+                .forEach(getEntries()::add);
     }
 
     @Override
-    public void apply(CompoundTag nbt) {
+    public void apply() {
         newHideFlags = 0;
-        super.apply(nbt);
+        super.apply();
         if (newHideFlags > 0) {
-            getNewTag().putInt("HideFlags", newHideFlags);
+            getOrCreateTag().putInt("HideFlags", newHideFlags);
         } else {
-            getNewTag().remove("HideFlags");
+            getOrCreateTag().remove("HideFlags");
         }
     }
 

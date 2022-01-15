@@ -1,7 +1,8 @@
 package com.github.franckyi.ibeeditor.forge;
 
-import com.github.franckyi.ibeeditor.common.NetworkManager;
-import com.github.franckyi.ibeeditor.common.Packet;
+import com.github.franckyi.ibeeditor.common.network.ClientNetworkHandler;
+import com.github.franckyi.ibeeditor.common.network.NetworkHandler;
+import com.github.franckyi.ibeeditor.common.network.ServerNetworkHandler;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.fml.loading.FMLPaths;
@@ -19,48 +20,31 @@ public class PlatformUtilImpl {
         return FMLPaths.CONFIGDIR.get();
     }
 
-    private static final String VERSION = "2";
-    private static final SimpleChannel channel = NetworkRegistry.newSimpleChannel(
-            new ResourceLocation("ibeeditor:network"),
-            () -> VERSION,
-            VERSION::equals,
-            VERSION::equals
-    );
+    private static final String VERSION = "3";
+    private static final SimpleChannel channel = NetworkRegistry.newSimpleChannel(new ResourceLocation("ibeeditor:network"), () -> VERSION, s -> true, s -> true);
 
-    public static void sendToServer(String id, Packet packet) {
+    public static <P> void sendToServer(ServerNetworkHandler<P> handler, P packet) {
         channel.sendToServer(packet);
     }
 
-    public static void sendToClient(String id, ServerPlayer player, Packet packet) {
+    public static <P> void sendToClient(ClientNetworkHandler<P> handler, ServerPlayer player, P packet) {
         channel.send(PacketDistributor.PLAYER.with(() -> player), packet);
     }
 
-    public static <P extends Packet> void registerServerHandler(String id, int id1, Class<P> msgClass, NetworkManager.PacketReader<P> reader, NetworkManager.ServerPacketHandler<P> handler) {
-        registerHandler(id1, msgClass, reader, (msg, ctx) -> handler.accept(msg, ctx.get().getSender()));
+    public static <P> void registerServerHandler(ServerNetworkHandler<P> handler) {
+        registerHandler(handler, (msg, ctx) -> handler.getPacketHandler().handle(msg, ctx.get().getSender()));
     }
 
-    public static <P extends Packet> void registerClientHandler(String id, int id1, Class<P> msgClass, NetworkManager.PacketReader<P> reader, NetworkManager.ClientPacketHandler<P> handler) {
-        registerHandler(id1, msgClass, reader, (msg, ctx) -> handler.accept(msg));
+    public static <P> void registerClientHandler(ClientNetworkHandler<P> handler) {
+        registerHandler(handler, (msg, ctx) -> handler.getPacketHandler().handle(msg));
     }
 
-    private static <P extends Packet> void registerHandler(int id, Class<P> msgClass, NetworkManager.PacketReader<P> reader, BiConsumer<P, Supplier<NetworkEvent.Context>> handler) {
-        channel.messageBuilder(msgClass, id)
-                .decoder(buffer -> {
-                    try {
-                        return reader.read(buffer);
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-                })
-                .encoder((p, buffer) -> {
-                    try {
-                        p.write(buffer);
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-                })
+    private static <P> void registerHandler(NetworkHandler<P> handler, BiConsumer<P, Supplier<NetworkEvent.Context>> action) {
+        channel.messageBuilder(handler.getType(), handler.getId())
+                .decoder(buffer -> handler.getSerializer().read(buffer))
+                .encoder((p, buffer) -> handler.getSerializer().write(p, buffer))
                 .consumer((msg, ctx) -> {
-                    ctx.get().enqueueWork(() -> handler.accept(msg, ctx));
+                    ctx.get().enqueueWork(() -> action.accept(msg, ctx));
                     ctx.get().setPacketHandled(true);
                 }).add();
     }

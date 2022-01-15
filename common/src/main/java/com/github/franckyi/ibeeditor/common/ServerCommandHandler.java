@@ -12,8 +12,6 @@ import net.minecraft.server.level.ServerPlayer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.function.BiConsumer;
-import java.util.function.BiFunction;
 import java.util.function.Function;
 
 import static com.github.franckyi.guapi.api.GuapiHelper.*;
@@ -25,30 +23,30 @@ public final class ServerCommandHandler {
     private static final MutableComponent NO_PERMISSION = text("You must be in creative mode to use this command.").withStyle(ChatFormatting.RED);
 
     private enum EditorTargetArgument {
-        ITEM("item", ServerCommandHandler::commandOpenItemEditor),
-        BLOCK("block", ServerCommandHandler::commandOpenBlockEditor),
-        ENTITY("entity", ServerCommandHandler::commandOpenEntityEditor),
-        SELF("self", ServerCommandHandler::commandOpenSelfEditor);
+        ITEM("item", EditorContext.CommandTarget.ITEM),
+        BLOCK("block", EditorContext.CommandTarget.BLOCK),
+        ENTITY("entity", EditorContext.CommandTarget.ENTITY),
+        SELF("self", EditorContext.CommandTarget.SELF);
 
-        private static final BiFunction<ServerPlayer, EditorType, Integer> DEFAULT = ServerCommandHandler::commandOpenWorldEditor;
+        private static final EditorContext.CommandTarget DEFAULT = EditorContext.CommandTarget.WORLD;
         private final String literal;
-        private final BiFunction<ServerPlayer, EditorType, Integer> target;
+        private final EditorContext.CommandTarget target;
 
-        EditorTargetArgument(String literal, BiFunction<ServerPlayer, EditorType, Integer> target) {
+        EditorTargetArgument(String literal, EditorContext.CommandTarget target) {
             this.literal = literal;
             this.target = target;
         }
     }
 
     private enum EditorTypeArgument {
-        NBT("nbt", EditorType.NBT),
-        SNBT("snbt", EditorType.SNBT);
+        NBT("nbt", EditorContext.EditorType.NBT),
+        SNBT("snbt", EditorContext.EditorType.SNBT);
 
-        private static final EditorType DEFAULT = EditorType.STANDARD;
+        private static final EditorContext.EditorType DEFAULT = EditorContext.EditorType.STANDARD;
         private final String literal;
-        private final EditorType type;
+        private final EditorContext.EditorType type;
 
-        EditorTypeArgument(String literal, EditorType type) {
+        EditorTypeArgument(String literal, EditorContext.EditorType type) {
             this.literal = literal;
             this.type = type;
         }
@@ -57,22 +55,22 @@ public final class ServerCommandHandler {
     public static void registerCommand(CommandDispatcher<CommandSourceStack> dispatcher) {
         LOGGER.debug("Registering /ibe command");
         LiteralArgumentBuilder<CommandSourceStack> command = Commands.literal("ibe").executes(
-                createCommand(p -> EditorTargetArgument.DEFAULT.apply(p, EditorTypeArgument.DEFAULT)));
+                createCommand(p -> commandOpenEditor(p, EditorTargetArgument.DEFAULT, EditorTypeArgument.DEFAULT)));
         for (EditorTypeArgument typeArg : EditorTypeArgument.values()) {
             LiteralArgumentBuilder<CommandSourceStack> subCommand = Commands.literal(typeArg.literal).executes(
-                    createCommand(p -> EditorTargetArgument.DEFAULT.apply(p, typeArg.type)));
+                    createCommand(p -> commandOpenEditor(p, EditorTargetArgument.DEFAULT, typeArg.type)));
             for (EditorTargetArgument targetArg : EditorTargetArgument.values()) {
                 subCommand.then(Commands.literal(targetArg.literal).executes(
-                        createCommand(p -> targetArg.target.apply(p, typeArg.type))));
+                        createCommand(p -> commandOpenEditor(p, targetArg.target, typeArg.type))));
             }
             command.then(subCommand);
         }
         for (EditorTargetArgument targetArg : EditorTargetArgument.values()) {
             LiteralArgumentBuilder<CommandSourceStack> subCommand = Commands.literal(targetArg.literal).executes(
-                    createCommand(p -> targetArg.target.apply(p, EditorTypeArgument.DEFAULT)));
+                    createCommand(p -> commandOpenEditor(p, targetArg.target, EditorTypeArgument.DEFAULT)));
             for (EditorTypeArgument typeArg : EditorTypeArgument.values()) {
                 subCommand.then(Commands.literal(typeArg.literal).executes(
-                        createCommand(p -> targetArg.target.apply(p, typeArg.type))));
+                        createCommand(p -> commandOpenEditor(p, targetArg.target, typeArg.type))));
             }
             command.then(subCommand);
         }
@@ -84,38 +82,16 @@ public final class ServerCommandHandler {
         return ctx -> command.apply(ctx.getSource().getPlayerOrException());
     }
 
-    private static int commandOpenWorldEditor(ServerPlayer player, EditorType type) {
-        LOGGER.debug("{} issued a world editor command with type={}", player.getGameProfile().getName(), type);
-        return commandOpenEditor(player, type, ServerNetworkEmitter::sendWorldEditorCommand);
-    }
-
-    private static int commandOpenItemEditor(ServerPlayer player, EditorType type) {
-        LOGGER.debug("{} issued an item editor command with type={}", player.getGameProfile().getName(), type);
-        return commandOpenEditor(player, type, ServerNetworkEmitter::sendItemEditorCommand);
-    }
-
-    private static int commandOpenBlockEditor(ServerPlayer player, EditorType type) {
-        LOGGER.debug("{} issued a block editor command with type={}", player.getGameProfile().getName(), type);
-        return commandOpenEditor(player, type, ServerNetworkEmitter::sendBlockEditorCommand);
-    }
-
-    private static int commandOpenEntityEditor(ServerPlayer player, EditorType type) {
-        LOGGER.debug("{} issued an entity editor command with type={}", player.getGameProfile().getName(), type);
-        return commandOpenEditor(player, type, ServerNetworkEmitter::sendEntityEditorCommand);
-    }
-
-    private static int commandOpenSelfEditor(ServerPlayer player, EditorType type) {
-        LOGGER.debug("{} issued a self editor command with type={}", player.getGameProfile().getName(), type);
-        return commandOpenEditor(player, type, ServerNetworkEmitter::sendSelfEditorCommand);
-    }
-
-    private static int commandOpenEditor(ServerPlayer player, EditorType type, BiConsumer<ServerPlayer, EditorType> action) {
+    private static int commandOpenEditor(ServerPlayer player, EditorContext.CommandTarget target, EditorContext.EditorType type) {
         if (ServerContext.isClientModded(player)) {
             if (CommonConfiguration.INSTANCE.isCreativeOnly() && !player.isCreative()) {
                 player.displayClientMessage(NO_PERMISSION, false);
                 return 2;
             }
-            action.accept(player, type);
+            var ctx = EditorContext.fromCommand();
+            ctx.setCommandTarget(target);
+            ctx.setEditorType(type);
+            ServerNetworkEmitter.sendEditorCommand(player, ctx);
             return 0;
         }
         player.displayClientMessage(MUST_INSTALL, false);

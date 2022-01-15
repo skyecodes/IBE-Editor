@@ -20,9 +20,12 @@ public class VaultItemEntryView extends EntryView {
         return hBox(content -> {
             content.add(itemView = itemView());
             content.add(label = label(), 1);
-            content.add(openEditorButton = texturedButton(ModTextures.EDITOR, 16, 16, false).tooltip(ModTexts.OPEN_EDITOR));
-            content.add(openNBTEditorButton = texturedButton(ModTextures.NBT_EDITOR, 16, 16, false).tooltip(ModTexts.OPEN_NBT_EDITOR));
-            content.add(openSNBTEditorButton = texturedButton(ModTextures.SNBT_EDITOR, 16, 16, false).tooltip(ModTexts.OPEN_SNBT_EDITOR));
+            content.add(hBox(buttons -> {
+                buttons.add(openEditorButton = texturedButton(ModTextures.EDITOR, 16, 16, false).tooltip(ModTexts.OPEN_EDITOR));
+                buttons.add(openNBTEditorButton = texturedButton(ModTextures.NBT_EDITOR, 16, 16, false).tooltip(ModTexts.OPEN_NBT_EDITOR));
+                buttons.add(openSNBTEditorButton = texturedButton(ModTextures.SNBT_EDITOR, 16, 16, false).tooltip(ModTexts.OPEN_SNBT_EDITOR));
+                buttons.spacing(2);
+            }));
             content.align(CENTER).spacing(5);
         });
     }

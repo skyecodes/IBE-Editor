@@ -30,7 +30,7 @@ public class NBTEditorView extends ScreenView {
     };
 
     public NBTEditorView() {
-        super(true);
+        super();
     }
 
     @Override
@@ -75,29 +75,29 @@ public class NBTEditorView extends ScreenView {
 
     @Override
     protected Node createButtonBar() {
-        return hBox(buttons -> {
-            buttons.add(hBox(base -> {
-                base.add(moveUpButton = createButtonFromType(ButtonType.MOVE_UP).disable());
-                base.add(moveDownButton = createButtonFromType(ButtonType.MOVE_DOWN).disable());
-                base.add(addButton = createToggleButtonFromType(ButtonType.ADD).disable());
-                base.add(deleteButton = createButtonFromType(ButtonType.DELETE).disable());
-                base.spacing(2);
-            }));
-            buttons.add(hBox(copyBox -> {
-                copyBox.add(cutButton = createButtonFromType(ButtonType.CUT).disable());
-                copyBox.add(copyButton = createButtonFromType(ButtonType.COPY).disable());
-                copyBox.add(pasteButton = createButtonFromType(ButtonType.PASTE).disable());
-                copyBox.spacing(2);
-            }), 1);
-            buttons.add(hBox(expand -> {
-                expand.add(createButton(ModTextures.COLLAPSE, ModTexts.COLLAPSE).action(this::collapseAll));
-                expand.add(createButton(ModTextures.EXPAND, ModTexts.EXPAND).action(this::expandAll));
-                expand.spacing(2);
-            }));
-            buttons.add(createButton(ModTextures.SCROLL_FOCUSED, ModTexts.SCROLL_FOCUSED).action(() -> tagTree.setScrollTo(getTagTree().getFocusedElement())));
-            buttons.add(super.createButtonBar());
-            buttons.spacing(20).prefHeight(16);
-        });
+        Node res = super.createButtonBar();
+        buttonBarLeft.getChildren().addAll(
+                hBox(base -> {
+                    base.add(moveUpButton = createButtonFromType(ButtonType.MOVE_UP).disable());
+                    base.add(moveDownButton = createButtonFromType(ButtonType.MOVE_DOWN).disable());
+                    base.add(addButton = createToggleButtonFromType(ButtonType.ADD).disable());
+                    base.add(deleteButton = createButtonFromType(ButtonType.DELETE).disable());
+                    base.spacing(2);
+                }),
+                hBox(copyBox -> {
+                    copyBox.add(cutButton = createButtonFromType(ButtonType.CUT).disable());
+                    copyBox.add(copyButton = createButtonFromType(ButtonType.COPY).disable());
+                    copyBox.add(pasteButton = createButtonFromType(ButtonType.PASTE).disable());
+                    copyBox.spacing(2);
+                }),
+                hBox(expand -> {
+                    expand.add(createButton(ModTextures.COLLAPSE, ModTexts.COLLAPSE).action(this::collapseAll));
+                    expand.add(createButton(ModTextures.EXPAND, ModTexts.EXPAND).action(this::expandAll));
+                    expand.spacing(2);
+                }),
+                createButton(ModTextures.SCROLL_FOCUSED, ModTexts.SCROLL_FOCUSED).action(() -> tagTree.setScrollTo(getTagTree().getFocusedElement()))
+        );
+        return res;
     }
 
     @Override

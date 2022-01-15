@@ -1,27 +1,17 @@
 package com.github.franckyi.ibeeditor.client.screen.model;
 
-import com.github.franckyi.databindings.api.BooleanProperty;
 import com.github.franckyi.databindings.api.ObjectProperty;
-import com.github.franckyi.guapi.api.mvc.Model;
+import com.github.franckyi.ibeeditor.common.EditorContext;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
 
-import java.util.function.Consumer;
-
-public class NBTEditorModel implements Model {
+public class NBTEditorModel implements EditorModel {
+    private final EditorContext context;
     private final ObjectProperty<NBTTagModel> rootTagProperty;
     private final ObjectProperty<NBTTagModel> clipboardTagProperty = ObjectProperty.create();
-    private final Consumer<CompoundTag> action;
-    private final Component disabledTooltip;
-    private final BooleanProperty saveToVaultProperty;
-    private final boolean canSaveToVault;
 
-    public NBTEditorModel(CompoundTag tag, Consumer<CompoundTag> action, Component disabledTooltip, boolean canSaveToVault) {
-        rootTagProperty = ObjectProperty.create(new NBTTagModel(tag));
-        this.action = action;
-        this.disabledTooltip = disabledTooltip;
-        saveToVaultProperty = BooleanProperty.create(false);
-        this.canSaveToVault = canSaveToVault;
+    public NBTEditorModel(EditorContext context) {
+        this.context = context;
+        rootTagProperty = ObjectProperty.create(new NBTTagModel(getContext().getTag()));
     }
 
     public NBTTagModel getRootTag() {
@@ -48,23 +38,17 @@ public class NBTEditorModel implements Model {
         clipboardTagProperty().setValue(value);
     }
 
-    public Component getDisabledTooltip() {
-        return disabledTooltip;
-    }
-
-    public boolean canSave() {
-        return getDisabledTooltip() == null;
-    }
-
-    public BooleanProperty saveToVaultProperty() {
-        return saveToVaultProperty;
-    }
-
-    public boolean canSaveToVault() {
-        return canSaveToVault;
-    }
-
     public void apply() {
-        action.accept((CompoundTag) getRootTag().build());
+        getContext().setTag((CompoundTag) getRootTag().build());
+    }
+
+    @Override
+    public EditorContext getContext() {
+        return context;
+    }
+
+    @Override
+    public boolean saveToVault() {
+        return false;
     }
 }

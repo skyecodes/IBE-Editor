@@ -4,14 +4,13 @@ import com.github.franckyi.ibeeditor.client.screen.model.ItemEditorModel;
 import com.github.franckyi.ibeeditor.client.screen.model.entry.BlockSelectionEntryModel;
 import com.github.franckyi.ibeeditor.client.screen.model.entry.EntryModel;
 import com.github.franckyi.ibeeditor.common.ModTexts;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 
-public class ItemBlockListCategoryModel extends ItemCategoryModel {
+public class ItemBlockListCategoryModel extends ItemEditorCategoryModel {
     private final String tagName;
     private ListTag newBlocks;
 
@@ -22,11 +21,10 @@ public class ItemBlockListCategoryModel extends ItemCategoryModel {
 
     @Override
     protected void setupEntries() {
-        getEntries().setAll(getBaseTag().getList(tagName, Tag.TAG_STRING).stream()
-                .map(StringTag.class::cast)
-                .map(StringTag::getAsString)
+        getTag().getList(tagName, Tag.TAG_STRING).stream()
+                .map(Tag::getAsString)
                 .map(this::createBlockEntry)
-                .toList());
+                .forEach(getEntries()::add);
     }
 
     @Override
@@ -49,13 +47,13 @@ public class ItemBlockListCategoryModel extends ItemCategoryModel {
     }
 
     @Override
-    public void apply(CompoundTag nbt) {
+    public void apply() {
         newBlocks = new ListTag();
-        super.apply(nbt);
+        super.apply();
         if (!newBlocks.isEmpty()) {
-            getNewTag().put(tagName, newBlocks);
-        } else {
-            getNewTag().remove(tagName);
+            getOrCreateTag().put(tagName, newBlocks);
+        } else if (getOrCreateTag().contains(tagName)) {
+            getOrCreateTag().remove(tagName);
         }
     }
 

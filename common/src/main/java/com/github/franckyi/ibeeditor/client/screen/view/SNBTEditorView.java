@@ -11,7 +11,7 @@ public class SNBTEditorView extends ScreenView {
     private TextArea textArea;
 
     public SNBTEditorView() {
-        super(true);
+        super();
     }
 
     @Override

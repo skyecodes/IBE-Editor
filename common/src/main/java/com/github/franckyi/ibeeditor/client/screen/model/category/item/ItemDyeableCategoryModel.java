@@ -6,8 +6,9 @@ import com.github.franckyi.ibeeditor.client.screen.model.entry.item.ArmorColorEn
 import com.github.franckyi.ibeeditor.common.ModTexts;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.world.item.ItemStack;
 
-public class ItemDyeableCategoryModel extends ItemCategoryModel {
+public class ItemDyeableCategoryModel extends ItemEditorCategoryModel {
     public ItemDyeableCategoryModel(ItemEditorModel editor) {
         super(ModTexts.ARMOR_COLOR, editor);
     }
@@ -18,24 +19,16 @@ public class ItemDyeableCategoryModel extends ItemCategoryModel {
     }
 
     private int getColor() {
-        CompoundTag display = getBaseTag().getCompound("display");
-        return display.contains("color", Tag.TAG_INT) ? display.getInt("color") : Color.NONE;
+        CompoundTag display = getTag().getCompound(ItemStack.TAG_DISPLAY);
+        return display.contains(ItemStack.TAG_COLOR, Tag.TAG_INT) ? display.getInt(ItemStack.TAG_COLOR) : Color.NONE;
     }
 
     private void setColor(int value) {
-        if (value == Color.NONE) {
-            getNewTag().getCompound("display").remove("color");
-            if (getNewTag().getCompound("display").isEmpty()) {
-                getNewTag().remove("display");
-            }
+        if (value == Color.NONE && getTag().contains(ItemStack.TAG_DISPLAY, Tag.TAG_COMPOUND)
+                && getSubTag(ItemStack.TAG_DISPLAY).contains(ItemStack.TAG_COLOR)) {
+            getSubTag(ItemStack.TAG_DISPLAY).remove(ItemStack.TAG_COLOR);
         } else {
-            if (getNewTag().contains("display", Tag.TAG_COMPOUND)) {
-                getNewTag().getCompound("display").putInt("color", value);
-            } else {
-                CompoundTag display = new CompoundTag();
-                display.putInt("color", value);
-                getNewTag().put("display", display);
-            }
+            getOrCreateSubTag(ItemStack.TAG_DISPLAY).putInt(ItemStack.TAG_COLOR, value);
         }
     }
 }

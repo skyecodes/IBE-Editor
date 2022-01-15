@@ -16,7 +16,7 @@ public abstract class ColorSelectionScreenView extends ScreenView {
     private HBox exampleBox;
 
     public ColorSelectionScreenView() {
-        super(true);
+        super();
     }
 
     @Override

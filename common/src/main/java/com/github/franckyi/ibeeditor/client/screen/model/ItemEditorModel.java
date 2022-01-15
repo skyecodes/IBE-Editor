@@ -2,20 +2,17 @@ package com.github.franckyi.ibeeditor.client.screen.model;
 
 import com.github.franckyi.ibeeditor.client.Vault;
 import com.github.franckyi.ibeeditor.client.screen.model.category.item.*;
+import com.github.franckyi.ibeeditor.common.EditorContext;
 import com.github.franckyi.ibeeditor.common.ModTexts;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.DyeableLeatherItem;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.PotionItem;
 
-import java.util.function.Consumer;
-
-public class ItemEditorModel extends StandardEditorModel<ItemStack, ItemCategoryModel> {
-    public ItemEditorModel(ItemStack itemStack, Consumer<ItemStack> action, Component disabledTooltip) {
-        super(itemStack, action, disabledTooltip, ModTexts.ITEM, true);
+public class ItemEditorModel extends StandardEditorModel {
+    public ItemEditorModel(EditorContext context) {
+        super(context);
     }
 
     @Override
@@ -28,29 +25,29 @@ public class ItemEditorModel extends StandardEditorModel<ItemStack, ItemCategory
                 new ItemHideFlagsCategoryModel(this),
                 new ItemBlockListCategoryModel(ModTexts.CAN_DESTROY, this, "CanDestroy")
         );
-        if (getTarget().getItem() instanceof PotionItem) {
+        Item item = getContext().getItemStack().getItem();
+        if (item instanceof PotionItem) {
             getCategories().add(new ItemPotionEffectsCategoryModel(this));
         }
-        if (getTarget().getItem() instanceof DyeableLeatherItem) {
+        if (item instanceof DyeableLeatherItem) {
             getCategories().add(new ItemDyeableCategoryModel(this));
         }
-        if (getTarget().getItem() instanceof BlockItem) {
+        if (item instanceof BlockItem) {
             getCategories().add(new ItemBlockListCategoryModel(ModTexts.CAN_PLACE_ON, this, "CanPlaceOn"));
         }
     }
 
     @Override
-    public ItemStack applyChanges() {
-        CompoundTag nbt = getTarget().save(new CompoundTag());
-        getCategories().forEach(categoryModel -> categoryModel.apply(nbt));
-        if (nbt.contains("tag", Tag.TAG_COMPOUND) && nbt.getCompound("tag").isEmpty()) {
-            nbt.remove("tag");
+    public void apply() {
+        super.apply();
+        var tag = getContext().getTag();
+        if (tag.contains("tag", Tag.TAG_COMPOUND) && tag.getCompound("tag").isEmpty()) {
+            tag.remove("tag");
         }
-        return ItemStack.of(nbt);
     }
 
     @Override
-    protected boolean saveToVault(ItemStack item) {
-        return Vault.getInstance().saveItem(item.save(new CompoundTag()));
+    public boolean saveToVault() {
+        return Vault.getInstance().saveItem(getContext().getTag());
     }
 }

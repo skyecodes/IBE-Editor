@@ -9,7 +9,7 @@ public final class ServerEventHandler {
 
     public static void onPlayerJoin(ServerPlayer player) {
         LOGGER.debug("Notifying {} that this server has IBE Editor", player.getGameProfile().getName());
-        ServerNetworkEmitter.sendServerNotification(player);
+        ServerNetworkEmitter.sendNotification(player);
     }
 
     public static void onPlayerLeave(ServerPlayer player) {

@@ -11,7 +11,7 @@ import net.minecraft.network.chat.MutableComponent;
 
 import java.util.UUID;
 
-public class ItemAttributeModifiersCategoryModel extends ItemCategoryModel {
+public class ItemAttributeModifiersCategoryModel extends ItemEditorCategoryModel {
     private ListTag newAttributeModifiers;
 
     public ItemAttributeModifiersCategoryModel(ItemEditorModel editor) {
@@ -20,11 +20,10 @@ public class ItemAttributeModifiersCategoryModel extends ItemCategoryModel {
 
     @Override
     protected void setupEntries() {
-        getEntries().addAll(getBaseTag().getList("AttributeModifiers", Tag.TAG_COMPOUND)
-                .stream()
+        getTag().getList("AttributeModifiers", Tag.TAG_COMPOUND).stream()
                 .map(CompoundTag.class::cast)
                 .map(this::createModifierEntry)
-                .toList());
+                .forEach(getEntries()::add);
     }
 
     @Override
@@ -60,13 +59,13 @@ public class ItemAttributeModifiersCategoryModel extends ItemCategoryModel {
     }
 
     @Override
-    public void apply(CompoundTag nbt) {
+    public void apply() {
         newAttributeModifiers = new ListTag();
-        super.apply(nbt);
+        super.apply();
         if (!newAttributeModifiers.isEmpty()) {
-            getNewTag().put("AttributeModifiers", newAttributeModifiers);
-        } else {
-            getNewTag().remove("AttributeModifiers");
+            getOrCreateTag().put("AttributeModifiers", newAttributeModifiers);
+        } else if (getOrCreateTag().contains("AttributeModifiers")) {
+            getOrCreateTag().remove("AttributeModifiers");
         }
     }
 

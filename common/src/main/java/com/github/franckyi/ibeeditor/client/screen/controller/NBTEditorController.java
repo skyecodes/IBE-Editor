@@ -2,10 +2,10 @@ package com.github.franckyi.ibeeditor.client.screen.controller;
 
 import com.github.franckyi.guapi.api.Guapi;
 import com.github.franckyi.guapi.api.mvc.AbstractController;
-import com.github.franckyi.guapi.api.node.Group;
 import com.github.franckyi.ibeeditor.client.screen.model.NBTEditorModel;
 import com.github.franckyi.ibeeditor.client.screen.model.NBTTagModel;
 import com.github.franckyi.ibeeditor.client.screen.view.NBTEditorView;
+import com.github.franckyi.ibeeditor.common.EditorContext;
 import net.minecraft.nbt.*;
 
 import java.util.ArrayList;
@@ -19,21 +19,23 @@ public class NBTEditorController extends AbstractController<NBTEditorModel, NBTE
 
     @Override
     public void bind() {
-        if (!model.canSaveToVault()) {
-            ((Group) view.getSaveVaultButton().getParent()).getChildren().remove(view.getSaveVaultButton());
-        }
-        model.saveToVaultProperty().bind(view.getSaveVaultButton().activeProperty());
+        /*if (model.canSaveToVault()) {
+            view.addSaveVaultButton();
+            model.saveToVaultProperty().bind(view.getSaveVaultButton().activeProperty());
+        }*/
+        view.addOpenEditorButton(() -> model.changeEditor(EditorContext.EditorType.STANDARD));
+        view.addOpenSNBTEditorButton(() -> model.changeEditor(EditorContext.EditorType.SNBT));
         view.getTagTree().rootItemProperty().bind(model.rootTagProperty());
-        if (model.canSave()) {
-            view.getDoneButton().disableProperty().bind(model.rootTagProperty().bindMapToBoolean(NBTTagModel::validProperty).not());
-            view.getDoneButton().onAction(event -> {
-                model.apply();
-                Guapi.getScreenHandler().hideScene();
-            });
-        } else {
+        //if (model.canSave()) {
+        view.getDoneButton().disableProperty().bind(model.rootTagProperty().bindMapToBoolean(NBTTagModel::validProperty).not());
+        view.getDoneButton().onAction(event -> {
+            model.apply();
+            Guapi.getScreenHandler().hideScene();
+        });
+        /*} else {
             view.getDoneButton().setDisable(true);
             view.getDoneButton().getTooltip().add(model.getDisabledTooltip());
-        }
+        }*/
         view.getCancelButton().onAction(event -> Guapi.getScreenHandler().hideScene());
         view.getTagTree().focusedElementProperty().addListener(this::updateEnabledButtons);
         view.setOnButtonClick(this::onButtonClick);

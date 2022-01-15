@@ -7,7 +7,7 @@ import static com.github.franckyi.guapi.api.GuapiHelper.*;
 
 public class ConfigScreenView extends CategoryEntryScreenView {
     public ConfigScreenView() {
-        super(false);
+        super();
     }
 
     @Override

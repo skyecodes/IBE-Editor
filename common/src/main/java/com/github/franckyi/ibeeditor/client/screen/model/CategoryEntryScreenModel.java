@@ -3,6 +3,7 @@ package com.github.franckyi.ibeeditor.client.screen.model;
 import com.github.franckyi.databindings.api.BooleanProperty;
 import com.github.franckyi.databindings.api.ObjectProperty;
 import com.github.franckyi.databindings.api.ObservableList;
+import com.github.franckyi.databindings.api.StringProperty;
 import com.github.franckyi.guapi.api.mvc.Model;
 import com.github.franckyi.ibeeditor.client.screen.model.category.CategoryModel;
 import com.github.franckyi.ibeeditor.client.util.texteditor.TextEditorActionHandler;
@@ -12,6 +13,7 @@ public abstract class CategoryEntryScreenModel<C extends CategoryModel> implemen
     protected final ObservableList<C> categories = ObservableList.create();
     protected final ObjectProperty<CategoryModel> selectedCategory = ObjectProperty.create();
     protected final ObjectProperty<TextEditorActionHandler> activeTextEditorProperty = ObjectProperty.create();
+    protected final StringProperty textEditorCustomColorProperty = StringProperty.create("#ffffff");
 
     @Override
     public void initalize() {
@@ -73,6 +75,18 @@ public abstract class CategoryEntryScreenModel<C extends CategoryModel> implemen
 
     public void setActiveTextEditor(TextEditorActionHandler value) {
         activeTextEditorProperty().setValue(value);
+    }
+
+    public String getTextEditorCustomColor() {
+        return textEditorCustomColor().getValue();
+    }
+
+    public StringProperty textEditorCustomColor() {
+        return textEditorCustomColorProperty;
+    }
+
+    public void setTextEditorCustomColor(String value) {
+        textEditorCustomColor().setValue(value);
     }
 
     public void updateValidity() {

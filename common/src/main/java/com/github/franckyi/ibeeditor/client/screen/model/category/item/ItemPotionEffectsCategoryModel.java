@@ -11,7 +11,7 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.MutableComponent;
 
-public class ItemPotionEffectsCategoryModel extends ItemCategoryModel {
+public class ItemPotionEffectsCategoryModel extends ItemEditorCategoryModel {
     private ListTag potionEffectList;
 
     public ItemPotionEffectsCategoryModel(ItemEditorModel editor) {
@@ -21,13 +21,12 @@ public class ItemPotionEffectsCategoryModel extends ItemCategoryModel {
     @Override
     protected void setupEntries() {
         getEntries().add(new PotionSelectionEntryModel(this, ModTexts.DEFAULT_POTION,
-                getBaseTag().getString("Potion"), getCustomPotionColor(),
-                p -> getNewTag().putString("Potion", p), this::setCustomPotionColor));
-        getEntries().addAll(getBaseTag().getList("CustomPotionEffects", Tag.TAG_COMPOUND)
-                .stream()
+                getTag().getString("Potion"), getCustomPotionColor(),
+                p -> getTag().putString("Potion", p), this::setCustomPotionColor));
+        getTag().getList("CustomPotionEffects", Tag.TAG_COMPOUND).stream()
                 .map(CompoundTag.class::cast)
                 .map(this::createPotionEffectEntry)
-                .toList());
+                .forEach(getEntries()::add);
     }
 
     @Override
@@ -51,14 +50,14 @@ public class ItemPotionEffectsCategoryModel extends ItemCategoryModel {
     }
 
     private int getCustomPotionColor() {
-        return getBaseTag().contains("CustomPotionColor", Tag.TAG_INT) ? getBaseTag().getInt("CustomPotionColor") : Color.NONE;
+        return getTag().contains("CustomPotionColor", Tag.TAG_INT) ? getTag().getInt("CustomPotionColor") : Color.NONE;
     }
 
     private void setCustomPotionColor(int color) {
         if (color != Color.NONE) {
-            getNewTag().putInt("CustomPotionColor", color);
+            getOrCreateTag().putInt("CustomPotionColor", color);
         } else {
-            getNewTag().remove("CustomPotionColor");
+            getOrCreateTag().remove("CustomPotionColor");
         }
     }
 
@@ -76,13 +75,13 @@ public class ItemPotionEffectsCategoryModel extends ItemCategoryModel {
     }
 
     @Override
-    public void apply(CompoundTag nbt) {
+    public void apply() {
         potionEffectList = new ListTag();
-        super.apply(nbt);
+        super.apply();
         if (!potionEffectList.isEmpty()) {
-            getNewTag().put("CustomPotionEffects", potionEffectList);
-        } else {
-            getNewTag().remove("CustomPotionEffects");
+            getOrCreateTag().put("CustomPotionEffects", potionEffectList);
+        } else if (getOrCreateTag().contains("CustomPotionEffects")) {
+            getOrCreateTag().remove("CustomPotionEffects");
         }
     }
 

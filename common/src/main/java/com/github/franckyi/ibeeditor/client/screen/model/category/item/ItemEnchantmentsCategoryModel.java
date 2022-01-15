@@ -9,7 +9,7 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.MutableComponent;
 
-public class ItemEnchantmentsCategoryModel extends ItemCategoryModel {
+public class ItemEnchantmentsCategoryModel extends ItemEditorCategoryModel {
     private ListTag newEnch;
 
     public ItemEnchantmentsCategoryModel(ItemEditorModel editor) {
@@ -18,11 +18,10 @@ public class ItemEnchantmentsCategoryModel extends ItemCategoryModel {
 
     @Override
     protected void setupEntries() {
-        getEntries().addAll(getBaseTag().getList("Enchantments", Tag.TAG_COMPOUND)
-                .stream()
+        getTag().getList("Enchantments", Tag.TAG_COMPOUND).stream()
                 .map(CompoundTag.class::cast)
                 .map(this::createEnchantment)
-                .toList());
+                .forEach(getEntries()::add);
     }
 
     @Override
@@ -56,13 +55,13 @@ public class ItemEnchantmentsCategoryModel extends ItemCategoryModel {
     }
 
     @Override
-    public void apply(CompoundTag nbt) {
+    public void apply() {
         newEnch = new ListTag();
-        super.apply(nbt);
+        super.apply();
         if (!newEnch.isEmpty()) {
-            getNewTag().put("Enchantments", newEnch);
-        } else {
-            getNewTag().remove("Enchantments");
+            getOrCreateTag().put("Enchantments", newEnch);
+        } else if (getOrCreateTag().contains("Enchantments")) {
+            getOrCreateTag().remove("Enchantments");
         }
     }
 }

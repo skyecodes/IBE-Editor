@@ -8,47 +8,19 @@ import com.github.franckyi.ibeeditor.client.screen.model.selection.ListSelection
 import com.github.franckyi.ibeeditor.client.screen.model.selection.element.ListSelectionElementModel;
 import com.github.franckyi.ibeeditor.client.screen.mvc.*;
 import com.github.franckyi.ibeeditor.client.util.ScreenScalingManager;
+import com.github.franckyi.ibeeditor.common.EditorContext;
 import com.github.franckyi.ibeeditor.common.ModTexts;
-import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.Minecraft;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.state.BlockState;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.List;
-import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 import static com.github.franckyi.guapi.api.GuapiHelper.*;
 
 public final class ModScreenHandler {
     private static final Logger LOGGER = LogManager.getLogger();
-
-    public static void openItemEditorScreen(ItemStack itemStack, Consumer<ItemStack> action, Component disabledTooltip) {
-        openScaledScreen(mvc(StandardEditorMVC.INSTANCE, new ItemEditorModel(itemStack, action, disabledTooltip)));
-    }
-
-    public static void openBlockEditorScreen(BlockState state, BlockEntity entity, BiConsumer<BlockState, CompoundTag> action, Component disabledTooltip) {
-        openScaledScreen(mvc(StandardEditorMVC.INSTANCE, new BlockEditorModel(state, entity, action, disabledTooltip)));
-    }
-
-    public static void openEntityEditorScreen(CompoundTag entity, Consumer<CompoundTag> action, Component disabledTooltip) {
-        openScaledScreen(mvc(StandardEditorMVC.INSTANCE, new EntityEditorModel(entity, action, disabledTooltip)));
-    }
-
-    public static void openNBTEditorScreen(CompoundTag tag, Consumer<CompoundTag> action, Component disabledTooltip, boolean canSaveToVault) {
-        openScaledScreen(mvc(NBTEditorMVC.INSTANCE, new NBTEditorModel(tag, action, disabledTooltip, canSaveToVault)));
-    }
-
-    public static void openSNBTEditorScreen(CompoundTag tag, Consumer<CompoundTag> action, Component disabledTooltip, boolean canSaveToVault) {
-        openScaledScreen(mvc(SNBTEditorMVC.INSTANCE, new SNBTEditorModel(tag, action, disabledTooltip, canSaveToVault)));
-    }
 
     public static void openSettingsScreen() {
         openScaledScreen(mvc(ConfigEditorMVC.INSTANCE, new ConfigEditorScreenModel()));
@@ -66,6 +38,18 @@ public final class ModScreenHandler {
         openScaledScreen(mvc(VaultScreenMVC.INSTANCE, new VaultScreenModel()));
     }
 
+    public static void openEditor(EditorContext context) {
+        openScaledScreen(switch (context.getEditorType()) {
+            case STANDARD -> mvc(StandardEditorMVC.INSTANCE, switch (context.getTarget()) {
+                case ITEM -> new ItemEditorModel(context);
+                case BLOCK -> new BlockEditorModel(context);
+                case ENTITY -> new EntityEditorModel(context);
+            });
+            case NBT -> mvc(NBTEditorMVC.INSTANCE, new NBTEditorModel(context));
+            case SNBT -> mvc(SNBTEditorMVC.INSTANCE, new SNBTEditorModel(context));
+        });
+    }
+
     private static void openScaledScreen(Node root) {
         try {
             Guapi.getScreenHandler().showScene(scene(root, true, true).show(scene -> {
@@ -78,12 +62,7 @@ public final class ModScreenHandler {
             }));
         } catch (Exception e) {
             LOGGER.error("Error while opening screen", e);
-            Minecraft.getInstance().player.displayClientMessage(ModTexts.Messages.ERROR_GENERIC, false);
+            ClientUtil.showMessage(ModTexts.Messages.ERROR_GENERIC);
         }
-    }
-
-    public static void optimize(PoseStack matrices) {
-        scene(mvc(StandardEditorMVC.INSTANCE, new ItemEditorModel(new ItemStack(Items.AIR), item -> {
-        }, null)), true, true).render(matrices, 0, 0, 0);
     }
 }

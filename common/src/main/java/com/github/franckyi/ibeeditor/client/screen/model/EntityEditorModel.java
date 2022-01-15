@@ -1,16 +1,11 @@
 package com.github.franckyi.ibeeditor.client.screen.model;
 
 import com.github.franckyi.ibeeditor.client.Vault;
-import com.github.franckyi.ibeeditor.client.screen.model.category.entity.EntityCategoryModel;
-import com.github.franckyi.ibeeditor.common.ModTexts;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
+import com.github.franckyi.ibeeditor.common.EditorContext;
 
-import java.util.function.Consumer;
-
-public class EntityEditorModel extends StandardEditorModel<CompoundTag, EntityCategoryModel> {
-    public EntityEditorModel(CompoundTag entity, Consumer<CompoundTag> action, Component disabledTooltip) {
-        super(entity, action, disabledTooltip, ModTexts.ENTITY, true);
+public class EntityEditorModel extends StandardEditorModel {
+    public EntityEditorModel(EditorContext context) {
+        super(context);
     }
 
     @Override
@@ -18,12 +13,7 @@ public class EntityEditorModel extends StandardEditorModel<CompoundTag, EntityCa
     }
 
     @Override
-    public CompoundTag applyChanges() {
-        return getTarget(); // TODO
-    }
-
-    @Override
-    protected boolean saveToVault(CompoundTag tag) {
-        return Vault.getInstance().saveEntity(tag);
+    public boolean saveToVault() {
+        return Vault.getInstance().saveEntity(getContext().getTag());
     }
 }

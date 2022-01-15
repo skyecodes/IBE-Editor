@@ -12,8 +12,9 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.world.item.ItemStack;
 
-public class ItemDisplayCategoryModel extends ItemCategoryModel {
+public class ItemDisplayCategoryModel extends ItemEditorCategoryModel {
     private ListTag newLore;
 
     public ItemDisplayCategoryModel(ItemEditorModel editor) {
@@ -23,10 +24,12 @@ public class ItemDisplayCategoryModel extends ItemCategoryModel {
     @Override
     protected void setupEntries() {
         getEntries().add(new TextEntryModel(this, ModTexts.CUSTOM_NAME, getItemName(), this::setItemName));
-        ListTag loreList = getBaseDisplay().getList("Lore", Tag.TAG_STRING);
-        for (int i = 0; i < loreList.size(); i++) {
-            getEntries().add(createLoreEntry((TextComponent) Component.Serializer.fromJson(loreList.getString(i))));
-        }
+        getDisplay().getList("Lore", Tag.TAG_STRING).stream()
+                .map(Tag::getAsString)
+                .map(Component.Serializer::fromJson)
+                .map(TextComponent.class::cast)
+                .map(this::createLoreEntry)
+                .forEach(getEntries()::add);
     }
 
     @Override
@@ -51,20 +54,21 @@ public class ItemDisplayCategoryModel extends ItemCategoryModel {
     }
 
     @Override
-    public void apply(CompoundTag nbt) {
+    public void apply() {
         newLore = new ListTag();
-        super.apply(nbt);
-        getNewDisplay().put("Lore", newLore);
-        if (getNewDisplay().getList("Lore", Tag.TAG_STRING).isEmpty()) {
-            getNewDisplay().remove("Lore");
+        super.apply();
+        if (!newLore.isEmpty()) {
+            getOrCreateDisplay().put("Lore", newLore);
+        } else if (getOrCreateTag().contains("Lore")) {
+            getOrCreateDisplay().remove("Lore");
         }
-        if (getNewDisplay().isEmpty()) {
-            getNewTag().remove("display");
+        if (getDisplay().isEmpty()) {
+            getTag().remove(ItemStack.TAG_DISPLAY);
         }
     }
 
     private TextComponent getItemName() {
-        String s = getBaseDisplay().getString("Name");
+        String s = getDisplay().getString(ItemStack.TAG_DISPLAY_NAME);
         return s.isEmpty() ? null : (TextComponent) Component.Serializer.fromJson(s);
     }
 
@@ -73,9 +77,9 @@ public class ItemDisplayCategoryModel extends ItemCategoryModel {
             if (value.getText().isEmpty() && !value.getSiblings().isEmpty()) {
                 value.withStyle(style -> style.withItalic(false));
             }
-            getNewDisplay().putString("Name", Component.Serializer.toJson(value));
-        } else if (getNewTag().contains("display", Tag.TAG_COMPOUND)) {
-            getNewDisplay().remove("Name");
+            getOrCreateDisplay().putString(ItemStack.TAG_DISPLAY_NAME, Component.Serializer.toJson(value));
+        } else {
+            getOrCreateDisplay().remove(ItemStack.TAG_DISPLAY_NAME);
         }
     }
 
@@ -86,16 +90,11 @@ public class ItemDisplayCategoryModel extends ItemCategoryModel {
         newLore.add(StringTag.valueOf(Component.Serializer.toJson(value)));
     }
 
-    private CompoundTag getBaseDisplay() {
-        return getBaseTag().getCompound("display");
+    private CompoundTag getDisplay() {
+        return getSubTag(ItemStack.TAG_DISPLAY);
     }
 
-    private CompoundTag getNewDisplay() {
-        if (getNewTag().contains("display")) {
-            return getNewTag().getCompound("display");
-        }
-        CompoundTag tag = new CompoundTag();
-        getNewTag().put("display", tag);
-        return tag;
+    private CompoundTag getOrCreateDisplay() {
+        return getOrCreateSubTag(ItemStack.TAG_DISPLAY);
     }
 }

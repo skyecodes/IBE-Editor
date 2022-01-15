@@ -67,15 +67,17 @@ public final class Vault {
         if (Files.exists(VAULT_FILE)) {
             loadFromFile(VAULT_FILE);
         } else if (Files.exists(VAULT_FILE_OLD)) {
+            LOGGER.info("Detected old clipboard file, converting it to vault file");
             loadFromFile(VAULT_FILE_OLD);
             try {
                 Files.delete(VAULT_FILE_OLD);
             } catch (IOException e) {
-                LOGGER.error("Error while deleting the pre-2.0 clipboard file", e);
+                LOGGER.error("Error while deleting the old clipboard file", e);
             }
             INSTANCE.version = 0;
             save();
         } else {
+            LOGGER.info("Generating empty vault");
             INSTANCE = new Vault();
             save();
         }
@@ -88,8 +90,9 @@ public final class Vault {
             INSTANCE.version = buffer.readInt();
             IntStream.range(0, buffer.readInt()).forEach(i -> INSTANCE.items.add(buffer.readNbt()));
             IntStream.range(0, buffer.readInt()).forEach(i -> INSTANCE.entities.add(buffer.readNbt()));
+            LOGGER.info("Vault loaded");
         } catch (IOException e) {
-            LOGGER.error("Error while loading Vault data", e);
+            LOGGER.error("Error while loading vault", e);
         }
     }
 
@@ -101,8 +104,9 @@ public final class Vault {
             buffer.writeInt(INSTANCE.entities.size());
             INSTANCE.entities.forEach(buffer::writeNbt);
             buffer.readBytes(os, buffer.readableBytes());
+            LOGGER.info("Vault saved");
         } catch (IOException e) {
-            LOGGER.error("Error while saving Vault data", e);
+            LOGGER.error("Error while saving vault", e);
         }
     }
 

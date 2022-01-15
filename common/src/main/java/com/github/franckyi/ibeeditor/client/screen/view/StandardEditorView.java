@@ -2,7 +2,6 @@ package com.github.franckyi.ibeeditor.client.screen.view;
 
 import com.github.franckyi.databindings.api.BooleanProperty;
 import com.github.franckyi.guapi.api.node.HBox;
-import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.api.node.TexturedButton;
 import com.github.franckyi.guapi.api.node.builder.TexturedButtonBuilder;
 import com.github.franckyi.ibeeditor.client.ModTextures;
@@ -23,12 +22,11 @@ public class StandardEditorView extends CategoryEntryScreenView {
     private TexturedButton customColorButton;
     private TexturedButtonBuilder chooseCustomColorButton;
     private HBox textButtons;
-    private HBox buttons;
     private final BooleanProperty showTextButtonsProperty = BooleanProperty.create();
     private Supplier<TextEditorActionHandler> textEditorSupplier;
 
     public StandardEditorView() {
-        super(true);
+        super();
     }
 
     @Override
@@ -86,17 +84,12 @@ public class StandardEditorView extends CategoryEntryScreenView {
         }).align(CENTER_RIGHT);
         showTextButtonsProperty().addListener(newVal -> {
             if (newVal) {
-                buttons.getChildren().add(0, textButtons);
-                buttons.setWeight(textButtons, 1);
+                buttonBarRight.getChildren().add(0, textButtons);
+                buttonBarRight.setWeight(textButtons, 1);
             } else {
-                buttons.getChildren().remove(textButtons);
+                buttonBarRight.getChildren().remove(textButtons);
             }
         });
-    }
-
-    @Override
-    protected Node createButtonBar() {
-        return buttons = (HBox) super.createButtonBar();
     }
 
     private TexturedButtonBuilder createTextButton(StyleType target, ResourceLocation id, MutableComponent tooltipText) {

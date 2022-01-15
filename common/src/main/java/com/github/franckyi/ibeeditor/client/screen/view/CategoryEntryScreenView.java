@@ -13,10 +13,6 @@ public abstract class CategoryEntryScreenView extends ScreenView {
     private ListView<CategoryModel> categoryList;
     private ListView<EntryModel> entryList;
 
-    protected CategoryEntryScreenView(boolean addSaveVaultButton) {
-        super(addSaveVaultButton);
-    }
-
     @Override
     protected Node createEditor() {
         return hBox(editor -> {
