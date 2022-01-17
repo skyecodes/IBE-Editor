@@ -26,7 +26,6 @@ public class EditorContext {
     private BlockEntity blockEntity;
 
     private int entityId;
-    private Entity entity;
 
     private CompoundTag tag;
     private boolean saveable;
@@ -167,13 +166,8 @@ public class EditorContext {
         this.entityId = entityId;
     }
 
-    public Entity getEntity() {
-        return entity;
-    }
-
     public void setEntity(Entity entity) {
-        this.entity = entity;
-        this.tag = new CompoundTag();
+        tag = new CompoundTag();
         entity.saveAsPassenger(tag);
     }
 

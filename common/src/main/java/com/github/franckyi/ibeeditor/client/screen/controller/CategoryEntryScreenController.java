@@ -24,10 +24,7 @@ public abstract class CategoryEntryScreenController<M extends CategoryEntryScree
         model.getCategories().addListener(this::updateCategoryList);
         model.selectedCategoryProperty().addListener(this::updateEntryList);
         model.validProperty().addListener(this::onValidationChange);
-        view.getDoneButton().onAction(event -> {
-            model.apply();
-            Guapi.getScreenHandler().hideScene();
-        });
+        view.getDoneButton().onAction(model::applyAndClose);
         view.getCancelButton().onAction(Guapi.getScreenHandler()::hideScene);
     }
 

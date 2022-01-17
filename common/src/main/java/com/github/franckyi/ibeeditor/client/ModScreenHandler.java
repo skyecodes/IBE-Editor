@@ -2,6 +2,7 @@ package com.github.franckyi.ibeeditor.client;
 
 import com.github.franckyi.guapi.api.Guapi;
 import com.github.franckyi.guapi.api.node.Node;
+import com.github.franckyi.guapi.api.node.Scene;
 import com.github.franckyi.ibeeditor.client.screen.model.*;
 import com.github.franckyi.ibeeditor.client.screen.model.selection.ColorSelectionScreenModel;
 import com.github.franckyi.ibeeditor.client.screen.model.selection.ListSelectionScreenModel;
@@ -39,6 +40,10 @@ public final class ModScreenHandler {
     }
 
     public static void openEditor(EditorContext context) {
+        openEditor(context, false);
+    }
+
+    public static void openEditor(EditorContext context, boolean replace) {
         openScaledScreen(switch (context.getEditorType()) {
             case STANDARD -> mvc(StandardEditorMVC.INSTANCE, switch (context.getTarget()) {
                 case ITEM -> new ItemEditorModel(context);
@@ -47,12 +52,17 @@ public final class ModScreenHandler {
             });
             case NBT -> mvc(NBTEditorMVC.INSTANCE, new NBTEditorModel(context));
             case SNBT -> mvc(SNBTEditorMVC.INSTANCE, new SNBTEditorModel(context));
-        });
+        }, replace);
     }
 
     private static void openScaledScreen(Node root) {
+        openScaledScreen(root, false);
+    }
+
+    private static void openScaledScreen(Node root, boolean replace) {
+        Consumer<Scene> action = replace ? Guapi.getScreenHandler()::replaceScene : Guapi.getScreenHandler()::showScene;
         try {
-            Guapi.getScreenHandler().showScene(scene(root, true, true).show(scene -> {
+            action.accept(scene(root, true, true).show(scene -> {
                 ScreenScalingManager.get().setBaseScale(ClientConfiguration.INSTANCE.getEditorScale());
                 scene.widthProperty().addListener(ScreenScalingManager.get()::refresh);
                 scene.heightProperty().addListener(ScreenScalingManager.get()::refresh);

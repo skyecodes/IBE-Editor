@@ -25,7 +25,7 @@ public final class ClientNetworkEmitter {
     }
 
     private static <P> void send(ServerNetworkHandler<P> handler, P packet) {
-        LOGGER.debug("Sending packet {} to the server", handler);
+        LOGGER.debug("Sending packet {} to the server", handler.getLocation());
         NetworkManager.sendToServer(handler, packet);
     }
 }

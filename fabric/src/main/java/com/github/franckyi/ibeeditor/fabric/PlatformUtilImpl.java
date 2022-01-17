@@ -29,14 +29,18 @@ public class PlatformUtilImpl {
     }
 
     public static <P> void registerServerHandler(ServerNetworkHandler<P> handler) {
-        ServerPlayNetworking.registerGlobalReceiver(handler.getLocation(), (server, entity, networkHandler, buf, sender) ->
-                server.execute(() -> handler.getPacketHandler().handle(handler.getSerializer().read(buf), entity)));
+        ServerPlayNetworking.registerGlobalReceiver(handler.getLocation(), (server, entity, networkHandler, buf, sender) -> {
+            P packet = handler.getSerializer().read(buf);
+            server.execute(() -> handler.getPacketHandler().handle(packet, entity));
+        });
     }
 
     public static <P> void registerClientHandler(ClientNetworkHandler<P> handler) {
         if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
-            ClientPlayNetworking.registerGlobalReceiver(handler.getLocation(), (client, networkHandler, buf, responseSender) ->
-                    client.execute(() -> handler.getPacketHandler().handle(handler.getSerializer().read(buf))));
+            ClientPlayNetworking.registerGlobalReceiver(handler.getLocation(), (client, networkHandler, buf, responseSender) -> {
+                P packet = handler.getSerializer().read(buf);
+                client.execute(() -> handler.getPacketHandler().handle(packet));
+            });
         }
     }
 }

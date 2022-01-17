@@ -19,4 +19,9 @@ public abstract class StandardEditorModel extends CategoryEntryScreenModel<Edito
     public void apply() {
         getCategories().forEach(EditorCategoryModel::apply);
     }
+
+    @Override
+    public void applyAndClose() {
+        EditorModel.super.applyAndClose();
+    }
 }

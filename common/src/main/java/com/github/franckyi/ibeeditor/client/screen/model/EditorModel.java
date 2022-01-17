@@ -12,12 +12,16 @@ public interface EditorModel extends Model {
     boolean saveToVault();
 
     default void changeEditor(EditorContext.EditorType type) {
+        apply();
         getContext().setEditorType(type);
-        Guapi.getScreenHandler().hideScene();
-        ModScreenHandler.openEditor(getContext());
+        ModScreenHandler.openEditor(getContext(), true);
     }
 
-    default void apply() {
+    void apply();
+
+    default void applyAndClose() {
+        apply();
+        Guapi.getScreenHandler().hideScene();
         ClientNetworkEmitter.sendEditorUpdate(getContext());
     }
 }

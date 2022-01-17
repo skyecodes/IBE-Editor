@@ -71,8 +71,8 @@ public class NBTTagModel implements TreeView.TreeItem<NBTTagModel>, Model {
                 default -> setValue(tag.getAsString());
             }
         }
-        getChildren().addListener(() -> this.getRoot().setChildrenChanged(true));
-        validProperty().addListener(() -> this.getRoot().updateValidity());
+        getChildren().addListener(() -> getRoot().setChildrenChanged(true));
+        validProperty().bind(getChildren().allMatch(NBTTagModel::isValid, NBTTagModel::validProperty));
     }
 
     @Override
@@ -193,14 +193,7 @@ public class NBTTagModel implements TreeView.TreeItem<NBTTagModel>, Model {
         return null;
     }
 
-    public void updateValidity() {
-        validProperty().unbind();
-        setValid(getChildren().stream().allMatch(NBTTagModel::isValid));
-    }
-
     public NBTTagModel createClipboardTag() {
-        return canBuild()
-                ? new NBTTagModel(build(), null, getName(), getValue())
-                : new NBTTagModel(getTagType(), null, getValue());
+        return canBuild() ? new NBTTagModel(build(), null, getName(), getValue()) : new NBTTagModel(getTagType(), null, getValue());
     }
 }

@@ -2,134 +2,90 @@ package com.github.franckyi.databindings.base.factory;
 
 import com.github.franckyi.databindings.api.*;
 import com.github.franckyi.databindings.api.factory.MappingFactory;
-import com.github.franckyi.databindings.base.*;
+import com.github.franckyi.databindings.base.AbstractBindMappedObservableValue;
+import com.github.franckyi.databindings.base.AbstractListMappedObservableValue;
+import com.github.franckyi.databindings.base.AbstractSimpleMappedObservableValue;
 
-import java.util.function.BiFunction;
-import java.util.function.Function;
+import java.util.function.*;
 
 public class MappingFactoryImpl implements MappingFactory {
     public static final MappingFactory INSTANCE = new MappingFactoryImpl();
 
-    protected MappingFactoryImpl() {
+    private MappingFactoryImpl() {
     }
 
     @Override
-    public <T, X> ObservableObjectValue<X> createMapping(ObservableValue<T> thisValue, Function<T, X> mapper) {
-        return new MappedObservableObjectValue<>(thisValue, mapper, false, null);
+    public <T> ObservableObjectValue<T> createMapping(Supplier<T> supplier, ObservableValue<?>... triggers) {
+        return new AbstractSimpleMappedObservableValue.SimpleMappedObservableObjectValue<>(supplier, triggers);
     }
 
     @Override
-    public <T, X> ObservableObjectValue<X> createMapping(ObservableValue<T> thisValue, Function<T, X> mapper, X orIfNull) {
-        return new MappedObservableObjectValue<>(thisValue, mapper, true, orIfNull);
+    public ObservableStringValue createStringMapping(Supplier<String> supplier, ObservableValue<?>... triggers) {
+        return new AbstractSimpleMappedObservableValue.SimpleMappedObservableStringValue(supplier, triggers);
     }
 
     @Override
-    public <T> ObservableStringValue createStringMapping(ObservableValue<T> thisValue, Function<T, String> mapper) {
-        return new MappedObservableStringValue<>(thisValue, mapper, false, null);
+    public ObservableBooleanValue createBooleanMapping(BooleanSupplier supplier, ObservableValue<?>... triggers) {
+        return new AbstractSimpleMappedObservableValue.SimpleMappedObservableBooleanValue(supplier, triggers);
     }
 
     @Override
-    public <T> ObservableStringValue createStringMapping(ObservableValue<T> thisValue, Function<T, String> mapper, String orIfNull) {
-        return new MappedObservableStringValue<>(thisValue, mapper, true, orIfNull);
+    public ObservableIntegerValue createIntegerMapping(IntSupplier supplier, ObservableValue<?>... triggers) {
+        return new AbstractSimpleMappedObservableValue.SimpleMappedObservableIntegerValue(supplier, triggers);
     }
 
     @Override
-    public <T> ObservableBooleanValue createBooleanMapping(ObservableValue<T> thisValue, Function<T, Boolean> mapper) {
-        return new MappedObservableBooleanValue<>(thisValue, mapper, false, null);
+    public ObservableDoubleValue createDoubleMapping(DoubleSupplier supplier, ObservableValue<?>... triggers) {
+        return new AbstractSimpleMappedObservableValue.SimpleMappedObservableDoubleValue(supplier, triggers);
     }
 
     @Override
-    public <T> ObservableBooleanValue createBooleanMapping(ObservableValue<T> thisValue, Function<T, Boolean> mapper, Boolean orIfNull) {
-        return new MappedObservableBooleanValue<>(thisValue, mapper, true, orIfNull);
+    public <T> ObservableObjectValue<T> createPropertyMapping(Supplier<ObservableValue<T>> supplier, ObservableValue<?>... triggers) {
+        return new AbstractBindMappedObservableValue.BindMappedObservableObjectValue<>(supplier, triggers);
     }
 
     @Override
-    public <T> ObservableIntegerValue createIntMapping(ObservableValue<T> thisValue, Function<T, Integer> mapper) {
-        return new MappedObservableIntegerValue<>(thisValue, mapper, false, null);
+    public ObservableStringValue createStringPropertyMapping(Supplier<ObservableValue<String>> supplier, ObservableValue<?>... triggers) {
+        return new AbstractBindMappedObservableValue.BindMappedObservableStringValue(supplier, triggers);
     }
 
     @Override
-    public <T> ObservableIntegerValue createIntMapping(ObservableValue<T> thisValue, Function<T, Integer> mapper, Integer orIfNull) {
-        return new MappedObservableIntegerValue<>(thisValue, mapper, true, orIfNull);
+    public ObservableBooleanValue createBooleanPropertyMapping(Supplier<ObservableValue<Boolean>> supplier, ObservableValue<?>... triggers) {
+        return new AbstractBindMappedObservableValue.BindMappedObservableBooleanValue(supplier, triggers);
     }
 
     @Override
-    public <T> ObservableDoubleValue createDoubleMapping(ObservableValue<T> thisValue, Function<T, Double> mapper) {
-        return new MappedObservableDoubleValue<>(thisValue, mapper, false, null);
+    public ObservableIntegerValue createIntegerPropertyMapping(Supplier<ObservableValue<Integer>> supplier, ObservableValue<?>... triggers) {
+        return new AbstractBindMappedObservableValue.BindMappedObservableIntegerValue(supplier, triggers);
     }
 
     @Override
-    public <T> ObservableDoubleValue createDoubleMapping(ObservableValue<T> thisValue, Function<T, Double> mapper, Double orIfNull) {
-        return new MappedObservableDoubleValue<>(thisValue, mapper, true, orIfNull);
+    public ObservableDoubleValue createDoublePropertyMapping(Supplier<ObservableValue<Double>> supplier, ObservableValue<?>... triggers) {
+        return new AbstractBindMappedObservableValue.BindMappedObservableDoubleValue(supplier, triggers);
     }
 
     @Override
-    public <T, X> ObservableObjectValue<X> createBoundMapping(ObservableValue<T> thisValue, Function<T, ObservableValue<X>> mapper) {
-        return new BoundObservableObjectValue<>(thisValue, mapper, false, null);
+    public <E, T> ObservableObjectValue<T> createListMapping(ObservableList<E> list, Function<ObservableList<E>, T> mapper, Function<E, ObservableValue<?>> triggerFunction) {
+        return new AbstractListMappedObservableValue.ListMappedObservableObjectValue<>(list, mapper, triggerFunction);
     }
 
     @Override
-    public <T, X> ObservableObjectValue<X> createBoundMapping(ObservableValue<T> thisValue, Function<T, ObservableValue<X>> mapper, X orIfNull) {
-        return new BoundObservableObjectValue<>(thisValue, mapper, true, orIfNull);
+    public <E> ObservableStringValue createListStringMapping(ObservableList<E> list, Function<ObservableList<E>, String> mapper, Function<E, ObservableValue<?>> triggerFunction) {
+        return new AbstractListMappedObservableValue.ListMappedObservableStringValue<>(list, mapper, triggerFunction);
     }
 
     @Override
-    public <T> ObservableStringValue createStringBoundMapping(ObservableValue<T> thisValue, Function<T, ObservableValue<String>> mapper) {
-        return new BoundObservableStringValue<>(thisValue, mapper, false, null);
+    public <E> ObservableBooleanValue createListBooleanMapping(ObservableList<E> list, Predicate<ObservableList<E>> mapper, Function<E, ObservableValue<?>> triggerFunction) {
+        return new AbstractListMappedObservableValue.ListMappedObservableBooleanValue<>(list, mapper, triggerFunction);
     }
 
     @Override
-    public <T> ObservableStringValue createStringBoundMapping(ObservableValue<T> thisValue, Function<T, ObservableValue<String>> mapper, String orIfNull) {
-        return new BoundObservableStringValue<>(thisValue, mapper, true, orIfNull);
+    public <E> ObservableIntegerValue createListIntegerMapping(ObservableList<E> list, ToIntFunction<ObservableList<E>> mapper, Function<E, ObservableValue<?>> triggerFunction) {
+        return new AbstractListMappedObservableValue.ListMappedObservableIntegerValue<>(list, mapper, triggerFunction);
     }
 
     @Override
-    public <T> ObservableBooleanValue createBooleanBoundMapping(ObservableValue<T> thisValue, Function<T, ObservableValue<Boolean>> mapper) {
-        return new BoundObservableBooleanValue<>(thisValue, mapper, false, null);
-    }
-
-    @Override
-    public <T> ObservableBooleanValue createBooleanBoundMapping(ObservableValue<T> thisValue, Function<T, ObservableValue<Boolean>> mapper, Boolean orIfNull) {
-        return new BoundObservableBooleanValue<>(thisValue, mapper, true, orIfNull);
-    }
-
-    @Override
-    public <T> ObservableIntegerValue createIntBoundMapping(ObservableValue<T> thisValue, Function<T, ObservableValue<Integer>> mapper) {
-        return new BoundObservableIntegerValue<>(thisValue, mapper, false, null);
-    }
-
-    @Override
-    public <T> ObservableIntegerValue createIntBoundMapping(ObservableValue<T> thisValue, Function<T, ObservableValue<Integer>> mapper, Integer orIfNull) {
-        return new BoundObservableIntegerValue<>(thisValue, mapper, true, orIfNull);
-    }
-
-    @Override
-    public <T> ObservableDoubleValue createDoubleBoundMapping(ObservableValue<T> thisValue, Function<T, ObservableValue<Double>> mapper) {
-        return new BoundObservableDoubleValue<>(thisValue, mapper, true, null);
-    }
-
-    @Override
-    public <T> ObservableDoubleValue createDoubleBoundMapping(ObservableValue<T> thisValue, Function<T, ObservableValue<Double>> mapper, Double orIfNull) {
-        return new BoundObservableDoubleValue<>(thisValue, mapper, true, orIfNull);
-    }
-
-    @Override
-    public <T, X> ObservableStringValue createStringBiMapping(ObservableValue<T> thisValue, ObservableValue<X> otherValue, BiFunction<T, X, String> mapper) {
-        return new BiMappedObservableStringValue<>(thisValue, otherValue, mapper);
-    }
-
-    @Override
-    public <T, X> ObservableBooleanValue createBooleanBiMapping(ObservableValue<T> thisValue, ObservableValue<X> otherValue, BiFunction<T, X, Boolean> mapper) {
-        return new BiMappedObservableBooleanValue<>(thisValue, otherValue, mapper);
-    }
-
-    @Override
-    public <T, X> ObservableIntegerValue createIntBiMapping(ObservableValue<T> thisValue, ObservableValue<X> otherValue, BiFunction<T, X, Integer> mapper) {
-        return new BiMappedObservableIntegerValue<>(thisValue, otherValue, mapper);
-    }
-
-    @Override
-    public <T, X> ObservableDoubleValue createDoubleBiMapping(ObservableValue<T> thisValue, ObservableValue<X> otherValue, BiFunction<T, X, Double> mapper) {
-        return new BiMappedObservableDoubleValue<>(thisValue, otherValue, mapper);
+    public <E> ObservableDoubleValue createListDoubleMapping(ObservableList<E> list, ToDoubleFunction<ObservableList<E>> mapper, Function<E, ObservableValue<?>> triggerFunction) {
+        return new AbstractListMappedObservableValue.ListMappedObservableDoubleValue<>(list, mapper, triggerFunction);
     }
 }

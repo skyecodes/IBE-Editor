@@ -31,7 +31,7 @@ public final class ClientEventHandler {
         var ctx = EditorContext.fromKeybind();
         ctx.setTrigger(EditorContext.Trigger.KEYBIND_WORLD);
         ctx.setEditorType(editorType);
-        ClientEditorRequestLogic.requestWorldEditor(ctx);
+        ClientEditorLogic.requestWorldEditor(ctx);
     }
 
     public static boolean onScreenEvent(AbstractContainerScreen<?> screen, int keyCode) {
@@ -55,6 +55,6 @@ public final class ClientEventHandler {
         ctx.setTarget(EditorContext.Target.ITEM);
         ctx.setTrigger(EditorContext.Trigger.KEYBIND_INVENTORY);
         ctx.setEditorType(editorType);
-        return ClientEditorRequestLogic.requestInventoryItemEditor(ctx, screen);
+        return ClientEditorLogic.requestInventoryItemEditor(ctx, screen);
     }
 }

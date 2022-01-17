@@ -2,9 +2,8 @@ package com.github.franckyi.databindings.base.factory;
 
 import com.github.franckyi.databindings.api.*;
 import com.github.franckyi.databindings.api.factory.PropertyFactory;
-import com.github.franckyi.databindings.base.*;
-
-import java.util.function.Supplier;
+import com.github.franckyi.databindings.base.AbstractProperty;
+import com.github.franckyi.databindings.base.AbstractReadOnlyProperty;
 
 public class PropertyFactoryImpl implements PropertyFactory {
     public static final PropertyFactory INSTANCE = new PropertyFactoryImpl();
@@ -14,81 +13,76 @@ public class PropertyFactoryImpl implements PropertyFactory {
 
     @Override
     public <T> ObjectProperty<T> createObjectProperty() {
-        return new SimpleObjectProperty<>();
+        return new AbstractProperty.SimpleObjectProperty<>();
     }
 
     @Override
     public <T> ObjectProperty<T> createObjectProperty(T value) {
-        return new SimpleObjectProperty<>(value);
+        return new AbstractProperty.SimpleObjectProperty<>(value);
     }
 
     @Override
     public StringProperty createStringProperty() {
-        return new SimpleStringProperty();
+        return new AbstractProperty.SimpleStringProperty();
     }
 
     @Override
     public StringProperty createStringProperty(String value) {
-        return new SimpleStringProperty(value);
+        return new AbstractProperty.SimpleStringProperty(value);
     }
 
     @Override
     public BooleanProperty createBooleanProperty() {
-        return new SimpleBooleanProperty();
+        return new AbstractProperty.SimpleBooleanProperty();
     }
 
     @Override
     public BooleanProperty createBooleanProperty(boolean value) {
-        return new SimpleBooleanProperty(value);
+        return new AbstractProperty.SimpleBooleanProperty(value);
     }
 
     @Override
     public IntegerProperty createIntegerProperty() {
-        return new SimpleIntegerProperty();
+        return new AbstractProperty.SimpleIntegerProperty();
     }
 
     @Override
     public IntegerProperty createIntegerProperty(int value) {
-        return new SimpleIntegerProperty(value);
+        return new AbstractProperty.SimpleIntegerProperty(value);
     }
 
     @Override
     public DoubleProperty createDoubleProperty() {
-        return new SimpleDoubleProperty();
+        return new AbstractProperty.SimpleDoubleProperty();
     }
 
     @Override
     public DoubleProperty createDoubleProperty(double value) {
-        return new SimpleDoubleProperty(value);
+        return new AbstractProperty.SimpleDoubleProperty(value);
     }
 
     @Override
     public <T> ObservableObjectValue<T> createReadOnlyProperty(ObjectProperty<T> property) {
-        return new ReadOnlyObjectProperty<>(property);
+        return new AbstractReadOnlyProperty.ReadOnlyObjectProperty<>(property);
     }
 
     @Override
     public ObservableStringValue createReadOnlyProperty(StringProperty property) {
-        return new ReadOnlyStringProperty(property);
+        return new AbstractReadOnlyProperty.ReadOnlyStringProperty(property);
     }
 
     @Override
     public ObservableBooleanValue createReadOnlyProperty(BooleanProperty property) {
-        return new ReadOnlyBooleanProperty(property);
+        return new AbstractReadOnlyProperty.ReadOnlyBooleanProperty(property);
     }
 
     @Override
     public ObservableIntegerValue createReadOnlyProperty(IntegerProperty property) {
-        return new ReadOnlyIntegerProperty(property);
+        return new AbstractReadOnlyProperty.ReadOnlyIntegerProperty(property);
     }
 
     @Override
     public ObservableDoubleValue createReadOnlyProperty(DoubleProperty property) {
-        return new ReadOnlyDoubleProperty(property);
-    }
-
-    @Override
-    public <T> ObservableValue<T> createObservedProperty(Supplier<T> valueSupplier, ObservableValue<?>... triggers) {
-        return new ObservedProperty<>(valueSupplier, triggers);
+        return new AbstractReadOnlyProperty.ReadOnlyDoubleProperty(property);
     }
 }

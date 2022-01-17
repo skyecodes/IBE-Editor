@@ -20,23 +20,23 @@ public final class ClientNetworkReceiver {
     public static void onEditorCommand(EditorContext context) {
         log(NetworkManager.EDITOR_COMMAND);
         switch (context.getCommandTarget()) {
-            case WORLD -> ClientEditorRequestLogic.requestWorldEditor(context);
+            case WORLD -> ClientEditorLogic.requestWorldEditor(context);
             case ITEM -> {
-                if (!ClientEditorRequestLogic.requestMainHandItemEditor(context)) {
+                if (!ClientEditorLogic.requestMainHandItemEditor(context)) {
                     ClientUtil.showMessage(ModTexts.Messages.errorNoTargetFound(ModTexts.ITEM));
                 }
             }
             case BLOCK -> {
-                if (!ClientEditorRequestLogic.requestBlockEditor(context)) {
+                if (!ClientEditorLogic.requestBlockEditor(context)) {
                     ClientUtil.showMessage(ModTexts.Messages.errorNoTargetFound(ModTexts.BLOCK));
                 }
             }
             case ENTITY -> {
-                if (!ClientEditorRequestLogic.requestEntityEditor(context)) {
+                if (!ClientEditorLogic.requestEntityEditor(context)) {
                     ClientUtil.showMessage(ModTexts.Messages.errorNoTargetFound(ModTexts.ENTITY));
                 }
             }
-            case SELF -> ClientEditorRequestLogic.requestSelfEditor(context);
+            case SELF -> ClientEditorLogic.requestSelfEditor(context);
         }
     }
 

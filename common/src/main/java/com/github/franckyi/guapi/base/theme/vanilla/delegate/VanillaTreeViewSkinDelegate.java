@@ -13,7 +13,7 @@ public class VanillaTreeViewSkinDelegate<E extends TreeView.TreeItem<E>> extends
         super(node);
         node.rootItemProperty().addListener(this::shouldRefreshList);
         node.showRootProperty().addListener(this::shouldRefreshList);
-        node.rootItemProperty().bindMapToBoolean(TreeView.TreeItem::childrenChangedProperty, false).addListener(newVal -> {
+        node.rootItemProperty().mapToObservableBoolean(TreeView.TreeItem::childrenChangedProperty, false).addListener(newVal -> {
             if (newVal) {
                 shouldRefreshList();
                 node.getRoot().setChildrenChanged(false);

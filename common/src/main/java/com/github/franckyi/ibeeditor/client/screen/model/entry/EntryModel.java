@@ -13,7 +13,6 @@ public abstract class EntryModel implements Model {
 
     protected EntryModel(CategoryModel category) {
         this.category = category;
-        validProperty().addListener(() -> getCategory().updateValidity());
     }
 
     public CategoryModel getCategory() {

@@ -2,8 +2,7 @@ package com.github.franckyi.databindings.api.factory;
 
 import com.github.franckyi.databindings.api.*;
 
-import java.util.function.BiFunction;
-import java.util.function.Function;
+import java.util.function.*;
 
 /**
  * Factory for {@link ObservableValue} mappings.
@@ -11,51 +10,33 @@ import java.util.function.Function;
  * @see DataBindings#getMappingFactory()
  */
 public interface MappingFactory {
-    <T, X> ObservableObjectValue<X> createMapping(ObservableValue<T> thisValue, Function<T, X> mapper);
+    <T> ObservableObjectValue<T> createMapping(Supplier<T> supplier, ObservableValue<?>... triggers);
 
-    <T, X> ObservableObjectValue<X> createMapping(ObservableValue<T> thisValue, Function<T, X> mapper, X orIfNull);
+    ObservableStringValue createStringMapping(Supplier<String> supplier, ObservableValue<?>... triggers);
 
-    <T> ObservableStringValue createStringMapping(ObservableValue<T> thisValue, Function<T, String> mapper);
+    ObservableBooleanValue createBooleanMapping(BooleanSupplier supplier, ObservableValue<?>... triggers);
 
-    <T> ObservableStringValue createStringMapping(ObservableValue<T> thisValue, Function<T, String> mapper, String orIfNull);
+    ObservableIntegerValue createIntegerMapping(IntSupplier supplier, ObservableValue<?>... triggers);
 
-    <T> ObservableBooleanValue createBooleanMapping(ObservableValue<T> thisValue, Function<T, Boolean> mapper);
+    ObservableDoubleValue createDoubleMapping(DoubleSupplier supplier, ObservableValue<?>... triggers);
 
-    <T> ObservableBooleanValue createBooleanMapping(ObservableValue<T> thisValue, Function<T, Boolean> mapper, Boolean orIfNull);
+    <T> ObservableObjectValue<T> createPropertyMapping(Supplier<ObservableValue<T>> supplier, ObservableValue<?>... triggers);
 
-    <T> ObservableIntegerValue createIntMapping(ObservableValue<T> thisValue, Function<T, Integer> mapper);
+    ObservableStringValue createStringPropertyMapping(Supplier<ObservableValue<String>> supplier, ObservableValue<?>... triggers);
 
-    <T> ObservableIntegerValue createIntMapping(ObservableValue<T> thisValue, Function<T, Integer> mapper, Integer orIfNull);
+    ObservableBooleanValue createBooleanPropertyMapping(Supplier<ObservableValue<Boolean>> supplier, ObservableValue<?>... triggers);
 
-    <T> ObservableDoubleValue createDoubleMapping(ObservableValue<T> thisValue, Function<T, Double> mapper);
+    ObservableIntegerValue createIntegerPropertyMapping(Supplier<ObservableValue<Integer>> supplier, ObservableValue<?>... triggers);
 
-    <T> ObservableDoubleValue createDoubleMapping(ObservableValue<T> thisValue, Function<T, Double> mapper, Double orIfNull);
+    ObservableDoubleValue createDoublePropertyMapping(Supplier<ObservableValue<Double>> supplier, ObservableValue<?>... triggers);
 
-    <T, X> ObservableObjectValue<X> createBoundMapping(ObservableValue<T> thisValue, Function<T, ObservableValue<X>> mapper);
+    <E, T> ObservableObjectValue<T> createListMapping(ObservableList<E> list, Function<ObservableList<E>, T> mapper, Function<E, ObservableValue<?>> triggerFunction);
 
-    <T, X> ObservableObjectValue<X> createBoundMapping(ObservableValue<T> thisValue, Function<T, ObservableValue<X>> mapper, X orIfNull);
+    <E> ObservableStringValue createListStringMapping(ObservableList<E> list, Function<ObservableList<E>, String> mapper, Function<E, ObservableValue<?>> triggerFunction);
 
-    <T> ObservableStringValue createStringBoundMapping(ObservableValue<T> thisValue, Function<T, ObservableValue<String>> mapper);
+    <E> ObservableBooleanValue createListBooleanMapping(ObservableList<E> list, Predicate<ObservableList<E>> mapper, Function<E, ObservableValue<?>> triggerFunction);
 
-    <T> ObservableStringValue createStringBoundMapping(ObservableValue<T> thisValue, Function<T, ObservableValue<String>> mapper, String orIfNull);
+    <E> ObservableIntegerValue createListIntegerMapping(ObservableList<E> list, ToIntFunction<ObservableList<E>> mapper, Function<E, ObservableValue<?>> triggerFunction);
 
-    <T> ObservableBooleanValue createBooleanBoundMapping(ObservableValue<T> thisValue, Function<T, ObservableValue<Boolean>> mapper);
-
-    <T> ObservableBooleanValue createBooleanBoundMapping(ObservableValue<T> thisValue, Function<T, ObservableValue<Boolean>> mapper, Boolean orIfNull);
-
-    <T> ObservableIntegerValue createIntBoundMapping(ObservableValue<T> thisValue, Function<T, ObservableValue<Integer>> mapper);
-
-    <T> ObservableIntegerValue createIntBoundMapping(ObservableValue<T> thisValue, Function<T, ObservableValue<Integer>> mapper, Integer orIfNull);
-
-    <T> ObservableDoubleValue createDoubleBoundMapping(ObservableValue<T> thisValue, Function<T, ObservableValue<Double>> mapper);
-
-    <T> ObservableDoubleValue createDoubleBoundMapping(ObservableValue<T> thisValue, Function<T, ObservableValue<Double>> mapper, Double orIfNull);
-
-    <T, X> ObservableStringValue createStringBiMapping(ObservableValue<T> thisValue, ObservableValue<X> otherValue, BiFunction<T, X, String> mapper);
-
-    <T, X> ObservableBooleanValue createBooleanBiMapping(ObservableValue<T> thisValue, ObservableValue<X> otherValue, BiFunction<T, X, Boolean> mapper);
-
-    <T, X> ObservableIntegerValue createIntBiMapping(ObservableValue<T> thisValue, ObservableValue<X> otherValue, BiFunction<T, X, Integer> mapper);
-
-    <T, X> ObservableDoubleValue createDoubleBiMapping(ObservableValue<T> thisValue, ObservableValue<X> otherValue, BiFunction<T, X, Double> mapper);
+    <E> ObservableDoubleValue createListDoubleMapping(ObservableList<E> list, ToDoubleFunction<ObservableList<E>> mapper, Function<E, ObservableValue<?>> triggerFunction);
 }

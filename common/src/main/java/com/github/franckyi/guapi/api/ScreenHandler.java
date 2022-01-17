@@ -6,6 +6,8 @@ import net.minecraft.client.gui.screens.Screen;
 public interface ScreenHandler {
     void showScene(Scene scene);
 
+    void replaceScene(Scene scene);
+
     void hideScene();
 
     Screen getGuapiScreen();

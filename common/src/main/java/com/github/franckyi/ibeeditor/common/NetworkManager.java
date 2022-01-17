@@ -17,6 +17,8 @@ public final class NetworkManager {
     public static final ServerNetworkHandler<EditorContext> EDITOR_UPDATE = new ServerNetworkHandler<>(EditorContext.class, "ibeeditor:network/editor_update", EditorContextSerializer.INSTANCE, ServerNetworkReceiver::onEditorUpdate);
 
     public static void setup() {
+        PlatformUtil.registerClientHandler(SERVER_NOTIFICATION);
+        PlatformUtil.registerServerHandler(CLIENT_NOTIFICATION);
         PlatformUtil.registerClientHandler(EDITOR_COMMAND);
         PlatformUtil.registerServerHandler(EDITOR_REQUEST);
         PlatformUtil.registerClientHandler(EDITOR_RESPONSE);

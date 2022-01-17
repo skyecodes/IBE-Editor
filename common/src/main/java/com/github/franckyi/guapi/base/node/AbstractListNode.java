@@ -26,8 +26,8 @@ public abstract class AbstractListNode<E> extends AbstractNode implements ListNo
         heightProperty().addListener(this::shouldComputeSize);
         baseXProperty().bind(xProperty());
         baseYProperty().bind(yProperty());
-        fullWidthProperty().bind(sceneProperty().bindMap(Scene::widthProperty, getWidth()));
-        fullHeightProperty().bind(sceneProperty().bindMap(Scene::heightProperty, getHeight()));
+        fullWidthProperty().bind(sceneProperty().mapToObservable(Scene::widthProperty, getWidth()));
+        fullHeightProperty().bind(sceneProperty().mapToObservable(Scene::heightProperty, getHeight()));
     }
 
     @Override

@@ -2,8 +2,6 @@ package com.github.franckyi.databindings.api.factory;
 
 import com.github.franckyi.databindings.api.*;
 
-import java.util.function.Supplier;
-
 /**
  * Factory for {@link Property}s.
  *
@@ -39,6 +37,4 @@ public interface PropertyFactory {
     ObservableIntegerValue createReadOnlyProperty(IntegerProperty property);
 
     ObservableDoubleValue createReadOnlyProperty(DoubleProperty property);
-
-    <T> ObservableValue<T> createObservedProperty(Supplier<T> valueSupplier, ObservableValue<?>... triggers);
 }

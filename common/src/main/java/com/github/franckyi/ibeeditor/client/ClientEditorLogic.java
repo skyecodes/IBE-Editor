@@ -22,7 +22,7 @@ import net.minecraft.world.phys.HitResult;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public final class ClientEditorRequestLogic {
+public final class ClientEditorLogic {
     private static final Logger LOGGER = LogManager.getLogger();
 
     public static void requestWorldEditor(EditorContext ctx) {
@@ -185,6 +185,10 @@ public final class ClientEditorRequestLogic {
         }
     }*/
 
+
+    public static void update(EditorContext ctx) {
+        ClientNetworkEmitter.sendEditorUpdate(ctx);
+    }
 
     private static LocalPlayer player() {
         return Minecraft.getInstance().player;

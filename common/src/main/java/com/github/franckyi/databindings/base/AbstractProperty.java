@@ -1,7 +1,6 @@
 package com.github.franckyi.databindings.base;
 
-import com.github.franckyi.databindings.api.ObservableValue;
-import com.github.franckyi.databindings.api.Property;
+import com.github.franckyi.databindings.api.*;
 import com.github.franckyi.databindings.api.event.ObservableValueChangeListener;
 
 import java.util.List;
@@ -91,5 +90,53 @@ public abstract class AbstractProperty<T> implements Property<T> {
     @Override
     public String toString() {
         return String.valueOf(value);
+    }
+
+    public static class SimpleObjectProperty<T> extends AbstractProperty<T> implements ObjectProperty<T> {
+        public SimpleObjectProperty() {
+        }
+
+        public SimpleObjectProperty(T value) {
+            super(value);
+        }
+    }
+
+    public static class SimpleStringProperty extends AbstractProperty<String> implements StringProperty {
+        public SimpleStringProperty() {
+        }
+
+        public SimpleStringProperty(String value) {
+            super(value);
+        }
+    }
+
+    public static class SimpleBooleanProperty extends AbstractProperty<Boolean> implements BooleanProperty {
+        public SimpleBooleanProperty() {
+            this(false);
+        }
+
+        public SimpleBooleanProperty(boolean value) {
+            super(value);
+        }
+    }
+
+    public static class SimpleIntegerProperty extends AbstractProperty<Integer> implements IntegerProperty {
+        public SimpleIntegerProperty() {
+            this(0);
+        }
+
+        public SimpleIntegerProperty(int value) {
+            super(value);
+        }
+    }
+
+    public static class SimpleDoubleProperty extends AbstractProperty<Double> implements DoubleProperty {
+        public SimpleDoubleProperty() {
+            this(0);
+        }
+
+        public SimpleDoubleProperty(double value) {
+            super(value);
+        }
     }
 }

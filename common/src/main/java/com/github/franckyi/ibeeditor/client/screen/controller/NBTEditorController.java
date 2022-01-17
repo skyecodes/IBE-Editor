@@ -27,11 +27,8 @@ public class NBTEditorController extends AbstractController<NBTEditorModel, NBTE
         view.addOpenSNBTEditorButton(() -> model.changeEditor(EditorContext.EditorType.SNBT));
         view.getTagTree().rootItemProperty().bind(model.rootTagProperty());
         //if (model.canSave()) {
-        view.getDoneButton().disableProperty().bind(model.rootTagProperty().bindMapToBoolean(NBTTagModel::validProperty).not());
-        view.getDoneButton().onAction(event -> {
-            model.apply();
-            Guapi.getScreenHandler().hideScene();
-        });
+        view.getDoneButton().disableProperty().bind(model.rootTagProperty().mapToObservableBoolean(NBTTagModel::validProperty).not());
+        view.getDoneButton().onAction(model::applyAndClose);
         /*} else {
             view.getDoneButton().setDisable(true);
             view.getDoneButton().getTooltip().add(model.getDisabledTooltip());

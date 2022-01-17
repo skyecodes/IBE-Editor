@@ -20,7 +20,6 @@ public class EnchantmentEntryController extends SelectionEntryController<Enchant
             if (view.getLevelField().isValid()) {
                 int level = Integer.parseInt(value);
                 model.setLevel(level);
-                model.setValid(true);
                 view.getPlusButton().setDisable(level == 255);
                 view.getMinusButton().setDisable(level == 0);
             } else {
@@ -30,5 +29,6 @@ public class EnchantmentEntryController extends SelectionEntryController<Enchant
         });
         view.getLevelField().setText(Integer.toString(model.getLevel()));
         model.levelProperty().addListener(value -> view.getLevelField().setText(Integer.toString(value)));
+        model.validProperty().bind(view.getLevelField().validProperty());
     }
 }

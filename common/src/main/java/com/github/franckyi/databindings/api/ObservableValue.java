@@ -5,10 +5,7 @@ import com.github.franckyi.databindings.api.factory.MappingFactory;
 import com.github.franckyi.databindings.api.factory.PropertyFactory;
 
 import java.util.Objects;
-import java.util.function.BiFunction;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Supplier;
+import java.util.function.*;
 
 /**
  * An ObservableValue is a read-only wrapper of an {@link Object} that can be used to track the changes of this object
@@ -20,12 +17,13 @@ import java.util.function.Supplier;
  *
  * @param <T> The type of the value that is observed
  */
-public interface ObservableValue<T> {
+public interface ObservableValue<T> extends Supplier<T> {
     /**
      * Gets the value. It is preferable to use the {@code getValue} if available instead.
      *
      * @return The value
      */
+    @Override
     T get();
 
     /**
@@ -53,7 +51,7 @@ public interface ObservableValue<T> {
     /**
      * Adds a listener to this {@link ObservableValue} that will be triggered everytime the value is changed.
      * The parameter is wrapped into an {@link ObservableValueChangeListener} which is returned by this method.
-     * The parameter will simply be ran just like any other listener.
+     * The parameter will simply be run just like any other listener.
      *
      * @param listener The listener to add
      * @return The actual listener that was added
@@ -80,20 +78,22 @@ public interface ObservableValue<T> {
      * @return The unmodifiable {@link ObservableValue}
      */
     static <T> ObservableValue<T> unmodifiable(T value) {
-        return new ObservableValue<>() {
+        return new Unmodifiable<>() {
             @Override
             public T get() {
                 return value;
             }
-
-            @Override
-            public void addListener(ObservableValueChangeListener<? super T> listener) {
-            }
-
-            @Override
-            public void removeListener(ObservableValueChangeListener<? super T> listener) {
-            }
         };
+    }
+
+    abstract class Unmodifiable<T> implements ObservableValue<T> {
+        @Override
+        public void addListener(ObservableValueChangeListener<? super T> listener) {
+        }
+
+        @Override
+        public void removeListener(ObservableValueChangeListener<? super T> listener) {
+        }
     }
 
     /**
@@ -105,117 +105,135 @@ public interface ObservableValue<T> {
      * @return The {@link ObservableValue}
      */
     static <T> ObservableValue<T> observe(Supplier<T> valueSupplier, ObservableValue<?>... triggers) {
-        return DataBindings.getPropertyFactory().createObservedProperty(valueSupplier, triggers);
+        return DataBindings.getMappingFactory().createMapping(valueSupplier, triggers);
     }
 
     default <X> ObservableObjectValue<X> map(Function<T, X> mapper) {
-        return DataBindings.getMappingFactory().createMapping(this, mapper);
+        return ObservableObjectValue.observe(() -> mapper.apply(get()), this);
     }
 
     default <X> ObservableObjectValue<X> map(Function<T, X> mapper, X orIfNull) {
-        return DataBindings.getMappingFactory().createMapping(this, mapper, orIfNull);
+        return ObservableObjectValue.observe(() -> get() == null ? orIfNull : mapper.apply(get()), this);
     }
 
     default ObservableStringValue mapToString(Function<T, String> mapper) {
-        return DataBindings.getMappingFactory().createStringMapping(this, mapper);
+        return ObservableStringValue.observe(() -> mapper.apply(get()), this);
     }
 
     default ObservableStringValue mapToString(Function<T, String> mapper, String orIfNull) {
-        return DataBindings.getMappingFactory().createStringMapping(this, mapper, orIfNull);
+        return ObservableStringValue.observe(() -> get() == null ? orIfNull : mapper.apply(get()), this);
     }
 
-    default ObservableBooleanValue mapToBoolean(Function<T, Boolean> mapper) {
-        return DataBindings.getMappingFactory().createBooleanMapping(this, mapper);
+    default ObservableBooleanValue mapToBoolean(Predicate<T> mapper) {
+        return ObservableBooleanValue.observe(() -> mapper.test(get()), this);
     }
 
-    default ObservableBooleanValue mapToBoolean(Function<T, Boolean> mapper, boolean orIfNull) {
-        return DataBindings.getMappingFactory().createBooleanMapping(this, mapper, orIfNull);
+    default ObservableBooleanValue mapToBoolean(Predicate<T> mapper, boolean orIfNull) {
+        return ObservableBooleanValue.observe(() -> get() == null ? orIfNull : mapper.test(get()), this);
     }
 
-    default ObservableIntegerValue mapToInt(Function<T, Integer> mapper) {
-        return DataBindings.getMappingFactory().createIntMapping(this, mapper);
+    default ObservableIntegerValue mapToInt(ToIntFunction<T> mapper) {
+        return ObservableIntegerValue.observe(() -> mapper.applyAsInt(get()), this);
     }
 
-    default ObservableIntegerValue mapToInt(Function<T, Integer> mapper, int orIfNull) {
-        return DataBindings.getMappingFactory().createIntMapping(this, mapper, orIfNull);
+    default ObservableIntegerValue mapToInt(ToIntFunction<T> mapper, int orIfNull) {
+        return ObservableIntegerValue.observe(() -> get() == null ? orIfNull : mapper.applyAsInt(get()), this);
     }
 
-    default ObservableDoubleValue mapToDouble(Function<T, Double> mapper) {
-        return DataBindings.getMappingFactory().createDoubleMapping(this, mapper);
+    default ObservableDoubleValue mapToDouble(ToDoubleFunction<T> mapper) {
+        return ObservableDoubleValue.observe(() -> mapper.applyAsDouble(get()), this);
     }
 
-    default ObservableDoubleValue mapToDouble(Function<T, Double> mapper, double orIfNull) {
-        return DataBindings.getMappingFactory().createDoubleMapping(this, mapper, orIfNull);
+    default ObservableDoubleValue mapToDouble(ToDoubleFunction<T> mapper, double orIfNull) {
+        return ObservableDoubleValue.observe(() -> get() == null ? orIfNull : mapper.applyAsDouble(get()), this);
     }
 
-    default <X> ObservableObjectValue<X> bindMap(Function<T, ObservableValue<X>> mapper) {
-        return DataBindings.getMappingFactory().createBoundMapping(this, mapper);
+    default <X> ObservableObjectValue<X> mapToObservable(Function<T, ObservableValue<X>> mapper, X orIfNull) {
+        return mapToObservable(mapper, ObservableValue.unmodifiable(orIfNull));
     }
 
-    default <X> ObservableObjectValue<X> bindMap(Function<T, ObservableValue<X>> mapper, X orIfNull) {
-        return DataBindings.getMappingFactory().createBoundMapping(this, mapper, orIfNull);
+    default <X> ObservableObjectValue<X> mapToObservable(Function<T, ObservableValue<X>> mapper, ObservableValue<X> orIfNull) {
+        return mapToObservable(t -> t == null ? orIfNull : mapper.apply(t));
     }
 
-    default ObservableStringValue bindMapToString(Function<T, ObservableValue<String>> mapper) {
-        return DataBindings.getMappingFactory().createStringBoundMapping(this, mapper);
+    default <X> ObservableObjectValue<X> mapToObservable(Function<T, ObservableValue<X>> mapper) {
+        return DataBindings.getMappingFactory().createPropertyMapping(() -> mapper.apply(get()), this);
     }
 
-    default ObservableStringValue bindMapToString(Function<T, ObservableValue<String>> mapper, String orIfNull) {
-        return DataBindings.getMappingFactory().createStringBoundMapping(this, mapper, orIfNull);
+    default ObservableStringValue mapToObservableString(Function<T, ObservableValue<String>> mapper, String orIfNull) {
+        return mapToObservableString(mapper, ObservableStringValue.unmodifiable(orIfNull));
     }
 
-    default ObservableBooleanValue bindMapToBoolean(Function<T, ObservableValue<Boolean>> mapper) {
-        return DataBindings.getMappingFactory().createBooleanBoundMapping(this, mapper);
+    default ObservableStringValue mapToObservableString(Function<T, ObservableValue<String>> mapper, ObservableValue<String> orIfNull) {
+        return mapToObservableString(t -> t == null ? orIfNull : mapper.apply(t));
     }
 
-    default ObservableBooleanValue bindMapToBoolean(Function<T, ObservableValue<Boolean>> mapper, boolean orIfNull) {
-        return DataBindings.getMappingFactory().createBooleanBoundMapping(this, mapper, orIfNull);
+    default ObservableStringValue mapToObservableString(Function<T, ObservableValue<String>> mapper) {
+        return DataBindings.getMappingFactory().createStringPropertyMapping(() -> mapper.apply(get()), this);
     }
 
-    default ObservableIntegerValue bindMapToInt(Function<T, ObservableValue<Integer>> mapper) {
-        return DataBindings.getMappingFactory().createIntBoundMapping(this, mapper);
+    default ObservableBooleanValue mapToObservableBoolean(Function<T, ObservableValue<Boolean>> mapper, boolean orIfNull) {
+        return mapToObservableBoolean(mapper, orIfNull ? ObservableBooleanValue.TRUE : ObservableBooleanValue.FALSE);
     }
 
-    default ObservableIntegerValue bindMapToInt(Function<T, ObservableValue<Integer>> mapper, int orIfNull) {
-        return DataBindings.getMappingFactory().createIntBoundMapping(this, mapper, orIfNull);
+    default ObservableBooleanValue mapToObservableBoolean(Function<T, ObservableValue<Boolean>> mapper, ObservableValue<Boolean> orIfNull) {
+        return mapToObservableBoolean(t -> t == null ? orIfNull : mapper.apply(t));
     }
 
-    default ObservableDoubleValue bindMapToDouble(Function<T, ObservableValue<Double>> mapper) {
-        return DataBindings.getMappingFactory().createDoubleBoundMapping(this, mapper);
+    default ObservableBooleanValue mapToObservableBoolean(Function<T, ObservableValue<Boolean>> mapper) {
+        return DataBindings.getMappingFactory().createBooleanPropertyMapping(() -> mapper.apply(get()), this);
     }
 
-    default ObservableDoubleValue bindMapToDouble(Function<T, ObservableValue<Double>> mapper, double orIfNull) {
-        return DataBindings.getMappingFactory().createDoubleBoundMapping(this, mapper, orIfNull);
+    default ObservableIntegerValue mapToObservableInteger(Function<T, ObservableValue<Integer>> mapper, int orIfNull) {
+        return mapToObservableInteger(mapper, ObservableIntegerValue.unmodifiable(orIfNull));
     }
 
-    default ObservableStringValue mapToString(ObservableValue<T> other, BiFunction<T, T, String> mapper) {
-        return DataBindings.getMappingFactory().createStringBiMapping(this, other, mapper);
+    default ObservableIntegerValue mapToObservableInteger(Function<T, ObservableValue<Integer>> mapper, ObservableValue<Integer> orIfNull) {
+        return mapToObservableInteger(t -> t == null ? orIfNull : mapper.apply(t));
     }
 
-    default ObservableBooleanValue mapToBoolean(ObservableValue<T> other, BiFunction<T, T, Boolean> mapper) {
-        return DataBindings.getMappingFactory().createBooleanBiMapping(this, other, mapper);
+    default ObservableIntegerValue mapToObservableInteger(Function<T, ObservableValue<Integer>> mapper) {
+        return DataBindings.getMappingFactory().createIntegerPropertyMapping(() -> mapper.apply(get()), this);
     }
 
-    default ObservableIntegerValue mapToInt(ObservableValue<T> other, BiFunction<T, T, Integer> mapper) {
-        return DataBindings.getMappingFactory().createIntBiMapping(this, other, mapper);
+    default ObservableDoubleValue mapToObservableDouble(Function<T, ObservableValue<Double>> mapper, double orIfNull) {
+        return mapToObservableDouble(mapper, ObservableDoubleValue.unmodifiable(orIfNull));
     }
 
-    default ObservableDoubleValue mapToDouble(ObservableValue<T> other, BiFunction<T, T, Double> mapper) {
-        return DataBindings.getMappingFactory().createDoubleBiMapping(this, other, mapper);
+    default ObservableDoubleValue mapToObservableDouble(Function<T, ObservableValue<Double>> mapper, ObservableValue<Double> orIfNull) {
+        return mapToObservableDouble(t -> t == null ? orIfNull : mapper.apply(t));
+    }
+
+    default ObservableDoubleValue mapToObservableDouble(Function<T, ObservableValue<Double>> mapper) {
+        return DataBindings.getMappingFactory().createDoublePropertyMapping(() -> mapper.apply(get()), this);
     }
 
     /**
-     * @return An {@link ObservableBooleanValue} that holds whether or not this {@link ObservableValue} is null.
+     * @return An {@link ObservableBooleanValue} that holds whether this {@link ObservableValue} contains a null value.
      */
     default ObservableBooleanValue isNull() {
         return mapToBoolean(Objects::isNull);
     }
 
     /**
-     * @return An {@link ObservableBooleanValue} that holds whether or not this {@link ObservableValue} is not null.
+     * @return An {@link ObservableBooleanValue} that holds whether this {@link ObservableValue} doesn't contain a null value.
      */
     default ObservableBooleanValue notNull() {
         return mapToBoolean(Objects::nonNull);
+    }
+
+    /**
+     * @return An {@link ObservableBooleanValue} that holds whether this {@link ObservableValue} contains a reference to the value parameter.
+     */
+    default ObservableBooleanValue is(T value) {
+        return mapToBoolean(t -> t == value);
+    }
+
+    /**
+     * @return An {@link ObservableBooleanValue} that holds whether this {@link ObservableValue} contains a value that is equal to the value parameter.
+     */
+    default ObservableBooleanValue isEqual(T value) {
+        return mapToBoolean(t -> Objects.equals(t, value));
     }
 
 }

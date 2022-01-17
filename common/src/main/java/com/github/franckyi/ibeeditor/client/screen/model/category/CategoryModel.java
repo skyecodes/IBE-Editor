@@ -1,7 +1,7 @@
 package com.github.franckyi.ibeeditor.client.screen.model.category;
 
-import com.github.franckyi.databindings.api.BooleanProperty;
 import com.github.franckyi.databindings.api.ObjectProperty;
+import com.github.franckyi.databindings.api.ObservableBooleanValue;
 import com.github.franckyi.databindings.api.ObservableList;
 import com.github.franckyi.guapi.api.mvc.Model;
 import com.github.franckyi.ibeeditor.client.screen.model.CategoryEntryScreenModel;
@@ -18,29 +18,26 @@ import static com.github.franckyi.guapi.api.GuapiHelper.*;
 
 public abstract class CategoryModel implements Model {
     private final ObjectProperty<Component> nameProperty;
-    private final BooleanProperty selectedProperty = BooleanProperty.create(false);
-    private final BooleanProperty validProperty = BooleanProperty.create(true);
+    private final ObservableBooleanValue selectedProperty;
+    private final ObservableBooleanValue validProperty;
     private final ObservableList<EntryModel> entries = ObservableList.create();
     private final CategoryEntryScreenModel<?> parent;
 
     protected CategoryModel(Component name, CategoryEntryScreenModel<?> parent) {
         this.nameProperty = ObjectProperty.create(name);
         this.parent = parent;
+        this.selectedProperty = parent.selectedCategoryProperty().is(this);
+        this.validProperty = getEntries().allMatch(EntryModel::isValid, EntryModel::validProperty);
     }
 
     @Override
     public void initalize() {
         setupEntries();
-        updateValidity();
         if (hasEntryList()) {
             getEntries().add(new AddListEntryEntryModel(this, ModTexts.addListEntry(getAddListEntryButtonTooltip()).withStyle(ChatFormatting.GREEN)));
             updateEntryListIndexes();
         }
-        validProperty().addListener(getParent()::updateValidity);
-        getEntries().addListener(() -> {
-            updateValidity();
-            updateEntryListIndexes();
-        });
+        getEntries().addListener(this::updateEntryListIndexes);
     }
 
     protected abstract void setupEntries();
@@ -61,24 +58,16 @@ public abstract class CategoryModel implements Model {
         return selectedProperty().getValue();
     }
 
-    public BooleanProperty selectedProperty() {
+    public ObservableBooleanValue selectedProperty() {
         return selectedProperty;
-    }
-
-    public void setSelected(boolean value) {
-        selectedProperty().setValue(value);
     }
 
     public boolean isValid() {
         return validProperty().getValue();
     }
 
-    public BooleanProperty validProperty() {
+    public ObservableBooleanValue validProperty() {
         return validProperty;
-    }
-
-    public void setValid(boolean value) {
-        validProperty().setValue(value);
     }
 
     public CategoryEntryScreenModel<?> getParent() {
@@ -87,10 +76,6 @@ public abstract class CategoryModel implements Model {
 
     public ObservableList<EntryModel> getEntries() {
         return entries;
-    }
-
-    public void updateValidity() {
-        setValid(getEntries().stream().allMatch(EntryModel::isValid));
     }
 
     public void updateEntryListIndexes() {

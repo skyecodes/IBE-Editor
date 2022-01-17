@@ -34,7 +34,7 @@ public abstract class AbstractScene implements Scene {
     private final ObservableObjectValue<Node> focusedPropertyReadOnly = ObservableObjectValue.readOnly(focusedProperty);
     private final ObservableObjectValue<Node> hoveredPropertyReadOnly = ObservableObjectValue.readOnly(hoveredProperty);
     private final ObservableValue<Scene> sceneProperty = ObservableValue.unmodifiable(this);
-    private final ObservableValue<Boolean> disabledProperty = ObservableValue.unmodifiable(false);
+    private final ObservableBooleanValue disabledProperty = ObservableBooleanValue.FALSE;
     protected boolean shouldUpdateChildrenPos;
 
     protected AbstractScene() {
@@ -235,7 +235,7 @@ public abstract class AbstractScene implements Scene {
     }
 
     @Override
-    public ObservableValue<Boolean> disabledProperty() {
+    public ObservableBooleanValue disabledProperty() {
         return disabledProperty;
     }
 

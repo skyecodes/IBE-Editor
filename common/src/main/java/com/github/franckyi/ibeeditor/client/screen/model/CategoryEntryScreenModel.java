@@ -1,41 +1,41 @@
 package com.github.franckyi.ibeeditor.client.screen.model;
 
-import com.github.franckyi.databindings.api.BooleanProperty;
 import com.github.franckyi.databindings.api.ObjectProperty;
+import com.github.franckyi.databindings.api.ObservableBooleanValue;
 import com.github.franckyi.databindings.api.ObservableList;
 import com.github.franckyi.databindings.api.StringProperty;
+import com.github.franckyi.guapi.api.Guapi;
 import com.github.franckyi.guapi.api.mvc.Model;
 import com.github.franckyi.ibeeditor.client.screen.model.category.CategoryModel;
 import com.github.franckyi.ibeeditor.client.util.texteditor.TextEditorActionHandler;
 
 public abstract class CategoryEntryScreenModel<C extends CategoryModel> implements Model {
-    protected final BooleanProperty validProperty = BooleanProperty.create(true);
+    protected final ObservableBooleanValue validProperty;
     protected final ObservableList<C> categories = ObservableList.create();
     protected final ObjectProperty<CategoryModel> selectedCategory = ObjectProperty.create();
     protected final ObjectProperty<TextEditorActionHandler> activeTextEditorProperty = ObjectProperty.create();
     protected final StringProperty textEditorCustomColorProperty = StringProperty.create("#ffffff");
 
+    public CategoryEntryScreenModel() {
+        validProperty = getCategories().allMatch(CategoryModel::isValid, CategoryModel::validProperty);
+    }
+
     @Override
     public void initalize() {
         setupCategories();
-        selectedCategoryProperty().addListener((oldVal, newVal) -> {
-            if (oldVal != null) {
-                oldVal.setSelected(false);
-            }
-            if (newVal != null) {
-                newVal.setSelected(true);
-            }
-        });
         if (getCategories().size() > 0) {
             setSelectedCategory(getCategories().get(0));
-            updateValidity();
         }
-        getCategories().addListener(this::updateValidity);
     }
 
     protected abstract void setupCategories();
 
     public abstract void apply();
+
+    public void applyAndClose() {
+        apply();
+        Guapi.getScreenHandler().hideScene();
+    }
 
     public ObservableList<C> getCategories() {
         return categories;
@@ -57,12 +57,8 @@ public abstract class CategoryEntryScreenModel<C extends CategoryModel> implemen
         return validProperty().getValue();
     }
 
-    public BooleanProperty validProperty() {
+    public ObservableBooleanValue validProperty() {
         return validProperty;
-    }
-
-    public void setValid(boolean value) {
-        validProperty().setValue(value);
     }
 
     public TextEditorActionHandler getActiveTextEditor() {
@@ -87,9 +83,5 @@ public abstract class CategoryEntryScreenModel<C extends CategoryModel> implemen
 
     public void setTextEditorCustomColor(String value) {
         textEditorCustomColor().setValue(value);
-    }
-
-    public void updateValidity() {
-        setValid(getCategories().stream().allMatch(CategoryModel::isValid));
     }
 }

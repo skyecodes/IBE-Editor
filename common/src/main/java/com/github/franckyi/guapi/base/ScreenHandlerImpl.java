@@ -56,6 +56,14 @@ public final class ScreenHandlerImpl implements ScreenHandler {
     }
 
     @Override
+    public void replaceScene(Scene scene) {
+        if (!scenes.isEmpty()) {
+            scenes.pop();
+        }
+        showScene(scene);
+    }
+
+    @Override
     public void hideScene() {
         if (!scenes.isEmpty()) {
             scenes.pop();

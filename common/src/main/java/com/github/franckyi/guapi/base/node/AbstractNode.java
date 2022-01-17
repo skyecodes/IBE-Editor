@@ -46,18 +46,11 @@ public abstract class AbstractNode implements Node {
 
     private final BooleanProperty visibleProperty = BooleanProperty.create(true);
     private final BooleanProperty disableProperty = BooleanProperty.create();
-    private final ObservableBooleanValue disabledProperty = disableProperty()
-            .or(parentProperty().bindMapToBoolean(Parent::disabledProperty, false));
+    private final ObservableBooleanValue disabledProperty = disableProperty().or(parentProperty().mapToObservableBoolean(Parent::disabledProperty, false));
 
-    private final ObservableBooleanValue rootProperty = sceneProperty()
-            .bindMap(Scene::rootProperty, null)
-            .mapToBoolean(node -> node == AbstractNode.this);
-    private final ObservableBooleanValue focusedProperty = sceneProperty()
-            .bindMap(Scene::focusedProperty, null)
-            .mapToBoolean(node -> node == AbstractNode.this);
-    private final ObservableBooleanValue hoveredProperty = sceneProperty()
-            .bindMap(Scene::hoveredProperty, null)
-            .mapToBoolean(node -> node == AbstractNode.this);
+    private final ObservableBooleanValue rootProperty = sceneProperty().mapToObservable(Scene::rootProperty, (Node) null).is(this);
+    private final ObservableBooleanValue focusedProperty = sceneProperty().mapToObservable(Scene::focusedProperty, (Node) null).is(this);
+    private final ObservableBooleanValue hoveredProperty = sceneProperty().mapToObservable(Scene::hoveredProperty, (Node) null).is(this);
 
     protected Skin<? super Node> skin;
     protected final ScreenEventHandler eventHandlerDelegate = new ScreenEventHandlerDelegate();

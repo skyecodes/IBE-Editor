@@ -13,8 +13,7 @@ public abstract class AbstractTextField extends AbstractLabeled implements TextF
     private final IntegerProperty maxLengthProperty = IntegerProperty.create(Integer.MAX_VALUE);
     private final ObjectProperty<Predicate<String>> validatorProperty = ObjectProperty.create(s -> true);
     private final BooleanProperty validationForcedProperty = BooleanProperty.create();
-    private final BooleanProperty validProperty = BooleanProperty.create();
-    private final ObservableBooleanValue validPropertyReadOnly = ObservableBooleanValue.readOnly(validProperty);
+    private final ObservableBooleanValue validProperty;
     private final ObjectProperty<TextRenderer> textRendererProperty = ObjectProperty.create();
     private final IntegerProperty cursorPositionProperty = IntegerProperty.create();
     private final IntegerProperty highlightPositionProperty = IntegerProperty.create();
@@ -38,9 +37,8 @@ public abstract class AbstractTextField extends AbstractLabeled implements TextF
 
     protected AbstractTextField(Component label, String value) {
         super(label);
+        validProperty = ObservableBooleanValue.observe(() -> getValidator().test(getText()), validatorProperty(), textProperty());
         setText(value);
-        textProperty().addListener(this::updateValid);
-        validatorProperty().addListener(this::updateValid);
         textProperty().addListener(this::updateCursorPos);
         textProperty().addListener(this::updateSuggested);
         getSuggestions().addListener(this::updateSuggested);
@@ -69,7 +67,7 @@ public abstract class AbstractTextField extends AbstractLabeled implements TextF
 
     @Override
     public ObservableBooleanValue validProperty() {
-        return validPropertyReadOnly;
+        return validProperty;
     }
 
     @Override
@@ -112,10 +110,6 @@ public abstract class AbstractTextField extends AbstractLabeled implements TextF
     @Override
     public ObjectProperty<Component> placeholderProperty() {
         return placeholderProperty;
-    }
-
-    private void updateValid() {
-        validProperty.setValue(getValidator().test(getText()));
     }
 
     private void updateCursorPos(String text) {
