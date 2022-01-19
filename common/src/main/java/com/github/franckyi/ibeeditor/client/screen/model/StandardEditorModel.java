@@ -1,18 +1,14 @@
 package com.github.franckyi.ibeeditor.client.screen.model;
 
+import com.github.franckyi.ibeeditor.client.context.EditorContext;
 import com.github.franckyi.ibeeditor.client.screen.model.category.EditorCategoryModel;
-import com.github.franckyi.ibeeditor.common.EditorContext;
+import net.minecraft.network.chat.MutableComponent;
 
 public abstract class StandardEditorModel extends CategoryEntryScreenModel<EditorCategoryModel> implements EditorModel {
-    private final EditorContext context;
+    private final EditorContext<?> context;
 
-    public StandardEditorModel(EditorContext context) {
+    public StandardEditorModel(EditorContext<?> context) {
         this.context = context;
-    }
-
-    @Override
-    public EditorContext getContext() {
-        return context;
     }
 
     @Override
@@ -21,7 +17,14 @@ public abstract class StandardEditorModel extends CategoryEntryScreenModel<Edito
     }
 
     @Override
-    public void applyAndClose() {
-        EditorModel.super.applyAndClose();
+    public void update() {
+        EditorModel.super.update();
     }
+
+    @Override
+    public EditorContext<?> getContext() {
+        return context;
+    }
+
+    public abstract MutableComponent getEditorName();
 }

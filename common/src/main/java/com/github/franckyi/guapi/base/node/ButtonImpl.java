@@ -1,7 +1,7 @@
 package com.github.franckyi.guapi.base.node;
 
+import com.github.franckyi.guapi.api.node.Button;
 import com.github.franckyi.guapi.api.node.builder.ButtonBuilder;
-import com.github.franckyi.guapi.api.util.NodeType;
 import net.minecraft.network.chat.Component;
 
 public class ButtonImpl extends AbstractButton implements ButtonBuilder {
@@ -18,8 +18,8 @@ public class ButtonImpl extends AbstractButton implements ButtonBuilder {
 
     @Override
     @SuppressWarnings("unchecked")
-    protected NodeType<?> getType() {
-        return NodeType.BUTTON;
+    protected Class<?> getType() {
+        return Button.class;
     }
 
     @Override

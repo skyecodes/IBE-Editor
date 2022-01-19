@@ -9,7 +9,7 @@ import net.minecraft.resources.ResourceLocation;
 
 public abstract class AbstractTexturedToggleButton extends AbstractTexturedButton implements TexturedToggleButton {
     private final BooleanProperty activeProperty = BooleanProperty.create();
-    private final IntegerProperty borderColorProperty = IntegerProperty.create(Color.fromRGBA(1, 1, 1, 0.8));
+    private final IntegerProperty borderColorProperty = IntegerProperty.create(Color.fromRGB(1.0, 1.0, 1.0));
 
     protected AbstractTexturedToggleButton(ResourceLocation textureId, boolean drawButton) {
         super(textureId, drawButton);

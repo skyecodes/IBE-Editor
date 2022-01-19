@@ -4,23 +4,20 @@ import com.github.franckyi.guapi.api.Guapi;
 import com.github.franckyi.guapi.api.mvc.AbstractController;
 import com.github.franckyi.ibeeditor.client.screen.model.SNBTEditorModel;
 import com.github.franckyi.ibeeditor.client.screen.view.SNBTEditorView;
-import com.github.franckyi.ibeeditor.common.EditorContext;
+import com.github.franckyi.ibeeditor.common.EditorType;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.nbt.TagParser;
 
-public class SNBTEditorController extends AbstractController<SNBTEditorModel, SNBTEditorView> {
+public class SNBTEditorController extends AbstractController<SNBTEditorModel, SNBTEditorView> implements EditorController<SNBTEditorModel, SNBTEditorView> {
     public SNBTEditorController(SNBTEditorModel model, SNBTEditorView view) {
         super(model, view);
     }
 
     @Override
     public void bind() {
-        /*if (model.canSaveToVault()) {
-            view.addSaveVaultButton();
-            model.saveToVaultProperty().bind(view.getSaveVaultButton().activeProperty());
-        }*/
-        view.addOpenEditorButton(() -> model.changeEditor(EditorContext.EditorType.STANDARD));
-        view.addOpenNBTEditorButton(() -> model.changeEditor(EditorContext.EditorType.NBT));
+        EditorController.super.bind();
+        view.addOpenEditorButton(() -> model.changeEditor(EditorType.STANDARD));
+        view.addOpenNBTEditorButton(() -> model.changeEditor(EditorType.NBT));
         view.getTextArea().textProperty().bindBidirectional(model.valueProperty());
         view.getTextArea().setValidator(s -> {
             try {
@@ -29,16 +26,7 @@ public class SNBTEditorController extends AbstractController<SNBTEditorModel, SN
                 return false;
             }
         });
-        /*if (model.canSave()) {*/
-        view.getDoneButton().disableProperty().bind(view.getTextArea().validProperty().not());
-        view.getDoneButton().onAction(event -> {
-            model.apply();
-            Guapi.getScreenHandler().hideScene();
-        });
-        /*} else {
-            view.getDoneButton().setDisable(true);
-            view.getDoneButton().getTooltip().add(model.getDisabledTooltip());
-        }*/
-        view.getCancelButton().onAction(event -> Guapi.getScreenHandler().hideScene());
+        view.getDoneButton().onAction(model::update);
+        view.getCancelButton().onAction(Guapi.getScreenHandler()::hideScene);
     }
 }

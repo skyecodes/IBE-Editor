@@ -36,10 +36,15 @@ public interface Property<T> extends ObservableValue<T> {
     void unbind();
 
     /**
-     * @return Whether or not this property is bound to another {@link ObservableValue}
+     * @return Whether this property is bound to another {@link ObservableValue}
      * or bidirectionnaly bound to another {@link Property}.
      */
     boolean isBound();
+
+    /**
+     * @return The {@link ObservableValue} that this property is bound to, or null if this property isn't bound.
+     */
+    ObservableValue<? extends T> getBoundValue();
 
     /**
      * Creates a bidirectionnal binding between this property and another property, which means that both

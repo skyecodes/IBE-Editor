@@ -1,5 +1,6 @@
 package com.github.franckyi.ibeeditor.client.screen.model.category.block;
 
+import com.github.franckyi.ibeeditor.client.context.BlockEditorContext;
 import com.github.franckyi.ibeeditor.client.screen.model.BlockEditorModel;
 import com.github.franckyi.ibeeditor.client.screen.model.category.EditorCategoryModel;
 import net.minecraft.nbt.CompoundTag;
@@ -12,8 +13,13 @@ public abstract class BlockEditorCategoryModel extends EditorCategoryModel {
         super(name, editor);
     }
 
+    @Override
+    public BlockEditorContext getContext() {
+        return (BlockEditorContext) super.getContext();
+    }
+
     protected <T extends Comparable<T>> void updateState(Property<T> property, T value) {
-        getContext().setBlockState(getContext().getBlockState().setValue(property, value));
+        getContext().updateBlockState(property, value);
     }
 
     protected BlockState getBlockState() {

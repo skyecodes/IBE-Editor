@@ -1,0 +1,33 @@
+package com.github.franckyi.ibeeditor.client.context;
+
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.Property;
+
+import java.util.function.Consumer;
+
+public class BlockEditorContext extends EditorContext<BlockEditorContext> {
+    private BlockState blockState;
+    private final BlockEntity blockEntity;
+
+    public BlockEditorContext(BlockState blockState, CompoundTag tag, Component errorTooltip, Consumer<BlockEditorContext> action) {
+        super(tag, errorTooltip, false, action);
+        this.blockState = blockState;
+        this.blockEntity = BlockEntity.loadStatic(BlockPos.ZERO, blockState, tag);
+    }
+
+    public BlockState getBlockState() {
+        return blockState;
+    }
+
+    public <T extends Comparable<T>> void updateBlockState(Property<T> property, T value) {
+        blockState = blockState.setValue(property, value);
+    }
+
+    public BlockEntity getBlockEntity() {
+        return blockEntity;
+    }
+}

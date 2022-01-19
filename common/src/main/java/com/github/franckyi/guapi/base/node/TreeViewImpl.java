@@ -2,7 +2,6 @@ package com.github.franckyi.guapi.base.node;
 
 import com.github.franckyi.guapi.api.node.TreeView;
 import com.github.franckyi.guapi.api.node.builder.TreeViewBuilder;
-import com.github.franckyi.guapi.api.util.NodeType;
 
 public class TreeViewImpl<E extends TreeView.TreeItem<E>> extends AbstractTreeView<E> implements TreeViewBuilder<E> {
     public TreeViewImpl() {
@@ -18,7 +17,7 @@ public class TreeViewImpl<E extends TreeView.TreeItem<E>> extends AbstractTreeVi
 
     @Override
     @SuppressWarnings("unchecked")
-    protected NodeType<?> getType() {
-        return NodeType.TREE_VIEW;
+    protected Class<?> getType() {
+        return TreeView.class;
     }
 }

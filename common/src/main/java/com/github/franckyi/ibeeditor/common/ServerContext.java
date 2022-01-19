@@ -1,5 +1,6 @@
 package com.github.franckyi.ibeeditor.common;
 
+import com.github.franckyi.ibeeditor.common.network.ModNotificationPacket;
 import net.minecraft.server.level.ServerPlayer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,7 +18,7 @@ public final class ServerContext {
         moddedClients.remove(player.getGameProfile().getId());
     }
 
-    public static void addModdedClient(ServerPlayer player) {
+    public static void addModdedClient(ServerPlayer player, ModNotificationPacket.Client packet) {
         LOGGER.debug("Adding {} to modded clients", player.getGameProfile().getName());
         moddedClients.add(player.getGameProfile().getId());
     }

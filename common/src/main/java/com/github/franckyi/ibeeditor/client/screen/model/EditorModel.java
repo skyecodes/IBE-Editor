@@ -1,27 +1,31 @@
 package com.github.franckyi.ibeeditor.client.screen.model;
 
+import com.github.franckyi.databindings.api.ObservableBooleanValue;
 import com.github.franckyi.guapi.api.Guapi;
 import com.github.franckyi.guapi.api.mvc.Model;
-import com.github.franckyi.ibeeditor.client.ClientNetworkEmitter;
 import com.github.franckyi.ibeeditor.client.ModScreenHandler;
-import com.github.franckyi.ibeeditor.common.EditorContext;
+import com.github.franckyi.ibeeditor.client.context.EditorContext;
+import com.github.franckyi.ibeeditor.common.EditorType;
 
 public interface EditorModel extends Model {
-    EditorContext getContext();
+    EditorContext<?> getContext();
 
-    boolean saveToVault();
+    default boolean isValid() {
+        return validProperty().getValue();
+    }
 
-    default void changeEditor(EditorContext.EditorType type) {
+    ObservableBooleanValue validProperty();
+
+    default void changeEditor(EditorType type) {
         apply();
-        getContext().setEditorType(type);
-        ModScreenHandler.openEditor(getContext(), true);
+        ModScreenHandler.openEditor(type, getContext(), true);
     }
 
     void apply();
 
-    default void applyAndClose() {
+    default void update() {
         apply();
+        getContext().update();
         Guapi.getScreenHandler().hideScene();
-        ClientNetworkEmitter.sendEditorUpdate(getContext());
     }
 }

@@ -18,7 +18,7 @@ public class VaultItemEntryView extends EntryView {
     @Override
     protected Node createContent() {
         return hBox(content -> {
-            content.add(itemView = itemView());
+            content.add(itemView = itemView().drawDecorations());
             content.add(label = label(), 1);
             content.add(hBox(buttons -> {
                 buttons.add(openEditorButton = texturedButton(ModTextures.EDITOR, 16, 16, false).tooltip(ModTexts.OPEN_EDITOR));

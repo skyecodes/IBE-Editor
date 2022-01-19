@@ -2,7 +2,6 @@ package com.github.franckyi.guapi.base.node;
 
 import com.github.franckyi.guapi.api.node.ItemView;
 import com.github.franckyi.guapi.api.node.builder.ItemViewBuilder;
-import com.github.franckyi.guapi.api.util.NodeType;
 import net.minecraft.world.item.ItemStack;
 
 public class ItemViewImpl extends AbstractItemView implements ItemViewBuilder {
@@ -15,7 +14,7 @@ public class ItemViewImpl extends AbstractItemView implements ItemViewBuilder {
 
     @Override
     @SuppressWarnings("unchecked")
-    protected NodeType<ItemView> getType() {
-        return NodeType.ITEM_VIEW;
+    protected Class<?> getType() {
+        return ItemView.class;
     }
 }

@@ -1,7 +1,7 @@
 package com.github.franckyi.guapi.base.node;
 
+import com.github.franckyi.guapi.api.node.TexturedButton;
 import com.github.franckyi.guapi.api.node.builder.TexturedButtonBuilder;
-import com.github.franckyi.guapi.api.util.NodeType;
 import net.minecraft.resources.ResourceLocation;
 
 public class TexturedButtonImpl extends AbstractTexturedButton implements TexturedButtonBuilder {
@@ -15,8 +15,8 @@ public class TexturedButtonImpl extends AbstractTexturedButton implements Textur
 
     @Override
     @SuppressWarnings("unchecked")
-    protected NodeType<?> getType() {
-        return NodeType.TEXTURED_BUTTON;
+    protected Class<?> getType() {
+        return TexturedButton.class;
     }
 
     @Override

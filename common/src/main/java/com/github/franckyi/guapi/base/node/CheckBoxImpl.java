@@ -1,7 +1,7 @@
 package com.github.franckyi.guapi.base.node;
 
+import com.github.franckyi.guapi.api.node.CheckBox;
 import com.github.franckyi.guapi.api.node.builder.CheckBoxBuilder;
-import com.github.franckyi.guapi.api.util.NodeType;
 import net.minecraft.network.chat.Component;
 
 public class CheckBoxImpl extends AbstractCheckBox implements CheckBoxBuilder {
@@ -18,8 +18,8 @@ public class CheckBoxImpl extends AbstractCheckBox implements CheckBoxBuilder {
 
     @Override
     @SuppressWarnings("unchecked")
-    protected NodeType<?> getType() {
-        return NodeType.CHECK_BOX;
+    protected Class<?> getType() {
+        return CheckBox.class;
     }
 
     @Override

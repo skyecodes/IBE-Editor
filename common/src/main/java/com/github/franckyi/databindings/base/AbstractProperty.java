@@ -58,6 +58,11 @@ public abstract class AbstractProperty<T> implements Property<T> {
     }
 
     @Override
+    public ObservableValue<? extends T> getBoundValue() {
+        return boundValue;
+    }
+
+    @Override
     public void bind(ObservableValue<? extends T> value) {
         unbind();
         set(value.get());

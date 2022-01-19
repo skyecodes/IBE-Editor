@@ -1,7 +1,7 @@
 package com.github.franckyi.guapi.base.node;
 
+import com.github.franckyi.guapi.api.node.ToggleButton;
 import com.github.franckyi.guapi.api.node.builder.ToggleButtonBuilder;
-import com.github.franckyi.guapi.api.util.NodeType;
 import net.minecraft.network.chat.Component;
 
 public class ToggleButtonImpl extends AbstractToggleButton implements ToggleButtonBuilder {
@@ -18,7 +18,7 @@ public class ToggleButtonImpl extends AbstractToggleButton implements ToggleButt
 
     @Override
     @SuppressWarnings("unchecked")
-    protected NodeType<?> getType() {
-        return NodeType.TOGGLE_BUTTON;
+    protected Class<?> getType() {
+        return ToggleButton.class;
     }
 }

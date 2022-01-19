@@ -84,4 +84,8 @@ public final class RenderHelper {
     public static void drawItem(ItemStack itemStack, int x, int y) {
         mc().getItemRenderer().renderAndDecorateFakeItem(itemStack, x, y);
     }
+
+    public static void drawItemDecorations(ItemStack itemStack, int x, int y) {
+        mc().getItemRenderer().renderGuiItemDecorations(font(), itemStack, x, y);
+    }
 }

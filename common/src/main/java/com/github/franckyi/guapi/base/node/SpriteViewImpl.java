@@ -2,7 +2,6 @@ package com.github.franckyi.guapi.base.node;
 
 import com.github.franckyi.guapi.api.node.SpriteView;
 import com.github.franckyi.guapi.api.node.builder.SpriteViewBuilder;
-import com.github.franckyi.guapi.api.util.NodeType;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 
 import java.util.function.Supplier;
@@ -21,7 +20,7 @@ public class SpriteViewImpl extends AbstractSpriteView implements SpriteViewBuil
 
     @Override
     @SuppressWarnings("unchecked")
-    protected NodeType<SpriteView> getType() {
-        return NodeType.SPRITE_VIEW;
+    protected Class<?> getType() {
+        return SpriteView.class;
     }
 }

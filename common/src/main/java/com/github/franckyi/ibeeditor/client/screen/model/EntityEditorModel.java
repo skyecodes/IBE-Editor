@@ -1,10 +1,11 @@
 package com.github.franckyi.ibeeditor.client.screen.model;
 
-import com.github.franckyi.ibeeditor.client.Vault;
-import com.github.franckyi.ibeeditor.common.EditorContext;
+import com.github.franckyi.ibeeditor.client.context.EntityEditorContext;
+import com.github.franckyi.ibeeditor.common.ModTexts;
+import net.minecraft.network.chat.MutableComponent;
 
 public class EntityEditorModel extends StandardEditorModel {
-    public EntityEditorModel(EditorContext context) {
+    public EntityEditorModel(EntityEditorContext context) {
         super(context);
     }
 
@@ -13,7 +14,7 @@ public class EntityEditorModel extends StandardEditorModel {
     }
 
     @Override
-    public boolean saveToVault() {
-        return Vault.getInstance().saveEntity(getContext().getTag());
+    public MutableComponent getEditorName() {
+        return ModTexts.ENTITY;
     }
 }

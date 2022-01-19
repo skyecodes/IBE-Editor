@@ -1,6 +1,5 @@
 package com.github.franckyi.ibeeditor.client.screen.view;
 
-import com.github.franckyi.databindings.api.BooleanProperty;
 import com.github.franckyi.guapi.api.node.HBox;
 import com.github.franckyi.guapi.api.node.TexturedButton;
 import com.github.franckyi.guapi.api.node.builder.TexturedButtonBuilder;
@@ -21,8 +20,7 @@ public class StandardEditorView extends CategoryEntryScreenView {
     private List<TexturedButton> colorButtons;
     private TexturedButton customColorButton;
     private TexturedButtonBuilder chooseCustomColorButton;
-    private HBox textButtons;
-    private final BooleanProperty showTextButtonsProperty = BooleanProperty.create();
+    private HBox textEditorButtons;
     private Supplier<TextEditorActionHandler> textEditorSupplier;
 
     public StandardEditorView() {
@@ -50,7 +48,7 @@ public class StandardEditorView extends CategoryEntryScreenView {
                 createTextColorButton(YELLOW, ModTextures.COLOR_YELLOW, ModTexts.YELLOW),
                 createTextColorButton(WHITE, ModTextures.COLOR_WHITE, ModTexts.WHITE)
         );
-        textButtons = hBox(buttons -> {
+        buttonBarRight.getChildren().add(0, textEditorButtons = hBox(buttons -> {
             buttons.add(hBox(middle -> {
                 middle.add(createTextButton(StyleType.BOLD, ModTextures.TEXT_BOLD, ModTexts.BOLD));
                 middle.add(createTextButton(StyleType.ITALIC, ModTextures.TEXT_ITALIC, ModTexts.ITALIC));
@@ -80,16 +78,8 @@ public class StandardEditorView extends CategoryEntryScreenView {
                         .tooltip(ModTexts.choose(ModTexts.CUSTOM_COLOR)));
                 right.spacing(2);
             }));
-            buttons.spacing(12).padding(right(20));
-        }).align(CENTER_RIGHT);
-        showTextButtonsProperty().addListener(newVal -> {
-            if (newVal) {
-                buttonBarRight.getChildren().add(0, textButtons);
-                buttonBarRight.setWeight(textButtons, 1);
-            } else {
-                buttonBarRight.getChildren().remove(textButtons);
-            }
-        });
+            buttons.spacing(10);
+        }).align(CENTER_RIGHT));
     }
 
     private TexturedButtonBuilder createTextButton(StyleType target, ResourceLocation id, MutableComponent tooltipText) {
@@ -122,16 +112,8 @@ public class StandardEditorView extends CategoryEntryScreenView {
         return chooseCustomColorButton;
     }
 
-    public boolean isShowTextButtons() {
-        return showTextButtonsProperty().getValue();
-    }
-
-    public BooleanProperty showTextButtonsProperty() {
-        return showTextButtonsProperty;
-    }
-
-    public void setShowTextButtons(boolean value) {
-        showTextButtonsProperty().setValue(value);
+    public HBox getTextEditorButtons() {
+        return textEditorButtons;
     }
 
     public void setTextEditorSupplier(Supplier<TextEditorActionHandler> supplier) {

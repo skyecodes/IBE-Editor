@@ -1,7 +1,7 @@
 package com.github.franckyi.guapi.base.node;
 
+import com.github.franckyi.guapi.api.node.TexturedToggleButton;
 import com.github.franckyi.guapi.api.node.builder.TexturedToggleButtonBuilder;
-import com.github.franckyi.guapi.api.util.NodeType;
 import net.minecraft.resources.ResourceLocation;
 
 public class TexturedToggleButtonImpl extends AbstractTexturedToggleButton implements TexturedToggleButtonBuilder {
@@ -15,7 +15,7 @@ public class TexturedToggleButtonImpl extends AbstractTexturedToggleButton imple
 
     @Override
     @SuppressWarnings("unchecked")
-    protected NodeType<?> getType() {
-        return NodeType.TEXTURED_TOGGLE_BUTTON;
+    protected Class<?> getType() {
+        return TexturedToggleButton.class;
     }
 }

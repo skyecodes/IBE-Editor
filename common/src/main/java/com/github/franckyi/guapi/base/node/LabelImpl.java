@@ -1,7 +1,7 @@
 package com.github.franckyi.guapi.base.node;
 
+import com.github.franckyi.guapi.api.node.Label;
 import com.github.franckyi.guapi.api.node.builder.LabelBuilder;
-import com.github.franckyi.guapi.api.util.NodeType;
 import net.minecraft.network.chat.Component;
 
 public class LabelImpl extends AbstractLabel implements LabelBuilder {
@@ -26,8 +26,8 @@ public class LabelImpl extends AbstractLabel implements LabelBuilder {
 
     @Override
     @SuppressWarnings("unchecked")
-    protected NodeType<?> getType() {
-        return NodeType.LABEL;
+    protected Class<?> getType() {
+        return Label.class;
     }
 
     @Override

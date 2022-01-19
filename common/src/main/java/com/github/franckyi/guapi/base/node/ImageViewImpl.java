@@ -1,7 +1,7 @@
 package com.github.franckyi.guapi.base.node;
 
+import com.github.franckyi.guapi.api.node.ImageView;
 import com.github.franckyi.guapi.api.node.builder.ImageViewBuilder;
-import com.github.franckyi.guapi.api.util.NodeType;
 import net.minecraft.resources.ResourceLocation;
 
 public class ImageViewImpl extends AbstractImageView implements ImageViewBuilder {
@@ -15,8 +15,8 @@ public class ImageViewImpl extends AbstractImageView implements ImageViewBuilder
 
     @Override
     @SuppressWarnings("unchecked")
-    protected NodeType<?> getType() {
-        return NodeType.IMAGE_VIEW;
+    protected Class<?> getType() {
+        return ImageView.class;
     }
 
     @Override

@@ -5,37 +5,28 @@ import com.github.franckyi.guapi.api.mvc.AbstractController;
 import com.github.franckyi.ibeeditor.client.screen.model.NBTEditorModel;
 import com.github.franckyi.ibeeditor.client.screen.model.NBTTagModel;
 import com.github.franckyi.ibeeditor.client.screen.view.NBTEditorView;
-import com.github.franckyi.ibeeditor.common.EditorContext;
+import com.github.franckyi.ibeeditor.common.EditorType;
 import net.minecraft.nbt.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class NBTEditorController extends AbstractController<NBTEditorModel, NBTEditorView> {
+public class NBTEditorController extends AbstractController<NBTEditorModel, NBTEditorView> implements EditorController<NBTEditorModel, NBTEditorView> {
     public NBTEditorController(NBTEditorModel model, NBTEditorView view) {
         super(model, view);
     }
 
     @Override
     public void bind() {
-        /*if (model.canSaveToVault()) {
-            view.addSaveVaultButton();
-            model.saveToVaultProperty().bind(view.getSaveVaultButton().activeProperty());
-        }*/
-        view.addOpenEditorButton(() -> model.changeEditor(EditorContext.EditorType.STANDARD));
-        view.addOpenSNBTEditorButton(() -> model.changeEditor(EditorContext.EditorType.SNBT));
+        EditorController.super.bind();
+        view.addOpenEditorButton(() -> model.changeEditor(EditorType.STANDARD));
+        view.addOpenSNBTEditorButton(() -> model.changeEditor(EditorType.SNBT));
         view.getTagTree().rootItemProperty().bind(model.rootTagProperty());
-        //if (model.canSave()) {
-        view.getDoneButton().disableProperty().bind(model.rootTagProperty().mapToObservableBoolean(NBTTagModel::validProperty).not());
-        view.getDoneButton().onAction(model::applyAndClose);
-        /*} else {
-            view.getDoneButton().setDisable(true);
-            view.getDoneButton().getTooltip().add(model.getDisabledTooltip());
-        }*/
-        view.getCancelButton().onAction(event -> Guapi.getScreenHandler().hideScene());
         view.getTagTree().focusedElementProperty().addListener(this::updateEnabledButtons);
         view.setOnButtonClick(this::onButtonClick);
+        view.getDoneButton().onAction(model::update);
+        view.getCancelButton().onAction(Guapi.getScreenHandler()::hideScene);
     }
 
     private void onButtonClick(NBTEditorView.ButtonType target) {

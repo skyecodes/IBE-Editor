@@ -1,7 +1,7 @@
 package com.github.franckyi.guapi.base.node;
 
+import com.github.franckyi.guapi.api.node.EnumButton;
 import com.github.franckyi.guapi.api.node.builder.EnumButtonBuilder;
-import com.github.franckyi.guapi.api.util.NodeType;
 
 import java.util.Collection;
 
@@ -31,7 +31,7 @@ public class EnumButtonImpl<E> extends AbstractEnumButton<E> implements EnumButt
 
     @Override
     @SuppressWarnings("unchecked")
-    protected NodeType<?> getType() {
-        return NodeType.ENUM_BUTTON;
+    protected Class<?> getType() {
+        return EnumButton.class;
     }
 }

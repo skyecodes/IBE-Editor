@@ -1,8 +1,8 @@
 package com.github.franckyi.ibeeditor.client.screen.model.category;
 
+import com.github.franckyi.ibeeditor.client.context.EditorContext;
 import com.github.franckyi.ibeeditor.client.screen.model.StandardEditorModel;
 import com.github.franckyi.ibeeditor.client.screen.model.entry.EntryModel;
-import com.github.franckyi.ibeeditor.common.EditorContext;
 import net.minecraft.network.chat.Component;
 
 public abstract class EditorCategoryModel extends CategoryModel {
@@ -15,7 +15,7 @@ public abstract class EditorCategoryModel extends CategoryModel {
         return (StandardEditorModel) super.getParent();
     }
 
-    public EditorContext getContext() {
+    public EditorContext<?> getContext() {
         return getParent().getContext();
     }
 

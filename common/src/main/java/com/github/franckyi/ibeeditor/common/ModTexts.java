@@ -105,18 +105,20 @@ public final class ModTexts {
     public static final MutableComponent SPAWN_EGG = translated("ibeeditor.gui.spawn_egg");
     public static final MutableComponent CONTAINER = translated("ibeeditor.gui.container");
     public static final MutableComponent LOCK_CODE = translated("ibeeditor.gui.lock_code");
+    public static final MutableComponent VAULT = translated("ibeeditor.text.vault");
     public static final MutableComponent SAVE_VAULT = translated("ibeeditor.gui.save_vault");
+    public static final MutableComponent SAVE_VAULT_GREEN = translated("ibeeditor.gui.save_vault").withStyle(ChatFormatting.GREEN);
     public static final MutableComponent SAVED_VAULT = translated("ibeeditor.gui.saved_vault");
     public static final MutableComponent OPEN_EDITOR = translated("ibeeditor.key.editor");
     public static final MutableComponent OPEN_NBT_EDITOR = translated("ibeeditor.key.nbt_editor");
     public static final MutableComponent OPEN_SNBT_EDITOR = translated("ibeeditor.key.snbt_editor");
 
-    public static MutableComponent serverMod(MutableComponent with) {
+    public static MutableComponent errorServerModRequired(MutableComponent with) {
         return translated("ibeeditor.message.error_server_mod", with).withStyle(ChatFormatting.RED);
     }
 
-    public static MutableComponent creativeMode(MutableComponent with) {
-        return translated("ibeeditor.message.error_creative_mode", with).withStyle(ChatFormatting.RED);
+    public static MutableComponent errorPermissionDenied(MutableComponent with) {
+        return translated("ibeeditor.message.error_permission_denied", with).withStyle(ChatFormatting.RED);
     }
 
     public static MutableComponent choose(MutableComponent with) {
@@ -179,12 +181,12 @@ public final class ModTexts {
             return prefixed(translated("ibeeditor.message.success_update", arg)).withStyle(ChatFormatting.GREEN);
         }
 
-        public static MutableComponent errorServerMod(MutableComponent arg) {
-            return prefixed(ModTexts.serverMod(arg)).withStyle(ChatFormatting.RED);
+        public static MutableComponent errorServerModRequired(MutableComponent arg) {
+            return prefixed(ModTexts.errorServerModRequired(arg)).withStyle(ChatFormatting.RED);
         }
 
-        public static MutableComponent errorCreativeMode(MutableComponent arg) {
-            return prefixed(ModTexts.creativeMode(arg)).withStyle(ChatFormatting.RED);
+        public static MutableComponent errorPermissionDenied(MutableComponent arg) {
+            return prefixed(ModTexts.errorPermissionDenied(arg)).withStyle(ChatFormatting.RED);
         }
 
         public static MutableComponent errorNoTargetFound(MutableComponent arg) {

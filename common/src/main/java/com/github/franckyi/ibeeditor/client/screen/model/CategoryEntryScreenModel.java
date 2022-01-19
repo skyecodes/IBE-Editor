@@ -32,7 +32,7 @@ public abstract class CategoryEntryScreenModel<C extends CategoryModel> implemen
 
     public abstract void apply();
 
-    public void applyAndClose() {
+    public void update() {
         apply();
         Guapi.getScreenHandler().hideScene();
     }

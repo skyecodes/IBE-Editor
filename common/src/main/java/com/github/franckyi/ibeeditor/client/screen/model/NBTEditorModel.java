@@ -1,17 +1,20 @@
 package com.github.franckyi.ibeeditor.client.screen.model;
 
 import com.github.franckyi.databindings.api.ObjectProperty;
-import com.github.franckyi.ibeeditor.common.EditorContext;
+import com.github.franckyi.databindings.api.ObservableBooleanValue;
+import com.github.franckyi.ibeeditor.client.context.EditorContext;
 import net.minecraft.nbt.CompoundTag;
 
 public class NBTEditorModel implements EditorModel {
-    private final EditorContext context;
+    private final EditorContext<?> context;
     private final ObjectProperty<NBTTagModel> rootTagProperty;
     private final ObjectProperty<NBTTagModel> clipboardTagProperty = ObjectProperty.create();
+    private final ObservableBooleanValue validProperty;
 
-    public NBTEditorModel(EditorContext context) {
+    public NBTEditorModel(EditorContext<?> context) {
         this.context = context;
         rootTagProperty = ObjectProperty.create(new NBTTagModel(getContext().getTag()));
+        validProperty = rootTagProperty().mapToObservableBoolean(NBTTagModel::validProperty);
     }
 
     public NBTTagModel getRootTag() {
@@ -38,17 +41,18 @@ public class NBTEditorModel implements EditorModel {
         clipboardTagProperty().setValue(value);
     }
 
+    @Override
     public void apply() {
         getContext().setTag((CompoundTag) getRootTag().build());
     }
 
     @Override
-    public EditorContext getContext() {
+    public EditorContext<?> getContext() {
         return context;
     }
 
     @Override
-    public boolean saveToVault() {
-        return false;
+    public ObservableBooleanValue validProperty() {
+        return validProperty;
     }
 }

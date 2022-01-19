@@ -3,13 +3,17 @@ package com.github.franckyi.ibeeditor.client;
 import com.github.franckyi.guapi.api.Guapi;
 import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.api.node.Scene;
+import com.github.franckyi.ibeeditor.client.context.BlockEditorContext;
+import com.github.franckyi.ibeeditor.client.context.EditorContext;
+import com.github.franckyi.ibeeditor.client.context.EntityEditorContext;
+import com.github.franckyi.ibeeditor.client.context.ItemEditorContext;
 import com.github.franckyi.ibeeditor.client.screen.model.*;
 import com.github.franckyi.ibeeditor.client.screen.model.selection.ColorSelectionScreenModel;
 import com.github.franckyi.ibeeditor.client.screen.model.selection.ListSelectionScreenModel;
 import com.github.franckyi.ibeeditor.client.screen.model.selection.element.ListSelectionElementModel;
 import com.github.franckyi.ibeeditor.client.screen.mvc.*;
 import com.github.franckyi.ibeeditor.client.util.ScreenScalingManager;
-import com.github.franckyi.ibeeditor.common.EditorContext;
+import com.github.franckyi.ibeeditor.common.EditorType;
 import com.github.franckyi.ibeeditor.common.ModTexts;
 import net.minecraft.network.chat.MutableComponent;
 import org.apache.logging.log4j.LogManager;
@@ -39,22 +43,6 @@ public final class ModScreenHandler {
         openScaledScreen(mvc(VaultScreenMVC.INSTANCE, new VaultScreenModel()));
     }
 
-    public static void openEditor(EditorContext context) {
-        openEditor(context, false);
-    }
-
-    public static void openEditor(EditorContext context, boolean replace) {
-        openScaledScreen(switch (context.getEditorType()) {
-            case STANDARD -> mvc(StandardEditorMVC.INSTANCE, switch (context.getTarget()) {
-                case ITEM -> new ItemEditorModel(context);
-                case BLOCK -> new BlockEditorModel(context);
-                case ENTITY -> new EntityEditorModel(context);
-            });
-            case NBT -> mvc(NBTEditorMVC.INSTANCE, new NBTEditorModel(context));
-            case SNBT -> mvc(SNBTEditorMVC.INSTANCE, new SNBTEditorModel(context));
-        }, replace);
-    }
-
     private static void openScaledScreen(Node root) {
         openScaledScreen(root, false);
     }
@@ -74,5 +62,27 @@ public final class ModScreenHandler {
             LOGGER.error("Error while opening screen", e);
             ClientUtil.showMessage(ModTexts.Messages.ERROR_GENERIC);
         }
+    }
+
+    public static void openEditor(EditorType editorType, EditorContext<?> context) {
+        openEditor(editorType, context, false);
+    }
+
+    public static void openEditor(EditorType editorType, EditorContext<?> context, boolean replace) {
+        openScaledScreen(switch (editorType) {
+            case STANDARD -> {
+                if (context instanceof ItemEditorContext ctx) {
+                    yield mvc(StandardEditorMVC.INSTANCE, new ItemEditorModel(ctx));
+                } else if (context instanceof BlockEditorContext ctx) {
+                    yield mvc(StandardEditorMVC.INSTANCE, new BlockEditorModel(ctx));
+                } else if (context instanceof EntityEditorContext ctx) {
+                    yield mvc(StandardEditorMVC.INSTANCE, new EntityEditorModel(ctx));
+                } else {
+                    throw new IllegalStateException("context should be an instance of ItemEditorContext, BlockEditorContext or EntityEditorContext");
+                }
+            }
+            case NBT -> mvc(NBTEditorMVC.INSTANCE, new NBTEditorModel(context));
+            case SNBT -> mvc(SNBTEditorMVC.INSTANCE, new SNBTEditorModel(context));
+        }, replace);
     }
 }

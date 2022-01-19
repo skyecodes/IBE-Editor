@@ -1,18 +1,23 @@
 package com.github.franckyi.ibeeditor.client.screen.model;
 
-import com.github.franckyi.ibeeditor.client.Vault;
+import com.github.franckyi.ibeeditor.client.context.ItemEditorContext;
 import com.github.franckyi.ibeeditor.client.screen.model.category.item.*;
-import com.github.franckyi.ibeeditor.common.EditorContext;
 import com.github.franckyi.ibeeditor.common.ModTexts;
 import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.DyeableLeatherItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.PotionItem;
 
 public class ItemEditorModel extends StandardEditorModel {
-    public ItemEditorModel(EditorContext context) {
+    public ItemEditorModel(ItemEditorContext context) {
         super(context);
+    }
+
+    @Override
+    public ItemEditorContext getContext() {
+        return (ItemEditorContext) super.getContext();
     }
 
     @Override
@@ -47,7 +52,7 @@ public class ItemEditorModel extends StandardEditorModel {
     }
 
     @Override
-    public boolean saveToVault() {
-        return Vault.getInstance().saveItem(getContext().getTag());
+    public MutableComponent getEditorName() {
+        return ModTexts.ITEM;
     }
 }

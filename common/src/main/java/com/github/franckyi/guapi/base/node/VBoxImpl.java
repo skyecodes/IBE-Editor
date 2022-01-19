@@ -1,8 +1,8 @@
 package com.github.franckyi.guapi.base.node;
 
 import com.github.franckyi.guapi.api.node.Node;
+import com.github.franckyi.guapi.api.node.VBox;
 import com.github.franckyi.guapi.api.node.builder.VBoxBuilder;
-import com.github.franckyi.guapi.api.util.NodeType;
 
 import java.util.Collection;
 
@@ -32,8 +32,8 @@ public class VBoxImpl extends AbstractVBox implements VBoxBuilder {
 
     @Override
     @SuppressWarnings("unchecked")
-    protected NodeType<?> getType() {
-        return NodeType.VBOX;
+    protected Class<?> getType() {
+        return VBox.class;
     }
 
     @Override

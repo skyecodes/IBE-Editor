@@ -15,10 +15,14 @@ public class VanillaItemViewSkin extends AbstractSkin<ItemView> {
     @Override
     public void render(ItemView node, PoseStack matrices, int mouseX, int mouseY, float delta) {
         super.render(node, matrices, mouseX, mouseY, delta);
-        if (node.getItem() != null) {
-            RenderHelper.drawItem(node.getItem(),
-                    node.getX() + (node.getWidth() - node.getComputedWidth()) / 2,
-                    node.getY() + (node.getHeight() - node.getComputedHeight()) / 2);
+        var item = node.getItem();
+        if (item != null) {
+            int x = node.getX() + (node.getWidth() - node.getComputedWidth()) / 2;
+            int y = node.getY() + (node.getHeight() - node.getComputedHeight()) / 2;
+            RenderHelper.drawItem(item, x, y);
+            if (node.isDrawDecorations()) {
+                RenderHelper.drawItemDecorations(item, x, y);
+            }
         }
     }
 

@@ -111,7 +111,7 @@
   "ibeeditor.text.block": "Блок",
   "ibeeditor.text.entity": "Сущность",
   "ibeeditor.message.prefix": "[IBE Editor] ",
-  "ibeeditor.message.error_creative_mode": "Вы должны быть в творческом режиме, чтобы обновить %s.",
+  "ibeeditor.message.error_permission_denied": "Вы должны быть в творческом режиме, чтобы обновить %s.",
   "ibeeditor.message.error_server_mod": "IBE Editor должен быть установлен на сервере, чтобы обновить %s.",
   "ibeeditor.message.success_update": "%s Данные обновлены",
   "ibeeditor.message.no_target_found": "%s Данных для редактирования не обнаружено.",

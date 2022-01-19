@@ -112,7 +112,7 @@
   "ibeeditor.text.item": "Item",
   "ibeeditor.text.block": "Bloc",
   "ibeeditor.text.entity": "Entité",
-  "ibeeditor.message.error_creative_mode": "Vous devez être en mode créatif pour modifier ce %s.",
+  "ibeeditor.message.error_permission_denied": "Vous n'avez pas la permission de modifier ce %s.",
   "ibeeditor.message.error_server_mod": "IBE Editor doit être installé sur le serveur pour modifier ce %s.",
   "ibeeditor.message.success_update": "%s mis à jour!",
   "ibeeditor.message.no_target_found": "Aucun %s modifiable détecté",

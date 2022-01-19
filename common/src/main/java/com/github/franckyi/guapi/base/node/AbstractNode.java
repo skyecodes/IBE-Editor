@@ -10,7 +10,6 @@ import com.github.franckyi.guapi.api.node.Scene;
 import com.github.franckyi.guapi.api.node.ScreenEventHandler;
 import com.github.franckyi.guapi.api.theme.Skin;
 import com.github.franckyi.guapi.api.util.Insets;
-import com.github.franckyi.guapi.api.util.NodeType;
 import com.github.franckyi.guapi.api.util.ScreenEventType;
 import com.github.franckyi.guapi.base.event.ScreenEventHandlerDelegate;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -214,7 +213,7 @@ public abstract class AbstractNode implements Node {
         return skin;
     }
 
-    protected abstract <N extends Node> NodeType<N> getType();
+    protected abstract <N extends Node> Class<N> getType();
 
     protected void resetSkin() {
         skin = null;

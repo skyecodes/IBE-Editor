@@ -11,6 +11,11 @@ public abstract class ItemEditorCategoryModel extends EditorCategoryModel {
         super(name, parent);
     }
 
+    @Override
+    public ItemEditorModel getParent() {
+        return (ItemEditorModel) super.getParent();
+    }
+
     protected CompoundTag getData() {
         return getContext().getTag();
     }

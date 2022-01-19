@@ -1,7 +1,7 @@
 package com.github.franckyi.guapi.base.node;
 
+import com.github.franckyi.guapi.api.node.ListView;
 import com.github.franckyi.guapi.api.node.builder.ListViewBuilder;
-import com.github.franckyi.guapi.api.util.NodeType;
 
 import java.util.Collection;
 
@@ -25,8 +25,8 @@ public class ListViewImpl<E> extends AbstractListView<E> implements ListViewBuil
 
     @Override
     @SuppressWarnings("unchecked")
-    protected NodeType<?> getType() {
-        return NodeType.LIST_VIEW;
+    protected Class<?> getType() {
+        return ListView.class;
     }
 
     @Override

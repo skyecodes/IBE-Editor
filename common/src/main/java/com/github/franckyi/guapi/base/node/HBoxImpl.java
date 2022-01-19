@@ -1,8 +1,8 @@
 package com.github.franckyi.guapi.base.node;
 
+import com.github.franckyi.guapi.api.node.HBox;
 import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.api.node.builder.HBoxBuilder;
-import com.github.franckyi.guapi.api.util.NodeType;
 
 import java.util.Collection;
 
@@ -32,8 +32,8 @@ public class HBoxImpl extends AbstractHBox implements HBoxBuilder {
 
     @Override
     @SuppressWarnings("unchecked")
-    protected NodeType<?> getType() {
-        return NodeType.HBOX;
+    protected Class<?> getType() {
+        return HBox.class;
     }
 
     @Override

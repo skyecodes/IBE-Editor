@@ -23,8 +23,8 @@ public abstract class CategoryEntryScreenController<M extends CategoryEntryScree
         updateEntryList(null, model.getSelectedCategory());
         model.getCategories().addListener(this::updateCategoryList);
         model.selectedCategoryProperty().addListener(this::updateEntryList);
-        model.validProperty().addListener(this::onValidationChange);
-        view.getDoneButton().onAction(model::applyAndClose);
+        model.validProperty().addListener(this::updateDoneButton);
+        view.getDoneButton().onAction(model::update);
         view.getCancelButton().onAction(Guapi.getScreenHandler()::hideScene);
     }
 
@@ -47,14 +47,10 @@ public abstract class CategoryEntryScreenController<M extends CategoryEntryScree
         view.getEntryList().setItemHeight(model.getSelectedCategory().getEntryHeight());
     }
 
-    protected void onValidationChange(boolean modelValid) {
-        view.getDoneButton().setDisable(!modelValid);
-        if (!modelValid) {
-            if (view.getDoneButton().getTooltip().isEmpty()) {
-                view.getDoneButton().getTooltip().add(ModTexts.FIX_ERRORS);
-            } else {
-                view.getDoneButton().getTooltip().set(0, ModTexts.FIX_ERRORS);
-            }
+    protected void updateDoneButton() {
+        view.getDoneButton().setDisable(!model.isValid());
+        if (!model.isValid()) {
+            view.getDoneButton().getTooltip().setAll(ModTexts.FIX_ERRORS);
         } else {
             view.getDoneButton().getTooltip().clear();
         }
