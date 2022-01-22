@@ -25,6 +25,9 @@ public final class NetworkManager {
     public static final NetworkHandler.Server<BlockInventoryItemEditorPacket.Request> BLOCK_INVENTORY_ITEM_EDITOR_REQUEST = new NetworkHandler.Server<>(BlockInventoryItemEditorPacket.Request.class, "ibeeditor:network/block_inventory_item_editor_request", BlockInventoryItemEditorPacket.Request.SERIALIZER, ServerEditorRequestLogic::onBlockInventoryItemEditorRequest);
     public static final NetworkHandler.Client<BlockInventoryItemEditorPacket.Response> BLOCK_INVENTORY_ITEM_EDITOR_RESPONSE = new NetworkHandler.Client<>(BlockInventoryItemEditorPacket.Response.class, "ibeeditor:network/block_inventory_item_editor_response", BlockInventoryItemEditorPacket.Response.SERIALIZER, ClientEditorResponseLogic::onBlockInventoryItemEditorResponse);
     public static final NetworkHandler.Server<BlockInventoryItemEditorPacket.Update> BLOCK_INVENTORY_ITEM_EDITOR_UPDATE = new NetworkHandler.Server<>(BlockInventoryItemEditorPacket.Update.class, "ibeeditor:network/block_inventory_item_editor_update", BlockInventoryItemEditorPacket.Update.SERIALIZER, ServerEditorUpdateLogic::onBlockInventoryItemEditorUpdate);
+    public static final NetworkHandler.Server<EntityInventoryItemEditorPacket.Request> ENTITY_INVENTORY_ITEM_EDITOR_REQUEST = new NetworkHandler.Server<>(EntityInventoryItemEditorPacket.Request.class, "ibeeditor:network/entity_inventory_item_editor_request", EntityInventoryItemEditorPacket.Request.SERIALIZER, ServerEditorRequestLogic::onEntityInventoryItemEditorRequest);
+    public static final NetworkHandler.Client<EntityInventoryItemEditorPacket.Response> ENTITY_INVENTORY_ITEM_EDITOR_RESPONSE = new NetworkHandler.Client<>(EntityInventoryItemEditorPacket.Response.class, "ibeeditor:network/entity_inventory_item_editor_response", EntityInventoryItemEditorPacket.Response.SERIALIZER, ClientEditorResponseLogic::onEntityInventoryItemEditorResponse);
+    public static final NetworkHandler.Server<EntityInventoryItemEditorPacket.Update> ENTITY_INVENTORY_ITEM_EDITOR_UPDATE = new NetworkHandler.Server<>(EntityInventoryItemEditorPacket.Update.class, "ibeeditor:network/entity_inventory_item_editor_update", EntityInventoryItemEditorPacket.Update.SERIALIZER, ServerEditorUpdateLogic::onEntityInventoryItemEditorUpdate);
     public static final NetworkHandler.Server<BlockEditorPacket.Request> BLOCK_EDITOR_REQUEST = new NetworkHandler.Server<>(BlockEditorPacket.Request.class, "ibeeditor:network/block_editor_request", BlockEditorPacket.Request.SERIALIZER, ServerEditorRequestLogic::onBlockEditorRequest);
     public static final NetworkHandler.Client<BlockEditorPacket.Response> BLOCK_EDITOR_RESPONSE = new NetworkHandler.Client<>(BlockEditorPacket.Response.class, "ibeeditor:network/block_editor_response", BlockEditorPacket.Response.SERIALIZER, ClientEditorResponseLogic::onBlockEditorResponse);
     public static final NetworkHandler.Server<BlockEditorPacket.Update> BLOCK_EDITOR_UPDATE = new NetworkHandler.Server<>(BlockEditorPacket.Update.class, "ibeeditor:network/block_editor_update", BlockEditorPacket.Update.SERIALIZER, ServerEditorUpdateLogic::onBlockEditorUpdate);
@@ -45,6 +48,9 @@ public final class NetworkManager {
         PlatformUtil.registerServerHandler(BLOCK_INVENTORY_ITEM_EDITOR_REQUEST);
         PlatformUtil.registerClientHandler(BLOCK_INVENTORY_ITEM_EDITOR_RESPONSE);
         PlatformUtil.registerServerHandler(BLOCK_INVENTORY_ITEM_EDITOR_UPDATE);
+        PlatformUtil.registerServerHandler(ENTITY_INVENTORY_ITEM_EDITOR_REQUEST);
+        PlatformUtil.registerClientHandler(ENTITY_INVENTORY_ITEM_EDITOR_RESPONSE);
+        PlatformUtil.registerServerHandler(ENTITY_INVENTORY_ITEM_EDITOR_UPDATE);
         PlatformUtil.registerServerHandler(BLOCK_EDITOR_REQUEST);
         PlatformUtil.registerClientHandler(BLOCK_EDITOR_RESPONSE);
         PlatformUtil.registerServerHandler(BLOCK_EDITOR_UPDATE);

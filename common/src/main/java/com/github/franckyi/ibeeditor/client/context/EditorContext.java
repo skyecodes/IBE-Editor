@@ -2,13 +2,14 @@ package com.github.franckyi.ibeeditor.client.context;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 
 import java.util.function.Consumer;
 
 public abstract class EditorContext<T extends EditorContext<T>> {
     private CompoundTag tag;
-    private final Component errorTooltip;
-    private final boolean canSaveToVault;
+    protected Component errorTooltip;
+    protected boolean canSaveToVault;
     private boolean isSaveToVault = false;
     private final Consumer<T> action;
 
@@ -59,4 +60,6 @@ public abstract class EditorContext<T extends EditorContext<T>> {
 
     public void saveToVault() {
     }
+
+    public abstract MutableComponent getTargetName();
 }

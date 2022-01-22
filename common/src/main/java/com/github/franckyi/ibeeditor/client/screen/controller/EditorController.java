@@ -11,7 +11,7 @@ public interface EditorController<M extends EditorModel, V extends ScreenView> e
     default void bind() {
         getModel().validProperty().addListener(this::updateDoneButton);
         if (getModel().getContext().canSaveToVault()) {
-            getView().addSaveVaultButton();
+            getView().addSaveVaultButton(getModel().getContext().getTargetName());
             getView().getSaveVaultButton().setActive(getModel().getContext().isSaveToVault());
             getView().getSaveVaultButton().activeProperty().addListener(getModel().getContext()::setSaveToVault);
             getView().getSaveVaultButton().activeProperty().addListener(this::updateDoneButton);

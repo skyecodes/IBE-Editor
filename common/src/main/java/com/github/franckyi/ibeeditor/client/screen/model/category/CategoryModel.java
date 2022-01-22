@@ -34,7 +34,9 @@ public abstract class CategoryModel implements Model {
     public void initalize() {
         setupEntries();
         if (hasEntryList()) {
-            getEntries().add(new AddListEntryEntryModel(this, ModTexts.addListEntry(getAddListEntryButtonTooltip()).withStyle(ChatFormatting.GREEN)));
+            if (canAddEntryInList()) {
+                getEntries().add(new AddListEntryEntryModel(this, ModTexts.addListEntry(getAddListEntryButtonTooltip()).withStyle(ChatFormatting.GREEN)));
+            }
             updateEntryListIndexes();
         }
         getEntries().addListener(this::updateEntryListIndexes);
@@ -97,11 +99,15 @@ public abstract class CategoryModel implements Model {
     }
 
     private int getEntryListSize() {
-        return getEntries().size() - getEntryListStart() - 1;
+        return getEntries().size() - getEntryListStart() - (canAddEntryInList() ? 1 : 0);
     }
 
     private boolean hasEntryList() {
         return getEntryListStart() >= 0;
+    }
+
+    protected boolean canAddEntryInList() {
+        return true;
     }
 
     public void addEntryInList() {
@@ -130,5 +136,9 @@ public abstract class CategoryModel implements Model {
 
     public int getEntryHeight() {
         return 25;
+    }
+
+    public void apply() {
+        getEntries().forEach(EntryModel::apply);
     }
 }

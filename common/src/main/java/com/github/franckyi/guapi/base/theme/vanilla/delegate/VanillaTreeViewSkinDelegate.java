@@ -67,10 +67,7 @@ public class VanillaTreeViewSkinDelegate<E extends TreeView.TreeItem<E>> extends
                         }
                         list.shouldRefreshList();
                     }));
-                    if (item.isExpanded()) {
-                        button.setImageX(16);
-                    }
-                    item.expandedProperty().addListener(newVal -> button.setImageX(newVal ? 16 : 0));
+                    button.imageXProperty().bind(item.expandedProperty().mapToInt(value -> value ? 16 : 0));
                 }
                 root.add(node).align(CENTER_LEFT).spacing(5).setParent(list.node);
             }));

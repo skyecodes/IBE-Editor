@@ -4,26 +4,8 @@ import com.github.franckyi.ibeeditor.common.EditorType;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.item.ItemStack;
 
-public class PlayerInventoryItemEditorPacket extends InventoryItemEditorPacket {
+public final class PlayerInventoryItemEditorPacket extends InventoryItemEditorPacket {
     public static class RequestData extends InventoryItemEditorPacket.RequestData {
-        private boolean creativeInventoryScreen;
-
-        public RequestData() {
-        }
-
-        public RequestData(int slot, boolean creativeInventoryScreen) {
-            super(slot);
-            this.creativeInventoryScreen = creativeInventoryScreen;
-        }
-
-        public boolean isCreativeInventoryScreen() {
-            return creativeInventoryScreen;
-        }
-
-        protected void setCreativeInventoryScreen(boolean creativeInventoryScreen) {
-            this.creativeInventoryScreen = creativeInventoryScreen;
-        }
-
         public static final PacketSerializer<RequestData> SERIALIZER = new Serializer<>() {
             @Override
             public void write(RequestData obj, FriendlyByteBuf buf) {
@@ -42,6 +24,24 @@ public class PlayerInventoryItemEditorPacket extends InventoryItemEditorPacket {
                 return new RequestData();
             }
         };
+
+        private boolean creativeInventoryScreen;
+
+        private RequestData() {
+        }
+
+        public RequestData(int slot, boolean creativeInventoryScreen) {
+            super(slot);
+            this.creativeInventoryScreen = creativeInventoryScreen;
+        }
+
+        public boolean isCreativeInventoryScreen() {
+            return creativeInventoryScreen;
+        }
+
+        protected void setCreativeInventoryScreen(boolean creativeInventoryScreen) {
+            this.creativeInventoryScreen = creativeInventoryScreen;
+        }
     }
 
     public static class Request extends InventoryItemEditorPacket.Request<RequestData> {
@@ -57,7 +57,7 @@ public class PlayerInventoryItemEditorPacket extends InventoryItemEditorPacket {
             }
         };
 
-        public Request() {
+        private Request() {
         }
 
         public Request(EditorType editorType, int slot, boolean creativeInventoryScreen) {
@@ -87,15 +87,11 @@ public class PlayerInventoryItemEditorPacket extends InventoryItemEditorPacket {
             }
         };
 
-        public Response() {
+        private Response() {
         }
 
         public Response(Request request, boolean hasPermission, ItemStack item) {
             super(request, hasPermission, new ResponseData(item));
-        }
-
-        public boolean isCreativeInventoryScreen() {
-            return getRequestData().isCreativeInventoryScreen();
         }
     }
 
@@ -117,7 +113,7 @@ public class PlayerInventoryItemEditorPacket extends InventoryItemEditorPacket {
             }
         };
 
-        public Update() {
+        private Update() {
         }
 
         public Update(Response response, ItemStack itemStack) {

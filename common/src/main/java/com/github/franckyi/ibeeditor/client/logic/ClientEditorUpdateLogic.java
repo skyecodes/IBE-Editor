@@ -18,6 +18,10 @@ public class ClientEditorUpdateLogic {
         NetworkManager.sendToServer(NetworkManager.BLOCK_INVENTORY_ITEM_EDITOR_UPDATE, new BlockInventoryItemEditorPacket.Update(response, context.getItemStack()));
     }
 
+    public static void updateEntityInventoryItem(EntityInventoryItemEditorPacket.Response response, ItemEditorContext context) {
+        NetworkManager.sendToServer(NetworkManager.ENTITY_INVENTORY_ITEM_EDITOR_UPDATE, new EntityInventoryItemEditorPacket.Update(response, context.getItemStack()));
+    }
+
     public static void updateBlock(BlockEditorPacket.Response response, BlockEditorContext context) {
         NetworkManager.sendToServer(NetworkManager.BLOCK_EDITOR_UPDATE, new BlockEditorPacket.Update(response, context.getBlockState(), context.getTag()));
     }

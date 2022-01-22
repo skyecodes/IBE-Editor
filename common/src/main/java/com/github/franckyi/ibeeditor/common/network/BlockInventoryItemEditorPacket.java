@@ -5,26 +5,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.item.ItemStack;
 
-public class BlockInventoryItemEditorPacket extends InventoryItemEditorPacket {
+public final class BlockInventoryItemEditorPacket extends InventoryItemEditorPacket {
     public static class RequestData extends InventoryItemEditorPacket.RequestData {
-        private BlockPos blockPos;
-
-        public RequestData() {
-        }
-
-        public RequestData(int slot, BlockPos blockPos) {
-            super(slot);
-            this.blockPos = blockPos;
-        }
-
-        public BlockPos getBlockPos() {
-            return blockPos;
-        }
-
-        public void setBlockPos(BlockPos blockPos) {
-            this.blockPos = blockPos;
-        }
-
         public static final PacketSerializer<RequestData> SERIALIZER = new Serializer<>() {
             @Override
             public void write(RequestData obj, FriendlyByteBuf buf) {
@@ -43,6 +25,24 @@ public class BlockInventoryItemEditorPacket extends InventoryItemEditorPacket {
                 return new RequestData();
             }
         };
+
+        private BlockPos blockPos;
+
+        private RequestData() {
+        }
+
+        public RequestData(int slot, BlockPos blockPos) {
+            super(slot);
+            this.blockPos = blockPos;
+        }
+
+        public BlockPos getBlockPos() {
+            return blockPos;
+        }
+
+        public void setBlockPos(BlockPos blockPos) {
+            this.blockPos = blockPos;
+        }
     }
 
     public static class Request extends InventoryItemEditorPacket.Request<RequestData> {
@@ -58,7 +58,7 @@ public class BlockInventoryItemEditorPacket extends InventoryItemEditorPacket {
             }
         };
 
-        public Request() {
+        private Request() {
         }
 
         public Request(EditorType editorType, int slot, BlockPos blockPos) {
@@ -88,15 +88,11 @@ public class BlockInventoryItemEditorPacket extends InventoryItemEditorPacket {
             }
         };
 
-        public Response() {
+        private Response() {
         }
 
         public Response(Request request, boolean hasPermission, ItemStack item) {
             super(request, hasPermission, new ResponseData(item));
-        }
-
-        public BlockPos getBlockPos() {
-            return getRequestData().getBlockPos();
         }
     }
 
@@ -118,7 +114,7 @@ public class BlockInventoryItemEditorPacket extends InventoryItemEditorPacket {
             }
         };
 
-        public Update() {
+        private Update() {
         }
 
         public Update(Response response, ItemStack itemStack) {

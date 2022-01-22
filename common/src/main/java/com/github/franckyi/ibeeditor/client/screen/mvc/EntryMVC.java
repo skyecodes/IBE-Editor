@@ -3,12 +3,15 @@ package com.github.franckyi.ibeeditor.client.screen.mvc;
 import com.github.franckyi.guapi.api.mvc.MVC;
 import com.github.franckyi.ibeeditor.client.screen.controller.entry.*;
 import com.github.franckyi.ibeeditor.client.screen.controller.entry.item.*;
+import com.github.franckyi.ibeeditor.client.screen.controller.entry.vault.VaultEntityEntryController;
 import com.github.franckyi.ibeeditor.client.screen.controller.entry.vault.VaultItemEntryController;
 import com.github.franckyi.ibeeditor.client.screen.model.entry.*;
 import com.github.franckyi.ibeeditor.client.screen.model.entry.item.*;
+import com.github.franckyi.ibeeditor.client.screen.model.entry.vault.VaultEntityEntryModel;
 import com.github.franckyi.ibeeditor.client.screen.model.entry.vault.VaultItemEntryModel;
 import com.github.franckyi.ibeeditor.client.screen.view.entry.*;
 import com.github.franckyi.ibeeditor.client.screen.view.entry.item.*;
+import com.github.franckyi.ibeeditor.client.screen.view.entry.vault.VaultEntityEntryView;
 import com.github.franckyi.ibeeditor.client.screen.view.entry.vault.VaultItemEntryView;
 
 import java.util.function.Supplier;
@@ -20,7 +23,7 @@ public final class EntryMVC implements MVC<EntryModel, EntryView, EntryControlle
     public EntryView setup(EntryModel model) {
         return switch (model.getType()) {
             case STRING -> MVC.createViewAndBind((StringEntryModel) model, StringEntryView::new, StringEntryController::new);
-            case INTEGER -> MVC.createViewAndBind((IntegerEntryModel) model, IntegerEntryView::new, IntegerEntryController::new);
+            case NUMBER -> MVC.createViewAndBind((NumberEntryModel<?>) model, NumberEntryView::new, NumberEntryController::new);
             case TEXT -> MVC.createViewAndBind((TextEntryModel) model, TextEntryView::new, TextEntryController::new);
             case ENUM -> createEnumViewAndBind((EnumEntryModel<?>) model);
             case ACTION -> MVC.createViewAndBind((ActionEntryModel) model, ActionEntryView::new, ActionEntryController::new);
@@ -34,6 +37,7 @@ public final class EntryMVC implements MVC<EntryModel, EntryView, EntryControlle
             case POTION_EFFECT -> MVC.createViewAndBind(((PotionEffectEntryModel) model), PotionEffectEntryView::new, PotionEffectEntryController::new);
             case ARMOR_COLOR -> MVC.createViewAndBind((ArmorColorEntryModel) model, ArmorColorEntryView::new, ArmorColorEntryController::new);
             case VAULT_ITEM -> MVC.createViewAndBind((VaultItemEntryModel) model, VaultItemEntryView::new, VaultItemEntryController::new);
+            case VAULT_ENTITY -> MVC.createViewAndBind((VaultEntityEntryModel) model, VaultEntityEntryView::new, VaultEntityEntryController::new);
         };
     }
 

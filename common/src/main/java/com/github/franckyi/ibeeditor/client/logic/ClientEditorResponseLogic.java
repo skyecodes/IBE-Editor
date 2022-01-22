@@ -28,6 +28,12 @@ public final class ClientEditorResponseLogic {
                 context -> ClientEditorUpdateLogic.updateBlockInventoryItem(response, context)));
     }
 
+    public static void onEntityInventoryItemEditorResponse(EntityInventoryItemEditorPacket.Response response) {
+        ModScreenHandler.openEditor(response.getEditorType(), new ItemEditorContext(response.getItemStack(),
+                getErrorTooltip(response.hasPermission(), ModTexts.ITEM), true,
+                context -> ClientEditorUpdateLogic.updateEntityInventoryItem(response, context)));
+    }
+
     public static void onBlockEditorResponse(BlockEditorPacket.Response response) {
         ModScreenHandler.openEditor(response.getEditorType(), new BlockEditorContext(response.getBlockState(), response.getTag(),
                 getErrorTooltip(response.hasPermission(), ModTexts.BLOCK),

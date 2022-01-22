@@ -5,6 +5,7 @@ import com.github.franckyi.ibeeditor.client.Vault;
 import com.github.franckyi.ibeeditor.common.ModTexts;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.function.Consumer;
@@ -31,5 +32,10 @@ public class ItemEditorContext extends EditorContext<ItemEditorContext> {
     public void saveToVault() {
         Vault.getInstance().saveItem(getTag());
         ClientUtil.showMessage(ModTexts.Messages.successSavedVault(ModTexts.ITEM));
+    }
+
+    @Override
+    public MutableComponent getTargetName() {
+        return ModTexts.ITEM;
     }
 }

@@ -11,17 +11,17 @@ import java.util.concurrent.TimeUnit;
 @Deprecated
 public final class Perf {
     private static final Logger logger = LogManager.getLogger();
-    private static final Map<String, StopWatch> watches = new HashMap<>();
+    private static final Map<Object, StopWatch> watches = new HashMap<>();
 
-    public static void start(String name) {
-        watches.put(name, StopWatch.createStarted());
+    public static void start(Object key) {
+        watches.put(key, StopWatch.createStarted());
     }
 
-    public static void end(String name) {
-        StopWatch watch = watches.get(name);
+    public static void end(Object key, String s) {
+        StopWatch watch = watches.get(key);
         if (watch != null) {
             watch.stop();
-            logger.debug("{}: {} ms", name, watch.getTime(TimeUnit.MICROSECONDS) / 1000.);
+            logger.debug("{} {}: {} ms", key, s, watch.getTime(TimeUnit.MICROSECONDS) / 1000.);
         }
     }
 }

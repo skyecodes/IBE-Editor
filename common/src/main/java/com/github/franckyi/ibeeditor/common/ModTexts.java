@@ -106,9 +106,15 @@ public final class ModTexts {
     public static final MutableComponent CONTAINER = translated("ibeeditor.gui.container");
     public static final MutableComponent LOCK_CODE = translated("ibeeditor.gui.lock_code");
     public static final MutableComponent VAULT = translated("ibeeditor.text.vault");
+    public static final MutableComponent HEALTH = translated("ibeeditor.gui.health");
+    public static final MutableComponent ALWAYS_SHOW_NAME = translated("ibeeditor.gui.always_show_name");
+    public static final MutableComponent INVULNERABLE = translated("ibeeditor.gui.invulnerable");
+    public static final MutableComponent SILENT = translated("ibeeditor.gui.silent");
+    public static final MutableComponent NO_GRAVITY = translated("ibeeditor.gui.no_gravity");
+    public static final MutableComponent GLOWING = translated("ibeeditor.gui.glowing");
+    public static final MutableComponent FIRE = translated("ibeeditor.gui.fire");
     public static final MutableComponent SAVE_VAULT = translated("ibeeditor.gui.save_vault");
     public static final MutableComponent SAVE_VAULT_GREEN = translated("ibeeditor.gui.save_vault").withStyle(ChatFormatting.GREEN);
-    public static final MutableComponent SAVED_VAULT = translated("ibeeditor.gui.saved_vault");
     public static final MutableComponent OPEN_EDITOR = translated("ibeeditor.key.editor");
     public static final MutableComponent OPEN_NBT_EDITOR = translated("ibeeditor.key.nbt_editor");
     public static final MutableComponent OPEN_SNBT_EDITOR = translated("ibeeditor.key.snbt_editor");
@@ -163,6 +169,10 @@ public final class ModTexts {
 
     public static MutableComponent hide(MutableComponent with) {
         return translated("ibeeditor.gui.hide", with);
+    }
+
+    public static MutableComponent savedVault(MutableComponent arg) {
+        return translated("ibeeditor.gui.saved_vault", arg);
     }
 
     private static MutableComponent[] arrayText(String key, int size) {

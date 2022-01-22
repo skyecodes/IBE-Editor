@@ -134,9 +134,9 @@ public abstract class ScreenView implements View {
         return doneButton;
     }
 
-    public void addSaveVaultButton() {
+    public void addSaveVaultButton(MutableComponent arg) {
         editorButtons.getChildren().add(saveVaultButton = texturedToggleButton(ModTextures.SAVE, 16, 16, false).tooltip(ModTexts.SAVE_VAULT)
-                .action(() -> saveVaultButton.getTooltip().setAll(saveVaultButton.isActive() ? ModTexts.SAVED_VAULT : ModTexts.SAVE_VAULT)));
+                .action(() -> saveVaultButton.getTooltip().setAll(saveVaultButton.isActive() ? ModTexts.savedVault(arg) : ModTexts.SAVE_VAULT)));
     }
 
     public void addOpenEditorButton(Runnable action) {

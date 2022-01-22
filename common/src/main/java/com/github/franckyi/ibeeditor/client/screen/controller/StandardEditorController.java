@@ -22,7 +22,7 @@ public class StandardEditorController extends CategoryEntryScreenController<Stan
             view.getOpenNBTEditorButton().setDisable(true);
             view.getOpenSNBTEditorButton().setDisable(true);
         }
-        view.getHeaderLabel().setLabel(model.getEditorName());
+        view.getHeaderLabel().setLabel(model.getContext().getTargetName());
         view.getTextEditorButtons().visibleProperty().bind(model.activeTextEditorProperty().notNull());
         view.setTextEditorSupplier(model::getActiveTextEditor);
         view.getChooseCustomColorButton().onAction(e -> {

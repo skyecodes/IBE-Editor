@@ -34,13 +34,6 @@ public final class EntityEditorPacket {
     }
 
     public static class Request extends AbstractEditorRequest<RequestData> {
-        public Request() {
-        }
-
-        public Request(EditorType editorType, int entityId) {
-            super(editorType, new RequestData(entityId));
-        }
-
         public static final PacketSerializer<Request> SERIALIZER = new Serializer<>() {
             @Override
             public Request createInstance() {
@@ -52,6 +45,17 @@ public final class EntityEditorPacket {
                 return RequestData.SERIALIZER;
             }
         };
+
+        private Request() {
+        }
+
+        public Request(EditorType editorType, int entityId) {
+            super(editorType, new RequestData(entityId));
+        }
+
+        public int getEntityId() {
+            return getRequestData().entityId();
+        }
     }
 
     public static class Response extends AbstractEditorResponse<RequestData, ResponseData> {
@@ -71,6 +75,13 @@ public final class EntityEditorPacket {
                 return RequestData.SERIALIZER;
             }
         };
+
+        private Response() {
+        }
+
+        public Response(Request request, boolean hasPermission, CompoundTag tag) {
+            super(request, hasPermission, new ResponseData(tag));
+        }
 
         public CompoundTag getTag() {
             return getResponseData().tag();
@@ -95,7 +106,7 @@ public final class EntityEditorPacket {
             }
         };
 
-        public Update() {
+        private Update() {
         }
 
         public Update(Response response, CompoundTag tag) {

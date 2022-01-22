@@ -4,7 +4,6 @@ import com.github.franckyi.ibeeditor.client.context.ItemEditorContext;
 import com.github.franckyi.ibeeditor.client.screen.model.category.item.*;
 import com.github.franckyi.ibeeditor.common.ModTexts;
 import net.minecraft.nbt.Tag;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.DyeableLeatherItem;
 import net.minecraft.world.item.Item;
@@ -51,8 +50,4 @@ public class ItemEditorModel extends StandardEditorModel {
         }
     }
 
-    @Override
-    public MutableComponent getEditorName() {
-        return ModTexts.ITEM;
-    }
 }

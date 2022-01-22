@@ -16,14 +16,14 @@ public abstract class EntryController<M extends EntryModel, V extends EntryView>
         view.getDeleteButton().onAction(() -> model.getCategory().deleteEntry(model.getListIndex()));
         view.getResetButton().setVisible(model.isResetable());
         view.getResetButton().onAction(this::resetModel);
+        view.getUpButton().disableProperty().bind(model.listIndexProperty().eq(0));
+        view.getDownButton().disableProperty().bind(model.listIndexProperty().eq(model.listSizeProperty().substract(1)));
         model.listIndexProperty().addListener(this::updateListButtons);
         updateListButtons(model.getListIndex());
     }
 
     private void updateListButtons(int listIndex) {
         view.setListButtonsVisible(listIndex >= 0);
-        view.getUpButton().setVisible(listIndex != 0);
-        view.getDownButton().setVisible(listIndex != model.getListSize() - 1);
     }
 
     protected void resetModel() {

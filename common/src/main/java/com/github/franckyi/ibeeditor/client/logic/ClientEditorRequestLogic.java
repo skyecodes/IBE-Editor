@@ -1,12 +1,19 @@
 package com.github.franckyi.ibeeditor.client.logic;
 
 import com.github.franckyi.ibeeditor.client.ClientContext;
+import com.github.franckyi.ibeeditor.client.ClientUtil;
+import com.github.franckyi.ibeeditor.client.ModScreenHandler;
+import com.github.franckyi.ibeeditor.client.context.EntityEditorContext;
+import com.github.franckyi.ibeeditor.client.context.ItemEditorContext;
 import com.github.franckyi.ibeeditor.common.EditorType;
+import com.github.franckyi.ibeeditor.common.ModTexts;
 import com.github.franckyi.ibeeditor.common.network.*;
 import com.github.franckyi.ibeeditor.mixin.AbstractContainerScreenMixin;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.game.ServerboundSetCreativeModeSlotPacket;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.CreativeModeTab;
@@ -26,6 +33,10 @@ public final class ClientEditorRequestLogic {
             var entity = res.getEntity();
             if (ClientContext.isModInstalledOnServer()) {
                 NetworkManager.sendToServer(NetworkManager.ENTITY_EDITOR_REQUEST, new EntityEditorPacket.Request(editorType, entity.getId()));
+            } else {
+                var tag = new CompoundTag();
+                entity.save(tag);
+                ModScreenHandler.openEditor(editorType, new EntityEditorContext(tag, ModTexts.errorServerModRequired(ModTexts.ENTITY), true, null));
             }
             return true;
         }
@@ -37,6 +48,8 @@ public final class ClientEditorRequestLogic {
             var blockPos = res.getBlockPos();
             if (ClientContext.isModInstalledOnServer()) {
                 NetworkManager.sendToServer(NetworkManager.BLOCK_EDITOR_REQUEST, new BlockEditorPacket.Request(editorType, blockPos));
+            } else {
+                ClientUtil.showMessage(ModTexts.Messages.errorServerModRequired(ModTexts.BLOCK));
             }
             return true;
         }
@@ -50,6 +63,13 @@ public final class ClientEditorRequestLogic {
         }
         if (ClientContext.isModInstalledOnServer()) {
             NetworkManager.sendToServer(NetworkManager.MAIN_HAND_ITEM_EDITOR_REQUEST, new MainHandItemEditorPacket.Request(editorType));
+        } else {
+            if (Minecraft.getInstance().player.isCreative()) {
+                ModScreenHandler.openEditor(editorType, new ItemEditorContext(item, null, true, context ->
+                        Minecraft.getInstance().player.connection.send(new ServerboundSetCreativeModeSlotPacket(Minecraft.getInstance().player.getInventory().selected + Inventory.INVENTORY_SIZE, context.getItemStack()))));
+            } else {
+                ModScreenHandler.openEditor(editorType, new ItemEditorContext(item, ModTexts.errorServerModRequired(ModTexts.ITEM), true, null));
+            }
         }
         return true;
     }
@@ -82,6 +102,12 @@ public final class ClientEditorRequestLogic {
                 }
                 if (ClientContext.isModInstalledOnServer()) {
                     NetworkManager.sendToServer(NetworkManager.PLAYER_INVENTORY_ITEM_EDITOR_REQUEST, new PlayerInventoryItemEditorPacket.Request(editorType, slotIndex, creativeInventoryScreen));
+                } else {
+                    if (Minecraft.getInstance().player.isCreative()) {
+                        ModScreenHandler.openEditor(editorType, new ItemEditorContext(slot.getItem(), null, true, context -> slot.set(context.getItemStack())));
+                    } else {
+                        ModScreenHandler.openEditor(editorType, new ItemEditorContext(slot.getItem(), ModTexts.errorServerModRequired(ModTexts.ITEM), true, null));
+                    }
                 }
                 return true;
             } else if (Minecraft.getInstance().hitResult instanceof BlockHitResult res && Minecraft.getInstance().level.getBlockEntity(res.getBlockPos()) instanceof Container) {
@@ -89,6 +115,10 @@ public final class ClientEditorRequestLogic {
                     NetworkManager.sendToServer(NetworkManager.BLOCK_INVENTORY_ITEM_EDITOR_REQUEST, new BlockInventoryItemEditorPacket.Request(editorType, slotIndex, res.getBlockPos()));
                 }
                 return true;
+            } else if (Minecraft.getInstance().hitResult instanceof EntityHitResult res && res.getEntity() instanceof Container) {
+                if (ClientContext.isModInstalledOnServer()) {
+                    NetworkManager.sendToServer(NetworkManager.ENTITY_INVENTORY_ITEM_EDITOR_REQUEST, new EntityInventoryItemEditorPacket.Request(editorType, slotIndex, res.getEntity().getId()));
+                }
             }
         }
         return false;

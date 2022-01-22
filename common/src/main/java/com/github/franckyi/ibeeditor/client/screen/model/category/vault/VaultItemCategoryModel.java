@@ -20,6 +20,11 @@ public class VaultItemCategoryModel extends VaultCategoryModel {
     }
 
     @Override
+    public int getEntryListStart() {
+        return 0;
+    }
+
+    @Override
     public EntryModel createNewListEntry() {
         return new VaultItemEntryModel(this, ItemStack.EMPTY);
     }
@@ -27,10 +32,5 @@ public class VaultItemCategoryModel extends VaultCategoryModel {
     @Override
     protected MutableComponent getAddListEntryButtonTooltip() {
         return ModTexts.ITEM;
-    }
-
-    @Override
-    public void apply() {
-        getEntries().forEach(EntryModel::apply);
     }
 }

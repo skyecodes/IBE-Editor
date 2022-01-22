@@ -7,8 +7,8 @@ import com.github.franckyi.ibeeditor.common.ModTexts;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 
-public class ContainerCategoryModel extends BlockEditorCategoryModel {
-    public ContainerCategoryModel(BlockEditorModel editor) {
+public class BlockContainerCategoryModel extends BlockEditorCategoryModel {
+    public BlockContainerCategoryModel(BlockEditorModel editor) {
         super(ModTexts.CONTAINER, editor);
     }
 
@@ -28,8 +28,10 @@ public class ContainerCategoryModel extends BlockEditorCategoryModel {
     private void setCustomName(TextComponent value) {
         if (!value.getString().isEmpty()) {
             getData().putString("CustomName", Component.Serializer.toJson(value));
-        } else {
+        } else if (getData().getString("CustomName").isEmpty()) {
             getData().remove("CustomName");
+        } else {
+            getData().putString("CustomName", "");
         }
     }
 

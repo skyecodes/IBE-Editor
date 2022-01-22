@@ -3,6 +3,7 @@ package com.github.franckyi.ibeeditor.client.screen.model;
 import com.github.franckyi.ibeeditor.client.ClientUtil;
 import com.github.franckyi.ibeeditor.client.Vault;
 import com.github.franckyi.ibeeditor.client.screen.model.category.vault.VaultCategoryModel;
+import com.github.franckyi.ibeeditor.client.screen.model.category.vault.VaultEntityCategoryModel;
 import com.github.franckyi.ibeeditor.client.screen.model.category.vault.VaultItemCategoryModel;
 import com.github.franckyi.ibeeditor.common.ModTexts;
 
@@ -10,7 +11,8 @@ public class VaultScreenModel extends CategoryEntryScreenModel<VaultCategoryMode
     @Override
     protected void setupCategories() {
         getCategories().addAll(
-                new VaultItemCategoryModel(this)
+                new VaultItemCategoryModel(this),
+                new VaultEntityCategoryModel(this)
         );
     }
 

@@ -22,7 +22,7 @@ public final class MainHandItemEditorPacket extends ItemEditorPacket {
             }
         };
 
-        public Request() {
+        private Request() {
         }
 
         public Request(EditorType editorType) {
@@ -48,7 +48,7 @@ public final class MainHandItemEditorPacket extends ItemEditorPacket {
             }
         };
 
-        public Response() {
+        private Response() {
         }
 
         public Response(Request request, boolean permission, ItemStack itemStack) {
@@ -74,7 +74,7 @@ public final class MainHandItemEditorPacket extends ItemEditorPacket {
             }
         };
 
-        public Update() {
+        private Update() {
         }
 
         public Update(Response response, ItemStack itemStack) {

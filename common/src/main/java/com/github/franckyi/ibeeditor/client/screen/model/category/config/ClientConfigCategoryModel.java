@@ -29,12 +29,6 @@ public class ClientConfigCategoryModel extends ConfigCategoryModel {
         );
     }
 
-    @Override
-    public void initalize() {
-        super.initalize();
-        syncEntries();
-    }
-
     private void reload() {
         ClientConfiguration.load();
         syncEntries();

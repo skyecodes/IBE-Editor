@@ -24,12 +24,6 @@ public class CommonConfigCategoryModel extends ConfigCategoryModel {
         );
     }
 
-    @Override
-    public void initalize() {
-        super.initalize();
-        syncEntries();
-    }
-
     private void reload() {
         CommonConfiguration.load();
         syncEntries();

@@ -2,7 +2,6 @@ package com.github.franckyi.ibeeditor.client.screen.model;
 
 import com.github.franckyi.ibeeditor.client.context.EditorContext;
 import com.github.franckyi.ibeeditor.client.screen.model.category.EditorCategoryModel;
-import net.minecraft.network.chat.MutableComponent;
 
 public abstract class StandardEditorModel extends CategoryEntryScreenModel<EditorCategoryModel> implements EditorModel {
     private final EditorContext<?> context;
@@ -25,6 +24,4 @@ public abstract class StandardEditorModel extends CategoryEntryScreenModel<Edito
     public EditorContext<?> getContext() {
         return context;
     }
-
-    public abstract MutableComponent getEditorName();
 }

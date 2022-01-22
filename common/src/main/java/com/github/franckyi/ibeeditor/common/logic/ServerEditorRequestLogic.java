@@ -3,6 +3,7 @@ package com.github.franckyi.ibeeditor.common.logic;
 import com.github.franckyi.ibeeditor.common.CommonUtil;
 import com.github.franckyi.ibeeditor.common.ModTexts;
 import com.github.franckyi.ibeeditor.common.network.*;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
 
@@ -23,6 +24,14 @@ public final class ServerEditorRequestLogic {
         }
     }
 
+    public static void onEntityInventoryItemEditorRequest(ServerPlayer player, EntityInventoryItemEditorPacket.Request request) {
+        if (player.getLevel().getEntity(request.getEntityId()) instanceof Container container) {
+            NetworkManager.sendToClient(player, NetworkManager.ENTITY_INVENTORY_ITEM_EDITOR_RESPONSE, new EntityInventoryItemEditorPacket.Response(request, PermissionLogic.hasPermission(player), container.getItem(request.getSlot())));
+        } else {
+            CommonUtil.showTargetError(player, ModTexts.ITEM);
+        }
+    }
+
     public static void onBlockEditorRequest(ServerPlayer player, BlockEditorPacket.Request request) {
         var level = player.getLevel();
         var blockState = level.getBlockState(request.getBlockPos());
@@ -32,6 +41,14 @@ public final class ServerEditorRequestLogic {
     }
 
     public static void onEntityEditorRequest(ServerPlayer player, EntityEditorPacket.Request request) {
-        if (PermissionLogic.hasPermission(player)) return;
+        var entity = player.getLevel().getEntity(request.getEntityId());
+        var tag = (CompoundTag) null;
+        if (entity != null) {
+            tag = new CompoundTag();
+            if (!entity.save(tag)) {
+                entity.saveWithoutId(tag);
+            }
+        }
+        NetworkManager.sendToClient(player, NetworkManager.ENTITY_EDITOR_RESPONSE, new EntityEditorPacket.Response(request, PermissionLogic.hasPermission(player), tag));
     }
 }

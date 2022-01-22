@@ -67,8 +67,8 @@ public abstract class EntryModel implements Model {
     public abstract Type getType();
 
     public enum Type {
-        STRING, INTEGER, TEXT, ENUM, ACTION, ADD_LIST_ENTRY, BOOLEAN,
+        STRING, NUMBER, TEXT, ENUM, ACTION, ADD_LIST_ENTRY, BOOLEAN,
         ENCHANTMENT, HIDE_FLAG, ATTRIBUTE_MODIFIER, SELECTION, SELECTION_POTION, POTION_EFFECT, ARMOR_COLOR,
-        VAULT_ITEM
+        VAULT_ITEM, VAULT_ENTITY
     }
 }

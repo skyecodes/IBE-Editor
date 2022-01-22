@@ -49,7 +49,7 @@ public final class BlockEditorPacket {
             }
         };
 
-        public Request() {
+        private Request() {
         }
 
         public Request(EditorType editorType, BlockPos blockPos) {
@@ -79,7 +79,7 @@ public final class BlockEditorPacket {
             }
         };
 
-        public Response() {
+        private Response() {
         }
 
         public Response(Request request, boolean hasPermission, BlockState blockState, CompoundTag tag) {
@@ -117,7 +117,7 @@ public final class BlockEditorPacket {
             }
         };
 
-        public Update() {
+        private Update() {
         }
 
         public Update(Response response, BlockState blockState, CompoundTag tag) {

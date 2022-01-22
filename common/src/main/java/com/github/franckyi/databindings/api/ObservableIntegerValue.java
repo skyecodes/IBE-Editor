@@ -128,4 +128,52 @@ public interface ObservableIntegerValue extends ObservableValue<Integer> {
     default ObservableIntegerValue divide(ObservableValue<Integer> other) {
         return observe(() -> get() / other.get(), this, other);
     }
+
+    default ObservableBooleanValue eq(int value) {
+        return mapToBoolean(i -> i == value);
+    }
+
+    default ObservableBooleanValue neq(int value) {
+        return mapToBoolean(i -> i != value);
+    }
+
+    default ObservableBooleanValue gt(int value) {
+        return mapToBoolean(i -> i > value);
+    }
+
+    default ObservableBooleanValue lt(int value) {
+        return mapToBoolean(i -> i < value);
+    }
+
+    default ObservableBooleanValue gte(int value) {
+        return mapToBoolean(i -> i >= value);
+    }
+
+    default ObservableBooleanValue lte(int value) {
+        return mapToBoolean(i -> i <= value);
+    }
+
+    default ObservableBooleanValue eq(ObservableValue<Integer> value) {
+        return ObservableBooleanValue.observe(() -> getValue() == value.get(), this, value);
+    }
+
+    default ObservableBooleanValue neq(ObservableValue<Integer> value) {
+        return ObservableBooleanValue.observe(() -> getValue() != value.get(), this, value);
+    }
+
+    default ObservableBooleanValue gt(ObservableValue<Integer> value) {
+        return ObservableBooleanValue.observe(() -> getValue() > value.get(), this, value);
+    }
+
+    default ObservableBooleanValue lt(ObservableValue<Integer> value) {
+        return ObservableBooleanValue.observe(() -> getValue() < value.get(), this, value);
+    }
+
+    default ObservableBooleanValue gte(ObservableValue<Integer> value) {
+        return ObservableBooleanValue.observe(() -> getValue() >= value.get(), this, value);
+    }
+
+    default ObservableBooleanValue lte(ObservableValue<Integer> value) {
+        return ObservableBooleanValue.observe(() -> getValue() <= value.get(), this, value);
+    }
 }

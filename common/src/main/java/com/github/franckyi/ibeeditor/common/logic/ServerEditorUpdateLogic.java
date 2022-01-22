@@ -39,6 +39,19 @@ public final class ServerEditorUpdateLogic {
         }
     }
 
+    public static void onEntityInventoryItemEditorUpdate(ServerPlayer player, EntityInventoryItemEditorPacket.Update response) {
+        if (!PermissionLogic.hasPermission(player)) {
+            CommonUtil.showPermissionError(player, ModTexts.ITEM);
+            return;
+        }
+        if (player.getLevel().getEntity(response.getEntityId()) instanceof Container container) {
+            container.setItem(response.getSlot(), response.getItemStack());
+            CommonUtil.showSuccess(player, ModTexts.ITEM);
+        } else {
+            CommonUtil.showTargetError(player, ModTexts.ITEM);
+        }
+    }
+
     public static void onBlockEditorUpdate(ServerPlayer player, BlockEditorPacket.Update update) {
         if (!PermissionLogic.hasPermission(player)) {
             CommonUtil.showPermissionError(player, ModTexts.BLOCK);
