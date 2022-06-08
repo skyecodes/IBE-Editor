@@ -26,7 +26,7 @@ public final class Color {
     }
 
     public static int fromRGB(int r, int g, int b) {
-        return fromRGBA(r, g, b, 255);
+        return fromRGBA(r, g, b, 0);
     }
 
     public static int fromRGBA(int r, int g, int b, int a) {
