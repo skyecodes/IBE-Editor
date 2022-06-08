@@ -10,11 +10,15 @@ import com.github.franckyi.ibeeditor.common.ModTexts;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 
+import java.util.Arrays;
+import java.util.Collections;
+
 import static com.github.franckyi.guapi.api.GuapiHelper.*;
 
 public abstract class ScreenView implements View {
     private VBox root;
     private Label headerLabel;
+    private TexturedToggleButton copyCommandButton;
     private TexturedToggleButton saveVaultButton;
     private TexturedButton openEditorButton;
     private TexturedButton openNBTEditorButton;
@@ -110,6 +114,10 @@ public abstract class ScreenView implements View {
         return headerLabel;
     }
 
+    public TexturedToggleButton getCopyCommandButton() {
+        return copyCommandButton;
+    }
+
     public TexturedToggleButton getSaveVaultButton() {
         return saveVaultButton;
     }
@@ -135,8 +143,9 @@ public abstract class ScreenView implements View {
     }
 
     public void addSaveVaultButton(MutableComponent arg) {
-        editorButtons.getChildren().add(saveVaultButton = texturedToggleButton(ModTextures.SAVE, 16, 16, false).tooltip(ModTexts.SAVE_VAULT)
-                .action(() -> saveVaultButton.getTooltip().setAll(saveVaultButton.isActive() ? ModTexts.savedVault(arg) : ModTexts.SAVE_VAULT)));
+        editorButtons.getChildren().add(saveVaultButton = texturedToggleButton(ModTextures.SAVE, 16, 16, false)
+                .tooltip(ModTexts.SAVE_VAULT).action(() -> saveVaultButton.getTooltip().setAll(saveVaultButton.isActive() ?
+                        Arrays.asList(ModTexts.savedVault(arg)) : Collections.singletonList(ModTexts.SAVE_VAULT))));
     }
 
     public void addOpenEditorButton(Runnable action) {
@@ -152,5 +161,11 @@ public abstract class ScreenView implements View {
     public void addOpenSNBTEditorButton(Runnable action) {
         editorButtons.getChildren().add(openSNBTEditorButton = texturedButton(ModTextures.SNBT_EDITOR, 16, 16, false)
                 .tooltip(ModTexts.OPEN_SNBT_EDITOR).action(action));
+    }
+
+    public void addCopyCommandButton(MutableComponent copyText, String copiedText) {
+        editorButtons.getChildren().add(copyCommandButton = texturedToggleButton(ModTextures.COPY_COMMAND, 16, 16, false)
+                .tooltip(copyText).action(() -> copyCommandButton.getTooltip().setAll(copyCommandButton.isActive() ?
+                        Arrays.asList(ModTexts.commandCopied(copiedText)) : Collections.singletonList(copyText))));
     }
 }

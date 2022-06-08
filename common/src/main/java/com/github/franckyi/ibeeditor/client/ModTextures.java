@@ -73,6 +73,7 @@ public class ModTextures {
     public static final ResourceLocation EDITOR = gui("editor");
     public static final ResourceLocation NBT_EDITOR = gui("nbt_editor");
     public static final ResourceLocation SNBT_EDITOR = gui("snbt_editor");
+    public static final ResourceLocation COPY_COMMAND = gui("copy_command");
 
     public static ResourceLocation gui(String textureName) {
         return new ResourceLocation("ibeeditor", String.format("textures/gui/%s.png", textureName));

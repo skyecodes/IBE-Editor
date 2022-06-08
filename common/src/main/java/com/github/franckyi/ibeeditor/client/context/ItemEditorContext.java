@@ -38,4 +38,14 @@ public class ItemEditorContext extends EditorContext<ItemEditorContext> {
     public MutableComponent getTargetName() {
         return ModTexts.ITEM;
     }
+
+    @Override
+    public String getCommandName() {
+        return "/give";
+    }
+
+    @Override
+    protected String getCommand() {
+        return String.format("/give @p %s%s %s", getItemStack().getItem(), getTag().get("tag"), getItemStack().getCount());
+    }
 }

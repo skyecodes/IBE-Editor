@@ -1,5 +1,8 @@
 package com.github.franckyi.ibeeditor.client.context;
 
+import com.github.franckyi.ibeeditor.client.ClientUtil;
+import com.github.franckyi.ibeeditor.common.ModTexts;
+import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -11,6 +14,8 @@ public abstract class EditorContext<T extends EditorContext<T>> {
     protected Component errorTooltip;
     protected boolean canSaveToVault;
     private boolean isSaveToVault = false;
+
+    private boolean isCopyCommand = false;
     private final Consumer<T> action;
 
     public EditorContext(CompoundTag tag, Component errorTooltip, boolean canSaveToVault, Consumer<T> action) {
@@ -41,6 +46,10 @@ public abstract class EditorContext<T extends EditorContext<T>> {
         if (isSaveToVault()) {
             saveToVault();
         }
+        if (isCopyCommand()) {
+            Minecraft.getInstance().keyboardHandler.setClipboard(getCommand());
+            ClientUtil.showMessage(ModTexts.Messages.successCopyClipboard(getCommandName()));
+        }
         if (hasPermission()) {
             action.accept((T) this);
         }
@@ -58,8 +67,24 @@ public abstract class EditorContext<T extends EditorContext<T>> {
         this.isSaveToVault = isSaveToVault;
     }
 
+    public boolean isCopyCommand() {
+        return isCopyCommand;
+    }
+
+    public void setCopyCommand(boolean copyCommand) {
+        isCopyCommand = copyCommand;
+    }
+
     public void saveToVault() {
     }
 
     public abstract MutableComponent getTargetName();
+
+    public MutableComponent getCommandTooltip() {
+        return ModTexts.copyCommand(getCommandName());
+    }
+
+    public abstract String getCommandName();
+
+    protected abstract String getCommand();
 }

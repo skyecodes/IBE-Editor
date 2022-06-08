@@ -10,6 +10,10 @@ public interface EditorController<M extends EditorModel, V extends ScreenView> e
     @Override
     default void bind() {
         getModel().validProperty().addListener(this::updateDoneButton);
+        getView().addCopyCommandButton(getModel().getContext().getCommandTooltip(), getModel().getContext().getCommandName());
+        getView().getCopyCommandButton().setActive(getModel().getContext().isCopyCommand());
+        getView().getCopyCommandButton().activeProperty().addListener(getModel().getContext()::setCopyCommand);
+        getView().getCopyCommandButton().activeProperty().addListener(this::updateDoneButton);
         if (getModel().getContext().canSaveToVault()) {
             getView().addSaveVaultButton(getModel().getContext().getTargetName());
             getView().getSaveVaultButton().setActive(getModel().getContext().isSaveToVault());
@@ -29,9 +33,10 @@ public interface EditorController<M extends EditorModel, V extends ScreenView> e
             }
         } else {
             boolean disable = true;
-            Component label = ModTexts.SAVE_VAULT_GREEN;
+            Component label;
             Component tooltip = null;
-            if (getModel().getContext().isSaveToVault()) {
+            if (getModel().getContext().isSaveToVault() || getModel().getContext().isCopyCommand()) {
+                label = getModel().getContext().isSaveToVault() ? ModTexts.SAVE_VAULT_GREEN : ModTexts.COPY_COMMAND_GREEN;
                 if (getModel().isValid()) {
                     disable = false;
                 } else {

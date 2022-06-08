@@ -118,6 +118,7 @@ public final class ModTexts {
     public static final MutableComponent OPEN_EDITOR = translated("ibeeditor.key.editor");
     public static final MutableComponent OPEN_NBT_EDITOR = translated("ibeeditor.key.nbt_editor");
     public static final MutableComponent OPEN_SNBT_EDITOR = translated("ibeeditor.key.snbt_editor");
+    public static final MutableComponent COPY_COMMAND_GREEN = translated("ibeeditor.gui.copy_command_alt").withStyle(ChatFormatting.GREEN);
 
     public static MutableComponent errorServerModRequired(MutableComponent with) {
         return translated("ibeeditor.message.error_server_mod", with).withStyle(ChatFormatting.RED);
@@ -171,14 +172,30 @@ public final class ModTexts {
         return translated("ibeeditor.gui.hide", with);
     }
 
-    public static MutableComponent savedVault(MutableComponent arg) {
-        return translated("ibeeditor.gui.saved_vault", arg);
+    public static MutableComponent[] savedVault(MutableComponent arg) {
+        return arrayTextWithArg("ibeeditor.gui.saved_vault", 4, arg);
+    }
+
+    public static MutableComponent copyCommand(String command) {
+        return translated("ibeeditor.gui.copy_command", command);
+    }
+
+    public static MutableComponent[] commandCopied(String arg) {
+        return arrayTextWithArg("ibeeditor.gui.command_copied", 4, arg);
     }
 
     private static MutableComponent[] arrayText(String key, int size) {
         MutableComponent[] array = new MutableComponent[size];
         for (int i = 0; i < size; i++) {
             array[i] = translated(key + "." + i);
+        }
+        return array;
+    }
+
+    public static MutableComponent[] arrayTextWithArg(String key, int size, Object arg) {
+        MutableComponent[] array = new MutableComponent[size];
+        for (int i = 0; i < size; i++) {
+            array[i] = i == 0 ? translated(key + "." + i, arg) : translated(key + "." + i);
         }
         return array;
     }
@@ -213,6 +230,10 @@ public final class ModTexts {
 
         public static MutableComponent warnNotSavedVault(MutableComponent arg) {
             return prefixed(translated("ibeeditor.message.not_saved_vault", arg)).withStyle(ChatFormatting.YELLOW);
+        }
+
+        public static MutableComponent successCopyClipboard(String arg) {
+            return prefixed(translated("ibeeditor.message.copied_clipboard", arg)).withStyle(ChatFormatting.GREEN);
         }
 
         private static MutableComponent prefixed(MutableComponent arg) {

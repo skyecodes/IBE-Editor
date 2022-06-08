@@ -117,7 +117,10 @@
   "ibeeditor.gui.glowing": "Glowing",
   "ibeeditor.gui.fire": "Fire duration",
   "ibeeditor.gui.save_vault": "Save to Vault",
-  "ibeeditor.gui.saved_vault": "The %s will be saved to the Vault after applying the changes. Press again to cancel.",
+  "ibeeditor.gui.saved_vault.0": "The %s will be saved to the Vault",
+  "ibeeditor.gui.saved_vault.1": "after applying the changes.",
+  "ibeeditor.gui.saved_vault.2": "",
+  "ibeeditor.gui.saved_vault.3": "Press again to cancel.",
   "ibeeditor.gui.edit": "Edit",
   "ibeeditor.gui.client": "Client",
   "ibeeditor.gui.theme": "Theme",
@@ -128,6 +131,12 @@
   "ibeeditor.gui.creative_only": "Creative only",
   "ibeeditor.gui.reload_config": "Reload configuration from disk",
   "ibeeditor.gui.level": "Level",
+  "ibeeditor.gui.copy_command": "Copy %s command to clipboard",
+  "ibeeditor.gui.copy_command_alt": "Copy command",
+  "ibeeditor.gui.command_copied.0": "The %s command will be copied",
+  "ibeeditor.gui.command_copied.1": "after applying the changes.",
+  "ibeeditor.gui.command_copied.2": "",
+  "ibeeditor.gui.command_copied.3": "Press again to cancel.",
   "ibeeditor.text.item": "Item",
   "ibeeditor.text.block": "Block",
   "ibeeditor.text.entity": "Entity",
@@ -139,5 +148,6 @@
   "ibeeditor.message.error_generic": "An error occured. Please check the logs for more details and report the issue to the mod author.",
   "ibeeditor.message.not_implemented": "The %s Editor is not implemented yet and will come in a future release.",
   "ibeeditor.message.saved_vault": "%s saved in the Vault!",
-  "ibeeditor.message.not_saved_vault": "%s already saved in the Vault."
+  "ibeeditor.message.not_saved_vault": "%s already saved in the Vault.",
+  "ibeeditor.message.copied_clipboard": "%s command copied to the clipboard!"
 }

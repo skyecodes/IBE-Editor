@@ -37,4 +37,22 @@ public class EntityEditorContext extends EditorContext<EntityEditorContext> {
     public MutableComponent getTargetName() {
         return ModTexts.ENTITY;
     }
+
+    @Override
+    public String getCommandName() {
+        return "/summon";
+    }
+
+    @Override
+    protected String getCommand() {
+        return String.format("/summon %s ~ ~ ~ %s", getTag().getString("id"), getSimpleTag());
+    }
+
+    private CompoundTag getSimpleTag() {
+        CompoundTag tag = getTag().copy();
+        tag.remove("UUID");
+        tag.remove("Pos");
+        tag.remove("Rotation");
+        return tag;
+    }
 }

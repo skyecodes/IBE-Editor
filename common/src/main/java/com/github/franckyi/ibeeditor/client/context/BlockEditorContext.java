@@ -2,6 +2,7 @@ package com.github.franckyi.ibeeditor.client.context;
 
 import com.github.franckyi.ibeeditor.common.ModTexts;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -36,5 +37,17 @@ public class BlockEditorContext extends EditorContext<BlockEditorContext> {
     @Override
     public MutableComponent getTargetName() {
         return ModTexts.BLOCK;
+    }
+
+    @Override
+    public String getCommandName() {
+        return "/setblock";
+    }
+
+    @Override
+    protected String getCommand() {
+        String blockStateStr = getBlockState().toString();
+        return String.format("/setblock ~ ~ ~ %s%s%s replace", Registry.BLOCK.getKey(getBlockState().getBlock()),
+                getBlockState().getProperties().isEmpty() ? "" : blockStateStr.substring(blockStateStr.indexOf("[")), getTag());
     }
 }
