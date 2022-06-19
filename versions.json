@@ -1,4 +1,8 @@
 {
+  "2.1.0": {
+    "type": "release",
+    "changelog": "* Added Block Editor (not finished yet)\n* Added Entity Editor (not finished yet)\n* Added Vault: allows to save items and entities and re-use them between saves or servers (not finished yet)\n* Added \"Copy command\" button\n* Added buttons to switch between editors (standard, NBT, SNBT)\n* Various fixes"
+  },
   "2.0.10": {
     "type": "beta",
     "changelog": "* Fixed an issue while editing an item from the creative survival inventory screen or from a chest\n* Added automatic file upload to Modrinth"

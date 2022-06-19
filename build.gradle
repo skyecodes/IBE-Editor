@@ -5,8 +5,8 @@ import net.darkhax.curseforgegradle.TaskPublishCurseForge
 
 plugins {
     id "architectury-plugin" version "3.4-SNAPSHOT"
-    id "dev.architectury.loom" version "0.10.0-SNAPSHOT" apply false
-    id 'net.darkhax.curseforgegradle' version "1.0.7"
+    id "dev.architectury.loom" version "0.11.0-SNAPSHOT" apply false
+    id "net.darkhax.curseforgegradle" version "1.0.10"
     id "com.modrinth.minotaur" version "1.2.1"
     id "com.github.breadmoirai.github-release" version "2.2.12"
 }

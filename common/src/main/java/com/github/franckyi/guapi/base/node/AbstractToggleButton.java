@@ -9,7 +9,7 @@ import net.minecraft.network.chat.Component;
 
 public abstract class AbstractToggleButton extends AbstractButton implements ToggleButton {
     private final BooleanProperty activeProperty = BooleanProperty.create();
-    private final IntegerProperty borderColorProperty = IntegerProperty.create(Color.fromRGB(1.0, 1.0, 1.0));
+    private final IntegerProperty borderColorProperty = IntegerProperty.create(Color.fromRGBForRender(1.0, 1.0, 1.0));
 
     protected AbstractToggleButton() {
     }

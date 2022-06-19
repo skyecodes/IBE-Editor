@@ -39,6 +39,9 @@ public class ItemEditorModel extends StandardEditorModel {
         if (item instanceof BlockItem) {
             getCategories().add(new ItemBlockListCategoryModel(ModTexts.CAN_PLACE_ON, this, "CanPlaceOn"));
         }
+        /*if (item instanceof SpawnEggItem) {
+            getCategories().add(new ItemSpawnEggCategoryModel(this, (SpawnEggItem) item));
+        }*/
     }
 
     @Override

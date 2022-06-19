@@ -29,6 +29,10 @@ public final class Color {
         return fromRGBA(r, g, b, 0);
     }
 
+    public static int fromRGBForRender(int r, int g, int b) {
+        return fromRGBA(r, g, b, 255);
+    }
+
     public static int fromRGBA(int r, int g, int b, int a) {
         checkValues(r, g, b, a);
         return (a & 0xff) << 24 |
@@ -39,6 +43,10 @@ public final class Color {
 
     public static int fromRGB(double r, double g, double b) {
         return fromRGB((int) (r * 255), (int) (g * 255), (int) (b * 255));
+    }
+
+    public static int fromRGBForRender(double r, double g, double b) {
+        return fromRGBForRender((int) (r * 255), (int) (g * 255), (int) (b * 255));
     }
 
     public static int fromRGBA(double r, double g, double b, double a) {
