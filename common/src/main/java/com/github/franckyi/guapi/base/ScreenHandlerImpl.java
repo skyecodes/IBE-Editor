@@ -3,6 +3,7 @@ package com.github.franckyi.guapi.base;
 import com.github.franckyi.databindings.api.IntegerProperty;
 import com.github.franckyi.databindings.api.ObjectProperty;
 import com.github.franckyi.guapi.api.Guapi;
+import com.github.franckyi.guapi.api.GuapiHelper;
 import com.github.franckyi.guapi.api.ScreenHandler;
 import com.github.franckyi.guapi.api.event.ScreenEvent;
 import com.github.franckyi.guapi.api.node.Scene;
@@ -11,7 +12,7 @@ import com.github.franckyi.guapi.base.event.*;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.network.chat.TextComponent;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -170,11 +171,11 @@ public final class ScreenHandlerImpl implements ScreenHandler {
 
     private final class GuapiScreen extends Screen {
         private GuapiScreen() {
-            super(TextComponent.EMPTY);
+            super(GuapiHelper.EMPTY_TEXT);
         }
 
         @Override
-        public void render(PoseStack matrices, int mouseX, int mouseY, float partialTicks) {
+        public void render(@NotNull PoseStack matrices, int mouseX, int mouseY, float partialTicks) {
             if (!currentSceneProperty().hasValue()) return;
             if (getCurrentScene().isTexturedBackground()) {
                 renderDirtBackground(0);

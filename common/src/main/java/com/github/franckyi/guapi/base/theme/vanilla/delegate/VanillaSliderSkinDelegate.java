@@ -2,7 +2,7 @@ package com.github.franckyi.guapi.base.theme.vanilla.delegate;
 
 import com.github.franckyi.guapi.api.node.Slider;
 import net.minecraft.client.gui.components.AbstractSliderButton;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import org.lwjgl.glfw.GLFW;
 
@@ -10,7 +10,7 @@ public class VanillaSliderSkinDelegate extends AbstractSliderButton implements V
     private final Slider node;
 
     public VanillaSliderSkinDelegate(Slider node) {
-        super(node.getX(), node.getY(), node.getWidth(), node.getHeight(), TextComponent.EMPTY, node.getValue());
+        super(node.getX(), node.getY(), node.getWidth(), node.getHeight(), Component.empty(), node.getValue());
         this.node = node;
         initNodeWidget(node);
         node.valueProperty().addListener(this::updateValue);

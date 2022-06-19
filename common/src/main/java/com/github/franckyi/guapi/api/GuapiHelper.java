@@ -10,7 +10,9 @@ import com.github.franckyi.guapi.api.node.builder.*;
 import com.github.franckyi.guapi.api.util.Align;
 import com.github.franckyi.guapi.api.util.Insets;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.network.chat.*;
+import net.minecraft.network.chat.ClickEvent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
@@ -199,6 +201,7 @@ public final class GuapiHelper {
         return node().createListView(eClass, itemHeight);
     }
 
+    @SafeVarargs
     public static <E> ListViewBuilder<E> listView(int itemHeight, E... items) {
         return node().createListView(itemHeight, items);
     }
@@ -391,26 +394,22 @@ public final class GuapiHelper {
         return node().createScene(with);
     }
 
-    public static final MutableComponent EMPTY_TEXT = (MutableComponent) TextComponent.EMPTY;
+    public static final MutableComponent EMPTY_TEXT = Component.empty();
 
-    public static TextComponent text() {
+    public static MutableComponent text() {
         return text("");
     }
 
-    public static TextComponent text(String text) {
-        return new TextComponent(text);
+    public static MutableComponent text(String text) {
+        return Component.literal(text);
     }
 
-    public static TranslatableComponent translated() {
-        return translated(null);
+    public static MutableComponent translated(String key) {
+        return Component.translatable(key);
     }
 
-    public static TranslatableComponent translated(String key) {
-        return new TranslatableComponent(key);
-    }
-
-    public static TranslatableComponent translated(String key, Object... args) {
-        return new TranslatableComponent(key, args);
+    public static MutableComponent translated(String key, Object... args) {
+        return Component.translatable(key, args);
     }
 
     public static ClickEvent event(ClickEvent.Action action, String value) {

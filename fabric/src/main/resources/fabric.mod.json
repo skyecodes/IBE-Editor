@@ -31,9 +31,10 @@
     "ibeeditor-fabric.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.7.4",
-    "fabric": ">=0.30.0",
-    "minecraft": "1.18.x"
+    "fabricloader": ">=0.14.6",
+    "fabric": "*",
+    "minecraft": "~1.19",
+    "java": ">=17"
   },
   "custom": {
     "modmenu": {

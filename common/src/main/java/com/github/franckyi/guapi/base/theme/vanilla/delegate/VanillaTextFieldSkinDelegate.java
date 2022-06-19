@@ -9,9 +9,9 @@ import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.FormattedText;
 import net.minecraft.network.chat.Style;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.util.Mth;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
@@ -86,7 +86,7 @@ public class VanillaTextFieldSkinDelegate<N extends TextField> extends EditBox i
     }
 
     public Component renderText(String str, int firstCharacterIndex) {
-        return node.getTextRenderer() == null ? new TextComponent(str) : node.getTextRenderer().render(str, firstCharacterIndex);
+        return node.getTextRenderer() == null ? Component.literal(str) : node.getTextRenderer().render(str, firstCharacterIndex);
     }
 
     @Override
@@ -110,7 +110,7 @@ public class VanillaTextFieldSkinDelegate<N extends TextField> extends EditBox i
     }
 
     @Override
-    public void insertText(String string) {
+    public void insertText(@NotNull String string) {
         int oldCursorPos = getCursorPosition();
         int oldHighlightPos = node.getHighlightPosition();
         String oldText = getValue();
@@ -167,7 +167,7 @@ public class VanillaTextFieldSkinDelegate<N extends TextField> extends EditBox i
     }
 
     @Override
-    public void renderButton(PoseStack matrices, int mouseX, int mouseY, float delta) {
+    public void renderButton(@NotNull PoseStack matrices, int mouseX, int mouseY, float delta) {
         Font font = Minecraft.getInstance().font;
         if (isVisible()) {
             if (self.isBordered()) {

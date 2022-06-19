@@ -11,7 +11,7 @@ import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.contents.LiteralContents;
 import net.minecraft.world.item.ItemStack;
 
 public class ItemDisplayCategoryModel extends ItemEditorCategoryModel {
@@ -27,7 +27,6 @@ public class ItemDisplayCategoryModel extends ItemEditorCategoryModel {
         getDisplay().getList("Lore", Tag.TAG_STRING).stream()
                 .map(Tag::getAsString)
                 .map(Component.Serializer::fromJson)
-                .map(TextComponent.class::cast)
                 .map(this::createLoreEntry)
                 .forEach(getEntries()::add);
     }
@@ -47,7 +46,7 @@ public class ItemDisplayCategoryModel extends ItemEditorCategoryModel {
         return createLoreEntry(null);
     }
 
-    private EntryModel createLoreEntry(TextComponent value) {
+    private EntryModel createLoreEntry(MutableComponent value) {
         TextEntryModel entry = new TextEntryModel(this, null, value, this::addLore);
         entry.listIndexProperty().addListener(index -> entry.setLabel(ModTexts.lore(index + 1)));
         return entry;
@@ -67,14 +66,14 @@ public class ItemDisplayCategoryModel extends ItemEditorCategoryModel {
         }
     }
 
-    private TextComponent getItemName() {
+    private MutableComponent getItemName() {
         String s = getDisplay().getString(ItemStack.TAG_DISPLAY_NAME);
-        return s.isEmpty() ? null : (TextComponent) Component.Serializer.fromJson(s);
+        return s.isEmpty() ? null : Component.Serializer.fromJson(s);
     }
 
-    private void setItemName(TextComponent value) {
+    private void setItemName(MutableComponent value) {
         if (!value.getString().isEmpty()) {
-            if (value.getText().isEmpty() && !value.getSiblings().isEmpty()) {
+            if (!value.getSiblings().isEmpty() && value.getContents() instanceof LiteralContents lc && lc.text().isEmpty()) {
                 value.withStyle(style -> style.withItalic(false));
             }
             getOrCreateDisplay().putString(ItemStack.TAG_DISPLAY_NAME, Component.Serializer.toJson(value));
@@ -83,8 +82,8 @@ public class ItemDisplayCategoryModel extends ItemEditorCategoryModel {
         }
     }
 
-    private void addLore(TextComponent value) {
-        if (!value.getString().isEmpty() && value.getText().isEmpty() && !value.getSiblings().isEmpty()) {
+    private void addLore(MutableComponent value) {
+        if (!value.getString().isEmpty() && value.getContents() instanceof LiteralContents lc && lc.text().isEmpty() && !value.getSiblings().isEmpty()) {
             value.withStyle(style -> style.withItalic(false).withColor(ChatFormatting.WHITE));
         }
         newLore.add(StringTag.valueOf(Component.Serializer.toJson(value)));

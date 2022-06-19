@@ -5,7 +5,7 @@ import com.github.franckyi.ibeeditor.client.screen.model.entry.StringEntryModel;
 import com.github.franckyi.ibeeditor.client.screen.model.entry.TextEntryModel;
 import com.github.franckyi.ibeeditor.common.ModTexts;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.MutableComponent;
 
 public class BlockContainerCategoryModel extends BlockEditorCategoryModel {
     public BlockContainerCategoryModel(BlockEditorModel editor) {
@@ -20,12 +20,12 @@ public class BlockContainerCategoryModel extends BlockEditorCategoryModel {
         );
     }
 
-    private TextComponent getCustomName() {
+    private MutableComponent getCustomName() {
         String s = getData().getString("CustomName");
-        return s.isEmpty() ? null : (TextComponent) Component.Serializer.fromJson(s);
+        return s.isEmpty() ? null : Component.Serializer.fromJson(s);
     }
 
-    private void setCustomName(TextComponent value) {
+    private void setCustomName(MutableComponent value) {
         if (!value.getString().isEmpty()) {
             getData().putString("CustomName", Component.Serializer.toJson(value));
         } else if (getData().getString("CustomName").isEmpty()) {

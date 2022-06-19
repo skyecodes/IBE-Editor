@@ -1,6 +1,6 @@
 package com.github.franckyi.ibeeditor.client.util.texteditor;
 
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.MutableComponent;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -8,12 +8,12 @@ import java.util.stream.Collectors;
 import static com.github.franckyi.guapi.api.GuapiHelper.*;
 
 public class TextEditorOutputFormatter {
-    private final TextComponent rootText;
+    private final MutableComponent rootText;
     private int currentFormattingIndex;
     private int previousTextIndex;
     private List<Formatting> currentFormattings;
 
-    public TextEditorOutputFormatter(TextComponent rootText) {
+    public TextEditorOutputFormatter(MutableComponent rootText) {
         this.rootText = rootText;
     }
 
@@ -55,12 +55,12 @@ public class TextEditorOutputFormatter {
     }
 
     private void appendText(String s) {
-        TextComponent text = text(s);
+        MutableComponent text = text(s);
         currentFormattings.forEach(formatting -> formatting.apply(text));
         rootText.append(text);
     }
 
-    public TextComponent getText() {
+    public MutableComponent getText() {
         return rootText;
     }
 }

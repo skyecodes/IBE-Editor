@@ -5,7 +5,7 @@ import com.github.franckyi.ibeeditor.client.screen.model.entry.TextEntryModel;
 import com.github.franckyi.ibeeditor.client.screen.view.entry.TextEntryView;
 import com.github.franckyi.ibeeditor.client.util.texteditor.*;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.MutableComponent;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -84,20 +84,20 @@ public class TextEntryController extends ValueEntryController<TextEntryModel, Te
 
     private Component renderText(String str, int firstCharacterIndex) {
         if (!str.isEmpty()) {
-            TextEditorOutputFormatter formatter = new TextEditorOutputFormatter((TextComponent) text().append(text("")));
+            TextEditorOutputFormatter formatter = new TextEditorOutputFormatter(text().append(text("")));
             formatter.format(str, firstCharacterIndex, formattings);
             return formatter.getText();
         }
         return EMPTY_TEXT;
     }
 
-    private TextComponent createText() {
-        TextEditorOutputFormatter formatter = new TextEditorOutputFormatter((TextComponent) text().append(text("")));
+    private MutableComponent createText() {
+        TextEditorOutputFormatter formatter = new TextEditorOutputFormatter(text().append(text("")));
         formatter.format(view.getTextField().getText(), 0, formattings);
         return formatter.getText();
     }
 
-    private void initFormattings(TextComponent text) {
+    private void initFormattings(MutableComponent text) {
         TextEditorInputParser parser = new TextEditorInputParser();
         parser.parse(text);
         formattings.setAll(parser.getFormattings());

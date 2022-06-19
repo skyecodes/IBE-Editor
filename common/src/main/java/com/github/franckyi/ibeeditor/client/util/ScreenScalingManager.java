@@ -100,7 +100,7 @@ public final class ScreenScalingManager {
     }
 
     private int getDefaultScale() {
-        return mc().options.guiScale;
+        return mc().options.guiScale().get();
     }
 
     public int getMaxScale() {
