@@ -149,5 +149,6 @@
   "ibeeditor.text.vault": "Favoris",
   "ibeeditor.message.saved_vault": "%s sauvegardé dans les favoris!",
   "ibeeditor.message.not_saved_vault": "%s déjà sauvegardé dans les favoris.",
-  "ibeeditor.message.copied_clipboard": "Commande %s copiée dans le presse-papier!"
+  "ibeeditor.message.copied_clipboard": "Commande %s copiée dans le presse-papier!",
+  "ibeeditor.message.no_block_data": "Pas de données NBT pour ce bloc."
 }

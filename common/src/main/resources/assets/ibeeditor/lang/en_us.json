@@ -149,5 +149,6 @@
   "ibeeditor.message.not_implemented": "The %s Editor is not implemented yet and will come in a future release.",
   "ibeeditor.message.saved_vault": "%s saved in the Vault!",
   "ibeeditor.message.not_saved_vault": "%s already saved in the Vault.",
-  "ibeeditor.message.copied_clipboard": "%s command copied to the clipboard!"
+  "ibeeditor.message.copied_clipboard": "%s command copied to the clipboard!",
+  "ibeeditor.message.no_block_data": "No NBT data found for this Block."
 }

@@ -69,6 +69,10 @@ public final class ModScreenHandler {
     }
 
     public static void openEditor(EditorType editorType, EditorContext<?> context, boolean replace) {
+        if (editorType != EditorType.STANDARD && context.getTag() == null) {
+            ClientUtil.showMessage(ModTexts.Messages.NO_BLOCK_DATA);
+            return;
+        }
         openScaledScreen(switch (editorType) {
             case STANDARD -> {
                 if (context instanceof ItemEditorContext ctx) {
