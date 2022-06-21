@@ -203,6 +203,7 @@ public final class ModTexts {
     public static class Messages {
         public static final MutableComponent ERROR_GENERIC = prefixed(translated("ibeeditor.message.error_generic")).withStyle(ChatFormatting.RED);
         public static final MutableComponent NO_PERMISSION = prefixed(translated("ibeeditor.message.no_permission")).withStyle(ChatFormatting.RED);
+        public static final MutableComponent NO_BLOCK_DATA = prefixed(translated("ibeeditor.message.no_block_data")).withStyle(ChatFormatting.RED);
 
         public static MutableComponent successUpdate(MutableComponent arg) {
             return prefixed(translated("ibeeditor.message.success_update", arg)).withStyle(ChatFormatting.GREEN);
