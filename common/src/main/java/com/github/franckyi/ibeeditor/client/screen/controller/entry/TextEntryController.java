@@ -35,6 +35,7 @@ public class TextEntryController extends ValueEntryController<TextEntryModel, Te
         view.getTextField().validProperty().addListener(model::setValid);
         initFormattings(model.getValue());
         model.resetDefaultValue();
+        model.setOnApply(this::updateModel);
     }
 
     private void updateModel() {

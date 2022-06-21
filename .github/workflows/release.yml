@@ -7,6 +7,9 @@ on:
       - '1.18'
     paths-ignore:
       - 'README.md'
+      - 'LICENSE'
+      - 'versions.json'
+      - 'forge_update.json'
 
 jobs:
   release:

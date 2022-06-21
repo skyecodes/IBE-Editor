@@ -1,4 +1,8 @@
 {
+  "2.1.1": {
+    "type": "release",
+    "changelog": "* fix: error when trying to open the NBT editor for a block that doesn't have NBT data (#57)\n* fix: letter added at the end of a formatted text input is not formatted when saving"
+  },
   "2.1.0": {
     "type": "release",
     "changelog": "* Added Block Editor (not finished yet)\n* Added Entity Editor (not finished yet)\n* Added Vault: allows to save items and entities and re-use them between saves or servers (not finished yet)\n* Added \"Copy command\" button\n* Added buttons to switch between editors (standard, NBT, SNBT)\n* Various fixes"
