@@ -21,7 +21,6 @@ public final class ClientInit {
 
     public static void setup() {
         LOGGER.info("Setting up IBE Editor - client");
-        KeyBindings.init();
         ClientConfiguration.load();
         syncGuapiConfig();
         Vault.load();

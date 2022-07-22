@@ -1,4 +1,8 @@
 {
+  "2.1.2": {
+    "type": "release",
+    "changelog": "* fix: bump forge version which should fix crash at startup"
+  },
   "2.1.1": {
     "type": "release",
     "changelog": "* fix: error when trying to open the NBT editor for a block that doesn't have NBT data (#57)\n* fix: letter added at the end of a formatted text input is not formatted when saving"

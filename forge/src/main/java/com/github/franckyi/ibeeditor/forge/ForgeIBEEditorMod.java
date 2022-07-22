@@ -1,9 +1,6 @@
 package com.github.franckyi.ibeeditor.forge;
 
-import com.github.franckyi.ibeeditor.client.ClientContext;
-import com.github.franckyi.ibeeditor.client.ClientEventHandler;
-import com.github.franckyi.ibeeditor.client.ClientInit;
-import com.github.franckyi.ibeeditor.client.ModScreenHandler;
+import com.github.franckyi.ibeeditor.client.*;
 import com.github.franckyi.ibeeditor.common.CommonInit;
 import com.github.franckyi.ibeeditor.common.ServerCommandHandler;
 import com.github.franckyi.ibeeditor.common.ServerEventHandler;
@@ -11,13 +8,14 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.ConfigGuiHandler;
+import net.minecraftforge.client.ConfigScreenHandler;
 import net.minecraftforge.client.event.InputEvent;
+import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.client.event.ScreenEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
-import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -34,6 +32,14 @@ public final class ForgeIBEEditorMod {
         }
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onCommonInit);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onClientInit);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onRegisterKeybindings);
+    }
+
+    private void onRegisterKeybindings(RegisterKeyMappingsEvent event) {
+        event.register(KeyBindings.getEditorKey());
+        event.register(KeyBindings.getNBTEditorKey());
+        event.register(KeyBindings.getSNBTEditorKey());
+        event.register(KeyBindings.getVaultKey());
     }
 
     private void onCommonInit(FMLCommonSetupEvent event) {
@@ -48,7 +54,7 @@ public final class ForgeIBEEditorMod {
         MinecraftForge.EVENT_BUS.addListener(this::onKeyInput);
         MinecraftForge.EVENT_BUS.addListener(this::onKeyPressed);
         MinecraftForge.EVENT_BUS.addListener(this::onWorldUnload);
-        ModLoadingContext.get().registerExtensionPoint(ConfigGuiHandler.ConfigGuiFactory.class, () -> new ConfigGuiHandler.ConfigGuiFactory((minecraft, screen) -> {
+        ModLoadingContext.get().registerExtensionPoint(ConfigScreenHandler.ConfigScreenFactory.class, () -> new ConfigScreenHandler.ConfigScreenFactory((minecraft, screen) -> {
             ModScreenHandler.openSettingsScreen();
             return minecraft.screen;
         }));
@@ -59,26 +65,26 @@ public final class ForgeIBEEditorMod {
     }
 
     private void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
-        ServerEventHandler.onPlayerJoin((ServerPlayer) event.getPlayer());
+        ServerEventHandler.onPlayerJoin((ServerPlayer) event.getEntity());
     }
 
     private void onPlayerLoggedOut(PlayerEvent.PlayerLoggedOutEvent event) {
-        ServerEventHandler.onPlayerLeave((ServerPlayer) event.getPlayer());
+        ServerEventHandler.onPlayerLeave((ServerPlayer) event.getEntity());
     }
 
-    private void onKeyInput(InputEvent.KeyInputEvent e) {
+    private void onKeyInput(InputEvent.Key e) {
         if (Minecraft.getInstance().screen == null) {
             ClientEventHandler.onKeyInput();
         }
     }
 
-    private void onKeyPressed(ScreenEvent.KeyboardKeyPressedEvent.Pre e) {
+    private void onKeyPressed(ScreenEvent.KeyPressed.Pre e) {
         if (e.getScreen() instanceof AbstractContainerScreen screen) {
             e.setCanceled(ClientEventHandler.onScreenEvent(screen, e.getKeyCode()));
         }
     }
 
-    private void onWorldUnload(WorldEvent.Unload event) {
+    private void onWorldUnload(LevelEvent.Unload event) {
         ClientContext.setModInstalledOnServer(false);
     }
 }

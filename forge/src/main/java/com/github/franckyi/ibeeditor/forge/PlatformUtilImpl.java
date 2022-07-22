@@ -41,9 +41,7 @@ public class PlatformUtilImpl {
         channel.messageBuilder(handler.getType(), handler.getId())
                 .decoder(buffer -> handler.getSerializer().read(buffer))
                 .encoder((p, buffer) -> handler.getSerializer().write(p, buffer))
-                .consumer((msg, ctx) -> {
-                    ctx.get().enqueueWork(() -> action.accept(msg, ctx));
-                    ctx.get().setPacketHandled(true);
-                }).add();
+                .consumerMainThread(action)
+                .add();
     }
 }

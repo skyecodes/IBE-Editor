@@ -5,11 +5,6 @@ import net.minecraft.client.KeyMapping;
 
 public final class ClientPlatformUtil {
     @ExpectPlatform
-    public static KeyMapping registerKeyBinding(String name, int code, String category) {
-        throw new AssertionError();
-    }
-
-    @ExpectPlatform
     public static int getKeyCode(KeyMapping keyMapping) {
         throw new AssertionError();
     }

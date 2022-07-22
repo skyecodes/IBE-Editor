@@ -2,7 +2,9 @@ package com.github.franckyi.ibeeditor.fabric;
 
 import com.github.franckyi.ibeeditor.client.ClientEventHandler;
 import com.github.franckyi.ibeeditor.client.ClientInit;
+import com.github.franckyi.ibeeditor.client.KeyBindings;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenKeyboardEvents;
 import net.minecraft.client.Minecraft;
@@ -17,6 +19,10 @@ public class FabricIBEEditorModClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         ClientInit.setup();
+        KeyBindingHelper.registerKeyBinding(KeyBindings.getEditorKey());
+        KeyBindingHelper.registerKeyBinding(KeyBindings.getNBTEditorKey());
+        KeyBindingHelper.registerKeyBinding(KeyBindings.getSNBTEditorKey());
+        KeyBindingHelper.registerKeyBinding(KeyBindings.getVaultKey());
         ScreenEvents.AFTER_INIT.register(this::afterScreenInit);
     }
 
