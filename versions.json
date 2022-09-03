@@ -1,4 +1,8 @@
 {
+  "2.2.0": {
+    "type": "release",
+    "changelog": ""
+  },
   "2.1.2": {
     "type": "release",
     "changelog": "* fix: bump forge version which should fix crash at startup"

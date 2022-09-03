@@ -10,14 +10,14 @@ version = "${version}"
 displayName = "IBE Editor"
 updateJSONURL = "https://raw.githubusercontent.com/Franckyi/IBE-Editor/1.19/forge_update.json"
 displayURL = "https://www.curseforge.com/minecraft/mc-mods/ibe-editor"
-credits = "Thanks to Emex for the logo !"
+credits = "Emex (logo)"
 authors = "Franckyi"
 description = "Simple GUI Mod to edit an item, a block or an entity in your current world"
 
 [[dependencies.ibeeditor]]
 modId = "forge"
 mandatory = true
-versionRange = "[41,)"
+versionRange = "[41.0.94,)"
 ordering = "NONE"
 side = "BOTH"
 
