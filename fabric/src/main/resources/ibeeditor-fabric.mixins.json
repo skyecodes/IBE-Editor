@@ -7,8 +7,8 @@
     "FabricPlayerListMixin"
   ],
   "client": [
-    "FabricKeyboardHandlerMixin",
-    "FabricMinecraftMixin"
+    "FabricClientPacketListenerMixin",
+    "FabricKeyboardHandlerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

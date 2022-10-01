@@ -12,12 +12,12 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.ConfigGuiHandler;
+import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.ScreenEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
-import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -47,7 +47,7 @@ public final class ForgeIBEEditorMod {
         ClientInit.setup();
         MinecraftForge.EVENT_BUS.addListener(this::onKeyInput);
         MinecraftForge.EVENT_BUS.addListener(this::onKeyPressed);
-        MinecraftForge.EVENT_BUS.addListener(this::onWorldUnload);
+        MinecraftForge.EVENT_BUS.addListener(this::onPlayerLoggingIn);
         ModLoadingContext.get().registerExtensionPoint(ConfigGuiHandler.ConfigGuiFactory.class, () -> new ConfigGuiHandler.ConfigGuiFactory((minecraft, screen) -> {
             ModScreenHandler.openSettingsScreen();
             return minecraft.screen;
@@ -73,12 +73,12 @@ public final class ForgeIBEEditorMod {
     }
 
     private void onKeyPressed(ScreenEvent.KeyboardKeyPressedEvent.Pre e) {
-        if (e.getScreen() instanceof AbstractContainerScreen screen) {
+        if (e.getScreen() instanceof AbstractContainerScreen<?> screen) {
             e.setCanceled(ClientEventHandler.onScreenEvent(screen, e.getKeyCode()));
         }
     }
 
-    private void onWorldUnload(WorldEvent.Unload event) {
+    private void onPlayerLoggingIn(ClientPlayerNetworkEvent.LoggedInEvent event) {
         ClientContext.setModInstalledOnServer(false);
     }
 }
