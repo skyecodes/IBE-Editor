@@ -51,12 +51,14 @@ public final class ScreenHandlerImpl implements ScreenHandler {
 
     @Override
     public void showScene(Scene scene) {
+        checkScreen();
         scenes.push(scene);
         setCurrentScene(scene);
     }
 
     @Override
     public void replaceScene(Scene scene) {
+        checkScreen();
         if (!scenes.isEmpty()) {
             scenes.pop();
         }
@@ -74,6 +76,13 @@ public final class ScreenHandlerImpl implements ScreenHandler {
     @Override
     public Screen getGuapiScreen() {
         return screen;
+    }
+
+    private void checkScreen() {
+        if (Minecraft.getInstance().screen != screen) {
+            scenes.clear();
+            setCurrentScene(null);
+        }
     }
 
     private Scene getCurrentScene() {
