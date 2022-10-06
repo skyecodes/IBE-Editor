@@ -119,6 +119,7 @@ public final class ModTexts {
     public static final MutableComponent OPEN_NBT_EDITOR = translated("ibeeditor.key.nbt_editor");
     public static final MutableComponent OPEN_SNBT_EDITOR = translated("ibeeditor.key.snbt_editor");
     public static final MutableComponent COPY_COMMAND_GREEN = translated("ibeeditor.gui.copy_command_alt").withStyle(ChatFormatting.GREEN);
+    public static final MutableComponent FORMAT = translated("ibeeditor.gui.format");
 
     public static MutableComponent errorServerModRequired(MutableComponent with) {
         return translated("ibeeditor.message.error_server_mod", with).withStyle(ChatFormatting.RED);

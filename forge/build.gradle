@@ -16,6 +16,7 @@ configurations {
 
 loom {
     forge {
+        accessTransformer("src/main/resources/META-INF/accesstransformer.cfg")
         mixinConfig "ibeeditor-common.mixins.json"
     }
 }

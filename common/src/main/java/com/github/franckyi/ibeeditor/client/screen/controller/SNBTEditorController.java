@@ -26,7 +26,35 @@ public class SNBTEditorController extends AbstractController<SNBTEditorModel, SN
                 return false;
             }
         });
+        view.getFormatButton().onAction(this::format);
         view.getDoneButton().onAction(model::update);
         view.getCancelButton().onAction(Guapi.getScreenHandler()::hideScene);
+    }
+
+    private void format() {
+        String text = model.getValue().replaceAll("\\s", "");
+        int depth = 0;
+        StringBuilder newText = new StringBuilder();
+        for (char c : text.toCharArray()) {
+            boolean isNewline = false;
+            if (c == '{' || c == '[') {
+                depth++;
+                isNewline = true;
+            } else if (c == ',') {
+                isNewline = true;
+            } else if (c == '}' || c == ']') {
+                depth--;
+                newLine(newText, depth);
+            }
+            newText.append(c);
+            if (isNewline) {
+                newLine(newText, depth);
+            }
+        }
+        model.setValue(newText.toString().trim());
+    }
+
+    private void newLine(StringBuilder newText, int depth) {
+        newText.append("\n").append("  ".repeat(depth));
     }
 }

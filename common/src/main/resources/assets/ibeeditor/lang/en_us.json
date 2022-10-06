@@ -138,6 +138,7 @@
   "ibeeditor.gui.command_copied.2": "",
   "ibeeditor.gui.command_copied.3": "Press again to cancel.",
   "ibeeditor.gui.give": "Give %s",
+  "ibeeditor.gui.format": "Format text",
   "ibeeditor.text.item": "Item",
   "ibeeditor.text.block": "Block",
   "ibeeditor.text.entity": "Entity",
