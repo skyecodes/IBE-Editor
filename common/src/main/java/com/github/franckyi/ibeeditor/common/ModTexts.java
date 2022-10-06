@@ -184,6 +184,10 @@ public final class ModTexts {
         return arrayTextWithArg("ibeeditor.gui.command_copied", 4, arg);
     }
 
+    public static MutableComponent give(MutableComponent with) {
+        return translated("ibeeditor.gui.give", with);
+    }
+
     private static MutableComponent[] arrayText(String key, int size) {
         MutableComponent[] array = new MutableComponent[size];
         for (int i = 0; i < size; i++) {
@@ -204,6 +208,7 @@ public final class ModTexts {
         public static final MutableComponent ERROR_GENERIC = prefixed(translated("ibeeditor.message.error_generic")).withStyle(ChatFormatting.RED);
         public static final MutableComponent NO_PERMISSION = prefixed(translated("ibeeditor.message.no_permission")).withStyle(ChatFormatting.RED);
         public static final MutableComponent NO_BLOCK_DATA = prefixed(translated("ibeeditor.message.no_block_data")).withStyle(ChatFormatting.RED);
+        public static final MutableComponent VAULT_ITEM_GIVE_SUCCESS = prefixed(translated("ibeeditor.message.vault_item_give_success")).withStyle(ChatFormatting.GREEN);
 
         public static MutableComponent successUpdate(MutableComponent arg) {
             return prefixed(translated("ibeeditor.message.success_update", arg)).withStyle(ChatFormatting.GREEN);

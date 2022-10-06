@@ -9,7 +9,7 @@ public class CommonUtil {
         player.displayClientMessage(component, false);
     }
 
-    public static void showSuccess(Player player, MutableComponent component) {
+    public static void showUpdateSuccess(Player player, MutableComponent component) {
         showMessage(player, ModTexts.Messages.successUpdate(component));
     }
 
@@ -19,5 +19,9 @@ public class CommonUtil {
 
     public static void showPermissionError(Player player, MutableComponent component) {
         showMessage(player, ModTexts.Messages.errorPermissionDenied(component));
+    }
+
+    public static void showVaultItemGiveSuccess(Player player) {
+        showMessage(player, ModTexts.Messages.VAULT_ITEM_GIVE_SUCCESS);
     }
 }

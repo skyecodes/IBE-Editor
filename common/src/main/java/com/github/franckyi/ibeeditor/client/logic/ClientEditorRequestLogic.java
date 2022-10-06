@@ -91,13 +91,7 @@ public final class ClientEditorRequestLogic {
                     creativeInventoryScreen = true;
                     // "survival inventory" creative tab slot indexes are different, need a hacky fix to get the actual inventory slot id
                     if (c.getSelectedTab() == CreativeModeTab.TAB_INVENTORY.getId()) {
-                        if (slotIndex == 45) {
-                            slotIndex = 40;
-                        } else if (slotIndex >= 36) {
-                            slotIndex %= 36;
-                        } else if (slotIndex < 9) {
-                            slotIndex = 36 + 8 - slotIndex;
-                        }
+                        slotIndex = ClientUtil.convertCreativeInventorySlot(slotIndex);
                     }
                 }
                 if (ClientContext.isModInstalledOnServer()) {

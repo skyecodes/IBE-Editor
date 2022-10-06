@@ -7,6 +7,7 @@ import com.github.franckyi.ibeeditor.client.logic.ClientEditorResponseLogic;
 import com.github.franckyi.ibeeditor.common.ServerContext;
 import com.github.franckyi.ibeeditor.common.logic.ServerEditorRequestLogic;
 import com.github.franckyi.ibeeditor.common.logic.ServerEditorUpdateLogic;
+import com.github.franckyi.ibeeditor.common.logic.ServerVaultActionLogic;
 import net.minecraft.server.level.ServerPlayer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -34,7 +35,7 @@ public final class NetworkManager {
     public static final NetworkHandler.Server<EntityEditorPacket.Request> ENTITY_EDITOR_REQUEST = new NetworkHandler.Server<>(EntityEditorPacket.Request.class, "ibeeditor:network/entity_editor_request", EntityEditorPacket.Request.SERIALIZER, ServerEditorRequestLogic::onEntityEditorRequest);
     public static final NetworkHandler.Client<EntityEditorPacket.Response> ENTITY_EDITOR_RESPONSE = new NetworkHandler.Client<>(EntityEditorPacket.Response.class, "ibeeditor:network/entity_editor_response", EntityEditorPacket.Response.SERIALIZER, ClientEditorResponseLogic::onEntityEditorResponse);
     public static final NetworkHandler.Server<EntityEditorPacket.Update> ENTITY_EDITOR_UPDATE = new NetworkHandler.Server<>(EntityEditorPacket.Update.class, "ibeeditor:network/entity_editor_update", EntityEditorPacket.Update.SERIALIZER, ServerEditorUpdateLogic::onEntityEditorUpdate);
-
+    public static final NetworkHandler.Server<GiveVaultItemPacket> GIVE_VAULT_ITEM = new NetworkHandler.Server<>(GiveVaultItemPacket.class, "ibeeditor:network/give_vault_item", GiveVaultItemPacket.SERIALIZER, ServerVaultActionLogic::onGiveVaultItem);
     public static void setup() {
         PlatformUtil.registerClientHandler(SERVER_NOTIFICATION);
         PlatformUtil.registerServerHandler(CLIENT_NOTIFICATION);
