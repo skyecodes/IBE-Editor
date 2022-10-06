@@ -36,6 +36,9 @@ public final class ClientEventHandler {
                 return ClientEditorRequestLogic.requestInventoryItemEditor(EditorType.NBT, screen);
             } else if (keyCode == ClientPlatformUtil.getKeyCode(KeyBindings.getSNBTEditorKey())) {
                 return ClientEditorRequestLogic.requestInventoryItemEditor(EditorType.SNBT, screen);
+            } else if (keyCode == ClientPlatformUtil.getKeyCode(KeyBindings.getVaultKey())) {
+                ModScreenHandler.openVault(); // TODO open item vault selection screen
+                return true;
             }
         } catch (Exception e) {
             ClientUtil.showMessage(ModTexts.Messages.ERROR_GENERIC);

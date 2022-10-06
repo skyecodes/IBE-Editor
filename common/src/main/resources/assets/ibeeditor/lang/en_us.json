@@ -137,6 +137,7 @@
   "ibeeditor.gui.command_copied.1": "after applying the changes.",
   "ibeeditor.gui.command_copied.2": "",
   "ibeeditor.gui.command_copied.3": "Press again to cancel.",
+  "ibeeditor.gui.give": "Give %s",
   "ibeeditor.text.item": "Item",
   "ibeeditor.text.block": "Block",
   "ibeeditor.text.entity": "Entity",
@@ -150,5 +151,6 @@
   "ibeeditor.message.saved_vault": "%s saved in the Vault!",
   "ibeeditor.message.not_saved_vault": "%s already saved in the Vault.",
   "ibeeditor.message.copied_clipboard": "%s command copied to the clipboard!",
-  "ibeeditor.message.no_block_data": "No NBT data found for this Block."
+  "ibeeditor.message.no_block_data": "No NBT data found for this Block.",
+  "ibeeditor.message.vault_item_give_success": "Vault Item given successfully!"
 }

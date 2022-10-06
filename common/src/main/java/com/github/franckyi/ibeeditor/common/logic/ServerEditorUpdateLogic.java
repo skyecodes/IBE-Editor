@@ -14,7 +14,7 @@ public final class ServerEditorUpdateLogic {
             return;
         }
         player.setItemInHand(InteractionHand.MAIN_HAND, response.getItemStack());
-        CommonUtil.showSuccess(player, ModTexts.ITEM);
+        CommonUtil.showUpdateSuccess(player, ModTexts.ITEM);
     }
 
     public static void onPlayerInventoryItemEditorUpdate(ServerPlayer player, PlayerInventoryItemEditorPacket.Update response) {
@@ -23,7 +23,7 @@ public final class ServerEditorUpdateLogic {
             return;
         }
         player.getInventory().setItem(response.getSlot(), response.getItemStack());
-        CommonUtil.showSuccess(player, ModTexts.ITEM);
+        CommonUtil.showUpdateSuccess(player, ModTexts.ITEM);
     }
 
     public static void onBlockInventoryItemEditorUpdate(ServerPlayer player, BlockInventoryItemEditorPacket.Update response) {
@@ -33,7 +33,7 @@ public final class ServerEditorUpdateLogic {
         }
         if (player.getLevel().getBlockEntity(response.getBlockPos()) instanceof Container container) {
             container.setItem(response.getSlot(), response.getItemStack());
-            CommonUtil.showSuccess(player, ModTexts.ITEM);
+            CommonUtil.showUpdateSuccess(player, ModTexts.ITEM);
         } else {
             CommonUtil.showTargetError(player, ModTexts.ITEM);
         }
@@ -46,7 +46,7 @@ public final class ServerEditorUpdateLogic {
         }
         if (player.getLevel().getEntity(response.getEntityId()) instanceof Container container) {
             container.setItem(response.getSlot(), response.getItemStack());
-            CommonUtil.showSuccess(player, ModTexts.ITEM);
+            CommonUtil.showUpdateSuccess(player, ModTexts.ITEM);
         } else {
             CommonUtil.showTargetError(player, ModTexts.ITEM);
         }
@@ -67,7 +67,7 @@ public final class ServerEditorUpdateLogic {
             }
             blockEntity.load(update.getTag());
         }
-        CommonUtil.showSuccess(player, ModTexts.BLOCK);
+        CommonUtil.showUpdateSuccess(player, ModTexts.BLOCK);
     }
 
     public static void onEntityEditorUpdate(ServerPlayer player, EntityEditorPacket.Update update) {
@@ -78,7 +78,7 @@ public final class ServerEditorUpdateLogic {
         var entity = player.getLevel().getEntity(update.getEntityId());
         if (entity != null) {
             entity.load(update.getTag());
-            CommonUtil.showSuccess(player, ModTexts.ENTITY);
+            CommonUtil.showUpdateSuccess(player, ModTexts.ENTITY);
         } else {
             CommonUtil.showTargetError(player, ModTexts.ENTITY);
         }

@@ -13,13 +13,14 @@ import static com.github.franckyi.guapi.api.GuapiHelper.*;
 public class VaultItemEntryView extends EntryView {
     private ItemView itemView;
     private Label label;
-    private TexturedButton openEditorButton, openNBTEditorButton, openSNBTEditorButton;
+    private TexturedButton giveItemButton, openEditorButton, openNBTEditorButton, openSNBTEditorButton;
 
     @Override
     protected Node createContent() {
         return hBox(content -> {
             content.add(itemView = itemView().drawDecorations());
             content.add(label = label(), 1);
+            content.add(giveItemButton = texturedButton(ModTextures.ADD, 16, 16, false).tooltip(ModTexts.give(ModTexts.ITEM)));
             content.add(hBox(buttons -> {
                 buttons.add(openEditorButton = texturedButton(ModTextures.EDITOR, 16, 16, false).tooltip(ModTexts.OPEN_EDITOR));
                 buttons.add(openNBTEditorButton = texturedButton(ModTextures.NBT_EDITOR, 16, 16, false).tooltip(ModTexts.OPEN_NBT_EDITOR));
@@ -36,6 +37,10 @@ public class VaultItemEntryView extends EntryView {
 
     public Label getLabel() {
         return label;
+    }
+
+    public TexturedButton getGiveItemButton() {
+        return giveItemButton;
     }
 
     public TexturedButton getOpenEditorButton() {
