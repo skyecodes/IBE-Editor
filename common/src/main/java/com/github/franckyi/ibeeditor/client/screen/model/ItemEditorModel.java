@@ -4,10 +4,7 @@ import com.github.franckyi.ibeeditor.client.context.ItemEditorContext;
 import com.github.franckyi.ibeeditor.client.screen.model.category.item.*;
 import com.github.franckyi.ibeeditor.common.ModTexts;
 import net.minecraft.nbt.Tag;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.DyeableLeatherItem;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.PotionItem;
+import net.minecraft.world.item.*;
 
 public class ItemEditorModel extends StandardEditorModel {
     public ItemEditorModel(ItemEditorContext context) {
@@ -30,7 +27,7 @@ public class ItemEditorModel extends StandardEditorModel {
                 new ItemBlockListCategoryModel(ModTexts.CAN_DESTROY, this, "CanDestroy")
         );
         Item item = getContext().getItemStack().getItem();
-        if (item instanceof PotionItem) {
+        if (item instanceof PotionItem || item instanceof TippedArrowItem) {
             getCategories().add(new ItemPotionEffectsCategoryModel(this));
         }
         if (item instanceof DyeableLeatherItem) {
