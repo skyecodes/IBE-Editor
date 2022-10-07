@@ -1,7 +1,7 @@
 {
   "2.2.0": {
     "type": "release",
-    "changelog": ""
+    "changelog": "* feat: added button to give item from vault\n* feat: potion effects for tipped arrow (#59)\n* feat: wrap and format SNBT text (#27)\n* feat: Chinese translation (#53)\n* fix: mod not working after changing dimensions\n* fix: GUAPI screen handler not resetting correctly (#60)"
   },
   "2.1.2": {
     "type": "release",
