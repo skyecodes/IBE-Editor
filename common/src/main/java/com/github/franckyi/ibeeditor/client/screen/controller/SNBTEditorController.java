@@ -6,9 +6,17 @@ import com.github.franckyi.ibeeditor.client.screen.model.SNBTEditorModel;
 import com.github.franckyi.ibeeditor.client.screen.view.SNBTEditorView;
 import com.github.franckyi.ibeeditor.common.EditorType;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import net.minecraft.nbt.SnbtPrinterTagVisitor;
 import net.minecraft.nbt.TagParser;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.util.ArrayList;
 
 public class SNBTEditorController extends AbstractController<SNBTEditorModel, SNBTEditorView> implements EditorController<SNBTEditorModel, SNBTEditorView> {
+
+    private static final Logger LOGGER = LogManager.getLogger();
+
     public SNBTEditorController(SNBTEditorModel model, SNBTEditorView view) {
         super(model, view);
     }
@@ -26,35 +34,18 @@ public class SNBTEditorController extends AbstractController<SNBTEditorModel, SN
                 return false;
             }
         });
+        view.getFormatButton().disableProperty().bind(view.getTextArea().validProperty().not());
         view.getFormatButton().onAction(this::format);
         view.getDoneButton().onAction(model::update);
         view.getCancelButton().onAction(Guapi.getScreenHandler()::hideScene);
     }
 
     private void format() {
-        String text = model.getValue().replaceAll("\\s", "");
-        int depth = 0;
-        StringBuilder newText = new StringBuilder();
-        for (char c : text.toCharArray()) {
-            boolean isNewline = false;
-            if (c == '{' || c == '[') {
-                depth++;
-                isNewline = true;
-            } else if (c == ',') {
-                isNewline = true;
-            } else if (c == '}' || c == ']') {
-                depth--;
-                newLine(newText, depth);
-            }
-            newText.append(c);
-            if (isNewline) {
-                newLine(newText, depth);
-            }
+        SnbtPrinterTagVisitor formatter = new SnbtPrinterTagVisitor("  ", 0, new ArrayList<>());
+        try {
+            model.setValue(formatter.visit(TagParser.parseTag(view.getTextArea().getText())));
+        } catch (CommandSyntaxException e) {
+            LOGGER.error("Could not parse NBT tag", e);
         }
-        model.setValue(newText.toString().trim());
-    }
-
-    private void newLine(StringBuilder newText, int depth) {
-        newText.append("\n").append("  ".repeat(depth));
     }
 }
