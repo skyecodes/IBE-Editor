@@ -41,8 +41,8 @@ public class VanillaCheckBoxSkinDelegate extends Checkbox implements VanillaWidg
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
         RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-        blit(poseStack, x, y, isHoveredOrFocused() ? 16 : 0, selected() ? 16 : 0, 16, 16, 32, 32);
+        blit(poseStack, getX(), getY(), isHoveredOrFocused() ? 16 : 0, selected() ? 16 : 0, 16, 16, 32, 32);
         renderBg(poseStack, mc, mouseX, mouseY);
-        drawString(poseStack, mc.font, getMessage(), x + 20, y + (height - mc.font.lineHeight - 1) / 2, 14737632 | Mth.ceil(alpha * 255.0F) << 24);
+        drawString(poseStack, mc.font, getMessage(), getX() + 20, getY() + (height - mc.font.lineHeight - 1) / 2, 14737632 | Mth.ceil(alpha * 255.0F) << 24);
     }
 }

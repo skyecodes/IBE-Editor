@@ -3,10 +3,13 @@ package com.github.franckyi.ibeeditor.client.screen.model.selection.element;
 import com.github.franckyi.guapi.api.mvc.Model;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.NotNull;
 
+import java.util.Comparator;
 import java.util.Locale;
 
-public class ListSelectionElementModel implements Model {
+public class ListSelectionElementModel implements Model, Comparable<ListSelectionElementModel> {
+    private static final Comparator<ListSelectionElementModel> COMPARATOR = Comparator.comparing(ListSelectionElementModel::getName);
     private final String name;
     private final ResourceLocation id;
 
@@ -33,6 +36,11 @@ public class ListSelectionElementModel implements Model {
 
     public Type getType() {
         return Type.DEFAULT;
+    }
+
+    @Override
+    public int compareTo(@NotNull ListSelectionElementModel o) {
+        return COMPARATOR.compare(this, o);
     }
 
     public enum Type {

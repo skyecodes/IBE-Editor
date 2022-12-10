@@ -28,8 +28,8 @@ public class VanillaTextFieldSkinDelegate<N extends TextField> extends EditBox i
         setValue(node.getText());
         setFocused(node.isFocused());
         setResponder(node::setText);
-        node.xProperty().addListener(newVal -> x = newVal + 1);
-        node.yProperty().addListener(newVal -> y = newVal + 1);
+        node.xProperty().addListener(newVal -> setX(newVal + 1));
+        node.yProperty().addListener(newVal -> setY(newVal + 1));
         node.widthProperty().addListener(newVal -> setWidth(newVal - 2));
         node.heightProperty().addListener(newVal -> height = newVal - 2);
         node.disabledProperty().addListener(newVal -> active = !newVal);
@@ -137,7 +137,7 @@ public class VanillaTextFieldSkinDelegate<N extends TextField> extends EditBox i
         int displayPos = self.getDisplayPos();
         Font font = Minecraft.getInstance().font;
         FormattedText string = font.substrByWidth(renderText(getValue().substring(displayPos), displayPos), getInnerWidth());
-        setHighlightPos(font.substrByWidth(string, Mth.floor(mouseX) - x - 4).getString().length() + displayPos);
+        setHighlightPos(font.substrByWidth(string, Mth.floor(mouseX) - getX() - 4).getString().length() + displayPos);
     }
 
     @Override
@@ -146,13 +146,13 @@ public class VanillaTextFieldSkinDelegate<N extends TextField> extends EditBox i
         if (!isVisible()) {
             return false;
         } else {
-            boolean flag = mouseX >= x && mouseX < x + width && mouseY >= y && mouseY < y + height;
+            boolean flag = mouseX >= getX() && mouseX < getX() + width && mouseY >= getY() && mouseY < getY() + height;
             if (self.canLoseFocus() && button == 0) {
                 setFocus(flag);
             }
 
             if (isFocused() && flag && button == 0) {
-                int i = Mth.floor(mouseX) - x;
+                int i = Mth.floor(mouseX) - getX();
                 if (self.isBordered()) {
                     i -= 4;
                 }
@@ -172,8 +172,8 @@ public class VanillaTextFieldSkinDelegate<N extends TextField> extends EditBox i
         if (isVisible()) {
             if (self.isBordered()) {
                 int i = isFocused() ? -1 : -6250336;
-                fill(matrices, x - 1, y - 1, x + width + 1, y + height + 1, i);
-                fill(matrices, x, y, x + width, y + height, -16777216);
+                fill(matrices, getX() - 1, getY() - 1, getX() + width + 1, getY() + height + 1, i);
+                fill(matrices, getX(), getY(), getX() + width, getY() + height, -16777216);
             }
 
             int i2 = self.isEditable() ? self.getTextColor() : self.getTextColorUneditable();
@@ -185,8 +185,8 @@ public class VanillaTextFieldSkinDelegate<N extends TextField> extends EditBox i
                     : font.plainSubstrByWidth(getValue().substring(self.getDisplayPos()), this.getInnerWidth());
             boolean flag = j >= 0 && j <= s.length();
             boolean flag1 = isFocused() && self.getFrame() / 6 % 2 == 0 && flag;
-            int l = self.isBordered() ? x + 4 : x;
-            int i1 = self.isBordered() ? y + (height - 8) / 2 : y;
+            int l = self.isBordered() ? getX() + 4 : getX();
+            int i1 = self.isBordered() ? getY() + (height - 8) / 2 : getY();
             int j1 = l;
             if (k > s.length()) {
                 k = s.length();
@@ -237,7 +237,7 @@ public class VanillaTextFieldSkinDelegate<N extends TextField> extends EditBox i
                 int previousTextWidth = font.width(previousText);
                 Component highlightedText = renderText(getValue().substring(start, end), start);
                 int highlightedTextWidth = font.width(highlightedText);
-                int x0 = x + 4;
+                int x0 = getX() + 4;
                 self.invokeRenderHighlight(x0 + previousTextWidth, i1 - 1, x0 + previousTextWidth + highlightedTextWidth, i1 + 1 + 9);
             }
 

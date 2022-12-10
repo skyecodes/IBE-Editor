@@ -17,6 +17,7 @@ import net.minecraft.network.protocol.game.ServerboundSetCreativeModeSlotPacket;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
@@ -90,7 +91,7 @@ public final class ClientEditorRequestLogic {
                 if (screen instanceof CreativeModeInventoryScreen c) {
                     creativeInventoryScreen = true;
                     // "survival inventory" creative tab slot indexes are different, need a hacky fix to get the actual inventory slot id
-                    if (c.getSelectedTab() == CreativeModeTab.TAB_INVENTORY.getId()) {
+                    if (c.isInventoryOpen()) {
                         slotIndex = ClientUtil.convertCreativeInventorySlot(slotIndex);
                     }
                 }

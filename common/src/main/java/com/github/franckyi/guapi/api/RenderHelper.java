@@ -67,7 +67,7 @@ public final class RenderHelper {
     }
 
     public static void drawSprite(PoseStack matrices, TextureAtlasSprite sprite, int x, int y, int imageWidth, int imageHeight) {
-        RenderSystem.setShaderTexture(0, sprite.atlas().location());
+        RenderSystem.setShaderTexture(0, sprite.atlasLocation());
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         GuiComponent.blit(matrices, x, y, 0, imageWidth, imageHeight, sprite);
     }

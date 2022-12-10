@@ -24,4 +24,14 @@ public interface ItemView extends Control {
     default void setDrawDecorations(boolean value) {
         drawDecorationsProperty().setValue(value);
     }
+
+    default boolean isDrawTooltip() {
+        return drawTooltipProperty().getValue();
+    }
+
+    BooleanProperty drawTooltipProperty();
+
+    default void setDrawTooltip(boolean value) {
+        drawTooltipProperty().setValue(value);
+    }
 }

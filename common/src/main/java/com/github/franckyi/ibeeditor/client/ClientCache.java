@@ -4,7 +4,11 @@ import com.github.franckyi.guapi.api.Color;
 import com.github.franckyi.ibeeditor.client.screen.model.selection.element.*;
 import com.github.franckyi.ibeeditor.common.ColoredItemHelper;
 import net.minecraft.client.Minecraft;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -12,6 +16,7 @@ import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentCategory;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public final class ClientCache {
@@ -29,7 +34,7 @@ public final class ClientCache {
     private static List<SpriteListSelectionElementModel> effectSelectionItems;
 
     public static List<String> getItemSuggestions() {
-        return itemSuggestions == null ? itemSuggestions = buildSuggestions(Registry.ITEM) : itemSuggestions;
+        return itemSuggestions == null ? itemSuggestions = buildSuggestions(BuiltInRegistries.ITEM) : itemSuggestions;
     }
 
     public static List<ItemListSelectionElementModel> getItemSelectionItems() {
@@ -37,7 +42,7 @@ public final class ClientCache {
     }
 
     public static List<String> getBlockSuggestions() {
-        return blockSuggestions == null ? blockSuggestions = buildSuggestions(Registry.BLOCK) : blockSuggestions;
+        return blockSuggestions == null ? blockSuggestions = buildSuggestions(BuiltInRegistries.BLOCK) : blockSuggestions;
     }
 
     public static List<ItemListSelectionElementModel> getBlockSelectionItems() {
@@ -45,7 +50,7 @@ public final class ClientCache {
     }
 
     public static List<String> getEnchantmentSuggestions() {
-        return enchantmentSuggestions == null ? enchantmentSuggestions = buildSuggestions(Registry.ENCHANTMENT) : enchantmentSuggestions;
+        return enchantmentSuggestions == null ? enchantmentSuggestions = buildSuggestions(BuiltInRegistries.ENCHANTMENT) : enchantmentSuggestions;
     }
 
     public static List<SortedEnchantmentListSelectionElementModel> getSortedEnchantmentSelectionItems(ItemStack target) {
@@ -84,7 +89,7 @@ public final class ClientCache {
     }
 
     public static List<String> getAttributeSuggestions() {
-        return attributeSuggestions == null ? attributeSuggestions = buildSuggestions(Registry.ATTRIBUTE) : attributeSuggestions;
+        return attributeSuggestions == null ? attributeSuggestions = buildSuggestions(BuiltInRegistries.ATTRIBUTE) : attributeSuggestions;
     }
 
     public static List<ListSelectionElementModel> getAttributeSelectionItems() {
@@ -92,7 +97,7 @@ public final class ClientCache {
     }
 
     public static List<String> getPotionSuggestions() {
-        return potionSuggestions == null ? potionSuggestions = buildSuggestions(Registry.POTION) : potionSuggestions;
+        return potionSuggestions == null ? potionSuggestions = buildSuggestions(BuiltInRegistries.POTION) : potionSuggestions;
     }
 
     public static List<ItemListSelectionElementModel> getPotionSelectionItems() {
@@ -100,7 +105,7 @@ public final class ClientCache {
     }
 
     public static List<String> getEffectSuggestions() {
-        return effectSuggestions == null ? effectSuggestions = buildSuggestions(Registry.MOB_EFFECT) : effectSuggestions;
+        return effectSuggestions == null ? effectSuggestions = buildSuggestions(BuiltInRegistries.MOB_EFFECT) : effectSuggestions;
     }
 
     public static List<SpriteListSelectionElementModel> getEffectSelectionItems() {
@@ -122,21 +127,21 @@ public final class ClientCache {
     }
 
     private static List<ItemListSelectionElementModel> buildItemSelectionItems() {
-        return Registry.ITEM.entrySet().stream()
+        return BuiltInRegistries.ITEM.entrySet().stream()
                 .map(e -> new ItemListSelectionElementModel(e.getValue().getDescriptionId(), e.getKey().location(), new ItemStack(e.getValue())))
-                .toList();
+                .sorted().toList();
     }
 
     private static List<ItemListSelectionElementModel> buildBlockSelectionItems() {
-        return Registry.BLOCK.entrySet().stream()
+        return BuiltInRegistries.BLOCK.entrySet().stream()
                 .map(e -> new ItemListSelectionElementModel(e.getValue().getDescriptionId(), e.getKey().location(), new ItemStack(e.getValue())))
-                .toList();
+                .sorted().toList();
     }
 
     private static List<EnchantmentListSelectionElementModel> buildEnchantmentSelectionItems() {
-        return Registry.ENCHANTMENT.entrySet().stream()
+        return BuiltInRegistries.ENCHANTMENT.entrySet().stream()
                 .map(e -> new EnchantmentListSelectionElementModel(e.getValue().getDescriptionId(), e.getKey().location(), e.getValue(), new ItemStack(getEnchantmentTypeItem(e.getValue()))))
-                .toList();
+                .sorted().toList();
     }
 
     private static Item getEnchantmentTypeItem(Enchantment e) {
@@ -171,21 +176,21 @@ public final class ClientCache {
     }
 
     private static List<ListSelectionElementModel> buildAttributeSelectionItems() {
-        return Registry.ATTRIBUTE.entrySet().stream()
+        return BuiltInRegistries.ATTRIBUTE.entrySet().stream()
                 .map(e -> new ListSelectionElementModel(e.getValue().getDescriptionId(), e.getKey().location()))
-                .toList();
+                .sorted().toList();
     }
 
     private static List<ItemListSelectionElementModel> buildPotionSelectionItems() {
-        return Registry.POTION.entrySet().stream()
+        return BuiltInRegistries.POTION.entrySet().stream()
                 .map(e -> new ItemListSelectionElementModel(e.getValue().getName(Items.POTION.getDescriptionId() + ".effect."), e.getKey().location(), ColoredItemHelper.createColoredPotionItem(e.getKey().location(), Color.NONE)))
-                .toList();
+                .sorted().toList();
     }
 
     private static List<SpriteListSelectionElementModel> buildEffectSelectionItems() {
-        return Registry.MOB_EFFECT.entrySet().stream()
+        return BuiltInRegistries.MOB_EFFECT.entrySet().stream()
                 .map(e -> new SpriteListSelectionElementModel(e.getValue().getDescriptionId(), e.getKey().location(), () -> Minecraft.getInstance().getMobEffectTextures().get(e.getValue())))
-                .toList();
+                .sorted().toList();
     }
 
 }

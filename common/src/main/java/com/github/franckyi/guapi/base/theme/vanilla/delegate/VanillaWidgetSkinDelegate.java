@@ -7,10 +7,9 @@ import com.github.franckyi.guapi.api.node.Labeled;
 import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.ibeeditor.mixin.AbstractWidgetMixin;
 import net.minecraft.client.gui.components.AbstractWidget;
-import net.minecraft.client.gui.components.Widget;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 
-public interface VanillaWidgetSkinDelegate extends Renderable, EventTarget, GuiEventListener, Widget {
+public interface VanillaWidgetSkinDelegate extends Renderable, EventTarget, GuiEventListener {
     @Override
     default void mouseClicked(MouseButtonEvent event) {
         mouseClicked(event.getMouseX(), event.getMouseY(), event.getButton());
@@ -55,8 +54,8 @@ public interface VanillaWidgetSkinDelegate extends Renderable, EventTarget, GuiE
         AbstractWidget widget = (AbstractWidget) this;
         widget.active = !node.isDisabled();
         widget.visible = node.isVisible();
-        node.xProperty().addListener(newVal -> widget.x = newVal);
-        node.yProperty().addListener(newVal -> widget.y = newVal);
+        node.xProperty().addListener(widget::setX);
+        node.yProperty().addListener(widget::setY);
         node.widthProperty().addListener(widget::setWidth);
         node.heightProperty().addListener(((AbstractWidgetMixin) widget)::setHeight);
         node.disabledProperty().addListener(newVal -> widget.active = !newVal);

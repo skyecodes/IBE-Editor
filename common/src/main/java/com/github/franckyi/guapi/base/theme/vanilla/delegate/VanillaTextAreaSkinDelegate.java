@@ -13,7 +13,7 @@ public class VanillaTextAreaSkinDelegate<N extends TextArea> extends MultiLineEd
     private final MultilineTextFieldMixin textFieldMixin;
 
     public VanillaTextAreaSkinDelegate(N node) {
-        super(Minecraft.getInstance().font, node.getX(), node.getY(), node.getWidth(), node.getHeight(), node.getPlaceholder(), node.getLabel());
+        super(Minecraft.getInstance().font, node.getX(), node.getY(), node.getWidth() - 8, node.getHeight(), node.getPlaceholder(), node.getLabel());
         this.node = node;
         self = (MultiLineEditBoxMixin) this;
         textFieldMixin = (MultilineTextFieldMixin) self.getTextField();
@@ -22,11 +22,11 @@ public class VanillaTextAreaSkinDelegate<N extends TextArea> extends MultiLineEd
         setValue(node.getText());
         setFocused(node.isFocused());
         setValueListener(node::setText);
-        node.xProperty().addListener(newVal -> x = newVal);
-        node.yProperty().addListener(newVal -> y = newVal);
+        node.xProperty().addListener(this::setX);
+        node.yProperty().addListener(this::setY);
         node.widthProperty().addListener(newVal -> {
-            setWidth(newVal);
-            textFieldMixin.setWidth(newVal);
+            setWidth(newVal - 8);
+            textFieldMixin.setWidth(newVal - 8);
             textFieldMixin.invokeReflowDisplayLines();
         });
         node.heightProperty().addListener(newVal -> height = newVal);

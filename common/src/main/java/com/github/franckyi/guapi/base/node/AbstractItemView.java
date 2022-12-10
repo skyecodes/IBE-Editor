@@ -8,6 +8,7 @@ import net.minecraft.world.item.ItemStack;
 public abstract class AbstractItemView extends AbstractControl implements ItemView {
     private final ObjectProperty<ItemStack> itemProperty = ObjectProperty.create();
     private final BooleanProperty drawDecorationsProperty = BooleanProperty.create(false);
+    private final BooleanProperty drawTooltipProperty = BooleanProperty.create(true);
 
     protected AbstractItemView() {
     }
@@ -24,5 +25,10 @@ public abstract class AbstractItemView extends AbstractControl implements ItemVi
     @Override
     public BooleanProperty drawDecorationsProperty() {
         return drawDecorationsProperty;
+    }
+
+    @Override
+    public BooleanProperty drawTooltipProperty() {
+        return drawTooltipProperty;
     }
 }

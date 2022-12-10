@@ -47,7 +47,7 @@ public class VanillaSliderSkinDelegate extends AbstractSliderButton implements V
     }
 
     private void updateNodeFromMouse(double mouseX) {
-        updateNode((mouseX - (x + 4)) / (width - 8));
+        updateNode((mouseX - (getX() + 4)) / (width - 8));
     }
 
     private void updateNode(double newRawValue) {

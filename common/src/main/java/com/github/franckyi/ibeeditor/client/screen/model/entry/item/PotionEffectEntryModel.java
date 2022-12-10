@@ -8,6 +8,7 @@ import com.github.franckyi.ibeeditor.client.screen.model.entry.SelectionEntryMod
 import com.github.franckyi.ibeeditor.client.screen.model.selection.element.ListSelectionElementModel;
 import com.github.franckyi.ibeeditor.common.ModTexts;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 
@@ -19,7 +20,7 @@ public class PotionEffectEntryModel extends SelectionEntryModel {
     private final PotionEffectConsumer callback;
 
     public PotionEffectEntryModel(CategoryModel category, int id, int amplifier, int duration, boolean ambient, boolean showParticles, boolean showIcon, PotionEffectConsumer callback) {
-        super(category, null, Registry.MOB_EFFECT.getKey(Registry.MOB_EFFECT.byId(id)).toString(), s -> {
+        super(category, null, BuiltInRegistries.MOB_EFFECT.getKey(BuiltInRegistries.MOB_EFFECT.byId(id)).toString(), s -> {
         });
         amplifierProperty = IntegerProperty.create(amplifier);
         durationProperty = IntegerProperty.create(duration);
@@ -31,7 +32,7 @@ public class PotionEffectEntryModel extends SelectionEntryModel {
 
     @Override
     public void apply() {
-        callback.consume(Registry.MOB_EFFECT.getId(Registry.MOB_EFFECT.get(ResourceLocation.tryParse(getValue()))), getAmplifier(), getDuration(), isAmbient(), isShowParticles(), isShowIcon());
+        callback.consume(BuiltInRegistries.MOB_EFFECT.getId(BuiltInRegistries.MOB_EFFECT.get(ResourceLocation.tryParse(getValue()))), getAmplifier(), getDuration(), isAmbient(), isShowParticles(), isShowIcon());
     }
 
     public int getAmplifier() {

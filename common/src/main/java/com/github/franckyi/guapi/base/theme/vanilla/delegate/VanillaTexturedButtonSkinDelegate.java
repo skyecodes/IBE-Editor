@@ -6,12 +6,14 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.function.Supplier;
+
 public class VanillaTexturedButtonSkinDelegate<N extends TexturedButton> extends Button implements VanillaWidgetSkinDelegate {
     protected final N node;
 
     public VanillaTexturedButtonSkinDelegate(N node) {
         super(node.getX(), node.getY(), node.getWidth(), node.getHeight(), node.getTooltip().isEmpty() ? Component.empty() : node.getTooltip().get(0), button -> {
-        });
+        }, Supplier::get);
         this.node = node;
         initNodeWidget(node);
     }

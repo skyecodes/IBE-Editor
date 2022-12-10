@@ -28,7 +28,7 @@ public class VanillaItemViewSkin extends AbstractSkin<ItemView> {
 
     @Override
     public void postRender(ItemView node, PoseStack matrices, int mouseX, int mouseY, float delta) {
-        if (node.isHovered() && node.getItem() != null) {
+        if (node.isHovered() && node.getItem() != null && node.isDrawTooltip()) {
             RenderHelper.drawTooltip(matrices, node.getItem(), mouseX, mouseY);
         }
         super.postRender(node, matrices, mouseX, mouseY, delta);
