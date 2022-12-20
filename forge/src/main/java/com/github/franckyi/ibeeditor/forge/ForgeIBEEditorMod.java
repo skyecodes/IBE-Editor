@@ -27,12 +27,12 @@ import net.minecraftforge.fml.loading.FMLLoader;
 public final class ForgeIBEEditorMod {
     public ForgeIBEEditorMod() {
         CommonInit.init();
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onCommonInit);
         if (FMLLoader.getDist() == Dist.CLIENT) {
             ClientInit.init();
+            FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onClientInit);
+            FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onRegisterKeybindings);
         }
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onCommonInit);
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onClientInit);
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onRegisterKeybindings);
     }
 
     private void onRegisterKeybindings(RegisterKeyMappingsEvent event) {
