@@ -1,7 +1,11 @@
 {
+  "2.2.2": {
+    "type": "release",
+    "changelog": "* fix: crash on Forge server (#67)"
+  },
   "2.2.1": {
     "type": "release",
-    "changelog": "* fix: SNBT formatting breaks strings (#82)"
+    "changelog": "* fix: SNBT formatting breaks strings (#62)"
   },
   "2.2.0": {
     "type": "release",
