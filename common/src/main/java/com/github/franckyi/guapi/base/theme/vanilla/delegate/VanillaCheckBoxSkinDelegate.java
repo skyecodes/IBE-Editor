@@ -33,7 +33,7 @@ public class VanillaCheckBoxSkinDelegate extends Checkbox implements VanillaWidg
     }
 
     @Override
-    public void renderButton(PoseStack poseStack, int mouseX, int mouseY, float delta) {
+    public void renderWidget(PoseStack poseStack, int mouseX, int mouseY, float delta) {
         Minecraft mc = Minecraft.getInstance();
         RenderSystem.setShaderTexture(0, TEXTURE);
         RenderSystem.enableDepthTest();
@@ -42,7 +42,6 @@ public class VanillaCheckBoxSkinDelegate extends Checkbox implements VanillaWidg
         RenderSystem.defaultBlendFunc();
         RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
         blit(poseStack, getX(), getY(), isHoveredOrFocused() ? 16 : 0, selected() ? 16 : 0, 16, 16, 32, 32);
-        renderBg(poseStack, mc, mouseX, mouseY);
         drawString(poseStack, mc.font, getMessage(), getX() + 20, getY() + (height - mc.font.lineHeight - 1) / 2, 14737632 | Mth.ceil(alpha * 255.0F) << 24);
     }
 }

@@ -6,6 +6,7 @@ import com.github.franckyi.ibeeditor.mixin.MultilineTextFieldMixin;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.MultiLineEditBox;
 import net.minecraft.client.gui.components.Whence;
+import net.minecraft.client.gui.screens.Screen;
 
 public class VanillaTextAreaSkinDelegate<N extends TextArea> extends MultiLineEditBox implements VanillaWidgetSkinDelegate {
     private final N node;
@@ -46,6 +47,18 @@ public class VanillaTextAreaSkinDelegate<N extends TextArea> extends MultiLineEd
                 textFieldMixin.setRawValue(text);
             }
             textFieldMixin.invokeReflowDisplayLines();
+        }
+    }
+
+    // Mojang somehow broke moving the cursor with the mouse???
+    @Override
+    public boolean mouseClicked(double d, double e, int i) {
+        if (this.withinContentAreaPoint(d, e) && i == 0) {
+            self.getTextField().setSelecting(Screen.hasShiftDown());
+            self.invokeSeekCursorScreen(d, e);
+            return true;
+        } else {
+            return super.mouseClicked(d, e, i);
         }
     }
 

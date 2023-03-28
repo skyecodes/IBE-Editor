@@ -1,13 +1,12 @@
 import com.modrinth.minotaur.TaskModrinthUpload
-import com.modrinth.minotaur.request.VersionType
 import groovy.json.JsonSlurper
 import net.darkhax.curseforgegradle.TaskPublishCurseForge
 
 plugins {
     id "architectury-plugin" version "3.4-SNAPSHOT"
-    id "dev.architectury.loom" version "0.12.0-SNAPSHOT" apply false
+    id "dev.architectury.loom" version "1.1-SNAPSHOT" apply false
     id "net.darkhax.curseforgegradle" version "1.0.10"
-    id "com.modrinth.minotaur" version "1.2.1"
+    id "me.shedaniel.unified-publishing" version "0.1.+" apply false
     id "com.github.breadmoirai.github-release" version "2.2.12"
 }
 
@@ -56,66 +55,21 @@ allprojects {
     java {
         withSourcesJar()
     }
-}
 
-def slurper = new JsonSlurper()
-def versionInfo = slurper.parse(file("versions.json"))."${version}"
-String versionInfoType = versionInfo.type
-String versionInfoChangelog = versionInfo.changelog
-List<String> compatibleGameVersions = slurper.parseText(rootProject.compatible_minecraft_versions as String) as List<String>
-
-task curseforgeRelease(type: TaskPublishCurseForge) {
-    disableVersionDetection()
-    apiToken = findProperty("curseforge_token") ?: System.getenv("CURSEFORGE_TOKEN")
-
-    ext.uploadFile = { modLoader, project ->
-        def artifact = upload(256822, project.remapJar)
-        artifact.displayName = "IBE Editor v${version} for ${modLoader} ${rootProject.minecraft_version}"
-        artifact.releaseType = versionInfoType
-        artifact.changelog = versionInfoChangelog
-        artifact.changelogType = "markdown"
-        artifact.addModLoader(modLoader)
-        artifact.addJavaVersion("Java ${rootProject.java_version}")
-        compatibleGameVersions.each { artifact.addGameVersion(it) }
-        if (modLoader == "Fabric") {
-            artifact.addRequirement("fabric-api")
-        }
+    ext {
+        def slurper = new JsonSlurper()
+        def versionInfo = slurper.parse(rootProject.file("versions.json"))."${version}"
+        versionInfoType = versionInfo.type
+        versionInfoChangelog = versionInfo.changelog
+        compatibleGameVersions = slurper.parseText(rootProject.compatible_minecraft_versions as String) as List<String>
+        curseforgeProjectId = "256822"
+        modrinthProjectId = "E9sX1ncV"
     }
-
-    uploadFile("Forge", project(":forge"))
-    uploadFile("Fabric", project(":fabric"))
-}
-
-task modrinthReleaseForge(type: TaskModrinthUpload) {
-    uploadFile = project(":forge").remapJar
-    versionName = "IBE Editor v${version} for Forge ${rootProject.minecraft_version}"
-    versionNumber = "${version}+${rootProject.major_minecraft_version}-forge"
-    addLoader("forge")
-}
-
-task modrinthReleaseFabric(type: TaskModrinthUpload) {
-    uploadFile = project(":fabric").remapJar
-    versionName = "IBE Editor v${version} for Fabric ${rootProject.minecraft_version}"
-    versionNumber = "${version}+${rootProject.major_minecraft_version}-fabric"
-    addLoader("fabric")
-    //addDependency does not support project IDs yet
-}
-
-task modrinthRelease {
-    dependsOn modrinthReleaseForge, modrinthReleaseFabric
-}
-
-tasks.withType(TaskModrinthUpload) {
-    token = findProperty("modrinth_token") ?: System.getenv("MODRINTH_TOKEN")
-    projectId = "E9sX1ncV"
-    versionType = VersionType.valueOf(versionInfoType.toUpperCase())
-    changelog = versionInfoChangelog
-    compatibleGameVersions.each { addGameVersion(it) }
 }
 
 githubRelease {
     setToken(findProperty("github_token") as String ?: System.getenv("GITHUB_TOKEN"))
-    setOwner("Franckyi")
+    setOwner("skyecodes")
     setRepo("IBE-Editor")
     setTagName("${version}+${rootProject.major_minecraft_version}")
     setTargetCommitish(rootProject.major_minecraft_version as String)
