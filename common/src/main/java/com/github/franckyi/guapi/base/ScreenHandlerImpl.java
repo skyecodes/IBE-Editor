@@ -187,7 +187,7 @@ public final class ScreenHandlerImpl implements ScreenHandler {
         public void render(@NotNull PoseStack matrices, int mouseX, int mouseY, float partialTicks) {
             if (!currentSceneProperty().hasValue()) return;
             if (getCurrentScene().isTexturedBackground()) {
-                renderDirtBackground(0);
+                renderDirtBackground(matrices);
             } else {
                 renderBackground(matrices);
             }

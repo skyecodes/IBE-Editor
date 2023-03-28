@@ -148,7 +148,7 @@ public class VanillaTextFieldSkinDelegate<N extends TextField> extends EditBox i
         } else {
             boolean flag = mouseX >= getX() && mouseX < getX() + width && mouseY >= getY() && mouseY < getY() + height;
             if (self.canLoseFocus() && button == 0) {
-                setFocus(flag);
+                setFocused(flag);
             }
 
             if (isFocused() && flag && button == 0) {
@@ -167,7 +167,7 @@ public class VanillaTextFieldSkinDelegate<N extends TextField> extends EditBox i
     }
 
     @Override
-    public void renderButton(@NotNull PoseStack matrices, int mouseX, int mouseY, float delta) {
+    public void renderWidget(@NotNull PoseStack matrices, int mouseX, int mouseY, float delta) {
         Font font = Minecraft.getInstance().font;
         if (isVisible()) {
             if (self.isBordered()) {
@@ -238,7 +238,7 @@ public class VanillaTextFieldSkinDelegate<N extends TextField> extends EditBox i
                 Component highlightedText = renderText(getValue().substring(start, end), start);
                 int highlightedTextWidth = font.width(highlightedText);
                 int x0 = getX() + 4;
-                self.invokeRenderHighlight(x0 + previousTextWidth, i1 - 1, x0 + previousTextWidth + highlightedTextWidth, i1 + 1 + 9);
+                self.invokeRenderHighlight(matrices, x0 + previousTextWidth, i1 - 1, x0 + previousTextWidth + highlightedTextWidth, i1 + 1 + 9);
             }
 
         }

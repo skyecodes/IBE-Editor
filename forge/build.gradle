@@ -1,5 +1,6 @@
 plugins {
     id "com.github.johnrengelman.shadow" version "7.0.0"
+    id "me.shedaniel.unified-publishing"
 }
 architectury {
     platformSetupLoomIde()
@@ -76,5 +77,34 @@ publishing {
     // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
     repositories {
         // Add repositories to publish to here.
+    }
+}
+
+unifiedPublishing {
+    project {
+        displayName = "IBE Editor v${rootProject.version} for Forge ${rootProject.minecraft_version}"
+        releaseType = versionInfoType
+        changelog = versionInfoChangelog
+        compatibleGameVersions.each { gameVersions.add it }
+        gameLoaders = ["forge"]
+        mainPublication tasks.remapJar
+
+        var CURSE_API_KEY = project.findProperty("curseforge_token") ?: System.getenv("CURSEFORGE_TOKEN")
+        if (CURSE_API_KEY != null) {
+            curseforge {
+                token = CURSE_API_KEY
+                id = curseforgeProjectId
+                gameVersions.add "Java ${rootProject.java_version}"
+            }
+        }
+
+        var MODRINTH_TOKEN = project.findProperty("modrinth_token") ?: System.getenv("MODRINTH_TOKEN")
+        if (MODRINTH_TOKEN != null) {
+            modrinth {
+                token = MODRINTH_TOKEN
+                id = modrinthProjectId
+                version = "${rootProject.version}+${rootProject.major_minecraft_version}-forge"
+            }
+        }
     }
 }

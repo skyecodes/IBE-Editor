@@ -19,9 +19,9 @@ public class VanillaTexturedButtonSkinDelegate<N extends TexturedButton> extends
     }
 
     @Override
-    public void renderButton(@NotNull PoseStack matrices, int mouseX, int mouseY, float delta) {
+    public void renderWidget(@NotNull PoseStack matrices, int mouseX, int mouseY, float delta) {
         if (node.isDrawButton()) {
-            super.renderButton(matrices, mouseX, mouseY, delta);
+            super.renderWidget(matrices, mouseX, mouseY, delta);
         }
     }
 }

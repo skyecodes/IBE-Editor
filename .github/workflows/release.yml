@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - '1.19.3'
+      - '1.19.4'
     paths-ignore:
       - 'README.md'
       - 'LICENSE'
@@ -29,7 +29,7 @@ jobs:
       - name: Build & release mod
         uses: gradle/gradle-build-action@v2
         with:
-          arguments: build curseforgeRelease modrinthRelease githubRelease --no-daemon
+          arguments: build publishUnified githubRelease --no-daemon
         env:
           CURSEFORGE_TOKEN: ${{ secrets.CURSEFORGE_TOKEN }}
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}

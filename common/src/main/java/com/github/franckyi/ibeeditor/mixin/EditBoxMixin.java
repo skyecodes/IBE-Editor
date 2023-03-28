@@ -1,5 +1,6 @@
 package com.github.franckyi.ibeeditor.mixin;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.util.FormattedCharSequence;
 import org.spongepowered.asm.mixin.Mixin;
@@ -56,5 +57,5 @@ public interface EditBoxMixin {
     int invokeGetMaxLength();
 
     @Invoker("renderHighlight")
-    void invokeRenderHighlight(int x1, int y1, int x2, int y2);
+    void invokeRenderHighlight(PoseStack poseStack, int x1, int y1, int x2, int y2);
 }

@@ -3,6 +3,7 @@ package com.github.franckyi.ibeeditor.common.network;
 import com.github.franckyi.ibeeditor.common.EditorType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -25,13 +26,13 @@ public final class BlockEditorPacket {
         public static final PacketSerializer<ResponseData> SERIALIZER = new PacketSerializer<>() {
             @Override
             public void write(ResponseData obj, FriendlyByteBuf buf) {
-                buf.writeWithCodec(BlockState.CODEC, obj.blockState());
+                buf.writeWithCodec(NbtOps.INSTANCE, BlockState.CODEC, obj.blockState());
                 buf.writeNbt(obj.tag());
             }
 
             @Override
             public ResponseData read(FriendlyByteBuf buf) {
-                return new ResponseData(buf.readWithCodec(BlockState.CODEC), buf.readNbt());
+                return new ResponseData(buf.readWithCodec(NbtOps.INSTANCE, BlockState.CODEC), buf.readNbt());
             }
         };
     }

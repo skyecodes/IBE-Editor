@@ -81,11 +81,11 @@ public final class RenderHelper {
                 itemStack.getTooltipLines(Minecraft.getInstance().player, TooltipFlag.Default.NORMAL), x, y);
     }
 
-    public static void drawItem(ItemStack itemStack, int x, int y) {
-        mc().getItemRenderer().renderAndDecorateFakeItem(itemStack, x, y);
+    public static void drawItem(PoseStack matrices, ItemStack itemStack, int x, int y) {
+        mc().getItemRenderer().renderAndDecorateFakeItem(matrices, itemStack, x, y);
     }
 
-    public static void drawItemDecorations(ItemStack itemStack, int x, int y) {
-        mc().getItemRenderer().renderGuiItemDecorations(font(), itemStack, x, y);
+    public static void drawItemDecorations(PoseStack matrices, ItemStack itemStack, int x, int y) {
+        mc().getItemRenderer().renderGuiItemDecorations(matrices, font(), itemStack, x, y);
     }
 }
