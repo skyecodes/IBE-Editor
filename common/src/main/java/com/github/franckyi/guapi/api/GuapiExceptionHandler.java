@@ -3,7 +3,7 @@ package com.github.franckyi.guapi.api;
 import com.github.franckyi.guapi.api.event.ScreenEvent;
 import com.github.franckyi.guapi.api.node.Scene;
 import com.github.franckyi.guapi.api.util.ScreenEventType;
-import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.gui.GuiGraphics;
 
 public interface GuapiExceptionHandler {
     GuapiExceptionHandler NONE = new GuapiExceptionHandler() {
@@ -16,7 +16,7 @@ public interface GuapiExceptionHandler {
         }
 
         @Override
-        public void handleRenderException(Exception e, PoseStack matrices, int mouseX, int mouseY, float delta, Scene currentScene) {
+        public void handleRenderException(Exception e, GuiGraphics guiGraphics, int mouseX, int mouseY, float delta, Scene currentScene) {
         }
     };
 
@@ -24,5 +24,5 @@ public interface GuapiExceptionHandler {
 
     void handleTickException(Exception e, Scene currentScene);
 
-    void handleRenderException(Exception e, PoseStack matrices, int mouseX, int mouseY, float delta, Scene currentScene);
+    void handleRenderException(Exception e, GuiGraphics guiGraphics, int mouseX, int mouseY, float delta, Scene currentScene);
 }

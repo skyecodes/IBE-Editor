@@ -1,10 +1,9 @@
 package com.github.franckyi.guapi.api;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -30,62 +29,58 @@ public final class RenderHelper {
         return font().width(text);
     }
 
-    public static void drawString(PoseStack matrices, Component text, float x, float y, int color, boolean shadow) {
-        if (shadow) {
-            font().drawShadow(matrices, text, x, y, color);
-        } else {
-            font().draw(matrices, text, x, y, color);
-        }
+    public static void drawString(GuiGraphics guiGraphics, Component text, float x, float y, int color, boolean shadow) {
+        guiGraphics.drawString(font(), text, (int) x, (int) y, color, shadow);
     }
 
-    public static void fillRectangle(PoseStack matrices, int x0, int y0, int x1, int y1, int color) {
-        GuiComponent.fill(matrices, x0, y0, x1, y1, color);
+    public static void fillRectangle(GuiGraphics guiGraphics, int x0, int y0, int x1, int y1, int color) {
+        guiGraphics.fill(x0, y0, x1, y1, color);
     }
 
-    public static void drawVLine(PoseStack matrices, int x, int y0, int y1, int color) {
-        fillRectangle(matrices, x, y0, x + 1, y1, color);
+    public static void drawVLine(GuiGraphics guiGraphics, int x, int y0, int y1, int color) {
+        fillRectangle(guiGraphics, x, y0, x + 1, y1, color);
     }
 
-    public static void drawHLine(PoseStack matrices, int y, int x0, int x1, int color) {
-        fillRectangle(matrices, x0, y, x1, y + 1, color);
+    public static void drawHLine(GuiGraphics guiGraphics, int y, int x0, int x1, int color) {
+        fillRectangle(guiGraphics, x0, y, x1, y + 1, color);
     }
 
-    public static void drawRectangle(PoseStack matrices, int x0, int y0, int x1, int y1, int color) {
-        drawHLine(matrices, y0, x0, x1 - 1, color);
-        drawVLine(matrices, x1 - 1, y0, y1 - 1, color);
-        drawHLine(matrices, y1 - 1, x1, x0 + 1, color);
-        drawVLine(matrices, x0, y1, y0 + 1, color);
+    public static void drawRectangle(GuiGraphics guiGraphics, int x0, int y0, int x1, int y1, int color) {
+        drawHLine(guiGraphics, y0, x0, x1 - 1, color);
+        drawVLine(guiGraphics, x1 - 1, y0, y1 - 1, color);
+        drawHLine(guiGraphics, y1 - 1, x1, x0 + 1, color);
+        drawVLine(guiGraphics, x0, y1, y0 + 1, color);
     }
 
-    public static void drawTexture(PoseStack matrices, ResourceLocation id, int x, int y, int width, int height, int imageX, int imageY, int imageWidth, int imageHeight) {
+    public static void drawTexture(GuiGraphics guiGraphics, ResourceLocation id, int x, int y, int width, int height, int imageX, int imageY, int imageWidth, int imageHeight) {
         RenderSystem.setShaderTexture(0, id);
         RenderSystem.enableBlend();
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.defaultBlendFunc();
         RenderSystem.enableDepthTest();
-        GuiComponent.blit(matrices, x, y, 0, imageX, imageY, width, height, imageWidth, imageHeight);
+        guiGraphics.blit(id, x, y, 0, imageX, imageY, width, height, imageWidth, imageHeight);
     }
 
-    public static void drawSprite(PoseStack matrices, TextureAtlasSprite sprite, int x, int y, int imageWidth, int imageHeight) {
+    public static void drawSprite(GuiGraphics guiGraphics, TextureAtlasSprite sprite, int x, int y, int imageWidth, int imageHeight) {
         RenderSystem.setShaderTexture(0, sprite.atlasLocation());
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        GuiComponent.blit(matrices, x, y, 0, imageWidth, imageHeight, sprite);
+        guiGraphics.blit(x, y, 0, imageWidth, imageHeight, sprite);
     }
 
-    public static void drawTooltip(PoseStack matrices, List<Component> text, int x, int y) {
-        mc().screen.renderComponentTooltip(matrices, text, x, y);
+    public static void drawTooltip(GuiGraphics guiGraphics, List<Component> text, int x, int y) {
+        guiGraphics.renderComponentTooltip(font(), text, x, y);
     }
 
-    public static void drawTooltip(PoseStack matrices, ItemStack itemStack, int x, int y) {
-        mc().screen.renderComponentTooltip(matrices,
+    public static void drawTooltip(GuiGraphics guiGraphics, ItemStack itemStack, int x, int y) {
+        guiGraphics.renderComponentTooltip(font(),
                 itemStack.getTooltipLines(Minecraft.getInstance().player, TooltipFlag.Default.NORMAL), x, y);
     }
 
-    public static void drawItem(PoseStack matrices, ItemStack itemStack, int x, int y) {
-        mc().getItemRenderer().renderAndDecorateFakeItem(matrices, itemStack, x, y);
+    public static void drawItem(GuiGraphics guiGraphics, ItemStack itemStack, int x, int y) {
+        guiGraphics.renderFakeItem(itemStack, x, y);
     }
 
-    public static void drawItemDecorations(PoseStack matrices, ItemStack itemStack, int x, int y) {
-        mc().getItemRenderer().renderGuiItemDecorations(matrices, font(), itemStack, x, y);
+    public static void drawItemDecorations(GuiGraphics guiGraphics, ItemStack itemStack, int x, int y) {
+        guiGraphics.renderItemDecorations(font(), itemStack, x, y);
     }
 }

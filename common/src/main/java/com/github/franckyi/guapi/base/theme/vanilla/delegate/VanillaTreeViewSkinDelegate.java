@@ -4,6 +4,7 @@ import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.api.node.TexturedButton;
 import com.github.franckyi.guapi.api.node.TreeView;
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 
 import static com.github.franckyi.guapi.api.GuapiHelper.*;
@@ -82,7 +83,7 @@ public class VanillaTreeViewSkinDelegate<E extends TreeView.TreeItem<E>> extends
         }
 
         @Override
-        public void render(PoseStack matrices, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
+        public void render(GuiGraphics guiGraphics, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
             int incr = increment * getList().node.getChildrenIncrement();
             entryWidth = getList().getMaxScroll() == 0 ? entryWidth + 6 : entryWidth;
             getNode().setX(x + incr);
@@ -92,9 +93,9 @@ public class VanillaTreeViewSkinDelegate<E extends TreeView.TreeItem<E>> extends
             if (button != null) {
                 button.setImageY(button.inBounds(mouseX, mouseY) ? 16 : 0);
             }
-            renderBackground(matrices, x, y, entryWidth, entryHeight);
-            while (getNode().preRender(matrices, mouseX, mouseY, tickDelta)) ;
-            getNode().render(matrices, mouseX, mouseY, tickDelta);
+            renderBackground(guiGraphics, x, y, entryWidth, entryHeight);
+            while (getNode().preRender(guiGraphics, mouseX, mouseY, tickDelta)) ;
+            getNode().render(guiGraphics, mouseX, mouseY, tickDelta);
         }
     }
 }

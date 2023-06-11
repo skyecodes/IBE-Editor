@@ -1,4 +1,8 @@
 {
+  "2.2.3": {
+    "type": "release",
+    "changelog": "* lang: update zh_cn (#70) (FurnyGo)\n* lang: update ru_ru (#78) (Annijang)"
+  },
   "2.2.2": {
     "type": "release",
     "changelog": "* fix: crash on Forge server (#67)"

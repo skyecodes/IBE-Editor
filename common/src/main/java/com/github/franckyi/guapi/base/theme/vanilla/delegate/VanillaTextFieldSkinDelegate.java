@@ -5,6 +5,7 @@ import com.github.franckyi.ibeeditor.mixin.EditBoxMixin;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.FormattedText;
@@ -167,13 +168,13 @@ public class VanillaTextFieldSkinDelegate<N extends TextField> extends EditBox i
     }
 
     @Override
-    public void renderWidget(@NotNull PoseStack matrices, int mouseX, int mouseY, float delta) {
+    public void renderWidget(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
         Font font = Minecraft.getInstance().font;
         if (isVisible()) {
             if (self.isBordered()) {
                 int i = isFocused() ? -1 : -6250336;
-                fill(matrices, getX() - 1, getY() - 1, getX() + width + 1, getY() + height + 1, i);
-                fill(matrices, getX(), getY(), getX() + width, getY() + height, -16777216);
+                guiGraphics.fill(getX() - 1, getY() - 1, getX() + width + 1, getY() + height + 1, i);
+                guiGraphics.fill(getX(), getY(), getX() + width, getY() + height, -16777216);
             }
 
             int i2 = self.isEditable() ? self.getTextColor() : self.getTextColorUneditable();
@@ -194,7 +195,7 @@ public class VanillaTextFieldSkinDelegate<N extends TextField> extends EditBox i
 
             if (!s.isEmpty()) {
                 String s1 = flag ? s.substring(0, j) : s;
-                j1 = font.drawShadow(matrices, self.getFormatter().apply(s1, self.getDisplayPos()), l, i1, i2);
+                j1 = guiGraphics.drawString(font, self.getFormatter().apply(s1, self.getDisplayPos()), l, i1, i2);
             }
 
             boolean flag2 = self.getCursorPos() < getValue().length() || getValue().length() >= self.invokeGetMaxLength();
@@ -207,18 +208,18 @@ public class VanillaTextFieldSkinDelegate<N extends TextField> extends EditBox i
             }
 
             if (!s.isEmpty() && flag && j < s.length()) {
-                font.drawShadow(matrices, self.getFormatter().apply(s.substring(j), self.getCursorPos()), j1, i1, i2);
+                guiGraphics.drawString(font, self.getFormatter().apply(s.substring(j), self.getCursorPos()), j1, i1, i2);
             }
 
             if (!flag2 && self.getSuggestion() != null) {
-                font.drawShadow(matrices, self.getSuggestion(), (k1 - 1), i1, -8355712);
+                guiGraphics.drawString(font, self.getSuggestion(), (k1 - 1), i1, -8355712);
             }
 
             if (flag1) {
                 if (flag2) {
-                    fill(matrices, k1, i1 - 1, k1 + 1, i1 + 1 + 9, -3092272);
+                    guiGraphics.fill(k1, i1 - 1, k1 + 1, i1 + 1 + 9, -3092272);
                 } else {
-                    font.drawShadow(matrices, "_", k1, i1, i2);
+                    guiGraphics.drawString(font, "_", k1, i1, i2);
                 }
             }
 
@@ -238,7 +239,7 @@ public class VanillaTextFieldSkinDelegate<N extends TextField> extends EditBox i
                 Component highlightedText = renderText(getValue().substring(start, end), start);
                 int highlightedTextWidth = font.width(highlightedText);
                 int x0 = getX() + 4;
-                self.invokeRenderHighlight(matrices, x0 + previousTextWidth, i1 - 1, x0 + previousTextWidth + highlightedTextWidth, i1 + 1 + 9);
+                self.invokeRenderHighlight(guiGraphics, x0 + previousTextWidth, i1 - 1, x0 + previousTextWidth + highlightedTextWidth, i1 + 1 + 9);
             }
 
         }

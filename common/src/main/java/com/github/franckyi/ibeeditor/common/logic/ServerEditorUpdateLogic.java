@@ -31,7 +31,7 @@ public final class ServerEditorUpdateLogic {
             CommonUtil.showPermissionError(player, ModTexts.ITEM);
             return;
         }
-        if (player.getLevel().getBlockEntity(response.getBlockPos()) instanceof Container container) {
+        if (player.level().getBlockEntity(response.getBlockPos()) instanceof Container container) {
             container.setItem(response.getSlot(), response.getItemStack());
             CommonUtil.showUpdateSuccess(player, ModTexts.ITEM);
         } else {
@@ -44,7 +44,7 @@ public final class ServerEditorUpdateLogic {
             CommonUtil.showPermissionError(player, ModTexts.ITEM);
             return;
         }
-        if (player.getLevel().getEntity(response.getEntityId()) instanceof Container container) {
+        if (player.level().getEntity(response.getEntityId()) instanceof Container container) {
             container.setItem(response.getSlot(), response.getItemStack());
             CommonUtil.showUpdateSuccess(player, ModTexts.ITEM);
         } else {
@@ -57,7 +57,7 @@ public final class ServerEditorUpdateLogic {
             CommonUtil.showPermissionError(player, ModTexts.BLOCK);
             return;
         }
-        var level = player.getLevel();
+        var level = player.level();
         level.setBlockAndUpdate(update.getBlockPos(), update.getBlockState());
         var blockEntity = level.getBlockEntity(update.getBlockPos());
         if (update.getTag() != null) {
@@ -75,7 +75,7 @@ public final class ServerEditorUpdateLogic {
             CommonUtil.showPermissionError(player, ModTexts.ENTITY);
             return;
         }
-        var entity = player.getLevel().getEntity(update.getEntityId());
+        var entity = player.level().getEntity(update.getEntityId());
         if (entity != null) {
             entity.load(update.getTag());
             CommonUtil.showUpdateSuccess(player, ModTexts.ENTITY);

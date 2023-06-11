@@ -4,7 +4,7 @@ import com.github.franckyi.guapi.api.RenderHelper;
 import com.github.franckyi.guapi.api.node.SpriteView;
 import com.github.franckyi.guapi.api.theme.Skin;
 import com.github.franckyi.guapi.base.theme.AbstractSkin;
-import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.gui.GuiGraphics;
 
 public class VanillaSpriteViewSkin extends AbstractSkin<SpriteView> {
     public static final Skin<SpriteView> INSTANCE = new VanillaSpriteViewSkin();
@@ -13,10 +13,10 @@ public class VanillaSpriteViewSkin extends AbstractSkin<SpriteView> {
     }
 
     @Override
-    public void render(SpriteView node, PoseStack matrices, int mouseX, int mouseY, float delta) {
-        super.render(node, matrices, mouseX, mouseY, delta);
+    public void render(SpriteView node, GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
+        super.render(node, guiGraphics, mouseX, mouseY, delta);
         if (node.getSpriteFactory() != null) {
-            RenderHelper.drawSprite(matrices, node.getSprite(),
+            RenderHelper.drawSprite(guiGraphics, node.getSprite(),
                     node.getX(), node.getY(), node.getImageWidth(), node.getImageHeight());
         }
     }

@@ -2,6 +2,7 @@ package com.github.franckyi.guapi.base.theme.vanilla.delegate;
 
 import com.github.franckyi.guapi.api.node.TexturedButton;
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
@@ -19,9 +20,9 @@ public class VanillaTexturedButtonSkinDelegate<N extends TexturedButton> extends
     }
 
     @Override
-    public void renderWidget(@NotNull PoseStack matrices, int mouseX, int mouseY, float delta) {
+    public void renderWidget(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
         if (node.isDrawButton()) {
-            super.renderWidget(matrices, mouseX, mouseY, delta);
+            super.renderWidget(guiGraphics, mouseX, mouseY, delta);
         }
     }
 }

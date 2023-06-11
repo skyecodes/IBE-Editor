@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - '1.19.4'
+      - '1.20'
     paths-ignore:
       - 'README.md'
       - 'LICENSE'

@@ -11,7 +11,7 @@ import com.github.franckyi.guapi.api.node.ScreenEventHandler;
 import com.github.franckyi.guapi.api.util.Insets;
 import com.github.franckyi.guapi.api.util.ScreenEventType;
 import com.github.franckyi.guapi.base.event.ScreenEventHandlerDelegate;
-import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.gui.GuiGraphics;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
@@ -141,15 +141,15 @@ public abstract class AbstractScene implements Scene {
     }
 
     @Override
-    public void render(PoseStack matrices, int mouseX, int mouseY, float delta) {
+    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
         if (shouldUpdateChildrenPos) {
             updateChildrenPos();
             shouldUpdateChildrenPos = false;
         }
         if (rootProperty().hasValue()) {
-            while (getRoot().preRender(matrices, mouseX, mouseY, delta)) ;
-            getRoot().render(matrices, mouseX, mouseY, delta);
-            getRoot().postRender(matrices, mouseX, mouseY, delta);
+            while (getRoot().preRender(guiGraphics, mouseX, mouseY, delta)) ;
+            getRoot().render(guiGraphics, mouseX, mouseY, delta);
+            getRoot().postRender(guiGraphics, mouseX, mouseY, delta);
         }
     }
 

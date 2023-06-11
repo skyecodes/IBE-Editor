@@ -1,7 +1,7 @@
 package com.github.franckyi.guapi.base.theme;
 
 import com.github.franckyi.guapi.base.node.AbstractNode;
-import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.gui.GuiGraphics;
 
 public abstract class ProvidedSkin<N extends AbstractNode> extends AbstractSkin<N> {
     private final N node;
@@ -11,9 +11,9 @@ public abstract class ProvidedSkin<N extends AbstractNode> extends AbstractSkin<
     }
 
     @Override
-    public void render(N node, PoseStack matrices, int mouseX, int mouseY, float delta) {
-        super.render(node, matrices, mouseX, mouseY, delta);
-        renderNode(matrices, mouseX, mouseY, delta);
+    public void render(N node, GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
+        super.render(node, guiGraphics, mouseX, mouseY, delta);
+        renderNode(guiGraphics, mouseX, mouseY, delta);
     }
 
     protected abstract <M> void renderNode(M matrices, int mouseX, int mouseY, float delta);

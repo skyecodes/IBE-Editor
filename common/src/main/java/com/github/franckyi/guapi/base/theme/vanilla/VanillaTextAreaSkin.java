@@ -5,6 +5,7 @@ import com.github.franckyi.guapi.api.RenderHelper;
 import com.github.franckyi.guapi.api.node.TextArea;
 import com.github.franckyi.guapi.base.theme.vanilla.delegate.VanillaTextAreaSkinDelegate;
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.gui.GuiGraphics;
 
 public class VanillaTextAreaSkin extends AbstractVanillaWidgetSkin<TextArea, VanillaTextAreaSkinDelegate<TextArea>> {
     public VanillaTextAreaSkin(TextArea node) {
@@ -16,12 +17,12 @@ public class VanillaTextAreaSkin extends AbstractVanillaWidgetSkin<TextArea, Van
     }
 
     @Override
-    public void render(TextArea node, PoseStack matrices, int mouseX, int mouseY, float delta) {
-        super.render(node, matrices, mouseX, mouseY, delta);
+    public void render(TextArea node, GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
+        super.render(node, guiGraphics, mouseX, mouseY, delta);
         if (!(node.isValidationForced() || node.getValidator().test(node.getText()))) {
-            drawBorder(node, matrices, Color.fromRGBA(1, 0, 0, 0.8));
+            drawBorder(node, guiGraphics, Color.fromRGBA(1, 0, 0, 0.8));
         } else if (node.isSuggested()) {
-            drawBorder(node, matrices, Color.fromRGBA(0, 1, 0, 0.8));
+            drawBorder(node, guiGraphics, Color.fromRGBA(0, 1, 0, 0.8));
         }
     }
 
@@ -35,8 +36,8 @@ public class VanillaTextAreaSkin extends AbstractVanillaWidgetSkin<TextArea, Van
         return 20;
     }
 
-    private void drawBorder(TextArea node, PoseStack matrices, int color) {
-        RenderHelper.drawRectangle(matrices, node.getX(), node.getY(),
+    private void drawBorder(TextArea node, GuiGraphics guiGraphics, int color) {
+        RenderHelper.drawRectangle(guiGraphics, node.getX(), node.getY(),
                 node.getX() + node.getWidth(), node.getY() + node.getHeight(), color);
     }
 }

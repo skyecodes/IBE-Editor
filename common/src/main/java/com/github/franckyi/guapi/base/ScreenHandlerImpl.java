@@ -11,6 +11,7 @@ import com.github.franckyi.guapi.api.util.ScreenEventType;
 import com.github.franckyi.guapi.base.event.*;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import org.jetbrains.annotations.NotNull;
 
@@ -107,11 +108,11 @@ public final class ScreenHandlerImpl implements ScreenHandler {
         Minecraft.getInstance().setScreen(oldScreen);
     }
 
-    private void render(PoseStack matrices, int mouseX, int mouseY, float delta) {
+    private void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
         try {
-            getCurrentScene().render(matrices, mouseX, mouseY, delta);
+            getCurrentScene().render(guiGraphics, mouseX, mouseY, delta);
         } catch (Exception e) {
-            Guapi.getExceptionHandler().handleRenderException(e, matrices, mouseX, mouseY, delta, getCurrentScene());
+            Guapi.getExceptionHandler().handleRenderException(e, guiGraphics, mouseX, mouseY, delta, getCurrentScene());
             Guapi.getDefaultLogger().error(Guapi.LOG_MARKER, "Error while rendering GUAPI Scene", e);
             hideScene();
         }
@@ -184,14 +185,14 @@ public final class ScreenHandlerImpl implements ScreenHandler {
         }
 
         @Override
-        public void render(@NotNull PoseStack matrices, int mouseX, int mouseY, float partialTicks) {
+        public void render(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
             if (!currentSceneProperty().hasValue()) return;
             if (getCurrentScene().isTexturedBackground()) {
-                renderDirtBackground(matrices);
+                renderDirtBackground(guiGraphics);
             } else {
-                renderBackground(matrices);
+                renderBackground(guiGraphics);
             }
-            ScreenHandlerImpl.this.render(matrices, mouseX, mouseY, partialTicks);
+            ScreenHandlerImpl.this.render(guiGraphics, mouseX, mouseY, partialTicks);
         }
 
         @Override

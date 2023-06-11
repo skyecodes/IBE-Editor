@@ -4,7 +4,7 @@ import com.github.franckyi.guapi.api.event.*;
 import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.base.theme.SuppliedSkin;
 import com.github.franckyi.guapi.base.theme.vanilla.delegate.VanillaWidgetSkinDelegate;
-import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.gui.GuiGraphics;
 
 public abstract class AbstractVanillaWidgetSkin<N extends Node, W extends VanillaWidgetSkinDelegate> extends SuppliedSkin<N> {
     private final W widget;
@@ -15,22 +15,22 @@ public abstract class AbstractVanillaWidgetSkin<N extends Node, W extends Vanill
     }
 
     @Override
-    public boolean preRender(N node, PoseStack matrices, int mouseX, int mouseY, float delta) {
-        boolean res = super.preRender(node, matrices, mouseX, mouseY, delta);
-        res |= widget.preRender(matrices, mouseX, mouseY, delta);
+    public boolean preRender(N node, GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
+        boolean res = super.preRender(node, guiGraphics, mouseX, mouseY, delta);
+        res |= widget.preRender(guiGraphics, mouseX, mouseY, delta);
         return res;
     }
 
     @Override
-    public void render(N node, PoseStack matrices, int mouseX, int mouseY, float delta) {
-        super.render(node, matrices, mouseX, mouseY, delta);
-        widget.render(matrices, mouseX, mouseY, delta);
+    public void render(N node, GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
+        super.render(node, guiGraphics, mouseX, mouseY, delta);
+        widget.render(guiGraphics, mouseX, mouseY, delta);
     }
 
     @Override
-    public void postRender(N node, PoseStack matrices, int mouseX, int mouseY, float delta) {
-        super.postRender(node, matrices, mouseX, mouseY, delta);
-        widget.postRender(matrices, mouseX, mouseY, delta);
+    public void postRender(N node, GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
+        super.postRender(node, guiGraphics, mouseX, mouseY, delta);
+        widget.postRender(guiGraphics, mouseX, mouseY, delta);
     }
 
     @Override

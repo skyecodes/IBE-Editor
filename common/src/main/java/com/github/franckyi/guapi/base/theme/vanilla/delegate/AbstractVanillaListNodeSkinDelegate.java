@@ -11,6 +11,7 @@ import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.api.util.ScreenEventType;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractSelectionList;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
@@ -83,7 +84,7 @@ public abstract class AbstractVanillaListNodeSkinDelegate<N extends ListNode<E>,
     }
 
     @Override
-    public boolean preRender(PoseStack matrices, int mouseX, int mouseY, float delta) {
+    public boolean preRender(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
         boolean res = false;
         if (shouldRefreshSize) {
             refreshSize();
@@ -101,14 +102,14 @@ public abstract class AbstractVanillaListNodeSkinDelegate<N extends ListNode<E>,
             changeFocus();
             res = true;
         }
-        super.render(matrices, mouseX, mouseY, delta); // doing the actual rendering here to not hide the other elements
+        super.render(guiGraphics, mouseX, mouseY, delta); // doing the actual rendering here to not hide the other elements
         return res;
     }
 
     @Override
-    public void render(PoseStack matrices, int mouseX, int mouseY, float delta) {
+    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
         for (T entry : children()) {
-            entry.getNode().postRender(matrices, mouseX, mouseY, delta);
+            entry.getNode().postRender(guiGraphics, mouseX, mouseY, delta);
         }
     }
 
@@ -242,9 +243,9 @@ public abstract class AbstractVanillaListNodeSkinDelegate<N extends ListNode<E>,
             this.node = node;
         }
 
-        protected void renderBackground(PoseStack matrices, int x, int y, int entryWidth, int entryHeight) {
+        protected void renderBackground(GuiGraphics guiGraphics, int x, int y, int entryWidth, int entryHeight) {
             if (getList().getFocused() == this) {
-                RenderHelper.fillRectangle(matrices, x - 2, y - 2,
+                RenderHelper.fillRectangle(guiGraphics, x - 2, y - 2,
                         x + entryWidth + 3, y + entryHeight + 2, Color.fromRGBA(255, 255, 255, 79));
             }
         }

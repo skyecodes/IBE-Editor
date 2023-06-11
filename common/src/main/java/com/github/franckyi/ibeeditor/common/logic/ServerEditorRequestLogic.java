@@ -17,7 +17,7 @@ public final class ServerEditorRequestLogic {
     }
 
     public static void onBlockInventoryItemEditorRequest(ServerPlayer player, BlockInventoryItemEditorPacket.Request request) {
-        if (player.getLevel().getBlockEntity(request.getBlockPos()) instanceof Container container) {
+        if (player.level().getBlockEntity(request.getBlockPos()) instanceof Container container) {
             NetworkManager.sendToClient(player, NetworkManager.BLOCK_INVENTORY_ITEM_EDITOR_RESPONSE, new BlockInventoryItemEditorPacket.Response(request, PermissionLogic.hasPermission(player), container.getItem(request.getSlot())));
         } else {
             CommonUtil.showTargetError(player, ModTexts.ITEM);
@@ -25,7 +25,7 @@ public final class ServerEditorRequestLogic {
     }
 
     public static void onEntityInventoryItemEditorRequest(ServerPlayer player, EntityInventoryItemEditorPacket.Request request) {
-        if (player.getLevel().getEntity(request.getEntityId()) instanceof Container container) {
+        if (player.level().getEntity(request.getEntityId()) instanceof Container container) {
             NetworkManager.sendToClient(player, NetworkManager.ENTITY_INVENTORY_ITEM_EDITOR_RESPONSE, new EntityInventoryItemEditorPacket.Response(request, PermissionLogic.hasPermission(player), container.getItem(request.getSlot())));
         } else {
             CommonUtil.showTargetError(player, ModTexts.ITEM);
@@ -33,7 +33,7 @@ public final class ServerEditorRequestLogic {
     }
 
     public static void onBlockEditorRequest(ServerPlayer player, BlockEditorPacket.Request request) {
-        var level = player.getLevel();
+        var level = player.level();
         var blockState = level.getBlockState(request.getBlockPos());
         var blockEntity = level.getBlockEntity(request.getBlockPos());
         var tag = blockEntity == null ? null : blockEntity.saveWithId();
@@ -41,7 +41,7 @@ public final class ServerEditorRequestLogic {
     }
 
     public static void onEntityEditorRequest(ServerPlayer player, EntityEditorPacket.Request request) {
-        var entity = player.getLevel().getEntity(request.getEntityId());
+        var entity = player.level().getEntity(request.getEntityId());
         var tag = (CompoundTag) null;
         if (entity != null) {
             tag = new CompoundTag();

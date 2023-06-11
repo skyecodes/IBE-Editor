@@ -4,7 +4,7 @@ import com.github.franckyi.guapi.api.RenderHelper;
 import com.github.franckyi.guapi.api.node.ImageView;
 import com.github.franckyi.guapi.api.theme.Skin;
 import com.github.franckyi.guapi.base.theme.AbstractSkin;
-import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.gui.GuiGraphics;
 
 public class VanillaImageViewSkin extends AbstractSkin<ImageView> {
     public static final Skin<ImageView> INSTANCE = new VanillaImageViewSkin();
@@ -13,10 +13,10 @@ public class VanillaImageViewSkin extends AbstractSkin<ImageView> {
     }
 
     @Override
-    public void render(ImageView node, PoseStack matrices, int mouseX, int mouseY, float delta) {
-        super.render(node, matrices, mouseX, mouseY, delta);
+    public void render(ImageView node, GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
+        super.render(node, guiGraphics, mouseX, mouseY, delta);
         if (node.getTextureId() != null) {
-            RenderHelper.drawTexture(matrices, node.getTextureId(),
+            RenderHelper.drawTexture(guiGraphics, node.getTextureId(),
                     node.getX(), node.getY(), node.getWidth(), node.getHeight(),
                     node.getImageX(), node.getImageY(), node.getImageWidth(), node.getImageHeight());
         }

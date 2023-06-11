@@ -5,8 +5,8 @@ import com.github.franckyi.guapi.api.event.ScreenEvent;
 import com.github.franckyi.guapi.api.node.Scene;
 import com.github.franckyi.guapi.api.util.ScreenEventType;
 import com.github.franckyi.ibeeditor.common.ModTexts;
-import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 
 public final class ModGuapiExceptionHandler implements GuapiExceptionHandler {
     public static final ModGuapiExceptionHandler INSTANCE = new ModGuapiExceptionHandler();
@@ -25,7 +25,7 @@ public final class ModGuapiExceptionHandler implements GuapiExceptionHandler {
     }
 
     @Override
-    public void handleRenderException(Exception e, PoseStack matrices, int mouseX, int mouseY, float delta, Scene currentScene) {
+    public void handleRenderException(Exception e, GuiGraphics guiGraphics, int mouseX, int mouseY, float delta, Scene currentScene) {
         sendGenericErrorMessage();
     }
 

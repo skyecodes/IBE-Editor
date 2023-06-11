@@ -12,7 +12,7 @@ import com.github.franckyi.guapi.api.theme.Skin;
 import com.github.franckyi.guapi.api.util.Insets;
 import com.github.franckyi.guapi.api.util.ScreenEventType;
 import com.github.franckyi.guapi.base.event.ScreenEventHandlerDelegate;
-import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 
 public abstract class AbstractNode implements Node {
@@ -241,25 +241,25 @@ public abstract class AbstractNode implements Node {
     }
 
     @Override
-    public boolean preRender(PoseStack matrices, int mouseX, int mouseY, float delta) {
+    public boolean preRender(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
         boolean res = checkRender();
         if (isVisible()) {
-            res |= getSkin().preRender(this, matrices, mouseX, mouseY, delta);
+            res |= getSkin().preRender(this, guiGraphics, mouseX, mouseY, delta);
         }
         return res;
     }
 
     @Override
-    public void render(PoseStack matrices, int mouseX, int mouseY, float delta) {
+    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
         if (isVisible()) {
-            getSkin().render(this, matrices, mouseX, mouseY, delta);
+            getSkin().render(this, guiGraphics, mouseX, mouseY, delta);
         }
     }
 
     @Override
-    public void postRender(PoseStack matrices, int mouseX, int mouseY, float delta) {
+    public void postRender(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
         if (isVisible()) {
-            getSkin().postRender(this, matrices, mouseX, mouseY, delta);
+            getSkin().postRender(this, guiGraphics, mouseX, mouseY, delta);
         }
     }
 

@@ -3,6 +3,7 @@ package com.github.franckyi.guapi.base.theme.vanilla.delegate;
 import com.github.franckyi.guapi.api.node.ListView;
 import com.github.franckyi.guapi.api.node.Node;
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.gui.GuiGraphics;
 
 public class VanillaListViewSkinDelegate<E> extends AbstractVanillaListNodeSkinDelegate<ListView<E>, E, VanillaListViewSkinDelegate.NodeEntry<E>> {
     public VanillaListViewSkinDelegate(ListView<E> node) {
@@ -29,15 +30,15 @@ public class VanillaListViewSkinDelegate<E> extends AbstractVanillaListNodeSkinD
         }
 
         @Override
-        public void render(PoseStack matrixStack, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
+        public void render(GuiGraphics guiGraphics, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
             entryWidth = getList().getMaxScroll() == 0 ? entryWidth + 6 : entryWidth;
             getNode().setX(x);
             getNode().setY(y);
             getNode().setParentPrefWidth(entryWidth);
             getNode().setParentPrefHeight(entryHeight);
-            renderBackground(matrixStack, x, y, entryWidth, entryHeight);
-            while (getNode().preRender(matrixStack, mouseX, mouseY, tickDelta)) ;
-            getNode().render(matrixStack, mouseX, mouseY, tickDelta);
+            renderBackground(guiGraphics, x, y, entryWidth, entryHeight);
+            while (getNode().preRender(guiGraphics, mouseX, mouseY, tickDelta)) ;
+            getNode().render(guiGraphics, mouseX, mouseY, tickDelta);
         }
     }
 }

@@ -1,5 +1,5 @@
 modLoader = "javafml"
-loaderVersion = "[45,)"
+loaderVersion = "[46,)"
 license = "MIT"
 issueTrackerURL = "https://github.com/skyecodes/IBE-Editor/issues"
 logoFile = "logo.png"
@@ -8,7 +8,7 @@ logoFile = "logo.png"
 modId = "ibeeditor"
 version = "${version}"
 displayName = "IBE Editor"
-updateJSONURL = "https://raw.githubusercontent.com/skyecodes/IBE-Editor/1.19.4/forge_update.json"
+updateJSONURL = "https://raw.githubusercontent.com/skyecodes/IBE-Editor/1.20/forge_update.json"
 displayURL = "https://www.curseforge.com/minecraft/mc-mods/ibe-editor"
 credits = "Emex (logo)"
 authors = "skyecodes"
@@ -17,13 +17,13 @@ description = "Simple GUI Mod to edit an item, a block or an entity in your curr
 [[dependencies.ibeeditor]]
 modId = "forge"
 mandatory = true
-versionRange = "[45,)"
+versionRange = "[46,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.ibeeditor]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[1.19.4,)"
+versionRange = "[1.20,)"
 ordering = "NONE"
 side = "BOTH"
