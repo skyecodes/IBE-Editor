@@ -27,7 +27,7 @@ public interface VanillaWidgetSkinDelegate extends Renderable, EventTarget, GuiE
 
     @Override
     default void mouseScrolled(MouseScrollEvent event) {
-        mouseScrolled(event.getMouseX(), event.getMouseY(), event.getAmount());
+        mouseScrolled(event.getMouseX(), event.getMouseY(), event.getDeltaX(), event.getDeltaY());
     }
 
     @Override

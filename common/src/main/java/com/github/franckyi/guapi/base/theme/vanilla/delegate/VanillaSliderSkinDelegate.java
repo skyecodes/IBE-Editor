@@ -37,10 +37,10 @@ public class VanillaSliderSkinDelegate extends AbstractSliderButton implements V
     }
 
     @Override
-    public boolean mouseScrolled(double mouseX, double mouseY, double amount) {
-        if (amount > 0) {
+    public boolean mouseScrolled(double mouseX, double mouseY, double deltaX, double deltaY) {
+        if (deltaX + deltaY > 0) {
             node.increment();
-        } else if (amount < 0) {
+        } else if (deltaX + deltaY < 0) {
             node.decrement();
         }
         return false;

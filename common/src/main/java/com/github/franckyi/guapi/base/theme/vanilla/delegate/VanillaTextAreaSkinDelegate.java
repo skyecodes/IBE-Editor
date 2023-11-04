@@ -61,9 +61,4 @@ public class VanillaTextAreaSkinDelegate<N extends TextArea> extends MultiLineEd
             return super.mouseClicked(d, e, i);
         }
     }
-
-    @Override
-    public void doTick() {
-        tick();
-    }
 }

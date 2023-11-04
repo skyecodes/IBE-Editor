@@ -147,8 +147,8 @@ public final class ScreenHandlerImpl implements ScreenHandler {
         return handleEvent(ScreenEventType.MOUSE_DRAGGED, new MouseDragEventImpl(mouseX, mouseY, button, deltaX, deltaY));
     }
 
-    private boolean mouseScrolled(double mouseX, double mouseY, double amount) {
-        return handleEvent(ScreenEventType.MOUSE_SCOLLED, new MouseScrollEventImpl(mouseX, mouseY, amount));
+    private boolean mouseScrolled(double mouseX, double mouseY, double deltaX, double deltaY) {
+        return handleEvent(ScreenEventType.MOUSE_SCOLLED, new MouseScrollEventImpl(mouseX, mouseY, deltaX, deltaY));
     }
 
     private boolean keyPressed(int keyCode, int scanCode, int modifiers) {
@@ -190,7 +190,7 @@ public final class ScreenHandlerImpl implements ScreenHandler {
             if (getCurrentScene().isTexturedBackground()) {
                 renderDirtBackground(guiGraphics);
             } else {
-                renderBackground(guiGraphics);
+                renderBackground(guiGraphics, mouseX, mouseY, partialTicks);
             }
             ScreenHandlerImpl.this.render(guiGraphics, mouseX, mouseY, partialTicks);
         }
@@ -221,8 +221,8 @@ public final class ScreenHandlerImpl implements ScreenHandler {
         }
 
         @Override
-        public boolean mouseScrolled(double mouseX, double mouseY, double amount) {
-            return ScreenHandlerImpl.this.mouseScrolled(mouseX, mouseY, amount);
+        public boolean mouseScrolled(double mouseX, double mouseY, double deltaX, double deltaY) {
+            return ScreenHandlerImpl.this.mouseScrolled(mouseX, mouseY, deltaX, deltaY);
         }
 
         @Override

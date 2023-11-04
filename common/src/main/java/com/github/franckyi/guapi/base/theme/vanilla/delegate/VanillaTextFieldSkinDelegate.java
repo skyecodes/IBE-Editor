@@ -3,6 +3,7 @@ package com.github.franckyi.guapi.base.theme.vanilla.delegate;
 import com.github.franckyi.guapi.api.node.TextField;
 import com.github.franckyi.ibeeditor.mixin.EditBoxMixin;
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -45,7 +46,7 @@ public class VanillaTextFieldSkinDelegate<N extends TextField> extends EditBox i
         node.highlightPositionProperty().addListener(super::setHighlightPos);
         node.placeholderProperty().addListener(this::updatePlaceholder);
         node.textProperty().addListener(this::updatePlaceholder);
-        moveCursorToStart(); // fix in order to render text
+        moveCursorToStart(false); // fix in order to render text
         updateValidator();
         updateRenderer();
         updatePlaceholder();
@@ -79,7 +80,7 @@ public class VanillaTextFieldSkinDelegate<N extends TextField> extends EditBox i
         } else {
             setFormatter((string, integer) -> renderText(string, integer).getVisualOrderText());
         }
-        moveCursorToStart(); // fix in order to render text
+        moveCursorToStart(false); // fix in order to render text
     }
 
     private void updatePlaceholder() {
@@ -88,11 +89,6 @@ public class VanillaTextFieldSkinDelegate<N extends TextField> extends EditBox i
 
     public Component renderText(String str, int firstCharacterIndex) {
         return node.getTextRenderer() == null ? Component.literal(str) : node.getTextRenderer().render(str, firstCharacterIndex);
-    }
-
-    @Override
-    public void doTick() {
-        tick();
     }
 
     @Override
@@ -134,7 +130,6 @@ public class VanillaTextFieldSkinDelegate<N extends TextField> extends EditBox i
 
     @Override
     protected void onDrag(double mouseX, double mouseY, double deltaX, double deltaY) {
-        self.setShiftPressed(false);
         int displayPos = self.getDisplayPos();
         Font font = Minecraft.getInstance().font;
         FormattedText string = font.substrByWidth(renderText(getValue().substring(displayPos), displayPos), getInnerWidth());
@@ -159,7 +154,7 @@ public class VanillaTextFieldSkinDelegate<N extends TextField> extends EditBox i
                 }
 
                 FormattedText string = font.substrByWidth(renderText(getValue().substring(self.getDisplayPos()), self.getDisplayPos()), getInnerWidth());
-                moveCursorTo(font.substrByWidth(string, i).getString().length() + self.getDisplayPos());
+                moveCursorTo(font.substrByWidth(string, i).getString().length() + self.getDisplayPos(), false);
                 return true;
             } else {
                 return false;
@@ -185,7 +180,7 @@ public class VanillaTextFieldSkinDelegate<N extends TextField> extends EditBox i
                     ? font.substrByWidth(renderedText, getInnerWidth()).getString()
                     : font.plainSubstrByWidth(getValue().substring(self.getDisplayPos()), this.getInnerWidth());
             boolean flag = j >= 0 && j <= s.length();
-            boolean flag1 = isFocused() && self.getFrame() / 6 % 2 == 0 && flag;
+            boolean flag1 = isFocused() && (Util.getMillis() - self.getFocusedTime()) / 300L % 2 == 0 && flag;
             int l = self.isBordered() ? getX() + 4 : getX();
             int i1 = self.isBordered() ? getY() + (height - 8) / 2 : getY();
             int j1 = l;

@@ -1,11 +1,8 @@
-import com.modrinth.minotaur.TaskModrinthUpload
 import groovy.json.JsonSlurper
-import net.darkhax.curseforgegradle.TaskPublishCurseForge
 
 plugins {
     id "architectury-plugin" version "3.4-SNAPSHOT"
-    id "dev.architectury.loom" version "1.1-SNAPSHOT" apply false
-    id "net.darkhax.curseforgegradle" version "1.0.10"
+    id "dev.architectury.loom" version "1.4-SNAPSHOT" apply false
     id "me.shedaniel.unified-publishing" version "0.1.+" apply false
     id "com.github.breadmoirai.github-release" version "2.2.12"
 }

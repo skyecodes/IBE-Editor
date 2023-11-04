@@ -14,8 +14,8 @@ public interface EditBoxMixin {
     @Accessor("value")
     void setRawValue(String text);
 
-    @Accessor("frame")
-    int getFrame();
+    @Accessor("focusedTime")
+    long getFocusedTime();
 
     @Accessor("bordered")
     boolean isBordered();
@@ -25,9 +25,6 @@ public interface EditBoxMixin {
 
     @Accessor("isEditable")
     boolean isEditable();
-
-    @Accessor("shiftPressed")
-    void setShiftPressed(boolean shiftPressed);
 
     @Accessor("displayPos")
     int getDisplayPos();
