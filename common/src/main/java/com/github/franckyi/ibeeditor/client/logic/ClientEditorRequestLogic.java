@@ -3,6 +3,7 @@ package com.github.franckyi.ibeeditor.client.logic;
 import com.github.franckyi.ibeeditor.client.ClientContext;
 import com.github.franckyi.ibeeditor.client.ClientUtil;
 import com.github.franckyi.ibeeditor.client.ModScreenHandler;
+import com.github.franckyi.ibeeditor.client.context.BlockEditorContext;
 import com.github.franckyi.ibeeditor.client.context.EntityEditorContext;
 import com.github.franckyi.ibeeditor.client.context.ItemEditorContext;
 import com.github.franckyi.ibeeditor.common.EditorType;
@@ -16,8 +17,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ServerboundSetCreativeModeSlotPacket;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
@@ -50,7 +49,11 @@ public final class ClientEditorRequestLogic {
             if (ClientContext.isModInstalledOnServer()) {
                 NetworkManager.sendToServer(NetworkManager.BLOCK_EDITOR_REQUEST, new BlockEditorPacket.Request(editorType, blockPos));
             } else {
-                ClientUtil.showMessage(ModTexts.Messages.errorServerModRequired(ModTexts.BLOCK));
+                var level = Minecraft.getInstance().level;
+                var blockState = level.getBlockState(blockPos);
+                var blockEntity = level.getBlockEntity(blockPos);
+                var tag = blockEntity == null ? null : blockEntity.saveWithId();
+                ModScreenHandler.openEditor(editorType, new BlockEditorContext(blockState, tag, ModTexts.errorServerModRequired(ModTexts.BLOCK), null));
             }
             return true;
         }
