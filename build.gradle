@@ -68,11 +68,11 @@ allprojects {
 }
 
 githubRelease {
-    setToken(findProperty("github_token") as String ?: System.getenv("GITHUB_TOKEN"))
+    setToken(findProperty("github_token") as String ?: System.getenv("GITHUB_TOKEN") ?: "")
     setOwner("skyecodes")
     setRepo("IBE-Editor")
     setTagName("${version}+${rootProject.major_minecraft_version}")
-    setTargetCommitish(rootProject.major_minecraft_version as String)
+    setTargetCommitish(findProperty("git_branch") as String ?: System.getenv("GIT_BRANCH") ?: "")
     setReleaseName("IBE Editor v${version} for Minecraft ${rootProject.minecraft_version}")
     setBody(versionInfoChangelog)
     setPrerelease(versionInfoType == "alpha")
