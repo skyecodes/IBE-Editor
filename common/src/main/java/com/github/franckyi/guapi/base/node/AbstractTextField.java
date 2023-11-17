@@ -1,6 +1,7 @@
 package com.github.franckyi.guapi.base.node;
 
 import com.github.franckyi.databindings.api.*;
+import com.github.franckyi.guapi.api.event.TypeEvent;
 import com.github.franckyi.guapi.api.node.TextField;
 import net.minecraft.network.chat.Component;
 
@@ -110,6 +111,11 @@ public abstract class AbstractTextField extends AbstractLabeled implements TextF
     @Override
     public ObjectProperty<Component> placeholderProperty() {
         return placeholderProperty;
+    }
+
+    @Override
+    public void charTyped(TypeEvent event) {
+        event.consume();
     }
 
     private void updateCursorPos(String text) {
