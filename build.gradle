@@ -1,0 +1,49 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
+plugins {
+    id "architectury-plugin" version "3.4-SNAPSHOT"
+    id "dev.architectury.loom" version "1.4-SNAPSHOT" apply false
+    id "org.jetbrains.kotlin.jvm" version "1.9.20" apply false
+}
+
+architectury {
+    minecraft = rootProject.minecraft_version
+}
+
+subprojects {
+    apply plugin: "dev.architectury.loom"
+    apply plugin: "org.jetbrains.kotlin.jvm"
+
+    dependencies {
+        minecraft "com.mojang:minecraft:${rootProject.minecraft_version}"
+        mappings "net.fabricmc:yarn:${rootProject.yarn_mappings}:v2"
+        implementation "org.jetbrains.kotlin:kotlin-stdlib:${rootProject.kotlin_version}"
+    }
+}
+
+allprojects {
+    apply plugin: "java"
+    apply plugin: "architectury-plugin"
+    apply plugin: "maven-publish"
+
+    archivesBaseName = rootProject.archives_base_name
+    version = rootProject.mod_version
+    group = rootProject.maven_group
+
+    tasks.withType(JavaCompile).configureEach {
+        options.encoding = "UTF-8"
+        options.release.set(17)
+    }
+
+    tasks.withType(KotlinCompile).configureEach {
+        kotlinOptions.jvmTarget = "17"
+    }
+
+    java {
+        withSourcesJar()
+    }
+
+    jar {
+        from(rootProject.file("LICENSE"))
+    }
+}
