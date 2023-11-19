@@ -22,14 +22,18 @@
 
 package com.skyecodes.ibeeditor
 
-import org.slf4j.LoggerFactory
+import net.minecraft.text.MutableText
+import net.minecraft.text.Text
 
-object IBEEditor {
-    private val LOGGER = LoggerFactory.getLogger(this::class.java)
-    const val MOD_ID = "ibeeditor"
+val TEXT_ITEM_EDITOR = gui("item_editor")
+val TEXT_GENERAL = gui("general")
+val TEXT_ITEM_ID = gui("item_id")
+val TEXT_COUNT = gui("count")
+val TEXT_DAMAGE = gui("damage")
+val TEXT_UNBREAKABLE = gui("unbreakable")
+val TEXT_DISPLAY = gui("display")
+val TEXT_ENCHANTMENTS = gui("enchantments")
+val TEXT_ATTRIBUTE_MODIFIERS = gui("attribute_modifiers")
+val TEXT_CAN_DESTROY = gui("can_destroy")
 
-
-    fun init() {
-        LOGGER.info("Initializing IBE Editor (Common)")
-    }
-}
+fun gui(key: String): MutableText = Text.translatable("gui.ibeeditor.$key")

@@ -20,16 +20,15 @@
  * SOFTWARE.
  */
 
-package com.skyecodes.ibeeditor
+package com.skyecodes.ibeeditor.mixin;
 
-import org.slf4j.LoggerFactory
+import net.minecraft.client.gui.screen.ingame.HandledScreen;
+import net.minecraft.screen.slot.Slot;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.gen.Accessor;
 
-object IBEEditor {
-    private val LOGGER = LoggerFactory.getLogger(this::class.java)
-    const val MOD_ID = "ibeeditor"
-
-
-    fun init() {
-        LOGGER.info("Initializing IBE Editor (Common)")
-    }
+@Mixin(HandledScreen.class)
+public interface HandledScreenMixin {
+    @Accessor
+    Slot getFocusedSlot();
 }

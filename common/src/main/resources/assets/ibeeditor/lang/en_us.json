@@ -1,0 +1,14 @@
+{
+  "key.categories.ibeeditor": "IBE Editor",
+  "key.ibeeditor.open_editor": "Open Editor",
+  "gui.ibeeditor.item_editor": "Item Editor",
+  "gui.ibeeditor.general": "General",
+  "gui.ibeeditor.item_id": "Item ID",
+  "gui.ibeeditor.count": "Count",
+  "gui.ibeeditor.damage": "Damage",
+  "gui.ibeeditor.unbreakable": "Unbreakable",
+  "gui.ibeeditor.display": "Display",
+  "gui.ibeeditor.enchantments": "Enchantments",
+  "gui.ibeeditor.attribute_modifiers": "Attribute Modifiers",
+  "gui.ibeeditor.can_destroy": "Can Destroy"
+}

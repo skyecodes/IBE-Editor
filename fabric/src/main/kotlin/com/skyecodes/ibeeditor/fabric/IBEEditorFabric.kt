@@ -22,11 +22,35 @@
 
 package com.skyecodes.ibeeditor.fabric
 
-import com.skyecodes.ibeeditor.IBEEditor.init
+import com.skyecodes.ibeeditor.IBEEditor
+import com.skyecodes.ibeeditor.IBEEditorClient
+import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.api.ModInitializer
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
+import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper
+import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents
+import net.fabricmc.fabric.api.client.screen.v1.ScreenKeyboardEvents
+import net.minecraft.client.gui.screen.ingame.AbstractInventoryScreen
 
-object IBEEditorFabric : ModInitializer {
+object IBEEditorFabric : ModInitializer, ClientModInitializer {
     override fun onInitialize() {
-        init()
+        IBEEditor.init()
+    }
+
+    override fun onInitializeClient() {
+        IBEEditorClient.init()
+        IBEEditorClient.registerKeyBindings(KeyBindingHelper::registerKeyBinding)
+        ClientTickEvents.START_CLIENT_TICK.register { IBEEditorClient.onTick() }
+        ScreenEvents.BEFORE_INIT.register { _, screen, _, _ ->
+            if (screen is AbstractInventoryScreen<*>) {
+                ScreenKeyboardEvents.beforeKeyPress(screen).register { _, key, scancode, _ ->
+                    IBEEditorClient.onInventoryScreenKeyPressed(
+                        screen,
+                        key,
+                        scancode
+                    )
+                }
+            }
+        }
     }
 }

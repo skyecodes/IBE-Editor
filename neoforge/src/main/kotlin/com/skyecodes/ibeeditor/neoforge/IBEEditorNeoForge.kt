@@ -23,12 +23,58 @@
 package com.skyecodes.ibeeditor.neoforge
 
 import com.skyecodes.ibeeditor.IBEEditor
-import com.skyecodes.ibeeditor.IBEEditor.init
+import com.skyecodes.ibeeditor.IBEEditorClient
+import net.minecraft.client.gui.screen.ingame.AbstractInventoryScreen
+import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.fml.common.Mod
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent
+import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent
+import net.neoforged.neoforge.client.event.ScreenEvent
+import net.neoforged.neoforge.event.TickEvent
+import org.slf4j.LoggerFactory
+import thedarkcolour.kotlinforforge.neoforge.forge.FORGE_BUS
+import thedarkcolour.kotlinforforge.neoforge.forge.MOD_BUS
 
 @Mod(IBEEditor.MOD_ID)
 class IBEEditorNeoForge {
+    private val LOGGER = LoggerFactory.getLogger(this::class.java)
+
     init {
-        init()
+        LOGGER.debug("Initializing IBE Editor (NeoForge)")
+        MOD_BUS.register(this)
+        FORGE_BUS.register(IBEEditorForgeEvents)
+    }
+
+    @SubscribeEvent
+    fun onRegisterKeyMapping(event: RegisterKeyMappingsEvent) {
+        IBEEditorClient.registerKeyBindings(event::register)
+    }
+
+    @SubscribeEvent
+    fun onClientSetup(event: FMLClientSetupEvent) {
+        IBEEditorClient.init()
+    }
+
+    @SubscribeEvent
+    fun onCommonSetup(event: FMLCommonSetupEvent) {
+        IBEEditor.init()
+    }
+}
+
+object IBEEditorForgeEvents {
+    @SubscribeEvent
+    fun onClientTick(event: TickEvent.ClientTickEvent) {
+        if (event.phase == TickEvent.Phase.START) {
+            IBEEditorClient.onTick()
+        }
+    }
+
+    @SubscribeEvent
+    fun onKeyPressed(event: ScreenEvent.KeyPressed.Pre) {
+        val screen = event.screen
+        if (screen is AbstractInventoryScreen<*>) {
+            IBEEditorClient.onInventoryScreenKeyPressed(screen, event.keyCode, event.scanCode)
+        }
     }
 }

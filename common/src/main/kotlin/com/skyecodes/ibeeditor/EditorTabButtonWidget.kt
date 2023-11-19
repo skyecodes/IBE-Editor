@@ -22,14 +22,31 @@
 
 package com.skyecodes.ibeeditor
 
-import org.slf4j.LoggerFactory
+import net.minecraft.client.gui.DrawContext
+import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder
+import net.minecraft.client.gui.screen.narration.NarrationPart
+import net.minecraft.client.gui.tab.TabManager
+import net.minecraft.client.gui.tooltip.Tooltip
+import net.minecraft.client.sound.SoundManager
+import net.minecraft.text.Text
 
-object IBEEditor {
-    private val LOGGER = LoggerFactory.getLogger(this::class.java)
-    const val MOD_ID = "ibeeditor"
+class EditorTabButtonWidget(private val tabManager: TabManager, val tab: EditorTab, width: Int, height: Int) :
+    TextItemButtonWidget.WithText(0, 0, width, height, tab.title, tab.icon, {}) {
+    private val isCurrentTab: Boolean get() = tabManager.currentTab === tab
 
+    init {
+        tooltip = Tooltip.of(message)
+    }
 
-    fun init() {
-        LOGGER.info("Initializing IBE Editor (Common)")
+    override fun renderButton(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+        active = !isCurrentTab
+        super.renderButton(context, mouseX, mouseY, delta)
+    }
+
+    override fun appendClickableNarrations(builder: NarrationMessageBuilder) {
+        builder.put(NarrationPart.TITLE, Text.translatable("gui.narrate.tab", tab.title))
+    }
+
+    override fun playDownSound(soundManager: SoundManager?) {
     }
 }

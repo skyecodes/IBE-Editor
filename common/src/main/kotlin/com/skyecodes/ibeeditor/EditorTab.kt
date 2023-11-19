@@ -22,14 +22,8 @@
 
 package com.skyecodes.ibeeditor
 
-import org.slf4j.LoggerFactory
+import net.minecraft.client.gui.tab.GridScreenTab
+import net.minecraft.item.Item
+import net.minecraft.text.Text
 
-object IBEEditor {
-    private val LOGGER = LoggerFactory.getLogger(this::class.java)
-    const val MOD_ID = "ibeeditor"
-
-
-    fun init() {
-        LOGGER.info("Initializing IBE Editor (Common)")
-    }
-}
+abstract class EditorTab(title: Text, val icon: Item) : GridScreenTab(title)

@@ -17,6 +17,11 @@ description = '''
 Simple GUI Mod to edit an item, a block or an entity in your current world
 '''
 
+[[mixins]]
+config = "ibeeditor.mixins.json"
+[[mixins]]
+config = "ibeeditor-common.mixins.json"
+
 [[dependencies.ibeeditor]]
 modId = "neoforge"
 mandatory = true

@@ -22,14 +22,35 @@
 
 package com.skyecodes.ibeeditor
 
-import org.slf4j.LoggerFactory
+import net.minecraft.client.gui.screen.Screen
+import net.minecraft.item.ItemStack
+import net.minecraft.item.Items
 
-object IBEEditor {
-    private val LOGGER = LoggerFactory.getLogger(this::class.java)
-    const val MOD_ID = "ibeeditor"
+class ItemEditorScreen(
+    private var stack: ItemStack,
+    private val applyFunction: (ItemStack) -> Unit,
+    parent: Screen? = null
+) : EditorScreen(TEXT_ITEM_EDITOR, parent) {
+    override fun getTabs() = buildList {
+        add(GeneralTab())
+        add(DisplayTab())
+        add(EnchantmentsTab())
+        add(AttributeModifiersTab())
+        add(CanDestroyTab())
+    }
 
-
-    fun init() {
-        LOGGER.info("Initializing IBE Editor (Common)")
+    override fun apply() {
+        applyFunction(stack.copyWithCount(stack.count + 1))
     }
 }
+
+private class GeneralTab : EditorTab(TEXT_GENERAL, Items.PAPER)
+
+private class DisplayTab : EditorTab(TEXT_DISPLAY, Items.OAK_SIGN)
+
+private class EnchantmentsTab : EditorTab(TEXT_ENCHANTMENTS, Items.ENCHANTED_BOOK)
+
+private class AttributeModifiersTab : EditorTab(TEXT_ATTRIBUTE_MODIFIERS, Items.SUGAR)
+
+private class CanDestroyTab : EditorTab(TEXT_CAN_DESTROY, Items.IRON_PICKAXE)
+

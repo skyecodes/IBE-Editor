@@ -22,14 +22,8 @@
 
 package com.skyecodes.ibeeditor
 
-import org.slf4j.LoggerFactory
+import net.minecraft.client.MinecraftClient
+import net.minecraft.client.network.ClientPlayerEntity
 
-object IBEEditor {
-    private val LOGGER = LoggerFactory.getLogger(this::class.java)
-    const val MOD_ID = "ibeeditor"
-
-
-    fun init() {
-        LOGGER.info("Initializing IBE Editor (Common)")
-    }
-}
+val mc: MinecraftClient get() = MinecraftClient.getInstance()
+val player: ClientPlayerEntity get() = mc.player!!

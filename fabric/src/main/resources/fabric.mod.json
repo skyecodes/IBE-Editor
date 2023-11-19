@@ -3,7 +3,7 @@
   "id": "ibeeditor",
   "version": "${version}",
   "name": "IBE Editor",
-  "description": "Simple GUI Mod to edit an item, a block or an entity in your current world",
+  "description": "Simple GUI Mod to edit an item, a block or an entity in your current world.",
   "authors": [
     "skyecodes"
   ],
@@ -18,6 +18,12 @@
   "environment": "*",
   "entrypoints": {
     "main": [
+      {
+        "adapter": "kotlin",
+        "value": "com.skyecodes.ibeeditor.fabric.IBEEditorFabric"
+      }
+    ],
+    "client": [
       {
         "adapter": "kotlin",
         "value": "com.skyecodes.ibeeditor.fabric.IBEEditorFabric"
