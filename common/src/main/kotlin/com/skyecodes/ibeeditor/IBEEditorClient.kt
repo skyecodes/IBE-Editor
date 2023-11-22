@@ -22,6 +22,7 @@
 
 package com.skyecodes.ibeeditor
 
+import com.skyecodes.ibeeditor.gui.screen.ItemEditorScreen
 import com.skyecodes.ibeeditor.mixin.HandledScreenMixin
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.gui.screen.ingame.AbstractInventoryScreen
@@ -83,7 +84,7 @@ object IBEEditorClient {
 
     private fun openItemEditor(stack: ItemStack, screen: Screen? = null, applyFunction: (ItemStack) -> Unit) {
         LOGGER.info("Opening Item Editor for item {}", stack)
-        mc.setScreen(ItemEditorScreen(stack, applyFunction, screen))
+        mc.setScreen(ItemEditorScreen(stack.copy(), applyFunction, screen))
     }
 }
 

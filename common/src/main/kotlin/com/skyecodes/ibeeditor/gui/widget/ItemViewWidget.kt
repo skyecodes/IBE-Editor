@@ -20,37 +20,36 @@
  * SOFTWARE.
  */
 
-package com.skyecodes.ibeeditor
+package com.skyecodes.ibeeditor.gui.widget
 
-import net.minecraft.client.gui.screen.Screen
+import com.skyecodes.ibeeditor.modScreen
+import net.minecraft.client.font.TextRenderer
+import net.minecraft.client.gui.DrawContext
+import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder
+import net.minecraft.client.gui.widget.ClickableWidget
+import net.minecraft.client.sound.SoundManager
 import net.minecraft.item.ItemStack
-import net.minecraft.item.Items
 
-class ItemEditorScreen(
-    private var stack: ItemStack,
-    private val applyFunction: (ItemStack) -> Unit,
-    parent: Screen? = null
-) : EditorScreen(TEXT_ITEM_EDITOR, parent) {
-    override fun getTabs() = buildList {
-        add(GeneralTab())
-        add(DisplayTab())
-        add(EnchantmentsTab())
-        add(AttributeModifiersTab())
-        add(CanDestroyTab())
+class ItemViewWidget(
+    stack: ItemStack,
+    private val textRenderer: TextRenderer,
+    private val renderTooltip: Boolean = true
+) : ClickableWidget(0, 0, 16, 16, stack.name) {
+    var stack: ItemStack = stack
+        set(value) {
+            field = value
+            message = value.name
+        }
+
+    override fun renderButton(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+        context.drawItem(stack, x, y)
+        context.drawItemInSlot(textRenderer, stack, x, y)
+        if (hovered && renderTooltip) modScreen.hoveredItem = stack
     }
 
-    override fun apply() {
-        applyFunction(stack.copyWithCount(stack.count + 1))
+    override fun appendClickableNarrations(builder: NarrationMessageBuilder) {
+    }
+
+    override fun playDownSound(soundManager: SoundManager?) {
     }
 }
-
-private class GeneralTab : EditorTab(TEXT_GENERAL, Items.PAPER)
-
-private class DisplayTab : EditorTab(TEXT_DISPLAY, Items.OAK_SIGN)
-
-private class EnchantmentsTab : EditorTab(TEXT_ENCHANTMENTS, Items.ENCHANTED_BOOK)
-
-private class AttributeModifiersTab : EditorTab(TEXT_ATTRIBUTE_MODIFIERS, Items.SUGAR)
-
-private class CanDestroyTab : EditorTab(TEXT_CAN_DESTROY, Items.IRON_PICKAXE)
-

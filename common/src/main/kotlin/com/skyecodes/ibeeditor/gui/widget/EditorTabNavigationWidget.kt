@@ -20,8 +20,9 @@
  * SOFTWARE.
  */
 
-package com.skyecodes.ibeeditor
+package com.skyecodes.ibeeditor.gui.widget
 
+import com.skyecodes.ibeeditor.gui.tab.EditorTab
 import net.minecraft.client.gui.*
 import net.minecraft.client.gui.navigation.GuiNavigation
 import net.minecraft.client.gui.navigation.GuiNavigationPath
@@ -31,13 +32,14 @@ import net.minecraft.client.gui.screen.narration.NarrationPart
 import net.minecraft.client.gui.tab.TabManager
 import net.minecraft.client.gui.widget.ClickableWidget
 import net.minecraft.client.gui.widget.GridWidget
+import net.minecraft.client.gui.widget.SimplePositioningWidget
 import net.minecraft.text.Text
 import net.minecraft.util.math.MathHelper
 
-class EditorTabNavigationWidget(private val tabManager: TabManager, var width: Int, private val tabs: List<EditorTab>) :
+class EditorTabNavigationWidget(private val tabManager: TabManager, private val tabs: List<EditorTab>) :
     AbstractParentElement(), Drawable, Selectable {
     private val USAGE_NARRATION_TEXT: Text = Text.translatable("narration.tab_navigation.usage")
-    private val grid = GridWidget(10, 40).apply {
+    private val grid = GridWidget(10, 0).apply {
         mainPositioner.alignHorizontalCenter().alignVerticalCenter()
         setRowSpacing(5)
     }
@@ -115,8 +117,9 @@ class EditorTabNavigationWidget(private val tabManager: TabManager, var width: I
 
     override fun getNavigationFocus(): ScreenRect = grid.navigationFocus
 
-    fun init() {
+    fun init(height: Int) {
         grid.refreshPositions()
+        SimplePositioningWidget.setPos(grid, 0, 0, 40, height)
     }
 
     fun selectTab(index: Int, clickSound: Boolean) {

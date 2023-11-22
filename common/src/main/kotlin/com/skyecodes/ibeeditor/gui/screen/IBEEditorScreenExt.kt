@@ -20,33 +20,27 @@
  * SOFTWARE.
  */
 
-package com.skyecodes.ibeeditor
+package com.skyecodes.ibeeditor.gui.screen
 
 import net.minecraft.client.gui.DrawContext
-import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder
-import net.minecraft.client.gui.screen.narration.NarrationPart
-import net.minecraft.client.gui.tab.TabManager
-import net.minecraft.client.gui.tooltip.Tooltip
-import net.minecraft.client.sound.SoundManager
+import net.minecraft.client.gui.screen.Screen
+import net.minecraft.item.ItemStack
 import net.minecraft.text.Text
 
-class EditorTabButtonWidget(private val tabManager: TabManager, val tab: EditorTab, width: Int, height: Int) :
-    TextItemButtonWidget.WithText(0, 0, width, height, tab.title, tab.icon, {}) {
-    private val isCurrentTab: Boolean get() = tabManager.currentTab === tab
+class IBEEditorScreenExt(title: Text) : Screen(title) {
+    var hoveredItem: ItemStack? = null
 
-    init {
-        tooltip = Tooltip.of(message)
-    }
-
-    override fun renderButton(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
-        active = !isCurrentTab
-        super.renderButton(context, mouseX, mouseY, delta)
-    }
-
-    override fun appendClickableNarrations(builder: NarrationMessageBuilder) {
-        builder.put(NarrationPart.TITLE, Text.translatable("gui.narrate.tab", tab.title))
-    }
-
-    override fun playDownSound(soundManager: SoundManager?) {
+    override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+        hoveredItem = null
+        super.render(context, mouseX, mouseY, delta)
+        hoveredItem?.let {
+            context.drawTooltip(
+                textRenderer,
+                getTooltipFromItem(client, it),
+                it.tooltipData,
+                mouseX,
+                mouseY
+            )
+        }
     }
 }

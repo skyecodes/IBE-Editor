@@ -20,8 +20,10 @@
  * SOFTWARE.
  */
 
-package com.skyecodes.ibeeditor
+package com.skyecodes.ibeeditor.gui.screen
 
+import com.skyecodes.ibeeditor.gui.tab.EditorTab
+import com.skyecodes.ibeeditor.gui.widget.EditorTabNavigationWidget
 import net.minecraft.client.gui.ScreenRect
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.gui.tab.TabManager
@@ -34,31 +36,40 @@ import org.lwjgl.glfw.GLFW
 
 abstract class EditorScreen(title: Text, private val parent: Screen? = null) : Screen(title) {
     private val tabManager = TabManager(::addDrawableChild, ::remove)
-    private lateinit var grid: GridWidget
+    protected lateinit var headerGrid: GridWidget
     private lateinit var tabNavigation: EditorTabNavigationWidget
+    private lateinit var footerGrid: GridWidget
 
     override fun init() {
-        tabNavigation = EditorTabNavigationWidget(tabManager, width, getTabs())
+        initHeader()
+        tabNavigation = EditorTabNavigationWidget(tabManager, getTabs())
         addDrawableChild(tabNavigation)
-        grid = GridWidget().setColumnSpacing(10)
-        val adder = grid.createAdder(2)
-        adder.add(ButtonWidget.builder(ScreenTexts.DONE) { onApply() }.build())
-        adder.add(ButtonWidget.builder(ScreenTexts.CANCEL) { onClose() }.build())
-        grid.forEachChild {
-            it.navigationOrder = 1
-            addDrawableChild(it)
-        }
+        initFooter()
         tabNavigation.selectTab(0, false)
         initTabNavigation()
     }
 
+    abstract fun initHeader()
+
+    private fun initFooter() {
+        footerGrid = GridWidget().setColumnSpacing(10)
+        val adder = footerGrid.createAdder(2)
+        adder.add(ButtonWidget.builder(ScreenTexts.DONE) { onApply() }.build())
+        adder.add(ButtonWidget.builder(ScreenTexts.CANCEL) { onClose() }.build())
+        footerGrid.forEachChild {
+            it.navigationOrder = 1
+            addDrawableChild(it)
+        }
+    }
+
     override fun initTabNavigation() {
-        tabNavigation.width = width
-        tabNavigation.init()
-        grid.refreshPositions()
-        SimplePositioningWidget.setPos(grid, 0, height - 36, width, 36)
-        val screenRect = ScreenRect(0, 36, width, height - 72)
+        headerGrid.refreshPositions()
+        SimplePositioningWidget.setPos(headerGrid, 0, 0, width, 36)
+        tabNavigation.init(height)
+        val screenRect = ScreenRect(40, 36, width - 50, height - 72)
         tabManager.setTabArea(screenRect)
+        footerGrid.refreshPositions()
+        SimplePositioningWidget.setPos(footerGrid, 0, height - 36, width, 36)
     }
 
     override fun keyPressed(keyCode: Int, scanCode: Int, modifiers: Int): Boolean {

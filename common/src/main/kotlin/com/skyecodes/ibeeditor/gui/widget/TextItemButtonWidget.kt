@@ -20,7 +20,7 @@
  * SOFTWARE.
  */
 
-package com.skyecodes.ibeeditor
+package com.skyecodes.ibeeditor.gui.widget
 
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
@@ -28,46 +28,8 @@ import net.minecraft.client.font.TextRenderer
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.tooltip.Tooltip
 import net.minecraft.client.gui.widget.ButtonWidget
-import net.minecraft.client.gui.widget.TextIconButtonWidget
 import net.minecraft.item.Item
 import net.minecraft.text.Text
-
-fun buttonWidget(
-    message: Text,
-    onPress: (ButtonWidget) -> Unit,
-    builder: ButtonWidget.Builder.() -> Unit
-): ButtonWidget = ButtonWidget.builder(message, onPress).apply(builder).build()
-
-fun buttonWidget(message: Text, onPress: () -> Unit, builder: ButtonWidget.Builder.() -> Unit): ButtonWidget =
-    buttonWidget(message, { _ -> onPress() }, builder)
-
-fun textIconButtonWidget(
-    text: Text,
-    onPress: (ButtonWidget) -> Unit,
-    hideLabel: Boolean,
-    builder: TextIconButtonWidget.Builder.() -> Unit
-) = TextIconButtonWidget.builder(text, onPress, hideLabel).apply(builder).build()
-
-fun textIconButtonWidget(
-    text: Text,
-    onPress: () -> Unit,
-    hideLabel: Boolean,
-    builder: TextIconButtonWidget.Builder.() -> Unit
-) = textIconButtonWidget(text, { _ -> onPress() }, hideLabel, builder)
-
-fun textItemButtonWidget(
-    text: Text,
-    onPress: (ButtonWidget) -> Unit,
-    hideLabel: Boolean,
-    builder: TextItemButtonWidget.Builder.() -> Unit
-) = TextItemButtonWidget.builder(text, onPress, hideLabel).apply(builder).build()
-
-fun textItemButtonWidget(
-    text: Text,
-    onPress: () -> Unit,
-    hideLabel: Boolean,
-    builder: TextItemButtonWidget.Builder.() -> Unit
-) = textItemButtonWidget(text, { _ -> onPress() }, hideLabel, builder)
 
 abstract class TextItemButtonWidget(
     x: Int,
