@@ -1,4 +1,8 @@
 {
+  "2.2.6": {
+    "type": "release",
+    "changelog": "* fix: potion effects not working on 1.20.2 (#88)"
+  },
   "2.2.5": {
     "type": "release",
     "changelog": "* fix: crash on startup due to Vault (#87)"

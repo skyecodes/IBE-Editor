@@ -6,10 +6,12 @@ import com.github.franckyi.ibeeditor.client.screen.model.entry.EntryModel;
 import com.github.franckyi.ibeeditor.client.screen.model.entry.item.PotionEffectEntryModel;
 import com.github.franckyi.ibeeditor.client.screen.model.entry.item.PotionSelectionEntryModel;
 import com.github.franckyi.ibeeditor.common.ModTexts;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.world.effect.MobEffects;
 
 public class ItemPotionEffectsCategoryModel extends ItemEditorCategoryModel {
     private ListTag potionEffectList;
@@ -23,7 +25,7 @@ public class ItemPotionEffectsCategoryModel extends ItemEditorCategoryModel {
         getEntries().add(new PotionSelectionEntryModel(this, ModTexts.DEFAULT_POTION,
                 getTag().getString("Potion"), getCustomPotionColor(),
                 p -> getTag().putString("Potion", p), this::setCustomPotionColor));
-        getTag().getList("CustomPotionEffects", Tag.TAG_COMPOUND).stream()
+        getTag().getList("custom_potion_effects", Tag.TAG_COMPOUND).stream()
                 .map(CompoundTag.class::cast)
                 .map(this::createPotionEffectEntry)
                 .forEach(getEntries()::add);
@@ -63,15 +65,15 @@ public class ItemPotionEffectsCategoryModel extends ItemEditorCategoryModel {
 
     private EntryModel createPotionEffectEntry(CompoundTag tag) {
         if (tag != null) {
-            int id = tag.getInt("Id");
-            int amplifier = tag.getInt("Amplifier"); // defaults to 0
-            int duration = tag.contains("Duration", Tag.TAG_INT) ? tag.getInt("Duration") : 1;
-            boolean ambient = tag.getBoolean("Ambient"); // defaults to false
-            boolean showParticles = !tag.contains("ShowParticles", Tag.TAG_BYTE) || tag.getBoolean("ShowParticles");
-            boolean showIcon = tag.getBoolean("ShowIcon");
+            String id = tag.getString("id");
+            int amplifier = tag.getInt("amplifier"); // defaults to 0
+            int duration = tag.contains("duration", Tag.TAG_INT) ? tag.getInt("duration") : 1;
+            boolean ambient = tag.getBoolean("ambient"); // defaults to false
+            boolean showParticles = !tag.contains("show_particles", Tag.TAG_BYTE) || tag.getBoolean("show_particles");
+            boolean showIcon = tag.getBoolean("show_icon");
             return new PotionEffectEntryModel(this, id, amplifier, duration, ambient, showParticles, showIcon, this::addPotionEffect);
         }
-        return new PotionEffectEntryModel(this, 1, 0, 1, false, true, true, this::addPotionEffect);
+        return new PotionEffectEntryModel(this, BuiltInRegistries.MOB_EFFECT.getKey(MobEffects.MOVEMENT_SPEED).toString(), 0, 1, false, true, true, this::addPotionEffect);
     }
 
     @Override
@@ -79,20 +81,20 @@ public class ItemPotionEffectsCategoryModel extends ItemEditorCategoryModel {
         potionEffectList = new ListTag();
         super.apply();
         if (!potionEffectList.isEmpty()) {
-            getOrCreateTag().put("CustomPotionEffects", potionEffectList);
-        } else if (getOrCreateTag().contains("CustomPotionEffects")) {
-            getOrCreateTag().remove("CustomPotionEffects");
+            getOrCreateTag().put("custom_potion_effects", potionEffectList);
+        } else if (getOrCreateTag().contains("custom_potion_effects")) {
+            getOrCreateTag().remove("custom_potion_effects");
         }
     }
 
-    private void addPotionEffect(int id, int amplifier, int duration, boolean ambient, boolean showParticles, boolean showIcon) {
+    private void addPotionEffect(String id, int amplifier, int duration, boolean ambient, boolean showParticles, boolean showIcon) {
         CompoundTag tag = new CompoundTag();
-        tag.putInt("Id", id);
-        tag.putInt("Amplifier", amplifier);
-        tag.putInt("Duration", duration);
-        tag.putBoolean("Ambient", ambient);
-        tag.putBoolean("ShowParticles", showParticles);
-        tag.putBoolean("ShowIcon", showIcon);
+        tag.putString("id", id);
+        tag.putInt("amplifier", amplifier);
+        tag.putInt("duration", duration);
+        tag.putBoolean("ambient", ambient);
+        tag.putBoolean("show_particles", showParticles);
+        tag.putBoolean("show_icon", showIcon);
         potionEffectList.add(tag);
     }
 }

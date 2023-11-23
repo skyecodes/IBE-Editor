@@ -7,10 +7,7 @@ import com.github.franckyi.ibeeditor.client.screen.model.category.CategoryModel;
 import com.github.franckyi.ibeeditor.client.screen.model.entry.SelectionEntryModel;
 import com.github.franckyi.ibeeditor.client.screen.model.selection.element.ListSelectionElementModel;
 import com.github.franckyi.ibeeditor.common.ModTexts;
-import net.minecraft.core.Registry;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.resources.ResourceLocation;
 
 import java.util.List;
 
@@ -19,8 +16,8 @@ public class PotionEffectEntryModel extends SelectionEntryModel {
     private final BooleanProperty ambientProperty, showParticlesProperty, showIconProperty;
     private final PotionEffectConsumer callback;
 
-    public PotionEffectEntryModel(CategoryModel category, int id, int amplifier, int duration, boolean ambient, boolean showParticles, boolean showIcon, PotionEffectConsumer callback) {
-        super(category, null, BuiltInRegistries.MOB_EFFECT.getKey(BuiltInRegistries.MOB_EFFECT.byId(id)).toString(), s -> {
+    public PotionEffectEntryModel(CategoryModel category, String id, int amplifier, int duration, boolean ambient, boolean showParticles, boolean showIcon, PotionEffectConsumer callback) {
+        super(category, null, id, s -> {
         });
         amplifierProperty = IntegerProperty.create(amplifier);
         durationProperty = IntegerProperty.create(duration);
@@ -32,7 +29,7 @@ public class PotionEffectEntryModel extends SelectionEntryModel {
 
     @Override
     public void apply() {
-        callback.consume(BuiltInRegistries.MOB_EFFECT.getId(BuiltInRegistries.MOB_EFFECT.get(ResourceLocation.tryParse(getValue()))), getAmplifier(), getDuration(), isAmbient(), isShowParticles(), isShowIcon());
+        callback.consume(getValue(), getAmplifier(), getDuration(), isAmbient(), isShowParticles(), isShowIcon());
     }
 
     public int getAmplifier() {
@@ -117,6 +114,6 @@ public class PotionEffectEntryModel extends SelectionEntryModel {
 
     @FunctionalInterface
     public interface PotionEffectConsumer {
-        void consume(int id, int amplifier, int duration, boolean ambient, boolean showParticles, boolean showIcon);
+        void consume(String id, int amplifier, int duration, boolean ambient, boolean showParticles, boolean showIcon);
     }
 }
