@@ -22,16 +22,22 @@
 
 package com.skyecodes.ibeeditor.gui.screen
 
+import com.skyecodes.ibeeditor.gui.widget.ItemViewWidget
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.item.ItemStack
 import net.minecraft.text.Text
 
-class IBEEditorScreenExt(title: Text) : Screen(title) {
+/**
+ * A [Screen] extension that supports rendering [ItemViewWidget]'s item tooltips.
+ */
+abstract class IBEEditorScreenExt(title: Text) : Screen(title) {
+    /**
+     * The item that is currently being hovered over on the screen, and for which the tooltip will be rendered.
+     */
     var hoveredItem: ItemStack? = null
 
     override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
-        hoveredItem = null
         super.render(context, mouseX, mouseY, delta)
         hoveredItem?.let {
             context.drawTooltip(
@@ -41,6 +47,7 @@ class IBEEditorScreenExt(title: Text) : Screen(title) {
                 mouseX,
                 mouseY
             )
+            hoveredItem = null
         }
     }
 }

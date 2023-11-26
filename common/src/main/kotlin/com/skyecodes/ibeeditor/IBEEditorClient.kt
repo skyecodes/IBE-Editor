@@ -32,6 +32,9 @@ import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.item.ItemStack
 import org.slf4j.LoggerFactory
 
+/**
+ * Object used for client code.
+ */
 object IBEEditorClient {
     private val LOGGER = LoggerFactory.getLogger(this::class.java)
     private val KEY_OPEN_EDITOR = KeyBinding(
@@ -43,15 +46,26 @@ object IBEEditorClient {
 
     private val ALL_KEYS = listOf(KEY_OPEN_EDITOR)
 
+    /**
+     * Called by platform-specific implementations during client initialization.
+     */
     fun init() {
         LOGGER.info("Initializing IBE Editor (Client)")
     }
 
+    /**
+     * Registers all mod key mappings using a platform-specific registering function.
+     * @param registerFunction The platform platform-specific registering function
+     */
     fun registerKeyBindings(registerFunction: (KeyBinding) -> Unit) {
         LOGGER.debug("Registering IBE Editor keymappings")
         ALL_KEYS.forEach(registerFunction)
     }
 
+    /**
+     * Called by platform-specific implementations on the start of a client tick.
+     * Checks if a key mapping has been pressed in game (not in a GUI) and opens the corresponding editor.
+     */
     fun onTick() {
         if (!KEY_OPEN_EDITOR.wasPressed()) return
         val stack = player.mainHandStack
@@ -66,6 +80,10 @@ object IBEEditorClient {
         }
     }
 
+    /**
+     * Called by platform-specific implementations when a key was pressed in an inventory screen.
+     * Checks if the "Open Editor" key has been pressed, opening the item editor if an inventory slot is focused.
+     */
     fun onInventoryScreenKeyPressed(screen: AbstractInventoryScreen<*>, keyCode: Int, scanCode: Int) {
         if (!KEY_OPEN_EDITOR.matchesKey(keyCode, scanCode)) return
         val focusedSlot = (screen as HandledScreenMixin).focusedSlot
@@ -83,8 +101,8 @@ object IBEEditorClient {
     }
 
     private fun openItemEditor(stack: ItemStack, screen: Screen? = null, applyFunction: (ItemStack) -> Unit) {
-        LOGGER.info("Opening Item Editor for item {}", stack)
-        mc.setScreen(ItemEditorScreen(stack.copy(), applyFunction, screen))
+        LOGGER.info("Opening Item Editor for item {}", stack.name.string)
+        modScreen = ItemEditorScreen(stack.copy(), applyFunction, screen)
     }
 }
 

@@ -22,53 +22,13 @@
 
 package com.skyecodes.ibeeditor.gui.tab
 
-import com.skyecodes.ibeeditor.gui.screen.EditorScreen
-import net.minecraft.client.font.TextRenderer
-import net.minecraft.client.gui.ScreenRect
 import net.minecraft.client.gui.tab.GridScreenTab
-import net.minecraft.client.gui.widget.GridWidget
-import net.minecraft.client.gui.widget.SimplePositioningWidget
-import net.minecraft.client.gui.widget.TextFieldWidget
-import net.minecraft.client.gui.widget.TextWidget
 import net.minecraft.item.Item
 import net.minecraft.text.Text
 
-abstract class EditorTab(
-    title: Text,
-    val icon: Item,
-    private val textRenderer: TextRenderer,
-    private val editorScreen: EditorScreen
-) : GridScreenTab(title) {
-    lateinit var adder: GridWidget.Adder
-    var rowSpacing = 10
-    var columnSpacing = 5
-    var leftWidth: Int = 100
-    var rightWidth: Int = 0
-
-    open fun initColumns() {
-        adder = createAdder()
-        grid.mainPositioner.alignVerticalCenter()
-        rightWidth = editorScreen.width - (leftWidth + columnSpacing + 50)
-    }
-
-    open fun createAdder(): GridWidget.Adder =
-        grid.setRowSpacing(rowSpacing).setColumnSpacing(columnSpacing).createAdder(2)
-
-    abstract fun updateView()
-
-    override fun refreshGrid(tabArea: ScreenRect) {
-        grid.refreshPositions()
-        SimplePositioningWidget.setPos(grid, tabArea)
-    }
-
-    fun textField(label: Text, value: () -> String, listener: (String) -> Unit) {
-        adder.add(TextWidget(leftWidth, textRenderer.fontHeight, label, textRenderer).alignRight())
-        adder.add(TextFieldWidget(textRenderer, rightWidth, 20, label).apply {
-            text = value()
-            setChangedListener {
-                listener(it)
-                updateView()
-            }
-        })
-    }
-}
+/**
+ * Base class for editor tabs.
+ * @param title The text shown in the tab tooltip
+ * @param icon The item icon shown in the tab button
+ */
+abstract class EditorTab(title: Text, val icon: Item) : GridScreenTab(title)

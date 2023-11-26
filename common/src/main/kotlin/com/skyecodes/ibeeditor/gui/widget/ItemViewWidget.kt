@@ -30,10 +30,16 @@ import net.minecraft.client.gui.widget.ClickableWidget
 import net.minecraft.client.sound.SoundManager
 import net.minecraft.item.ItemStack
 
+/**
+ * A 16x16 widget that displays an item.
+ * @param stack The item to display
+ * @param textRenderer The text renderer
+ * @param renderItemTooltip Whether to render the item tooltip when the widget is hovered, defaults to true
+ */
 class ItemViewWidget(
     stack: ItemStack,
     private val textRenderer: TextRenderer,
-    private val renderTooltip: Boolean = true
+    private val renderItemTooltip: Boolean = true
 ) : ClickableWidget(0, 0, 16, 16, stack.name) {
     var stack: ItemStack = stack
         set(value) {
@@ -44,7 +50,7 @@ class ItemViewWidget(
     override fun renderButton(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
         context.drawItem(stack, x, y)
         context.drawItemInSlot(textRenderer, stack, x, y)
-        if (hovered && renderTooltip) modScreen.hoveredItem = stack
+        if (hovered && renderItemTooltip) modScreen.hoveredItem = stack
     }
 
     override fun appendClickableNarrations(builder: NarrationMessageBuilder) {

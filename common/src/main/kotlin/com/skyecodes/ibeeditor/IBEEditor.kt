@@ -24,11 +24,16 @@ package com.skyecodes.ibeeditor
 
 import org.slf4j.LoggerFactory
 
+/**
+ * Object used for common code.
+ */
 object IBEEditor {
     private val LOGGER = LoggerFactory.getLogger(this::class.java)
     const val MOD_ID = "ibeeditor"
 
-
+    /**
+     * Called by modloader-specific implementations during common initialization.
+     */
     fun init() {
         LOGGER.info("Initializing IBE Editor (Common)")
     }

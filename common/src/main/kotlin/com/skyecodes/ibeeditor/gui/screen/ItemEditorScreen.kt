@@ -23,16 +23,14 @@
 package com.skyecodes.ibeeditor.gui.screen
 
 import com.skyecodes.ibeeditor.*
-import com.skyecodes.ibeeditor.gui.tab.EditorTab
+import com.skyecodes.ibeeditor.gui.tab.DefaultEditorTab
 import com.skyecodes.ibeeditor.gui.widget.ItemViewWidget
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.gui.widget.GridWidget
 import net.minecraft.client.gui.widget.TextWidget
-import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.nbt.NbtCompound
-import net.minecraft.text.Text
 import net.minecraft.util.Formatting
 
 class ItemEditorScreen(
@@ -43,7 +41,7 @@ class ItemEditorScreen(
     private var nbt = stack.writeNbt(NbtCompound())
     private lateinit var itemViewWidget: ItemViewWidget
 
-    override fun getTabs(): List<EditorTab> = buildList {
+    override fun initTabs(): List<DefaultEditorTab> = buildList {
         add(GeneralTab())
         add(DisplayTab())
         add(EnchantmentsTab())
@@ -65,16 +63,7 @@ class ItemEditorScreen(
 
     override fun apply() = applyFunction(stack)
 
-    private abstract inner class ItemEditorTab(title: Text, icon: Item) : EditorTab(title, icon, textRenderer, this) {
-        override fun updateView() {
-            stack = ItemStack.fromNbt(nbt)
-            if (!stack.isEmpty) {
-                itemViewWidget.stack = stack
-            }
-        }
-    }
-
-    private inner class GeneralTab : ItemEditorTab(TEXT_GENERAL, Items.PAPER) {
+    private inner class GeneralTab : DefaultEditorTab(TEXT_GENERAL, Items.PAPER, textRenderer, this) {
         init {
             initColumns()
             textField(TEXT_ITEM_ID, { nbt.getString("id") }) { nbt.putString("id", it) }
@@ -82,14 +71,34 @@ class ItemEditorScreen(
                 it.toIntOrNull()?.let { nbt.putInt("Count", it) }
             }
         }
+
+        override fun updateEditor() = updateEditorImpl()
     }
 
-    private inner class DisplayTab : ItemEditorTab(TEXT_DISPLAY, Items.OAK_SIGN)
+    private inner class DisplayTab : DefaultEditorTab(TEXT_DISPLAY, Items.OAK_SIGN, textRenderer, this) {
+        override fun updateEditor() = updateEditorImpl()
+    }
 
-    private inner class EnchantmentsTab : ItemEditorTab(TEXT_ENCHANTMENTS, Items.ENCHANTED_BOOK)
+    private inner class EnchantmentsTab :
+        DefaultEditorTab(TEXT_ENCHANTMENTS, Items.ENCHANTED_BOOK, textRenderer, this) {
+        override fun updateEditor() = updateEditorImpl()
+    }
 
-    private inner class AttributeModifiersTab : ItemEditorTab(TEXT_ATTRIBUTE_MODIFIERS, Items.SUGAR)
+    private inner class AttributeModifiersTab :
+        DefaultEditorTab(TEXT_ATTRIBUTE_MODIFIERS, Items.SUGAR, textRenderer, this) {
+        override fun updateEditor() = updateEditorImpl()
+    }
 
-    private inner class CanDestroyTab : ItemEditorTab(TEXT_CAN_DESTROY, Items.IRON_PICKAXE)
+    private inner class CanDestroyTab : DefaultEditorTab(TEXT_CAN_DESTROY, Items.IRON_PICKAXE, textRenderer, this) {
+        override fun updateEditor() = updateEditorImpl()
+    }
+
+    private fun updateEditorImpl() {
+        val stack = ItemStack.fromNbt(nbt)
+        if (!stack.isEmpty) {
+            this.stack = stack
+            itemViewWidget.stack = stack
+        }
+    }
 }
 

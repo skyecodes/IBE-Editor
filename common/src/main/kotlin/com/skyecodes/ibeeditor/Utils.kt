@@ -26,6 +26,22 @@ import com.skyecodes.ibeeditor.gui.screen.IBEEditorScreenExt
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.network.ClientPlayerEntity
 
+/**
+ * The current [MinecraftClient] instance
+ * @see MinecraftClient.getInstance
+ */
 val mc: MinecraftClient get() = MinecraftClient.getInstance()
+
+/**
+ * The current client player
+ * @see MinecraftClient.player
+ */
 val player: ClientPlayerEntity get() = mc.player!!
-val modScreen get() = mc.currentScreen as IBEEditorScreenExt
+
+/**
+ * The current [IBEEditorScreenExt] screen
+ * @see MinecraftClient.currentScreen
+ */
+var modScreen: IBEEditorScreenExt
+    get() = mc.currentScreen as IBEEditorScreenExt
+    set(value) = mc.setScreen(value)

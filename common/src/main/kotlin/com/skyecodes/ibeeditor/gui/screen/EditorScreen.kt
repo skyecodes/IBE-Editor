@@ -32,9 +32,13 @@ import net.minecraft.client.gui.widget.GridWidget
 import net.minecraft.client.gui.widget.SimplePositioningWidget
 import net.minecraft.screen.ScreenTexts
 import net.minecraft.text.Text
-import org.lwjgl.glfw.GLFW
 
-abstract class EditorScreen(title: Text, private val parent: Screen? = null) : Screen(title) {
+/**
+ * Base class for all editor screens.
+ * @param title The screen title
+ * @param parent The parent screen to be opened when the editor is closed
+ */
+abstract class EditorScreen(title: Text, private val parent: Screen? = null) : IBEEditorScreenExt(title) {
     private val tabManager = TabManager(::addDrawableChild, ::remove)
     protected lateinit var headerGrid: GridWidget
     private lateinit var tabNavigation: EditorTabNavigationWidget
@@ -42,16 +46,22 @@ abstract class EditorScreen(title: Text, private val parent: Screen? = null) : S
 
     override fun init() {
         initHeader()
-        tabNavigation = EditorTabNavigationWidget(tabManager, getTabs())
+        tabNavigation = EditorTabNavigationWidget(tabManager, initTabs())
         addDrawableChild(tabNavigation)
         initFooter()
         tabNavigation.selectTab(0, false)
         initTabNavigation()
     }
 
+    /**
+     * Initializes the header of the screen (title, etc.).
+     */
     abstract fun initHeader()
 
-    private fun initFooter() {
+    /**
+     * Initializes the footer of the screen (done/cancel buttons).
+     */
+    open fun initFooter() {
         footerGrid = GridWidget().setColumnSpacing(10)
         val adder = footerGrid.createAdder(2)
         adder.add(ButtonWidget.builder(ScreenTexts.DONE) { onApply() }.build())
@@ -76,11 +86,7 @@ abstract class EditorScreen(title: Text, private val parent: Screen? = null) : S
         return when {
             tabNavigation.trySwitchTabsWithKey(keyCode) -> true
             super.keyPressed(keyCode, scanCode, modifiers) -> true
-            keyCode != GLFW.GLFW_KEY_ENTER && keyCode != GLFW.GLFW_KEY_KP_ENTER -> false
-            else -> {
-                onApply()
-                true
-            }
+            else -> false
         }
     }
 
@@ -95,8 +101,14 @@ abstract class EditorScreen(title: Text, private val parent: Screen? = null) : S
         onClose()
     }
 
-    abstract fun getTabs(): List<EditorTab>
+    /**
+     * Returns the list of editor tabs. Called during screen initialization.
+     */
+    abstract fun initTabs(): List<EditorTab>
 
+    /**
+     * Applies the changes made in the editor. Called when clicking on Done.
+     */
     abstract fun apply()
 }
 

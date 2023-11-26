@@ -32,11 +32,20 @@ import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents
 import net.fabricmc.fabric.api.client.screen.v1.ScreenKeyboardEvents
 import net.minecraft.client.gui.screen.ingame.AbstractInventoryScreen
 
+/**
+ * IBE Editor's entry point class for Fabric.
+ */
 object IBEEditorFabric : ModInitializer, ClientModInitializer {
+    /**
+     * IBE Editor's common entry point method for Fabric.
+     */
     override fun onInitialize() {
         IBEEditor.init()
     }
 
+    /**
+     * IBE Editor's client entry point method for Fabric. Registers key bindings and event handlers.
+     */
     override fun onInitializeClient() {
         IBEEditorClient.init()
         IBEEditorClient.registerKeyBindings(KeyBindingHelper::registerKeyBinding)

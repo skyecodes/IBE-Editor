@@ -36,6 +36,9 @@ import net.minecraft.client.gui.widget.SimplePositioningWidget
 import net.minecraft.text.Text
 import net.minecraft.util.math.MathHelper
 
+/**
+ * Widget that contains the [EditorTabButtonWidget]s.
+ */
 class EditorTabNavigationWidget(private val tabManager: TabManager, private val tabs: List<EditorTab>) :
     AbstractParentElement(), Drawable, Selectable {
     private val USAGE_NARRATION_TEXT: Text = Text.translatable("narration.tab_navigation.usage")
@@ -44,7 +47,7 @@ class EditorTabNavigationWidget(private val tabManager: TabManager, private val 
         setRowSpacing(5)
     }
     private val tabButtons: List<EditorTabButtonWidget> = buildList {
-        tabs.forEachIndexed { i, tab -> add(grid.add(EditorTabButtonWidget(tabManager, tab, 20, 20), i, 0)) }
+        tabs.forEachIndexed { i, tab -> add(grid.add(EditorTabButtonWidget(tabManager, tab), i, 0)) }
     }
     private val currentTabIndex: Int
         get() {

@@ -31,8 +31,14 @@ import net.minecraft.client.gui.tooltip.Tooltip
 import net.minecraft.client.sound.SoundManager
 import net.minecraft.text.Text
 
-class EditorTabButtonWidget(private val tabManager: TabManager, val tab: EditorTab, width: Int, height: Int) :
-    TextItemButtonWidget.WithText(0, 0, width, height, tab.title, tab.icon, {}) {
+/**
+ * The tab button widget.
+ * Shows an item in the button, as well as the tab's title in a tooltip when the widget is hovered.
+ * @param tabManager The tab manager
+ * @param tab The tab linked to this button
+ */
+class EditorTabButtonWidget(private val tabManager: TabManager, val tab: EditorTab) :
+    TextItemButtonWidget.WithText(0, 0, 20, 20, tab.title, tab.icon, {}) {
     private val isCurrentTab: Boolean get() = tabManager.currentTab === tab
 
     init {

@@ -24,57 +24,47 @@ package com.skyecodes.ibeeditor.forge
 
 import com.skyecodes.ibeeditor.IBEEditor
 import com.skyecodes.ibeeditor.IBEEditorClient
-import net.minecraft.client.gui.screen.ingame.AbstractInventoryScreen
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent
-import net.minecraftforge.client.event.ScreenEvent
-import net.minecraftforge.event.TickEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent
-import org.slf4j.LoggerFactory
 import thedarkcolour.kotlinforforge.forge.FORGE_BUS
 import thedarkcolour.kotlinforforge.forge.MOD_BUS
 
+/**
+ * IBE Editor's entry point class for Forge. This class is registered to the mod event bus.
+ * [IBEEditorForgeEvents] is registered to the Forge event bus.
+ */
 @Mod(IBEEditor.MOD_ID)
 class IBEEditorForge {
-    private val LOGGER = LoggerFactory.getLogger(this::class.java)
-
     init {
-        LOGGER.debug("Initializing IBE Editor (Forge)")
         MOD_BUS.register(this)
         FORGE_BUS.register(IBEEditorForgeEvents)
     }
 
+    /**
+     * @see RegisterKeyMappingsEvent
+     */
     @SubscribeEvent
     fun onRegisterKeyMapping(event: RegisterKeyMappingsEvent) {
         IBEEditorClient.registerKeyBindings(event::register)
     }
 
+    /**
+     * @see FMLClientSetupEvent
+     */
     @SubscribeEvent
     fun onClientSetup(event: FMLClientSetupEvent) {
         IBEEditorClient.init()
     }
 
+    /**
+     * @see FMLCommonSetupEvent
+     */
     @SubscribeEvent
     fun onCommonSetup(event: FMLCommonSetupEvent) {
         IBEEditor.init()
     }
 }
 
-object IBEEditorForgeEvents {
-    @SubscribeEvent
-    fun onClientTick(event: TickEvent.ClientTickEvent) {
-        if (event.phase == TickEvent.Phase.START) {
-            IBEEditorClient.onTick()
-        }
-    }
-
-    @SubscribeEvent
-    fun onKeyPressed(event: ScreenEvent.KeyPressed.Pre) {
-        val screen = event.screen
-        if (screen is AbstractInventoryScreen<*>) {
-            IBEEditorClient.onInventoryScreenKeyPressed(screen, event.keyCode, event.scanCode)
-        }
-    }
-}

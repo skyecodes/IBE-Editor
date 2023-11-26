@@ -20,18 +20,36 @@
  * SOFTWARE.
  */
 
-pluginManagement {
-    repositories {
-        maven { url "https://maven.fabricmc.net/" }
-        maven { url "https://maven.architectury.dev/" }
-        maven { url "https://maven.minecraftforge.net/" }
-        gradlePluginPortal()
+package com.skyecodes.ibeeditor.forge
+
+import com.skyecodes.ibeeditor.IBEEditorClient
+import net.minecraft.client.gui.screen.ingame.AbstractInventoryScreen
+import net.minecraftforge.client.event.ScreenEvent
+import net.minecraftforge.event.TickEvent
+import net.minecraftforge.eventbus.api.SubscribeEvent
+
+/**
+ * This class is registered to the Forge event bus.
+ */
+object IBEEditorForgeEvents {
+    /**
+     * @see TickEvent.ClientTickEvent
+     */
+    @SubscribeEvent
+    fun onClientTick(event: TickEvent.ClientTickEvent) {
+        if (event.phase == TickEvent.Phase.START) {
+            IBEEditorClient.onTick()
+        }
+    }
+
+    /**
+     * @see ScreenEvent.KeyPressed.Pre
+     */
+    @SubscribeEvent
+    fun onKeyPressed(event: ScreenEvent.KeyPressed.Pre) {
+        val screen = event.screen
+        if (screen is AbstractInventoryScreen<*>) {
+            IBEEditorClient.onInventoryScreenKeyPressed(screen, event.keyCode, event.scanCode)
+        }
     }
 }
-
-include("common")
-include("fabric")
-include("forge")
-include("neoforge")
-
-rootProject.name = "IBE-Editor"

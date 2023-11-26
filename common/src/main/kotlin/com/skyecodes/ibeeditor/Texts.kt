@@ -36,4 +36,4 @@ val TEXT_ENCHANTMENTS = gui("enchantments")
 val TEXT_ATTRIBUTE_MODIFIERS = gui("attribute_modifiers")
 val TEXT_CAN_DESTROY = gui("can_destroy")
 
-fun gui(key: String): MutableText = Text.translatable("gui.ibeeditor.$key")
+private fun gui(key: String): MutableText = Text.translatable("gui.ibeeditor.$key")

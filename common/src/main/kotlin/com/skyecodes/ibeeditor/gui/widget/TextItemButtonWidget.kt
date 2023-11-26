@@ -22,6 +22,7 @@
 
 package com.skyecodes.ibeeditor.gui.widget
 
+import com.skyecodes.ibeeditor.gui.widget.TextItemButtonWidget.Companion.builder
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.client.font.TextRenderer
@@ -29,9 +30,14 @@ import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.tooltip.Tooltip
 import net.minecraft.client.gui.widget.ButtonWidget
 import net.minecraft.item.Item
+import net.minecraft.item.ItemStack
 import net.minecraft.text.Text
 
-abstract class TextItemButtonWidget(
+/**
+ * A button widget that shows an item and optionally some text.
+ * Use the [builder] method to create one.
+ */
+abstract class TextItemButtonWidget internal constructor(
     x: Int,
     y: Int,
     width: Int,
@@ -39,9 +45,8 @@ abstract class TextItemButtonWidget(
     message: Text?,
     item: Item,
     onPress: PressAction?
-) :
-    ButtonWidget(x, y, width, height, message, onPress, DEFAULT_NARRATION_SUPPLIER) {
-    val item = item.defaultStack
+) : ButtonWidget(x, y, width, height, message, onPress, DEFAULT_NARRATION_SUPPLIER) {
+    val item: ItemStack = item.defaultStack
 
     class Builder(private val text: Text, private val onPress: PressAction, private val hideText: Boolean) {
         private var x = 0
