@@ -8,6 +8,10 @@ architectury {
     common("fabric", "forge", "neoforge")
 }
 
+loom {
+    accessWidenerPath = file("src/main/resources/ibeeditor.accesswidener")
+}
+
 publishing {
     publications {
         mavenCommon(MavenPublication) {

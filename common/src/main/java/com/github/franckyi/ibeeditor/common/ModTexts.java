@@ -4,7 +4,8 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextColor;
 
-import static com.github.franckyi.guapi.api.GuapiHelper.*;
+import static com.github.franckyi.guapi.api.GuapiHelper.text;
+import static com.github.franckyi.guapi.api.GuapiHelper.translated;
 
 public final class ModTexts {
     public static final MutableComponent ADD = translated("ibeeditor.gui.add").withStyle(ChatFormatting.GREEN);
@@ -134,7 +135,9 @@ public final class ModTexts {
     }
 
     public static MutableComponent addTag(String color, String with) {
-        return translated("ibeeditor.gui.add_tag", text(with)).withStyle(style -> style.withColor(TextColor.parseColor(color)));
+        var text = translated("ibeeditor.gui.add_tag", text(with));
+        TextColor.parseColor(color).result().ifPresent(c -> text.withStyle(style -> style.withColor(c)));
+        return text;
     }
 
     public static MutableComponent editorTitle(MutableComponent type) {

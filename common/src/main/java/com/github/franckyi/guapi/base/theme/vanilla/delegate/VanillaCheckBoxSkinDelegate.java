@@ -3,7 +3,6 @@ package com.github.franckyi.guapi.base.theme.vanilla.delegate;
 import com.github.franckyi.guapi.api.node.CheckBox;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Checkbox;
@@ -15,7 +14,7 @@ public class VanillaCheckBoxSkinDelegate extends Checkbox implements VanillaWidg
     protected final CheckBox node;
 
     public VanillaCheckBoxSkinDelegate(CheckBox node) {
-        super(node.getX(), node.getY(), node.getWidth(), node.getHeight(), node.getLabel(), node.isChecked());
+        super(node.getX(), node.getY(), node.getLabel(), Minecraft.getInstance().font, node.isChecked(), (c, b) -> node.setChecked(b));
         this.node = node;
         initLabeledWidget(node);
         node.checkedProperty().addListener(this::onModelChange);
@@ -25,12 +24,6 @@ public class VanillaCheckBoxSkinDelegate extends Checkbox implements VanillaWidg
         if (node.isChecked() != selected()) {
             super.onPress();
         }
-    }
-
-    @Override
-    public void onPress() {
-        super.onPress();
-        node.setChecked(selected());
     }
 
     @Override

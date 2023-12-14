@@ -11,7 +11,7 @@ import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.contents.LiteralContents;
+import net.minecraft.network.chat.contents.PlainTextContents;
 import net.minecraft.world.item.ItemStack;
 
 public class ItemDisplayCategoryModel extends ItemEditorCategoryModel {
@@ -58,7 +58,7 @@ public class ItemDisplayCategoryModel extends ItemEditorCategoryModel {
         super.apply();
         if (!newLore.isEmpty()) {
             getOrCreateDisplay().put("Lore", newLore);
-        } else if (getOrCreateTag().contains("Lore")) {
+        } else if (getOrCreateDisplay().contains("Lore")) {
             getOrCreateDisplay().remove("Lore");
         }
         if (getDisplay().isEmpty()) {
@@ -73,7 +73,7 @@ public class ItemDisplayCategoryModel extends ItemEditorCategoryModel {
 
     private void setItemName(MutableComponent value) {
         if (!value.getString().isEmpty()) {
-            if (!value.getSiblings().isEmpty() && value.getContents() instanceof LiteralContents lc && lc.text().isEmpty()) {
+            if (!value.getSiblings().isEmpty() && value.getContents() instanceof PlainTextContents lc && lc.text().isEmpty()) {
                 value.withStyle(style -> style.withItalic(false));
             }
             getOrCreateDisplay().putString(ItemStack.TAG_DISPLAY_NAME, Component.Serializer.toJson(value));
@@ -83,7 +83,7 @@ public class ItemDisplayCategoryModel extends ItemEditorCategoryModel {
     }
 
     private void addLore(MutableComponent value) {
-        if (!value.getString().isEmpty() && value.getContents() instanceof LiteralContents lc && lc.text().isEmpty() && !value.getSiblings().isEmpty()) {
+        if (!value.getString().isEmpty() && value.getContents() instanceof PlainTextContents lc && lc.text().isEmpty() && !value.getSiblings().isEmpty()) {
             value.withStyle(style -> style.withItalic(false).withColor(ChatFormatting.WHITE));
         }
         newLore.add(StringTag.valueOf(Component.Serializer.toJson(value)));

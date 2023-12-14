@@ -41,7 +41,7 @@ public class ItemHideFlagsCategoryModel extends ItemEditorCategoryModel {
     }
 
     public enum HideFlag {
-        ENCHANTMENTS, ATTRIBUTE_MODIFIERS, UNBREAKABLE, CAN_DESTROY, CAN_PLACE_ON, OTHER, DYED;
+        ENCHANTMENTS, ATTRIBUTE_MODIFIERS, UNBREAKABLE, CAN_DESTROY, CAN_PLACE_ON, OTHER, DYED, ARMOR_TRIMS;
 
         public MutableComponent getName() {
             return ModTexts.gui(name().toLowerCase(Locale.ROOT));

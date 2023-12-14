@@ -1,7 +1,7 @@
 package com.github.franckyi.ibeeditor.client.util.texteditor;
 
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.contents.LiteralContents;
+import net.minecraft.network.chat.contents.PlainTextContents;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +13,7 @@ public class TextEditorInputParser {
     private int index;
 
     public void parse(MutableComponent text) {
-        if (text.getContents() instanceof LiteralContents lc) {
+        if (text.getContents() instanceof PlainTextContents lc) {
             int length = lc.text().length();
             if (text.getStyle().isBold()) {
                 addStyleFormatting(new StyleFormatting(index, index + length, StyleType.BOLD));

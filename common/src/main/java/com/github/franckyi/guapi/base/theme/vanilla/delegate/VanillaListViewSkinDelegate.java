@@ -2,7 +2,6 @@ package com.github.franckyi.guapi.base.theme.vanilla.delegate;
 
 import com.github.franckyi.guapi.api.node.ListView;
 import com.github.franckyi.guapi.api.node.Node;
-import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.GuiGraphics;
 
 public class VanillaListViewSkinDelegate<E> extends AbstractVanillaListNodeSkinDelegate<ListView<E>, E, VanillaListViewSkinDelegate.NodeEntry<E>> {

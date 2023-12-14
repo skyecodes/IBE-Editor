@@ -17,16 +17,19 @@ description = "Simple GUI Mod to edit an item, a block or an entity in your curr
 [[mixins]]
 config = "ibeeditor-common.mixins.json"
 
+[[accessTransformers]]
+file = "META-INF/accesstransformer.cfg"
+
 [[dependencies.ibeeditor]]
 modId = "neoforge"
 mandatory = true
-versionRange = "[20,)"
+versionRange = "[20.4,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.ibeeditor]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[1.20.2,)"
+versionRange = "[1.20.4,)"
 ordering = "NONE"
 side = "BOTH"

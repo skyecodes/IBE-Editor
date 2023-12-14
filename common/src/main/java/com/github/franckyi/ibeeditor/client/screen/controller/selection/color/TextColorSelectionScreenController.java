@@ -5,7 +5,7 @@ import com.github.franckyi.ibeeditor.client.screen.view.selection.color.TextColo
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.TextColor;
 
-import static com.github.franckyi.guapi.api.GuapiHelper.*;
+import static com.github.franckyi.guapi.api.GuapiHelper.text;
 
 public class TextColorSelectionScreenController extends ColorSelectionScreenController<TextColorSelectionScreenView> {
     public TextColorSelectionScreenController(ColorSelectionScreenModel model, TextColorSelectionScreenView view) {
@@ -17,8 +17,8 @@ public class TextColorSelectionScreenController extends ColorSelectionScreenCont
         super.updateExample();
         var text = text("Test ")
                 .append(text("Test").withStyle(ChatFormatting.BOLD))
-                .append(text(" Test").withStyle(ChatFormatting.ITALIC))
-                .withStyle(style -> style.withColor(TextColor.parseColor(model.getHexValue())));
+                .append(text(" Test").withStyle(ChatFormatting.ITALIC));
+        TextColor.parseColor(model.getHexValue()).result().ifPresent(color -> text.withStyle(style -> style.withColor(color)));
         view.getExampleLabel().setLabel(text);
         view.getExampleLabel().getTooltip().setAll(text);
     }

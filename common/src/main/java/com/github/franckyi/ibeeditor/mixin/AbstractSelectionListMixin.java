@@ -16,9 +16,6 @@ import java.util.List;
 @Mixin(AbstractSelectionList.class)
 public abstract class AbstractSelectionListMixin<E> {
     @Shadow
-    protected int y0;
-
-    @Shadow
     protected int headerHeight;
 
     @Shadow
@@ -45,7 +42,7 @@ public abstract class AbstractSelectionListMixin<E> {
         ListNode<?> node = AbstractVanillaListNodeSkinDelegate.class.cast(this).getNode();
         int k = node.getLeft();
         int l = node.getRight();
-        int m = Mth.floor(y - (double) y0) - this.headerHeight + (int) getScrollAmount() - 4;
+        int m = Mth.floor(y - (double) node.getY()) - this.headerHeight + (int) getScrollAmount() - 4;
         int n = m / itemHeight;
         cir.setReturnValue(x < (double) getScrollbarPosition() && x >= (double) k && x <= (double) l && n >= 0 && m >= 0 && n < getItemCount() ? children().get(n) : null);
     }

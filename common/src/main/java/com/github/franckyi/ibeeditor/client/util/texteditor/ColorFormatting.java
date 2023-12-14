@@ -23,7 +23,7 @@ public class ColorFormatting extends Formatting {
 
     @Override
     public void apply(MutableComponent text) {
-        text.withStyle(style -> style.withColor(TextColor.parseColor(color)));
+        TextColor.parseColor(color).result().ifPresent(color -> text.withStyle(style -> style.withColor(color)));
     }
 
     @Override

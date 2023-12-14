@@ -9,7 +9,6 @@ import com.github.franckyi.guapi.api.event.MouseScrollEvent;
 import com.github.franckyi.guapi.api.node.ListNode;
 import com.github.franckyi.guapi.api.node.Node;
 import com.github.franckyi.guapi.api.util.ScreenEventType;
-import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractSelectionList;
@@ -25,7 +24,7 @@ public abstract class AbstractVanillaListNodeSkinDelegate<N extends ListNode<E>,
     protected boolean shouldChangeFocus = false;
 
     public AbstractVanillaListNodeSkinDelegate(N node) {
-        super(Minecraft.getInstance(), 0, 0, 0, 0, node.getItemHeight());
+        super(Minecraft.getInstance(), 0, 0, 0, node.getItemHeight());
         this.node = node;
         Runnable rs = this::shouldRefreshSize;
         node.xProperty().addListener(rs);
@@ -42,7 +41,7 @@ public abstract class AbstractVanillaListNodeSkinDelegate<N extends ListNode<E>,
     }
 
     @Override
-    public void updateNarration(NarrationElementOutput narrationElementOutput) {
+    protected void updateWidgetNarration(NarrationElementOutput narrationElementOutput) {
     }
 
     public N getNode() {
@@ -130,13 +129,21 @@ public abstract class AbstractVanillaListNodeSkinDelegate<N extends ListNode<E>,
     }
 
     protected void refreshSize() {
-        width = node.getFullWidth();
-        height = node.getFullHeight();
-        x0 = node.getLeft();
-        x1 = node.getRight();
-        y0 = node.getTop();
-        y1 = node.getBottom();
+        width = node.getWidth();
+        height = node.getHeight();
+        setX(node.getX());
+        setY(node.getY());
         shouldRefreshSize = false;
+    }
+
+    @Override
+    public int getRight() {
+        return node.getRight();
+    }
+
+    @Override
+    public int getBottom() {
+        return node.getBottom();
     }
 
     protected void refreshList() {

@@ -62,6 +62,7 @@ jar {
 sourcesJar {
     def commonSources = project(":common").sourcesJar
     dependsOn commonSources
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     from commonSources.archiveFile.map { zipTree(it) }
 }
 
