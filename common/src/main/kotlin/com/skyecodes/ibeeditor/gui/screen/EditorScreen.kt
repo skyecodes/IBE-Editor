@@ -82,6 +82,14 @@ abstract class EditorScreen(title: Text, private val parent: Screen? = null) : I
         SimplePositioningWidget.setPos(footerGrid, 0, height - 36, width, 36)
     }
 
+    /**
+     * Updates the editor data and view (for example, in Item Editor,
+     * updates the stack data and the item view at the top).
+     *
+     * Should be called everytime a field is updated.
+     */
+    abstract fun updateEditor()
+
     override fun keyPressed(keyCode: Int, scanCode: Int, modifiers: Int): Boolean {
         return when {
             tabNavigation.trySwitchTabsWithKey(keyCode) -> true

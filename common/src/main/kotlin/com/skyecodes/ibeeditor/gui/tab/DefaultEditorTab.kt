@@ -69,7 +69,7 @@ abstract class DefaultEditorTab(
      *
      * Should be called everytime a field is updated.
      */
-    abstract fun updateEditor()
+    open fun updateEditor() = editorScreen.updateEditor()
 
     override fun refreshGrid(tabArea: ScreenRect) {
         updateElementsSize()

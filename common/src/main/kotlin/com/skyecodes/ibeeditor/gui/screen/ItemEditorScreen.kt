@@ -71,29 +71,23 @@ class ItemEditorScreen(
                 it.toIntOrNull()?.let { nbt.putInt("Count", it) }
             }
         }
-
-        override fun updateEditor() = updateEditorImpl()
     }
 
     private inner class DisplayTab : DefaultEditorTab(TEXT_DISPLAY, Items.OAK_SIGN, textRenderer, this) {
-        override fun updateEditor() = updateEditorImpl()
     }
 
     private inner class EnchantmentsTab :
         DefaultEditorTab(TEXT_ENCHANTMENTS, Items.ENCHANTED_BOOK, textRenderer, this) {
-        override fun updateEditor() = updateEditorImpl()
     }
 
     private inner class AttributeModifiersTab :
         DefaultEditorTab(TEXT_ATTRIBUTE_MODIFIERS, Items.SUGAR, textRenderer, this) {
-        override fun updateEditor() = updateEditorImpl()
     }
 
     private inner class CanDestroyTab : DefaultEditorTab(TEXT_CAN_DESTROY, Items.IRON_PICKAXE, textRenderer, this) {
-        override fun updateEditor() = updateEditorImpl()
     }
 
-    private fun updateEditorImpl() {
+    override fun updateEditor() {
         val stack = ItemStack.fromNbt(nbt)
         if (!stack.isEmpty) {
             this.stack = stack
