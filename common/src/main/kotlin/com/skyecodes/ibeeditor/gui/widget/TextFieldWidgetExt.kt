@@ -22,38 +22,25 @@
 
 package com.skyecodes.ibeeditor.gui.widget
 
-import com.skyecodes.ibeeditor.gui.tab.EditorTab
+import com.skyecodes.ibeeditor.gui.Validable
+import com.skyecodes.ibeeditor.rgba
+import net.minecraft.client.font.TextRenderer
 import net.minecraft.client.gui.DrawContext
-import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder
-import net.minecraft.client.gui.screen.narration.NarrationPart
-import net.minecraft.client.gui.tab.TabManager
-import net.minecraft.client.gui.tooltip.Tooltip
-import net.minecraft.client.sound.SoundManager
+import net.minecraft.client.gui.widget.TextFieldWidget
 import net.minecraft.text.Text
 
-/**
- * The tab button widget.
- * Shows an item in the button, as well as the tab's title in a tooltip when the widget is hovered.
- * @param tabManager The tab manager
- * @param tab The tab linked to this button
- */
-class EditorTabButtonWidget(private val tabManager: TabManager, val tab: EditorTab) :
-    TextItemButtonWidget.WithText(0, 0, 20, 20, tab.title, tab.icon, {}) {
-    private val isCurrentTab: Boolean get() = tabManager.currentTab === tab
+open class TextFieldWidgetExt(textRenderer: TextRenderer, width: Int, height: Int, text: Text) : TextFieldWidget(textRenderer, width, height, text), Validable {
+    var textPredicate: (String) -> Boolean = { true }
+        protected set
+
+    override val isValid: Boolean get() = textPredicate(text)
 
     init {
-        tooltip = Tooltip.of(message)
+        setMaxLength(Int.MAX_VALUE)
     }
 
     override fun renderWidget(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
-        active = !isCurrentTab
         super.renderWidget(context, mouseX, mouseY, delta)
-    }
-
-    override fun appendClickableNarrations(builder: NarrationMessageBuilder) {
-        builder.put(NarrationPart.TITLE, Text.translatable("gui.narrate.tab", tab.title))
-    }
-
-    override fun playDownSound(soundManager: SoundManager?) {
+        if (!isValid) context.drawBorder(x, y, width, height, rgba(1.0, 0.0, 0.0, 0.8))
     }
 }

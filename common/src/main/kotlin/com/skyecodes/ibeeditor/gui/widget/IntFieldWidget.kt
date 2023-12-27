@@ -22,40 +22,20 @@
 
 package com.skyecodes.ibeeditor.gui.widget
 
-import com.skyecodes.ibeeditor.modScreen
 import net.minecraft.client.font.TextRenderer
-import net.minecraft.client.gui.DrawContext
-import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder
-import net.minecraft.client.gui.widget.ClickableWidget
-import net.minecraft.client.sound.SoundManager
-import net.minecraft.item.ItemStack
+import net.minecraft.text.Text
 
-/**
- * A 16x16 widget that displays an item.
- * @param stack The item to display
- * @param textRenderer The text renderer
- * @param renderItemTooltip Whether to render the item tooltip when the widget is hovered, defaults to true
- */
-class ItemViewWidget(
-    stack: ItemStack,
-    private val textRenderer: TextRenderer,
-    private val renderItemTooltip: Boolean = true
-) : ClickableWidget(0, 0, 16, 16, stack.name) {
-    var stack: ItemStack = stack
+class IntFieldWidget(textRenderer: TextRenderer, width: Int, height: Int, text: Text) : TextFieldWidgetExt(textRenderer, width, height, text) {
+    var minValue: Int = Int.MIN_VALUE
+    var maxValue: Int = Int.MAX_VALUE
+
+    var intValue: Int
+        get() = text.toInt()
         set(value) {
-            field = value
-            message = value.name
+            text = value.toString()
         }
 
-    override fun renderWidget(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
-        context.drawItem(stack, x, y)
-        context.drawItemInSlot(textRenderer, stack, x, y)
-        if (hovered && renderItemTooltip) modScreen.hoveredItem = stack
-    }
-
-    override fun appendClickableNarrations(builder: NarrationMessageBuilder) {
-    }
-
-    override fun playDownSound(soundManager: SoundManager?) {
+    init {
+        textPredicate = { it.toIntOrNull() != null && intValue >= minValue && intValue <= maxValue }
     }
 }

@@ -2,7 +2,7 @@
  * Copyright (c) 2023 skyecodes
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
+ * of this software and associated documentation files (the “Software”), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
@@ -11,7 +11,7 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
@@ -24,10 +24,12 @@ package com.skyecodes.ibeeditor.gui.screen
 
 import com.skyecodes.ibeeditor.*
 import com.skyecodes.ibeeditor.gui.tab.DefaultEditorTab
+import com.skyecodes.ibeeditor.gui.tab.EditorTab
 import com.skyecodes.ibeeditor.gui.widget.ItemViewWidget
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.gui.widget.GridWidget
 import net.minecraft.client.gui.widget.TextWidget
+import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.nbt.NbtCompound
@@ -41,7 +43,7 @@ class ItemEditorScreen(
     private var nbt = stack.writeNbt(NbtCompound())
     private lateinit var itemViewWidget: ItemViewWidget
 
-    override fun initTabs(): List<DefaultEditorTab> = buildList {
+    override fun initTabs(): List<EditorTab> = buildList {
         add(GeneralTab())
         add(DisplayTab())
         add(EnchantmentsTab())
@@ -66,9 +68,17 @@ class ItemEditorScreen(
     private inner class GeneralTab : DefaultEditorTab(TEXT_GENERAL, Items.PAPER, textRenderer, this) {
         init {
             initColumns()
-            textField(TEXT_ITEM_ID, { nbt.getString("id") }) { nbt.putString("id", it) }
-            textField(TEXT_COUNT, { nbt.getInt("Count").toString() }) {
-                it.toIntOrNull()?.let { nbt.putInt("Count", it) }
+            searchField<Item>(TEXT_ITEM_ID) {
+                getter = { nbt.getString("id") }
+                setter = { nbt.putString("id", it) }
+                elements = SearchCache.ITEMS
+                suggestions = SearchCache.ITEM_IDS
+            }
+            intField(TEXT_COUNT) {
+                getter = { nbt.getInt("Count") }
+                setter = { nbt.putInt("Count", it) }
+                min = 1
+                max = 127
             }
         }
     }
