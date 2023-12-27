@@ -23,7 +23,6 @@
 package com.skyecodes.ibeeditor.gui.widget
 
 import com.skyecodes.ibeeditor.mc
-import com.skyecodes.ibeeditor.rgba
 import net.minecraft.client.font.TextRenderer
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.sound.PositionedSoundInstance
@@ -32,12 +31,11 @@ import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 
 private val SEARCH_ICON = Identifier("icon/search")
+private val SEARCH_TEXT = Text.translatable("gui.recipebook.search_hint")
 
 class SearchFieldWidget(textRenderer: TextRenderer, width: Int, height: Int, text: Text) : TextFieldWidgetExt(textRenderer, width, height, text) {
     private val buttonX get() = right - 16
     private val buttonY get() = y + 4
-
-    lateinit var suggestions: List<String>
 
     var onSearchButtonClicked = {}
 
@@ -52,10 +50,10 @@ class SearchFieldWidget(textRenderer: TextRenderer, width: Int, height: Int, tex
 
     override fun renderWidget(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
         super.renderWidget(context, mouseX, mouseY, delta)
-
-        if (text in suggestions) context.drawBorder(x, y, width, height, rgba(0.0, 1.0, 0.0, 0.8))
-
-        if (isButtonHovered(mouseX, mouseY)) context.drawGuiTexture(SEARCH_ICON, buttonX, buttonY, 12, 12)
+        if (isButtonHovered(mouseX, mouseY)) {
+            context.drawGuiTexture(SEARCH_ICON, buttonX, buttonY, 12, 12)
+            context.drawTooltip(mc.textRenderer, SEARCH_TEXT, mouseX, mouseY)
+        }
         else context.drawSprite(buttonX, buttonY, 0, 12, 12, mc.guiAtlasManager.getSprite(SEARCH_ICON), 1f, 1f, 1f, 0.5f)
     }
 

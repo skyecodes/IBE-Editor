@@ -31,7 +31,6 @@ import net.minecraft.text.Text
 
 open class TextFieldWidgetExt(textRenderer: TextRenderer, width: Int, height: Int, text: Text) : TextFieldWidget(textRenderer, width, height, text), Validable {
     var textPredicate: (String) -> Boolean = { true }
-        protected set
 
     override val isValid: Boolean get() = textPredicate(text)
 

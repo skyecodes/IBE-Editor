@@ -2,7 +2,7 @@
  * Copyright (c) 2023 skyecodes
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
+ * of this software and associated documentation files (the “Software”), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
@@ -11,7 +11,7 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
@@ -22,8 +22,10 @@
 
 package com.skyecodes.ibeeditor.gui.screen
 
+import com.skyecodes.ibeeditor.gui.Validable
 import com.skyecodes.ibeeditor.gui.tab.EditorTab
 import com.skyecodes.ibeeditor.gui.widget.EditorTabNavigationWidget
+import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.ScreenRect
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.gui.tab.TabManager
@@ -38,11 +40,15 @@ import net.minecraft.text.Text
  * @param title The screen title
  * @param parent The parent screen to be opened when the editor is closed
  */
-abstract class EditorScreen(title: Text, private val parent: Screen? = null) : IBEEditorScreenExt(title) {
+abstract class EditorScreen(title: Text, private val parent: Screen? = null) : IBEEditorScreenExt(title), Validable {
     private val tabManager = TabManager(::addDrawableChild, ::remove)
     protected lateinit var headerGrid: GridWidget
     private lateinit var tabNavigation: EditorTabNavigationWidget
     private lateinit var footerGrid: GridWidget
+    private lateinit var doneButton: ButtonWidget
+
+    override val isValid: Boolean
+        get() = tabNavigation.tabs.all { it.isValid }
 
     override fun init() {
         initHeader()
@@ -64,7 +70,7 @@ abstract class EditorScreen(title: Text, private val parent: Screen? = null) : I
     open fun initFooter() {
         footerGrid = GridWidget().setColumnSpacing(10)
         val adder = footerGrid.createAdder(2)
-        adder.add(ButtonWidget.builder(ScreenTexts.DONE) { onApply() }.build())
+        doneButton = adder.add(ButtonWidget.builder(ScreenTexts.DONE) { onApply() }.build())
         adder.add(ButtonWidget.builder(ScreenTexts.CANCEL) { onClose() }.build())
         footerGrid.forEachChild {
             it.navigationOrder = 1
@@ -89,6 +95,11 @@ abstract class EditorScreen(title: Text, private val parent: Screen? = null) : I
      * Should be called everytime a field is updated.
      */
     abstract fun updateEditor()
+
+    override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+        doneButton.active = isValid
+        super.render(context, mouseX, mouseY, delta)
+    }
 
     override fun keyPressed(keyCode: Int, scanCode: Int, modifiers: Int): Boolean {
         return when {

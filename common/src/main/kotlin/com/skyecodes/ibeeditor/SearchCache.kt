@@ -55,27 +55,29 @@ object SearchCache {
 
     private fun initItemCache() {
         ITEMS = Registries.ITEM.entrySet.map { (key, value) -> Entry(value.name, key.value, value) }
-        ITEM_IDS = ITEMS.map { it.id.toString() }
+        ITEM_IDS = ITEMS.extractIds()
         LOGGER.info("Registered {} items into cache", ITEMS.size)
     }
 
     private fun initEnchantmentCache() {
         ENCHANTMENTS = Registries.ENCHANTMENT.entrySet.map { (key, value) -> Entry(value.getName(1), key.value, value) }
-        ENCHANTMENT_IDS = ENCHANTMENTS.map { it.id.toString() }
+        ENCHANTMENT_IDS = ENCHANTMENTS.extractIds()
         LOGGER.info("Registered {} enchantments into cache", ENCHANTMENTS.size)
     }
 
     private fun initEffectCache() {
         EFFECTS = Registries.STATUS_EFFECT.entrySet.map { (key, value) -> Entry(value.name, key.value, value) }
-        EFFECT_IDS = EFFECTS.map { it.id.toString() }
+        EFFECT_IDS = EFFECTS.extractIds()
         LOGGER.info("Registered {} effects into cache", EFFECTS.size)
     }
 
     private fun initAttributeCache() {
         ATTRIBUTES = Registries.ATTRIBUTE.entrySet.map { (key, value) -> Entry(Text.translatable(value.translationKey), key.value, value) }
-        ATTRIBUTE_IDS = ATTRIBUTES.map { it.id.toString() }
+        ATTRIBUTE_IDS = ATTRIBUTES.extractIds()
         LOGGER.info("Registered {} attributes into cache", ATTRIBUTES.size)
     }
+
+    private fun List<Entry<*>>.extractIds() = map { it.id }.flatMap { if (it.namespace == "minecraft") listOf(it.toString(), it.path) else listOf(it.toString()) }
 
     data class Entry<T>(val name: Text, val id: Identifier, val value: T)
 }

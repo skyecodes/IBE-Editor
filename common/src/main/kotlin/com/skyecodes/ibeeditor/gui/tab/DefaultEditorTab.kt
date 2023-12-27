@@ -23,6 +23,7 @@
 package com.skyecodes.ibeeditor.gui.tab
 
 import com.skyecodes.ibeeditor.SearchCache
+import com.skyecodes.ibeeditor.gui.Validable
 import com.skyecodes.ibeeditor.gui.screen.EditorScreen
 import com.skyecodes.ibeeditor.gui.widget.DoubleFieldWidget
 import com.skyecodes.ibeeditor.gui.widget.IntFieldWidget
@@ -101,7 +102,7 @@ abstract class DefaultEditorTab(
 
         internal fun build() {
             leftElements += adder.add(TextWidget(leftWidth, textRenderer.fontHeight, label, textRenderer).alignRight())
-            rightElements += adder.add(buildNode(textRenderer, rightWidth, 20))
+            rightElements += adder.add(buildNode(textRenderer, rightWidth, 20)).also { if (it is Validable) validables.add(it) }
         }
     }
 
@@ -157,7 +158,7 @@ abstract class DefaultEditorTab(
 
         override fun buildNode(textRenderer: TextRenderer, width: Int, height: Int): ClickableWidget = SearchFieldWidget(textRenderer, width, height, label).apply {
             text = getter()
-            suggestions = this@SearchFieldBuilder.suggestions
+            textPredicate = { it in suggestions }
             onSearchButtonClicked = { println("YOLO") }
             setChangedListener {
                 if (isValid) {

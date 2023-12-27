@@ -23,6 +23,7 @@
 package com.skyecodes.ibeeditor.gui.widget
 
 import com.skyecodes.ibeeditor.gui.tab.EditorTab
+import com.skyecodes.ibeeditor.rgba
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder
 import net.minecraft.client.gui.screen.narration.NarrationPart
@@ -30,6 +31,7 @@ import net.minecraft.client.gui.tab.TabManager
 import net.minecraft.client.gui.tooltip.Tooltip
 import net.minecraft.client.sound.SoundManager
 import net.minecraft.text.Text
+import net.minecraft.util.Formatting
 
 /**
  * The tab button widget.
@@ -40,14 +42,14 @@ import net.minecraft.text.Text
 class EditorTabButtonWidget(private val tabManager: TabManager, val tab: EditorTab) :
     TextItemButtonWidget.WithText(0, 0, 20, 20, tab.title, tab.icon, {}) {
     private val isCurrentTab: Boolean get() = tabManager.currentTab === tab
-
-    init {
-        tooltip = Tooltip.of(message)
-    }
+    private val defaultTooltip = Tooltip.of(message)
+    private val errorTooltip = Tooltip.of(message.copy().styled { it.withFormatting(Formatting.RED) })
 
     override fun renderWidget(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
         active = !isCurrentTab
         super.renderWidget(context, mouseX, mouseY, delta)
+        if (!tab.isValid) context.drawBorder(x, y, width, height, rgba(1.0, 0.0, 0.0, 0.8))
+        tooltip = if (tab.isValid) defaultTooltip else errorTooltip
     }
 
     override fun appendClickableNarrations(builder: NarrationMessageBuilder) {
