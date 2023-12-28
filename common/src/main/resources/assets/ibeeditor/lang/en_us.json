@@ -10,5 +10,7 @@
   "gui.ibeeditor.display": "Display",
   "gui.ibeeditor.enchantments": "Enchantments",
   "gui.ibeeditor.attribute_modifiers": "Attribute Modifiers",
-  "gui.ibeeditor.can_destroy": "Can Destroy"
+  "gui.ibeeditor.can_destroy": "Can Destroy",
+  "gui.ibeeditor.select": "Select",
+  "gui.ibeeditor.select_item": "Select an Item"
 }

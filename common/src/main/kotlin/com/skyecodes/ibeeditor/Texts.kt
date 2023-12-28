@@ -35,5 +35,12 @@ val TEXT_DISPLAY = gui("display")
 val TEXT_ENCHANTMENTS = gui("enchantments")
 val TEXT_ATTRIBUTE_MODIFIERS = gui("attribute_modifiers")
 val TEXT_CAN_DESTROY = gui("can_destroy")
+val TEXT_SELECT = gui("select")
+val TEXT_SELECT_ITEM = gui("select_item")
+val TEXT_SEARCH = "gui.recipebook.search_hint".translatable()
 
-private fun gui(key: String): MutableText = Text.translatable("gui.ibeeditor.$key")
+fun String.translatable(): MutableText = Text.translatable(this)
+
+fun String.literal(): MutableText = Text.literal(this)
+
+private fun gui(key: String): MutableText = "gui.ibeeditor.$key".translatable()

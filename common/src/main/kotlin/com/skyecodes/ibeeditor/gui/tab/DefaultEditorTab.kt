@@ -2,7 +2,7 @@
  * Copyright (c) 2023 skyecodes
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the “Software”), to deal
+ * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
@@ -11,7 +11,7 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
@@ -23,12 +23,15 @@
 package com.skyecodes.ibeeditor.gui.tab
 
 import com.skyecodes.ibeeditor.SearchCache
+import com.skyecodes.ibeeditor.TEXT_SELECT_ITEM
 import com.skyecodes.ibeeditor.gui.Validable
 import com.skyecodes.ibeeditor.gui.screen.EditorScreen
+import com.skyecodes.ibeeditor.gui.screen.SelectionScreen
 import com.skyecodes.ibeeditor.gui.widget.DoubleFieldWidget
 import com.skyecodes.ibeeditor.gui.widget.IntFieldWidget
 import com.skyecodes.ibeeditor.gui.widget.SearchFieldWidget
 import com.skyecodes.ibeeditor.gui.widget.TextFieldWidgetExt
+import com.skyecodes.ibeeditor.modScreen
 import net.minecraft.client.font.TextRenderer
 import net.minecraft.client.gui.ScreenRect
 import net.minecraft.client.gui.widget.ClickableWidget
@@ -153,13 +156,13 @@ abstract class DefaultEditorTab(
     }
 
     inner class SearchFieldBuilder<T>(label: Text) : AbstractTextFieldBuilder<String>(label) {
-        lateinit var elements: List<SearchCache.Entry<T>>
+        lateinit var elements: List<SearchCache.CacheEntry<T>>
         lateinit var suggestions: List<String>
 
         override fun buildNode(textRenderer: TextRenderer, width: Int, height: Int): ClickableWidget = SearchFieldWidget(textRenderer, width, height, label).apply {
             text = getter()
             textPredicate = { it in suggestions }
-            onSearchButtonClicked = { println("YOLO") }
+            onSearchButtonClicked = { modScreen = SelectionScreen(TEXT_SELECT_ITEM, editorScreen, text, elements) { text = it.id.toString() } }
             setChangedListener {
                 if (isValid) {
                     setter(it)

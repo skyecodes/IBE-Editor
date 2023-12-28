@@ -31,7 +31,7 @@ import net.minecraft.text.Text
 /**
  * A [Screen] extension that supports rendering [ItemViewWidget]'s item tooltips.
  */
-abstract class IBEEditorScreenExt(title: Text) : Screen(title) {
+abstract class IBEEditorScreenExt(title: Text, private val parent: Screen?) : Screen(title) {
     /**
      * The item that is currently being hovered over on the screen, and for which the tooltip will be rendered.
      */
@@ -49,5 +49,9 @@ abstract class IBEEditorScreenExt(title: Text) : Screen(title) {
             )
             hoveredItem = null
         }
+    }
+
+    override fun close() {
+        client!!.setScreen(parent)
     }
 }

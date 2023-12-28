@@ -2,7 +2,7 @@
  * Copyright (c) 2023 skyecodes
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the “Software”), to deal
+ * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
@@ -11,7 +11,7 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
@@ -40,7 +40,7 @@ import net.minecraft.text.Text
  * @param title The screen title
  * @param parent The parent screen to be opened when the editor is closed
  */
-abstract class EditorScreen(title: Text, private val parent: Screen? = null) : IBEEditorScreenExt(title), Validable {
+abstract class EditorScreen(title: Text, parent: Screen? = null) : IBEEditorScreenExt(title, parent), Validable {
     private val tabManager = TabManager(::addDrawableChild, ::remove)
     protected lateinit var headerGrid: GridWidget
     private lateinit var tabNavigation: EditorTabNavigationWidget
@@ -71,7 +71,7 @@ abstract class EditorScreen(title: Text, private val parent: Screen? = null) : I
         footerGrid = GridWidget().setColumnSpacing(10)
         val adder = footerGrid.createAdder(2)
         doneButton = adder.add(ButtonWidget.builder(ScreenTexts.DONE) { onApply() }.build())
-        adder.add(ButtonWidget.builder(ScreenTexts.CANCEL) { onClose() }.build())
+        adder.add(ButtonWidget.builder(ScreenTexts.CANCEL) { close() }.build())
         footerGrid.forEachChild {
             it.navigationOrder = 1
             addDrawableChild(it)
@@ -109,15 +109,9 @@ abstract class EditorScreen(title: Text, private val parent: Screen? = null) : I
         }
     }
 
-    override fun close() = onClose()
-
-    private fun onClose() {
-        client!!.setScreen(parent)
-    }
-
-    private fun onApply() {
+    protected fun onApply() {
         apply()
-        onClose()
+        close()
     }
 
     /**
