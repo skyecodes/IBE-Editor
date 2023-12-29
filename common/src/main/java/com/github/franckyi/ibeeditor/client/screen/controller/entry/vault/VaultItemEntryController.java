@@ -26,7 +26,7 @@ public class VaultItemEntryController extends EntryController<VaultItemEntryMode
         view.getItemView().itemProperty().bind(model.itemStackProperty());
         view.getLabel().labelProperty().bind(model.itemStackProperty().map(ItemStack::getHoverName));
         view.getButtonBox().getChildren().remove(view.getResetButton());
-        view.getGiveItemButton().setDisable(!Minecraft.getInstance().player.isCreative() || !ClientContext.isModInstalledOnServer());
+        view.getGiveItemButton().setDisable(!(Minecraft.getInstance().player.isCreative() || ClientContext.isModInstalledOnServer()));
         view.getGiveItemButton().onAction(() -> {
             int slot = ClientUtil.findSlot(model.getItemStack());
             if (Minecraft.getInstance().player.isCreative()) {
