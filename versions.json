@@ -1,4 +1,8 @@
 {
+  "2.2.8": {
+    "type": "release",
+    "changelog": "* fix(forge): make mod optional for client (#84)\n* fix: allow the block editor to be opened when the mod isn't installed on the server (#85)\n* fix: crash on startup due to Vault (#87)\n* feat: added Armor Trims hide flag\n* fix: unremovable lore bug\n* fix: unable to give Vault item in multiplayer"
+  },
   "2.2.3": {
     "type": "release",
     "changelog": "* lang: update zh_cn (#70) (FurnyGo)\n* lang: update ru_ru (#78) (Annijang)"
