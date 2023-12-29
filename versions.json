@@ -1,4 +1,8 @@
 {
+  "2.2.8": {
+    "type": "release",
+    "changelog": "* feat: added Armor Trims hide flag\n* fix: unremovable lore bug\n* fix: unable to give Vault item in multiplayer"
+  },
   "2.2.6": {
     "type": "release",
     "changelog": "* fix: potion effects not working on 1.20.2 (#88)"
