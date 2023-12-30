@@ -58,7 +58,7 @@ public class ItemDisplayCategoryModel extends ItemEditorCategoryModel {
         super.apply();
         if (!newLore.isEmpty()) {
             getOrCreateDisplay().put("Lore", newLore);
-        } else if (getOrCreateTag().contains("Lore")) {
+        } else if (getOrCreateDisplay().contains("Lore")) {
             getOrCreateDisplay().remove("Lore");
         }
         if (getDisplay().isEmpty()) {
