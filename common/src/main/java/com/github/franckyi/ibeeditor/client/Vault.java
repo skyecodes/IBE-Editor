@@ -1,8 +1,9 @@
 package com.github.franckyi.ibeeditor.client;
 
 import com.github.franckyi.ibeeditor.PlatformUtil;
+import io.netty.buffer.ByteBufInputStream;
 import io.netty.buffer.Unpooled;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.*;
 import net.minecraft.network.FriendlyByteBuf;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -88,11 +89,33 @@ public final class Vault {
         try (var is = Files.newInputStream(path)) {
             buffer.writeBytes(is, is.available());
             INSTANCE.version = buffer.readInt();
-            IntStream.range(0, buffer.readInt()).forEach(i -> INSTANCE.items.add(buffer.readNbt()));
-            IntStream.range(0, buffer.readInt()).forEach(i -> INSTANCE.entities.add(buffer.readNbt()));
+            IntStream.range(0, buffer.readInt()).forEach(i -> INSTANCE.items.add(safeReadNbt()));
+            IntStream.range(0, buffer.readInt()).forEach(i -> INSTANCE.entities.add(safeReadNbt()));
             LOGGER.info("Vault loaded");
         } catch (IOException e) {
             LOGGER.error("Error while loading vault", e);
+        }
+    }
+
+    private static CompoundTag safeReadNbt() {
+        var i = buffer.readerIndex();
+        try {
+            var result = buffer.readNbt();
+            if (result == null || result.isEmpty()) throw new RuntimeException("Tag is empty, this must be an error");
+            return result;
+        } catch (Exception e) {
+            buffer.readerIndex(i);
+            byte b0 = buffer.readByte();
+            if (b0 != Tag.TAG_COMPOUND) {
+                throw e;
+            } else {
+                buffer.readerIndex(i);
+                try {
+                    return NbtIo.read(new ByteBufInputStream(buffer));
+                } catch (IOException e0) {
+                    throw new RuntimeException(e0);
+                }
+            }
         }
     }
 
