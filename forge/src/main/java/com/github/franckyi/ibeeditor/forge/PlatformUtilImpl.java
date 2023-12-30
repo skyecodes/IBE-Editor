@@ -19,7 +19,7 @@ public class PlatformUtilImpl {
     }
 
     private static final String VERSION = "3";
-    private static final SimpleChannel channel = NetworkRegistry.newSimpleChannel(new ResourceLocation("ibeeditor:network"), () -> VERSION, s -> true, s -> true);
+    private static final SimpleChannel channel = NetworkRegistry.newSimpleChannel(new ResourceLocation("ibeeditor:network"), () -> VERSION, NetworkRegistry.acceptMissingOr(VERSION), NetworkRegistry.acceptMissingOr(VERSION));
 
     public static <P> void sendToServer(NetworkHandler.Server<P> handler, P packet) {
         channel.sendToServer(packet);
