@@ -4,7 +4,10 @@ import com.github.franckyi.ibeeditor.ClientPlatformUtil;
 import com.github.franckyi.ibeeditor.client.logic.ClientEditorRequestLogic;
 import com.github.franckyi.ibeeditor.common.EditorType;
 import com.github.franckyi.ibeeditor.common.ModTexts;
+import com.github.franckyi.ibeeditor.mixin.CreativeModeInventoryScreenMixin;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
+import net.minecraft.world.item.CreativeModeTab;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -37,6 +40,10 @@ public final class ClientEventHandler {
             } else if (keyCode == ClientPlatformUtil.getKeyCode(KeyBindings.getSNBTEditorKey())) {
                 return ClientEditorRequestLogic.requestInventoryItemEditor(EditorType.SNBT, screen);
             } else if (keyCode == ClientPlatformUtil.getKeyCode(KeyBindings.getVaultKey())) {
+                if (screen instanceof CreativeModeInventoryScreen creativeScreen) {
+                    CreativeModeTab.Type type = ((CreativeModeInventoryScreenMixin) creativeScreen).getSelectedTab().getType();
+                    if (type == CreativeModeTab.Type.SEARCH) return false;
+                }
                 ModScreenHandler.openVault(); // TODO open item vault selection screen
                 return true;
             }
