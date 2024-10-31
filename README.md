@@ -9,6 +9,19 @@
 
 ## A simple GUI mod to edit an item, a block or an entity in your current world.
 
+### Update (October 31st 2024):
+> After almost 8 years of maintaining IBE Editor, **I will pause this project indefinitely.**
+>
+> Recent updates *(read: the replacement of NBT by Components in 1.20.5)* have made it impossible to simply maintain the mod without having to rewrite a large portion of it. That combined with the fast release cycle, the mod is already a few versions behind, and I am simply not able to keep up with the pace.
+>
+> I am also not as invested into the mod as I used to be because I don't even use it myself anymore. This project started back in 2017 as a little tool I created to help me to create custom items in adventure maps. I decided to share it with the community and eventually a lot of people started using it, which I did not expect.
+>
+> I'm sorry to disappoint you, I know you all wanted an update, but I don't want to lie to you, it won't be coming *(at least, not from me)*.  
+> The GitHub repository has been archived. **Anyone is free to fork the project or to make their own spin based on it.**
+> 
+> Thank you all for your support,  
+> Skye
+
 **For help with installation, usage and configuration of the mod, see
 the [IBE Editor wiki](https://github.com/skyecodes/IBE-Editor/wiki).**
 
